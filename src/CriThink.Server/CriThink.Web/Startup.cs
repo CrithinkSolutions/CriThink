@@ -23,6 +23,8 @@ namespace CriThink.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // ResponseCache
+            SetupCache(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +36,8 @@ namespace CriThink.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseResponseCaching();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -43,6 +47,12 @@ namespace CriThink.Web
                     await context.Response.WriteAsync("Hello World!").ConfigureAwait(false);
                 });
             });
+        }
+
+        private static void SetupCache(IServiceCollection services)
+        {
+            services.AddResponseCaching();
+            services.AddMemoryCache();
         }
     }
 }
