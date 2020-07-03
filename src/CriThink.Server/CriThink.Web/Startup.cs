@@ -1,7 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
+using CriThink.Common.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +28,9 @@ namespace CriThink.Web
         {
             // ResponseCache
             SetupCache(services);
+
+            // API versioning
+            SetupAPIVersioning(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +43,8 @@ namespace CriThink.Web
             }
 
             app.UseResponseCaching();
+
+            app.UseApiVersioning();
 
             app.UseRouting();
 
@@ -53,6 +61,17 @@ namespace CriThink.Web
         {
             services.AddResponseCaching();
             services.AddMemoryCache();
+        }
+
+        private static void SetupAPIVersioning(IServiceCollection services)
+        {
+            services.AddApiVersioning(config =>
+            {
+                config.ReportApiVersions = true;
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ApiVersionReader = new HeaderApiVersionReader(EndpointConstants.ApiVersionHeader);
+            });
         }
     }
 }
