@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using CriThink.Common.Endpoints;
+using CriThink.Web.ActionFilters;
+using CriThink.Web.Middlewares;
 using CriThink.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +29,11 @@ namespace CriThink.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             // ResponseCache
@@ -39,6 +44,9 @@ namespace CriThink.Web
 
             // Swagger
             SetupSwagger(services);
+
+            // ErrorHandling
+            SetupErrorHandling(services);
 
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; });
@@ -73,6 +81,8 @@ namespace CriThink.Web
                     await context.Response.WriteAsync("Hello World!").ConfigureAwait(false);
                 });
             });
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseMvc(); // Swagger
         }
@@ -116,6 +126,16 @@ namespace CriThink.Web
                 // Uses full schema names to avoid v1/v2/v3 schema collisions
                 // see: https://github.com/domaindrivendev/Swashbuckle/issues/442
                 //options.CustomSchemaIds(x => x.FullName);
+            });
+        }
+
+        private static void SetupErrorHandling(IServiceCollection services)
+        {
+            services.AddScoped<ApiValidationFilterAttribute>();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
         }
     }
