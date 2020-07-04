@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CriThink.Web.Models.DTOs
+namespace CriThink.Server.Web.Models.DTOs
 {
     /// <summary>
     /// Basic class for response DTO

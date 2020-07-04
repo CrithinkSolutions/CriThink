@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace CriThink.Web.Middlewares
+namespace CriThink.Server.Web.Middlewares
 {
     /// <summary>
     /// Response middleware for failed requests

@@ -1,8 +1,8 @@
-﻿using CriThink.Web.Models.DTOs;
+﻿using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CriThink.Web.ActionFilters
+namespace CriThink.Server.Web.ActionFilters
 {
     /// <summary>
     /// Validation filter over API requests

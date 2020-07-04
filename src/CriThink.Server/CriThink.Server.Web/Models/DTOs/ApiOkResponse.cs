@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
-namespace CriThink.Web.Models.DTOs
+namespace CriThink.Server.Web.Models.DTOs
 {
     /// <summary>
     /// Base class for successfully responses
