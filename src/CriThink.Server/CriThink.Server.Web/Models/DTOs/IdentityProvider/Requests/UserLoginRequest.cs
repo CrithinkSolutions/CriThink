@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 // ReSharper disable CheckNamespace
 
 namespace CriThink.Web.Models.DTOs.IdentityProvider
 {
     public class UserLoginRequest : IValidatableObject
     {
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonProperty("username")]
+        [JsonPropertyName("username")]
         public string UserName { get; set; }
 
         [Required]
-        [JsonProperty("password")]
+        [JsonPropertyName("password")]
         public string Password { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
