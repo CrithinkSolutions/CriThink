@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Helpers;
+using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Settings;
@@ -21,6 +22,7 @@ namespace CriThink.Server.Web.Controllers
     /// This controller contains APIs to manage user identity
     /// </summary>
     [ApiVersion(EndpointConstants.VersionOne)]
+    [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)] //api/identity
     public class IdentityController : Controller
