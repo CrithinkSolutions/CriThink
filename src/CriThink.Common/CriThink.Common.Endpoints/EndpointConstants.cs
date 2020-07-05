@@ -28,5 +28,13 @@
         public const string ChangePassword = "change-password";
 
         #endregion
+
+        #region NewsAnalyzer
+
+        public const string NewsAnalyzerBase = "news-analyzer/";
+
+        public const string HttpsSupport = "https-support";
+
+        #endregion
     }
 }

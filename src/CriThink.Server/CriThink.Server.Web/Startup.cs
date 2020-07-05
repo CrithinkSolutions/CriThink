@@ -254,6 +254,9 @@ namespace CriThink.Server.Web
 
             // Identity
             services.AddScoped<IIdentityService, IdentityService>();
+
+            // DomainAnalyzer
+            services.AddScoped<IDomainAnalyzer, DomainAnalyzer>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
