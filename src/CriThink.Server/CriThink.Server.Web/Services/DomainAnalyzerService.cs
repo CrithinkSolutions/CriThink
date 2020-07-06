@@ -3,7 +3,7 @@ using CriThink.Server.Web.Models.DTOs.NewsAnalyzer.Responses;
 
 namespace CriThink.Server.Web.Services
 {
-    public class DomainAnalyzer : IDomainAnalyzer
+    public class DomainAnalyzerService : IDomainAnalyzerService
     {
         public HttpsSupportResponse HasUriHttpsSupport(Uri uri)
         {
@@ -20,7 +20,7 @@ namespace CriThink.Server.Web.Services
     /// <summary>
     /// Offers API to analyze URL's domains
     /// </summary>
-    public interface IDomainAnalyzer
+    public interface IDomainAnalyzerService
     {
         /// <summary>
         /// Returns a status to identify if the provided URI has HTTPS support or not

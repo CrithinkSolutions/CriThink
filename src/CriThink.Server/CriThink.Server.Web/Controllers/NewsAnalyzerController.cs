@@ -21,12 +21,12 @@ namespace CriThink.Server.Web.Controllers
     [Route(EndpointConstants.ApiBase + EndpointConstants.NewsAnalyzerBase)] //api/news-analyzer
     public class NewsAnalyzerController : Controller
     {
-        private readonly IDomainAnalyzer _domainAnalyzer;
+        private readonly IDomainAnalyzerService _domainAnalyzerService;
         private readonly ILogger<NewsAnalyzerController> _logger;
 
-        public NewsAnalyzerController(IDomainAnalyzer domainAnalyzer, ILogger<NewsAnalyzerController> logger)
+        public NewsAnalyzerController(IDomainAnalyzerService domainAnalyzerService, ILogger<NewsAnalyzerController> logger)
         {
-            _domainAnalyzer = domainAnalyzer ?? throw new ArgumentNullException(nameof(domainAnalyzer));
+            _domainAnalyzerService = domainAnalyzerService ?? throw new ArgumentNullException(nameof(domainAnalyzerService));
             _logger = logger;
         }
 
@@ -39,7 +39,7 @@ namespace CriThink.Server.Web.Controllers
         {
             var uri = new Uri(request.Uri);
 
-            var hasHttpsSupport = _domainAnalyzer.HasUriHttpsSupport(uri);
+            var hasHttpsSupport = _domainAnalyzerService.HasUriHttpsSupport(uri);
             return Ok(new ApiOkResponse(hasHttpsSupport));
         }
     }
