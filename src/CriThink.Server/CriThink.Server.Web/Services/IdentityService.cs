@@ -157,9 +157,9 @@ namespace CriThink.Server.Web.Services
 
         private async Task<JwtTokenResponse> GenerateTokenAsync(User user)
         {
-            var secretKey = _configuration["Jwt-SecretKey"];
-            var audience = _configuration["Jwt-Audience"];
-            var issuer = _configuration["Jwt-Issuer"];
+            var secretKey = "secretkey_secretkey123!";
+            var audience = "DemoAudience";
+            var issuer = "DemoIssuer";
 
             var claims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));

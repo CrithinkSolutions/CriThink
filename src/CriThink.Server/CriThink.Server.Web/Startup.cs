@@ -50,16 +50,18 @@ namespace CriThink.Server.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Database
-            var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
+            //var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
+                options.UseInMemoryDatabase("CriThinkDb");
+
+                //options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                //{
+                //    sqlOptions.EnableRetryOnFailure(
+                //        maxRetryCount: 5,
+                //        maxRetryDelay: TimeSpan.FromSeconds(30),
+                //        errorNumbersToAdd: null);
+                //});
             });
 
             // User Identity
@@ -157,9 +159,9 @@ namespace CriThink.Server.Web
 
         private void SetupJwtAuthentication(IServiceCollection services)
         {
-            var audience = Configuration["Jwt-Audience"];
-            var issuer = Configuration["Jwt-Issuer"];
-            var key = Configuration["Jwt-SecretKey"];
+            var audience = "DemoAudience";
+            var issuer = "DemoIssuer";
+            var key = "secretkey_secretkey123!";
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
             services.AddAuthorization();
@@ -223,13 +225,13 @@ namespace CriThink.Server.Web
             {
                 options.OperationFilter<AddRequiredHeaderParameter>();
 
-                var contact = new OpenApiContact
-                {
-                    Name = Configuration["swaggerapiinfo:name"],
-                    Email = Configuration["swaggerapiinfo:email"],
-                    Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
-                };
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
+                //var contact = new OpenApiContact
+                //{
+                //    Name = Configuration["swaggerapiinfo:name"],
+                //    Email = Configuration["swaggerapiinfo:email"],
+                //    Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
+                //};
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1"/*, Contact = contact */});
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
