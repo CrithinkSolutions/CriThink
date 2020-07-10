@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="1.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
@@ -25,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj" />
     <ProjectReference Include="..\CriThink.Server.Infrastructure\CriThink.Server.Infrastructure.csproj" />
+    <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
   </ItemGroup>
 
 </Project>
