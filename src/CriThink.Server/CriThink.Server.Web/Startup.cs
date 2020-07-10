@@ -35,9 +35,12 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
         public IConfiguration Configuration { get; }
@@ -50,18 +53,23 @@ namespace CriThink.Server.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Database
-            //var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                options.UseInMemoryDatabase("CriThinkDb");
-
-                //options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-                //{
-                //    sqlOptions.EnableRetryOnFailure(
-                //        maxRetryCount: 5,
-                //        maxRetryDelay: TimeSpan.FromSeconds(30),
-                //        errorNumbersToAdd: null);
-                //});
+                if (_environment.IsDevelopment())
+                {
+                    var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
+                    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null);
+                    });
+                }
+                else
+                {
+                    options.UseInMemoryDatabase("CriThinkDb");
+                }
             });
 
             // User Identity
@@ -159,9 +167,9 @@ namespace CriThink.Server.Web
 
         private void SetupJwtAuthentication(IServiceCollection services)
         {
-            var audience = "DemoAudience";
-            var issuer = "DemoIssuer";
-            var key = "secretkey_secretkey123!";
+            var audience = Configuration["Jwt-Audience"];
+            var issuer = Configuration["Jwt-Issuer"];
+            var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
             services.AddAuthorization();
