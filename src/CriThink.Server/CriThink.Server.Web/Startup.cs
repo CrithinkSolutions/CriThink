@@ -233,13 +233,13 @@ namespace CriThink.Server.Web
             {
                 options.OperationFilter<AddRequiredHeaderParameter>();
 
-                //var contact = new OpenApiContact
-                //{
-                //    Name = Configuration["swaggerapiinfo:name"],
-                //    Email = Configuration["swaggerapiinfo:email"],
-                //    Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
-                //};
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1"/*, Contact = contact */});
+                var contact = new OpenApiContact
+                {
+                    Name = Configuration["swaggerapiinfo:name"],
+                    Email = Configuration["swaggerapiinfo:email"],
+                    Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
+                };
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
