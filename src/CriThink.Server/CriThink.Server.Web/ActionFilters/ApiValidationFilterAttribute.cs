@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
+#pragma warning disable CA1062 // Validate arguments of public methods
+
 namespace CriThink.Server.Web.ActionFilters
 {
     /// <summary>
