@@ -10,7 +10,9 @@ using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Settings;
@@ -256,7 +258,9 @@ namespace CriThink.Server.Web
             services.AddScoped<IIdentityService, IdentityService>();
 
             // DomainAnalyzer
-            services.AddScoped<IDomainAnalyzer, DomainAnalyzer>();
+            DomainAnalyzerBootstrapper.Bootstrap(services);
+            services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
+            services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)

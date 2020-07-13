@@ -24,6 +24,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Core", "Cri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Common.Helpers", "CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj", "{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CriThink.Server.Providers", "CriThink.Server.Providers", "{846AD08F-D8C2-46BB-A9A9-F895D090C97E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Providers.DomainAnalyzer", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj", "{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,10 @@ Global
 		{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +68,8 @@ Global
 		{06D78090-7B36-4C9F-B832-A8042A427308} = {A6CCE6CD-6ADE-4F6A-991E-3150DC8E7216}
 		{621D1F39-9250-4186-81AA-C7E049674CF5} = {A6CCE6CD-6ADE-4F6A-991E-3150DC8E7216}
 		{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE} = {BA34B9AC-1947-4BBB-863B-45A5BE35B2B8}
+		{846AD08F-D8C2-46BB-A9A9-F895D090C97E} = {A6CCE6CD-6ADE-4F6A-991E-3150DC8E7216}
+		{12780FAE-C1BC-4FD4-AF90-60D9EF5CDF90} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F84E5D14-E97C-4611-8886-D9A39FDA717E}
