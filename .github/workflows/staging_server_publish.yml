@@ -1,6 +1,6 @@
 name: staging_server_publish
 on:
-  pull_request:
+  push:
     branches: [ develop ]
 
 jobs:
