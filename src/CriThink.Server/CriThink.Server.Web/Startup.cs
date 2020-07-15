@@ -140,9 +140,14 @@ namespace CriThink.Server.Web
 
         private static void SetupUserIdentity(IServiceCollection services)
         {
-            services.AddIdentity<User, UserRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<User, UserRole>((options) =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddEntityFrameworkStores<CriThinkDbContext>()
                 .AddDefaultTokenProviders();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -246,7 +251,7 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
-            services.Configure<SendGridSettings>(Configuration.GetSection(nameof(SendGridSettings)));
+            services.Configure<AWSSESSettings>(Configuration.GetSection(nameof(AWSSESSettings)));
         }
 
         private static void SetupInternalServices(IServiceCollection services)
@@ -255,7 +260,7 @@ namespace CriThink.Server.Web
             services.AddTransient<IEmailSender, EmailSender>();
 
             // Identity
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             // DomainAnalyzer
             DomainAnalyzerBootstrapper.Bootstrap(services);
