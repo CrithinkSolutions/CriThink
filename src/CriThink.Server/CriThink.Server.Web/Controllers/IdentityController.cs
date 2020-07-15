@@ -29,14 +29,14 @@ namespace CriThink.Server.Web.Controllers
     {
         private readonly IIdentityService _identityService;
         private readonly IEmailSender _emailSender;
-        private readonly SendGridSettings _sendGridOptions;
+        private readonly AWSSESSettings _awsSESSettings;
         private readonly ILogger<IdentityController> _logger;
 
-        public IdentityController(IIdentityService identityService, IEmailSender emailSender, IOptionsSnapshot<SendGridSettings> sendGridOptions, ILogger<IdentityController> logger)
+        public IdentityController(IIdentityService identityService, IEmailSender emailSender, IOptionsSnapshot<AWSSESSettings> awsSESSettings, ILogger<IdentityController> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _sendGridOptions = sendGridOptions?.Value ?? throw new ArgumentNullException(nameof(sendGridOptions));
+            _awsSESSettings = awsSESSettings?.Value ?? throw new ArgumentNullException(nameof(awsSESSettings));
             _logger = logger;
         }
 
@@ -55,12 +55,12 @@ namespace CriThink.Server.Web.Controllers
             var creationResponse = await _identityService.CreateNewUserAsync(request).ConfigureAwait(false);
 
             var encodedCode = Base64Helper.ToBase64(creationResponse.ConfirmationCode);
-            var callbackUrl = string.Format(CultureInfo.InvariantCulture, _sendGridOptions.ConfirmationEmailLink, creationResponse.UserId, encodedCode);
+            var callbackUrl = string.Format(CultureInfo.InvariantCulture, _awsSESSettings.ConfirmationEmailLink, creationResponse.UserId, encodedCode);
 
             await _emailSender.SendEmailAsync(new List<string>
                 {
                     creationResponse.UserEmail
-                }, _sendGridOptions.ConfirmationEmailSubject,
+                }, _awsSESSettings.ConfirmationEmailSubject,
                 $"Please confirm your account <a href='{callbackUrl}' target='_blank'>clicking here</>.").ConfigureAwait(false);
 
             return Ok(new ApiOkResponse(new { userId = creationResponse.UserId, userEmail = creationResponse.UserEmail }));
