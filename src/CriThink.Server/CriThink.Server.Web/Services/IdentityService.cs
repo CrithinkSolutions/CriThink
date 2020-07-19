@@ -2,7 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Providers.EmailSender.Services;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Jwt;
 using CriThink.Web.Models.DTOs.IdentityProvider;
@@ -16,16 +18,17 @@ namespace CriThink.Server.Web.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
 
-        public IdentityService(UserManager<User> userManager, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
-
             _jwtTokenHandler = new JwtSecurityTokenHandler();
         }
 
@@ -49,6 +52,11 @@ namespace CriThink.Server.Web.Services
             }
 
             var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user)
+                .ConfigureAwait(false);
+
+            var encodedCode = Base64Helper.ToBase64(confirmationCode);
+
+            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), encodedCode)
                 .ConfigureAwait(false);
 
             return new UserSignUpResponse
