@@ -13,7 +13,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="1.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.101.178" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
@@ -27,6 +26,7 @@
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj" />
     <ProjectReference Include="..\CriThink.Server.Infrastructure\CriThink.Server.Infrastructure.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
+    <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj" />
   </ItemGroup>
 
 </Project>
