@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;
@@ -17,6 +19,7 @@ using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Settings;
 using CriThink.Server.Web.Swagger;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -81,6 +84,9 @@ namespace CriThink.Server.Web
 
             // Settings
             SetupSettings(services);
+
+            // MediatR
+            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
 
             // Internal
             SetupInternalServices(services);
@@ -266,6 +272,14 @@ namespace CriThink.Server.Web
             DomainAnalyzerBootstrapper.Bootstrap(services);
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
             services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
+
+            // NewsSource
+            services.AddTransient<INewsSourceService, NewsSourceService>();
+
+            // Infrastructure
+
+            services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
+            services.AddInfrastructure();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
