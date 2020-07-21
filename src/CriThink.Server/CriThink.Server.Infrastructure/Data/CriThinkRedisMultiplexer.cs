@@ -4,7 +4,7 @@ namespace CriThink.Server.Infrastructure.Data
 {
     public static class CriThinkRedisMultiplexer
     {
-        private const string ConnectionString = "127.0.0.1:6379";
+        private static string _connectionString;
 
         private static ConnectionMultiplexer _serverConnection;
 
@@ -12,7 +12,7 @@ namespace CriThink.Server.Infrastructure.Data
         /// Get the Redis cache connection
         /// </summary>
         /// <returns><see cref="ConnectionMultiplexer"/> Redis instance</returns>
-        public static ConnectionMultiplexer GetConnection() => _serverConnection ??= ConnectionMultiplexer.Connect(ConnectionString);
+        public static ConnectionMultiplexer GetConnection() => _serverConnection ??= ConnectionMultiplexer.Connect(_connectionString);
 
         /// <summary>
         /// Get the Redis database instance
@@ -25,6 +25,16 @@ namespace CriThink.Server.Infrastructure.Data
         /// Get the Redis database server instance
         /// </summary>
         /// <returns><see cref="IServer"/> Redis server</returns>
-        public static IServer GetServer() => GetConnection().GetServer(ConnectionString);
+        public static IServer GetServer() => GetConnection().GetServer(_connectionString);
+
+        /// <summary>
+        /// Set the Redis configuration
+        /// </summary>
+        /// <param name="configuration">The string configuration</param>
+        internal static void SetRedisConfiguration(string configuration)
+        {
+            _connectionString = configuration;
+            _serverConnection = null;
+        }
     }
 }

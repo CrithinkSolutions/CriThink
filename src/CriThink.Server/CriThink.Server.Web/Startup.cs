@@ -260,7 +260,7 @@ namespace CriThink.Server.Web
             services.Configure<AWSSESSettings>(Configuration.GetSection(nameof(AWSSESSettings)));
         }
 
-        private static void SetupInternalServices(IServiceCollection services)
+        private void SetupInternalServices(IServiceCollection services)
         {
             // Email
             services.AddTransient<IEmailSender, EmailSender>();
@@ -279,7 +279,9 @@ namespace CriThink.Server.Web
             // Infrastructure
 
             services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
-            services.AddInfrastructure();
+
+            var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
+            services.AddInfrastructure(redisConnectionString);
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
