@@ -20,5 +20,11 @@ namespace CriThink.Server.Infrastructure.Data
         /// <param name="database">Database number</param>
         /// <returns><see cref="IDatabase"/> Redis database</returns>
         public static IDatabase GetDatabase(int database) => GetConnection().GetDatabase(database);
+
+        /// <summary>
+        /// Get the Redis database server instance
+        /// </summary>
+        /// <returns><see cref="IServer"/> Redis server</returns>
+        public static IServer GetServer() => GetConnection().GetServer(ConnectionString);
     }
 }

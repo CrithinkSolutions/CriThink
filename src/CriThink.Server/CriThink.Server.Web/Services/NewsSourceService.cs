@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
@@ -62,10 +65,10 @@ namespace CriThink.Server.Web.Services
 
             var uri = new Uri(request.Uri);
 
-            var command = new SearchNewsSourceQuery(uri);
-            var queryResponse = await _mediator.Send(command).ConfigureAwait(false);
+            var query = new SearchNewsSourceQuery(uri);
+            var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (queryResponse is SearchNewsSourceResponse searchResponse)
+            if (queryResponse is SearchNewsSourceQueryResponse searchResponse)
             {
                 var classification = _mapper.Map<NewsSourceAuthencity, NewsSourceClassification>(searchResponse.SourceAuthencity);
 
@@ -76,6 +79,22 @@ namespace CriThink.Server.Web.Services
             }
 
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
+        }
+
+        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request)
+        {
+            var sourceFilter = _mapper.Map<NewsSourceGetAllRequest, GetAllNewsSourceFilter>(request);
+
+            var query = new GetAllNewsSourceQuery(sourceFilter);
+            var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
+
+            if (queryResponse is IEnumerable<GetAllNewsSourceQueryResponse> allNewsSources)
+            {
+                var response = _mapper.Map<IEnumerable<GetAllNewsSourceQueryResponse>, IEnumerable<NewsSourceGetAllResponse>>(allNewsSources);
+                return response.ToList();
+            }
+
+            throw new Exception("An error is occurred");
         }
     }
 
@@ -108,5 +127,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request"></param>
         /// <returns></returns>
         Task<NewsSourceSearchResponse> SearchNewsSourceAsync(NewsSourceSearchRequest request);
+
+        /// <summary>
+        /// Get all the news sources stored. Result can be filtered
+        /// </summary>
+        /// <param name="request">Optional filter</param>
+        /// <returns>All the news sources</returns>
+        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request);
     }
 }

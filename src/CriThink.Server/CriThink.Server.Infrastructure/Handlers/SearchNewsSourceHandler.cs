@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceResponse>
+    public class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
 
@@ -18,7 +18,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             _newsSourceRepository = newsSourceRepository;
         }
 
-        public async Task<SearchNewsSourceResponse> Handle(SearchNewsSourceQuery request, CancellationToken cancellationToken)
+        public async Task<SearchNewsSourceQueryResponse> Handle(SearchNewsSourceQuery request, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -28,9 +28,9 @@ namespace CriThink.Server.Infrastructure.Handlers
             if (redisValue.IsNullOrEmpty)
                 return null;
 
-            var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthencity authenticty);
+            var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthencity authenticity);
             return isValid ?
-                new SearchNewsSourceResponse(authenticty) :
+                new SearchNewsSourceQueryResponse(authenticity) :
                 null;
         }
     }

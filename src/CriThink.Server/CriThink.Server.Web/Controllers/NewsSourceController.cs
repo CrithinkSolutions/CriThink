@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,6 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to add</param>
         /// <returns>Returns the operation result</returns>
-        //[Route(EndpointConstants.Add)] // api/news-source/
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(int), 500)]
         [Produces("application/json")]
@@ -77,7 +77,6 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to search</param>
         /// <returns>Returns the list where the source is contained</returns>
-        //[Route("search")]
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(int), 404)]
         [Produces("application/json")]
@@ -86,6 +85,21 @@ namespace CriThink.Server.Web.Controllers
         {
             var searchResponse = await _newsSourceService.SearchNewsSourceAsync(request).ConfigureAwait(false);
             return Ok(searchResponse);
+        }
+
+        /// <summary>
+        /// Get all the news sources stored. Result can be filtered
+        /// </summary>
+        /// <param name="request">Optional filter</param>
+        /// <returns>All the news sources</returns>
+        [Route(EndpointConstants.NewsSourceGetAll)]
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(int), 500)]
+        [HttpGet]
+        public async Task<IActionResult> GetAllNewsSourcesAsync([FromQuery] NewsSourceGetAllRequest request = NewsSourceGetAllRequest.None)
+        {
+            var results = await _newsSourceService.GetAllNewsSourcesAsync(request).ConfigureAwait(false);
+            return Ok(results);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace CriThink.Server.Core.Responses
 {
-    public class SearchNewsSourceResponse
+    public class SearchNewsSourceQueryResponse
     {
-        public SearchNewsSourceResponse(NewsSourceAuthencity sourceAuthencity)
+        public SearchNewsSourceQueryResponse(NewsSourceAuthencity sourceAuthencity)
         {
             SourceAuthencity = sourceAuthencity;
         }

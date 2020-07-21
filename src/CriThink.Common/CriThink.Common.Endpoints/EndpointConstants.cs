@@ -46,6 +46,7 @@
 
         public const string RemoveBadNewsSource = "bad";
         public const string RemoveGoodNewsSource = "good";
+        public const string NewsSourceGetAll = "all";
 
         #endregion
     }

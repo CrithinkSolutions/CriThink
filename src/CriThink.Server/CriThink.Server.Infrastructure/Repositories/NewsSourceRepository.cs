@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Data;
@@ -17,7 +19,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(uri));
 
             var db = CriThinkRedisMultiplexer.GetDatabase(BlacklistDatabase);
-            return db.StringSetAsync(uri.Host, authencity.ToString());
+            return db.StringSetAsync(GetHostName(uri), authencity.ToString());
         }
 
         public Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthencity authencity)
@@ -27,7 +29,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
 
-            return db.StringSetAsync(uri.Host, authencity.ToString());
+            return db.StringSetAsync(GetHostName(uri), authencity.ToString());
         }
 
         public Task RemoveNewsSourceFromBlacklistAsync(Uri uri)
@@ -53,7 +55,7 @@ namespace CriThink.Server.Infrastructure.Repositories
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
-            var hostName = uri.Host;
+            var hostName = GetHostName(uri);
 
             var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
             var whitelistValue = await db.StringGetAsync(hostName).ConfigureAwait(false);
@@ -67,6 +69,55 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             return whitelistValue;
         }
+
+        public async Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync()
+        {
+            var whitelistTask = Task.Run(GetAllGoodNewsSources);
+            var blacklistTask = Task.Run(GetAllBadNewsSources);
+
+            await Task.WhenAll(whitelistTask, blacklistTask).ConfigureAwait(false);
+
+            var whitelistResults = whitelistTask.Result.ToList();
+            var blacklistResults = blacklistTask.Result.ToList();
+
+            return whitelistResults.Union(blacklistResults);
+        }
+
+        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources()
+        {
+            var list = new List<Tuple<RedisKey, RedisValue>>();
+
+            var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
+            var server = CriThinkRedisMultiplexer.GetServer();
+
+            foreach (var key in server.Keys(WhitelistDatabase, "*"))
+            {
+                var redisValue = db.StringGet(key);
+                var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
+                list.Add(tuple);
+            }
+
+            return list;
+        }
+
+        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources()
+        {
+            var list = new List<Tuple<RedisKey, RedisValue>>();
+
+            var db = CriThinkRedisMultiplexer.GetDatabase(BlacklistDatabase);
+            var server = CriThinkRedisMultiplexer.GetServer();
+
+            foreach (var key in server.Keys(BlacklistDatabase, "*"))
+            {
+                var redisValue = db.StringGet(key);
+                var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
+                list.Add(tuple);
+            }
+
+            return list;
+        }
+
+        private static string GetHostName(Uri uri) => $"{uri.Scheme}://{uri.Host}/";
     }
 
     public interface INewsSourceRepository
@@ -107,5 +158,23 @@ namespace CriThink.Server.Infrastructure.Repositories
         /// <param name="uri">Source (key) to search</param>
         /// <returns>The search result</returns>
         Task<RedisValue> SearchNewsSourceAsync(Uri uri);
+
+        /// <summary>
+        /// Get all data from the black and white lists
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync();
+
+        /// <summary>
+        /// Get all data from the whitelist
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources();
+
+        /// <summary>
+        /// Get all data from the blacklist
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources();
     }
 }
