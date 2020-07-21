@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
@@ -8,13 +6,11 @@ using CriThink.Common.Helpers;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
-using CriThink.Server.Web.Settings;
 using CriThink.Web.Models.DTOs.IdentityProvider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -28,15 +24,11 @@ namespace CriThink.Server.Web.Controllers
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
-        private readonly IEmailSender _emailSender;
-        private readonly AWSSESSettings _awsSESSettings;
         private readonly ILogger<IdentityController> _logger;
 
-        public IdentityController(IIdentityService identityService, IEmailSender emailSender, IOptionsSnapshot<AWSSESSettings> awsSESSettings, ILogger<IdentityController> logger)
+        public IdentityController(IIdentityService identityService, ILogger<IdentityController> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _awsSESSettings = awsSESSettings?.Value ?? throw new ArgumentNullException(nameof(awsSESSettings));
             _logger = logger;
         }
 
@@ -53,16 +45,6 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> SignUpUserAsync([FromBody] UserSignUpRequest request)
         {
             var creationResponse = await _identityService.CreateNewUserAsync(request).ConfigureAwait(false);
-
-            var encodedCode = Base64Helper.ToBase64(creationResponse.ConfirmationCode);
-            var callbackUrl = string.Format(CultureInfo.InvariantCulture, _awsSESSettings.ConfirmationEmailLink, creationResponse.UserId, encodedCode);
-
-            await _emailSender.SendEmailAsync(new List<string>
-                {
-                    creationResponse.UserEmail
-                }, _awsSESSettings.ConfirmationEmailSubject,
-                $"Please confirm your account <a href='{callbackUrl}' target='_blank'>clicking here</>.").ConfigureAwait(false);
-
             return Ok(new ApiOkResponse(new { userId = creationResponse.UserId, userEmail = creationResponse.UserEmail }));
         }
 
@@ -91,8 +73,6 @@ namespace CriThink.Server.Web.Controllers
         /// <returns>Returns the confirmation of success</returns>
         [AllowAnonymous]
         [Route(EndpointConstants.ConfirmEmail)] // api/identity/confirm-email
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
@@ -103,16 +83,19 @@ namespace CriThink.Server.Web.Controllers
 
             var decodedCode = Base64Helper.FromBase64(code);
 
+            var result = true;
+
             try
             {
                 await _identityService.VerifyAccountEmailAsync(userId, decodedCode).ConfigureAwait(false);
-                return Ok();
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error confirming email");
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                result = false;
             }
+
+            return View("EmailConfirmation", result);
         }
 
         /// <summary>

@@ -1,9 +1,6 @@
-﻿namespace CriThink.Server.Web.Settings
+﻿namespace CriThink.Server.Providers.EmailSender.Settings
 {
-    /// <summary>
-    /// AWS SES settings
-    /// </summary>
-    public class AWSSESSettings
+    public class AwsSESSettings
     {
         public string FromAddress { get; set; }
         public string ConfirmationEmailSubject { get; set; }

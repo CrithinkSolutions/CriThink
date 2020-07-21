@@ -13,11 +13,12 @@ using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DomainAnalyzer;
+using CriThink.Server.Providers.EmailSender;
+using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
-using CriThink.Server.Web.Settings;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -103,6 +104,8 @@ namespace CriThink.Server.Web
                 });
 
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
+
+            services.AddRazorPages(); // Razor
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -125,6 +128,8 @@ namespace CriThink.Server.Web
 
             app.UseApiVersioning();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthentication(); // Identity
@@ -142,6 +147,11 @@ namespace CriThink.Server.Web
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseMvc(); // Swagger
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages(); // Razor
+            });
         }
 
         private static void SetupUserIdentity(IServiceCollection services)
@@ -257,13 +267,13 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
-            services.Configure<AWSSESSettings>(Configuration.GetSection(nameof(AWSSESSettings)));
+            services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
         }
 
         private void SetupInternalServices(IServiceCollection services)
         {
-            // Email
-            services.AddTransient<IEmailSender, EmailSender>();
+            // Email Sender
+            services.AddEmailSenderService();
 
             // Identity
             services.AddTransient<IIdentityService, IdentityService>();
