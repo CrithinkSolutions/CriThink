@@ -55,8 +55,8 @@ jobs:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: ${{ secrets.AWS_REGION }}
-        application_name: crithink-staging-app-web
-        environment_name: crithink-staging-server
+        application_name: CriThink
+        environment_name: CriThink-Staging
         version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
         deployment_package: staging-server-deploy-package.zip
 
