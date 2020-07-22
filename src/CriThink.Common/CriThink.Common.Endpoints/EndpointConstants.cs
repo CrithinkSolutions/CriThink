@@ -15,6 +15,7 @@
 
         public const string ServiceBase = "service/";
         public const string ServiceEnvironment = "environment";
+        public const string ServiceRedisHealth = "redis-health";
 
         #endregion
 
@@ -36,6 +37,16 @@
         public const string HttpsSupport = "https-support";
         public const string DomainLookup = "domain-lookup";
         public const string CompleteAnalysis = "complete-analysis";
+
+        #endregion
+
+        #region NewsSource
+
+        public const string NewsSourceBase = "news-source/";
+
+        public const string RemoveBadNewsSource = "bad";
+        public const string RemoveGoodNewsSource = "good";
+        public const string NewsSourceGetAll = "all";
 
         #endregion
     }

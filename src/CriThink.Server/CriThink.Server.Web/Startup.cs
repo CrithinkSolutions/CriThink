@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
@@ -18,6 +20,7 @@ using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -82,6 +85,9 @@ namespace CriThink.Server.Web
 
             // Settings
             SetupSettings(services);
+
+            // MediatR
+            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
 
             // Internal
             SetupInternalServices(services);
@@ -264,7 +270,7 @@ namespace CriThink.Server.Web
             services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
         }
 
-        private static void SetupInternalServices(IServiceCollection services)
+        private void SetupInternalServices(IServiceCollection services)
         {
             // Email Sender
             services.AddEmailSenderService();
@@ -276,6 +282,16 @@ namespace CriThink.Server.Web
             DomainAnalyzerBootstrapper.Bootstrap(services);
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
             services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
+
+            // NewsSource
+            services.AddTransient<INewsSourceService, NewsSourceService>();
+
+            // Infrastructure
+
+            services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
+
+            var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
+            services.AddInfrastructure(redisConnectionString);
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
