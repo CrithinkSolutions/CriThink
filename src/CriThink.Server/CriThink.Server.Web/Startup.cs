@@ -41,9 +41,12 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
         public IConfiguration Configuration { get; }
@@ -56,16 +59,23 @@ namespace CriThink.Server.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Database
-            var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                if (_environment.IsDevelopment())
                 {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
+                    var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
+                    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null);
+                    });
+                }
+                else
+                {
+                    options.UseInMemoryDatabase("CriThinkDb");
+                }
             });
 
             // User Identity
@@ -248,8 +258,8 @@ namespace CriThink.Server.Web
 
                 var contact = new OpenApiContact
                 {
-                    Name = Configuration["swaggerapiinfo:name"],
-                    Email = Configuration["swaggerapiinfo:email"],
+                    Name = Configuration["SwaggerApiInfo:name"],
+                    Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });

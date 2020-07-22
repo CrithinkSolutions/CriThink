@@ -111,6 +111,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUserPassword([FromBody] ChangePasswordRequest dto)
         {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
             var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrWhiteSpace(userEmail))
                 return Forbid();

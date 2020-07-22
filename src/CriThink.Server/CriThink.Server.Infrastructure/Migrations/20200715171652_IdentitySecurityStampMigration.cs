@@ -9,6 +9,7 @@ namespace CriThink.Server.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
