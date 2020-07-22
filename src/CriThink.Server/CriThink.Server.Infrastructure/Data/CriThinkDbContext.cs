@@ -20,9 +20,6 @@ namespace CriThink.Server.Infrastructure.Data
             builder.Entity<User>(typeBuilder =>
             {
                 typeBuilder.ToTable("Users");
-                typeBuilder.Ignore(property => property.ConcurrencyStamp);
-                typeBuilder.Ignore(property => property.SecurityStamp);
-                typeBuilder.Ignore(property => property.ConcurrencyStamp);
                 typeBuilder.Ignore(property => property.TwoFactorEnabled);
                 typeBuilder.Ignore(property => property.PhoneNumberConfirmed);
             });

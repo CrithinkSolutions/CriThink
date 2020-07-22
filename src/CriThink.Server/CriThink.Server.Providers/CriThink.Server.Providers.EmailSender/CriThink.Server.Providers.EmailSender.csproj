@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
+    <AssemblyName>CriThink.Server.Providers.EmailSender</AssemblyName>
+    <RootNamespace>CriThink.Server.Providers.EmailSender</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.101.181" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CriThink.Server.RazorViews\CriThink.Server.RazorViews.csproj" />
+  </ItemGroup>
+
+</Project>

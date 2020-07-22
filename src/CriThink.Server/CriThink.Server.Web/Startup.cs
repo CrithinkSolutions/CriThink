@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Repositories;
+using CriThink.Server.Providers.DomainAnalyzer;
+using CriThink.Server.Providers.EmailSender;
+using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
-using CriThink.Server.Web.Settings;
 using CriThink.Server.Web.Swagger;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -90,6 +96,9 @@ namespace CriThink.Server.Web
             // Settings
             SetupSettings(services);
 
+            // MediatR
+            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+
             // Internal
             SetupInternalServices(services);
 
@@ -105,6 +114,8 @@ namespace CriThink.Server.Web
                 });
 
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
+
+            services.AddRazorPages(); // Razor
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -127,6 +138,8 @@ namespace CriThink.Server.Web
 
             app.UseApiVersioning();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthentication(); // Identity
@@ -144,13 +157,23 @@ namespace CriThink.Server.Web
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseMvc(); // Swagger
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages(); // Razor
+            });
         }
 
         private static void SetupUserIdentity(IServiceCollection services)
         {
-            services.AddIdentity<User, UserRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<User, UserRole>((options) =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddEntityFrameworkStores<CriThinkDbContext>()
                 .AddDefaultTokenProviders();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -254,19 +277,31 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
-            services.Configure<SendGridSettings>(Configuration.GetSection(nameof(SendGridSettings)));
+            services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
         }
 
-        private static void SetupInternalServices(IServiceCollection services)
+        private void SetupInternalServices(IServiceCollection services)
         {
-            // Email
-            services.AddTransient<IEmailSender, EmailSender>();
+            // Email Sender
+            services.AddEmailSenderService();
 
             // Identity
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             // DomainAnalyzer
-            services.AddScoped<IDomainAnalyzer, DomainAnalyzer>();
+            DomainAnalyzerBootstrapper.Bootstrap(services);
+            services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
+            services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
+
+            // NewsSource
+            services.AddTransient<INewsSourceService, NewsSourceService>();
+
+            // Infrastructure
+
+            services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
+
+            var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
+            services.AddInfrastructure(redisConnectionString);
         }
 
         private static void SetupErrorHandling(IServiceCollection services)

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
+    <AssemblyName>CriThink.Server.Providers.NewsSourceClassifier</AssemblyName>
+    <RootNamespace>CriThink.Server.Providers.NewsSourceClassifier</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CriThink.Server.Infrastructure\CriThink.Server.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
