@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace CriThink.Server.Web.Controllers
     /// This controller contains API to manage black and whitelist
     /// </summary>
     [ApiVersion(EndpointConstants.VersionOne)]
+    [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.NewsSourceBase)] //api/news-source
     public class NewsSourceController : Controller
