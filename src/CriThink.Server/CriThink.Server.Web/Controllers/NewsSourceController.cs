@@ -96,7 +96,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(int), 500)]
         [HttpGet]
-        public async Task<IActionResult> GetAllNewsSourcesAsync([FromQuery] NewsSourceGetAllRequest request = NewsSourceGetAllRequest.None)
+        public async Task<IActionResult> GetAllNewsSourcesAsync([FromQuery] NewsSourceGetAllFilterRequest request = NewsSourceGetAllFilterRequest.None)
         {
             var results = await _newsSourceService.GetAllNewsSourcesAsync(request).ConfigureAwait(false);
             return Ok(results);

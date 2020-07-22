@@ -81,9 +81,9 @@ namespace CriThink.Server.Web.Services
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
         }
 
-        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request)
+        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest request)
         {
-            var sourceFilter = _mapper.Map<NewsSourceGetAllRequest, GetAllNewsSourceFilter>(request);
+            var sourceFilter = _mapper.Map<NewsSourceGetAllFilterRequest, GetAllNewsSourceFilter>(request);
 
             var query = new GetAllNewsSourceQuery(sourceFilter);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
@@ -133,6 +133,6 @@ namespace CriThink.Server.Web.Services
         /// </summary>
         /// <param name="request">Optional filter</param>
         /// <returns>All the news sources</returns>
-        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request);
+        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest request);
     }
 }

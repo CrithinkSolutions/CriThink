@@ -9,11 +9,11 @@ namespace CriThink.Server.Web.MapperProfiles
     {
         public GetAllNewsSourceFilterProfile()
         {
-            CreateMap<NewsSourceGetAllRequest, GetAllNewsSourceFilter>()
+            CreateMap<NewsSourceGetAllFilterRequest, GetAllNewsSourceFilter>()
                 .ConvertUsingEnumMapping(opt => opt
-                    .MapValue(NewsSourceGetAllRequest.None, GetAllNewsSourceFilter.All)
-                    .MapValue(NewsSourceGetAllRequest.Good, GetAllNewsSourceFilter.Whitelist)
-                    .MapValue(NewsSourceGetAllRequest.Bad, GetAllNewsSourceFilter.Blacklist));
+                    .MapValue(NewsSourceGetAllFilterRequest.None, GetAllNewsSourceFilter.All)
+                    .MapValue(NewsSourceGetAllFilterRequest.Good, GetAllNewsSourceFilter.Whitelist)
+                    .MapValue(NewsSourceGetAllFilterRequest.Bad, GetAllNewsSourceFilter.Blacklist));
         }
     }
 }
