@@ -31,17 +31,10 @@ namespace CriThink.Server.Web
 
         private static void SetupAWSSecretManager(IConfigurationBuilder configBuilder)
         {
-            var awsUser = Environment.GetEnvironmentVariable("AWS_USER");
-
-            var chain = new Amazon.Runtime.CredentialManagement.CredentialProfileStoreChain();
-
-            if (chain.TryGetAWSCredentials(awsUser, out var credentials))
+            configBuilder.AddSecretsManager(region: RegionEndpoint.EUCentral1, configurator: options =>
             {
-                configBuilder.AddSecretsManager(credentials, RegionEndpoint.EUWest3, options =>
-                {
-                    options.KeyGenerator = (entry, key) => key.Replace($"{entry.Name}:", "", StringComparison.InvariantCultureIgnoreCase);
-                });
-            }
+                options.KeyGenerator = (entry, key) => key.Replace($"{entry.Name}:", "", StringComparison.InvariantCultureIgnoreCase);
+            });
         }
     }
 }

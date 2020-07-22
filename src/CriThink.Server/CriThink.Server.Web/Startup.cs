@@ -235,8 +235,8 @@ namespace CriThink.Server.Web
 
                 var contact = new OpenApiContact
                 {
-                    Name = Configuration["swaggerapiinfo:name"],
-                    Email = Configuration["swaggerapiinfo:email"],
+                    Name = Configuration["SwaggerApiInfo:name"],
+                    Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
