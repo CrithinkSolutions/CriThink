@@ -23,18 +23,32 @@ namespace CriThink.Server.Web
                     {
                         if (hostingContext.HostingEnvironment.IsDevelopment()) return;
 
-                        SetupAWSSecretManager(configBuilder);
+                        SetupAwsSecretManager(configBuilder);
                     });
 
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static void SetupAWSSecretManager(IConfigurationBuilder configBuilder)
+        private static void SetupAwsSecretManager(IConfigurationBuilder configBuilder)
         {
+#if DEBUG
+            var chain = new Amazon.Runtime.CredentialManagement.CredentialProfileStoreChain();
+
+            var awsUser = Environment.GetEnvironmentVariable("AWS_PROFILE");
+
+            if (chain.TryGetAWSCredentials(awsUser, out var credentials))
+            {
+                configBuilder.AddSecretsManager(credentials, RegionEndpoint.EUCentral1, options =>
+                {
+                    options.KeyGenerator = (entry, key) => key.Replace($"{entry.Name}:", "", StringComparison.InvariantCultureIgnoreCase);
+                });
+            }
+#else
             configBuilder.AddSecretsManager(region: RegionEndpoint.EUCentral1, configurator: options =>
             {
                 options.KeyGenerator = (entry, key) => key.Replace($"{entry.Name}:", "", StringComparison.InvariantCultureIgnoreCase);
             });
+#endif
         }
     }
 }
