@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.ActionFilters;
@@ -18,10 +20,12 @@ namespace CriThink.Server.Web.Controllers
     public class ServiceController : Controller
     {
         private readonly IWebHostEnvironment _env;
+        private readonly CriThinkDbContext _dbContext;
 
-        public ServiceController(IWebHostEnvironment env)
+        public ServiceController(IWebHostEnvironment env, CriThinkDbContext dbContext)
         {
-            _env = env;
+            _env = env ?? throw new ArgumentNullException(nameof(env));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         /// <summary>
@@ -54,6 +58,25 @@ namespace CriThink.Server.Web.Controllers
             var redis = CriThinkRedisMultiplexer.GetConnection();
 
             var isHealthy = redis.IsConnected;
+            return isHealthy ?
+                Ok() :
+                StatusCode((int) HttpStatusCode.ServiceUnavailable);
+        }
+
+        /// <summary>
+        /// Returns the SQL Server connection status
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route(EndpointConstants.ServiceSqlServerHealth)] // api/service/sqlserver-health
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(int), 503)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetSqlServerHealthStatusAsync()
+        {
+            var isHealthy = await _dbContext.Database.CanConnectAsync().ConfigureAwait(false);
+
             return isHealthy ?
                 Ok() :
                 StatusCode((int) HttpStatusCode.ServiceUnavailable);
