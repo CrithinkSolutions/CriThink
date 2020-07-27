@@ -41,12 +41,9 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _environment;
-
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
         public IConfiguration Configuration { get; }
@@ -61,21 +58,14 @@ namespace CriThink.Server.Web
             // Database
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                if (_environment.IsDevelopment())
+                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
+                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
                 {
-                    var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-                    {
-                        sqlOptions.EnableRetryOnFailure(
-                            maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
-                    });
-                }
-                else
-                {
-                    options.UseInMemoryDatabase("CriThinkDb");
-                }
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+                });
             });
 
             // User Identity
