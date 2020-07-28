@@ -279,7 +279,7 @@ namespace CriThink.Server.Web
             services.AddTransient<IIdentityService, IdentityService>();
 
             // DomainAnalyzer
-            DomainAnalyzerBootstrapper.Bootstrap(services);
+            services.AddDomainAnalyzer();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
             services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
 
