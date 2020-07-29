@@ -38,6 +38,7 @@
         public const string HttpsSupport = "https-support";
         public const string DomainLookup = "domain-lookup";
         public const string CompleteAnalysis = "complete-analysis";
+        public const string ScrapeNews = "scrape-news";
 
         #endregion
 

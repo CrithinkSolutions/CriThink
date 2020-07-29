@@ -23,11 +23,13 @@ namespace CriThink.Server.Web.Controllers
     public class NewsAnalyzerController : Controller
     {
         private readonly IDomainAnalyzerService _domainAnalyzerService;
+        private readonly INewsAnalyzerService _newsAnalyzerService;
         private readonly ILogger<NewsAnalyzerController> _logger;
 
-        public NewsAnalyzerController(IDomainAnalyzerService domainAnalyzerService, ILogger<NewsAnalyzerController> logger)
+        public NewsAnalyzerController(IDomainAnalyzerService domainAnalyzerService, INewsAnalyzerService newsAnalyzerService, ILogger<NewsAnalyzerController> logger)
         {
             _domainAnalyzerService = domainAnalyzerService ?? throw new ArgumentNullException(nameof(domainAnalyzerService));
+            _newsAnalyzerService = newsAnalyzerService ?? throw new ArgumentNullException(nameof(newsAnalyzerService));
             _logger = logger;
         }
 
@@ -79,6 +81,23 @@ namespace CriThink.Server.Web.Controllers
             var uri = new Uri(request.Uri);
             var domainInfoResponse = await _domainAnalyzerService.AnalyzeDomainAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(domainInfoResponse));
+        }
+
+        /// <summary>
+        /// Parse the news of the given URL and returns news info
+        /// </summary>
+        /// <param name="request">The news URL</param>
+        /// <returns>News information such as author and body</returns>
+        [Route(EndpointConstants.ScrapeNews)] // api/news-analyzer/scrape-news
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> ScrapeNewsAsync([FromQuery] ScrapeNewsRequest request)
+        {
+            var uri = new Uri(request.Uri);
+            var response = await _newsAnalyzerService.NewsCheckSpellingAsync(uri).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
         }
     }
 }

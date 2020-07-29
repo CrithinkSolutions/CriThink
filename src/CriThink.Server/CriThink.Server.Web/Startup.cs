@@ -15,6 +15,7 @@ using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
+using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Middlewares;
@@ -278,6 +279,10 @@ namespace CriThink.Server.Web
             // Identity
             services.AddTransient<IIdentityService, IdentityService>();
 
+            // NewsAnalyzer
+            services.AddNewsAnalyzer();
+            services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
+
             // DomainAnalyzer
             services.AddDomainAnalyzer();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
@@ -287,7 +292,6 @@ namespace CriThink.Server.Web
             services.AddTransient<INewsSourceService, NewsSourceService>();
 
             // Infrastructure
-
             services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
 
             var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
