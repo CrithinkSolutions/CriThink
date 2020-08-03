@@ -40,4 +40,7 @@ Three environments have been configured:
 * Staging
 * Production
 
-The API service/environment can return the name of which environment in running on
+### Service endpoints
+* environment: returns the name of which environment is running
+* redis-health: attempt a connection to the Redis cache
+* sqlserver-health: attemp a connection to the SQL Server database instance
