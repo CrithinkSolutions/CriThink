@@ -13,7 +13,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer
         /// Initialize the library
         /// </summary>
         /// <param name="serviceCollection"></param>
-        public static void Bootstrap(IServiceCollection serviceCollection)
+        public static void AddDomainAnalyzer(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
                 throw new ArgumentNullException(nameof(serviceCollection));
