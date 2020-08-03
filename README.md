@@ -25,14 +25,15 @@ The directory where files are created is:
 
 ##### Required User Secrets
 Insert the following keys and the desired values in the secret files created above:
-* SQL Connection string: `"ConnectionStrings:CriThinkDbSqlConnection": "..."`
+* SQL Server: `"ConnectionStrings:CriThinkDbSqlConnection": "<cs>"`
+* Redis Cache: `"ConnectionStrings:CriThinkRedisCacheConnection": "<cs>"`
 * JWT data:
-    * `"Jwt-Audience": "DemoAudience"`
-    * `"Jwt-Issuer": "DemoIssuer"`
-    * `"Jwt-SecretKey": "secretkey_secretkey123!"`
-* SendGrid data:
-    * `"SendGridOptions-Key": "<key>"`
-
+    * `"Jwt-Audience": "<audience>"`
+    * `"Jwt-Issuer": "<issuer>"`
+    * `"Jwt-SecretKey": "<secretkey>"`
+* Azure Cognitive Service:
+    * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
+    * `"Azure-Cognitive-Endpoint": "<endpoint>"`
 
 ### Environments
 Three environments have been configured:
