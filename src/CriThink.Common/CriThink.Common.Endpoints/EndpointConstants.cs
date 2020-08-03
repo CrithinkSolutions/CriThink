@@ -39,6 +39,7 @@
         public const string DomainLookup = "domain-lookup";
         public const string CompleteAnalysis = "complete-analysis";
         public const string ScrapeNews = "scrape-news";
+        public const string TextSentimentAnalysis = "sentiment";
 
         #endregion
 

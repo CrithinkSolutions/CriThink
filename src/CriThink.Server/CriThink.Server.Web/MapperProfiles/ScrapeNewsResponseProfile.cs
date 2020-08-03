@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
-using CriThink.Server.Providers.NewsAnalyzer.Responses;
+using CriThink.Server.Providers.NewsAnalyzer;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
@@ -9,7 +9,7 @@ namespace CriThink.Server.Web.MapperProfiles
     {
         public ScrapeNewsResponseProfile()
         {
-            CreateMap<NewsScraperResponse, ScrapeNewsResponse>()
+            CreateMap<NewsScraperProviderResponse, ScrapeNewsResponse>()
                 .ForMember(dest =>
                     dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest =>

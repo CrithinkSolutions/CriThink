@@ -280,7 +280,9 @@ namespace CriThink.Server.Web
             services.AddTransient<IIdentityService, IdentityService>();
 
             // NewsAnalyzer
-            services.AddNewsAnalyzer();
+            var azureEndpoint = Configuration["Azure-Cognitive-Endpoint"];
+            var azureCredentials = Configuration["Azure-Cognitive-KeyCredentials"];
+            services.AddNewsAnalyzer(azureCredentials, azureEndpoint);
             services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
 
             // DomainAnalyzer
@@ -289,6 +291,7 @@ namespace CriThink.Server.Web
             services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
 
             // NewsSource
+            services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
             services.AddTransient<INewsSourceService, NewsSourceService>();
 
             // Infrastructure

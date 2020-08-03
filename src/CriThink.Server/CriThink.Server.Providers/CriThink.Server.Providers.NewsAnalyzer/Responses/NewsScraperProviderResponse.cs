@@ -1,14 +1,16 @@
 ﻿using System;
 using SmartReader;
 
-namespace CriThink.Server.Providers.NewsAnalyzer.Responses
+// ReSharper disable CheckNamespace
+
+namespace CriThink.Server.Providers.NewsAnalyzer
 {
     /// <summary>
     /// Represents the result of a news scraping, providing the news info
     /// </summary>
-    public class NewsScraperResponse
+    public class NewsScraperProviderResponse
     {
-        public NewsScraperResponse(Article article)
+        public NewsScraperProviderResponse(Article article, Uri uri)
         {
             if (article == null)
                 throw new ArgumentNullException(nameof(article));
@@ -21,6 +23,8 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Responses
             NewsBody = article.TextContent;
             IsReadable = article.IsReadable;
             WebSiteName = article.SiteName;
+
+            RequestedUri = uri;
         }
 
         /// <summary>
@@ -62,5 +66,10 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Responses
         /// True if the news has been successfully parsed
         /// </summary>
         public bool IsReadable { get; }
+
+        /// <summary>
+        /// The news uri
+        /// </summary>
+        public Uri RequestedUri { get; }
     }
 }

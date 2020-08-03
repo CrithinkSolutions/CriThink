@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Server.Providers.NewsAnalyzer.Responses;
 using SmartReader;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Managers
 {
     internal class NewsScraperManager : INewsScraperManager
     {
-        public async Task<NewsScraperResponse> ScrapeNewsWebPage(Uri uri)
+        public async Task<NewsScraperProviderResponse> ScrapeNewsWebPage(Uri uri)
         {
             var reader = new Reader(uri.AbsoluteUri);
 
@@ -16,7 +15,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
             if (!article.IsReadable)
                 throw new InvalidOperationException("The given URL doesn't represent a news");
 
-            return new NewsScraperResponse(article);
+            return new NewsScraperProviderResponse(article, uri);
         }
     }
 
@@ -27,6 +26,6 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
         /// </summary>
         /// <param name="uri">News uri</param>
         /// <returns>News scrape result</returns>
-        Task<NewsScraperResponse> ScrapeNewsWebPage(Uri uri);
+        Task<NewsScraperProviderResponse> ScrapeNewsWebPage(Uri uri);
     }
 }

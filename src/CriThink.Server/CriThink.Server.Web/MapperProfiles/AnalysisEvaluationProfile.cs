@@ -2,6 +2,7 @@
 using AutoMapper.Extensions.EnumMapping;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Providers.DomainAnalyzer;
+using CriThink.Server.Providers.NewsAnalyzer;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
@@ -15,6 +16,12 @@ namespace CriThink.Server.Web.MapperProfiles
                     .MapValue(SourceAnalysisScore.Warning, AnalysisEvaluation.Warning)
                     .MapValue(SourceAnalysisScore.Untrusted, AnalysisEvaluation.Bad)
                     .MapValue(SourceAnalysisScore.Unknown, AnalysisEvaluation.Unknown));
+
+            CreateMap<NewsAnalysisScore, AnalysisEvaluation>()
+                .ConvertUsingEnumMapping(opt => opt
+                    .MapValue(NewsAnalysisScore.Trustworthy, AnalysisEvaluation.Good)
+                    .MapValue(NewsAnalysisScore.NotTrusted, AnalysisEvaluation.Bad)
+                    .MapValue(NewsAnalysisScore.Unknown, AnalysisEvaluation.Unknown));
         }
     }
 }

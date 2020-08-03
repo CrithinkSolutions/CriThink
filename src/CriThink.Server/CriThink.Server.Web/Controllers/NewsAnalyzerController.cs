@@ -99,5 +99,22 @@ namespace CriThink.Server.Web.Controllers
             var response = await _newsAnalyzerService.NewsCheckSpellingAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(response));
         }
+
+        /// <summary>
+        /// Analyze the given news content and gives scores
+        /// </summary>
+        /// <param name="request">News uri</param>
+        /// <returns>News sentiment scores</returns>
+        [Route(EndpointConstants.TextSentimentAnalysis)] // api/news-analyzer/sentiment
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> AnalyzeNewsSentimentAsync([FromQuery] NewsAnalyzerRequest request)
+        {
+            var uri = new Uri(request.Uri);
+            var response = await _newsAnalyzerService.AnalyzeNewsSentimentAsync(uri).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
     }
 }
