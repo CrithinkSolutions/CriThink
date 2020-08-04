@@ -24,10 +24,10 @@
 
         public const string IdentityBase = "identity/";
 
-        public const string SignUp = "sign-up";
-        public const string Login = "login";
-        public const string ConfirmEmail = "confirm-email";
-        public const string ChangePassword = "change-password";
+        public const string IdentitySignUp = "sign-up";
+        public const string IdentityLogin = "login";
+        public const string IdentityConfirmEmail = "confirm-email";
+        public const string IdentityChangePassword = "change-password";
 
         #endregion
 
