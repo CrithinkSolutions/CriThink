@@ -7,7 +7,6 @@ using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 #pragma warning disable CA1062 // Validate arguments of public methods
 
@@ -23,12 +22,10 @@ namespace CriThink.Server.Web.Controllers
     public class NewsAnalyzerController : Controller
     {
         private readonly INewsAnalyzerService _newsAnalyzerService;
-        private readonly ILogger<NewsAnalyzerController> _logger;
 
-        public NewsAnalyzerController(INewsAnalyzerService newsAnalyzerService, ILogger<NewsAnalyzerController> logger)
+        public NewsAnalyzerController(INewsAnalyzerService newsAnalyzerService)
         {
             _newsAnalyzerService = newsAnalyzerService ?? throw new ArgumentNullException(nameof(newsAnalyzerService));
-            _logger = logger;
         }
 
         /// <summary>
