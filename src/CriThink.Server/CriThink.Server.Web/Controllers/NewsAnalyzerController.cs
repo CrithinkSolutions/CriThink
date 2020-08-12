@@ -35,6 +35,9 @@ namespace CriThink.Server.Web.Controllers
         /// <returns>A response with the result of all the performed analysis</returns>
         [Route(EndpointConstants.CompleteAnalysis)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> CompleteAnalysisAsync([FromBody] SimpleUriRequest request)
@@ -52,6 +55,7 @@ namespace CriThink.Server.Web.Controllers
         [Route(EndpointConstants.HttpsSupport)] // api/news-analyzer/https-support
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> HasHttpsSupportAsync([FromBody] SimpleUriRequest request)
@@ -69,6 +73,7 @@ namespace CriThink.Server.Web.Controllers
         [Route(EndpointConstants.DomainLookup)] // api/news-analyzer/domain-lookup
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> DomainLookupAsync([FromBody] SimpleUriRequest request)
@@ -86,9 +91,10 @@ namespace CriThink.Server.Web.Controllers
         [Route(EndpointConstants.ScrapeNews)] // api/news-analyzer/scrape-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        [HttpGet]
-        public async Task<IActionResult> ScrapeNewsAsync([FromQuery] SimpleUriRequest request)
+        [HttpPost]
+        public async Task<IActionResult> ScrapeNewsAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var response = await _newsAnalyzerService.NewsCheckSpellingAsync(uri).ConfigureAwait(false);
@@ -96,16 +102,18 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Analyze the given news content and gives scores
+        /// Analyze the given news content and gives scores back
         /// </summary>
         /// <param name="request">News uri</param>
         /// <returns>News sentiment scores</returns>
         [Route(EndpointConstants.TextSentimentAnalysis)] // api/news-analyzer/sentiment
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
-        [HttpGet]
-        public async Task<IActionResult> AnalyzeNewsSentimentAsync([FromQuery] SimpleUriRequest request)
+        [HttpPost]
+        public async Task<IActionResult> AnalyzeNewsSentimentAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var response = await _newsAnalyzerService.AnalyzeNewsSentimentAsync(uri).ConfigureAwait(false);

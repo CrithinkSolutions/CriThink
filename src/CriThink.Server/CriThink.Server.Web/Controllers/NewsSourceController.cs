@@ -34,7 +34,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to add</param>
         /// <returns>Returns the operation result</returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
@@ -42,7 +42,7 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> AddSourceAsync([FromBody] NewsSourceAddRequest request)
         {
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace CriThink.Server.Web.Controllers
         {
             var uri = new Uri(request.Uri);
             await _newsSourceService.RemoveGoodNewsSourceAsync(uri).ConfigureAwait(false);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace CriThink.Server.Web.Controllers
         {
             var uri = new Uri(request.Uri);
             await _newsSourceService.RemoveBadSourceAsync(uri).ConfigureAwait(false);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
