@@ -22,13 +22,11 @@ namespace CriThink.Server.Web.Controllers
     [Route(EndpointConstants.ApiBase + EndpointConstants.NewsAnalyzerBase)] //api/news-analyzer
     public class NewsAnalyzerController : Controller
     {
-        private readonly IDomainAnalyzerService _domainAnalyzerService;
         private readonly INewsAnalyzerService _newsAnalyzerService;
         private readonly ILogger<NewsAnalyzerController> _logger;
 
-        public NewsAnalyzerController(IDomainAnalyzerService domainAnalyzerService, INewsAnalyzerService newsAnalyzerService, ILogger<NewsAnalyzerController> logger)
+        public NewsAnalyzerController(INewsAnalyzerService newsAnalyzerService, ILogger<NewsAnalyzerController> logger)
         {
-            _domainAnalyzerService = domainAnalyzerService ?? throw new ArgumentNullException(nameof(domainAnalyzerService));
             _newsAnalyzerService = newsAnalyzerService ?? throw new ArgumentNullException(nameof(newsAnalyzerService));
             _logger = logger;
         }
@@ -45,7 +43,7 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> CompleteAnalysisAsync([FromBody] NewsAnalyzerRequest request)
         {
             var uri = new Uri(request.Uri);
-            var responses = await _domainAnalyzerService.GetCompleteAnalysisAsync(uri).ConfigureAwait(false);
+            var responses = await _newsAnalyzerService.GetCompleteAnalysisAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(responses));
         }
 
@@ -62,7 +60,7 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> HasHttpsSupportAsync([FromBody] NewsAnalyzerRequest request)
         {
             var uri = new Uri(request.Uri);
-            var hasHttpsSupport = await _domainAnalyzerService.HasUriHttpsSupportAsync(uri).ConfigureAwait(false);
+            var hasHttpsSupport = await _newsAnalyzerService.HasUriHttpsSupportAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(hasHttpsSupport));
         }
 
@@ -79,7 +77,7 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> DomainLookupAsync([FromBody] NewsAnalyzerRequest request)
         {
             var uri = new Uri(request.Uri);
-            var domainInfoResponse = await _domainAnalyzerService.AnalyzeDomainAsync(uri).ConfigureAwait(false);
+            var domainInfoResponse = await _newsAnalyzerService.AnalyzeDomainAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(domainInfoResponse));
         }
 

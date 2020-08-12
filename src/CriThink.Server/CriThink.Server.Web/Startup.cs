@@ -300,7 +300,6 @@ namespace CriThink.Server.Web
             // DomainAnalyzer
             services.AddDomainAnalyzer();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
-            services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
 
             // NewsSource
             services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
