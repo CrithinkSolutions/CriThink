@@ -38,7 +38,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        [HttpPost]
+        [HttpPost] // api/news-source/
         public async Task<IActionResult> AddSourceAsync([FromBody] NewsSourceAddRequest request)
         {
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
@@ -50,7 +50,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
-        [Route(EndpointConstants.RemoveGoodNewsSource)] // api/news-source/good
+        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // api/news-source/whitelist
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -69,7 +69,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
-        [Route(EndpointConstants.RemoveBadNewsSource)] // api/news-source/bad
+        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // api/news-source/blacklist
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -92,7 +92,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
-        [HttpGet]
+        [HttpGet] // api/news-source/
         public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
@@ -101,11 +101,11 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Get all the news sources stored. Result can be filtered
+        /// Get all the news sources stored. Results can be filtered
         /// </summary>
         /// <param name="request">Optional filter</param>
         /// <returns>All the news sources</returns>
-        [Route(EndpointConstants.NewsSourceGetAll)]
+        [Route(EndpointConstants.NewsSourceNewsSourceGetAll)] // api/news-source/all
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

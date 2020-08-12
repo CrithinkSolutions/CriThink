@@ -29,11 +29,11 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Perform all the available analysis available in this controller
+        /// Perform all the available news analysis
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>A response with the result of all the performed analysis</returns>
-        [Route(EndpointConstants.CompleteAnalysis)]
+        [Route(EndpointConstants.NewsAnalyzerPerformCompleteAnalysis)] // api/news-analyzer/perform-complete-anlysis
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -52,7 +52,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>Provide the analysis result</returns>
-        [Route(EndpointConstants.HttpsSupport)] // api/news-analyzer/https-support
+        [Route(EndpointConstants.NewsAnalyzerHttpsSupport)] // api/news-analyzer/https-support
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -70,7 +70,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>Provide the analysis result</returns>
-        [Route(EndpointConstants.DomainLookup)] // api/news-analyzer/domain-lookup
+        [Route(EndpointConstants.NewsAnalyzerDomainLookup)] // api/news-analyzer/domain-lookup
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -88,7 +88,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The news URL</param>
         /// <returns>News information such as author and body</returns>
-        [Route(EndpointConstants.ScrapeNews)] // api/news-analyzer/scrape-news
+        [Route(EndpointConstants.NewsAnalyzerScrapeNews)] // api/news-analyzer/scrape-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -106,7 +106,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">News uri</param>
         /// <returns>News sentiment scores</returns>
-        [Route(EndpointConstants.TextSentimentAnalysis)] // api/news-analyzer/sentiment
+        [Route(EndpointConstants.NewsAnalyzerTextSentimentAnalysis)] // api/news-analyzer/sentiment-analysis
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
