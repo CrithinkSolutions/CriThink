@@ -51,7 +51,7 @@ namespace CriThink.Server.Web.Controllers
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
         [Route(EndpointConstants.RemoveGoodNewsSource)] // api/news-source/good
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -70,7 +70,7 @@ namespace CriThink.Server.Web.Controllers
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
         [Route(EndpointConstants.RemoveBadNewsSource)] // api/news-source/bad
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
