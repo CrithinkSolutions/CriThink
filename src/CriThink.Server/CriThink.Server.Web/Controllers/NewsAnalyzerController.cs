@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
+using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
@@ -37,7 +37,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> CompleteAnalysisAsync([FromBody] NewsAnalyzerRequest request)
+        public async Task<IActionResult> CompleteAnalysisAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var responses = await _newsAnalyzerService.GetCompleteAnalysisAsync(uri).ConfigureAwait(false);
@@ -54,7 +54,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> HasHttpsSupportAsync([FromBody] NewsAnalyzerRequest request)
+        public async Task<IActionResult> HasHttpsSupportAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var hasHttpsSupport = await _newsAnalyzerService.HasUriHttpsSupportAsync(uri).ConfigureAwait(false);
@@ -71,7 +71,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> DomainLookupAsync([FromBody] NewsAnalyzerRequest request)
+        public async Task<IActionResult> DomainLookupAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var domainInfoResponse = await _newsAnalyzerService.AnalyzeDomainAsync(uri).ConfigureAwait(false);
@@ -88,7 +88,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         [HttpGet]
-        public async Task<IActionResult> ScrapeNewsAsync([FromQuery] ScrapeNewsRequest request)
+        public async Task<IActionResult> ScrapeNewsAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var response = await _newsAnalyzerService.NewsCheckSpellingAsync(uri).ConfigureAwait(false);
@@ -105,7 +105,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         [HttpGet]
-        public async Task<IActionResult> AnalyzeNewsSentimentAsync([FromQuery] NewsAnalyzerRequest request)
+        public async Task<IActionResult> AnalyzeNewsSentimentAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
             var response = await _newsAnalyzerService.AnalyzeNewsSentimentAsync(uri).ConfigureAwait(false);

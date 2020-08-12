@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 // ReSharper disable once CheckNamespace
 #pragma warning disable CA1056 // Uri properties should not be strings
 
-namespace CriThink.Common.Endpoints.DTOs.NewsSource
+namespace CriThink.Common.Endpoints.DTOs.Common
 {
-    public class NewsSourceRemoveRequest
+    public class SimpleUriRequest
     {
         [Url]
         [Required]
