@@ -8,7 +8,7 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>4dcbda00-d3c7-453e-ab47-2e10d2395573</UserSecretsId>
     <RootNamespace>CriThink.Server.Web</RootNamespace>
-    <AssemblyName>CriThink</AssemblyName>
+    <AssemblyName>CriThink.Server.Web</AssemblyName>
     <Company>CriThink Solutions</Company>
     <Authors>CriThinkIT</Authors>
     <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
@@ -34,12 +34,6 @@
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Procfile" Condition="'$(Configuration)' == 'Release'">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
