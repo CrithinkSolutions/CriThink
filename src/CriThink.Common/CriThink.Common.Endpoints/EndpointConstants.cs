@@ -24,10 +24,10 @@
 
         public const string IdentityBase = "identity/";
 
-        public const string SignUp = "sign-up";
-        public const string Login = "login";
-        public const string ConfirmEmail = "confirm-email";
-        public const string ChangePassword = "change-password";
+        public const string IdentitySignUp = "sign-up";
+        public const string IdentityLogin = "login";
+        public const string IdentityConfirmEmail = "confirm-email";
+        public const string IdentityChangePassword = "change-password";
 
         #endregion
 
@@ -35,11 +35,11 @@
 
         public const string NewsAnalyzerBase = "news-analyzer/";
 
-        public const string HttpsSupport = "https-support";
-        public const string DomainLookup = "domain-lookup";
-        public const string CompleteAnalysis = "complete-analysis";
-        public const string ScrapeNews = "scrape-news";
-        public const string TextSentimentAnalysis = "sentiment";
+        public const string NewsAnalyzerHttpsSupport = "https-support";
+        public const string NewsAnalyzerDomainLookup = "domain-lookup";
+        public const string NewsAnalyzerPerformCompleteAnalysis = "perform-complete-anlysis";
+        public const string NewsAnalyzerScrapeNews = "scrape-news";
+        public const string NewsAnalyzerTextSentimentAnalysis = "sentiment-analysis";
 
         #endregion
 
@@ -47,9 +47,9 @@
 
         public const string NewsSourceBase = "news-source/";
 
-        public const string RemoveBadNewsSource = "bad";
-        public const string RemoveGoodNewsSource = "good";
-        public const string NewsSourceGetAll = "all";
+        public const string NewsSourceRemoveBlackNewsSource = "blacklist";
+        public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
+        public const string NewsSourceNewsSourceGetAll = "all";
 
         #endregion
     }

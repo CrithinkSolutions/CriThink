@@ -36,34 +36,28 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task RemoveBadSourceAsync(NewsSourceRemoveRequest request)
+        public async Task RemoveBadSourceAsync(Uri uri)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var uri = new Uri(request.Uri);
+            if (uri == null)
+                throw new ArgumentNullException(nameof(uri));
 
             var command = new RemoveBadNewsSourceCommand(uri);
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task RemoveGoodNewsSourceAsync(NewsSourceRemoveRequest request)
+        public async Task RemoveGoodNewsSourceAsync(Uri uri)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var uri = new Uri(request.Uri);
+            if (uri == null)
+                throw new ArgumentNullException(nameof(uri));
 
             var command = new RemoveGoodNewsSourceCommand(uri);
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(NewsSourceSearchRequest request)
+        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var uri = new Uri(request.Uri);
+            if (uri == null)
+                throw new ArgumentNullException(nameof(uri));
 
             var query = new SearchNewsSourceQuery(uri);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
@@ -110,23 +104,23 @@ namespace CriThink.Server.Web.Services
         /// <summary>
         /// Remove a source from the blacklist
         /// </summary>
-        /// <param name="request">Source to remove</param>
+        /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns>A task</returns>
-        Task RemoveBadSourceAsync(NewsSourceRemoveRequest request);
+        Task RemoveBadSourceAsync(Uri uri);
 
         /// <summary>
         /// Remove a source from the whitelist
         /// </summary>
-        /// <param name="request">Source to remove</param>
+        /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns>A task</returns>
-        Task RemoveGoodNewsSourceAsync(NewsSourceRemoveRequest request);
+        Task RemoveGoodNewsSourceAsync(Uri uri);
 
         /// <summary>
         /// Search the given source in the black and whitelist
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns></returns>
-        Task<NewsSourceSearchResponse> SearchNewsSourceAsync(NewsSourceSearchRequest request);
+        Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri);
 
         /// <summary>
         /// Get all the news sources stored. Result can be filtered

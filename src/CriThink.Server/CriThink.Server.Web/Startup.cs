@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,6 +97,15 @@ namespace CriThink.Server.Web
             // ErrorHandling
             SetupErrorHandling(services);
 
+            // Gzip
+            services.Configure<GzipCompressionProviderOptions>(options =>
+                options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
@@ -146,6 +156,8 @@ namespace CriThink.Server.Web
             });
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            app.UseResponseCompression();
 
             app.UseMvc(); // Swagger
 
@@ -282,13 +294,12 @@ namespace CriThink.Server.Web
             // NewsAnalyzer
             var azureEndpoint = Configuration["Azure-Cognitive-Endpoint"];
             var azureCredentials = Configuration["Azure-Cognitive-KeyCredentials"];
-            services.AddNewsAnalyzer(azureCredentials, azureEndpoint);
+            services.AddNewsAnalyzerProvider(azureCredentials, azureEndpoint);
             services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
 
             // DomainAnalyzer
-            services.AddDomainAnalyzer();
+            services.AddDomainAnalyzerProvider();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
-            services.AddTransient<IDomainAnalyzerService, DomainAnalyzerService>();
 
             // NewsSource
             services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();

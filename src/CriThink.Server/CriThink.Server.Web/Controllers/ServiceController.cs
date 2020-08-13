@@ -6,6 +6,7 @@ using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Controllers
@@ -34,7 +35,8 @@ namespace CriThink.Server.Web.Controllers
         /// <returns>Environment name</returns>
         [AllowAnonymous]
         [Route(EndpointConstants.ServiceEnvironment)] // api/service/environment
-        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpGet]
         public IActionResult GetEnvironment()
@@ -49,15 +51,23 @@ namespace CriThink.Server.Web.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [Route(EndpointConstants.ServiceRedisHealth)] // api/service/redis-health
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 503)]
-        [Produces("application/json")]
-        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [HttpHead]
         public IActionResult GetRedisHealthStatus()
         {
-            var redis = CriThinkRedisMultiplexer.GetConnection();
+            bool isHealthy;
 
-            var isHealthy = redis.IsConnected;
+            try
+            {
+                var redis = CriThinkRedisMultiplexer.GetConnection();
+                isHealthy = redis.IsConnected;
+            }
+            catch (Exception)
+            {
+                isHealthy = false;
+            }
+
             return isHealthy ?
                 Ok() :
                 StatusCode((int) HttpStatusCode.ServiceUnavailable);
@@ -69,13 +79,21 @@ namespace CriThink.Server.Web.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [Route(EndpointConstants.ServiceSqlServerHealth)] // api/service/sqlserver-health
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 503)]
-        [Produces("application/json")]
-        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [HttpHead]
         public async Task<IActionResult> GetSqlServerHealthStatusAsync()
         {
-            var isHealthy = await _dbContext.Database.CanConnectAsync().ConfigureAwait(false);
+            bool isHealthy;
+
+            try
+            {
+                isHealthy = await _dbContext.Database.CanConnectAsync().ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                isHealthy = false;
+            }
 
             return isHealthy ?
                 Ok() :

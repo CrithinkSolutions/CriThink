@@ -1,48 +1,34 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
-    internal abstract class BaseNewsAnalyzer : INewsAnalyzer
+    internal abstract class BaseNewsAnalyzer : IAnalyzer<NewsAnalysisProviderResult>
     {
-        protected readonly ConcurrentQueue<Task<NewsAnalysisProviderResponse>> Queue;
+        protected readonly ConcurrentQueue<Task<NewsAnalysisProviderResult>> Queue;
 
-        private INewsAnalyzer _nextAnalyzer;
+        private IAnalyzer<NewsAnalysisProviderResult> _nextAnalyzer;
 
-        protected BaseNewsAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResponse>> queue)
+        protected BaseNewsAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
         {
-            ScrapedNews = scrapedNews;
-            Queue = queue;
+            ScrapedNews = scrapedNews ?? throw new ArgumentNullException(nameof(scrapedNews));
+            Queue = queue ?? throw new ArgumentNullException(nameof(queue));
         }
 
         protected NewsScraperProviderResponse ScrapedNews { get; }
 
-        public INewsAnalyzer SetNext(INewsAnalyzer analyzer)
+        public IAnalyzer<NewsAnalysisProviderResult> SetNext(IAnalyzer<NewsAnalysisProviderResult> analyzer)
         {
             _nextAnalyzer = analyzer;
             return _nextAnalyzer;
         }
 
-        public virtual Task<NewsAnalysisProviderResponse>[] AnalyzeAsync()
+        public virtual Task<NewsAnalysisProviderResult>[] AnalyzeAsync()
         {
             var nextAnalyzer = _nextAnalyzer?.AnalyzeAsync();
             return nextAnalyzer ?? Queue.ToArray();
         }
-    }
-
-    internal interface INewsAnalyzer
-    {
-        /// <summary>
-        /// Add the next <see cref="INewsAnalyzer"/> to the chain
-        /// </summary>
-        /// <param name="analyzer"><see cref="INewsAnalyzer"/> instance</param>
-        /// <returns>Returns the given <see cref="INewsAnalyzer"/> instance</returns>
-        INewsAnalyzer SetNext(INewsAnalyzer analyzer);
-
-        /// <summary>
-        /// Start the analyzer
-        /// </summary>
-        /// <returns>Returns the list of analysis responses</returns>
-        Task<NewsAnalysisProviderResponse>[] AnalyzeAsync();
     }
 }

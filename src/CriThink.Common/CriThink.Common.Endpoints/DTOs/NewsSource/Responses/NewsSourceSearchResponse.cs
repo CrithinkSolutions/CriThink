@@ -1,6 +1,6 @@
-﻿// Resharper disable CheckNamespace
+﻿using System.Text.Json.Serialization;
 
-using System.Text.Json.Serialization;
+// Resharper disable CheckNamespace
 
 namespace CriThink.Common.Endpoints.DTOs.NewsSource
 {

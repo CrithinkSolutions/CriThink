@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Azure;
 using Azure.AI.TextAnalytics;
+using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
@@ -15,14 +16,14 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
         private readonly NewsAnalysisType _analysisType;
         private readonly TextAnalyticsClient _analyticsClient;
 
-        public TextSentimentAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResponse>> queue)
+        public TextSentimentAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
             : base(scrapedNews, queue)
         {
             _analysisType = NewsAnalysisType.TextSentiment;
             _analyticsClient = new TextAnalyticsClient(new Uri(AzureEndpoint), new AzureKeyCredential(AzureCredentials));
         }
 
-        public override Task<NewsAnalysisProviderResponse>[] AnalyzeAsync()
+        public override Task<NewsAnalysisProviderResult>[] AnalyzeAsync()
         {
             var analysisTask = Task.Run(() =>
             {
@@ -34,10 +35,10 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
             return base.AnalyzeAsync();
         }
 
-        private NewsAnalysisProviderResponse RunAnalysis()
+        private NewsAnalysisProviderResult RunAnalysis()
         {
             if (ScrapedNews == null)
-                return new NewsAnalysisProviderResponse(_analysisType, null, new InvalidOperationException("The given URL is null"));
+                return new NewsAnalysisProviderResult(_analysisType, null, new InvalidOperationException("The given URL is null"));
 
             DocumentSentiment documentSentiment = _analyticsClient.AnalyzeSentiment(ScrapedNews.NewsBody);
 
@@ -56,14 +57,9 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 
             negativeAverage /= documentSentiment.Sentences.Count;
 
-            var score = NewsAnalysisScore.Trustworthy;
+            var score = (int) Math.Round(negativeAverage * 10, MidpointRounding.ToEven);
 
-            if (negativeAverage > 0.25)
-            {
-                score = NewsAnalysisScore.NotTrusted;
-            }
-
-            return new NewsAnalysisProviderResponse(_analysisType, ScrapedNews.RequestedUri, score);
+            return new NewsAnalysisProviderResult(_analysisType, ScrapedNews.RequestedUri, score);
         }
     }
 }

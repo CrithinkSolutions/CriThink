@@ -6,7 +6,7 @@ using SmartReader;
 namespace CriThink.Server.Providers.NewsAnalyzer
 {
     /// <summary>
-    /// Represents the result of a news scraping, providing the news info
+    /// Represents the news scraping response, providing the news info
     /// </summary>
     public class NewsScraperProviderResponse
     {

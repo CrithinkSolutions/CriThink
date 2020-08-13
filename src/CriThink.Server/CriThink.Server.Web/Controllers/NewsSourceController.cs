@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+#pragma warning disable CA1062 // Validate arguments of public methods
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -26,18 +30,19 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Add the given source to white or blacklist
+        /// Add the given source to white or black list
         /// </summary>
         /// <param name="request">Source to add</param>
         /// <returns>Returns the operation result</returns>
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 500)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        [HttpPost]
+        [HttpPost] // api/news-source/
         public async Task<IActionResult> AddSourceAsync([FromBody] NewsSourceAddRequest request)
         {
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -45,16 +50,18 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
-        [Route(EndpointConstants.RemoveGoodNewsSource)] // api/news-source/good
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 404)]
-        [ProducesResponseType(typeof(int), 500)]
+        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // api/news-source/whitelist
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpDelete]
-        public async Task<IActionResult> RemoveGoodNewsSourceAsync([FromBody] NewsSourceRemoveRequest request)
+        public async Task<IActionResult> RemoveGoodNewsSourceAsync([FromBody] SimpleUriRequest request)
         {
-            await _newsSourceService.RemoveGoodNewsSourceAsync(request).ConfigureAwait(false);
-            return Ok();
+            var uri = new Uri(request.Uri);
+            await _newsSourceService.RemoveGoodNewsSourceAsync(uri).ConfigureAwait(false);
+            return NoContent();
         }
 
         /// <summary>
@@ -62,16 +69,18 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
-        [Route(EndpointConstants.RemoveBadNewsSource)] // api/news-source/bad
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 404)]
-        [ProducesResponseType(typeof(int), 500)]
+        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // api/news-source/blacklist
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpDelete]
-        public async Task<IActionResult> RemoveBadNewsSourceAsync([FromBody] NewsSourceRemoveRequest request)
+        public async Task<IActionResult> RemoveBadNewsSourceAsync([FromBody] SimpleUriRequest request)
         {
-            await _newsSourceService.RemoveBadSourceAsync(request).ConfigureAwait(false);
-            return Ok();
+            var uri = new Uri(request.Uri);
+            await _newsSourceService.RemoveBadSourceAsync(uri).ConfigureAwait(false);
+            return NoContent();
         }
 
         /// <summary>
@@ -79,24 +88,27 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to search</param>
         /// <returns>Returns the list where the source is contained</returns>
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 404)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
-        [HttpGet]
-        public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] NewsSourceSearchRequest request)
+        [HttpGet] // api/news-source/
+        public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
         {
-            var searchResponse = await _newsSourceService.SearchNewsSourceAsync(request).ConfigureAwait(false);
+            var uri = new Uri(request.Uri);
+            var searchResponse = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
             return Ok(searchResponse);
         }
 
         /// <summary>
-        /// Get all the news sources stored. Result can be filtered
+        /// Get all the news sources stored. Results can be filtered
         /// </summary>
         /// <param name="request">Optional filter</param>
         /// <returns>All the news sources</returns>
-        [Route(EndpointConstants.NewsSourceGetAll)]
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 500)]
+        [Route(EndpointConstants.NewsSourceNewsSourceGetAll)] // api/news-source/all
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public async Task<IActionResult> GetAllNewsSourcesAsync([FromQuery] NewsSourceGetAllFilterRequest request = NewsSourceGetAllFilterRequest.None)
         {

@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Providers.DomainAnalyzer.Providers;
+using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.DomainAnalyzer.Analyzers;
 
 namespace CriThink.Server.Providers.DomainAnalyzer.Builders
 {
     public class DomainAnalyzerBuilder
     {
+        private readonly ConcurrentQueue<Task<DomainAnalysisProviderResult>> _queue;
+
         private bool _isWhoIsEnabled;
         private bool _isHttpsEnabled;
         private Uri _uri;
 
-        private IAnalyzer _analyzer;
-        private readonly ConcurrentQueue<Task<AnalysisResponse>> _queue;
+        private IAnalyzer<DomainAnalysisProviderResult> _analyzer;
 
         public DomainAnalyzerBuilder()
         {
-            _queue = new ConcurrentQueue<Task<AnalysisResponse>>();
+            _queue = new ConcurrentQueue<Task<DomainAnalysisProviderResult>>();
         }
 
         public DomainAnalyzerBuilder SetUri(Uri uri)
@@ -37,7 +39,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer.Builders
             return this;
         }
 
-        internal IAnalyzer BuildAnalyzers()
+        internal IAnalyzer<DomainAnalysisProviderResult> BuildAnalyzers()
         {
             _queue.Clear();
 
@@ -50,7 +52,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer.Builders
             return _analyzer;
         }
 
-        private void AddAnalyzer(IAnalyzer analyzer)
+        private void AddAnalyzer(IAnalyzer<DomainAnalysisProviderResult> analyzer)
         {
             if (_analyzer == null)
                 _analyzer = analyzer;

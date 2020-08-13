@@ -1,7 +1,7 @@
 ﻿namespace CriThink.Common.Endpoints.DTOs.NewsSource.Requests
 {
     /// <summary>
-    /// Filter options when getting all news sources
+    /// Options to filter news sources
     /// </summary>
     public enum NewsSourceGetAllFilterRequest
     {

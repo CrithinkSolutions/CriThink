@@ -33,13 +33,14 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Register a new user
+        /// Register a new user and send an email with confirmation code
         /// </summary>
         /// <returns>If successfull, returns the JWT token</returns>
         [AllowAnonymous]
-        [Route(EndpointConstants.SignUp)] // api/identity/sign-up
+        [Route(EndpointConstants.IdentitySignUp)] // api/identity/sign-up
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> SignUpUserAsync([FromBody] UserSignUpRequest request)
@@ -53,9 +54,10 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <returns>If successfull, returns user info and JWT token</returns>
         [AllowAnonymous]
-        [Route(EndpointConstants.Login)] // api/identity/login
+        [Route(EndpointConstants.IdentityLogin)] // api/identity/login
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> LoginUserAsync([FromBody] UserLoginRequest request)
@@ -72,9 +74,9 @@ namespace CriThink.Server.Web.Controllers
         /// <param name="code">The code generated during the registration</param>
         /// <returns>Returns the confirmation of success</returns>
         [AllowAnonymous]
-        [Route(EndpointConstants.ConfirmEmail)] // api/identity/confirm-email
+        [Route(EndpointConstants.IdentityConfirmEmail)] // api/identity/confirm-email?{userId}&{code}
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 return BadRequest("User Id can't be null");
@@ -104,12 +106,13 @@ namespace CriThink.Server.Web.Controllers
         /// <param name="dto">Request with old and new password</param>
         /// <returns>Returns HTTP status code</returns>
         [Authorize]
-        [Route(EndpointConstants.ChangePassword)] // api/identity/change-password
+        [Route(EndpointConstants.IdentityChangePassword)] // api/identity/change-password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> ChangeUserPassword([FromBody] ChangePasswordRequest dto)
+        public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
         {
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
