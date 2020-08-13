@@ -13,8 +13,8 @@ namespace CriThink.Server.Providers.DomainAnalyzer.Analyzers
 
         protected BaseDomainAnalyzer(Uri uri, ConcurrentQueue<Task<DomainAnalysisProviderResult>> queue)
         {
-            Uri = uri;
-            Queue = queue;
+            Uri = uri ?? throw new ArgumentNullException(nameof(uri));
+            Queue = queue ?? throw new ArgumentNullException(nameof(queue));
         }
 
         protected Uri Uri { get; }

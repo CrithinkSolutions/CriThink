@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Providers;
 
@@ -12,8 +13,8 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 
         protected BaseNewsAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
         {
-            ScrapedNews = scrapedNews;
-            Queue = queue;
+            ScrapedNews = scrapedNews ?? throw new ArgumentNullException(nameof(scrapedNews));
+            Queue = queue ?? throw new ArgumentNullException(nameof(queue));
         }
 
         protected NewsScraperProviderResponse ScrapedNews { get; }
