@@ -36,4 +36,10 @@
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>	
+    <None Update="Procfile" Condition="'$(Configuration)' == 'Release'">	
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>	
+    </None>	
+  </ItemGroup>
+
 </Project>
