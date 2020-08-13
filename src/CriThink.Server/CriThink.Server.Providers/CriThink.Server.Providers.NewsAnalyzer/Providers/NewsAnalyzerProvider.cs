@@ -5,7 +5,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Providers
 {
     internal class NewsAnalyzerProvider : INewsAnalyzerProvider
     {
-        public Task<NewsAnalysisProviderResponse>[] StartAnalyzerAsync(NewsAnalyzerBuilder builder)
+        public Task<NewsAnalysisProviderResult>[] StartAnalyzerAsync(NewsAnalyzerBuilder builder)
         {
             return builder
                 .BuildAnalyzers()
@@ -20,6 +20,6 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Providers
         /// </summary>
         /// <param name="builder">The request containing the kind of analysis to perform</param>
         /// <returns>The analysis results</returns>
-        Task<NewsAnalysisProviderResponse>[] StartAnalyzerAsync(NewsAnalyzerBuilder builder);
+        Task<NewsAnalysisProviderResult>[] StartAnalyzerAsync(NewsAnalyzerBuilder builder);
     }
 }

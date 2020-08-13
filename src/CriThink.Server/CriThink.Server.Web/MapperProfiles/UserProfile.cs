@@ -7,6 +7,7 @@ namespace CriThink.Server.Web.MapperProfiles
     /// <summary>
     /// Mapper for the <see cref="User" /> entity
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     public class UserProfile : Profile
     {
         public UserProfile()

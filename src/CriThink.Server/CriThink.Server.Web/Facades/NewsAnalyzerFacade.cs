@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Providers;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Builders;
 using CriThink.Server.Providers.NewsAnalyzer.Providers;
@@ -16,17 +17,17 @@ namespace CriThink.Server.Web.Facades
             _newsAnalyzerProvider = newsAnalyzerProvider ?? throw new ArgumentNullException(nameof(newsAnalyzerProvider));
         }
 
-        public async Task<NewsAnalysisProviderResponse> GetNewsSentimentAsync(NewsScraperProviderResponse scraperResponse)
+        public async Task<NewsAnalysisProviderResult> GetNewsSentimentAsync(NewsScraperProviderResponse scraperResponse)
         {
             var builder = new NewsAnalyzerBuilder()
                 .EnabledTextSentimentAnalysis()
                 .SetScrapedNews(scraperResponse);
 
             var responses = await MakeRequestAsync(builder).ConfigureAwait(false);
-            return responses.FirstOrDefault(r => r.Analysis == NewsAnalysisType.TextSentiment);
+            return responses.FirstOrDefault(r => r.NewsAnalysisType == NewsAnalysisType.TextSentiment);
         }
 
-        private Task<NewsAnalysisProviderResponse[]> MakeRequestAsync(NewsAnalyzerBuilder builder)
+        private Task<NewsAnalysisProviderResult[]> MakeRequestAsync(NewsAnalyzerBuilder builder)
         {
             var analyzerTasks = _newsAnalyzerProvider.StartAnalyzerAsync(builder);
             return Task.WhenAll(analyzerTasks);
@@ -40,6 +41,6 @@ namespace CriThink.Server.Web.Facades
         /// </summary>
         /// <param name="scraperResponse">News info</param>
         /// <returns>Analysis results</returns>
-        Task<NewsAnalysisProviderResponse> GetNewsSentimentAsync(NewsScraperProviderResponse scraperResponse);
+        Task<NewsAnalysisProviderResult> GetNewsSentimentAsync(NewsScraperProviderResponse scraperResponse);
     }
 }

@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Providers;
 using CriThink.Server.Providers.NewsAnalyzer.Analyzers;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Builders
 {
     public class NewsAnalyzerBuilder
     {
-        private readonly ConcurrentQueue<Task<NewsAnalysisProviderResponse>> _queue;
+        private readonly ConcurrentQueue<Task<NewsAnalysisProviderResult>> _queue;
 
         private bool _isOrtographicCheckEnabled;
         private bool _isTextSentimentAnalysisEnabled;
         private NewsScraperProviderResponse _scrapedNews;
 
-        private INewsAnalyzer _analyzer;
+        private IAnalyzer<NewsAnalysisProviderResult> _analyzer;
 
         public NewsAnalyzerBuilder()
         {
-            _queue = new ConcurrentQueue<Task<NewsAnalysisProviderResponse>>();
+            _queue = new ConcurrentQueue<Task<NewsAnalysisProviderResult>>();
         }
 
         public NewsAnalyzerBuilder SetScrapedNews(NewsScraperProviderResponse scrapedNews)
@@ -38,7 +39,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Builders
             return this;
         }
 
-        internal INewsAnalyzer BuildAnalyzers()
+        internal IAnalyzer<NewsAnalysisProviderResult> BuildAnalyzers()
         {
             _queue.Clear();
 
@@ -51,7 +52,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Builders
             return _analyzer;
         }
 
-        private void AddAnalyzer(INewsAnalyzer analyzer)
+        private void AddAnalyzer(IAnalyzer<NewsAnalysisProviderResult> analyzer)
         {
             if (_analyzer == null)
                 _analyzer = analyzer;

@@ -1,23 +1,19 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
-using CriThink.Server.Providers.DomainAnalyzer;
+using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
+    // ReSharper disable once UnusedMember.Global
     public class AnalysisTypeProfile : Profile
     {
         public AnalysisTypeProfile()
         {
-            CreateMap<AnalysisType, NewsAnalysisType>()
+            CreateMap<NewsAnalysisType, NewsAnalysisTypeResponse>()
                 .ConvertUsingEnumMapping(opt => opt
-                    .MapValue(AnalysisType.HTTPS, NewsAnalysisType.HTTPS)
-                    .MapValue(AnalysisType.WhoIs, NewsAnalysisType.WhoIs));
-
-            CreateMap<CriThink.Server.Providers.NewsAnalyzer.NewsAnalysisType, NewsAnalysisType>()
-                .ConvertUsingEnumMapping(opt => opt
-                    .MapValue(Providers.NewsAnalyzer.NewsAnalysisType.TextSentiment, NewsAnalysisType.Sentiment)
-                    .MapValue(Providers.NewsAnalyzer.NewsAnalysisType.Ortographic, NewsAnalysisType.Ortographic));
+                    .MapValue(NewsAnalysisType.HTTPS, NewsAnalysisTypeResponse.HTTPS)
+                    .MapValue(NewsAnalysisType.WhoIs, NewsAnalysisTypeResponse.WhoIs));
         }
     }
 }

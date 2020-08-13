@@ -298,7 +298,7 @@ namespace CriThink.Server.Web
             services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
 
             // DomainAnalyzer
-            services.AddDomainAnalyzer();
+            services.AddDomainAnalyzerProvider();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
 
             // NewsSource

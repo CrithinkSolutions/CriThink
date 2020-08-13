@@ -5,7 +5,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer.Providers
 {
     internal class DomainAnalyzerProvider : IDomainAnalyzerProvider
     {
-        public Task<AnalysisResponse>[] StartAnalyzer(DomainAnalyzerBuilder builder)
+        public Task<DomainAnalysisProviderResult>[] StartAnalyzer(DomainAnalyzerBuilder builder)
         {
             return builder
                 .BuildAnalyzers()
@@ -20,6 +20,6 @@ namespace CriThink.Server.Providers.DomainAnalyzer.Providers
         /// </summary>
         /// <param name="builder">The request containing the kind of analysis to perform</param>
         /// <returns>The analysis results</returns>
-        Task<AnalysisResponse>[] StartAnalyzer(DomainAnalyzerBuilder builder);
+        Task<DomainAnalysisProviderResult>[] StartAnalyzer(DomainAnalyzerBuilder builder);
     }
 }

@@ -34,7 +34,7 @@ namespace CriThink.Server.Web.Services
             if (analysisResponse.HasError)
                 throw analysisResponse.Exception;
 
-            var response = _mapper.Map<AnalysisResponse, NewsAnalyzerResponse>(analysisResponse);
+            var response = _mapper.Map<DomainAnalysisProviderResult, NewsAnalyzerResponse>(analysisResponse);
             return response;
         }
 
@@ -48,7 +48,7 @@ namespace CriThink.Server.Web.Services
             if (analysisResponse.HasError)
                 throw analysisResponse.Exception;
 
-            var response = _mapper.Map<AnalysisResponse, NewsAnalyzerResponse>(analysisResponse);
+            var response = _mapper.Map<DomainAnalysisProviderResult, NewsAnalyzerResponse>(analysisResponse);
             return response;
         }
 
@@ -60,7 +60,7 @@ namespace CriThink.Server.Web.Services
             var analysisResponses = await _domainAnalyzerFacade.GetCompleteAnalysisAsync(uri).ConfigureAwait(false);
 
             return analysisResponses
-                .Select(r => _mapper.Map<AnalysisResponse, NewsAnalyzerResponse>(r))
+                .Select(r => _mapper.Map<DomainAnalysisProviderResult, NewsAnalyzerResponse>(r))
                 .ToArray();
         }
 
@@ -80,7 +80,7 @@ namespace CriThink.Server.Web.Services
             if (analysisResponse.HasError)
                 throw analysisResponse.Exception;
 
-            var response = _mapper.Map<NewsAnalysisProviderResponse, NewsAnalyzerResponse>(analysisResponse);
+            var response = _mapper.Map<NewsAnalysisProviderResult, NewsAnalyzerResponse>(analysisResponse);
             return response;
         }
     }
@@ -102,7 +102,7 @@ namespace CriThink.Server.Web.Services
         Task<NewsAnalyzerResponse> AnalyzeDomainAsync(Uri uri);
 
         /// <summary>
-        /// Perform an analysis of the given <see cref="Uri"/> using all the NewsAnalyzer available
+        /// Perform an analysis of the given <see cref="Uri"/> using all the available analyzers
         /// </summary>
         /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns>A response indicating the analysis result</returns>

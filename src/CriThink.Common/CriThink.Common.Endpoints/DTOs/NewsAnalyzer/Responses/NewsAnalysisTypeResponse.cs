@@ -2,14 +2,11 @@
 
 namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 {
-    public enum AnalysisEvaluation
+    public enum NewsAnalysisTypeResponse
     {
-        Unknown,
-
-        Good,
-
-        Warning,
-
-        Bad
+        HTTPS,
+        WhoIs,
+        Sentiment,
+        Ortographic
     }
 }

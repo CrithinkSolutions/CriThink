@@ -5,6 +5,7 @@ using CriThink.Server.Providers.NewsAnalyzer;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
+    // ReSharper disable once UnusedMember.Global
     public class ScrapeNewsResponseProfile : Profile
     {
         public ScrapeNewsResponseProfile()

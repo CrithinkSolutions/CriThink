@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
@@ -9,13 +10,13 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
     {
         private readonly NewsAnalysisType _analysisType;
 
-        public LanguageAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResponse>> queue)
+        public LanguageAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
             : base(scrapedNews, queue)
         {
             _analysisType = NewsAnalysisType.Ortographic;
         }
 
-        public override Task<NewsAnalysisProviderResponse>[] AnalyzeAsync()
+        public override Task<NewsAnalysisProviderResult>[] AnalyzeAsync()
         {
             var analysisTask = Task.Run(() =>
             {
@@ -27,9 +28,9 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
             return base.AnalyzeAsync();
         }
 
-        private NewsAnalysisProviderResponse RunAnalysis()
+        private NewsAnalysisProviderResult RunAnalysis()
         {
-            throw new NotImplementedException();
+            return new NewsAnalysisProviderResult(_analysisType, ScrapedNews.RequestedUri, new NotImplementedException("Language analyzer is not implemented yet"));
         }
     }
 }

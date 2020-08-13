@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.RazorViews"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.EmailSender", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj", "{AE0C7AA2-D54F-4DC8-835A-32413C31F124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Providers.NewsAnalyzer", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj", "{B245DA8A-5411-4973-A7C0-51D7CFD61981}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.NewsAnalyzer", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj", "{B245DA8A-5411-4973-A7C0-51D7CFD61981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

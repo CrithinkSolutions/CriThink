@@ -5,6 +5,7 @@ using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
+    // ReSharper disable once UnusedMember.Global
     public class NewsSourceAuthenticityProfile : Profile
     {
         public NewsSourceAuthenticityProfile()
