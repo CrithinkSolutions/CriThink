@@ -294,7 +294,7 @@ namespace CriThink.Server.Web
             // NewsAnalyzer
             var azureEndpoint = Configuration["Azure-Cognitive-Endpoint"];
             var azureCredentials = Configuration["Azure-Cognitive-KeyCredentials"];
-            services.AddNewsAnalyzer(azureCredentials, azureEndpoint);
+            services.AddNewsAnalyzerProvider(azureCredentials, azureEndpoint);
             services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
 
             // DomainAnalyzer

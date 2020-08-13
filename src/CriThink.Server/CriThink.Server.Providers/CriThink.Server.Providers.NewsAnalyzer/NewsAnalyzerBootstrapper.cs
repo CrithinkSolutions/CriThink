@@ -16,7 +16,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// <param name="serviceCollection">The IoC container</param>
         /// <param name="azureCredentials">The Azure Cognitive Services credentials</param>
         /// <param name="azureEndpoint">The Azure Cognitive Services endpoint</param>
-        public static void AddNewsAnalyzer(this IServiceCollection serviceCollection, string azureCredentials, string azureEndpoint)
+        public static void AddNewsAnalyzerProvider(this IServiceCollection serviceCollection, string azureCredentials, string azureEndpoint)
         {
             TextSentimentAnalyzer.AzureCredentials = azureCredentials;
             TextSentimentAnalyzer.AzureEndpoint = azureEndpoint;
