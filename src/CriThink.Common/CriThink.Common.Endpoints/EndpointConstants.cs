@@ -17,6 +17,7 @@
         public const string ServiceEnvironment = "environment";
         public const string ServiceRedisHealth = "redis-health";
         public const string ServiceSqlServerHealth = "sqlserver-health";
+        public const string ServiceLoggingHealth = "logging-health";
 
         #endregion
 

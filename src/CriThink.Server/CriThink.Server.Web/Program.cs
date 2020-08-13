@@ -3,6 +3,7 @@ using Amazon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 #pragma warning disable CA1052 // Static holder types should be Static or NotInheritable
 
@@ -17,6 +18,12 @@ namespace CriThink.Server.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    if (hostingContext.HostingEnvironment.IsDevelopment()) return;
+
+                    SetupAwsLogging(logging);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureAppConfiguration((hostingContext, configBuilder) =>
@@ -28,6 +35,12 @@ namespace CriThink.Server.Web
 
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void SetupAwsLogging(ILoggingBuilder logging)
+        {
+            logging.AddAWSProvider();
+            logging.SetMinimumLevel(LogLevel.Information);
+        }
 
         private static void SetupAwsSecretManager(IConfigurationBuilder configBuilder)
         {

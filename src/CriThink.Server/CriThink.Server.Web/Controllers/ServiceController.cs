@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -22,11 +23,13 @@ namespace CriThink.Server.Web.Controllers
     {
         private readonly IWebHostEnvironment _env;
         private readonly CriThinkDbContext _dbContext;
+        private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IWebHostEnvironment env, CriThinkDbContext dbContext)
+        public ServiceController(IWebHostEnvironment env, CriThinkDbContext dbContext, ILogger<ServiceController> logger)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _logger = logger;
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace CriThink.Server.Web.Controllers
             }
 
             return isHealthy ?
-                Ok() :
+                NoContent() :
                 StatusCode((int) HttpStatusCode.ServiceUnavailable);
         }
 
@@ -79,7 +82,7 @@ namespace CriThink.Server.Web.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [Route(EndpointConstants.ServiceSqlServerHealth)] // api/service/sqlserver-health
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         [HttpHead]
         public async Task<IActionResult> GetSqlServerHealthStatusAsync()
@@ -96,8 +99,26 @@ namespace CriThink.Server.Web.Controllers
             }
 
             return isHealthy ?
-                Ok() :
+                NoContent() :
                 StatusCode((int) HttpStatusCode.ServiceUnavailable);
         }
+
+        /// <summary>
+        /// Log sample entries at Information, Critical, Error and Warning levels
+        /// </summary>
+        [AllowAnonymous]
+        [Route(EndpointConstants.ServiceLoggingHealth)] // api/service/logging-health
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpHead]
+        public IActionResult LogSampleEntry()
+        {
+            _logger?.LogInformation("Test log as information");
+            _logger?.LogCritical("Test log as critical");
+            _logger?.LogError("Test log as error");
+            _logger?.LogWarning("Test log as warning");
+
+            return NoContent();
+        }
+
     }
 }
