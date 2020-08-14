@@ -29,6 +29,8 @@
         public const string IdentityLogin = "login";
         public const string IdentityConfirmEmail = "confirm-email";
         public const string IdentityChangePassword = "change-password";
+        public const string IdentityForgotPassword = "forgot-password";
+        public const string IdentityResetPassword = "reset-password";
 
         #endregion
 

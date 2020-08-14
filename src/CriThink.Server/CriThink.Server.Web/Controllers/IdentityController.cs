@@ -129,5 +129,50 @@ namespace CriThink.Server.Web.Controllers
 
             return BadRequest();
         }
+
+        /// <summary>
+        /// Request a temporary token to reset the forgot password
+        /// </summary>
+        /// <param name="dto">Email or the id of the account owner</param>
+        /// <returns>Send an email with the temporary code</returns>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityForgotPassword)] // api/identity/forgot-password
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> RequestTemporaryTokenAsync([FromBody] ForgotPasswordRequest dto)
+        {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Reset the user password, replacing it with a new one
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityResetPassword)] // api/identity/reset-password
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
+        {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            var decodedCode = Base64Helper.FromBase64(dto.Token);
+
+            var response = await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
     }
 }
