@@ -147,6 +147,56 @@ namespace CriThink.Server.Web.Services
             throw ex;
         }
 
+        public async Task GenerateUserPasswordTokenAsync(string email, string username)
+        {
+            if (string.IsNullOrWhiteSpace(email) &&
+                string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException($"At least one between {email} and {username} must be provided");
+
+            var user = await FindUserAsync(email, username).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}' - username: '{username}'");
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
+
+            var encodedCode = Base64Helper.ToBase64(token);
+            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode).ConfigureAwait(false);
+        }
+
+        public async Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentNullException(nameof(userId));
+
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentNullException(nameof(token));
+
+            if (string.IsNullOrWhiteSpace(newPassword))
+                throw new ArgumentNullException(nameof(newPassword));
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword).ConfigureAwait(false);
+
+            if (!result.Succeeded)
+            {
+                var ex = new IdentityOperationException(result);
+                _logger?.LogError(ex, "Error resetting user password", user, token);
+                throw ex;
+            }
+
+            var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
+
+            return new VerifyUserEmailResponse
+            {
+                UserId = userId,
+                JwtToken = jwtToken,
+                UserEmail = user.Email
+            };
+        }
+
         #region Privates
 
         private async Task<User> FindUserAsync(string email = "", string userName = "", string userId = "")
@@ -240,5 +290,9 @@ namespace CriThink.Server.Web.Services
         /// <param name="newPassword">New password</param>
         /// <returns>Returns true if the password is changed, otherwise false</returns>
         Task<bool> ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
+
+        Task GenerateUserPasswordTokenAsync(string email, string username);
+
+        Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword);
     }
 }

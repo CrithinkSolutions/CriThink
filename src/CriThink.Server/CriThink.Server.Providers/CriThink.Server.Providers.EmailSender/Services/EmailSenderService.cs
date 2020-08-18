@@ -40,6 +40,21 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
         }
 
+        public async Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode)
+        {
+            var hostname = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+
+            var subject = _awsSESSettings.ForgotPasswordSubject;
+
+            var callbackUrl = string.Format(CultureInfo.InvariantCulture, _awsSESSettings.ForgotPasswordLink, hostname, userId, encodedCode);
+            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl);
+
+            // TODO: custom email for this scope
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
+
+            await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
+        }
+
         private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)
         {
             var fromAddress = _awsSESSettings.FromAddress;
@@ -73,5 +88,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
     public interface IEmailSenderService
     {
         Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode);
+
+        Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode);
     }
 }
