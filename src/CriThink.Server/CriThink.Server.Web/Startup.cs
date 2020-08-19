@@ -158,14 +158,6 @@ namespace CriThink.Server.Web
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!").ConfigureAwait(false);
-                });
-            });
-
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseResponseCompression();
@@ -179,15 +171,7 @@ namespace CriThink.Server.Web
 
             //Spa Services for ReactJS
 
-            app.UseHttpsRedirection();
             app.UseSpaStaticFiles();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
 
             app.UseSpa(spa =>
             {

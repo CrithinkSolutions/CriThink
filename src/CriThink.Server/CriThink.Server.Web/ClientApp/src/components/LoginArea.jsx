@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid} from 'semantic-ui-react'
+import { Button, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 
 export class LoginArea extends Component {
@@ -20,7 +20,6 @@ export class LoginArea extends Component {
         this.setState({
           [event.target.name]: event.target.value
         });
-        console.log(this.state)
       }
     
 
@@ -50,10 +49,11 @@ export class LoginArea extends Component {
     render() {
         return (
             <div id="mainrender">
-                <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '100vh'}}>
+                <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
                     <Grid.Column width={8}>
                         <div>
                         <h1>Login</h1>
+                        <br/>
                         <Form>
                             <Form.Input
                                 icon='user'
@@ -70,6 +70,8 @@ export class LoginArea extends Component {
                                 label='Email'
                                 placeholder='Email'
                                 name='email'
+                                onChange={this.changeHandler}
+                                value={this.state.email}
                             />
                             <Form.Input
                                 icon='lock'
@@ -77,8 +79,11 @@ export class LoginArea extends Component {
                                 label='Password'
                                 type='password'
                                 name='password'
+                                onChange={this.changeHandler}
+                                value={this.state.password}
                             />
                         </Form>
+                        <br/>
                         <Button content='Login' primary onClick={this.accessAccount}/>
                         </div>
                     </Grid.Column>

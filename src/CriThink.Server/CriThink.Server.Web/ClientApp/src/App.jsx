@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import { LoginArea } from './components/Home_2';
-import { Counter } from './components/Counter';
+import { Home } from './components/Home';
+import { LoginArea } from './components/LoginArea';
 
 import './custom.css'
 
@@ -12,8 +12,8 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route exact path='/react' component={LoginArea} />
-        <Route path='/counter' component={Counter} />
+      	<Route exact path='/' component={Home} />
+        <Route exact path='/login' component={LoginArea} />
       </Layout>
     );
   }
