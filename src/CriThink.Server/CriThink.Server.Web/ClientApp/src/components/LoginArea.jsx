@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid } from 'semantic-ui-react'
+import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 
 export class LoginArea extends Component {
     constructor(props) {
         super(props);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleSignUpClick = this.handleSignUpClick.bind(this);
-        this.changeHandler = this.changeHandler.bind(this)
         this.state = {
             signuprender: false,
+            loading: false,
             username: '',
             email: '',
-            password: ''
+            password: '',
+            msg: ''
         };
     }
 
@@ -22,7 +21,6 @@ export class LoginArea extends Component {
         });
       }
     
-
     handleLoginClick = () => {
         this.setState({signuprender: false});
     }
@@ -32,18 +30,67 @@ export class LoginArea extends Component {
     }
 
     accessAccount = () => {
+        this.setState({loading: true});
         const { username, email, password } = this.state;
-        axios.post('http://crithink-staging.eba-msmbrpmt.eu-central-1.elasticbeanstalk.com/api/identity/login', {
+        axios.post('/api/identity/login', {
             "username": username,
             "email": email,
             "password": password
         })
-        .then(function (response) {
-            console.log(response);
+        .then(response => {
+            this.setState({msg: 
+                <Message positive>
+                    <Icon name='check' />
+                    <b>Welcome {this.state.username}</b>
+                </Message>})
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch(error => {
+            switch(error.response.status) {
+              case 500:
+                this.setState({msg: 
+                    <Message error>
+                        <Icon name='warning' />
+                        <b>Error: </b>{error.response.data.error}
+                    </Message>})
+                break;
+              case 400:
+                this.setState({msg: 
+                    <Message error>
+                        <Icon name='warning' />
+                        <b>Error: </b>{Object.entries(error.response.data.errors)[0][1][0]}
+                    </Message>})
+                break;
+            default:
+                console.log(error.response.data)
+            } 
         })
+        .then(() => {this.setState({loading: false})})
+    }
+
+    registerAccount = () => {
+        this.setState({loading: true});
+        const { username, email, password } = this.state;
+        axios.post('/api/identity/sign-up', {
+            "username": username,
+            "email": email,
+            "password": password
+        })
+        .then(response => {
+            this.setState({msg: 
+                <Message positive>
+                    <Icon name='check' />
+                    <b>Check your email {this.state.email}</b>
+                </Message>})
+        })
+        .catch(error => {
+            this.setState({msg: 
+                <Message error>
+                    <Icon name='warning' />
+                    <b>Error: </b>{Object.entries(error.response.data.errors)[0][1][0]}
+                </Message>
+            })
+        })
+        .then(() => {this.setState({loading: false})})
     }
 
     render() {
@@ -52,7 +99,7 @@ export class LoginArea extends Component {
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
                     <Grid.Column width={8}>
                         <div>
-                        <h1>Login</h1>
+                        {this.state.signuprender ? (<h1>Sign Up</h1>) : (<h1>Log In</h1>)}
                         <br/>
                         <Form>
                             <Form.Input
@@ -84,7 +131,23 @@ export class LoginArea extends Component {
                             />
                         </Form>
                         <br/>
-                        <Button content='Login' primary onClick={this.accessAccount}/>
+                        {this.state.signuprender ? (
+                            <div>
+                                <Button content='Sign Up' loading={this.state.loading} primary onClick={this.registerAccount}/>
+                                <Message>
+                                <p>Have an account? <Button compact color='red' size="small" onClick={this.handleLoginClick}>Log In</Button></p>
+                                </Message>
+                                {this.state.msg ? this.state.msg : null}
+                            </div>
+                            ) : (
+                            <div>
+                                <Button content='Log In' loading={this.state.loading} primary onClick={this.accessAccount}/>
+                                <Message>
+                                <p>Don't have an account? <Button compact color='red' size="small" onClick={this.handleSignUpClick}>Sign Up</Button></p>
+                                </Message>
+                                {this.state.msg ? this.state.msg : null}
+                            </div>
+                        )}
                         </div>
                     </Grid.Column>
                 </Grid>
@@ -92,4 +155,3 @@ export class LoginArea extends Component {
         );
     }
 }
-
