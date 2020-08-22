@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react'
 import './NavMenu.css';
+import AuthHandler from "../handlers/authHandler";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
-
   constructor (props) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+      collapsed: true,
+      user: AuthHandler.getCurrentUser()
     };
   }
 
@@ -22,6 +24,7 @@ export class NavMenu extends Component {
   }
 
   render () {
+    const { user } = this.state
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -32,6 +35,12 @@ export class NavMenu extends Component {
               <ul className="navbar-nav flex-grow">
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/login">
+                    <Icon name="user circle" />
+                    {user ? user.userName : null}
+                  </NavLink>
                 </NavItem>
               </ul>
             </Collapse>

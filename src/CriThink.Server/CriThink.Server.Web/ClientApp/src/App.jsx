@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { LoginArea } from './components/LoginArea';
+import { LoginArea } from './components/authArea/LoginArea';
+import { SignUpArea } from './components/authArea/SignUpArea';
+import { ForgotPwdArea } from './components/authArea/ForgotPwdArea'
 
 import './custom.css'
 
@@ -14,6 +16,8 @@ export default class App extends Component {
       <Layout>
       	<Route exact path='/' component={Home} />
         <Route exact path='/login' component={LoginArea} />
+        <Route exact path='/signup' component={SignUpArea} />
+        <Route exact path='/forgotpassword' component={ForgotPwdArea} />
       </Layout>
     );
   }
