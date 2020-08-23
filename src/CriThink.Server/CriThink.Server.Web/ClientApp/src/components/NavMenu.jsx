@@ -36,12 +36,14 @@ export class NavMenu extends Component {
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/login">
-                    <Icon name="user circle" />
-                    {user ? user.userName : null}
-                  </NavLink>
-                </NavItem>
+                {user ? (
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/profile">
+                      <Icon name="user circle" />
+                      {user.userName}
+                    </NavLink>
+                  </NavItem> 
+                ) : null} 
               </ul>
             </Collapse>
           </Container>

@@ -47,7 +47,6 @@ export class ForgotPwdArea extends Component {
 
         .then(() => {
             this.setState({loading: false})
-            setTimeout(window.location.reload.bind(window.location), 250);
         })
 
     }
@@ -82,6 +81,7 @@ export class ForgotPwdArea extends Component {
                         <br/>
                         <div id="options">
                             <Button content='Send' loading={this.state.loading} primary onClick={this.getPwdAccount}/>
+                            <Link to="/login"><Button content='Go Back'/></Link>
                             {this.state.msg ? this.state.msg : null}
                         </div>
                     </Grid.Column>
