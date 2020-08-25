@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Data;
 using StackExchange.Redis;
@@ -38,7 +39,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(uri));
 
             var db = CriThinkRedisMultiplexer.GetDatabase(BlacklistDatabase);
-            return db.KeyDeleteAsync(uri.Host);
+            return RemoveNewsSource(db, uri);
         }
 
         public Task RemoveNewsSourceFromWhitelistAsync(Uri uri)
@@ -47,7 +48,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(uri));
 
             var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
-            return db.KeyDeleteAsync(uri.Host);
+            return RemoveNewsSource(db, uri);
         }
 
         public async Task<RedisValue> SearchNewsSourceAsync(Uri uri)
@@ -85,39 +86,46 @@ namespace CriThink.Server.Infrastructure.Repositories
 
         public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources()
         {
-            var list = new List<Tuple<RedisKey, RedisValue>>();
-
             var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
             var server = CriThinkRedisMultiplexer.GetServer();
 
-            foreach (var key in server.Keys(WhitelistDatabase, "*"))
-            {
-                var redisValue = db.StringGet(key);
-                var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
-                list.Add(tuple);
-            }
-
-            return list;
+            var results = GetNewsSources(db, server);
+            return results;
         }
 
         public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources()
         {
-            var list = new List<Tuple<RedisKey, RedisValue>>();
-
             var db = CriThinkRedisMultiplexer.GetDatabase(BlacklistDatabase);
             var server = CriThinkRedisMultiplexer.GetServer();
 
-            foreach (var key in server.Keys(BlacklistDatabase, "*"))
+            var results = GetNewsSources(db, server);
+            return results;
+        }
+
+        #region Privates
+
+        private static IEnumerable<Tuple<RedisKey, RedisValue>> GetNewsSources(IDatabase database, IServer server)
+        {
+            var list = new List<Tuple<RedisKey, RedisValue>>();
+
+            foreach (var key in server.Keys(database.Database, "*"))
             {
-                var redisValue = db.StringGet(key);
-                var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
+                var redisValue = database.StringGet(key);
+                var tuple = new Tuple<RedisKey, RedisValue>($"https://{key}", redisValue);
                 list.Add(tuple);
             }
 
             return list;
         }
 
-        private static string GetHostName(Uri uri) => $"{uri.Scheme}://{uri.Host}/";
+        private static Task RemoveNewsSource(IDatabase database, Uri uri)
+        {
+            return database.KeyDeleteAsync(GetHostName(uri));
+        }
+
+        private static string GetHostName(Uri uri) => UriHelper.GetHostNameFromUri(uri);
+
+        #endregion
     }
 
     public interface INewsSourceRepository

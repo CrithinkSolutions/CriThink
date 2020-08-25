@@ -5,19 +5,19 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
     public enum NewsSourceClassification
     {
         /// <summary>
-        /// Represents the best rate for a news source. Dedicated to famous websites
+        /// Represents a trusted news source
         /// </summary>
-        Authentic,
+        Trusted,
 
         /// <summary>
-        /// Represents a non famous news source but still trusty
+        /// Represents a well-known satiric news source
         /// </summary>
-        Secure,
+        Satiric,
 
         /// <summary>
-        /// Represents a news source not fully trusted. User must be carefoul
+        /// Represents a cospiracy news source.
         /// </summary>
-        NotTrusted,
+        Cospiracy,
 
         /// <summary>
         /// Represents a fake news source
