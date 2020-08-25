@@ -7,6 +7,7 @@ import { SignUpArea } from './components/authArea/SignUpArea'
 import { ForgotPwdArea } from './components/authArea/ForgotPwdArea'
 import { ProfileArea } from './components/authArea/ProfileArea'
 import { ChangePwdArea } from './components/authArea/ChangePwdArea'
+import { NewPwdArea } from './components/authArea/NewPwdArea'
 
 import './custom.css'
 
@@ -22,6 +23,7 @@ export default class App extends Component {
         <Route exact path='/forgotpassword' component={ForgotPwdArea} />
         <Route exact path='/profile' component={ProfileArea} />
         <Route exact path='/profile/changepassword' component={ChangePwdArea} />
+        <Route path='/api/identity/reset-password' component={NewPwdArea} />
       </Layout>
     );
   }

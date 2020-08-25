@@ -29,23 +29,23 @@ class AuthHandler {
   	}
 
   	register(username, email, password) {
-  	  	return axios
-  	  		.post("/api/identity/sign-up", {
-  	  	  		username,
-  	  	  		email,
-  	  	  		password
-  	  		})
+	  	return axios
+	  		.post("/api/identity/sign-up", {
+	  	  		username,
+	  	  		email,
+	  	  		password
+	  		})
 
-  	  		.then(response => {
-        		return response.data;
-      		})
+	  		.then(response => {
+      		return response.data;
+    		})
 
-      		.catch(error => {
-      			const str = JSON.stringify(Object.entries(error.response.data)[0][1])
-      			throw str
-      					.replace(/[\]}[{"]/g,'')
-      					.replace(/[,]/g,'\n')
-      		})
+    		.catch(error => {
+    			const str = JSON.stringify(Object.entries(error.response.data)[0][1])
+    			throw str
+    					.replace(/[\]}[{"]/g,'')
+    					.replace(/[,]/g,'\n')
+    		})
   	}
 
   	logout() {
@@ -69,44 +69,64 @@ class AuthHandler {
 	    }
 	}
 
-	forgotPwd(username, email) {
-		return axios
-  		.post("/api/identity/forgot-password", {
-  	  		username,
-  	  		email
-  		})
+  	forgotPwd(username, email) {
+  		return axios
+    		.post("/api/identity/forgot-password", {
+    	  		username,
+    	  		email
+    		})
 
-  		.then(response => {
-    		return response.data;
-  		})
+    		.then(response => {
+      		return response;
+    		})
 
-  		.catch(error => {
-  			throw error.response.data.error;
-      })
-  }
+    		.catch(error => {
+    			throw error.response.data.error;
+        })
+    }
 
-  changePwd(currentPassword, newPassword, jwtToken) {
-    return axios
-      .post("/api/identity/change-password", {
-          currentPassword,
-          newPassword,
-      }, {
-          headers: {
-            'Authorization': `Bearer ${jwtToken}` 
-          }
-      })
+    changePwd(currentPassword, newPassword, jwtToken) {
+      return axios
+        .post("/api/identity/change-password", {
+            currentPassword,
+            newPassword,
+        }, {
+            headers: {
+              'Authorization': `Bearer ${jwtToken}` 
+            }
+        })
 
-      .then(response => {
-        return "Password changed!"
-      })
+        .then(response => {
+          return "Password changed!"
+        })
 
-      .catch(error => {
-        const str = JSON.stringify(Object.entries(error.response.data)[0][1])
-            throw str
-                .replace(/[\]}[{"]/g,'')
-                .replace(/[,]/g,'\n')
-      })
-  }
+        .catch(error => {
+          const str = JSON.stringify(Object.entries(error.response.data)[0][1])
+              throw str
+                  .replace(/[\]}[{"]/g,'')
+                  .replace(/[,]/g,'\n')
+        })
+    }
+
+    newPwd(userId, token, newPassword) {
+      return axios
+        .post("/api/identity/reset-password", {
+            userId,
+            token,
+            newPassword
+        })
+
+        .then(response => {
+          return "Password changed!"
+        })
+
+        .catch(error => {
+          const str = JSON.stringify(Object.entries(error.response.data)[0][1])
+              throw str
+                  .replace(/[\]}[{"]/g,'')
+                  .replace(/[,]/g,'\n')
+        })
+    }
 }
 
 export default new AuthHandler();

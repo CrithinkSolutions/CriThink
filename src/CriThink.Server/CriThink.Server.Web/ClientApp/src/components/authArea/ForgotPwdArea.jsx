@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Icon, Divider } from 'semantic-ui-react'
+import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
 import AuthHandler from "../../handlers/authHandler";
 
 export class ForgotPwdArea extends Component {
@@ -15,10 +15,17 @@ export class ForgotPwdArea extends Component {
     }
 
     changeHandler = event => {
-        this.setState({
-          [event.target.name]: event.target.value
-        });
-      }
+        if(event.target.name === "username" && event.target.value.includes("@")) {
+            this.setState({email: event.target.value})
+        }
+        else {
+            this.setState({
+                email: '',
+                username: event.target.value
+            })
+        }
+        console.log(this.state)
+    }
 
     getPwdAccount = () => {
         this.setState({loading: true})
@@ -30,10 +37,9 @@ export class ForgotPwdArea extends Component {
                 this.setState({msg: 
                     <Message positive>
                         <Icon name='check' />
-                        <b>Check your email {this.state.email}</b>
+                        <b>Check your email</b>
                     </Message>
                 })
-                console.log(res)
             })
 
             .catch(err => 
@@ -62,20 +68,10 @@ export class ForgotPwdArea extends Component {
                             <Form.Input
                                 icon='user'
                                 iconPosition='left'
-                                label='Username'
-                                placeholder='Username'
+                                label='Username or Email'
+                                placeholder='Username or Email'
                                 name='username'
                                 onChange={this.changeHandler}
-                                value={this.state.username}
-                            />
-                            <Form.Input
-                                icon='mail'
-                                iconPosition='left'
-                                label='Email'
-                                placeholder='Email'
-                                name='email'
-                                onChange={this.changeHandler}
-                                value={this.state.email}
                             />
                         </Form>
                         <br/>

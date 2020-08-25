@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Icon, Divider } from 'semantic-ui-react'
+import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
 import AuthHandler from "../../handlers/authHandler";
 
 export class SignUpArea extends Component {

@@ -15,15 +15,20 @@ export class LoginArea extends Component {
         };
     }
 
-    componentDidMount() {
-        console.log(AuthHandler.getCurrentUser())
-    }
-    
     changeHandler = event => {
-        this.setState({
-          [event.target.name]: event.target.value
-        });
-      }
+        if(event.target.name === "username" && event.target.value.includes("@")) {
+            this.setState({email: event.target.value})
+        }
+        else if (event.target.name === "password") {
+            this.setState({password: event.target.value})
+        }
+        else {
+            this.setState({
+                email: '',
+                username: event.target.value
+            })
+        }
+    }
 
     accessAccount = () => {
         this.setState({loading: true})
@@ -35,11 +40,14 @@ export class LoginArea extends Component {
                 this.setState({msg: 
                     <Message positive>
                         <Icon name='check' />
-                        <b>Welcome {this.state.username}</b>
+                        <b>Welcome {res.result.userName}</b>
                     </Message>
                 })
-                console.log(res)
-                setTimeout(() => {this.props.history.push("/")}, 2000);
+
+                setTimeout(() => {
+                    this.props.history.push("/")
+                    window.location.reload()
+                }, 2000);
             })
 
             .catch(err => 
@@ -67,20 +75,10 @@ export class LoginArea extends Component {
                             <Form.Input
                                 icon='user'
                                 iconPosition='left'
-                                label='Username'
-                                placeholder='Username'
+                                label='Username or Email' 
+                                placeholder='Username or Email'
                                 name='username'
                                 onChange={this.changeHandler}
-                                value={this.state.username}
-                            />
-                            <Form.Input
-                                icon='mail'
-                                iconPosition='left'
-                                label='Email'
-                                placeholder='Email'
-                                name='email'
-                                onChange={this.changeHandler}
-                                value={this.state.email}
                             />
                             <Form.Input
                                 icon='lock'

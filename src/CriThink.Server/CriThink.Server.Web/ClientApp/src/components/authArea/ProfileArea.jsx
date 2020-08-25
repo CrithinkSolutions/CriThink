@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Grid, Image, Container, Icon, Card, Button } from 'semantic-ui-react'
+import { Grid, Image, Icon, Card } from 'semantic-ui-react'
 import AuthHandler from "../../handlers/authHandler";
 
 export class ProfileArea extends Component {
@@ -12,18 +12,14 @@ export class ProfileArea extends Component {
             user: AuthHandler.getCurrentUser()
         };
     }
-    
-    /*
+
+    /* Hander for future settings
     changeHandler = event => {
         this.setState({
           [event.target.name]: event.target.value
         });
       }
     */
-
-    componentDidMount() {
-        console.log(AuthHandler.getCurrentUser())    
-    }
 
     render() {
         const { user } = this.state
@@ -51,6 +47,8 @@ export class ProfileArea extends Component {
                                 <span className="link">Change email</span></p></Link>
                                 <Link to='/profile'><p><Icon name="settings" />
                                 <span className="link">All settings</span></p></Link>
+                                <Link onClick={() => {this.props.history.push("/"); AuthHandler.logout(); window.location.reload()}}><p><Icon name="sign-out" />
+                                <span className="link">Logout</span></p></Link>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

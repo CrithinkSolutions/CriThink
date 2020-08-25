@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
 import AuthHandler from "../../handlers/authHandler";
 
-export class ChangePwdArea extends Component {
+const params = (new URL(document.location)).searchParams;
+
+export class NewPwdArea extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            oldpwd: '',
-            newpwd: '',
-            user: AuthHandler.getCurrentUser(),
+            newPwd: '',
             msg: ''
         };
     }
@@ -21,30 +21,25 @@ export class ChangePwdArea extends Component {
         });
       }
 
-    componentDidMount() {
-        if (!this.state.user) {
-            this.props.history.push("/profile");
+    componentDidMount() { 
+        if (!params.get("userId") || !params.get("code") || params.get("code").length !== 320) {
+            this.props.history.push("/login");
         }
     }
 
-    changePwdAccount = () => {
-        this.setState({loading: true,})
-        const { oldpwd, newpwd, user } = this.state;
+    newPwdAccount = () => {
+        this.setState({loading: true})
+        const { newPwd } = this.state;
         AuthHandler
-            .changePwd(oldpwd, newpwd, user.jwtToken.token)
+            .newPwd(params.get("userId"), params.get("code"), newPwd)
 
             .then((res) => {
                 this.setState({msg: 
                     <Message positive>
                         <Icon name='check' />
-                        <b>{res}</b>
+                        <b>Password changed</b>
                     </Message>
                 })
-                setTimeout(() => {
-                    this.props.history.push("/profile")
-                    window.location.reload()
-                }, 3000);
-                
             })
 
             .catch(err => {
@@ -58,6 +53,9 @@ export class ChangePwdArea extends Component {
 
         .then(() => {
             this.setState({loading: false})
+            setTimeout(() => {
+                this.props.history.push("/login")
+            }, 3000);
         })
 
     }
@@ -67,36 +65,35 @@ export class ChangePwdArea extends Component {
             <div id="mainrender">
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
                     <Grid.Column width={8}>
-                        <h1>Change Password</h1>
+                        <h1>Set your new Password</h1>
                         <br/>
                         <Form>
                             <Form.Input
                                 icon='lock'
                                 iconPosition='left'
-                                label='Old Password'
-                                name='oldpwd'
-                                type='password'
-                                onChange={this.changeHandler}
-                                value={this.state.oldpwd}
-                            />
-                            <Form.Input
-                                icon='lock'
-                                iconPosition='left'
                                 label='New Password'
-                                name='newpwd'
+                                name='newPwd'
                                 type='password'
                                 onChange={this.changeHandler}
-                                value={this.state.newpwd}
+                                value={this.state.newPwd}
                             />
                         </Form>
                         <br/>
                         <div id="options">
-                            <Button content='Send' loading={this.state.loading} primary onClick={this.changePwdAccount}/>
-                            <Link to="/profile"><Button content='Go Back'/></Link>
+                            <Button content='Send' loading={this.state.loading} primary onClick={this.newPwdAccount}/>
+                            <Message>
+                                <Message.Header>Remember password must be at least one:</Message.Header>
+                                <Message.List>
+                                    <Message.Item>8 characters</Message.Item>
+                                    <Message.Item>non alphanumeric character</Message.Item>
+                                    <Message.Item>digit ('0'-'9')</Message.Item>
+                                    <Message.Item>uppercase ('A'-'Z')</Message.Item>
+                                </Message.List>
+                            </Message>
                             {this.state.msg ? this.state.msg : null}
                         </div>
                     </Grid.Column>
-                </Grid> 
+                </Grid>
             </div>
         );
     }
