@@ -218,6 +218,14 @@ namespace CriThink.Server.Web.Services
             var secretKey = _configuration["Jwt-SecretKey"];
             var audience = _configuration["Jwt-Audience"];
             var issuer = _configuration["Jwt-Issuer"];
+            var expirationFromNow = _configuration["Jwt-ExpirationInHours"];
+
+            var hasExpiration = double.TryParse(expirationFromNow, out var expirationInHours);
+            if (!hasExpiration)
+            {
+                expirationInHours = 0.5;
+                _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(IdentityService)), "Used default token duration.");
+            }
 
             var claims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
@@ -227,6 +235,7 @@ namespace CriThink.Server.Web.Services
                 .AddClaims(claims)
                 .AddIssuer(issuer)
                 .AddSecurityKey(signingKey)
+                .AddExpireDate(expirationInHours)
                 .AddSubject(user.Email)
                 .Build();
 
