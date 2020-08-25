@@ -25,12 +25,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,9 +43,12 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            Configuration = configuration;
+            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
         public IConfiguration Configuration { get; }
@@ -137,14 +138,14 @@ namespace CriThink.Server.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
 
-            app.UseSwagger(); // Swagger
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-                options.DisplayRequestDuration();
-            });
+                app.UseSwagger(); // Swagger
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    options.DisplayRequestDuration();
+                });
+            }
 
             app.UseResponseCaching();
 
@@ -181,7 +182,7 @@ namespace CriThink.Server.Web
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
-            }); 
+            });
         }
 
         private static void SetupUserIdentity(IServiceCollection services)
@@ -272,6 +273,9 @@ namespace CriThink.Server.Web
 
         private void SetupSwagger(IServiceCollection services)
         {
+            if (!_environment.IsDevelopment())
+                return;
+
             services.AddSwaggerGen(options =>
             {
                 options.OperationFilter<AddRequiredHeaderParameter>();
