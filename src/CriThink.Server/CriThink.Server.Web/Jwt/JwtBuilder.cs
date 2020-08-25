@@ -14,12 +14,10 @@ namespace CriThink.Server.Web.Jwt
     public class JwtBuilder
     {
         private string _issuer;
-
         private string _audience;
-
         private SymmetricSecurityKey _securityKey;
-
         private string _subject;
+        private double _expirationHours;
 
         private IList<Claim> _claims;
 
@@ -53,6 +51,12 @@ namespace CriThink.Server.Web.Jwt
             return this;
         }
 
+        public JwtBuilder AddExpireDate(double hoursFromNow)
+        {
+            _expirationHours = hoursFromNow;
+            return this;
+        }
+
         public JwtSecurityToken Build()
         {
             var now = DateTime.UtcNow;
@@ -69,7 +73,7 @@ namespace CriThink.Server.Web.Jwt
                 audience: _audience,
                 claims: claims.Union(_claims),
                 notBefore: now,
-                expires: now.AddMinutes(10),
+                expires: now.AddHours(_expirationHours),
                 signingCredentials: new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256)
             );
         }
