@@ -122,6 +122,19 @@ namespace CriThink.Server.Web.Services
 
             var _ = await _mediator.Send(entity).ConfigureAwait(false);
         }
+
+        public async Task<IList<QuestionResponse>> GetQuestionListAsync()
+        {
+            var query = new GetAllQuestionsQuery();
+            var response = await _mediator.Send(query).ConfigureAwait(false);
+
+            if (response is IEnumerable<Question> questions)
+            {
+                return _mapper.Map<IEnumerable<Question>, IList<QuestionResponse>>(questions);
+            }
+
+            throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionsQuery)}' query");
+        }
     }
 
     public interface INewsAnalyzerService
@@ -180,5 +193,11 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Question to add</param>
         /// <returns>Awaitable task</returns>
         Task AddQuestionAsync(QuestionAddRequest request);
+
+        /// <summary>
+        /// Get the question list
+        /// </summary>
+        /// <returns>List of questions</returns>
+        Task<IList<QuestionResponse>> GetQuestionListAsync();
     }
 }

@@ -12,34 +12,33 @@ using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    // ReSharper disable once UnusedMember.Global
-    internal class GetAllDemoNewsHandler : IRequestHandler<GetAllDemoNewsQuery, List<DemoNews>>
+    internal class GetAllQuestionsHandler : IRequestHandler<GetAllQuestionsQuery, List<Question>>
     {
         private readonly CriThinkDbContext _dbContext;
-        private readonly ILogger<GetAllDemoNewsHandler> _logger;
+        private readonly ILogger<GetAllQuestionsHandler> _logger;
 
-        public GetAllDemoNewsHandler(CriThinkDbContext dbContext, ILogger<GetAllDemoNewsHandler> logger)
+        public GetAllQuestionsHandler(CriThinkDbContext dbContext, ILogger<GetAllQuestionsHandler> logger)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _logger = logger;
         }
 
-        public async Task<List<DemoNews>> Handle(GetAllDemoNewsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Question>> Handle(GetAllQuestionsQuery request, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
             try
             {
-                var allDemoNews = await _dbContext.DemoNews
-                    .GetAllDemoNewsAsync(DemoNewsProjection.GetAll, cancellationToken)
+                var allQuestions = await _dbContext.Questions
+                    .GetAllQuestionsAsync(QuestionProjection.GetAll, cancellationToken)
                     .ConfigureAwait(false);
 
-                return allDemoNews;
+                return allQuestions;
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error getting all demo news", request);
+                _logger?.LogError(ex, "Error getting all question", request);
                 throw;
             }
         }

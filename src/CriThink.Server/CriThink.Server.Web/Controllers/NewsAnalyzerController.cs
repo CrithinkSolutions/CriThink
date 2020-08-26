@@ -172,5 +172,21 @@ namespace CriThink.Server.Web.Controllers
             await _newsAnalyzerService.AddQuestionAsync(request).ConfigureAwait(false);
             return NoContent();
         }
+
+        /// <summary>
+        /// Returns a predefined list of questions for the user
+        /// </summary>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionGetAll)] // api/news-analyzer/question
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetQuestionListAsync()
+        {
+            var newsList = await _newsAnalyzerService.GetQuestionListAsync().ConfigureAwait(false);
+            return Ok(new ApiOkResponse(newsList));
+        }
     }
 }
