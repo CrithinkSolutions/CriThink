@@ -45,6 +45,7 @@
         public const string NewsAnalyzerTextSentimentAnalysis = "sentiment-analysis";
         public const string NewsAnalyzerDemoNewsGetAll = "demo-news";
         public const string NewsAnalyzerDemoNewsAdd = "demo-news";
+        public const string NewsAnalyzerQuestionAdd = "question";
 
         #endregion
 

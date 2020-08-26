@@ -112,6 +112,16 @@ namespace CriThink.Server.Web.Services
 
             var _ = await _mediator.Send(entity).ConfigureAwait(false);
         }
+
+        public async Task AddQuestionAsync(QuestionAddRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var entity = _mapper.Map<QuestionAddRequest, Question>(request);
+
+            var _ = await _mediator.Send(entity).ConfigureAwait(false);
+        }
     }
 
     public interface INewsAnalyzerService
@@ -163,5 +173,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">News to add</param>
         /// <returns>Awaitable task</returns>
         Task AddDemoNewsAsync(DemoNewsAddRequest request);
+
+        /// <summary>
+        /// Add the given question
+        /// </summary>
+        /// <param name="request">Question to add</param>
+        /// <returns>Awaitable task</returns>
+        Task AddQuestionAsync(QuestionAddRequest request);
     }
 }

@@ -154,5 +154,23 @@ namespace CriThink.Server.Web.Controllers
             await _newsAnalyzerService.AddDemoNewsAsync(request).ConfigureAwait(false);
             return NoContent();
         }
+
+        /// <summary>
+        /// Add the given question
+        /// </summary>
+        /// <param name="request">Question to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionAdd)] // api/news-analyzer/question
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddQuestionAsync([FromBody] QuestionAddRequest request)
+        {
+            await _newsAnalyzerService.AddQuestionAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
     }
 }
