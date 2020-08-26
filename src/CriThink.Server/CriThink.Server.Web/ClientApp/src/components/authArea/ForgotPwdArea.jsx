@@ -24,7 +24,6 @@ export class ForgotPwdArea extends Component {
                 username: event.target.value
             })
         }
-        console.log(this.state)
     }
 
     getPwdAccount = () => {

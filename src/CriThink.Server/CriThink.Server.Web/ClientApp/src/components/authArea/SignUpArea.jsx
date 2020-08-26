@@ -34,7 +34,6 @@ export class SignUpArea extends Component {
                         <b>Check your email {this.state.email}</b>
                     </Message>
                 })
-                console.log(res)
             })
 
             .catch(err => {
@@ -44,7 +43,6 @@ export class SignUpArea extends Component {
                         <b>Error: </b>{err}
                     </Message>
                 })
-                console.log(err)
             })
 
         .then(() => {

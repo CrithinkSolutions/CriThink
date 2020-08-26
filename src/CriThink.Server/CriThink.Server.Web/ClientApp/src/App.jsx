@@ -8,6 +8,8 @@ import { ForgotPwdArea } from './components/authArea/ForgotPwdArea'
 import { ProfileArea } from './components/authArea/ProfileArea'
 import { ChangePwdArea } from './components/authArea/ChangePwdArea'
 import { NewPwdArea } from './components/authArea/NewPwdArea'
+import { AuthRoute } from './routers/authRoute'
+import { NoAuthRoute } from './routers/noauthRoute'
 
 import './custom.css'
 
@@ -18,12 +20,12 @@ export default class App extends Component {
     return (
       <Layout>
       	<Route exact path='/' component={Home} />
-        <Route exact path='/login' component={LoginArea} />
-        <Route exact path='/signup' component={SignUpArea} />
-        <Route exact path='/forgotpassword' component={ForgotPwdArea} />
-        <Route exact path='/profile' component={ProfileArea} />
-        <Route exact path='/profile/changepassword' component={ChangePwdArea} />
-        <Route path='/api/identity/reset-password' component={NewPwdArea} />
+        <NoAuthRoute exact path='/login' component={LoginArea} />
+        <NoAuthRoute exact path='/signup' component={SignUpArea} />
+        <NoAuthRoute exact path='/forgotpassword' component={ForgotPwdArea} />
+        <AuthRoute exact path='/profile' component={ProfileArea} />
+        <AuthRoute exact path='/profile/changepassword' component={ChangePwdArea} />
+        <NoAuthRoute path='/api/identity/reset-password' component={NewPwdArea} />
       </Layout>
     );
   }
