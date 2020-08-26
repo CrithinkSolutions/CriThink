@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
+using CriThink.Common.Endpoints.DTOs.NewsAnalyzer.Responses;
+using CriThink.Server.Core.Queries;
+using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using CriThink.Server.Web.Facades;
+using MediatR;
 
 namespace CriThink.Server.Web.Services
 {
@@ -15,13 +20,15 @@ namespace CriThink.Server.Web.Services
         private readonly INewsScraperManager _newsScraperManager;
         private readonly INewsAnalyzerFacade _newsAnalyzerFacade;
         private readonly IDomainAnalyzerFacade _domainAnalyzerFacade;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public NewsAnalyzerService(INewsScraperManager newsScraperManager, INewsAnalyzerFacade newsAnalyzerFacade, IDomainAnalyzerFacade domainAnalyzerFacade, IMapper mapper)
+        public NewsAnalyzerService(INewsScraperManager newsScraperManager, INewsAnalyzerFacade newsAnalyzerFacade, IDomainAnalyzerFacade domainAnalyzerFacade, IMediator mediator, IMapper mapper)
         {
             _newsScraperManager = newsScraperManager ?? throw new ArgumentNullException(nameof(newsScraperManager));
             _newsAnalyzerFacade = newsAnalyzerFacade ?? throw new ArgumentNullException(nameof(newsAnalyzerFacade));
             _domainAnalyzerFacade = domainAnalyzerFacade ?? throw new ArgumentNullException(nameof(domainAnalyzerFacade));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -83,6 +90,19 @@ namespace CriThink.Server.Web.Services
             var response = _mapper.Map<NewsAnalysisProviderResult, NewsAnalyzerResponse>(analysisResponse);
             return response;
         }
+
+        public async Task<IList<DemoNewsResponse>> GetNewsListAsync()
+        {
+            var query = new GetAllDemoNewsQuery();
+            var response = await _mediator.Send(query).ConfigureAwait(false);
+
+            if (response is IEnumerable<GetAllDemoNewsQueryResponse> newsList)
+            {
+                return _mapper.Map<IEnumerable<GetAllDemoNewsQueryResponse>, IList<DemoNewsResponse>>(newsList);
+            }
+
+            throw new InvalidOperationException($"Invalid result from '{nameof(GetAllDemoNewsQuery)}' query");
+        }
     }
 
     public interface INewsAnalyzerService
@@ -121,5 +141,11 @@ namespace CriThink.Server.Web.Services
         /// <param name="uri">News uri</param>
         /// <returns>News sentiment scores</returns>
         Task<NewsAnalyzerResponse> AnalyzeNewsSentimentAsync(Uri uri);
+
+        /// <summary>
+        /// Get the news list for the demo
+        /// </summary>
+        /// <returns>List of news</returns>
+        Task<IList<DemoNewsResponse>> GetNewsListAsync();
     }
 }
