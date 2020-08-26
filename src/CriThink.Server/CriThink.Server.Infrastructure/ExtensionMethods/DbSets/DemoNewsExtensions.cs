@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
@@ -19,7 +18,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Awaitable task</returns>
-        internal static Task<List<GetAllDemoNewsQueryResponse>> GetAllDemoNewsAsync(this DbSet<DemoNews> dbSet, Expression<Func<DemoNews, GetAllDemoNewsQueryResponse>> projection, CancellationToken cancellationToken = default)
+        internal static Task<List<DemoNews>> GetAllDemoNewsAsync(this DbSet<DemoNews> dbSet, Expression<Func<DemoNews, DemoNews>> projection, CancellationToken cancellationToken = default)
         {
             return dbSet
                 .Select(projection)

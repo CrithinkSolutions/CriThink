@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Core.Entities;
 using MediatR;
 
 namespace CriThink.Server.Core.Queries
 {
-    public class GetAllDemoNewsQuery : IRequest<List<GetAllDemoNewsQueryResponse>>, IRequest<Unit>
+    public class GetAllDemoNewsQuery : IRequest<List<DemoNews>>, IRequest<Unit>
     { }
 }

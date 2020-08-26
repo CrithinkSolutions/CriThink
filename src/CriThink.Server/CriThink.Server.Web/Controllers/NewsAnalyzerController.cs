@@ -125,7 +125,7 @@ namespace CriThink.Server.Web.Controllers
         /// Returns a predefined list of news ready to be analyzed
         /// </summary>
         /// <returns></returns>
-        [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/all
+        [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
@@ -137,7 +137,12 @@ namespace CriThink.Server.Web.Controllers
             return Ok(new ApiOkResponse(newsList));
         }
 
-        [Route(EndpointConstants.NewsAnalyzerAddNews)] // api/news-analyzer/add
+        /// <summary>
+        /// Add a news to the predefined list
+        /// </summary>
+        /// <param name="request">News to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerDemoNewsAdd)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

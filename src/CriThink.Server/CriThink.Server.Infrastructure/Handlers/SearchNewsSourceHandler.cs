@@ -9,6 +9,7 @@ using MediatR;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
+    // ReSharper disable once UnusedMember.Global
     public class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
     {
         private readonly INewsSourceRepository _newsSourceRepository;

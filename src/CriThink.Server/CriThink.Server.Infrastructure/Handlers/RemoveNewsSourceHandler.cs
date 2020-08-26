@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Repositories;
 using MediatR;
+// ReSharper disable UnusedMember.Global
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class RemoveBadNewsSourceHandler : IRequestHandler<RemoveBadNewsSourceCommand>
+    internal class RemoveBadNewsSourceHandler : IRequestHandler<RemoveBadNewsSourceCommand>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
 
@@ -26,7 +27,7 @@ namespace CriThink.Server.Infrastructure.Handlers
         }
     }
 
-    public class RemoveGoodNewsSourceHandler : IRequestHandler<RemoveGoodNewsSourceCommand>
+    internal class RemoveGoodNewsSourceHandler : IRequestHandler<RemoveGoodNewsSourceCommand>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
 

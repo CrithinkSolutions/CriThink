@@ -6,7 +6,6 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Queries;
-using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
@@ -96,9 +95,9 @@ namespace CriThink.Server.Web.Services
             var query = new GetAllDemoNewsQuery();
             var response = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (response is IEnumerable<GetAllDemoNewsQueryResponse> newsList)
+            if (response is IEnumerable<DemoNews> newsList)
             {
-                return _mapper.Map<IEnumerable<GetAllDemoNewsQueryResponse>, IList<DemoNewsResponse>>(newsList);
+                return _mapper.Map<IEnumerable<DemoNews>, IList<DemoNewsResponse>>(newsList);
             }
 
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllDemoNewsQuery)}' query");
