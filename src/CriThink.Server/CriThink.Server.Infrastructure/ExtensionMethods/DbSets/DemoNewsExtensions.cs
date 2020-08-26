@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
 {
-    public static class DemoNewsExtensions
+    internal static class DemoNewsExtensions
     {
         /// <summary>
         /// Get all the demo news
@@ -18,8 +18,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
-        /// <returns></returns>
-        public static Task<List<GetAllDemoNewsQueryResponse>> GetAllDemoNewsAsync(this DbSet<DemoNews> dbSet, Expression<Func<DemoNews, GetAllDemoNewsQueryResponse>> projection, CancellationToken cancellationToken = default)
+        /// <returns>Awaitable task</returns>
+        internal static Task<List<GetAllDemoNewsQueryResponse>> GetAllDemoNewsAsync(this DbSet<DemoNews> dbSet, Expression<Func<DemoNews, GetAllDemoNewsQueryResponse>> projection, CancellationToken cancellationToken = default)
         {
             return dbSet
                 .Select(projection)

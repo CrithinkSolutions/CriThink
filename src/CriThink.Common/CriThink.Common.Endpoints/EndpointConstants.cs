@@ -43,7 +43,8 @@
         public const string NewsAnalyzerPerformCompleteAnalysis = "perform-complete-anlysis";
         public const string NewsAnalyzerScrapeNews = "scrape-news";
         public const string NewsAnalyzerTextSentimentAnalysis = "sentiment-analysis";
-        public const string NewsAnalyzerNewsList = "news-list";
+        public const string NewsAnalyzerDemoNewsGetAll = "all";
+        public const string NewsAnalyzerAddNews = "add";
 
         #endregion
 

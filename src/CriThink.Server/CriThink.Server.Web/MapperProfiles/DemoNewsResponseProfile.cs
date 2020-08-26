@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.NewsAnalyzer.Responses;
+using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Core.Responses;
 
 namespace CriThink.Server.Web.MapperProfiles

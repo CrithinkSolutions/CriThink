@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
+using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
@@ -124,7 +125,7 @@ namespace CriThink.Server.Web.Controllers
         /// Returns a predefined list of news ready to be analyzed
         /// </summary>
         /// <returns></returns>
-        [Route(EndpointConstants.NewsAnalyzerNewsList)] // api/news-analyzer/news-list
+        [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/all
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
@@ -132,8 +133,21 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNewsListAsync()
         {
-            var newsList = await _newsAnalyzerService.GetNewsListAsync().ConfigureAwait(false);
+            var newsList = await _newsAnalyzerService.GetDemoNewsListAsync().ConfigureAwait(false);
             return Ok(new ApiOkResponse(newsList));
+        }
+
+        [Route(EndpointConstants.NewsAnalyzerAddNews)] // api/news-analyzer/add
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddDemoNewsAsync([FromBody] DemoNewsAddRequest request)
+        {
+            await _newsAnalyzerService.AddDemoNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
         }
     }
 }

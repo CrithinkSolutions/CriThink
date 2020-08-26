@@ -1,8 +1,9 @@
 ﻿using System;
+using MediatR;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class DemoNews : ICriThinkIdentity
+    public class DemoNews : ICriThinkIdentity, IRequest
     {
         public Guid Id { get; set; }
 

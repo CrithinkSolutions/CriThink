@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
-using CriThink.Common.Endpoints.DTOs.NewsAnalyzer.Responses;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.DomainAnalyzer;
@@ -91,7 +91,7 @@ namespace CriThink.Server.Web.Services
             return response;
         }
 
-        public async Task<IList<DemoNewsResponse>> GetNewsListAsync()
+        public async Task<IList<DemoNewsResponse>> GetDemoNewsListAsync()
         {
             var query = new GetAllDemoNewsQuery();
             var response = await _mediator.Send(query).ConfigureAwait(false);
@@ -102,6 +102,16 @@ namespace CriThink.Server.Web.Services
             }
 
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllDemoNewsQuery)}' query");
+        }
+
+        public async Task AddDemoNewsAsync(DemoNewsAddRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var entity = _mapper.Map<DemoNewsAddRequest, DemoNews>(request);
+
+            var _ = await _mediator.Send(entity).ConfigureAwait(false);
         }
     }
 
@@ -146,6 +156,13 @@ namespace CriThink.Server.Web.Services
         /// Get the news list for the demo
         /// </summary>
         /// <returns>List of news</returns>
-        Task<IList<DemoNewsResponse>> GetNewsListAsync();
+        Task<IList<DemoNewsResponse>> GetDemoNewsListAsync();
+
+        /// <summary>
+        /// Add the given news
+        /// </summary>
+        /// <param name="request">News to add</param>
+        /// <returns>Awaitable task</returns>
+        Task AddDemoNewsAsync(DemoNewsAddRequest request);
     }
 }
