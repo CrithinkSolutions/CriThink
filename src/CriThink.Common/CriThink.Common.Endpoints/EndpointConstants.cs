@@ -47,6 +47,7 @@
         public const string NewsAnalyzerDemoNewsAdd = "demo-news";
         public const string NewsAnalyzerQuestionAdd = "question";
         public const string NewsAnalyzerQuestionGetAll = "question";
+        public const string NewsAnalyzerQuestionAnswer = "answer-question";
 
         #endregion
 

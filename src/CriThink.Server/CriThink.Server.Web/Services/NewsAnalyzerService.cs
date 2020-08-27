@@ -11,6 +11,7 @@ using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using CriThink.Server.Web.Facades;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Services
 {
@@ -21,14 +22,16 @@ namespace CriThink.Server.Web.Services
         private readonly IDomainAnalyzerFacade _domainAnalyzerFacade;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<NewsAnalyzerService> _logger;
 
-        public NewsAnalyzerService(INewsScraperManager newsScraperManager, INewsAnalyzerFacade newsAnalyzerFacade, IDomainAnalyzerFacade domainAnalyzerFacade, IMediator mediator, IMapper mapper)
+        public NewsAnalyzerService(INewsScraperManager newsScraperManager, INewsAnalyzerFacade newsAnalyzerFacade, IDomainAnalyzerFacade domainAnalyzerFacade, IMediator mediator, IMapper mapper, ILogger<NewsAnalyzerService> logger)
         {
             _newsScraperManager = newsScraperManager ?? throw new ArgumentNullException(nameof(newsScraperManager));
             _newsAnalyzerFacade = newsAnalyzerFacade ?? throw new ArgumentNullException(nameof(newsAnalyzerFacade));
             _domainAnalyzerFacade = domainAnalyzerFacade ?? throw new ArgumentNullException(nameof(domainAnalyzerFacade));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger;
         }
 
         public async Task<NewsAnalyzerResponse> HasUriHttpsSupportAsync(Uri uri)
@@ -135,6 +138,47 @@ namespace CriThink.Server.Web.Services
 
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionsQuery)}' query");
         }
+
+        public async Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(QuestionAnswerRequest request)
+        {
+            if (request?.Answers == null || !request.Answers.Any())
+                throw new ArgumentNullException(nameof(request));
+
+            var questionToRetrieve = request.Answers
+                .Select(aq => new Guid(aq.QuestionId));
+
+            var newsId = new Guid(request.NewsId);
+
+            var query = new GetAllQuestionAnswerQuery(newsId, questionToRetrieve);
+            var response = await _mediator.Send(query).ConfigureAwait(false);
+
+            if (response is IList<QuestionAnswer> anwsers)
+            {
+                var comparedAnswers = new List<QuestionAnswerResponse>();
+
+                foreach (var givenAnswer in request.Answers)
+                {
+                    var correctAnswer = anwsers.FirstOrDefault(a => string.Equals(a.Question.Id.ToString(), givenAnswer.QuestionId, StringComparison.InvariantCultureIgnoreCase));
+                    if (correctAnswer == null)
+                    {
+                        _logger.LogWarning($"Given question not found in DB. Id: '{givenAnswer.QuestionId}'", givenAnswer);
+                        continue;
+                    }
+
+                    var comparedAnswer = new QuestionAnswerResponse
+                    {
+                        QuestionId = correctAnswer.Question.Id.ToString(),
+                        IsCorrect = correctAnswer.IsTrue && givenAnswer.IsPositive
+                    };
+
+                    comparedAnswers.Add(comparedAnswer);
+                }
+
+                return comparedAnswers;
+            }
+
+            throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionAnswerQuery)}' query");
+        }
     }
 
     public interface INewsAnalyzerService
@@ -199,5 +243,12 @@ namespace CriThink.Server.Web.Services
         /// </summary>
         /// <returns>List of questions</returns>
         Task<IList<QuestionResponse>> GetQuestionListAsync();
+
+        /// <summary>
+        /// Compare the given questions with the correct ones
+        /// </summary>
+        /// <param name="request">Given answers</param>
+        /// <returns>Awaitable task with the result</returns>
+        Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(QuestionAnswerRequest request);
     }
 }
