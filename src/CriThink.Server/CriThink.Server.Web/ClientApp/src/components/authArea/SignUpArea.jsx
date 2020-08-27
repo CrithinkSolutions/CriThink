@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid } from 'semantic-ui-react'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
+import AuthHandler from "../../handlers/authHandler";
 
-export class LoginArea extends Component {
-    constructor(props) {
+export class SignUpArea extends Component {
+	constructor(props) {
         super(props);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleSignUpClick = this.handleSignUpClick.bind(this);
-        this.changeHandler = this.changeHandler.bind(this)
         this.state = {
-            signuprender: false,
+            loading: false,
             username: '',
             email: '',
-            password: ''
+            password: '',
+            msg: ''
         };
     }
 
@@ -20,39 +19,43 @@ export class LoginArea extends Component {
         this.setState({
           [event.target.name]: event.target.value
         });
-      }
-    
-
-    handleLoginClick = () => {
-        this.setState({signuprender: false});
     }
 
-    handleSignUpClick = () => {
-        this.setState({signuprender: true});
-    }
-
-    accessAccount = () => {
+	registerAccount = () => {
+        this.setState({loading: true});
         const { username, email, password } = this.state;
-        axios.post('http://crithink-staging.eba-msmbrpmt.eu-central-1.elasticbeanstalk.com/api/identity/login', {
-            "username": username,
-            "email": email,
-            "password": password
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
+        AuthHandler
+            .register(username,email,password)
+
+            .then((res) => {
+                this.setState({msg: 
+                    <Message positive>
+                        <Icon name='check' />
+                        <b>Check your email {this.state.email}</b>
+                    </Message>
+                })
+            })
+
+            .catch(err => {
+                this.setState({msg: 
+                    <Message error>
+                        <Icon name='warning' />
+                        <b>Error: </b>{err}
+                    </Message>
+                })
+            })
+
+        .then(() => {
+            this.setState({loading: false})
         })
     }
 
-    render() {
+	render() {
         return (
             <div id="mainrender">
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
                     <Grid.Column width={8}>
-                        <div>
-                        <h1>Login</h1>
+                        <h1>Sign Up</h1>
                         <br/>
                         <Form>
                             <Form.Input
@@ -84,7 +87,12 @@ export class LoginArea extends Component {
                             />
                         </Form>
                         <br/>
-                        <Button content='Login' primary onClick={this.accessAccount}/>
+                        <div id="options">
+                            <Button content='Sign Up' loading={this.state.loading} primary onClick={this.registerAccount}/>
+                            <Message>
+                            <p>Have an account? <Link to="/login"><Button compact color='red' size="small">Log In</Button></Link></p>
+                            </Message>
+                            {this.state.msg ? this.state.msg : null}
                         </div>
                     </Grid.Column>
                 </Grid>
@@ -92,4 +100,3 @@ export class LoginArea extends Component {
         );
     }
 }
-
