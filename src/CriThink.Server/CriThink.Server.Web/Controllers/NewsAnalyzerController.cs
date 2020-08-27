@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
@@ -205,6 +204,24 @@ namespace CriThink.Server.Web.Controllers
         {
             var results = await _newsAnalyzerService.CompareAnswersAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(results));
+        }
+
+        /// <summary>
+        /// Add an answer question for a specific news
+        /// </summary>
+        /// <param name="request">Anwser to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionAnswerAdd)] // api/news-analyzer/answer-question/create
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddQuestionAnswerAsync([FromBody] QuestionAnswerAddRequest request)
+        {
+            await _newsAnalyzerService.AddAnswerAsync(request).ConfigureAwait(false);
+            return NoContent();
         }
     }
 }

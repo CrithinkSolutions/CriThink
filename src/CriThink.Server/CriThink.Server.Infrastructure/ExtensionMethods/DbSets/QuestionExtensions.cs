@@ -24,5 +24,19 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                 .Select(projection)
                 .ToListAsync(cancellationToken);
         }
+
+        /// <summary>
+        /// Get question with the given id
+        /// </summary>
+        /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
+        /// <param name="projection">Projection applied to Select query</param>
+        /// <param name="questionId">Question id to search</param>
+        /// <param name="cancellationToken">Optional cancellation token</param>
+        /// <returns></returns>
+        internal static ValueTask<Question> GetQuestionByIdAsync(this DbSet<Question> dbSet, Expression<Func<Question, Question>> projection, Guid questionId, CancellationToken cancellationToken = default)
+        {
+            return dbSet
+                .FindAsync(new object[] { questionId }, cancellationToken);
+        }
     }
 }

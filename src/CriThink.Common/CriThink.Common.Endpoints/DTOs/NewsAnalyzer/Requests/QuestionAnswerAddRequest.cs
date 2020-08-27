@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-#pragma warning disable CA2227 // Collection properties should be read only
-
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 {
-    public class QuestionAnswerRequest : IValidatableObject
+    public class QuestionAnswerAddRequest : IValidatableObject
     {
-        [Required]
         [JsonPropertyName("newsId")]
+        [Required]
         public Guid NewsId { get; set; }
 
-        [JsonPropertyName("answers")]
+        [JsonPropertyName("questionId")]
         [Required]
-        public IList<AnswerRequest> Answers { get; set; }
+        public Guid QuestionId { get; set; }
+
+        [JsonPropertyName("isPositive")]
+        [Required]
+        public bool IsPositive { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -24,21 +26,7 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
             {
                 yield return new ValidationResult("You can't use a default GUID as Id", new[] { nameof(NewsId) });
             }
-        }
-    }
 
-    public class AnswerRequest : IValidatableObject
-    {
-        [Required]
-        [JsonPropertyName("questionId")]
-        public Guid QuestionId { get; set; }
-
-        [Required]
-        [JsonPropertyName("isPositive")]
-        public bool IsPositive { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
             if (QuestionId.Equals(Guid.Empty))
             {
                 yield return new ValidationResult("You can't use a default GUID as Id", new[] { nameof(QuestionId) });

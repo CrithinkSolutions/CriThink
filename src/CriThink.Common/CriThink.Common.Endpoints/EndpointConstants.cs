@@ -48,6 +48,7 @@
         public const string NewsAnalyzerQuestionAdd = "question";
         public const string NewsAnalyzerQuestionGetAll = "question";
         public const string NewsAnalyzerQuestionAnswer = "answer-question";
+        public const string NewsAnalyzerQuestionAnswerAdd = "answer-question/create";
 
         #endregion
 

@@ -145,11 +145,9 @@ namespace CriThink.Server.Web.Services
                 throw new ArgumentNullException(nameof(request));
 
             var questionToRetrieve = request.Answers
-                .Select(aq => new Guid(aq.QuestionId));
+                .Select(aq => aq.QuestionId);
 
-            var newsId = new Guid(request.NewsId);
-
-            var query = new GetAllQuestionAnswerQuery(newsId, questionToRetrieve);
+            var query = new GetAllQuestionAnswerQuery(request.NewsId, questionToRetrieve);
             var response = await _mediator.Send(query).ConfigureAwait(false);
 
             if (response is IList<QuestionAnswer> anwsers)
@@ -158,7 +156,7 @@ namespace CriThink.Server.Web.Services
 
                 foreach (var givenAnswer in request.Answers)
                 {
-                    var correctAnswer = anwsers.FirstOrDefault(a => string.Equals(a.Question.Id.ToString(), givenAnswer.QuestionId, StringComparison.InvariantCultureIgnoreCase));
+                    var correctAnswer = anwsers.FirstOrDefault(a => a.Question.Id == givenAnswer.QuestionId);
                     if (correctAnswer == null)
                     {
                         _logger.LogWarning($"Given question not found in DB. Id: '{givenAnswer.QuestionId}'", givenAnswer);
@@ -178,6 +176,22 @@ namespace CriThink.Server.Web.Services
             }
 
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionAnswerQuery)}' query");
+        }
+
+        public async Task AddAnswerAsync(QuestionAnswerAddRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var entity = _mapper.Map<QuestionAnswerAddRequest, QuestionAnswer>(request);
+
+            var questionQuery = new GetQuestionQuery(request.QuestionId);
+            var newsQuery = new GetDemoNewsQuery(request.NewsId);
+
+            entity.Question = await _mediator.Send(questionQuery).ConfigureAwait(false);
+            entity.DemoNews = await _mediator.Send(newsQuery).ConfigureAwait(false);
+
+            var _ = await _mediator.Send(entity).ConfigureAwait(false);
         }
     }
 
@@ -250,5 +264,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Given answers</param>
         /// <returns>Awaitable task with the result</returns>
         Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(QuestionAnswerRequest request);
+
+        /// <summary>
+        /// Add an answer question for a specific news
+        /// </summary>
+        /// <param name="request">Answer to add</param>
+        /// <returns>Awaitable task</returns>
+        Task AddAnswerAsync(QuestionAnswerAddRequest request);
     }
 }
