@@ -12,3 +12,8 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.link {
+	color: #1678C2;
+    cursor: pointer;
+}
