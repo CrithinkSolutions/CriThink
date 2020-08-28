@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
@@ -9,7 +8,6 @@ using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
 using CriThink.Server.Infrastructure.Projections;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
@@ -34,11 +32,10 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var newsId = request.NewsId;
+                var questionIds = request.QuestionIds;
 
                 return await _dbContext.QuestionAnswers
-                    //.Where(aq => aq.DemoNews.Id == newsId)
-                    //.ToListAsync(cancellationToken)
-                    .GetQuestionAnswersOfGivenNewsAsync(QuestionAnswerProjection.GetAll, newsId, cancellationToken)
+                    .GetQuestionAnswersOfGivenNewsAsync(QuestionAnswerProjection.GetAll, newsId, questionIds, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
