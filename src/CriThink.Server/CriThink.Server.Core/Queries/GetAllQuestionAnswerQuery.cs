@@ -13,10 +13,10 @@ namespace CriThink.Server.Core.Queries
                 throw new ArgumentNullException(nameof(filters));
 
             NewsId = newsId;
-            Filters = new List<Guid>(filters).AsReadOnly();
+            QuestionIds = new List<Guid>(filters).AsReadOnly();
         }
 
-        public IReadOnlyList<Guid> Filters { get; }
+        public IReadOnlyList<Guid> QuestionIds { get; }
 
         public Guid NewsId { get; }
     }

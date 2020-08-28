@@ -19,12 +19,12 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="newsId">News id</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Awaitable task</returns>
-        internal static Task<List<QuestionAnswer>> GetQuestionAnswersOfGivenNewsAsync(this DbSet<QuestionAnswer> dbSet, Expression<Func<QuestionAnswer, QuestionAnswer>> projection, Guid newsId, CancellationToken cancellationToken = default)
+        internal static Task<List<QuestionAnswer>> GetQuestionAnswersOfGivenNewsAsync(this DbSet<QuestionAnswer> dbSet, Expression<Func<QuestionAnswer, QuestionAnswer>> projection, Guid newsId, IReadOnlyList<Guid> questionIds, CancellationToken cancellationToken = default)
         {
             return dbSet
                 .Include(qa => qa.DemoNews)
                 .Include(qa => qa.Question)
-                .Where(qa => qa.DemoNews.Id == newsId)
+                .Where(qa => qa.DemoNews.Id == newsId && questionIds.Contains(qa.Question.Id))
                 .Select(projection)
                 .ToListAsync(cancellationToken);
         }
