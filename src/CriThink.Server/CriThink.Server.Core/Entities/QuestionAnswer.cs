@@ -11,7 +11,7 @@ namespace CriThink.Server.Core.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public bool IsTrue { get; set; }
+        public bool IsPositive { get; set; }
 
         #region ForeignKey
 

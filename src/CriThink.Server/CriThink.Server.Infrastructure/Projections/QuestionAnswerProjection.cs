@@ -12,7 +12,7 @@ namespace CriThink.Server.Infrastructure.Projections
         internal static Expression<Func<QuestionAnswer, QuestionAnswer>> GetAll =>
             questionAnswer => new QuestionAnswer
             {
-                IsTrue = questionAnswer.IsTrue,
+                IsPositive = questionAnswer.IsPositive,
                 Question = questionAnswer.Question,
                 //Id = questionAnswer.Id
             };

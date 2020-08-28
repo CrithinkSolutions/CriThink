@@ -15,7 +15,7 @@ namespace CriThink.Server.Web.MapperProfiles
                 .ForMember(dest =>
                     dest.DemoNews, opt => opt.Ignore())
                 .ForMember(dest =>
-                    dest.IsTrue, opt => opt.MapFrom(src => src.IsPositive))
+                    dest.IsPositive, opt => opt.MapFrom(src => src.IsPositive))
                 .ForMember(dest =>
                     dest.Id, opt => opt.Ignore());
         }

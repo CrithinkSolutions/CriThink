@@ -13,7 +13,7 @@ namespace CriThink.Server.Infrastructure.Projections
             question => new Question
             {
                 Id = question.Id,
-                Text = question.Text
+                Content = question.Content
             };
     }
 }

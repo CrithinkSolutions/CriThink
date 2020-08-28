@@ -26,7 +26,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Text = table.Column<string>(nullable: false)
+                    Content = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IsTrue = table.Column<bool>(nullable: false),
+                    IsPositive = table.Column<bool>(nullable: false),
                     QuestionId = table.Column<Guid>(nullable: false),
                     DemoNewsId = table.Column<Guid>(nullable: false)
                 },

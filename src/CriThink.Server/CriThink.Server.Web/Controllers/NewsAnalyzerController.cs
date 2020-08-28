@@ -200,7 +200,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> AnwserQuestionAsync([FromBody] QuestionAnswerRequest request)
+        public async Task<IActionResult> AnwserQuestionAsync([FromBody] AnswerQuestionsRequest request)
         {
             var results = await _newsAnalyzerService.CompareAnswersAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(results));

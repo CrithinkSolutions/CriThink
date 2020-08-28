@@ -4,6 +4,7 @@ using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
@@ -43,7 +44,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -61,7 +62,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Property<Guid>("DemoNewsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsTrue")
+                    b.Property<bool>("IsPositive")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("QuestionId")

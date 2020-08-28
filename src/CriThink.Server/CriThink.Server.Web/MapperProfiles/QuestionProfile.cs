@@ -10,11 +10,11 @@ namespace CriThink.Server.Web.MapperProfiles
         public QuestionProfile()
         {
             CreateMap<QuestionAddRequest, Question>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<Question, QuestionResponse>()
-                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }

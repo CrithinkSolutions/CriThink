@@ -139,7 +139,7 @@ namespace CriThink.Server.Web.Services
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionsQuery)}' query");
         }
 
-        public async Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(QuestionAnswerRequest request)
+        public async Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(AnswerQuestionsRequest request)
         {
             if (request?.Answers == null || !request.Answers.Any())
                 throw new ArgumentNullException(nameof(request));
@@ -166,7 +166,7 @@ namespace CriThink.Server.Web.Services
                     var comparedAnswer = new QuestionAnswerResponse
                     {
                         QuestionId = correctAnswer.Question.Id.ToString(),
-                        IsCorrect = correctAnswer.IsTrue && givenAnswer.IsPositive
+                        IsCorrect = correctAnswer.IsPositive && givenAnswer.IsPositive
                     };
 
                     comparedAnswers.Add(comparedAnswer);
@@ -263,7 +263,7 @@ namespace CriThink.Server.Web.Services
         /// </summary>
         /// <param name="request">Given answers</param>
         /// <returns>Awaitable task with the result</returns>
-        Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(QuestionAnswerRequest request);
+        Task<IList<QuestionAnswerResponse>> CompareAnswersAsync(AnswerQuestionsRequest request);
 
         /// <summary>
         /// Add an answer question for a specific news
