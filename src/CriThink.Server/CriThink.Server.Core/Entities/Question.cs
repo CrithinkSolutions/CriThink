@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class Question : ICriThinkIdentity, IRequest<Unit>
+    public class Question : ICriThinkIdentity, IRequest
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

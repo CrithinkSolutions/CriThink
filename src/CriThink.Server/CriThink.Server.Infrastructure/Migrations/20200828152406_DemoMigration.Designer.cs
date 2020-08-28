@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    [Migration("20200826194433_DemoQuestions")]
-    partial class DemoQuestions
+    [Migration("20200828152406_DemoMigration")]
+    partial class DemoMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,9 +28,11 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Link")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -45,6 +47,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -58,13 +61,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DemoNewsId")
+                    b.Property<Guid>("DemoNewsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsTrue")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("QuestionId")
+                    b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -259,11 +262,15 @@ namespace CriThink.Server.Infrastructure.Migrations
                 {
                     b.HasOne("CriThink.Server.Core.Entities.DemoNews", "DemoNews")
                         .WithMany()
-                        .HasForeignKey("DemoNewsId");
+                        .HasForeignKey("DemoNewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CriThink.Server.Core.Entities.Question", "Question")
                         .WithMany()
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

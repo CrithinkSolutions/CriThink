@@ -2,13 +2,36 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1062 // Validate arguments of public methods
-
 namespace CriThink.Server.Infrastructure.Migrations
 {
-    public partial class IdentitySecurityStampMigration : Migration
+    public partial class DemoMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "DemoNews",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    Link = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DemoNews", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Text = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserRoles",
@@ -44,6 +67,32 @@ namespace CriThink.Server.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    IsTrue = table.Column<bool>(nullable: false),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    DemoNewsId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionAnswers_DemoNews_DemoNewsId",
+                        column: x => x.DemoNewsId,
+                        principalTable: "DemoNews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionAnswers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,6 +222,16 @@ namespace CriThink.Server.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuestionAnswers_DemoNewsId",
+                table: "QuestionAnswers",
+                column: "DemoNewsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionAnswers_QuestionId",
+                table: "QuestionAnswers",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Users",
                 column: "NormalizedEmail");
@@ -203,10 +262,19 @@ namespace CriThink.Server.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "QuestionAnswers");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "DemoNews");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
         }
     }
 }
