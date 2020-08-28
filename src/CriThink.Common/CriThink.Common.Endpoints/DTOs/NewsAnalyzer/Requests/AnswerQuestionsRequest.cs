@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 #pragma warning disable CA2227 // Collection properties should be read only
@@ -24,6 +25,21 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
             {
                 yield return new ValidationResult("You can't use a default GUID as Id", new[] { nameof(NewsId) });
             }
+
+            var isValid = true;
+
+            foreach (var answer in Answers)
+            {
+                var isSingle = Answers.Count(a => a.QuestionId == answer.QuestionId) == 1;
+                if (!isSingle)
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid)
+                yield return new ValidationResult("You can't answer multiple times at the same question for the same news");
         }
     }
 
