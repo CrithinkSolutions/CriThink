@@ -166,7 +166,7 @@ namespace CriThink.Server.Web.Services
                     var comparedAnswer = new QuestionAnswerResponse
                     {
                         QuestionId = correctAnswer.Question.Id.ToString(),
-                        IsCorrect = correctAnswer.IsPositive && givenAnswer.IsPositive
+                        IsCorrect = correctAnswer.IsPositive == givenAnswer.IsPositive
                     };
 
                     comparedAnswers.Add(comparedAnswer);
