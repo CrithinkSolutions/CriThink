@@ -4,7 +4,7 @@ using MediatR;
 
 namespace CriThink.Server.Core.Queries
 {
-    public class SearchNewsSourceQuery : IRequest<SearchNewsSourceQueryResponse>, IRequest<Unit>
+    public class SearchNewsSourceQuery : IRequest<SearchNewsSourceQueryResponse>
     {
         public SearchNewsSourceQuery(Uri uri)
         {

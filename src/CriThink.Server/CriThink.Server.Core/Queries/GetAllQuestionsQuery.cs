@@ -4,7 +4,7 @@ using MediatR;
 
 namespace CriThink.Server.Core.Queries
 {
-    public class GetAllQuestionsQuery : IRequest<List<Question>>, IRequest<Unit>
+    public class GetAllQuestionsQuery : IRequest<List<Question>>
     {
     }
 }
