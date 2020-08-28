@@ -8,12 +8,12 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 {
     public class DemoNewsAddRequest
     {
-        [JsonPropertyName("title")]
         [Required]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [Required]
         [Url]
+        [Required]
         [JsonPropertyName("uri")]
         public string Uri { get; set; }
     }

@@ -8,15 +8,15 @@ using System.Text.Json.Serialization;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 {
-    public class QuestionAnswerRequest : IValidatableObject
+    public class AnswerQuestionsRequest : IValidatableObject
     {
         [Required]
         [JsonPropertyName("newsId")]
         public Guid NewsId { get; set; }
 
-        [JsonPropertyName("answers")]
         [Required]
-        public IList<AnswerRequest> Answers { get; set; }
+        [JsonPropertyName("answers")]
+        public IList<AnswerQuestionRequest> Answers { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -27,7 +27,7 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
         }
     }
 
-    public class AnswerRequest : IValidatableObject
+    public class AnswerQuestionRequest : IValidatableObject
     {
         [Required]
         [JsonPropertyName("questionId")]

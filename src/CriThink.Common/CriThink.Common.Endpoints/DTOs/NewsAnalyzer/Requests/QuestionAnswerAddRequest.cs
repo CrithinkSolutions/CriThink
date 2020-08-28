@@ -8,16 +8,16 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 {
     public class QuestionAnswerAddRequest : IValidatableObject
     {
-        [JsonPropertyName("newsId")]
         [Required]
+        [JsonPropertyName("newsId")]
         public Guid NewsId { get; set; }
 
-        [JsonPropertyName("questionId")]
         [Required]
+        [JsonPropertyName("questionId")]
         public Guid QuestionId { get; set; }
 
-        [JsonPropertyName("isPositive")]
         [Required]
+        [JsonPropertyName("isPositive")]
         public bool IsPositive { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
