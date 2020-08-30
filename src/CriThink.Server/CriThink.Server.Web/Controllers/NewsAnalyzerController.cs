@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
+using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
@@ -118,6 +119,109 @@ namespace CriThink.Server.Web.Controllers
             var uri = new Uri(request.Uri);
             var response = await _newsAnalyzerService.AnalyzeNewsSentimentAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
+        /// Returns a predefined list of news ready to be analyzed
+        /// </summary>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/demo-news
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetNewsListAsync()
+        {
+            var newsList = await _newsAnalyzerService.GetDemoNewsListAsync().ConfigureAwait(false);
+            return Ok(new ApiOkResponse(newsList));
+        }
+
+        /// <summary>
+        /// Add a news to the predefined list
+        /// </summary>
+        /// <param name="request">News to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerDemoNewsAdd)] // api/news-analyzer/demo-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddDemoNewsAsync([FromBody] DemoNewsAddRequest request)
+        {
+            await _newsAnalyzerService.AddDemoNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Add the given question
+        /// </summary>
+        /// <param name="request">Question to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionAdd)] // api/news-analyzer/question
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddQuestionAsync([FromBody] QuestionAddRequest request)
+        {
+            await _newsAnalyzerService.AddQuestionAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Returns a predefined list of questions for the user
+        /// </summary>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionGetAll)] // api/news-analyzer/question
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetQuestionListAsync()
+        {
+            var newsList = await _newsAnalyzerService.GetQuestionListAsync().ConfigureAwait(false);
+            return Ok(new ApiOkResponse(newsList));
+        }
+
+        /// <summary>
+        /// Compare the given answers to the correct ones
+        /// </summary>
+        /// <param name="request">Answer to compare</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionAnswer)] // api/news-analyzer/answer-question
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AnwserQuestionAsync([FromBody] AnswerQuestionsRequest request)
+        {
+            var results = await _newsAnalyzerService.CompareAnswersAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(results));
+        }
+
+        /// <summary>
+        /// Add an answer question for a specific news
+        /// </summary>
+        /// <param name="request">Anwser to add</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.NewsAnalyzerQuestionAnswerAdd)] // api/news-analyzer/answer-question/create
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddQuestionAnswerAsync([FromBody] QuestionAnswerAddRequest request)
+        {
+            await _newsAnalyzerService.AddAnswerAsync(request).ConfigureAwait(false);
+            return NoContent();
         }
     }
 }

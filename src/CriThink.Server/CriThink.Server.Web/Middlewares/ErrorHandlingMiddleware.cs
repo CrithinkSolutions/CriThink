@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Middlewares
@@ -27,6 +28,8 @@ namespace CriThink.Server.Web.Middlewares
             _logger = logger;
         }
 
+#pragma warning disable CA1062 // Validate arguments of public methods
+
         /// <summary>
         /// Wrap the action call in a try/catch block to have a standard response in case of error
         /// </summary>
@@ -43,6 +46,8 @@ namespace CriThink.Server.Web.Middlewares
                 await HandleExceptionAsync(context, ex).ConfigureAwait(false);
             }
         }
+
+#pragma warning restore CA1062 // Validate arguments of public methods
 
         /// <summary>
         /// Handle the exception thrown
@@ -62,6 +67,11 @@ namespace CriThink.Server.Web.Middlewares
                     code = HttpStatusCode.BadRequest;
                     parameter = new { error = aggregate.InnerExceptions.Select(e => e.Message) };
                     _logger.LogError(aggregate, "Aggregate exception");
+                    break;
+                case SqlException sqlException:
+                    code = HttpStatusCode.ServiceUnavailable;
+                    _logger.LogCritical(sqlException, "SQL Server connection not available");
+                    parameter = new { error = "Service currently unvailable" };
                     break;
                 default:
                     parameter = new { error = ex.Message };
