@@ -3,8 +3,8 @@ import { Table, Button, Container, Row, Col, ButtonGroup } from 'reactstrap';
 import { TableHeader, TableHeaderCell, TableRow, TableBody, TableCell, Icon, Segment, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { openCustomDialog } from '../actions/app';
-import { changeCurrentList, loadAllSources } from '../actions/backoffice';
+import { openCustomDialog, openConfirmationDialog } from '../actions/app';
+import { changeCurrentList, loadAllSources, removeBlacklistedSite, removeWhitelistedSite } from '../actions/backoffice';
 import AddSiteModal from '../components/modals/AddSiteModal';
 
 class Backoffice extends Component {
@@ -20,8 +20,22 @@ class Backoffice extends Component {
         this.props.openCustomDialog(<AddSiteModal />);
     }
 
+    showDeleteConfirm = (data) => {
+        const title = `Do you really want to delete "${ data }" from the sources?`
+        this.props.openConfirmationDialog(undefined, title, this.removeSite, data);
+    }
+
+    removeSite = (site) => {
+        if (this.props.currentList === 'blacklist') {
+            this.props.removeBlacklistedSite(site);
+        }
+        else if (this.props.currentList === 'whitelist') {
+            this.props.removeWhitelistedSite(site);
+        }
+    }
+
     renderSiteRow = (siteItem) => (
-        <TableRow>
+        <TableRow key={siteItem.uri}>
             <TableCell>
                 {siteItem.uri}
             </TableCell>
@@ -33,10 +47,10 @@ class Backoffice extends Component {
             </TableCell>
             <TableCell width='2' align='right'>
                 <ButtonGroup>
-                    <Button color='warning'>
+                    {/* <Button color='warning'>
                         <Icon name='edit'></Icon>edit
-                    </Button>
-                    <Button color='danger'>
+                    </Button> */}
+                    <Button color='danger' onClick={() => this.showDeleteConfirm(siteItem.uri, this.props.currentList)}>
                         <Icon name='remove circle'></Icon>delete
                     </Button>
                 </ButtonGroup>
@@ -101,8 +115,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         openCustomDialog,
+        openConfirmationDialog,
         changeCurrentList,
         loadAllSources,
+        removeBlacklistedSite,
+        removeWhitelistedSite,
     }, dispatch);
 }
 

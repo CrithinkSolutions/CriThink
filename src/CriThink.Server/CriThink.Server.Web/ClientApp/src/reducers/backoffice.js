@@ -1,10 +1,10 @@
 import {
     CHANGE_CURRENT_LIST,
     ALL_NEWS_SOURCES_RECEIVED,
-    ADD_WHITELIST_SITE,
-    REMOVE_WHITELIST_SITE,
-    ADD_BLACKLIST_SITE,
-    REMOVE_BLACKLIST_SITE,
+    WHITELIST_SITE_ADDED,
+    WHITELIST_SITE_REMOVED,
+    BLACKLIST_SITE_ADDED,
+    BLACKLIST_SITE_REMOVED,
 } from '../actions/types';
 
 const initialBackofficeState = {
@@ -29,6 +29,56 @@ const backoffice = (state = initialBackofficeState, action) => {
                 blacklist,
                 whitelist,
             };
+        };
+        case BLACKLIST_SITE_ADDED: {
+            // Prevent shallow copy
+            const blacklist = Object.assign([], state.blacklist);
+            const { domain, classification, notes } = action.data;
+            blacklist.push({
+                uri: domain,
+                classification,
+                notes,
+            });
+            // Prevent shallow copy
+            return Object.assign({}, {
+                ...state,
+                blacklist,
+            });
+        };
+        case WHITELIST_SITE_ADDED: {
+            // Prevent shallow copy
+            const whitelist = Object.assign([], state.whitelist);
+            const { domain, classification, notes } = action.data;
+            whitelist.push({
+                uri: domain,
+                classification,
+                notes,
+            });
+            // Prevent shallow copy
+            return Object.assign({}, {
+                ...state,
+                whitelist,
+            });
+        };
+        case BLACKLIST_SITE_REMOVED: {
+            // Prevent shallow copy
+            const blacklist = Object.assign([], state.blacklist);
+            
+            // Prevent shallow copy
+            return Object.assign({}, {
+                ...state,
+                blacklist: blacklist.filter(x => x.uri !== action.data.site),
+            })
+        };
+        case WHITELIST_SITE_REMOVED: {
+            // Prevent shallow copy
+            const whitelist = Object.assign([], state.whitelist);
+            
+            // Prevent shallow copy
+            return Object.assign({}, {
+                ...state,
+                whitelist: whitelist.filter(x => x.uri !== action.data.site),
+            })
         };
         default:
             return state;
