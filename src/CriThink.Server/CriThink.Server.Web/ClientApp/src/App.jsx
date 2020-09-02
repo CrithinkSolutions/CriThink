@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router'
+import { connect } from 'react-redux';
 import { Layout } from './components/Layout'
 import { Home } from './components/Home'
 import { LoginArea } from './components/authArea/LoginArea'
@@ -10,10 +11,11 @@ import { ChangePwdArea } from './components/authArea/ChangePwdArea'
 import { NewPwdArea } from './components/authArea/NewPwdArea'
 import { AuthRoute } from './routers/authRoute'
 import { NoAuthRoute } from './routers/noauthRoute'
+import Backoffice from './views/Backoffice';
 
 import './custom.css'
 
-export default class App extends Component {
+class App extends Component {
   static displayName = App.name;
 
   render () {
@@ -26,7 +28,18 @@ export default class App extends Component {
         <AuthRoute exact path='/profile' component={ProfileArea} />
         <AuthRoute exact path='/profile/changepassword' component={ChangePwdArea} />
         <NoAuthRoute path='/api/identity/reset-password' component={NewPwdArea} />
+        <NoAuthRoute path='/backoffice' component={Backoffice} />
+        {this.props.dialog}
       </Layout>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    dialogOpen: state.app.dialogOpen,
+    dialog: state.app.dialog,
+  };
+}
+
+export default connect(mapStateToProps)(App);
