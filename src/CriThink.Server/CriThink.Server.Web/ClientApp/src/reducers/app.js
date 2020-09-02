@@ -32,16 +32,13 @@ const app = (state = initialAppState, action) => {
         };
         case API_RESPONSE: {
             // Prevent shallow copy
-            const loading = Object.assign([], state.loading);
-            const index = loading.findIndex(item => item.id === action.id && item.label === action.label);
-
-            if (index > -1) {
-                loading.splice(index, 1);
-            }
+            let loading = Object.assign([], state.loading);
+            loading = loading.filter(item => item.id !== action.id && item.label !== action.label);
+            
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
-                loading: [],
+                loading,
             });
         };
         case OPEN_CUSTOM_DIALOG: {
