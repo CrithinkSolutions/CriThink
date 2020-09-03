@@ -1,11 +1,10 @@
-import { 
+import {
     API_REQUEST,
     API_RESPONSE,
     OPEN_CUSTOM_DIALOG,
     OPEN_CONFIRMATION_DIALOG,
     CLOSE_DIALOG
 } from '../actions/types';
-import ConfirmationModal from '../components/modals/ConfirmationModal';
 
 const initialAppState = {
     loading: [],
@@ -34,34 +33,31 @@ const app = (state = initialAppState, action) => {
             // Prevent shallow copy
             let loading = Object.assign([], state.loading);
             loading = loading.filter(item => item.id !== action.id && item.label !== action.label);
-            
+
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
                 loading,
             });
         };
-        case OPEN_CUSTOM_DIALOG: {
+        case OPEN_CUSTOM_DIALOG:
             return {
                 ...state,
                 dialogOpen: true,
                 dialog: action.dialog,
             };
-        };
-        case OPEN_CONFIRMATION_DIALOG: {
+        case OPEN_CONFIRMATION_DIALOG:
             return {
                 ...state,
                 dialogOpen: true,
                 dialog: action.dialog,
             }
-        };
-        case CLOSE_DIALOG: {
+        case CLOSE_DIALOG:
             return {
                 ...state,
                 dialogOpen: false,
                 // dialog: undefined,
             };
-        };
         default:
             return state;
     }

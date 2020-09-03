@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Container, Row, Col, ButtonGroup } from 'reactstrap';
-import { TableHeader, TableHeaderCell, TableRow, TableBody, TableCell, Icon, Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { TableHeader, TableHeaderCell, TableRow, TableBody, TableCell, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { openCustomDialog, openConfirmationDialog } from '../actions/app';
@@ -8,10 +8,6 @@ import { changeCurrentList, loadAllSources, removeBlacklistedSite, removeWhiteli
 import AddSiteModal from '../components/modals/AddSiteModal';
 
 class Backoffice extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props.loadAllSources();
     }

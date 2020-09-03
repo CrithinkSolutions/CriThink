@@ -6,10 +6,6 @@ import { Button } from 'semantic-ui-react';
 import { closeDialog } from '../../actions/app';
 
 class ConfirmationModal extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     closeDialog = () => {
         this.props.closeDialog();
     }
