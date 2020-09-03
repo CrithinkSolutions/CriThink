@@ -15,12 +15,11 @@ const initialBackofficeState = {
 
 const backoffice = (state = initialBackofficeState, action) => {
     switch (action.type) {
-        case CHANGE_CURRENT_LIST: {
+        case CHANGE_CURRENT_LIST: 
             return {
                 ...state,
                 currentList: action.selectedList,
             };
-        };
         case ALL_NEWS_SOURCES_RECEIVED: {
             const whitelist = action.data.filter(x => x.classification === 'Trusted' || x.classification === 'Satiric');
             const blacklist = action.data.filter(x => x.classification === 'Cospiracy' || x.classification === 'Fake');
