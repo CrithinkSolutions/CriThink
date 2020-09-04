@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
-import AuthHandler from "../../handlers/authHandler";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { getUserRegister } from '../../actions/auth'
 
-export class SignUpArea extends Component {
+class SignUpArea extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-            loading: false,
             username: '',
             email: '',
-            password: '',
-            msg: ''
+            password: ''
         };
     }
 
@@ -22,31 +22,11 @@ export class SignUpArea extends Component {
     }
 
 	registerAccount = () => {
-        this.setState({loading: true});
         const { username, email, password } = this.state;
-        AuthHandler
-            .register(username,email,password)
-
-            .then((res) => {
-                this.setState({msg: 
-                    <Message positive>
-                        <Icon name='check' />
-                        <b>Check your email {this.state.email}</b>
-                    </Message>
-                })
-            })
-
-            .catch(err => {
-                this.setState({msg: 
-                    <Message error>
-                        <Icon name='warning' />
-                        <b>Error: </b>{err}
-                    </Message>
-                })
-            })
-
-        .then(() => {
-            this.setState({loading: false})
+        this.props.getUserRegister({
+            username,
+            email,
+            password
         })
     }
 
@@ -88,11 +68,11 @@ export class SignUpArea extends Component {
                         </Form>
                         <br/>
                         <div id="options">
-                            <Button content='Sign Up' loading={this.state.loading} primary onClick={this.registerAccount}/>
+                            <Button content='Sign Up' loading={this.props.loading} primary onClick={this.registerAccount}/>
                             <Message>
                             <p>Have an account? <Link to="/login"><Button compact color='red' size="small">Log In</Button></Link></p>
                             </Message>
-                            {this.state.msg ? this.state.msg : null}
+                            {this.props.msg ? this.props.msg : null}
                         </div>
                     </Grid.Column>
                 </Grid>
@@ -100,3 +80,18 @@ export class SignUpArea extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loading: !!state.app.loading.find(x => x.label === 'userLogin'),
+        msg: state.app.msg
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUserRegister
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpArea);

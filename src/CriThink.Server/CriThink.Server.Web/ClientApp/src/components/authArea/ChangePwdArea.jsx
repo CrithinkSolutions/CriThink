@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
-import AuthHandler from "../../handlers/authHandler";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { getUserChangePwd } from '../../actions/auth'
 
-export class ChangePwdArea extends Component {
+class ChangePwdArea extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
             oldpwd: '',
-            newpwd: '',
-            user: AuthHandler.getCurrentUser(),
-            msg: ''
+            newpwd: ''
         };
     }
 
@@ -28,36 +27,12 @@ export class ChangePwdArea extends Component {
     }
 
     changePwdAccount = () => {
-        this.setState({loading: true,})
-        const { oldpwd, newpwd, user } = this.state;
-        AuthHandler
-            .changePwd(oldpwd, newpwd, user.jwtToken.token)
-
-            .then((res) => {
-                this.setState({msg: 
-                    <Message positive>
-                        <Icon name='check' />
-                        <b>{res}</b>
-                    </Message>
-                })
-                setTimeout(() => {
-                    this.props.history.push("/profile")
-                    window.location.reload()
-                }, 3000);
-                
-            })
-
-            .catch(err => {
-                this.setState({msg: 
-                    <Message error>
-                        <Icon name='warning' />
-                        <b>Error: </b>{err}
-                    </Message>
-                })
-            })
-
-        .then(() => {
-            this.setState({loading: false})
+        const { oldpwd, newpwd } = this.state; 
+        const { jwtToken } = this.props;
+        this.props.getUserChangePwd({
+            oldpwd,
+            newpwd,
+            jwtToken
         })
 
     }
@@ -91,9 +66,9 @@ export class ChangePwdArea extends Component {
                         </Form>
                         <br/>
                         <div id="options">
-                            <Button content='Send' loading={this.state.loading} primary onClick={this.changePwdAccount}/>
+                            <Button content='Send' loading={this.props.loading} primary onClick={this.changePwdAccount}/>
                             <Link to="/profile"><Button content='Go Back'/></Link>
-                            {this.state.msg ? this.state.msg : null}
+                            {this.props.msg ? this.props.msg : null}
                         </div>
                     </Grid.Column>
                 </Grid> 
@@ -101,3 +76,20 @@ export class ChangePwdArea extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loading: !!state.app.loading.find(x => x.label === 'userLogin'),
+        msg: state.app.msg,
+        userid: state.auth.userid,
+        jwtToken: state.auth.jwtToken
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUserChangePwd
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePwdArea);
