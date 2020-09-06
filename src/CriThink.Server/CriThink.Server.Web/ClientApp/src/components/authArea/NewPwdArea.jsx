@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
-import AuthHandler from "../../handlers/authHandler";
+import { Button, Form, Grid, Message } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { getUserNewPwd } from '../../actions/auth'
 
 const params = (new URL(document.location)).searchParams;
 
@@ -9,9 +11,7 @@ export class NewPwdArea extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
-            newPwd: '',
-            msg: ''
+            newPwd: ''
         };
     }
 
@@ -28,36 +28,13 @@ export class NewPwdArea extends Component {
     }
 
     newPwdAccount = () => {
-        this.setState({loading: true})
         const { newPwd } = this.state;
-        AuthHandler
-            .newPwd(params.get("userId"), params.get("code"), newPwd)
-
-            .then((res) => {
-                this.setState({msg: 
-                    <Message positive>
-                        <Icon name='check' />
-                        <b>Password changed</b>
-                    </Message>
-                })
-            })
-
-            .catch(err => {
-                this.setState({msg: 
-                    <Message error>
-                        <Icon name='warning' />
-                        <b>Error: </b>{err}
-                    </Message>
-                })
-            })
-
-        .then(() => {
-            this.setState({loading: false})
-            setTimeout(() => {
-                this.props.history.push("/login")
-            }, 3000);
+        const { userid, jwtToken } = this.props;
+        this.props.getUserLogin({
+            userid,
+            jwtToken,
+            newPwd
         })
-
     }
 
     render() {
@@ -80,7 +57,7 @@ export class NewPwdArea extends Component {
                         </Form>
                         <br/>
                         <div id="options">
-                            <Button content='Send' loading={this.state.loading} primary onClick={this.newPwdAccount}/>
+                            <Button content='Send' loading={this.props.loading} primary onClick={this.newPwdAccount}/>
                             <Message>
                                 <Message.Header>Remember password must be at least one:</Message.Header>
                                 <Message.List>
@@ -90,7 +67,7 @@ export class NewPwdArea extends Component {
                                     <Message.Item>uppercase ('A'-'Z')</Message.Item>
                                 </Message.List>
                             </Message>
-                            {this.state.msg ? this.state.msg : null}
+                            {this.props.msg ? this.props.msg : null}
                         </div>
                     </Grid.Column>
                 </Grid>
@@ -98,3 +75,20 @@ export class NewPwdArea extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loading: !!state.app.loading.find(x => x.label === 'userLogin'),
+        msg: state.app.msg,
+        userid: state.auth.userid,
+        jwtToken: state.auth.jwtToken
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUserNewPwd
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPwdArea);

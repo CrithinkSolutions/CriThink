@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Icon, Divider } from 'semantic-ui-react'
-import AuthHandler from "../../handlers/authHandler";
+import { Button, Form, Grid, Message, Divider } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { getUserLogin } from '../../actions/auth'
 
-export class LoginArea extends Component {
+class LoginArea extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
             username: '',
             email: '',
-            password: '',
-            msg: ''
+            password: ''
         };
     }
 
@@ -31,36 +31,11 @@ export class LoginArea extends Component {
     }
 
     accessAccount = () => {
-        this.setState({loading: true})
         const { username, email, password } = this.state;
-        AuthHandler
-            .login(username,email,password)
-
-            .then((res) => {
-                this.setState({msg: 
-                    <Message positive>
-                        <Icon name='check' />
-                        <b>Welcome {res.result.userName}</b>
-                    </Message>
-                })
-
-                setTimeout(() => {
-                    this.props.history.push("/")
-                    window.location.reload()
-                }, 2000);
-            })
-
-            .catch(err => 
-                this.setState({msg: 
-                    <Message error>
-                        <Icon name='warning' />
-                        <b>Error: </b>{err}
-                    </Message>
-                })
-            )
-
-        .then(() => {
-            this.setState({loading: false})
+        this.props.getUserLogin({
+            username,
+            email,
+            password
         })
     }
 
@@ -92,13 +67,13 @@ export class LoginArea extends Component {
                         </Form>
                         <br/>
                         <div id="options">
-                            <Button content='Log In' loading={this.state.loading} primary onClick={this.accessAccount}/>
+                            <Button content='Log In' loading={this.props.loading} primary onClick={this.accessAccount}/>
                             <Divider />
                             <Link to="/forgotpassword"><span className="link">Forgot password?</span></Link>
                             <Message>
                             <p>Don't have an account? <Link to="/signup"><Button compact color='red' size="small">Sign Up</Button></Link></p>
                             </Message>
-                            {this.state.msg ? this.state.msg : null}
+                            {this.props.msg ? this.props.msg : null}
                         </div>
                     </Grid.Column>
                 </Grid>
@@ -106,3 +81,18 @@ export class LoginArea extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loading: !!state.app.loading.find(x => x.label === 'userLogin'),
+        msg: state.app.msg
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUserLogin
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginArea);

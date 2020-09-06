@@ -1,6 +1,8 @@
 import {
     API_REQUEST,
     API_RESPONSE,
+    API_ERROR,
+    API_SUCCESS,
     OPEN_CUSTOM_DIALOG,
     OPEN_CONFIRMATION_DIALOG,
     CLOSE_DIALOG
@@ -11,6 +13,7 @@ const initialAppState = {
     loadingMessage: '',
     dialog: undefined,
     dialogOpen: false,
+    msg: undefined
 };
 
 const app = (state = initialAppState, action) => {
@@ -57,6 +60,16 @@ const app = (state = initialAppState, action) => {
                 ...state,
                 dialogOpen: false,
                 // dialog: undefined,
+            };
+        case API_ERROR:
+            return {
+                ...state,
+                msg: action.render
+            };
+        case API_SUCCESS:
+            return {
+                ...state,
+                msg: action.render
             };
         default:
             return state;

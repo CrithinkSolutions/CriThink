@@ -3,9 +3,9 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react'
 import './NavMenu.css';
-import AuthHandler from "../handlers/authHandler";
+import { connect } from 'react-redux'
 
-export class NavMenu extends Component {
+class NavMenu extends Component {
   static displayName = NavMenu.name;
   constructor (props) {
     super(props);
@@ -13,7 +13,6 @@ export class NavMenu extends Component {
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapsed: true,
-      user: AuthHandler.getCurrentUser()
     };
   }
 
@@ -24,7 +23,6 @@ export class NavMenu extends Component {
   }
 
   render () {
-    const { user } = this.state
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -33,11 +31,11 @@ export class NavMenu extends Component {
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
-                {user ? (
+                {this.props.user ? (
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/profile">
                       <Icon name="user circle" />
-                      {user.userName}
+                      {this.props.user}
                     </NavLink>
                   </NavItem> 
                 ) : <NavItem>
@@ -51,3 +49,11 @@ export class NavMenu extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.auth.username
+    }
+}
+
+export default connect(mapStateToProps)(NavMenu);
