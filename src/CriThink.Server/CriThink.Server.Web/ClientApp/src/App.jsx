@@ -30,7 +30,7 @@ class App extends Component {
         <Layout>
           <Switch>
           	<Route exact path='/' component={Home} />
-            <NoAuthRoute exact path='/login' component={LoginArea} />
+            <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
             <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
             <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
             <AuthRoute authed={this.props.jwtToken} exact path='/profile' component={ProfileArea} />
