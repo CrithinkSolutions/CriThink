@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Layout } from './components/Layout'
 import { Home } from './components/Home'
 import LoginArea from './components/authArea/LoginArea'
@@ -11,11 +12,18 @@ import ChangePwdArea from './components/authArea/ChangePwdArea'
 import NewPwdArea from './components/authArea/NewPwdArea'
 import { NoAuthRoute, AuthRoute } from './routers/authRoute'
 import Backoffice from './views/Backoffice';
+import { getUserLogout } from './actions/auth'
 
 import './custom.css'
 
 class App extends Component {
   static displayName = App.name;
+
+  componentDidMount() {
+    if (Date.parse(this.props.jwtExp) < Date.now()) {
+      this.props.getUserLogout()
+    }
+  }
 
   render () {
     return (
@@ -39,8 +47,15 @@ function mapStateToProps(state) {
   return {
     dialogOpen: state.app.dialogOpen,
     dialog: state.app.dialog,
-    jwtToken: state.auth.jwtToken
+    jwtToken: state.auth.jwtToken,
+    jwtExp: state.auth.jwtExp
   };
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUserLogout
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

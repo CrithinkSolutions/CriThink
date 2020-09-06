@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Icon } from 'semantic-ui-react'
+import { Button, Form, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { getUserChangePwd } from '../../actions/auth'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Icon, Divider } from 'semantic-ui-react'
+import { Button, Form, Grid, Message, Divider } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { getUserLogin } from '../../actions/auth'
