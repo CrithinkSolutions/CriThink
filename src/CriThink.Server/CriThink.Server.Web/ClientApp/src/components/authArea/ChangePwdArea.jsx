@@ -20,12 +20,6 @@ class ChangePwdArea extends Component {
         });
       }
 
-    componentDidMount() {
-        if (!this.state.user) {
-            this.props.history.push("/profile");
-        }
-    }
-
     changePwdAccount = () => {
         const { oldpwd, newpwd } = this.state; 
         const { jwtToken } = this.props;
