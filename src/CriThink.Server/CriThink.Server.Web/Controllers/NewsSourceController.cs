@@ -6,6 +6,7 @@ using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to add</param>
         /// <returns>Returns the operation result</returns>
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -50,6 +52,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
+        [Authorize]
         [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // api/news-source/whitelist
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,6 +72,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to remove</param>
         /// <returns>Returns the operation result</returns>
+        [Authorize]
         [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // api/news-source/blacklist
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -88,6 +92,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to search</param>
         /// <returns>Returns the list where the source is contained</returns>
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -105,6 +110,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Optional filter</param>
         /// <returns>All the news sources</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsSourceNewsSourceGetAll)] // api/news-source/all
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
