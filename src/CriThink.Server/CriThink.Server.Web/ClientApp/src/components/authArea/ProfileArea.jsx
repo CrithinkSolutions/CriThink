@@ -39,6 +39,8 @@ class ProfileArea extends Component {
                             <span className="link">Change email</span></p></Link>
                             <Link to='/profile'><p><Icon name="settings" />
                             <span className="link">All settings</span></p></Link>
+                            <Link to='/backoffice'><p><Icon name="edit" />
+                            <span className="link">Backoffice</span></p></Link>
                             <Link onClick={this.props.getUserLogout}><p><Icon name="sign-out" />
                             <span className="link">Logout</span></p></Link>
                         </Grid.Column>
