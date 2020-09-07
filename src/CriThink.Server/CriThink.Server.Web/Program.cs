@@ -57,8 +57,11 @@ namespace CriThink.Server.Web
                 });
             }
 #else
+            var arnSecret = Environment.GetEnvironmentVariable("AWS_ARN_SECRET");
+
             configBuilder.AddSecretsManager(region: RegionEndpoint.EUCentral1, configurator: options =>
             {
+                options.SecretFilter = entry => arnSecret == entry.ARN;
                 options.KeyGenerator = (entry, key) => key.Replace($"{entry.Name}:", "", StringComparison.InvariantCultureIgnoreCase);
             });
 #endif
