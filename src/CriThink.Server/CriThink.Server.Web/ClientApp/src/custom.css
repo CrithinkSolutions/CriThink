@@ -17,3 +17,24 @@ code {
 	color: #1678C2;
     cursor: pointer;
 }
+
+.initgrid {
+	height: 100vh;
+}
+
+.initgrid *{
+	box-shadow: none !important;
+}
+
+.flipsvg {
+	transform: 
+		scale(-1,1) rotateX(180deg);
+}
+
+.footer {
+	padding-bottom: 0 !important;
+}
+
+.bottomborder {
+	border-bottom: 3px solid #FF9600;
+}

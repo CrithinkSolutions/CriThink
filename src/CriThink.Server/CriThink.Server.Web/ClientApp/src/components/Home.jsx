@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { WaveUpDown, WaveDown } from './Layout'
+import { Grid, Segment } from 'semantic-ui-react'
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -6,7 +8,8 @@ export class Home extends Component {
   render () {
     return (
       <div>
-        <h1>CriThink Solutions</h1>
+        <WaveDown>
+        </WaveDown>
       </div>
     );
   }

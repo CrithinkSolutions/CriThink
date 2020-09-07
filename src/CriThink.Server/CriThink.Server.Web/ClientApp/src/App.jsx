@@ -27,20 +27,18 @@ class App extends Component {
 
   render () {
     return (
-        <Layout>
-          <Switch>
-          	<Route exact path='/' component={Home} />
-            <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
-            <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
-            <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
-            <AuthRoute authed={this.props.jwtToken} exact path='/profile' component={ProfileArea} />
-            <AuthRoute authed={this.props.jwtToken} exact path='/profile/changepassword' component={ChangePwdArea} />
-            <AuthRoute authed={this.props.jwtToken} path='/api/identity/reset-password' component={NewPwdArea} />
-            <AuthRoute authed={this.props.jwtToken} path='/backoffice' component={Backoffice} />
-            {this.props.dialog}
-            <Redirect to='/' />
-          </Switch>
-        </Layout>
+        <Switch>
+        	<Route exact path='/' component={Home} />
+          <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
+          <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
+          <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
+          <AuthRoute authed={this.props.jwtToken} exact path='/profile' component={ProfileArea} />
+          <AuthRoute authed={this.props.jwtToken} exact path='/profile/changepassword' component={ChangePwdArea} />
+          <AuthRoute authed={this.props.jwtToken} path='/api/identity/reset-password' component={NewPwdArea} />
+          <AuthRoute authed={this.props.jwtToken} path='/backoffice' component={Backoffice} />
+          {this.props.dialog}
+          <Redirect to='/' />
+        </Switch>
     );
   }
 }
