@@ -38,3 +38,17 @@ code {
 .bottomborder {
 	border-bottom: 3px solid #FF9600;
 }
+
+.bigfont {
+	color: #FF9600;
+	font-size: 26pt !important;
+	font-weight: 800;
+}
+
+.wavedowntext {
+	display: flex; 
+	justify-content: center; 
+	align-items: end;
+	padding-bottom: 1.5rem;
+	padding-top: 1rem;
+}

@@ -13,6 +13,7 @@ import NewPwdArea from './components/authArea/NewPwdArea'
 import { NoAuthRoute, AuthRoute } from './routers/authRoute'
 import Backoffice from './views/Backoffice';
 import { getUserLogout } from './actions/auth'
+import { SelectionArea } from './components/demoArea/Selection'
 
 import './custom.css'
 
@@ -29,6 +30,8 @@ class App extends Component {
     return (
         <Switch>
         	<Route exact path='/' component={Home} />
+          <Route path='/2' component={SelectionArea} />
+          {/* old routes
           <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
           <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
           <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
@@ -37,6 +40,7 @@ class App extends Component {
           <AuthRoute authed={this.props.jwtToken} path='/api/identity/reset-password' component={NewPwdArea} />
           <AuthRoute authed={this.props.jwtToken} path='/backoffice' component={Backoffice} />
           {this.props.dialog}
+          */}
           <Redirect to='/' />
         </Switch>
     );
