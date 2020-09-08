@@ -8,7 +8,7 @@ import { addNewsSource } from '../../actions/backoffice';
 import { validHostname } from '../../lib/utils';
 
 class AddSiteModal extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
 
         this.state = {
@@ -72,11 +72,11 @@ class AddSiteModal extends Component {
             domain,
             classification,
             notes,
-            list,            
+            list,
         });
     }
 
-    render() {
+    render () {
         return (
             <Modal isOpen={this.props.dialogOpen} centered>
                 <ModalHeader close={<BootstrapButton close onClick={this.closeDialog} disabled={this.props.loading} />}>Add new site</ModalHeader>
@@ -118,13 +118,13 @@ class AddSiteModal extends Component {
                         <Form.Group grouped>
                             <label>Classification:</label>
                             <Form.Field>
-                                <Dropdown disabled={!this.state.list} 
-                                    options={this.getOptions()} 
+                                <Dropdown disabled={!this.state.list}
+                                    options={this.getOptions()}
                                     placeholder='Choose classification...'
                                     selection
-                                    
+
                                     name='classification'
-                                    onChange={this.changeHandler} 
+                                    onChange={this.changeHandler}
                                     value={this.state.classification} />
                             </Form.Field>
                         </Form.Group>
@@ -142,14 +142,14 @@ class AddSiteModal extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         dialogOpen: state.app.dialogOpen,
         loading: !!state.app.loading.find(x => x.label === 'addNewsSource'),
-    }
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
         closeDialog,
         addNewsSource,

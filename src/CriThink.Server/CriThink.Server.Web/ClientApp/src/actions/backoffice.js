@@ -5,21 +5,21 @@ import { apiRequest, apiResponse } from './api';
 import { newActionId } from '../lib/utils';
 import { closeDialog } from './app';
 
-function changeCurrentList(selectedList) {
+function changeCurrentList (selectedList) {
     return {
         type: types.CHANGE_CURRENT_LIST,
         selectedList,
-    }
+    };
 }
 
-function newsReceived(data) {
+function newsReceived (data) {
     return {
         type: types.ALL_NEWS_SOURCES_RECEIVED,
         data,
     };
 }
 
-function toDebounceLoadAllSources() {
+function toDebounceLoadAllSources () {
     return (dispatch) => {
         const actionId = newActionId('Loading news sources...', 'getAllSources');
         dispatch(apiRequest(actionId));
@@ -37,14 +37,14 @@ function toDebounceLoadAllSources() {
     };
 }
 
-function blacklistNewsAdded(data) {
+function blacklistNewsAdded (data) {
     return {
         type: types.BLACKLIST_SITE_ADDED,
         data,
     };
 }
 
-function whitelistNewsAdded(data) {
+function whitelistNewsAdded (data) {
     return {
         type: types.WHITELIST_SITE_ADDED,
         data,
@@ -53,12 +53,12 @@ function whitelistNewsAdded(data) {
 
 const loadAllSources = debounceAction(toDebounceLoadAllSources, 1000, { leading: true, trailing: false });
 
-function toDebounceAddNewsSource({domain, classification, notes, list}) {
+function toDebounceAddNewsSource ({domain, classification, notes, list}) {
     return (dispatch) => {
         const actionId = newActionId('Adding new news source...', 'addNewsSource');
         dispatch(apiRequest(actionId));
         axios.post('/api/news-source', {
-            uri: `https://${domain}`,
+            uri: `https://${ domain }`,
             classification,
             notes,
         })
@@ -76,29 +76,29 @@ function toDebounceAddNewsSource({domain, classification, notes, list}) {
             })
             .then(err => {
                 dispatch(apiResponse(actionId));
-            })
+            });
     };
 }
 
 const addNewsSource = debounceAction(toDebounceAddNewsSource, 1000, { leading: true, trailing: false });
 
-function blacklistNewsRemoved(site) {
+function blacklistNewsRemoved (site) {
     return {
         type: types.BLACKLIST_SITE_REMOVED,
         data: { site },
     };
 }
 
-function toDebounceRemoveBlacklistedSite(site) {
+function toDebounceRemoveBlacklistedSite (site) {
     return (dispatch) => {
-        const actionId = newActionId(`Removing '${site}' from sources...`, 'confirmationDialog');
+        const actionId = newActionId(`Removing '${ site }' from sources...`, 'confirmationDialog');
         dispatch(apiRequest(actionId));
         axios.request({
             method: 'DELETE',
             data: {
-                uri: `https://${site}`,
+                uri: `https://${ site }`,
             },
-            url: '/api/news-source/blacklist'
+            url: '/api/news-source/blacklist',
         })
             .then(res => {
                 if (res.status === 204) {
@@ -115,23 +115,23 @@ function toDebounceRemoveBlacklistedSite(site) {
 
 const removeBlacklistedSite = debounceAction(toDebounceRemoveBlacklistedSite, 1000, { leading: true, trailing: false });
 
-function whitelistNewsRemoved(site) {
+function whitelistNewsRemoved (site) {
     return {
         type: types.WHITELIST_SITE_REMOVED,
         data: { site },
     };
 }
 
-function toDebounceRemoveWhitelistedSite(site) {
+function toDebounceRemoveWhitelistedSite (site) {
     return (dispatch) => {
-        const actionId = newActionId(`Removing '${site}' from sources...`, 'confirmationDialog');
+        const actionId = newActionId(`Removing '${ site }' from sources...`, 'confirmationDialog');
         dispatch(apiRequest(actionId));
         axios.request({
             method: 'DELETE',
             data: {
-                uri: `https://${site}`,
+                uri: `https://${ site }`,
             },
-            url: '/api/news-source/whitelist'
+            url: '/api/news-source/whitelist',
         })
             .then(res => {
                 if (res.status === 204) {
