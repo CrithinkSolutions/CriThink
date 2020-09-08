@@ -4,14 +4,15 @@ using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200908171302_AddNewsSourcecategoriesMigration")]
+    partial class AddNewsSourceCategoriesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
