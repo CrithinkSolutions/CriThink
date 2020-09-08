@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { Button, Form, Grid } from 'semantic-ui-react'
-import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { Button, Form, Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserForgotPwd } from '../../actions/auth'
+import { getUserForgotPwd } from '../../actions/auth';
 
 class ForgotPwdArea extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
             username: '',
@@ -15,14 +15,14 @@ class ForgotPwdArea extends Component {
     }
 
     changeHandler = event => {
-        if(event.target.name === "username" && event.target.value.includes("@")) {
-            this.setState({email: event.target.value})
+        if(event.target.name === 'username' && event.target.value.includes('@')) {
+            this.setState({email: event.target.value});
         }
         else {
             this.setState({
                 email: '',
-                username: event.target.value
-            })
+                username: event.target.value,
+            });
         }
     }
 
@@ -30,11 +30,11 @@ class ForgotPwdArea extends Component {
         const { username, email } = this.state;
         this.props.getUserForgotPwd({
             username,
-            email
-        })
+            email,
+        });
     }
 
-    render() {
+    render () {
         return (
             <div id="mainrender">
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
@@ -64,16 +64,16 @@ class ForgotPwdArea extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         loading: !!state.app.loading.find(x => x.label === 'userLogin'),
-        msg: state.app.msg
-    }
+        msg: state.app.msg,
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
-        getUserForgotPwd
+        getUserForgotPwd,
     }, dispatch);
 }
 

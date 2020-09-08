@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid, Message } from 'semantic-ui-react'
-import { connect } from 'react-redux'
+import { Button, Form, Grid, Message } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserNewPwd } from '../../actions/auth'
+import { getUserNewPwd } from '../../actions/auth';
 
 const params = (new URL(document.location)).searchParams;
 
 export class NewPwdArea extends Component {
 
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
-            newPwd: ''
+            newPwd: '',
         };
     }
 
     changeHandler = event => {
         this.setState({
-          [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
-      }
+    }
 
-    componentDidMount() { 
-        if (!params.get("userId") || !params.get("code") || params.get("code").length !== 320) {
-            this.props.history.push("/login");
+    componentDidMount () {
+        if (!params.get('userId') || !params.get('code') || params.get('code').length !== 320) {
+            this.props.history.push('/login');
         }
     }
 
@@ -33,11 +33,11 @@ export class NewPwdArea extends Component {
         this.props.getUserLogin({
             userid,
             jwtToken,
-            newPwd
-        })
+            newPwd,
+        });
     }
 
-    render() {
+    render () {
         return (
             <div id="mainrender">
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
@@ -76,18 +76,18 @@ export class NewPwdArea extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         loading: !!state.app.loading.find(x => x.label === 'userLogin'),
         msg: state.app.msg,
         userid: state.auth.userid,
-        jwtToken: state.auth.jwtToken
-    }
+        jwtToken: state.auth.jwtToken,
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
-        getUserNewPwd
+        getUserNewPwd,
     }, dispatch);
 }
 

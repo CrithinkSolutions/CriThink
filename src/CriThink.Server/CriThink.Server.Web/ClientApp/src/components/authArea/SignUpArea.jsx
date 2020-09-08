@@ -1,42 +1,42 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message } from 'semantic-ui-react'
-import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { Button, Form, Grid, Message } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserRegister } from '../../actions/auth'
+import { getUserRegister } from '../../actions/auth';
 
 class SignUpArea extends Component {
-	constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
             username: '',
             email: '',
-            password: ''
+            password: '',
         };
     }
 
     changeHandler = event => {
         this.setState({
-          [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
     }
 
-	registerAccount = () => {
+    registerAccount = () => {
         const { username, email, password } = this.state;
         this.props.getUserRegister({
             username,
             email,
-            password
-        })
+            password,
+        });
     }
 
-	render() {
+    render () {
         return (
             <div id="mainrender">
-                <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
+                <Grid id="input" verticalAlign='middle' textAlign="center" style={{ height: '85vh' }}>
                     <Grid.Column width={8}>
                         <h1>Sign Up</h1>
-                        <br/>
+                        <br />
                         <Form>
                             <Form.Input
                                 icon='user'
@@ -66,11 +66,11 @@ class SignUpArea extends Component {
                                 value={this.state.password}
                             />
                         </Form>
-                        <br/>
+                        <br />
                         <div id="options">
-                            <Button content='Sign Up' loading={this.props.loading} primary onClick={this.registerAccount}/>
+                            <Button content='Sign Up' loading={this.props.loading} primary onClick={this.registerAccount} />
                             <Message>
-                            <p>Have an account? <Link to="/login"><Button compact color='red' size="small">Log In</Button></Link></p>
+                                <p>Have an account? <Link to="/login"><Button compact color='red' size="small">Log In</Button></Link></p>
                             </Message>
                             {this.props.msg ? this.props.msg : null}
                         </div>
@@ -81,16 +81,16 @@ class SignUpArea extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         loading: !!state.app.loading.find(x => x.label === 'userLogin'),
-        msg: state.app.msg
-    }
+        msg: state.app.msg,
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
-        getUserRegister
+        getUserRegister,
     }, dispatch);
 }
 

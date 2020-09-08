@@ -1,7 +1,7 @@
 import allReducers from '../reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { 
+import {
     applyMiddleware,
     compose,
     createStore,

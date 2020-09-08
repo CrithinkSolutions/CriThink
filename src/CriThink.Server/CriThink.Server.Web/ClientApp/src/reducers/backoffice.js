@@ -15,7 +15,7 @@ const initialBackofficeState = {
 
 const backoffice = (state = initialBackofficeState, action) => {
     switch (action.type) {
-        case CHANGE_CURRENT_LIST: 
+        case CHANGE_CURRENT_LIST:
             return {
                 ...state,
                 currentList: action.selectedList,
@@ -62,22 +62,22 @@ const backoffice = (state = initialBackofficeState, action) => {
         case BLACKLIST_SITE_REMOVED: {
             // Prevent shallow copy
             const blacklist = Object.assign([], state.blacklist);
-            
+
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
                 blacklist: blacklist.filter(x => x.uri !== action.data.site),
-            })
+            });
         };
         case WHITELIST_SITE_REMOVED: {
             // Prevent shallow copy
             const whitelist = Object.assign([], state.whitelist);
-            
+
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
                 whitelist: whitelist.filter(x => x.uri !== action.data.site),
-            })
+            });
         };
         default:
             return state;
