@@ -5,7 +5,7 @@ namespace CriThink.Server.Core.Commands
 {
     public class CreateNewsSourceCommand : IRequest
     {
-        public CreateNewsSourceCommand(Uri uri, NewsSourceAuthencity authencity)
+        public CreateNewsSourceCommand(Uri uri, NewsSourceAuthenticity authencity)
         {
             Uri = uri ?? throw new ArgumentNullException(nameof(uri));
             Authencity = authencity;
@@ -13,9 +13,9 @@ namespace CriThink.Server.Core.Commands
 
         public Uri Uri { get; }
 
-        public NewsSourceAuthencity Authencity { get; }
+        public NewsSourceAuthenticity Authencity { get; }
 
-        public bool IsGoodSource => Authencity == NewsSourceAuthencity.Satiric ||
-                                    Authencity == NewsSourceAuthencity.Trusted;
+        public bool IsGoodSource => Authencity == NewsSourceAuthenticity.Satiric ||
+                                    Authencity == NewsSourceAuthenticity.Trusted;
     }
 }

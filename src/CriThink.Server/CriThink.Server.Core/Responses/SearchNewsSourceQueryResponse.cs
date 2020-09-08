@@ -4,11 +4,14 @@ namespace CriThink.Server.Core.Responses
 {
     public class SearchNewsSourceQueryResponse
     {
-        public SearchNewsSourceQueryResponse(NewsSourceAuthencity sourceAuthencity)
+        public SearchNewsSourceQueryResponse(NewsSourceAuthenticity sourceAuthenticity, string description)
         {
-            SourceAuthencity = sourceAuthencity;
+            SourceAuthenticity = sourceAuthenticity;
+            Description = description;
         }
 
-        public NewsSourceAuthencity SourceAuthencity { get; }
+        public NewsSourceAuthenticity SourceAuthenticity { get; }
+
+        public string Description { get; }
     }
 }
