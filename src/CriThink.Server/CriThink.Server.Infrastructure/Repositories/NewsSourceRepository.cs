@@ -14,23 +14,23 @@ namespace CriThink.Server.Infrastructure.Repositories
         private const int BlacklistDatabase = 1;
         private const int WhitelistDatabase = 2;
 
-        public Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthencity authencity)
+        public Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthenticity authenticity)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
             var db = CriThinkRedisMultiplexer.GetDatabase(BlacklistDatabase);
-            return db.StringSetAsync(GetHostName(uri), authencity.ToString());
+            return db.StringSetAsync(GetHostName(uri), authenticity.ToString());
         }
 
-        public Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthencity authencity)
+        public Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthenticity authenticity)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
             var db = CriThinkRedisMultiplexer.GetDatabase(WhitelistDatabase);
 
-            return db.StringSetAsync(GetHostName(uri), authencity.ToString());
+            return db.StringSetAsync(GetHostName(uri), authenticity.ToString());
         }
 
         public Task RemoveNewsSourceFromBlacklistAsync(Uri uri)
@@ -134,17 +134,17 @@ namespace CriThink.Server.Infrastructure.Repositories
         /// Adds the given source with the authenticity rate to a blacklist
         /// </summary>
         /// <param name="uri">Host to save</param>
-        /// <param name="authencity">Authenticity rate</param>
+        /// <param name="authenticity">Authenticity rate</param>
         /// <returns>A task</returns>
-        Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthencity authencity);
+        Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthenticity authenticity);
 
         /// <summary>
         /// Adds the given source with the authenticity rate to a whitelist
         /// </summary>
         /// <param name="uri">Host to save</param>
-        /// <param name="authencity">Authenticity rate</param>
+        /// <param name="authenticity">Authenticity rate</param>
         /// <returns>A task</returns>
-        Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthencity authencity);
+        Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthenticity authenticity);
 
         /// <summary>
         /// Remove a news source from the blacklist

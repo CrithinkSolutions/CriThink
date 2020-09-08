@@ -5,7 +5,7 @@ namespace CriThink.Server.Core.Responses
 {
     public class GetAllNewsSourceQueryResponse
     {
-        public GetAllNewsSourceQueryResponse(Uri uri, NewsSourceAuthencity sourceAuthencity)
+        public GetAllNewsSourceQueryResponse(Uri uri, NewsSourceAuthenticity sourceAuthencity)
         {
             Uri = uri ?? throw new ArgumentNullException(nameof(uri));
             SourceAuthencity = sourceAuthencity;
@@ -13,6 +13,6 @@ namespace CriThink.Server.Core.Responses
 
         public Uri Uri { get; }
 
-        public NewsSourceAuthencity SourceAuthencity { get; }
+        public NewsSourceAuthenticity SourceAuthencity { get; }
     }
 }

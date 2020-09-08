@@ -37,7 +37,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             {
                 var uri = new Uri(redisKey.ToString(), UriKind.Absolute);
 
-                var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthencity authenticity);
+                var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthenticity authenticity);
                 if (!isValid)
                     continue;
 

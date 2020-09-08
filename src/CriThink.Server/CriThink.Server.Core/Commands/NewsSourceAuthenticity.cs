@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the news source categories
     /// </summary>
-    public enum NewsSourceAuthencity
+    public enum NewsSourceAuthenticity
     {
         // Good
         Trusted = 0,
