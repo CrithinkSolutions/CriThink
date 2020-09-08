@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { WaveUpDown, WaveDown } from './../Layout'
 import { Segment, Button, Grid, Card, Label, Image, Icon } from 'semantic-ui-react'
 import Book from './../../svg/bookreader.svg';
@@ -20,7 +21,7 @@ export class SelectionArea extends Component {
                 <Image circular src={Book} style={{height:'59px'}}/>
                 <p style={{fontSize:'12px', margin:'50px'}}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <Card.Content style={{textAlign:'right'}}>
-                  Check  <Icon name='long arrow alternate right' />
+                  <Link to='/3'><span>Check  <Icon name='long arrow alternate right' /></span></Link>
                 </Card.Content>              
               </Card.Content>
             </Card>

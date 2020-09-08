@@ -1,37 +1,41 @@
-import React, { Component } from 'react'
-import { Route, Redirect, Switch } from 'react-router'
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Layout } from './components/Layout'
-import { Home } from './components/Home'
-import LoginArea from './components/authArea/LoginArea'
-import SignUpArea from './components/authArea/SignUpArea'
-import ForgotPwdArea from './components/authArea/ForgotPwdArea'
-import ProfileArea from './components/authArea/ProfileArea'
-import ChangePwdArea from './components/authArea/ChangePwdArea'
-import NewPwdArea from './components/authArea/NewPwdArea'
-import { NoAuthRoute, AuthRoute } from './routers/authRoute'
-import Backoffice from './views/Backoffice';
-import { getUserLogout } from './actions/auth'
-import { SelectionArea } from './components/demoArea/Selection'
+import React, { Component } from "react";
+import { Route, Redirect, Switch } from "react-router";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Layout } from "./components/Layout";
+import { Home } from "./components/Home";
+import LoginArea from "./components/authArea/LoginArea";
+import SignUpArea from "./components/authArea/SignUpArea";
+import ForgotPwdArea from "./components/authArea/ForgotPwdArea";
+import ProfileArea from "./components/authArea/ProfileArea";
+import ChangePwdArea from "./components/authArea/ChangePwdArea";
+import NewPwdArea from "./components/authArea/NewPwdArea";
+import { NoAuthRoute, AuthRoute } from "./routers/authRoute";
+import Backoffice from "./views/Backoffice";
+import { getUserLogout } from "./actions/auth";
+import { SelectionArea } from "./components/demoArea/Selection";
+import { ChooseArea } from "./components/demoArea/Choose";
+import { AnalysisArea } from "./components/demoArea/Analysis";
 
-import './custom.css'
+import "./custom.css";
 
 class App extends Component {
   static displayName = App.name;
 
   componentDidMount() {
     if (Date.parse(this.props.jwtExp) < Date.now()) {
-      this.props.getUserLogout()
+      this.props.getUserLogout();
     }
   }
 
-  render () {
+  render() {
     return (
-        <Switch>
-        	<Route exact path='/' component={Home} />
-          <Route path='/2' component={SelectionArea} />
-          {/* old routes
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/2" component={SelectionArea} />
+        <Route path="/3" component={ChooseArea} />
+        <Route path="/4" component={AnalysisArea} />
+        {/* old routes
           <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
           <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
           <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
@@ -41,8 +45,8 @@ class App extends Component {
           <AuthRoute authed={this.props.jwtToken} path='/backoffice' component={Backoffice} />
           {this.props.dialog}
           */}
-          <Redirect to='/' />
-        </Switch>
+        <Redirect to="/" />
+      </Switch>
     );
   }
 }
@@ -52,14 +56,17 @@ function mapStateToProps(state) {
     dialogOpen: state.app.dialogOpen,
     dialog: state.app.dialog,
     jwtToken: state.auth.jwtToken,
-    jwtExp: state.auth.jwtExp
+    jwtExp: state.auth.jwtExp,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        getUserLogout
-    }, dispatch);
+  return bindActionCreators(
+    {
+      getUserLogout,
+    },
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

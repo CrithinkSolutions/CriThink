@@ -39,6 +39,11 @@ code {
 	border-bottom: 3px solid #FF9600;
 }
 
+.bottombordergradient {
+	border-bottom: 10px solid;
+	border-image: linear-gradient(0deg, rgba(255,150,0,1) 0%, rgba(247,211,72,1) 100%) 60 30;
+}
+
 .bigfont {
 	color: #FF9600;
 	font-size: 26pt !important;
@@ -49,6 +54,22 @@ code {
 	display: flex; 
 	justify-content: center; 
 	align-items: end;
-	padding-bottom: 1.5rem;
-	padding-top: 1rem;
+	margin-bottom: 1.5rem;
+	margin-top: 1rem;
+}
+
+.ui.secondary.pointing.menu .item {
+	color: #FF9600 !important;
+	opacity: 0.4 !important;
+}
+
+
+.ui.secondary.pointing.menu .active.item {
+	color:#FF9600 !important;
+  	border-color: #FF9600 !important;
+  	opacity: 1 !important;
+}
+
+.noborderafter *{
+	border: none !important;
 }
