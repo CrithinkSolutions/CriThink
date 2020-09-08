@@ -1,0 +1,88 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "arrowFunctions": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-trailing-spaces": "error",
+        "no-console": "warn",
+        "no-inline-comments": "warn",
+        "space-before-blocks": "warn",
+        "max-len": [
+            "warn",
+            {
+                "code": 125,
+                "comments": 150,
+                "ignoreTemplateLiterals": true
+            }
+        ],
+        "space-unary-ops": [
+            "warn",
+            {
+                "words": true,
+                "nonwords": false,
+                "overrides": {
+                    "typeof": false
+                }
+            }
+        ],
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "always",
+                "named": "always",
+                "asyncArrow": "always"
+            }
+        ],
+        "space-in-parens": "warn",
+        "no-multi-spaces": "warn",
+        "no-mixed-spaces-and-tabs": "warn",
+        "no-extra-boolean-cast": "off",
+        "no-underscore-dangle": "error",
+        "no-useless-concat": "error",
+        "comma-dangle": [ "error", "always-multiline" ],
+        "template-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": "error",
+        "no-useless-constructor": "error",
+        "no-useless-escape": "error",
+        "no-lone-blocks": "error",
+        "react/jsx-uses-vars": 1,
+        "react/jsx-uses-react": 1
+    }
+}
