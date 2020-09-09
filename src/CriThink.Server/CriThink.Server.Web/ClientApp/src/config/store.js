@@ -11,7 +11,12 @@ export default () => {
     let store = null;
     let middleware = null;
 
-    middleware = applyMiddleware(thunk, logger);
+    if (process.env.PRODUCTION === true) {
+        middleware = applyMiddleware(thunk);
+    }
+    else {
+        middleware = applyMiddleware(thunk, logger);
+    }
 
     middleware = compose(middleware);
 
