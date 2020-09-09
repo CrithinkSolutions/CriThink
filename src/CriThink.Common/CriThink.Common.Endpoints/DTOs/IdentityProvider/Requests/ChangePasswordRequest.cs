@@ -2,17 +2,13 @@
 using System.Text.Json.Serialization;
 // ReSharper disable CheckNamespace
 
-namespace CriThink.Web.Models.DTOs.IdentityProvider
+namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
-    public class ResetPasswordRequest
+    public class ChangePasswordRequest
     {
-        [JsonPropertyName("userId")]
+        [JsonPropertyName("currentPassword")]
         [Required]
-        public string UserId { get; set; }
-
-        [JsonPropertyName("token")]
-        [Required]
-        public string Token { get; set; }
+        public string CurrentPassword { get; set; }
 
         [JsonPropertyName("newPassword")]
         [Required]

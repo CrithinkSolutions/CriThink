@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
-using CriThink.Web.Models.DTOs.IdentityProvider;
 
 namespace CriThink.Server.Web.MapperProfiles
 {
