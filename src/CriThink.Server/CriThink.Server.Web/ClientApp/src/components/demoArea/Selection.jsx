@@ -6,6 +6,7 @@ import Book from './../../svg/bookreader.svg';
 import Check from './../../svg/check.svg';
 import Graduation from './../../svg/graduation.svg';
 import LogoRound from './../../svg/logoround.svg';
+import './../../fonts/fonts.css'
 import './../../custom.css'
 
 export class SelectionArea extends Component {
@@ -17,40 +18,40 @@ export class SelectionArea extends Component {
 
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
-                <p style={{fontSize:'22px', fontWeight:'800'}}>Check Your News</p>
+                <p className='regular' style={{fontSize:'18px'}}>Check Your News</p>
                 <Image src={Book} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  <Link to='/3'><span>Check  <Icon name='long arrow alternate right' /></span></Link>
+                  <Link to='/3'><span className='whitelink bold'>CHECK  <Icon name='long arrow alternate right' /></span></Link>
                 </Card.Content>              
               </Card.Content>
             </Card>
 
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
-                <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Debunked Fake News</p>
+                <p className='regular' style={{fontSize:'18px'}}>Debunked Fake News</p>
                 <Image src={Check} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  Debunk  <Icon name='long arrow alternate right' />
+                  <span className='whitelink bold'>DEBUNK  <Icon name='long arrow alternate right' /></span>
                 </Card.Content> 
               </Card.Content>
             </Card>
 
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
-                <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Spot Fake News</p>
+                <p className='regular' style={{fontSize:'18px'}}>Spot Fake News</p>
                 <Image src={Graduation} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  Learn  <Icon name='long arrow alternate right' />
+                  <span className='whitelink bold'>LEARN  <Icon name='long arrow alternate right' /></span>
                 </Card.Content> 
               </Card.Content>
             </Card>
 
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
-                <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Quiz & Games</p>
+                <p className='regular' style={{fontSize:'18px'}}>Quiz & Games</p>
                 <Image src={LogoRound} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  Play  <Icon name='long arrow alternate right' />
+                  <span className='whitelink bold'>PLAY  <Icon name='long arrow alternate right' /></span>
                 </Card.Content> 
               </Card.Content>
             </Card>

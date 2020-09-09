@@ -6,12 +6,13 @@ import { ReactComponent as Logo } from './../../svg/logoround.svg';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { getQuestions, getNews } from '../../actions/demo';
+import './../../fonts/fonts.css'
 import "./../../custom.css";
 
 class MenuRender extends Component {
 	render() {
 		return (
-			<Segment color={this.props.color} textAlign="left" className="noborderafter">
+			<Segment color={this.props.color} textAlign="left" className="noborderafter light">
 				<h3>{this.props.header}</h3>
 				{this.props.children}
 			</Segment>
@@ -123,7 +124,7 @@ class AnalysisArea extends Component {
 		return (
 			<div>
 				<WaveDown namePage="Check Your News">
-					<Menu pointing secondary size="huge">
+					<Menu pointing secondary size="huge" >
 						<Menu.Item
 							name="OVERVIEW"
 							active={activeItem === "OVERVIEW"}

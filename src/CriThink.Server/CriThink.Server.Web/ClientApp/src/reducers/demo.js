@@ -16,6 +16,7 @@ const demoreducer = (state = initialAuthState, action) => {
 	switch(action.type) {
 		case QUESTIONS: 
 			return {
+				...state,
 				questionH: action.questions[2].content,
 				questionE: action.questions[1].content,
 				questionA: action.questions[0].content,

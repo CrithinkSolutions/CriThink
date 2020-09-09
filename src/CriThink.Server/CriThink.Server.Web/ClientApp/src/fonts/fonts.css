@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Futura-Bold';
+    src: url('Futura-Bold.eot?#iefix') format('embedded-opentype'),
+         url('Futura-Bold.woff') format('woff'),
+         url('Futura-Bold.ttf')  format('truetype'),
+         url('Futura-Bold.svg#webfont') format('svg');
+}
+
+@font-face {
+    font-family: 'Futura-Light';
+    src: url('Futura-Light.eot?#iefix') format('embedded-opentype'),
+         url('Futura-Light.woff') format('woff'),
+         url('Futura-Light.ttf')  format('truetype'),
+         url('Futura-Light.svg#webfont') format('svg');
+}
+
+@font-face {
+    font-family: 'Keep Calm Regular';
+    src: local('Keep Calm Regular'), url('KeepCalm-Medium.woff') format('woff');
+}
+
+.bold {
+    font-family: 'Futura-Bold';
+}
+
+.light {
+    font-family: 'Futura-Light';
+}
+
+.ui.popup.visible {
+    font-family: 'Futura-Light';
+}
+
+.regular {
+    font-family: 'Keep Calm Regular';
+}
+
+.ui.secondary.pointing.menu .item {
+    font-family: 'Keep Calm Regular';
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Segment, Item, Container, Image } from 'semantic-ui-react'
 import { ReactComponent as Wave } from './../svg/wave.svg';
 import Logo from './../svg/logo.svg';
+import './../fonts/fonts.css'
 import './../custom.css'
 
 export class WaveUpDown extends Component {
@@ -38,18 +39,18 @@ export class WaveDown extends Component {
 
           <Grid.Row className='bottomborder' style={{height: '15%'}}>
               <Link to='/'><Image src={Logo} height='140vw' style={{padding: '1rem'}}/></Link>
-              <span className='bigfont wavedowntext'>
+              <span className='bigfont wavedowntext bold'>
                 Before sharing, use the HEAD
               </span>
               {this.props.namePage ?
-                <span className='bigfont wavedowntext bottombordergradient' style={{marginLeft:'auto', marginRight:'1.5em', alignItems:'center'}}>
+                <span className='bigfont wavedowntext bottombordergradient bold' style={{marginLeft:'auto', marginRight:'1.5em', alignItems:'center'}}>
                   {this.props.namePage}
                 </span> : null
               }
           </Grid.Row>
 
           <Grid.Row style={{minHeight: '70%'}} textAlign='center' verticalAlign='middle'>
-            <Grid.Column style={{padding:'0 20rem 0 20rem'}}>{this.props.children}</Grid.Column>
+            <Grid.Column style={{padding:'0 20rem'}}>{this.props.children}</Grid.Column>
           </Grid.Row>
           
           <Grid.Row style={{height: '15%'}} className='footer'>

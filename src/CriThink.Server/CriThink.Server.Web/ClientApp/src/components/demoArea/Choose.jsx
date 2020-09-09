@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { WaveUpDown, WaveDown } from './../Layout'
 import { Dropdown, Segment, Icon, Button, Popup } from 'semantic-ui-react'
+import './../../fonts/fonts.css'
 
 //Temporary example change values with news
 const options = [
@@ -31,14 +32,14 @@ export class ChooseArea extends Component {
       <div>
 	      <WaveDown namePage='Check Your News'>
 		      	<Segment basic size='massive'>
-		      		CHOOSE YOUR SOURCE
+		      		<span className='light'>CHOOSE YOUR SOURCE</span>
 		      		<Popup content='Add users to your feed' trigger={
 		      			<Icon name='info circle' style={{color:'#FF9600', margin:'1rem'}} />
 		      		} />	
 		      	</Segment>
-		      	<Dropdown placeholder='Skills' fluid selection options={options} />
+		      	<Dropdown className='light' placeholder='Skills' fluid selection options={options} />
 		      	<Segment basic>
-		      		<Link to='/4'><Button style={{backgroundColor:'#FF9600', color:'white'}}>SEE THE RESULT</Button></Link>
+		      		<Link to='/4'><Button style={{backgroundColor:'#FF9600', color:'white'}}><span className='regular'>SEE THE RESULT</span></Button></Link>
 		      	</Segment>
 	      </WaveDown>
       </div>

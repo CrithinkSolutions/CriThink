@@ -15,7 +15,12 @@ code {
 
 .link {
 	color: #1678C2;
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.whitelink {
+  color: white;
+  cursor: pointer;
 }
 
 .initgrid {
@@ -47,7 +52,6 @@ code {
 .bigfont {
 	color: #FF9600;
 	font-size: 26pt !important;
-	font-weight: 800;
 }
 
 .wavedowntext {
