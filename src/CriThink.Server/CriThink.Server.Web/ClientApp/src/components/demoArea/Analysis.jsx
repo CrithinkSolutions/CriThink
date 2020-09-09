@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { WaveUpDown, WaveDown } from "./../Layout";
-import { Menu, Segment, Label, Popup, Grid } from "semantic-ui-react";
+import { Menu, Segment, Label, Popup, Grid, Checkbox } from "semantic-ui-react";
 import { ReactComponent as Logo } from './../../svg/logoround.svg';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
@@ -36,6 +36,26 @@ class AnalysisNews extends Component {
 	}
 }
 
+class LogoAnim extends Component {
+	render() {
+		return (
+			<Popup content={this.props.msgPopup} trigger={
+				<Segment basic>
+					 <div className="flip-card">
+					  <div className="flip-card-inner">
+					    <div className="flip-card-front">
+					      <Logo />
+					    </div>
+					    <div className="flip-card-back">
+					      <span>{this.props.letter}</span>
+					    </div>
+					  </div>
+					</div>
+				</Segment>
+			} />
+		)
+	}
+}
 
 class AnalysisArea extends Component {
 
@@ -79,10 +99,10 @@ class AnalysisArea extends Component {
 				return (
 					<MenuRender header={this.props.newsHeader}>
 						<AnalysisNews body={this.props.newsBody}>
-							<Segment basic><Popup content={this.props.head} trigger={<Logo />} /></Segment>
-							<Segment basic><Popup content={this.props.evidence} trigger={<Logo />} /></Segment>
-							<Segment basic><Popup content={this.props.accurancy} trigger={<Logo />} /></Segment>
-							<Segment basic><Popup content={this.props.deceiving} trigger={<Logo />} /></Segment>
+							<LogoAnim msgPopup={this.props.head} letter='H'/>
+							<LogoAnim msgPopup={this.props.evidence} letter='E' />
+							<LogoAnim msgPopup={this.props.accurancy} letter='A' />
+							<LogoAnim msgPopup={this.props.deceiving} letter='D' />
 						</AnalysisNews>
 					</MenuRender>
 				);
