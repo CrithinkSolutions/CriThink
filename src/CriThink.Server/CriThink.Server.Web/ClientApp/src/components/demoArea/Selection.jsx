@@ -18,8 +18,7 @@ export class SelectionArea extends Component {
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
                 <p style={{fontSize:'22px', fontWeight:'800'}}>Check Your News</p>
-                <Image circular src={Book} style={{height:'59px'}}/>
-                <p style={{fontSize:'12px', margin:'50px'}}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <Image src={Book} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
                   <Link to='/3'><span>Check  <Icon name='long arrow alternate right' /></span></Link>
                 </Card.Content>              
@@ -29,8 +28,7 @@ export class SelectionArea extends Component {
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
                 <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Debunked Fake News</p>
-                <Image circular src={Check} style={{height:'59px'}}/>
-                <p style={{color:'white', fontSize:'12px', margin:'50px'}}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <Image src={Check} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
                   Debunk  <Icon name='long arrow alternate right' />
                 </Card.Content> 
@@ -40,8 +38,7 @@ export class SelectionArea extends Component {
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
                 <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Spot Fake News</p>
-                <Image circular src={Graduation} style={{height:'59px'}}/>
-                <p style={{color:'white', fontSize:'12px', margin:'50px'}}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <Image src={Graduation} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
                   Learn  <Icon name='long arrow alternate right' />
                 </Card.Content> 
@@ -51,8 +48,7 @@ export class SelectionArea extends Component {
             <Card style={{backgroundColor:'#3C50C8'}}>
               <Card.Content>
                 <p style={{color:'white', fontSize:'22px', fontWeight:'800'}}>Quiz & Games</p>
-                <Image circular src={LogoRound} style={{height:'59px'}}/>
-                <p style={{color:'white', fontSize:'12px', margin:'50px'}}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <Image src={LogoRound} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
                   Play  <Icon name='long arrow alternate right' />
                 </Card.Content> 

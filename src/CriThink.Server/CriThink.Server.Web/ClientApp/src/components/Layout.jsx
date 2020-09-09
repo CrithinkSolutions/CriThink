@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { Grid, Segment, Item, Container, Image } from 'semantic-ui-react'
 import { ReactComponent as Wave } from './../svg/wave.svg';
-import { ReactComponent as Logo } from './../svg/logo.svg';
+import Logo from './../svg/logo.svg';
 import './../custom.css'
 
 export class WaveUpDown extends Component {
@@ -36,7 +37,7 @@ export class WaveDown extends Component {
         <Grid celled padded className='initgrid'>
 
           <Grid.Row className='bottomborder' style={{height: '15%'}}>
-             <Logo height='100%' style={{padding: '1rem'}}/>
+              <Link to='/'><Image src={Logo} height='140vw' style={{padding: '1rem'}}/></Link>
               <span className='bigfont wavedowntext'>
                 Before sharing, use the HEAD
               </span>

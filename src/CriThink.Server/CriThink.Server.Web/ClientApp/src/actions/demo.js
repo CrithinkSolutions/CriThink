@@ -39,10 +39,10 @@ const getQuestions = debounceAction(toDebounceGetQuestions, 1000, { leading: tru
 
 function toDebounceGetNews() {
     return (dispatch) => {
-        const actionId = newActionId('Getting question for H.E.A.D.', 'getQuestions');
+        const actionId = newActionId('Get info form the news', 'getNews');
         dispatch(apiRequest(actionId));
         axios.post('/api/news-analyzer/scrape-news', {
-            uri:'https://www.ilsole24ore.com/art/coronavirus-ultime-notizie-oggi-italia-1434-contagi-95990-tamponi-14-vittime-ADgLdFo'
+            uri:'https://news.sky.com/story/boris-johnsons-move-to-override-parts-of-brexit-deal-has-eroded-trust-says-irish-pm-12067606'
         })
             .then(res => {
                 if(res.status === 200) {

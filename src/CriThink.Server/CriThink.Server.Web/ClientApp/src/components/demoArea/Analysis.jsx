@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom'
 import { WaveUpDown, WaveDown } from "./../Layout";
-import { Menu, Segment, Label, Popup, Grid, Checkbox } from "semantic-ui-react";
+import { Menu, Segment, Label, Popup, Grid, Loader } from "semantic-ui-react";
 import { ReactComponent as Logo } from './../../svg/logoround.svg';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
@@ -98,13 +99,19 @@ class AnalysisArea extends Component {
 			case "ANALYSIS":
 				return (
 					<MenuRender header={this.props.newsHeader}>
-						<AnalysisNews body={this.props.newsBody}>
-							<LogoAnim msgPopup={this.props.head} letter='H'/>
-							<LogoAnim msgPopup={this.props.evidence} letter='E' />
-							<LogoAnim msgPopup={this.props.accurancy} letter='A' />
-							<LogoAnim msgPopup={this.props.deceiving} letter='D' />
-						</AnalysisNews>
+						{this.props.newsBody ? 
+							<AnalysisNews body={this.props.newsBody}>
+								<LogoAnim msgPopup={this.props.head} letter='H'/>
+								<LogoAnim msgPopup={this.props.evidence} letter='E' />
+								<LogoAnim msgPopup={this.props.accurancy} letter='A' />
+								<LogoAnim msgPopup={this.props.deceiving} letter='D' />
+							</AnalysisNews> : <Loader active />
+						}
 					</MenuRender>
+				);
+			case "CHECK ANOTHER NEWS":
+				return (
+					<Redirect to='/3'/>
 				);
 			default:
 				return null;
@@ -132,6 +139,13 @@ class AnalysisArea extends Component {
 							active={activeItem === "ANALYSIS"}
 							onClick={this.handleItemClick}
 						/>
+						<Menu.Menu position='right'>
+			            <Menu.Item
+			              name='CHECK ANOTHER NEWS'
+			              active={activeItem === 'CHECK ANOTHER NEWS'}
+			              onClick={this.handleItemClick}
+			            />
+			          </Menu.Menu>
 					</Menu>
 					{this.switchRender()}
 				</WaveDown>
