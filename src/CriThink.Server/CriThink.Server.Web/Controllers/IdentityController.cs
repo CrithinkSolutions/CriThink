@@ -2,11 +2,11 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
-using CriThink.Web.Models.DTOs.IdentityProvider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

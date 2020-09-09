@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 // ReSharper disable CheckNamespace
 
-namespace CriThink.Web.Models.DTOs.IdentityProvider
+namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
     public class UserLoginResponse
     {
-        [JsonProperty("token")]
+        [JsonPropertyName("token")]
         public JwtTokenResponse JwtToken { get; set; }
 
-        [JsonProperty("userId")]
+        [JsonPropertyName("userId")]
         public string UserId { get; set; }
 
-        [JsonProperty("userEmail")]
+        [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }
 
-        [JsonProperty("username")]
+        [JsonPropertyName("username")]
         public string UserName { get; set; }
     }
 }
