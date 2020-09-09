@@ -8,7 +8,7 @@ import { changeCurrentList, loadAllSources, removeBlacklistedSite, removeWhiteli
 import AddSiteModal from '../components/modals/AddSiteModal';
 
 class Backoffice extends Component {
-    componentDidMount() {
+    componentDidMount () {
         this.props.loadAllSources();
     }
 
@@ -17,7 +17,7 @@ class Backoffice extends Component {
     }
 
     showDeleteConfirm = (data) => {
-        const title = `Do you really want to delete "${ data }" from the sources?`
+        const title = `Do you really want to delete "${ data }" from the sources?`;
         this.props.openConfirmationDialog(undefined, title, this.removeSite, data);
     }
 
@@ -54,7 +54,7 @@ class Backoffice extends Component {
         </TableRow>
     );
 
-    render() {
+    render () {
         return <Container>
             <Row>
                 <Col>
@@ -97,7 +97,7 @@ class Backoffice extends Component {
     };
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         sites: state.backoffice.currentList === 'whitelist'
             ? state.backoffice.whitelist
@@ -108,7 +108,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
         openCustomDialog,
         openConfirmationDialog,
