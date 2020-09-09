@@ -4,14 +4,15 @@ using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200909224654_AddDebunkedNewsMigration")]
+    partial class AddDebunkedNewsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +26,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Keywords")
+                    b.Property<string>("PublishingDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Link")
@@ -38,10 +39,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Property<string>("PublisherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PublishingDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Keywords")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
