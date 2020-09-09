@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Amazon.SecretsManager.Model;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Helpers;
 using CriThink.Server.Web.ActionFilters;
@@ -62,8 +63,15 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginUserAsync([FromBody] UserLoginRequest request)
         {
-            var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
-            return Ok(new ApiOkResponse(response));
+            try
+            {
+                var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
+                return Ok(new ApiOkResponse(response));
+            }
+            catch (Exceptions.ResourceNotFoundException)
+            {
+                throw new Exceptions.ResourceNotFoundException("The user or the password are incorrect");
+            }
         }
 
         /// <summary>
@@ -83,7 +91,15 @@ namespace CriThink.Server.Web.Controllers
             if (string.IsNullOrWhiteSpace(code))
                 return BadRequest("Code can't be null");
 
-            var decodedCode = Base64Helper.FromBase64(code);
+            string decodedCode;
+            try
+            {
+                decodedCode = Base64Helper.FromBase64(code);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("The given code is not valid");
+            }
 
             var result = true;
 
@@ -121,11 +137,19 @@ namespace CriThink.Server.Web.Controllers
             if (string.IsNullOrWhiteSpace(userEmail))
                 return Forbid();
 
-            var result = await _identityService.ChangeUserPasswordAsync(userEmail, dto.CurrentPassword, dto.NewPassword)
-                .ConfigureAwait(false);
+            try
+            {
+                var result = await _identityService
+                    .ChangeUserPasswordAsync(userEmail, dto.CurrentPassword, dto.NewPassword)
+                    .ConfigureAwait(false);
 
-            if (result)
-                return Ok();
+                if (result)
+                    return Ok();
+            }
+            catch (Exceptions.ResourceNotFoundException)
+            {
+                throw new Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
+            }
 
             return BadRequest();
         }
@@ -147,7 +171,14 @@ namespace CriThink.Server.Web.Controllers
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
 
-            await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
+            try
+            {
+                await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
+            }
+            catch (Exceptions.ResourceNotFoundException)
+            {
+                throw new Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
+            }
 
             return NoContent();
         }
@@ -169,10 +200,27 @@ namespace CriThink.Server.Web.Controllers
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
 
-            var decodedCode = Base64Helper.FromBase64(dto.Token);
+            string decodedCode;
 
-            var response = await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword).ConfigureAwait(false);
-            return Ok(new ApiOkResponse(response));
+            try
+            {
+                decodedCode = Base64Helper.FromBase64(dto.Token);
+            }
+            catch (FormatException)
+            {
+                return BadRequest(new ApiBadRequestResponse(nameof(dto.Token), new[] { "The given code is not valid" }));
+            }
+
+            try
+            {
+                var response = await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword)
+                    .ConfigureAwait(false);
+                return Ok(new ApiOkResponse(response));
+            }
+            catch (Exceptions.ResourceNotFoundException)
+            {
+                throw new ResourceNotFoundException("The provided user, token or the password are incorrect");
+            }
         }
     }
 }

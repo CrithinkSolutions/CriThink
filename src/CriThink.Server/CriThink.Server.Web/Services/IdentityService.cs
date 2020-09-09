@@ -252,6 +252,10 @@ namespace CriThink.Server.Web.Services
                 case PasswordVerificationResult.SuccessRehashNeeded:
                     await UpdateUserPasswordHashAsync(user).ConfigureAwait(false);
                     break;
+                case PasswordVerificationResult.Success:
+                    return;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -261,7 +265,7 @@ namespace CriThink.Server.Web.Services
             if (!result)
             {
                 var ex = new InvalidOperationException("Error hashing again user password");
-                _logger.LogError(ex, "Rehash needed but failed", user);
+                _logger?.LogError(ex, "Rehash needed but failed", user);
             }
         }
 
