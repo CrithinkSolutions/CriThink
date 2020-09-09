@@ -21,3 +21,7 @@ export const BLACKLIST_SITE_REMOVED = 'BLACKLIST_SITE_REMOVED';
 //Auth Action Types
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGOUT = 'USER_LOGOUT';
+
+//Demo Action Types
+export const QUESTIONS = 'QUESTIONS';
+export const GET_NEWS = 'GET_NEWS';

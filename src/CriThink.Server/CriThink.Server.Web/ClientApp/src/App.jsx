@@ -15,7 +15,7 @@ import Backoffice from "./views/Backoffice";
 import { getUserLogout } from "./actions/auth";
 import { SelectionArea } from "./components/demoArea/Selection";
 import { ChooseArea } from "./components/demoArea/Choose";
-import { AnalysisArea } from "./components/demoArea/Analysis";
+import AnalysisArea from "./components/demoArea/Analysis";
 
 import "./custom.css";
 

@@ -73,3 +73,12 @@ code {
 .noborderafter *{
 	border: none !important;
 }
+
+.ui.popup.visible {
+	background-color: #ADC4FA;
+	color: white;
+}
+
+.ui.popup.visible:before {
+	background: #ADC4FA !important;
+}
