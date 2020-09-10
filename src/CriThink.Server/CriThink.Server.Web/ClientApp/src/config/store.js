@@ -11,7 +11,7 @@ export default () => {
     let store = null;
     let middleware = null;
 
-    if (process.env.PRODUCTION === 'true') {
+    if (process.env.NODE_ENV === 'production') {
         middleware = applyMiddleware(thunk);
     }
     else {
