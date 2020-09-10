@@ -61,5 +61,13 @@
         public const string NewsSourceNewsSourceGetAll = "all";
 
         #endregion
+
+        #region DebunkNews
+
+        public const string DebunkNewsBase = "debunk-news/";
+
+        public const string DebunkNewsTriggerUpdate = "trigger-update";
+
+        #endregion
     }
 }
