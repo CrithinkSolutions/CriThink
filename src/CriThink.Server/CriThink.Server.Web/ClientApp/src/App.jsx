@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Layout } from "./components/Layout";
-import { Home } from "./components/Home";
+import Home from "./components/Home";
 import LoginArea from "./components/authArea/LoginArea";
 import SignUpArea from "./components/authArea/SignUpArea";
 import ForgotPwdArea from "./components/authArea/ForgotPwdArea";
@@ -30,6 +30,7 @@ class App extends Component {
 
   render() {
     return (
+      <div>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/2" component={SelectionArea} />
@@ -43,10 +44,11 @@ class App extends Component {
           <AuthRoute authed={this.props.jwtToken} exact path='/profile/changepassword' component={ChangePwdArea} />
           <AuthRoute authed={this.props.jwtToken} path='/api/identity/reset-password' component={NewPwdArea} />
           <AuthRoute authed={this.props.jwtToken} path='/backoffice' component={Backoffice} />
-          {this.props.dialog}
           */}
         <Redirect to="/" />
       </Switch>
+      {this.props.dialog}
+      </div>
     );
   }
 }

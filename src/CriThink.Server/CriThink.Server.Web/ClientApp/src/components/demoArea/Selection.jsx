@@ -55,7 +55,6 @@ export class SelectionArea extends Component {
                 </Card.Content> 
               </Card.Content>
             </Card>
-
           </Card.Group>
         </WaveDown>
       </div>
