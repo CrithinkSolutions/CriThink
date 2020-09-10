@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { WaveUpDown, WaveDown } from './../Layout'
-import { Segment, Button, Grid, Card, Label, Image, Icon } from 'semantic-ui-react'
+import { Segment, Button, Grid, Card, Label, Image, Icon, Popup, Item } from 'semantic-ui-react'
 import Book from './../../svg/bookreader.svg';
 import Check from './../../svg/check.svg';
 import Graduation from './../../svg/graduation.svg';
@@ -31,7 +31,7 @@ export class SelectionArea extends Component {
                 <p className='regular' style={{fontSize:'18px'}}>Debunked Fake News</p>
                 <Image src={Check} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  <span className='whitelink bold'>DEBUNK  <Icon name='long arrow alternate right' /></span>
+                  <Popup content='Section under construction...' trigger={<span className='nolink bold'>DEBUNK  <Icon name='long arrow alternate right' /></span>}></Popup>
                 </Card.Content> 
               </Card.Content>
             </Card>
@@ -41,7 +41,7 @@ export class SelectionArea extends Component {
                 <p className='regular' style={{fontSize:'18px'}}>Spot Fake News</p>
                 <Image src={Graduation} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  <span className='whitelink bold'>LEARN  <Icon name='long arrow alternate right' /></span>
+                  <Popup content='Section under construction...' trigger={<span className='nolink bold'>LEARN  <Icon name='long arrow alternate right' /></span>}></Popup>
                 </Card.Content> 
               </Card.Content>
             </Card>
@@ -51,7 +51,7 @@ export class SelectionArea extends Component {
                 <p className='regular' style={{fontSize:'18px'}}>Quiz & Games</p>
                 <Image src={LogoRound} style={{height:'59px'}}/>
                 <Card.Content style={{textAlign:'right'}}>
-                  <span className='whitelink bold'>PLAY  <Icon name='long arrow alternate right' /></span>
+                  <Popup content='Section under construction...' trigger={<span className='nolink bold'>PLAY  <Icon name='long arrow alternate right' /></span>}></Popup>
                 </Card.Content> 
               </Card.Content>
             </Card>

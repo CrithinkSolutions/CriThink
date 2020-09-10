@@ -23,6 +23,11 @@ code {
   cursor: pointer;
 }
 
+.nolink {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
 .initgrid {
 	height: 100vh;
 }
@@ -141,3 +146,35 @@ code {
 }
 
 /* END CSS LOGO ANIMATION */
+
+.dropdowncss {
+  background: #CBCBCB !important;
+  border-radius: 30px !important;
+  text-align: center !important;
+}
+
+.dropdowncss .menu{
+  background: #B7B7B7 !important;
+  border-radius: 10px !important;
+}
+
+.dropdowncss .menu > .item{
+  border-top: 0 !important;
+  text-align: center !important;
+}
+
+.dropdowncss .icon{
+  color: #FF9600 !important;
+}
+
+.ui.selection.active.dropdown:hover {
+  border-color: #FF9600 !important; 
+}
+
+.ui.selection.dropdown:focus {
+  border-color: #FF9600 !important; 
+}
+
+.ui.selection.active.dropdown:hover .menu{
+  border-color: #FF9600 !important; 
+}

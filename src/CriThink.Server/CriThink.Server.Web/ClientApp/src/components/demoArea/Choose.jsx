@@ -37,7 +37,7 @@ export class ChooseArea extends Component {
 		      			<Icon name='info circle' style={{color:'#FF9600', margin:'1rem'}} />
 		      		} />	
 		      	</Segment>
-		      	<Dropdown className='light' placeholder='Skills' fluid selection options={options} />
+		      	<Dropdown className='light dropdowncss' fluid selection options={options} />
 		      	<Segment basic>
 		      		<Link to='/4'><Button style={{backgroundColor:'#FF9600', color:'white'}}><span className='regular'>SEE THE RESULT</span></Button></Link>
 		      	</Segment>
