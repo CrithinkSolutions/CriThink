@@ -12,8 +12,8 @@ const initialAuthState = {
     questionD: '',
     newsHeader: '',
     newsBody: '',
-    demoNews: {},
-    demoNewsSelected: {}
+    demoNews: [],
+    demoNewsSelected: {},
 };
 
 const demoreducer = (state = initialAuthState, action) => {
