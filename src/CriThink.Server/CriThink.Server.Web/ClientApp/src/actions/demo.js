@@ -2,7 +2,7 @@ import * as types from './types';
 import debounceAction from '../lib/debounceAction';
 import axios from 'axios';
 import { newActionId } from '../lib/utils';
-import { apiRequest, apiResponse, apiError, apiSuccess } from './api';
+import { apiRequest, apiResponse } from './api';
 
 function questionReducer(questions) {
 	return {
