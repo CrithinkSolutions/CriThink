@@ -1,31 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { WaveDown } from "./../Layout";
-import { Dropdown, Segment, Icon, Button, Popup } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getDemoNews, getDemoNewsSelected } from "../../actions/demo";
+import {
+  Dropdown,
+  Segment,
+  Icon,
+  Button,
+  Popup,
+  Loader,
+} from "semantic-ui-react";
 
-//Temporary example change values with news
-const options = [
-  { key: "angular", text: "Angular", value: "angular" },
-  { key: "css", text: "CSS", value: "css" },
-  { key: "design", text: "Graphic Design", value: "design" },
-  { key: "ember", text: "Ember", value: "ember" },
-  { key: "html", text: "HTML", value: "html" },
-  { key: "ia", text: "Information Architecture", value: "ia" },
-  { key: "javascript", text: "Javascript", value: "javascript" },
-  { key: "mech", text: "Mechanical Engineering", value: "mech" },
-  { key: "meteor", text: "Meteor", value: "meteor" },
-  { key: "node", text: "NodeJS", value: "node" },
-  { key: "plumbing", text: "Plumbing", value: "plumbing" },
-  { key: "python", text: "Python", value: "python" },
-  { key: "rails", text: "Rails", value: "rails" },
-  { key: "react", text: "React", value: "react" },
-  { key: "repair", text: "Kitchen Repair", value: "repair" },
-  { key: "ruby", text: "Ruby", value: "ruby" },
-  { key: "ui", text: "UI Design", value: "ui" },
-  { key: "ux", text: "User Experience", value: "ux" },
-];
+class ChooseArea extends Component {
+  componentDidMount() {
+    this.props.getDemoNews();
+  }
 
-export class ChooseArea extends Component {
+  handleSelection = (event, data) => {
+    const link = data.value;
+    const { type } = data.options.find((o) => o.value === link);
+    this.props.getDemoNewsSelected(link, type);
+  };
+
   render() {
     return (
       <div>
@@ -42,12 +40,17 @@ export class ChooseArea extends Component {
               }
             />
           </Segment>
-          <Dropdown
-            className="light dropdowncss"
-            fluid
-            selection
-            options={options}
-          />
+          {this.props.demoNews ? (
+            <Dropdown
+              className="light dropdowncss"
+              fluid
+              selection
+              options={this.props.demoLinks}
+              onChange={this.handleSelection}
+            />
+          ) : (
+            <Loader active />
+          )}
           <Segment basic>
             <Link to="/4">
               <Button className="btnorange">
@@ -60,3 +63,35 @@ export class ChooseArea extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const options = [];
+  let counter = 0;
+  const data = Array.from(state.demo.demoNews);
+
+  data.map((news) => {
+    counter++;
+    options.push({
+      value: news.url,
+      text: "Source " + counter,
+      type: news.title,
+    });
+  });
+
+  return {
+    demoNews: state.demo.demoNews,
+    demoLinks: options,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      getDemoNews,
+      getDemoNewsSelected,
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseArea);

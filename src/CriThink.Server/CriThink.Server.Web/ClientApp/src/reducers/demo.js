@@ -1,6 +1,8 @@
 import {
 	QUESTIONS,
-	GET_NEWS
+	GET_NEWS,
+	GET_DEMO_NEWS,
+	GET_DEMO_NEWS_SELECT
 } from '../actions/types';
 
 const initialAuthState = {
@@ -9,7 +11,9 @@ const initialAuthState = {
     questionA: '',
     questionD: '',
     newsHeader: '',
-    newsBody: ''
+    newsBody: '',
+    demoNews: {},
+    demoNewsSelected: {}
 };
 
 const demoreducer = (state = initialAuthState, action) => {
@@ -27,6 +31,19 @@ const demoreducer = (state = initialAuthState, action) => {
 				...state,
 				newsHeader: action.news.title,
 				newsBody: action.news.body
+			}
+		case GET_DEMO_NEWS:
+			return {
+				...state,
+				demoNews: action.dnews,
+			}
+		case GET_DEMO_NEWS_SELECT:
+			return {
+				...state,
+				demoNewsSelected: {
+					uri: action.uri,
+					type: action.classification
+				}
 			}
 		default:
 			return state;

@@ -64,10 +64,27 @@ class LogoAnim extends Component {
 class AnalysisArea extends Component {
 	componentDidMount() {
 		this.props.getQuestions();
-		this.props.getNews();
+		this.props.getNews(this.props.newsLink);
+		switch (this.props.newsClass) {
+			case "Trusted":
+			case "Satiric":
+				this.setState({ color: "green" });
+				break;
+			case "Fake":
+				this.setState({ color: "red" });
+				break;
+			case "Cospiracy":
+				this.setState({ color: "orange" });
+				break;
+			default:
+				return null;
+		}
 	}
 
-	state = { activeItem: "OVERVIEW" };
+	state = {
+		activeItem: "OVERVIEW",
+		color: "",
+	};
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -75,7 +92,10 @@ class AnalysisArea extends Component {
 		switch (this.state.activeItem) {
 			case "OVERVIEW":
 				return (
-					<MenuRender color="red" header="DOMAIN IS NOT TRUSTED">
+					<MenuRender
+						color={this.state.color}
+						header={this.props.newsClass}
+					>
 						<Segment basic>
 							Lorem ipsum dolor sit amet, consectetur adipiscing
 							elit, sed do eiusmod tempor incididunt ut labore et
@@ -103,28 +123,21 @@ class AnalysisArea extends Component {
 			case "ANALYSIS":
 				return (
 					<MenuRender header={this.props.newsHeader}>
-						{this.props.newsBody ? (
-							<AnalysisNews body={this.props.newsBody}>
-								<LogoAnim
-									msgPopup={this.props.head}
-									letter="H"
-								/>
-								<LogoAnim
-									msgPopup={this.props.evidence}
-									letter="E"
-								/>
-								<LogoAnim
-									msgPopup={this.props.accurancy}
-									letter="A"
-								/>
-								<LogoAnim
-									msgPopup={this.props.deceiving}
-									letter="D"
-								/>
-							</AnalysisNews>
-						) : (
-							<Loader active />
-						)}
+						<AnalysisNews body={this.props.newsBody}>
+							<LogoAnim msgPopup={this.props.head} letter="H" />
+							<LogoAnim
+								msgPopup={this.props.evidence}
+								letter="E"
+							/>
+							<LogoAnim
+								msgPopup={this.props.accurancy}
+								letter="A"
+							/>
+							<LogoAnim
+								msgPopup={this.props.deceiving}
+								letter="D"
+							/>
+						</AnalysisNews>
 					</MenuRender>
 				);
 			case "CHECK ANOTHER NEWS":
@@ -138,6 +151,7 @@ class AnalysisArea extends Component {
 		const { activeItem } = this.state;
 		return (
 			<div>
+				{this.props.newsLink == null ? <Redirect to="/3" /> : null}
 				<WaveDown namePage="Check Your News">
 					<Menu pointing secondary size="huge">
 						<Menu.Item
@@ -163,7 +177,11 @@ class AnalysisArea extends Component {
 							/>
 						</Menu.Menu>
 					</Menu>
-					{this.switchRender()}
+					{this.props.newsBody ? (
+						this.switchRender()
+					) : (
+						<Loader active />
+					)}
 				</WaveDown>
 			</div>
 		);
@@ -178,6 +196,8 @@ function mapStateToProps(state) {
 		deceiving: state.demo.questionD,
 		newsHeader: state.demo.newsHeader,
 		newsBody: state.demo.newsBody,
+		newsLink: state.demo.demoNewsSelected.uri,
+		newsClass: state.demo.demoNewsSelected.type,
 	};
 }
 

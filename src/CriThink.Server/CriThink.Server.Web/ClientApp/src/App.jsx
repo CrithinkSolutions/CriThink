@@ -13,7 +13,7 @@ import { NoAuthRoute, AuthRoute } from "./routers/authRoute";
 import Backoffice from "./views/Backoffice";*/
 import { getUserLogout } from "./actions/auth";
 import { SelectionArea } from "./components/demoArea/Selection";
-import { ChooseArea } from "./components/demoArea/Choose";
+import ChooseArea from "./components/demoArea/Choose";
 import AnalysisArea from "./components/demoArea/Analysis";
 
 class App extends Component {

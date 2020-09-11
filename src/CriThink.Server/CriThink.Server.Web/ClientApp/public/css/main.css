@@ -50,6 +50,7 @@
 
 .initgrid {
 	height: 100vh;
+	box-shadow: none !important;
 }
 
 .initgrid *{

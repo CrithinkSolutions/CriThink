@@ -18,6 +18,13 @@ function newsReducer(news) {
     }
 }
 
+function demonewsReducer(dnews) {
+    return {
+        type: types.GET_DEMO_NEWS,
+        dnews
+    }
+}
+
 function toDebounceGetQuestions() {
     return (dispatch) => {
         const actionId = newActionId('Getting question for H.E.A.D.', 'getQuestions');
@@ -37,12 +44,12 @@ function toDebounceGetQuestions() {
 
 const getQuestions = debounceAction(toDebounceGetQuestions, 1000, { leading: true, trailing: false });
 
-function toDebounceGetNews() {
+function toDebounceGetNews(uri) {
     return (dispatch) => {
         const actionId = newActionId('Get info form the news', 'getNews');
         dispatch(apiRequest(actionId));
         axios.post('/api/news-analyzer/scrape-news', {
-            uri:'https://news.sky.com/story/boris-johnsons-move-to-override-parts-of-brexit-deal-has-eroded-trust-says-irish-pm-12067606'
+            uri:uri
         })
             .then(res => {
                 if(res.status === 200) {
@@ -56,9 +63,39 @@ function toDebounceGetNews() {
     };
 }
 
-const getNews = debounceAction(toDebounceGetNews, 1000, { leading: true, trailing: false });
+const getNews = debounceAction(uri => toDebounceGetNews(uri), 1000, { leading: true, trailing: false });
+
+function toDebounceGetDemoNews() {
+    return (dispatch) => {
+        const actionId = newActionId('Getting demo news', 'getDemoNews');
+        dispatch(apiRequest(actionId));
+        axios.get('/api/news-analyzer/demo-news')
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch(apiResponse(actionId));
+                    dispatch(demonewsReducer(res.data.result));
+                }
+            })
+            .catch(err => {
+                dispatch(apiResponse(actionId));
+            })
+    };
+}
+
+const getDemoNews = debounceAction(toDebounceGetDemoNews, 1000, { leading: true, trailing: false });
+
+function getDemoNewsSelected(uri, classification) {
+    return {
+        type: types.GET_DEMO_NEWS_SELECT,
+        uri: uri,
+        classification: classification
+    }
+}
+
 
 export {
 	getQuestions,
-    getNews
+    getNews,
+    getDemoNews,
+    getDemoNewsSelected
 };

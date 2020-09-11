@@ -56,7 +56,7 @@ export class WaveDown extends Component {
             textAlign="center"
             verticalAlign="middle"
           >
-            <Grid.Column style={{ padding: "0 20rem" }}>
+            <Grid.Column style={{ padding: "5rem 20rem" }}>
               {this.props.children}
             </Grid.Column>
           </Grid.Row>

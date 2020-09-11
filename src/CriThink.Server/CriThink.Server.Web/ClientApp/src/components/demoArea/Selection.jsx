@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { WaveDown } from "./../Layout";
-import {
-  Card,
-  Image,
-  Icon,
-  Popup
-} from "semantic-ui-react";
+import { Card, Image, Icon, Popup } from "semantic-ui-react";
 import Book from "./../../svg/bookreader.svg";
 import Check from "./../../svg/check.svg";
 import Graduation from "./../../svg/graduation.svg";
