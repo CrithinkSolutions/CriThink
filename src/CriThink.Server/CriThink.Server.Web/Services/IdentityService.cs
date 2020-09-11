@@ -2,12 +2,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.EmailSender.Services;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Jwt;
-using CriThink.Web.Models.DTOs.IdentityProvider;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -252,6 +252,10 @@ namespace CriThink.Server.Web.Services
                 case PasswordVerificationResult.SuccessRehashNeeded:
                     await UpdateUserPasswordHashAsync(user).ConfigureAwait(false);
                     break;
+                case PasswordVerificationResult.Success:
+                    return;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -261,7 +265,7 @@ namespace CriThink.Server.Web.Services
             if (!result)
             {
                 var ex = new InvalidOperationException("Error hashing again user password");
-                _logger.LogError(ex, "Rehash needed but failed", user);
+                _logger?.LogError(ex, "Rehash needed but failed", user);
             }
         }
 

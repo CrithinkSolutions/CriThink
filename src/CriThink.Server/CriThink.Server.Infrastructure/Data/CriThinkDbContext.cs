@@ -18,6 +18,8 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
 
+        public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
+
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Injected")]
         protected override void OnModelCreating(ModelBuilder builder)
         {

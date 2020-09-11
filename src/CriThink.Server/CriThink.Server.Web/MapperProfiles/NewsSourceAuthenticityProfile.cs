@@ -10,12 +10,12 @@ namespace CriThink.Server.Web.MapperProfiles
     {
         public NewsSourceAuthenticityProfile()
         {
-            CreateMap<NewsSourceClassification, NewsSourceAuthencity>()
+            CreateMap<NewsSourceClassification, NewsSourceAuthenticity>()
                 .ConvertUsingEnumMapping(opt => opt
-                    .MapValue(NewsSourceClassification.Satiric, NewsSourceAuthencity.Satiric)
-                    .MapValue(NewsSourceClassification.Fake, NewsSourceAuthencity.Fake)
-                    .MapValue(NewsSourceClassification.Cospiracy, NewsSourceAuthencity.Cospiracy)
-                    .MapValue(NewsSourceClassification.Trusted, NewsSourceAuthencity.Trusted));
+                    .MapValue(NewsSourceClassification.Satiric, NewsSourceAuthenticity.Satiric)
+                    .MapValue(NewsSourceClassification.Fake, NewsSourceAuthenticity.Fake)
+                    .MapValue(NewsSourceClassification.Cospiracy, NewsSourceAuthenticity.Cospiracy)
+                    .MapValue(NewsSourceClassification.Trusted, NewsSourceAuthenticity.Trusted));
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 // ReSharper disable CheckNamespace
 
-namespace CriThink.Web.Models.DTOs.IdentityProvider
+namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
     public class JwtTokenResponse
     {
@@ -12,10 +13,10 @@ namespace CriThink.Web.Models.DTOs.IdentityProvider
             ExpirationDate = expirationDate;
         }
 
-        [JsonProperty("token")]
+        [JsonPropertyName("token")]
         public string Token { get; }
 
-        [JsonProperty("expirationDate")]
+        [JsonPropertyName("expirationDate")]
         public DateTime ExpirationDate { get; }
     }
 }

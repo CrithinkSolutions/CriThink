@@ -30,7 +30,7 @@ namespace CriThink.Server.Web.Services
                 throw new ArgumentNullException(nameof(request));
 
             var uri = new Uri(request.Uri, UriKind.Absolute);
-            var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthencity>(request.Classification);
+            var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
 
             var command = new CreateNewsSourceCommand(uri, authenticity);
             var _ = await _mediator.Send(command).ConfigureAwait(false);
@@ -64,12 +64,8 @@ namespace CriThink.Server.Web.Services
 
             if (queryResponse is SearchNewsSourceQueryResponse searchResponse)
             {
-                var classification = _mapper.Map<NewsSourceAuthencity, NewsSourceClassification>(searchResponse.SourceAuthencity);
-
-                return new NewsSourceSearchResponse
-                {
-                    Classification = classification
-                };
+                var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(searchResponse);
+                return response;
             }
 
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
