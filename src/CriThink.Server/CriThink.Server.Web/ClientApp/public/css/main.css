@@ -1,0 +1,160 @@
+@import "fonts.css";
+@import "anim.css";
+
+/* BUTTON */
+.btnpurple {
+	background-color:#3C50C8 !important; 
+	color:white !important;
+}
+
+.btnorange {
+	background-color:#FF9600 !important; 
+	color:white !important;
+}
+
+/* TEXT */
+
+.link {
+	color: #1678C2;
+  	cursor: pointer;
+}
+
+.whitelink {
+  color: white;
+  cursor: pointer;
+}
+
+.nolink {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.bigfont {
+	color: #FF9600;
+	font-size: 26pt !important;
+}
+
+.txtRight {
+	text-align: right;
+}
+
+/* LAYOUT */
+
+.wavedowntext {
+	display: flex; 
+	justify-content: center; 
+	align-items: end;
+	margin-bottom: 1.5rem;
+	margin-top: 1rem;
+}
+
+.initgrid {
+	height: 100vh;
+}
+
+.initgrid *{
+	box-shadow: none !important;
+}
+
+.flipsvg {
+	transform: scale(-1,1) rotateX(180deg);
+}
+
+.footer {
+	padding-bottom: 0 !important;
+}
+
+.bottomborder {
+	border-bottom: 3px solid #FF9600;
+}
+
+.bottombordergradient {
+	border-bottom: 10px solid;
+	border-image: linear-gradient(0deg, rgba(255,150,0,1) 0%, rgba(247,211,72,1) 100%) 60 30;
+}
+
+.txtnamepage {
+	margin-left: auto;
+	margin-right: 1.5em;
+	align-items: center;
+}
+
+/* ANALYSIS PAGE */
+.ui.secondary.pointing.menu .item {
+	color: #FF9600 !important;
+	opacity: 0.4 !important;
+}
+
+
+.ui.secondary.pointing.menu .active.item {
+	color:#FF9600 !important;
+  	border-color: #FF9600 !important;
+  	opacity: 1 !important;
+}
+
+.noborderafter *{
+	border: none !important;
+}
+
+.ui.popup.visible {
+	background-color: #ADC4FA;
+	color: white;
+}
+
+.ui.popup.visible:before {
+	background: #ADC4FA !important;
+}
+
+/* DROPDOWN (CHOOSE PAGE) */
+
+.dropdowncss {
+  background: #CBCBCB !important;
+  border-radius: 30px !important;
+  text-align: center !important;
+}
+
+.dropdowncss .menu{
+  background: #B7B7B7 !important;
+  border-radius: 10px !important;
+}
+
+.dropdowncss .menu > .item{
+  border-top: 0 !important;
+  text-align: center !important;
+}
+
+.dropdowncss .icon{
+  color: #FF9600 !important;
+}
+
+.ui.selection.active.dropdown:hover {
+  border-color: #FF9600 !important; 
+}
+
+.ui.selection.dropdown:focus {
+  border-color: #FF9600 !important; 
+}
+
+.ui.selection.active.dropdown:hover .menu{
+  border-color: #FF9600 !important; 
+}
+
+/* SELECTION PAGE */
+
+.menucard{
+	margin-left:5%; 
+	margin-right:5%;
+	color: white;
+}
+
+.menucard .ui.card{
+	background-color:#3C50C8 !important;
+}
+
+.menucard p{
+	font-size:18px;
+}
+
+.menucard img{
+	height:59px !important;
+}
