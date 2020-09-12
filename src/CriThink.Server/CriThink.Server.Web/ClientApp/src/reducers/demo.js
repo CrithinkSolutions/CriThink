@@ -47,7 +47,7 @@ const demoreducer = (state = initialAuthState, action) => {
                 },
             };
         case NEWS_CLASSIFICATION_RECEIVED:
-            let color = 'grey';
+            let color;
             switch(action.classification) {
                 case 'Trusted':
                 case 'Satiric':
@@ -58,6 +58,9 @@ const demoreducer = (state = initialAuthState, action) => {
                     break;
                 case 'Cospiracy':
                     color = 'orange';
+                    break;
+                default:
+                    color = 'grey';
                     break;
             }
             return {

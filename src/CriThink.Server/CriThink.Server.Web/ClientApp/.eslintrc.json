@@ -81,6 +81,7 @@
         "no-unused-vars": "error",
         "no-useless-constructor": "error",
         "no-useless-escape": "error",
+        "default-case": "error",
         "no-lone-blocks": "error",
         "react/jsx-uses-vars": 1,
         "react/jsx-uses-react": 1
