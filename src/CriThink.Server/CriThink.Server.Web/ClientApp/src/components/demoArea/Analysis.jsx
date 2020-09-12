@@ -43,21 +43,7 @@ class AnalysisArea extends Component {
 	                    header={`Domain is ${ this.props.newsClassification }`}
 	                    uppercase
 	                >
-	                    <Segment basic>
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit, sed do eiusmod tempor incididunt ut labore et
-							dolore magna aliqua. Ut enim ad minim veniam, quis
-							nostrud exercitation ullamco laboris nisi ut aliquip
-							ex ea commodo consequat. Duis aute irure dolor in
-							reprehenderit in voluptate velit esse cillum dolore
-							eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia
-							deserunt mollit anim id est laborum. Sed ut
-							perspiciatis unde omnis iste natus error sit
-							voluptatem accusantium doloremque laudantium, totam
-							rem aperiam, eaque ipsa quae ab illo inventore
-							veritatis et quasi architecto.
-	                    </Segment>
+	                    <Segment basic>{this.props.classificationDescription}</Segment>
 	                </MenuRender>
 	            );
 	        case 'KEY WORDS':
@@ -141,6 +127,7 @@ function mapStateToProps (state) {
         newsBody: state.demo.newsBody,
         newsLink: state.demo.demoNewsSelected.uri,
         newsClassification: state.demo.demoNewsSelected.classification,
+        classificationDescription: state.demo.demoNewsSelected.description,
         color: state.demo.demoNewsSelected.color,
         loading: !!state.app.loading.find(x => x.label === 'getDemoNews')
 			|| !!state.app.loading.find(x => x.label === 'getNewsClassification'),
