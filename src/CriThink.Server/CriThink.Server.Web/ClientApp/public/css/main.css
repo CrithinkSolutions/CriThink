@@ -150,10 +150,11 @@
 
 .menucard .ui.card{
 	background-color:#3C50C8 !important;
+	min-width: 250px;
 }
 
-.menucard p{
-	font-size:18px;
+.menucard .menutitle{
+	font-size:1.3rem;
 }
 
 .menucard img{
