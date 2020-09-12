@@ -2,6 +2,7 @@ import * as types from './types';
 import debounceAction from '../lib/debounceAction';
 import axios from 'axios';
 import { apiRequest, apiResponse, apiError, apiSuccess } from './api';
+import { enabledRoutesReceived } from './app';
 import { newActionId } from '../lib/utils';
 
 function userLogin (user) {
@@ -149,6 +150,26 @@ function toDebounceGetUserNewPwd ({userId, token, newPassword}) {
 
 const getUserNewPwd = debounceAction(toDebounceGetUserNewPwd, 1000, { leading: true, trailing: false });
 
+function toDebouncegetEnabledRoutes () {
+    return (dispatch) => {
+        const actionId = newActionId('Getting enabled routes', 'getEnabledRoutes');
+        dispatch(apiRequest(actionId));
+        axios.get('/api/service/signup-enabled')
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch(enabledRoutesReceived(res.data));
+                    dispatch(apiResponse(actionId));
+                }
+            })
+            .catch(err => {
+                dispatch(apiError(err));
+                dispatch(apiResponse(actionId));
+            });
+    };
+};
+
+const getEnabledRoutes = debounceAction(toDebouncegetEnabledRoutes, 1000, { leading: true, trailing: false });
+
 export {
     getUserLogin,
     getUserLogout,
@@ -156,4 +177,5 @@ export {
     getUserForgotPwd,
     getUserChangePwd,
     getUserNewPwd,
+    getEnabledRoutes,
 };
