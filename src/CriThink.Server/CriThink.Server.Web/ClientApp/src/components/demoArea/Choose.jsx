@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { WaveDown } from './../Layout';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getDemoNews, getDemoNewsSelected } from '../../actions/demo';
+import { getDemoNews, selectNews } from '../../actions/demo';
 import {
     Dropdown,
     Segment,
@@ -11,6 +11,7 @@ import {
     Button,
     Popup,
     Loader,
+    Dimmer,
 } from 'semantic-ui-react';
 
 class ChooseArea extends Component {
@@ -19,9 +20,11 @@ class ChooseArea extends Component {
     }
 
     handleSelection = (event, data) => {
-        const link = data.value;
-        const { text } = data.options.find((o) => o.value === link);
-        this.props.getDemoNewsSelected(link, text);
+        const news = data.options.find((o) => o.value === data.value);
+        this.props.selectNews({
+            uri: news.value,
+            title: news.text,
+        });
     };
 
     render () {
@@ -39,24 +42,25 @@ class ChooseArea extends Component {
                                 />
                             }
                         />
-                    </Segment>
-                    {!!this.props.demoLinks ? (
-                        <Dropdown
-                            className="light dropdowncss"
-                            fluid
-                            selection
-                            options={this.props.demoLinks}
-                            onChange={this.handleSelection}
-                        />
-                    ) : (
-                        <Loader active />
-                    )}
-                    <Segment basic>
-                        <Link to="/4">
-                            <Button className="btnorange">
-                                <span className="regular">SEE THE RESULT</span>
-                            </Button>
-                        </Link>
+                        <Segment basic>
+                            <Dropdown
+                                className="light dropdowncss"
+                                fluid
+                                selection
+                                options={this.props.demoLinks}
+                                onChange={this.handleSelection}
+                            />
+                            <Segment basic>
+                                <Link to="/4">
+                                    <Button className="btnorange">
+                                        <span className="regular">SEE THE RESULT</span>
+                                    </Button>
+                                </Link>
+                            </Segment>
+                            <Dimmer active={this.props.loading} inverted>
+                                <Loader />
+                            </Dimmer>
+                        </Segment>
                     </Segment>
                 </WaveDown>
             </div>
@@ -70,13 +74,14 @@ function mapStateToProps (state) {
             value: news.url,
             text: news.title,
         })),
+        loading: !!state.app.loading.find(x => x.label === 'getDemoNews'),
     };
 }
 
 function mapDispatchToProps (dispatch) {
     return bindActionCreators({
         getDemoNews,
-        getDemoNewsSelected,
+        selectNews,
     }, dispatch);
 }
 
