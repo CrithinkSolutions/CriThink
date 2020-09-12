@@ -30,9 +30,9 @@ class App extends Component {
           <div>
               <Switch>
                   <Route exact path="/" component={Home} />
-                  <Route path="/2" component={SelectionArea} />
-                  <Route path="/3" component={ChooseArea} />
-                  <Route path="/4" component={AnalysisArea} />
+                  <Route path="/menu" component={SelectionArea} />
+                  <Route path="/choose" component={ChooseArea} />
+                  <Route path="/check" component={AnalysisArea} />
                   <NoAuthRoute authed={this.props.jwtToken} exact path='/login' component={LoginArea} />
                   <AuthRoute authed={this.props.jwtToken} exact path='/signup' component={SignUpArea} />
                   <AuthRoute authed={this.props.jwtToken} exact path='/forgotpassword' component={ForgotPwdArea} />
