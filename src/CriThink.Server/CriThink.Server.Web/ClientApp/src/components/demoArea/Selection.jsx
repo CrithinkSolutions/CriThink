@@ -17,8 +17,7 @@ export class SelectionArea extends Component {
               <Card.Content>
                 <p className="regular menutitle">Check Your News</p>
                 <Image src={Book} />
-                <p className='light p-4'>Excepteur sint occaecat cupidatat non proident, 
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p className='light p-4'>Check & critically evaluate your news with the HEAD.</p>
               </Card.Content>
               <Link to="/source-selection" className='txtRight p-3'>
                 <Popup
@@ -36,8 +35,7 @@ export class SelectionArea extends Component {
               <Card.Content>
                 <p className="regular menutitle">Debunked Fake News</p>
                 <Image src={Check} style={{ height: "59px" }} />
-                <p className='light p-4'>Excepteur sint occaecat cupidatat non proident, 
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p className='light p-4'>Read the latest debunked fake news.</p>
               </Card.Content>
               <div className='txtRight p-3'>
                 <Popup
@@ -55,8 +53,7 @@ export class SelectionArea extends Component {
               <Card.Content>
                 <p className="regular menutitle">Spot Fake News</p>
                 <Image src={Graduation} />
-                <p className='light p-4'>Excepteur sint occaecat cupidatat non proident, 
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p className='light p-4'>Become a fake news expert and discover how to spot it.</p>
               </Card.Content>
               <div className='txtRight p-3'>
                 <Popup
@@ -74,8 +71,7 @@ export class SelectionArea extends Component {
               <Card.Content>
                 <p className="regular menutitle">Quiz & Games</p>
                 <Image src={LogoRound} />
-                <p className='light p-4'>Excepteur sint occaecat cupidatat non proident, 
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p className='light p-4'>Enjoy our games and quizzes.</p>
               </Card.Content>
               <div className='txtRight p-3'>
                 <Popup
