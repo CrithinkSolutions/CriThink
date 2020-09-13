@@ -32,7 +32,7 @@ class ChooseArea extends Component {
             <div>
                 <WaveDown namePage="Check Your News">
                     <Segment basic size="massive">
-                        <span className="light">CHOOSE YOUR SOURCE</span>
+                        <span className="light">CHECK THE NEWS</span>
                         <Popup
                             content="Pick a news from the list"
                             trigger={

@@ -21,8 +21,10 @@ const backoffice = (state = initialBackofficeState, action) => {
                 currentList: action.selectedList,
             };
         case ALL_NEWS_SOURCES_RECEIVED: {
-            const whitelist = action.data.filter(x => x.classification === 'Trusted' || x.classification === 'Satiric');
-            const blacklist = action.data.filter(x => x.classification === 'Cospiracy' || x.classification === 'Fake');
+            const whitelist = action.data.filter(x => x.classification === 'Reliable'
+                || x.classification === 'Satirical');
+            const blacklist = action.data.filter(x => x.classification === 'Conspiracist'
+                || x.classification === 'Fake News');
             return {
                 ...state,
                 blacklist,
