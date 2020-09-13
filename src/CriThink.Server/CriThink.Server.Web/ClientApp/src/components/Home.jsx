@@ -39,10 +39,22 @@ class Home extends Component {
                   >
                     LICENCE
                   </Segment>
+                  {(!this.props.isLoggedIn && this.props.enableLogin) && (<Link to="/login">
+                      <Button className="btnpurple">
+                          <span className="bold">LOGIN</span>
+                      </Button>
+                  </Link>)}
               </WaveUpDown>
           </div>
       );
   }
+}
+
+function mapStateToProps (state) {
+    return {
+        isLoggedIn: !!state.auth.jwtToken,
+        enableLogin: state.app.loginRoutesEnabled,
+    };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -51,4 +63,4 @@ function mapDispatchToProps (dispatch) {
     }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

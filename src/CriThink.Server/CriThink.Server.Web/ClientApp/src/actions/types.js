@@ -3,6 +3,7 @@ export const API_REQUEST = 'API_REQUEST';
 export const API_RESPONSE = 'API_RESPONSE';
 export const API_ERROR = 'API_ERROR';
 export const API_SUCCESS = 'API_SUCCESS';
+export const ENABLED_ROUTES_RECEIVED = 'ENABLED_ROUTES_RECEIVED';
 
 // App Action Types
 export const OPEN_DIALOG = 'OPEN_DIALOG';
