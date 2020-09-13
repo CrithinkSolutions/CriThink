@@ -187,6 +187,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
+        [ResponseCache(Duration = 30)]
         [Route(EndpointConstants.NewsAnalyzerQuestionGetAll)] // api/news-analyzer/question
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

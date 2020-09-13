@@ -20,12 +20,13 @@ const initialAuthState = {
 const demoreducer = (state = initialAuthState, action) => {
     switch(action.type) {
         case QUESTIONS:
+            const questions = action.questions.sort((a, b) => a.order - b.order);
             return {
                 ...state,
-                questionH: action.questions[2].content,
-                questionE: action.questions[1].content,
-                questionA: action.questions[0].content,
-                questionD: action.questions[3].content,
+                questionH: questions[0].content,
+                questionE: questions[1].content,
+                questionA: questions[2].content,
+                questionD: questions[3].content,
             };
         case GET_NEWS:
             return {

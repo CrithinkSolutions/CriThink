@@ -12,5 +12,8 @@ namespace CriThink.Server.Core.Entities
 
         [Required]
         public string Content { get; set; }
+
+        [Required]
+        public int Order { get; set; }
     }
 }

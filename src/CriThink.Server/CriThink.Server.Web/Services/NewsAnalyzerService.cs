@@ -133,7 +133,9 @@ namespace CriThink.Server.Web.Services
 
             if (response is IEnumerable<Question> questions)
             {
-                return _mapper.Map<IEnumerable<Question>, IList<QuestionResponse>>(questions);
+                return _mapper.Map<IEnumerable<Question>, IList<QuestionResponse>>(questions)
+                    .OrderBy(q => q.Order)
+                    .ToList();
             }
 
             throw new InvalidOperationException($"Invalid result from '{nameof(GetAllQuestionsQuery)}' query");
