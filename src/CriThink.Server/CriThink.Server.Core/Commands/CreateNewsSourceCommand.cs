@@ -15,7 +15,7 @@ namespace CriThink.Server.Core.Commands
 
         public NewsSourceAuthenticity Authencity { get; }
 
-        public bool IsGoodSource => Authencity == NewsSourceAuthenticity.Satiric ||
-                                    Authencity == NewsSourceAuthenticity.Trusted;
+        public bool IsGoodSource => Authencity == NewsSourceAuthenticity.Satirical ||
+                                    Authencity == NewsSourceAuthenticity.Reliable;
     }
 }

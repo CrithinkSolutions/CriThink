@@ -115,7 +115,7 @@ namespace CriThink.Server.Web
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
                 });
 
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
