@@ -6,6 +6,7 @@ using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>A response with the result of all the performed analysis</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerPerformCompleteAnalysis)] // api/news-analyzer/perform-complete-anlysis
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,6 +55,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>Provide the analysis result</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerHttpsSupport)] // api/news-analyzer/https-support
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,6 +74,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The URI to analyze</param>
         /// <returns>Provide the analysis result</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerDomainLookup)] // api/news-analyzer/domain-lookup
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,6 +93,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">The news URL</param>
         /// <returns>News information such as author and body</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerScrapeNews)] // api/news-analyzer/scrape-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -107,6 +112,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">News uri</param>
         /// <returns>News sentiment scores</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerTextSentimentAnalysis)] // api/news-analyzer/sentiment-analysis
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -125,6 +131,7 @@ namespace CriThink.Server.Web.Controllers
         /// Returns a predefined list of news ready to be analyzed
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -142,6 +149,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">News to add</param>
         /// <returns></returns>
+        [Authorize]
         [Route(EndpointConstants.NewsAnalyzerDemoNewsAdd)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -160,6 +168,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Question to add</param>
         /// <returns></returns>
+        [Authorize]
         [Route(EndpointConstants.NewsAnalyzerQuestionAdd)] // api/news-analyzer/question
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -177,6 +186,8 @@ namespace CriThink.Server.Web.Controllers
         /// Returns a predefined list of questions for the user
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
+        [ResponseCache(Duration = 30)]
         [Route(EndpointConstants.NewsAnalyzerQuestionGetAll)] // api/news-analyzer/question
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -194,6 +205,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Answer to compare</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.NewsAnalyzerQuestionAnswer)] // api/news-analyzer/answer-question
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -211,6 +223,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Anwser to add</param>
         /// <returns></returns>
+        [Authorize]
         [Route(EndpointConstants.NewsAnalyzerQuestionAnswerAdd)] // api/news-analyzer/answer-question/create
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

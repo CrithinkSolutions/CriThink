@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 // ReSharper disable CheckNamespace
 
-namespace CriThink.Web.Models.DTOs.IdentityProvider
+namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
     public class UserSignUpResponse
     {
-        [JsonProperty("confirmationCode")]
+        [JsonPropertyName("confirmationCode")]
         public string ConfirmationCode { get; set; }
 
-        [JsonProperty("userId")]
+        [JsonPropertyName("userId")]
         public string UserId { get; set; }
 
-        [JsonProperty("userEmail")]
+        [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }
     }
 }

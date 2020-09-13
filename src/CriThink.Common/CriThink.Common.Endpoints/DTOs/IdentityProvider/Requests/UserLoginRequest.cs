@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 // ReSharper disable CheckNamespace
 
-namespace CriThink.Web.Models.DTOs.IdentityProvider
+namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
     public class UserLoginRequest : IValidatableObject
     {

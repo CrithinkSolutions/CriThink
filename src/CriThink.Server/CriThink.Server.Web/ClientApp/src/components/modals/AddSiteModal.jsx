@@ -23,9 +23,11 @@ class AddSiteModal extends Component {
     changeHandler = (e, sender) => {
         const { name, value } = sender;
 
-        this.setState((state) => ({
-            classification: state.list === value ? state.classification : '',
-        }));
+        if (name === 'list') {
+            this.setState((state) => ({
+                classification: state.list === value ? state.classification : '',
+            }));
+        }
 
         this.setState({
             [name]: value,
@@ -79,7 +81,11 @@ class AddSiteModal extends Component {
     render () {
         return (
             <Modal isOpen={this.props.dialogOpen} centered>
-                <ModalHeader close={<BootstrapButton close onClick={this.closeDialog} disabled={this.props.loading} />}>Add new site</ModalHeader>
+                <ModalHeader
+                    close={<BootstrapButton close onClick={this.closeDialog} disabled={this.props.loading} />}
+                >
+                    Add new site
+                </ModalHeader>
                 <ModalBody>
                     <Form>
                         <Form.Input

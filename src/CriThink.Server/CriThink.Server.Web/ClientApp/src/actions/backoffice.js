@@ -53,22 +53,24 @@ function whitelistNewsAdded (data) {
 
 const loadAllSources = debounceAction(toDebounceLoadAllSources, 1000, { leading: true, trailing: false });
 
-function toDebounceAddNewsSource ({domain, classification, notes, list}) {
-    return (dispatch) => {
+function toDebounceAddNewsSource ({ domain, classification, notes, list }) {
+    return (dispatch, getState) => {
+        const { auth } = getState();
+        const jwt = auth.jwtToken;
         const actionId = newActionId('Adding new news source...', 'addNewsSource');
         dispatch(apiRequest(actionId));
         axios.post('/api/news-source', {
             uri: `https://${ domain }`,
             classification,
             notes,
-        })
+        }, { headers: { 'Authorization': `Bearer ${ jwt }` } })
             .then(res => {
-                if(res.status === 204) {
+                if (res.status === 204) {
                     if (list === 'blacklist') {
-                        dispatch(blacklistNewsAdded({domain, classification, notes}));
+                        dispatch(blacklistNewsAdded({ domain, classification, notes }));
                     }
                     else {
-                        dispatch(whitelistNewsAdded({domain, classification, notes}));
+                        dispatch(whitelistNewsAdded({ domain, classification, notes }));
                     }
                     dispatch(apiResponse(actionId));
                     dispatch(closeDialog());
@@ -90,7 +92,9 @@ function blacklistNewsRemoved (site) {
 }
 
 function toDebounceRemoveBlacklistedSite (site) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const { auth } = getState();
+        const jwt = auth.jwtToken;
         const actionId = newActionId(`Removing '${ site }' from sources...`, 'confirmationDialog');
         dispatch(apiRequest(actionId));
         axios.request({
@@ -99,6 +103,7 @@ function toDebounceRemoveBlacklistedSite (site) {
                 uri: `https://${ site }`,
             },
             url: '/api/news-source/blacklist',
+            headers: { 'Authorization': `Bearer ${ jwt }` },
         })
             .then(res => {
                 if (res.status === 204) {
@@ -123,7 +128,9 @@ function whitelistNewsRemoved (site) {
 }
 
 function toDebounceRemoveWhitelistedSite (site) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const { auth } = getState();
+        const jwt = auth.jwtToken;
         const actionId = newActionId(`Removing '${ site }' from sources...`, 'confirmationDialog');
         dispatch(apiRequest(actionId));
         axios.request({
@@ -132,6 +139,7 @@ function toDebounceRemoveWhitelistedSite (site) {
                 uri: `https://${ site }`,
             },
             url: '/api/news-source/whitelist',
+            headers: { 'Authorization': `Bearer ${ jwt }` },
         })
             .then(res => {
                 if (res.status === 204) {

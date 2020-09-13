@@ -6,6 +6,7 @@ import {
     OPEN_CUSTOM_DIALOG,
     OPEN_CONFIRMATION_DIALOG,
     CLOSE_DIALOG,
+    ENABLED_ROUTES_RECEIVED,
 } from '../actions/types';
 
 const initialAppState = {
@@ -70,6 +71,11 @@ const app = (state = initialAppState, action) => {
             return {
                 ...state,
                 msg: action.render,
+            };
+        case ENABLED_ROUTES_RECEIVED:
+            return {
+                ...state,
+                loginRoutesEnabled: action.data,
             };
         default:
             return state;

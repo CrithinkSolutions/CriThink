@@ -38,6 +38,24 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("DemoNews");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourceCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Authenticity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NewsSourceCategories");
+                });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -47,6 +65,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

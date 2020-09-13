@@ -8,5 +8,8 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
     {
         [JsonPropertyName("classification")]
         public NewsSourceClassification Classification { get; set; }
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
     }
 }

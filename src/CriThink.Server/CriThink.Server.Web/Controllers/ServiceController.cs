@@ -120,5 +120,18 @@ namespace CriThink.Server.Web.Controllers
             return NoContent();
         }
 
+        [AllowAnonymous]
+        [Route(EndpointConstants.ServiceEnableSignup)] // api/service/signup-enabled
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet]
+        public IActionResult GetSignupActivation()
+        {
+            var enableSignup = Environment.GetEnvironmentVariable("ENABLE_SIGNUP");
+            if (enableSignup == null)
+                return Ok(false);
+
+            var isEnabled = bool.Parse(enableSignup);
+            return Ok(isEnabled);
+        }
     }
 }
