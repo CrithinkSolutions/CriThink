@@ -26,7 +26,7 @@ class Home extends Component {
                   <Segment basic className="bigfont bold">
                     Before sharing, use the HEAD
                   </Segment>
-                  <Link to="/2">
+                  <Link to="/menu">
                       <Button className="btnpurple">
                           <span className="bold">CONTINUE</span>
                       </Button>
