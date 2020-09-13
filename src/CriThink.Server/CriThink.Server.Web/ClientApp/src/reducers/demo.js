@@ -50,14 +50,14 @@ const demoreducer = (state = initialAuthState, action) => {
         case NEWS_CLASSIFICATION_RECEIVED:
             let color;
             switch(action.classification) {
-                case 'Trusted':
-                case 'Satiric':
+                case 'Reliable':
+                case 'Satirical':
                     color = 'green';
                     break;
-                case 'Fake':
+                case 'Fake News':
                     color = 'red';
                     break;
-                case 'Cospiracy':
+                case 'Conspiracist':
                     color = 'orange';
                     break;
                 default:

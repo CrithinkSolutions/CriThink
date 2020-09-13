@@ -60,9 +60,9 @@ class AddSiteModal extends Component {
 
         // TEMPORARY HARDCODED
 
-        if (this.state.list === 'blacklist') values = ['Cospiracy', 'Fake'];
+        if (this.state.list === 'blacklist') values = ['Conspiracist', 'Fake News'];
 
-        else values = ['Trusted', 'Satiric'];
+        else values = ['Reliable', 'Satirical'];
 
         return values.map(x => ({ key: x, value: x, text: x }));
     }
