@@ -44,6 +44,11 @@ class Home extends Component {
                           <span className="bold">LOGIN</span>
                       </Button>
                   </Link>)}
+                  {this.props.isLoggedIn && (<Link to="/backoffice">
+                      <Button className="btnpurple">
+                          <span className="bold">BACKOFFICE</span>
+                      </Button>
+                  </Link>)}
               </WaveUpDown>
           </div>
       );
