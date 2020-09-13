@@ -74,7 +74,7 @@ class AnalysisArea extends Component {
 	                </MenuRender>
 	            );
 	        case 'CHECK ANOTHER NEWS':
-	            return <Redirect to="/3" />;
+	            return <Redirect to="/source-selection" />;
 	        default:
 	            return null;
 	    }
@@ -84,7 +84,7 @@ class AnalysisArea extends Component {
 	    const { activeItem } = this.state;
 	    return (
 	        <div>
-	            {this.props.newsLink == null ? <Redirect to="/3" /> : null}
+	            {this.props.newsLink == null ? <Redirect to="/source-selection" /> : null}
 	            <WaveDown namePage="Check Your News">
 	                <Menu pointing secondary size="huge">
 	                    <Menu.Item

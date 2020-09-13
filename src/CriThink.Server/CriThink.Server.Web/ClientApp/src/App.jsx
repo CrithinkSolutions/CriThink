@@ -32,9 +32,9 @@ class App extends Component {
           <div>
               <Switch>
                   <Route exact path="/" component={Home} />
-                  <Route path="/2" component={SelectionArea} />
-                  <Route path="/3" component={ChooseArea} />
-                  <Route path="/4" component={AnalysisArea} />
+                  <Route path="/menu" component={SelectionArea} />
+                  <Route path="/source-selection" component={ChooseArea} />
+                  <Route path="/analysis" component={AnalysisArea} />
                   <AuthRoute exact path='/login' component={LoginArea} anonymous disabled={!enableLogin} />
                   <AuthRoute exact path='/signup' component={SignUpArea} anonymous disabled={!enableLogin} />
                   <AuthRoute exact path='/forgotpassword' component={ForgotPwdArea} anonymous disabled={!enableLogin} />

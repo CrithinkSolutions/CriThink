@@ -51,7 +51,7 @@ class ChooseArea extends Component {
                                 onChange={this.handleSelection}
                             />
                             <Segment basic>
-                                <Link to="/4">
+                                <Link to="/analysis">
                                     <Button className="btnorange">
                                         <span className="regular">SEE THE RESULT</span>
                                     </Button>

@@ -20,7 +20,7 @@ export class SelectionArea extends Component {
                 <p className='light p-4'>Excepteur sint occaecat cupidatat non proident, 
                 sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
               </Card.Content>
-              <Link to="/3" className='txtRight p-3'>
+              <Link to="/source-selection" className='txtRight p-3'>
                 <Popup
                   content="Check your news"
                   trigger={
