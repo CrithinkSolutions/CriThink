@@ -7,21 +7,21 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
         /// <summary>
         /// Represents a trusted news source
         /// </summary>
-        Trusted,
+        Reliable,
 
         /// <summary>
         /// Represents a well-known satiric news source
         /// </summary>
-        Satiric,
+        Satirical,
 
         /// <summary>
         /// Represents a cospiracy news source.
         /// </summary>
-        Cospiracy,
+        Conspiracist,
 
         /// <summary>
         /// Represents a fake news source
         /// </summary>
-        Fake
+        FakeNews
     }
 }

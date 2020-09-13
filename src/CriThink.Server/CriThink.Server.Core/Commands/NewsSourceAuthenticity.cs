@@ -6,11 +6,11 @@
     public enum NewsSourceAuthenticity
     {
         // Good
-        Trusted = 0,
-        Satiric = 1,
+        Reliable = 0,
+        Satirical = 1,
 
         // Bad
-        Cospiracy = 10,
-        Fake = 11
+        Conspiracist = 10,
+        FakeNews = 11
     }
 }
