@@ -14,7 +14,7 @@ const authreducer = (state = initialAuthState, action) => {
     switch(action.type) {
         case USER_LOGIN:
             return {
-                username: action.user.userName,
+                username: action.user.username,
                 userid: action.user.userId,
                 jwtToken: action.user.token.token,
                 jwtExp: action.user.token.expirationDate,
