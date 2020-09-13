@@ -35,3 +35,10 @@ export function closeDialog () {
         type: types.CLOSE_DIALOG,
     };
 }
+
+export function enabledRoutesReceived (data) {
+    return {
+        type: types.ENABLED_ROUTES_RECEIVED,
+        data,
+    };
+}

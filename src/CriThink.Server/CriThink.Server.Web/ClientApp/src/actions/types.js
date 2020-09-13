@@ -3,6 +3,7 @@ export const API_REQUEST = 'API_REQUEST';
 export const API_RESPONSE = 'API_RESPONSE';
 export const API_ERROR = 'API_ERROR';
 export const API_SUCCESS = 'API_SUCCESS';
+export const ENABLED_ROUTES_RECEIVED = 'ENABLED_ROUTES_RECEIVED';
 
 // App Action Types
 export const OPEN_DIALOG = 'OPEN_DIALOG';
@@ -26,4 +27,5 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 export const QUESTIONS = 'QUESTIONS';
 export const GET_NEWS = 'GET_NEWS';
 export const GET_DEMO_NEWS = 'GET_DEMO_NEWS';
-export const GET_DEMO_NEWS_SELECT = 'GET_DEMO_NEWS_SELECT';
+export const NEWS_SELECTED = 'NEWS_SELECTED';
+export const NEWS_CLASSIFICATION_RECEIVED = 'NEWS_CLASSIFICATION_RECEIVED';

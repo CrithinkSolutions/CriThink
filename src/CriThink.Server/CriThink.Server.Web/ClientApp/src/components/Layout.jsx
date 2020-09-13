@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import { ReactComponent as Wave } from './../svg/wave.svg';
 import Logo from './../svg/logo.svg';
 
@@ -20,7 +19,9 @@ export class WaveUpDown extends Component {
                     </Grid.Row>
 
                     <Grid.Row style={{ height: '70%' }}>
-                        <Grid.Column className="p-3">{this.props.children}</Grid.Column>
+                        <Grid.Column className="p-3">
+                            {this.props.children}
+                        </Grid.Column>
                     </Grid.Row>
 
                     <Grid.Row style={{ height: '15%' }}>
@@ -37,18 +38,38 @@ export class WaveDown extends Component {
         return (
             <div>
                 <Grid celled padded className="initgrid">
-                    <Grid.Row className="bottomborder" style={{ height: '15%' }}>
-                        <Link to="/">
-                            <Image src={Logo} height="140vw" style={{ padding: '1rem' }} />
-                        </Link>
-                        <span className="bigfont wavedowntext bold">
-                          Before sharing, use the HEAD
-                        </span>
-                        {this.props.namePage ? (
-                            <span className="bigfont wavedowntext bottombordergradient bold txtnamepage">
-                                {this.props.namePage}
-                            </span>
-                        ) : null}
+                    <Grid.Row
+                        column="equal"
+                        className="bottomborder"
+                        style={{ height: '15%', padding: '0.5rem' }}
+                    >
+                        <Segment
+                            basic
+                            style={{
+                                width: '5%',
+                                background: 'url(' + Logo + ') 0% 0% no-repeat',
+                                backgroundPosition: 'center',
+                                marginRight: '1%',
+                            }}
+                        ></Segment>
+                        <Segment
+                            basic
+                            style={{ width: '74%' }}
+                            className="bigfont bold endtext"
+                        >
+                            Before sharing, use the HEAD
+                        </Segment>
+                        <Segment
+                            basic
+                            style={{ width: '20%' }}
+                            className="bigfont bold middletext"
+                        >
+                            {this.props.namePage && (
+                                <p className="bottombordergradient">
+                                    Check your news
+                                </p>
+                            )}
+                        </Segment>
                     </Grid.Row>
 
                     <Grid.Row
