@@ -34,7 +34,7 @@ class ChooseArea extends Component {
                     <Segment basic size="massive">
                         <span className="light">CHOOSE YOUR SOURCE</span>
                         <Popup
-                            content="Add users to your feed"
+                            content="Pick a news from the list"
                             trigger={
                                 <Icon
                                     name="info circle"
