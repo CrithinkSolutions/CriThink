@@ -16,8 +16,8 @@ const authreducer = (state = initialAuthState, action) => {
             return {
                 username: action.user.userName,
                 userid: action.user.userId,
-                jwtToken: action.user.jwtToken.token,
-                jwtExp: action.user.jwtToken.expirationDate,
+                jwtToken: action.user.token.token,
+                jwtExp: action.user.token.expirationDate,
             };
         case USER_LOGOUT:
             return {
