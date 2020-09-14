@@ -130,6 +130,7 @@ function mapStateToProps (state) {
         classificationDescription: state.demo.demoNewsSelected.description,
         color: state.demo.demoNewsSelected.color,
         loading: !!state.app.loading.find(x => x.label === 'getDemoNews')
+			|| !!state.app.loading.find(x => x.label === 'getNews')
 			|| !!state.app.loading.find(x => x.label === 'getNewsClassification'),
     };
 }

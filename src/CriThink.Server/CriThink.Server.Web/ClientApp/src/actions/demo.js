@@ -72,8 +72,8 @@ function toDebounceGetDemoNews () {
         axios.get('/api/news-analyzer/demo-news')
             .then(res => {
                 if(res.status === 200) {
-                    dispatch(apiResponse(actionId));
                     dispatch(demonewsReducer(res.data.result));
+                    dispatch(apiResponse(actionId));
                 }
             })
             .catch(err => {
