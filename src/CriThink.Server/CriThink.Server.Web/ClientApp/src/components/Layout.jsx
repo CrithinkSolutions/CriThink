@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
 import { ReactComponent as Wave } from './../svg/wave.svg';
 import Logo from './../svg/logo.svg';
@@ -44,6 +45,7 @@ export class WaveDown extends Component {
                         style={{ height: '15%', padding: '0.5rem' }}
                     >
                         <Segment
+                            as={Link}
                             basic
                             style={{
                                 width: '5%',
@@ -51,6 +53,7 @@ export class WaveDown extends Component {
                                 backgroundPosition: 'center',
                                 marginRight: '1%',
                             }}
+                            to='/'
                         ></Segment>
                         <Segment
                             basic

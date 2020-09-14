@@ -8,18 +8,16 @@ class LogoAnim extends Component {
             <Popup
                 content={this.props.msgPopup}
                 trigger={
-                    <Segment basic>
-                        <div className="flip-card">
-                            <div className="flip-card-inner">
-                                <div className="flip-card-front">
-                                    <Logo />
-                                </div>
-                                <div className="flip-card-back">
-                                    <span>{this.props.letter}</span>
-                                </div>
+                    <div className="flip-card">
+                        <div className="flip-card-inner">
+                            <div className="flip-card-front">
+                                <Logo/>
+                            </div>
+                            <div className="flip-card-back">
+                                <span>{this.props.letter}</span>
                             </div>
                         </div>
-                    </Segment>
+                    </div>
                 }
             />
         );
