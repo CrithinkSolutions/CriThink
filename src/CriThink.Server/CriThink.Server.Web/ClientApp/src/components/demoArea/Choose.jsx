@@ -16,7 +16,9 @@ import {
 
 class ChooseArea extends Component {
     componentDidMount () {
-        this.props.getDemoNews();
+        if (this.props.demoLinks.length === 0) {
+            this.props.getDemoNews();
+        }
     }
 
     handleSelection = (event, data) => {
