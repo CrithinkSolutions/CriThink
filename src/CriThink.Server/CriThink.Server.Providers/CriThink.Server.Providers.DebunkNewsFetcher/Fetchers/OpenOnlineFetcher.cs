@@ -19,19 +19,19 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             FeedCategories = new List<string>();
         }
 
-        public OpenOnlineFetcher(ConcurrentQueue<Task<DebunkNewsProviderResult>> queue, IHttpClientFactory httpClientFactory)
+        public OpenOnlineFetcher(ConcurrentQueue<Task<DebunkingNewsProviderResult>> queue, IHttpClientFactory httpClientFactory)
             : base(queue)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
 
-            _httpClient = httpClientFactory.CreateClient(DebunkNewsFetcherBootstrapper.OpenOnlineHttpClientName);
+            _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName);
         }
 
         internal static List<string> FeedCategories { get; }
         internal static Uri WebSiteUri { get; set; }
 
-        public override Task<DebunkNewsProviderResult>[] AnalyzeAsync()
+        public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
             var analysisTask = Task.Run(async () =>
             {
@@ -43,10 +43,10 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             return base.AnalyzeAsync();
         }
 
-        private async Task<DebunkNewsProviderResult> RunFetcherAsync()
+        private async Task<DebunkingNewsProviderResult> RunFetcherAsync()
         {
             SyndicationFeed feed;
-            var list = new List<DebunkNewsResponse>();
+            var list = new List<DebunkingNewsResponse>();
 
             try
             {
@@ -57,7 +57,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             }
             catch (Exception ex)
             {
-                return new DebunkNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
+                return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
             if (feed != null)
@@ -68,7 +68,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                     {
                         if (FeedCategories.Contains(categoryName))
                         {
-                            list.Add(new DebunkNewsResponse(item.Title.Text, item.Id));
+                            list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id));
                         }
                     }
                 }
@@ -77,11 +77,11 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkNewsResponse("Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission", "https://www.open.online/?p=391373"));
+                list.Add(new DebunkingNewsResponse("Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission", "https://www.open.online/?p=391373"));
             }
 #endif
 
-            return new DebunkNewsProviderResult(list);
+            return new DebunkingNewsProviderResult(list);
         }
     }
 }

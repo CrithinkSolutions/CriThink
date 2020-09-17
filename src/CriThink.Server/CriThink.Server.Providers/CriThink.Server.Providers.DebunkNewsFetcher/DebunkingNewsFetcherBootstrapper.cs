@@ -8,7 +8,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
     /// <summary>
     /// Bootstrapper to handle library initialization
     /// </summary>
-    public static class DebunkNewsFetcherBootstrapper
+    public static class DebunkingNewsFetcherBootstrapper
     {
         public const string OpenOnlineHttpClientName = "OpenOnlineFeed";
 
@@ -28,7 +28,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
                 client.DefaultRequestHeaders.Add("api-version", "1.0");
             });
 
-            serviceCollection.AddTransient<IDebunkNewsProvider, DebunkNewsProvider>();
+            serviceCollection.AddTransient<IDebunkNewsProvider, DebunkingNewsProvider>();
         }
     }
 }

@@ -6,17 +6,17 @@ using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher
 {
-    public class DebunkNewsProviderResult : IProviderResult
+    public class DebunkingNewsProviderResult : IProviderResult
     {
-        public DebunkNewsProviderResult(IEnumerable<DebunkNewsResponse> responses)
+        public DebunkingNewsProviderResult(IEnumerable<DebunkingNewsResponse> responses)
         {
             if (responses == null)
                 throw new ArgumentNullException(nameof(responses));
 
-            Responses = new List<DebunkNewsResponse>(responses).AsReadOnly();
+            Responses = new List<DebunkingNewsResponse>(responses).AsReadOnly();
         }
 
-        public DebunkNewsProviderResult(Exception ex, string errorDescription = "")
+        public DebunkingNewsProviderResult(Exception ex, string errorDescription = "")
         {
             Exception = ex ?? throw new ArgumentNullException(nameof(ex));
             ErrorDescription = string.IsNullOrWhiteSpace(errorDescription) ? ex.Message : errorDescription;
@@ -28,6 +28,6 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
 
         public string ErrorDescription { get; }
 
-        public IReadOnlyList<DebunkNewsResponse> Responses { get; }
+        public IReadOnlyList<DebunkingNewsResponse> Responses { get; }
     }
 }

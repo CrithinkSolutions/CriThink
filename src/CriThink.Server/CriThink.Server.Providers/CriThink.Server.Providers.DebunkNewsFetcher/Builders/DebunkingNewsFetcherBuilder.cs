@@ -6,32 +6,32 @@ using CriThink.Server.Providers.DebunkNewsFetcher.Fetchers;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
 {
-    public class DebunkNewsBuilder
+    public class DebunkingNewsFetcherBuilder
     {
-        private readonly ConcurrentQueue<Task<DebunkNewsProviderResult>> _queue;
+        private readonly ConcurrentQueue<Task<DebunkingNewsProviderResult>> _queue;
 
         private bool _isOpenOnlineEnabled;
-        private IAnalyzer<DebunkNewsProviderResult> _analyzer;
+        private IAnalyzer<DebunkingNewsProviderResult> _analyzer;
         private IHttpClientFactory _httpClientFactory;
 
-        public DebunkNewsBuilder()
+        public DebunkingNewsFetcherBuilder()
         {
-            _queue = new ConcurrentQueue<Task<DebunkNewsProviderResult>>();
+            _queue = new ConcurrentQueue<Task<DebunkingNewsProviderResult>>();
         }
 
-        public DebunkNewsBuilder EnableOpenOnline(bool enabled = true)
+        public DebunkingNewsFetcherBuilder EnableOpenOnline(bool enabled = true)
         {
             _isOpenOnlineEnabled = enabled;
             return this;
         }
 
-        internal DebunkNewsBuilder SetHttpClient(IHttpClientFactory httpClientFactory)
+        internal DebunkingNewsFetcherBuilder SetHttpClient(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
             return this;
         }
 
-        internal IAnalyzer<DebunkNewsProviderResult> BuildFetchers()
+        internal IAnalyzer<DebunkingNewsProviderResult> BuildFetchers()
         {
             _queue.Clear();
 
@@ -41,7 +41,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
             return _analyzer;
         }
 
-        private void AddFetcher(IAnalyzer<DebunkNewsProviderResult> fetcher)
+        private void AddFetcher(IAnalyzer<DebunkingNewsProviderResult> fetcher)
         {
             if (_analyzer == null)
                 _analyzer = fetcher;

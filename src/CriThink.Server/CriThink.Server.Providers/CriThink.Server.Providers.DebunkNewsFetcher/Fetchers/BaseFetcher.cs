@@ -5,24 +5,24 @@ using CriThink.Server.Core.Providers;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
-    internal abstract class BaseFetcher : IAnalyzer<DebunkNewsProviderResult>
+    internal abstract class BaseFetcher : IAnalyzer<DebunkingNewsProviderResult>
     {
-        protected readonly ConcurrentQueue<Task<DebunkNewsProviderResult>> Queue;
+        protected readonly ConcurrentQueue<Task<DebunkingNewsProviderResult>> Queue;
 
-        private IAnalyzer<DebunkNewsProviderResult> _nextAnalyzer;
+        private IAnalyzer<DebunkingNewsProviderResult> _nextAnalyzer;
 
-        protected BaseFetcher(ConcurrentQueue<Task<DebunkNewsProviderResult>> queue)
+        protected BaseFetcher(ConcurrentQueue<Task<DebunkingNewsProviderResult>> queue)
         {
             Queue = queue ?? throw new ArgumentNullException(nameof(queue));
         }
 
-        public IAnalyzer<DebunkNewsProviderResult> SetNext(IAnalyzer<DebunkNewsProviderResult> analyzer)
+        public IAnalyzer<DebunkingNewsProviderResult> SetNext(IAnalyzer<DebunkingNewsProviderResult> analyzer)
         {
             _nextAnalyzer = analyzer;
             return _nextAnalyzer;
         }
 
-        public virtual Task<DebunkNewsProviderResult>[] AnalyzeAsync()
+        public virtual Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
             var nextAnalyzer = _nextAnalyzer?.AnalyzeAsync();
             return nextAnalyzer ?? Queue.ToArray();

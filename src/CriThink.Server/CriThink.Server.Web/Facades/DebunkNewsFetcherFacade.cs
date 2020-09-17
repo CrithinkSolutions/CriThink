@@ -15,24 +15,24 @@ namespace CriThink.Server.Web.Facades
             _debunkNewsProvider = debunkNewsProvider ?? throw new ArgumentNullException(nameof(debunkNewsProvider));
         }
 
-        public async Task<DebunkNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync()
+        public async Task<DebunkingNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync()
         {
-            var builder = new DebunkNewsBuilder()
+            var builder = new DebunkingNewsFetcherBuilder()
                 .EnableOpenOnline(true);
 
             var response = await FetchDebunkNewsAsync(builder).ConfigureAwait(false);
             return response;
         }
 
-        private Task<DebunkNewsProviderResult[]> FetchDebunkNewsAsync(DebunkNewsBuilder builder)
+        private Task<DebunkingNewsProviderResult[]> FetchDebunkNewsAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
-            var analyzerTasks = _debunkNewsProvider.StartFetcherAsync(builder);
+            var analyzerTasks = _debunkNewsProvider.StartFetcherAsync(fetcherBuilder);
             return Task.WhenAll(analyzerTasks);
         }
     }
 
     public interface IDebunkNewsFetcherFacade
     {
-        Task<DebunkNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync();
+        Task<DebunkingNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync();
     }
 }

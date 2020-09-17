@@ -5,18 +5,18 @@ using CriThink.Server.Providers.DebunkNewsFetcher.Builders;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
 {
-    internal class DebunkNewsProvider : IDebunkNewsProvider
+    internal class DebunkingNewsProvider : IDebunkNewsProvider
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public DebunkNewsProvider(IHttpClientFactory httpClientFactory)
+        public DebunkingNewsProvider(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        public Task<DebunkNewsProviderResult>[] StartFetcherAsync(DebunkNewsBuilder builder)
+        public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
-            return builder
+            return fetcherBuilder
                 .SetHttpClient(_httpClientFactory)
                 .BuildFetchers()
                 .AnalyzeAsync();
@@ -28,8 +28,8 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
         /// <summary>
         /// Start the fetchers 
         /// </summary>
-        /// <param name="builder">The request containing the list of debunking news publishers</param>
+        /// <param name="fetcherBuilder">The request containing the list of debunking news publishers</param>
         /// <returns>The fetcher results</returns>
-        Task<DebunkNewsProviderResult>[] StartFetcherAsync(DebunkNewsBuilder builder);
+        Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder);
     }
 }
