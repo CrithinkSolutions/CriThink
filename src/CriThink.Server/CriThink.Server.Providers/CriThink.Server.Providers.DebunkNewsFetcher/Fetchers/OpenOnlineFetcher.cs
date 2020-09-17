@@ -74,6 +74,13 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                 }
             }
 
+#if DEBUG
+            if (!list.Any())
+            {
+                list.Add(new DebunkNewsResponse("Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission", "https://www.open.online/?p=391373"));
+            }
+#endif
+
             return new DebunkNewsProviderResult(list);
         }
     }

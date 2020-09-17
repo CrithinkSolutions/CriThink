@@ -64,7 +64,7 @@
 
         #region DebunkNews
 
-        public const string DebunkNewsBase = "debunk-news/";
+        public const string DebunkNewsBase = "debunking-news/";
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
 

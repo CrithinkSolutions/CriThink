@@ -103,7 +103,7 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> ScrapeNewsAsync([FromBody] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
-            var response = await _newsAnalyzerService.NewsCheckSpellingAsync(uri).ConfigureAwait(false);
+            var response = await _newsAnalyzerService.ScrapeNewsAsync(uri).ConfigureAwait(false);
             return Ok(new ApiOkResponse(response));
         }
 

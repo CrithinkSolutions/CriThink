@@ -15,22 +15,22 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
-    [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)] //api/debunk-news
-    public class DebunkNewsController : Controller
+    [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)] //api/debunking-news
+    public class DebunkingNewsController : Controller
     {
         private readonly IDebunkNewsService _debunkNewsService;
 
-        public DebunkNewsController(IDebunkNewsService debunkNewsService)
+        public DebunkingNewsController(IDebunkNewsService debunkNewsService)
         {
             _debunkNewsService = debunkNewsService ?? throw new ArgumentNullException(nameof(debunkNewsService));
         }
 
         /// <summary>
-        /// Trigger the update of internal debunked neews repository
+        /// Trigger the update of internal debunking news repository
         /// </summary>
-        /// <returns></returns>
+        /// <returns>HTTP status code</returns>
         [AllowAnonymous]
-        [Route(EndpointConstants.DebunkNewsTriggerUpdate)] // api/debunk-news/trigger
+        [Route(EndpointConstants.DebunkNewsTriggerUpdate)] // api/debunking-news/trigger
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
