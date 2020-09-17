@@ -20,14 +20,31 @@ namespace CriThink.Server.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
+
+                b.Property<bool>("IsSuccessful")
+                    .HasColumnType("bit");
+
+                b.Property<string>("TimeStamp")
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+
+                b.ToTable("DebunkingNewsTriggerLogs");
+            });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkedNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PublishingDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("PublishingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");

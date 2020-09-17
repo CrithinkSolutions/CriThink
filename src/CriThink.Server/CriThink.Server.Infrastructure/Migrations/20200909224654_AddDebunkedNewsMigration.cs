@@ -25,12 +25,28 @@ namespace CriThink.Server.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_DebunkedNews", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "DebunkingNewsTriggerLogs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    IsSuccessful = table.Column<bool>(nullable: false),
+                    TimeStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DebunkingNewsTriggerLogs", x => x.Id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "DebunkedNews");
+
+            migrationBuilder.DropTable(
+                name: "DebunkingNewsTriggerLogs");
         }
     }
 }
