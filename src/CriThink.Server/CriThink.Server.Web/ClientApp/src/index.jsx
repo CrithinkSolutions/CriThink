@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 import { Provider } from 'react-redux';
 import createStore from './config/store';
 import { persistStore } from 'redux-persist';
@@ -18,14 +18,14 @@ const store = createStore();
 const persistor = persistStore(store, null);
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
-    <Provider store={ store }>
-      <PersistGate persistor={ persistor }>
-        <App />
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>,
-  rootElement);
+    <BrowserRouter basename={baseUrl}>
+        <Provider store={ store }>
+            <PersistGate persistor={ persistor }>
+                <App />
+            </PersistGate>
+        </Provider>
+    </BrowserRouter>,
+    rootElement);
 
 registerServiceWorker();
 

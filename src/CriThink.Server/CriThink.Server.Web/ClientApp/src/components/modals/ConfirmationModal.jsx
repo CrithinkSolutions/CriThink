@@ -10,7 +10,7 @@ class ConfirmationModal extends Component {
         this.props.closeDialog();
     }
 
-    render() {
+    render () {
         const { title, body, data } = this.props;
         return (
             <Modal isOpen={ this.props.dialogOpen }>
@@ -21,7 +21,7 @@ class ConfirmationModal extends Component {
                     {body}
                 </ModalBody>
                 <ModalFooter>
-                <Button color='blue'
+                    <Button color='blue'
                         disabled={this.props.loading}
                         loading={this.props.loading}
                         onClick={() => this.props.confirmationHandler(data)}>yes</Button>
@@ -32,14 +32,14 @@ class ConfirmationModal extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         dialogOpen: state.app.dialogOpen,
-        loading: !!state.app.loading.find(x => x.label === 'confirmationDialog')
+        loading: !!state.app.loading.find(x => x.label === 'confirmationDialog'),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
         closeDialog,
     }, dispatch);

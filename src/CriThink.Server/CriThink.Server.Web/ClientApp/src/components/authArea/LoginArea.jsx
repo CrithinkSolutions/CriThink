@@ -1,32 +1,32 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Message, Divider } from 'semantic-ui-react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Grid, Message, Divider } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserLogin } from '../../actions/auth'
+import { getUserLogin } from '../../actions/auth';
 
 class LoginArea extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
             username: '',
             email: '',
-            password: ''
+            password: '',
         };
     }
 
     changeHandler = event => {
-        if(event.target.name === "username" && event.target.value.includes("@")) {
-            this.setState({email: event.target.value})
+        if(event.target.name === 'username' && event.target.value.includes('@')) {
+            this.setState({email: event.target.value});
         }
-        else if (event.target.name === "password") {
-            this.setState({password: event.target.value})
+        else if (event.target.name === 'password') {
+            this.setState({password: event.target.value});
         }
         else {
             this.setState({
                 email: '',
-                username: event.target.value
-            })
+                username: event.target.value,
+            });
         }
     }
 
@@ -35,11 +35,11 @@ class LoginArea extends Component {
         this.props.getUserLogin({
             username,
             email,
-            password
-        })
+            password,
+        });
     }
 
-    render() {
+    render () {
         return (
             <div id="mainrender">
                 <Grid id="input" verticalAlign='middle' textAlign="center" style={{height: '85vh'}}>
@@ -50,7 +50,7 @@ class LoginArea extends Component {
                             <Form.Input
                                 icon='user'
                                 iconPosition='left'
-                                label='Username or Email' 
+                                label='Username or Email'
                                 placeholder='Username or Email'
                                 name='username'
                                 onChange={this.changeHandler}
@@ -71,7 +71,7 @@ class LoginArea extends Component {
                             <Divider />
                             <Link to="/forgotpassword"><span className="link">Forgot password?</span></Link>
                             <Message>
-                            <p>Don't have an account? <Link to="/signup"><Button compact color='red' size="small">Sign Up</Button></Link></p>
+                                <p>Don't have an account? <Link to="/signup"><Button compact color='red' size="small">Sign Up</Button></Link></p>
                             </Message>
                             {this.props.msg ? this.props.msg : null}
                         </div>
@@ -82,16 +82,16 @@ class LoginArea extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
     return {
         loading: !!state.app.loading.find(x => x.label === 'userLogin'),
-        msg: state.app.msg
-    }
+        msg: state.app.msg,
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
     return bindActionCreators({
-        getUserLogin
+        getUserLogin,
     }, dispatch);
 }
 

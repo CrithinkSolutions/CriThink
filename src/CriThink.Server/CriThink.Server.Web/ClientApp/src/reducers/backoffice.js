@@ -15,14 +15,16 @@ const initialBackofficeState = {
 
 const backoffice = (state = initialBackofficeState, action) => {
     switch (action.type) {
-        case CHANGE_CURRENT_LIST: 
+        case CHANGE_CURRENT_LIST:
             return {
                 ...state,
                 currentList: action.selectedList,
             };
         case ALL_NEWS_SOURCES_RECEIVED: {
-            const whitelist = action.data.filter(x => x.classification === 'Trusted' || x.classification === 'Satiric');
-            const blacklist = action.data.filter(x => x.classification === 'Cospiracy' || x.classification === 'Fake');
+            const whitelist = action.data.filter(x => x.classification === 'Reliable'
+                || x.classification === 'Satirical');
+            const blacklist = action.data.filter(x => x.classification === 'Conspiracist'
+                || x.classification === 'Fake News');
             return {
                 ...state,
                 blacklist,
@@ -62,22 +64,22 @@ const backoffice = (state = initialBackofficeState, action) => {
         case BLACKLIST_SITE_REMOVED: {
             // Prevent shallow copy
             const blacklist = Object.assign([], state.blacklist);
-            
+
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
                 blacklist: blacklist.filter(x => x.uri !== action.data.site),
-            })
+            });
         };
         case WHITELIST_SITE_REMOVED: {
             // Prevent shallow copy
             const whitelist = Object.assign([], state.whitelist);
-            
+
             // Prevent shallow copy
             return Object.assign({}, {
                 ...state,
                 whitelist: whitelist.filter(x => x.uri !== action.data.site),
-            })
+            });
         };
         default:
             return state;

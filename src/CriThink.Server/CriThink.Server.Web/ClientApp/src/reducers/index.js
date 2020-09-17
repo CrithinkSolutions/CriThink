@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist'
+import { persistReducer } from 'redux-persist';
 import app from './app';
 import backoffice from './backoffice';
 import auth from './auth';
+import demo from './demo';
 
 const authConfig = {
     key: 'auth',
@@ -11,8 +12,15 @@ const authConfig = {
     blacklist: ['loggedIn'],
 };
 
+const appConfig = {
+    key: 'app',
+    storage,
+    whitelist: ['loginRoutesEnabled'],
+};
+
 export default combineReducers({
-    app,
+    app: persistReducer(appConfig, app),
     backoffice,
     auth: persistReducer(authConfig, auth),
+    demo,
 });

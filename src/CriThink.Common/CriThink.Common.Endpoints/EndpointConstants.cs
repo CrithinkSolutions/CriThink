@@ -18,6 +18,7 @@
         public const string ServiceRedisHealth = "redis-health";
         public const string ServiceSqlServerHealth = "sqlserver-health";
         public const string ServiceLoggingHealth = "logging-health";
+        public const string ServiceEnableSignup = "signup-enabled";
 
         #endregion
 

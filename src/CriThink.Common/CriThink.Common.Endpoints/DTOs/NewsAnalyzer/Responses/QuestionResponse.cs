@@ -11,5 +11,8 @@ namespace CriThink.Common.Endpoints.DTOs.NewsAnalyzer
 
         [JsonPropertyName("content")]
         public string Content { get; set; }
+
+        [JsonPropertyName("order")]
+        public int Order { get; set; }
     }
 }

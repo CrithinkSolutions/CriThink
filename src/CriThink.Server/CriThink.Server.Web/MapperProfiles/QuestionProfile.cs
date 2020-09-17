@@ -15,7 +15,8 @@ namespace CriThink.Server.Web.MapperProfiles
 
             CreateMap<Question, QuestionResponse>()
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order));
         }
     }
 }

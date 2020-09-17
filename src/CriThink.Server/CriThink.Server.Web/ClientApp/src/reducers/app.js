@@ -5,7 +5,8 @@ import {
     API_SUCCESS,
     OPEN_CUSTOM_DIALOG,
     OPEN_CONFIRMATION_DIALOG,
-    CLOSE_DIALOG
+    CLOSE_DIALOG,
+    ENABLED_ROUTES_RECEIVED,
 } from '../actions/types';
 
 const initialAppState = {
@@ -13,7 +14,7 @@ const initialAppState = {
     loadingMessage: '',
     dialog: undefined,
     dialogOpen: false,
-    msg: undefined
+    msg: undefined,
 };
 
 const app = (state = initialAppState, action) => {
@@ -54,7 +55,7 @@ const app = (state = initialAppState, action) => {
                 ...state,
                 dialogOpen: true,
                 dialog: action.dialog,
-            }
+            };
         case CLOSE_DIALOG:
             return {
                 ...state,
@@ -64,16 +65,21 @@ const app = (state = initialAppState, action) => {
         case API_ERROR:
             return {
                 ...state,
-                msg: action.render
+                msg: action.render,
             };
         case API_SUCCESS:
             return {
                 ...state,
-                msg: action.render
+                msg: action.render,
+            };
+        case ENABLED_ROUTES_RECEIVED:
+            return {
+                ...state,
+                loginRoutesEnabled: action.data,
             };
         default:
             return state;
     }
-}
+};
 
 export default app;
