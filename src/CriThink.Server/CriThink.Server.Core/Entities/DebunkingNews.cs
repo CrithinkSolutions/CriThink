@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class DebunkedNews : ICriThinkIdentity
+    public class DebunkingNews : ICriThinkIdentity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

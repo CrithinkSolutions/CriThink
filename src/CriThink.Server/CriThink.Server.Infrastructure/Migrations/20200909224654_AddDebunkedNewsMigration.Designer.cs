@@ -37,7 +37,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                 b.ToTable("DebunkingNewsTriggerLogs");
             });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkedNews", b =>
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DebunkedNews");
+                    b.ToTable("DebunkingNews");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DemoNews", b =>

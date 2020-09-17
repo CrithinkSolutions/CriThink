@@ -4,7 +4,6 @@ using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
@@ -19,7 +18,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkedNews", b =>
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +45,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DebunkedNews");
+                    b.ToTable("DebunkingNews");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>

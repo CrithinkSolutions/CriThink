@@ -20,7 +20,7 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
 
-        public DbSet<DebunkedNews> DebunkedNews { get; set; }
+        public DbSet<DebunkingNews> DebunkedNews { get; set; }
 
         public DbSet<DebunkingNewsTriggerLog> DebunkingNewsTriggerLogs { get; set; }
 

@@ -31,7 +31,7 @@ namespace CriThink.Server.Web.Services
         {
             var debunkingNewsCollection = await _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync().ConfigureAwait(false);
 
-            var debunkedNewsCollection = new List<DebunkedNews>();
+            var debunkedNewsCollection = new List<DebunkingNews>();
 
             foreach (var debunkingNews in debunkingNewsCollection)
             {
@@ -64,12 +64,12 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        private async Task<DebunkedNews> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews)
+        private async Task<DebunkingNews> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews)
         {
             var keywords = await _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews)
                 .ConfigureAwait(false);
 
-            var entity = new DebunkedNews
+            var entity = new DebunkingNews
             {
                 Keywords = string.Join(',', keywords),
                 Link = scrapedNews.RequestedUri.AbsoluteUri,

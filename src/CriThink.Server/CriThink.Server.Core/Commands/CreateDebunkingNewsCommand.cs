@@ -7,14 +7,14 @@ namespace CriThink.Server.Core.Commands
 {
     public class CreateDebunkingNewsCommand : IRequest
     {
-        public CreateDebunkingNewsCommand(IEnumerable<DebunkedNews> debunkedNewsCollection)
+        public CreateDebunkingNewsCommand(IEnumerable<DebunkingNews> debunkedNewsCollection)
         {
             if (debunkedNewsCollection == null)
                 throw new ArgumentNullException(nameof(debunkedNewsCollection));
 
-            DebunkedNewsCollection = new List<DebunkedNews>(debunkedNewsCollection).AsReadOnly();
+            DebunkedNewsCollection = new List<DebunkingNews>(debunkedNewsCollection).AsReadOnly();
         }
 
-        public IReadOnlyList<DebunkedNews> DebunkedNewsCollection { get; }
+        public IReadOnlyList<DebunkingNews> DebunkedNewsCollection { get; }
     }
 }

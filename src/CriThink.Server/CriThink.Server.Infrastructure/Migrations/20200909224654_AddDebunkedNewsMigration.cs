@@ -10,7 +10,7 @@ namespace CriThink.Server.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DebunkedNews",
+                name: "DebunkingNews",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -43,7 +43,7 @@ namespace CriThink.Server.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DebunkedNews");
+                name: "DebunkingNews");
 
             migrationBuilder.DropTable(
                 name: "DebunkingNewsTriggerLogs");
