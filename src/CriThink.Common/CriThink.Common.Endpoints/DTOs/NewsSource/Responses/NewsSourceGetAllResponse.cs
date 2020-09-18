@@ -11,6 +11,7 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
         public string Uri { get; set; }
 
         [JsonPropertyName("classification")]
-        public string NewsSourceClassification { get; set; }
+        [JsonConverter(typeof(NewsSourceClassificationConverter))]
+        public NewsSourceClassification NewsSourceClassification { get; set; }
     }
 }

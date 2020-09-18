@@ -28,6 +28,23 @@ class AnalysisArea extends Component {
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
+	upperCase = (string) => {
+	    if (string === null || string === undefined)
+	        return '';
+
+	    return string.toUpperCase();
+	}
+
+	getDomain = (link) => {
+	    if (link === null || link === undefined || link === '')
+	        return '';
+
+	    return link.substr(0, link.indexOf('/', 9))
+	        .replace('http://', '')
+	        .replace('https://', '')
+	        .replace('www.', '');
+	}
+
 	switchRender = () => {
 	    if (this.props.loading) {
 	        return(<Dimmer active inverted>
@@ -37,11 +54,12 @@ class AnalysisArea extends Component {
 
 	    switch (this.state.activeItem) {
 	        case 'SOURCE ANALYSIS':
+	            const { newsClassification, newsLink } = this.props;
 	            return (
 	                <MenuRender
 	                    color={this.props.color}
-	                    header={`Domain is ${ this.props.newsClassification }`}
-	                    uppercase
+	                    header={newsLink
+							&& `${ this.getDomain(newsLink) } - ${ this.upperCase(newsClassification) } SOURCE`}
 	                >
 	                    <Segment basic>{this.props.classificationDescription}</Segment>
 	                </MenuRender>
@@ -130,6 +148,7 @@ function mapStateToProps (state) {
         classificationDescription: state.demo.demoNewsSelected.description,
         color: state.demo.demoNewsSelected.color,
         loading: !!state.app.loading.find(x => x.label === 'getDemoNews')
+			|| !!state.app.loading.find(x => x.label === 'getNews')
 			|| !!state.app.loading.find(x => x.label === 'getNewsClassification'),
     };
 }
