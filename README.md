@@ -2,8 +2,8 @@
 CriThink is a mobile application able to identity fake news.
 Developed by CriThink Solutions.
 
-![staging_server_publish](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
-![production_server_publish](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+![Build CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
+![Build CriThinkApp](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
 
 # Getting Started
 ## Server
