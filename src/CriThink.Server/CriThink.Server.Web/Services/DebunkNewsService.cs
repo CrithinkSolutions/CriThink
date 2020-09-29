@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Queries;
+using CriThink.Server.Providers.DebunkNewsFetcher;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using CriThink.Server.Web.Facades;
@@ -29,8 +31,26 @@ namespace CriThink.Server.Web.Services
 
         public async Task UpdateRepositoryAsync()
         {
-            var debunkingNewsCollection = await _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync().ConfigureAwait(false);
+            var query = new GetLastDebunkinNewsFetchTimeQuery();
+            var lastDateTask = _mediator.Send(query);
+            var debunkinNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
 
+            await Task.WhenAll(lastDateTask, debunkinNewsTask).ConfigureAwait(false);
+
+            var lastSuccessfullFetchDate = lastDateTask.Result;
+            var debunkingNewsCollection = debunkinNewsTask.Result;
+
+            var debunkedNewsCollection = await ScrapeDebunkingNewsAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
+
+            if (!debunkedNewsCollection.Any())
+                return;
+
+            var command = new CreateDebunkingNewsCommand(debunkedNewsCollection);
+            var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
+        private async Task<List<DebunkingNews>> ScrapeDebunkingNewsAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
+        {
             var debunkedNewsCollection = new List<DebunkingNews>();
 
             foreach (var debunkingNews in debunkingNewsCollection)
@@ -38,7 +58,7 @@ namespace CriThink.Server.Web.Services
                 if (debunkingNews.HasError)
                     throw debunkingNews.Exception;
 
-                foreach (var response in debunkingNews.Responses)
+                foreach (var response in debunkingNews.Responses.Where(r => r.PublishingDate > lastSuccessfullFetchDate))
                 {
                     try
                     {
@@ -57,11 +77,7 @@ namespace CriThink.Server.Web.Services
                 }
             }
 
-            if (!debunkedNewsCollection.Any())
-                return;
-
-            var command = new CreateDebunkingNewsCommand(debunkedNewsCollection);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            return debunkedNewsCollection;
         }
 
         private async Task<DebunkingNews> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews)

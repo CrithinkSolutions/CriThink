@@ -68,7 +68,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                     {
                         if (FeedCategories.Contains(categoryName))
                         {
-                            list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id));
+                            list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, item.PublishDate));
                         }
                     }
                 }
@@ -77,7 +77,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse("Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission", "https://www.open.online/?p=391373"));
+                list.Add(new DebunkingNewsResponse("Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission", "https://www.open.online/?p=391373", DateTime.Now));
             }
 #endif
 
