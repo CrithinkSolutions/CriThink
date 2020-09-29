@@ -12,9 +12,9 @@ namespace CriThink.Server.Core.Commands
             if (debunkedNewsCollection == null)
                 throw new ArgumentNullException(nameof(debunkedNewsCollection));
 
-            DebunkedNewsCollection = new List<DebunkingNews>(debunkedNewsCollection).AsReadOnly();
+            DebunkingNewsCollection = new List<DebunkingNews>(debunkedNewsCollection).AsReadOnly();
         }
 
-        public IReadOnlyList<DebunkingNews> DebunkedNewsCollection { get; }
+        public IReadOnlyList<DebunkingNews> DebunkingNewsCollection { get; }
     }
 }

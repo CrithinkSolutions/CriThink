@@ -27,7 +27,7 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                await _dbContext.DebunkedNews.AddRangeAsync(request.DebunkedNewsCollection, cancellationToken).ConfigureAwait(false);
+                await _dbContext.DebunkingNews.AddRangeAsync(request.DebunkingNewsCollection, cancellationToken).ConfigureAwait(false);
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)

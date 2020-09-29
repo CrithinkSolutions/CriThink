@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.AI.TextAnalytics;
+using CriThink.Common.Helpers;
 using CriThink.Server.Providers.NewsAnalyzer.Singletons;
 using Microsoft.Extensions.Logging;
 using SmartReader;
@@ -44,29 +45,46 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
             if (scrapedNews == null)
                 throw new ArgumentNullException(nameof(scrapedNews));
 
-            try
-            {
-                //var keys = await NewsAnalyticsClient.Instance
-                //    .ExtractKeyPhrasesAsync(scrapedNews.NewsBody, "it").ConfigureAwait(false);
+            var allKeywords = new List<string>();
 
-                var entities = await NewsAnalyticsClient.Instance
-                    .RecognizeEntitiesAsync(scrapedNews.NewsBody, "it").ConfigureAwait(false);
+            var bodyParts = scrapedNews.NewsBody.SplitInParts(5120).ToList(); // max lenght supported by Azure
 
-                return entities.Value
-                    .Where(e => e.Category == EntityCategory.Location ||
-                                e.Category == EntityCategory.Person ||
-                                e.Category == EntityCategory.Product ||
-                                e.Category == EntityCategory.Organization &&
-                                e.ConfidenceScore > 0.20)
-                    .Select(c => c.Text)
-                    .ToList()
-                    .AsReadOnly();
-            }
-            catch (Exception ex)
+            foreach (var bodyPart in bodyParts)
             {
-                _logger?.LogError(ex, $"Error getting keywords from news: {scrapedNews.NewsBody}");
-                return new List<string>();
+                try
+                {
+                    var keywords = await SendAnalysisRequestAsync(bodyPart.ToString()).ConfigureAwait(false);
+                    allKeywords.AddRange(keywords);
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, $"Error getting keywords from news '{scrapedNews.NewsBody}': {bodyPart}");
+                }
             }
+
+            return allKeywords
+                .Distinct()
+                .ToList()
+                .AsReadOnly();
+        }
+
+        private static async Task<IReadOnlyList<string>> SendAnalysisRequestAsync(string newsBody, string language = "it")
+        {
+            //var keys = await NewsAnalyticsClient.Instance
+            //    .ExtractKeyPhrasesAsync(scrapedNews.NewsBody, "it").ConfigureAwait(false);
+
+            var entities = await NewsAnalyticsClient.Instance.RecognizeEntitiesAsync(newsBody, language)
+                .ConfigureAwait(false);
+
+            return entities.Value
+                .Where(e => e.Category == EntityCategory.Location ||
+                            e.Category == EntityCategory.Person ||
+                            e.Category == EntityCategory.Product ||
+                            e.Category == EntityCategory.Organization &&
+                            e.ConfidenceScore > 0.20)
+                .Select(c => c.Text)
+                .ToList()
+                .AsReadOnly();
         }
     }
 
