@@ -35,6 +35,15 @@
 
         #endregion
 
+        #region Admin
+
+        public const string AdminBase = "admin/";
+
+        public const string AdminSignUp = "sign-up";
+        public const string AdminRole = "role";
+
+        #endregion
+
         #region NewsAnalyzer
 
         public const string NewsAnalyzerBase = "news-analyzer/";

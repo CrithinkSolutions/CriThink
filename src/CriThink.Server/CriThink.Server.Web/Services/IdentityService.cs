@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
@@ -18,14 +19,16 @@ namespace CriThink.Server.Web.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<UserRole> _roleManager;
         private readonly IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
 
-        public IdentityService(UserManager<User> userManager, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
@@ -65,6 +68,108 @@ namespace CriThink.Server.Web.Services
                 UserEmail = user.Email,
                 ConfirmationCode = confirmationCode
             };
+        }
+
+        public async Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var adminUser = new User
+            {
+                UserName = request.UserName,
+                Email = request.Email
+            };
+
+            var userCreationResult = await _userManager.CreateAsync(adminUser, request.Password).ConfigureAwait(false);
+            if (!userCreationResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(userCreationResult);
+                _logger?.LogError(ex, "Error creating a new admin", adminUser);
+                throw ex;
+            }
+
+            var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(adminUser)
+                .ConfigureAwait(false);
+            var emailConfirmationResult = await _userManager.ConfirmEmailAsync(adminUser, confirmationCode).ConfigureAwait(false);
+            if (!emailConfirmationResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(emailConfirmationResult);
+                _logger?.LogError(ex, "Error verifying user email", adminUser, confirmationCode);
+                throw ex;
+            }
+
+            var roleResult = await _userManager.AddToRoleAsync(adminUser, "Admin").ConfigureAwait(false);
+            if (!roleResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(emailConfirmationResult);
+                _logger?.LogError(ex, "Error adding user to role", adminUser, confirmationCode);
+                throw ex;
+            }
+
+            var jwtToken = await GenerateTokenAsync(adminUser).ConfigureAwait(false);
+
+            return new AdminSignUpResponse
+            {
+                AdminId = adminUser.Id.ToString(),
+                AdminEmail = adminUser.Email,
+                JwtToken = jwtToken
+            };
+        }
+
+        public async Task CreateNewRoleAsync(SimpleRoleNameRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var role = new UserRole(request.Name);
+
+            var roleCreationResult = await _roleManager.CreateAsync(role).ConfigureAwait(false);
+            if (!roleCreationResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(roleCreationResult);
+                _logger?.LogError(ex, "Error creating a new role", role);
+                throw ex;
+            }
+        }
+
+        public async Task DeleteNewRoleAsync(SimpleRoleNameRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var role = await FindRoleAsync(request.Name).ConfigureAwait(false);
+            if (role == null)
+                throw new ResourceNotFoundException("The role doesn't exists", $"Name: '{request.Name}'");
+
+            var roleDeletionResult = await _roleManager.DeleteAsync(role).ConfigureAwait(false);
+            if (!roleDeletionResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(roleDeletionResult);
+                _logger?.LogError(ex, "Error removing a role", role);
+                throw ex;
+            }
+        }
+
+        public async Task UpdateRoleNameAsync(RoleUpdateNameRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var role = await FindRoleAsync(request.OldName).ConfigureAwait(false);
+            if (role == null)
+                throw new ResourceNotFoundException("The role doesn't exists", $"Name: '{request.OldName}'");
+
+            role.Name = request.NewName;
+
+            //var roleRenamingResult = await _roleManager.SetRoleNameAsync(role, request.NewName).ConfigureAwait(false);
+            var roleRenamingResult = await _roleManager.UpdateAsync(role).ConfigureAwait(false);
+            if (!roleRenamingResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(roleRenamingResult);
+                _logger?.LogError(ex, "Error renaming a role", role);
+                throw ex;
+            }
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
@@ -213,6 +318,17 @@ namespace CriThink.Server.Web.Services
             return null;
         }
 
+        private async Task<UserRole> FindRoleAsync(string roleName = "", string roleId = "")
+        {
+            if (!string.IsNullOrWhiteSpace(roleName))
+                return await _roleManager.FindByNameAsync(roleName).ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(roleId))
+                return await _roleManager.FindByIdAsync(roleId).ConfigureAwait(false);
+
+            return null;
+        }
+
         private async Task<JwtTokenResponse> GenerateTokenAsync(User user)
         {
             var secretKey = _configuration["Jwt-SecretKey"];
@@ -280,6 +396,34 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">DTO with user information</param>
         /// <returns>The operation result</returns>
         Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request);
+
+        /// <summary>
+        /// Create a new admin
+        /// </summary>
+        /// <param name="request">DTO with admin information</param>
+        /// <returns>The operation result</returns>
+        Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request);
+
+        /// <summary>
+        /// Add a new identity role
+        /// </summary>
+        /// <param name="request">Role to add</param>
+        /// <returns>An asynchronous result</returns>
+        Task CreateNewRoleAsync(SimpleRoleNameRequest request);
+
+        /// <summary>
+        /// Delete an identity role
+        /// </summary>
+        /// <param name="request">Role to delete</param>
+        /// <returns>An asynchronous result</returns>
+        Task DeleteNewRoleAsync(SimpleRoleNameRequest request);
+
+        /// <summary>
+        /// Rename an identity role name
+        /// </summary>
+        /// <param name="request">New role name</param>
+        /// <returns>An asynchronous result</returns>
+        Task UpdateRoleNameAsync(RoleUpdateNameRequest request);
 
         /// <summary>
         /// Login the given user
