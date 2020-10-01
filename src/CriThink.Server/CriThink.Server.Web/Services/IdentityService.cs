@@ -361,8 +361,14 @@ namespace CriThink.Server.Web.Services
                 _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(IdentityService)), "Used default token duration.");
             }
 
+            // Get user claims
             var claims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+
+            // Get user role's claims
+            var userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            foreach (var userRole in userRoles)
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole));
 
             var token = new JwtBuilder()
                 .AddAudience(audience)

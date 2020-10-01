@@ -66,12 +66,12 @@ namespace CriThink.Server.Web.Jwt
                 new Claim(JwtRegisteredClaimNames.Sub, _subject),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUniversalTime().ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64)
-            };
+            }.Union(_claims);
 
             return new JwtSecurityToken(
                 issuer: _issuer,
                 audience: _audience,
-                claims: claims.Union(_claims),
+                claims: claims,
                 notBefore: now,
                 expires: now.AddHours(_expirationHours),
                 signingCredentials: new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256)
