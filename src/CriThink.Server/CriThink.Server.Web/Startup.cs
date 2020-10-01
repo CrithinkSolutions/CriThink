@@ -316,7 +316,7 @@ namespace CriThink.Server.Web
                     Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]}", Version = "v1", Contact = contact });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
