@@ -46,6 +46,22 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
+        /// Get list of roles
+        /// </summary>
+        /// <returns>Returns roles</returns>
+        [Route(EndpointConstants.AdminRole)] // api/admin/role
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRolesAsync()
+        {
+            var roles = await _identityService.GetRolesAsync().ConfigureAwait(false);
+            return Ok(new ApiOkResponse(roles));
+        }
+
+        /// <summary>
         /// Create a new user role
         /// </summary>
         /// <param name="request">Role name</param>

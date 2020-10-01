@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
@@ -10,6 +13,7 @@ using CriThink.Server.Providers.EmailSender.Services;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Jwt;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -115,6 +119,20 @@ namespace CriThink.Server.Web.Services
                 AdminEmail = adminUser.Email,
                 JwtToken = jwtToken
             };
+        }
+
+        public async Task<IList<RoleGetResponse>> GetRolesAsync()
+        {
+            var allRoles = await _roleManager.Roles
+                .Select(r => new RoleGetResponse
+                {
+                    Name = r.Name,
+                    Id = r.Id.ToString()
+                })
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            return allRoles;
         }
 
         public async Task CreateNewRoleAsync(SimpleRoleNameRequest request)
@@ -403,6 +421,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">DTO with admin information</param>
         /// <returns>The operation result</returns>
         Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request);
+
+        /// <summary>
+        /// Gets all the roles
+        /// </summary>
+        /// <returns>Role list</returns>
+        Task<IList<RoleGetResponse>> GetRolesAsync();
 
         /// <summary>
         /// Add a new identity role
