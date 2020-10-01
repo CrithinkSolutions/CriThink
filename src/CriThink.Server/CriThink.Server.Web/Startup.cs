@@ -144,6 +144,8 @@ namespace CriThink.Server.Web
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css"); 
+                    options.InjectJavascript("/swagger-custom/swaggerscript.js", "text/javascript");
                     options.DisplayRequestDuration();
                 });
             }
