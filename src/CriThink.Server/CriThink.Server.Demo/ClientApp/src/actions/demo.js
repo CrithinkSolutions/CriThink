@@ -4,6 +4,21 @@ import axios from 'axios';
 import { newActionId } from '../lib/utils';
 import { apiRequest, apiResponse } from './api';
 
+function getBaseUri() {
+    if (process.env.NODE_ENV === 'production') {
+        axios.defaults.baseURL = 'https://crithinkdemo.com'
+    }
+    else {
+        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+        axios.defaults.baseURL = 'https://localhost:5001'
+    }
+    console.log(axios.defaults)
+}
+
+getBaseUri();
+
+
+
 function questionReducer (questions) {
     return {
         type: types.QUESTIONS,
