@@ -30,7 +30,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,15 +120,6 @@ namespace CriThink.Server.Web
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
 
             services.AddRazorPages(); // Razor
-
-            //Startup ReactJS
-            services.AddControllersWithViews();
-
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -169,20 +159,6 @@ namespace CriThink.Server.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
-            });
-
-            //Spa Services for ReactJS
-
-            app.UseSpaStaticFiles();
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
             });
         }
 
