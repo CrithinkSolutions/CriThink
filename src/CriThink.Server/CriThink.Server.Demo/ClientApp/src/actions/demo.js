@@ -12,12 +12,9 @@ function getBaseUri() {
         axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
         axios.defaults.baseURL = 'https://localhost:5001'
     }
-    console.log(axios.defaults)
 }
 
 getBaseUri();
-
-
 
 function questionReducer (questions) {
     return {
@@ -84,7 +81,7 @@ function toDebounceGetDemoNews () {
     return (dispatch) => {
         const actionId = newActionId('Getting demo news', 'getDemoNews');
         dispatch(apiRequest(actionId));
-        axios.get('/api/news-analyzer/demo-news')
+        axios.get('/api/demo/demo-news')
             .then(res => {
                 if(res.status === 200) {
                     dispatch(demonewsReducer(res.data.result));
