@@ -2,11 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
+    <RootNamespace>CriThink.Server.Demo</RootNamespace>
+    <AssemblyName>CriThink.Server.Demo</AssemblyName>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <Company>CriThink Solutions</Company>
+    <Authors>CriThinkIT</Authors>
+    <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +39,7 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build-prod" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
