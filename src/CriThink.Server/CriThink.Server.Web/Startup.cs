@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
@@ -144,6 +143,7 @@ namespace CriThink.Server.Web
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css");
                     options.DisplayRequestDuration();
                 });
             }
@@ -314,7 +314,7 @@ namespace CriThink.Server.Web
                     Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]}", Version = "v1", Contact = contact });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
