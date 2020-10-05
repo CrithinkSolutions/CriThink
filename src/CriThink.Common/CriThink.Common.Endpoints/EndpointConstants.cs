@@ -44,8 +44,6 @@
         public const string NewsAnalyzerPerformCompleteAnalysis = "perform-complete-anlysis";
         public const string NewsAnalyzerScrapeNews = "scrape-news";
         public const string NewsAnalyzerTextSentimentAnalysis = "sentiment-analysis";
-        public const string NewsAnalyzerDemoNewsGetAll = "demo-news";
-        public const string NewsAnalyzerDemoNewsAdd = "demo-news";
         public const string NewsAnalyzerQuestionAdd = "question";
         public const string NewsAnalyzerQuestionGetAll = "question";
         public const string NewsAnalyzerQuestionAnswer = "answer-question";
@@ -60,6 +58,15 @@
         public const string NewsSourceRemoveBlackNewsSource = "blacklist";
         public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
         public const string NewsSourceNewsSourceGetAll = "all";
+
+        #endregion
+
+        #region Demo
+
+        public const string DemoBase = "demo/";
+
+        public const string DemoNewsGetAll = "demo-news";
+        public const string DemoNewsAdd = "demo-news";
 
         #endregion
     }

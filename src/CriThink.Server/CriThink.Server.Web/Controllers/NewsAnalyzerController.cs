@@ -128,42 +128,6 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Returns a predefined list of news ready to be analyzed
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route(EndpointConstants.NewsAnalyzerDemoNewsGetAll)] // api/news-analyzer/demo-news
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
-        [HttpGet]
-        public async Task<IActionResult> GetNewsListAsync()
-        {
-            var newsList = await _newsAnalyzerService.GetDemoNewsListAsync().ConfigureAwait(false);
-            return Ok(new ApiOkResponse(newsList));
-        }
-
-        /// <summary>
-        /// Add a news to the predefined list
-        /// </summary>
-        /// <param name="request">News to add</param>
-        /// <returns></returns>
-        [Authorize]
-        [Route(EndpointConstants.NewsAnalyzerDemoNewsAdd)] // api/news-analyzer/demo-news
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
-        [HttpPost]
-        public async Task<IActionResult> AddDemoNewsAsync([FromBody] DemoNewsAddRequest request)
-        {
-            await _newsAnalyzerService.AddDemoNewsAsync(request).ConfigureAwait(false);
-            return NoContent();
-        }
-
-        /// <summary>
         /// Add the given question
         /// </summary>
         /// <param name="request">Question to add</param>
