@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
@@ -144,8 +143,7 @@ namespace CriThink.Server.Web
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css"); 
-                    options.InjectJavascript("/swagger-custom/swaggerscript.js", "text/javascript");
+                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css");
                     options.DisplayRequestDuration();
                 });
             }

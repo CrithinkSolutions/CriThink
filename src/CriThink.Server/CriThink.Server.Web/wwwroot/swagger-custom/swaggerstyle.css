@@ -9,3 +9,8 @@
 .select-label {
 	color: #3B4151 !important;
 }
+
+.swagger-ui img {
+    content: url("../logo.svg");
+    height: 60px;
+}
