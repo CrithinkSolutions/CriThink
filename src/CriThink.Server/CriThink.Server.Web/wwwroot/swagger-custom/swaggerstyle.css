@@ -1,0 +1,16 @@
+.swagger-ui .topbar {
+    background: #FF9600;
+}
+
+#select {
+	border-color:#3C50C8;
+}
+
+.select-label {
+	color: #3B4151 !important;
+}
+
+.swagger-ui img {
+    content: url("../logo.svg");
+    height: 60px;
+}
