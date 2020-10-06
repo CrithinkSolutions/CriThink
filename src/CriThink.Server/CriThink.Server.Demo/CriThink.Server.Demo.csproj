@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
   </ItemGroup>
 
+  <!-- START SPA Settings -->
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
@@ -51,5 +52,6 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+  <!-- END SPA Settings -->
 
 </Project>
