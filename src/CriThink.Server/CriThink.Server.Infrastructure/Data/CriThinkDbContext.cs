@@ -39,8 +39,6 @@ namespace CriThink.Server.Infrastructure.Data
             builder.Entity<UserRole>(typeBuilder =>
             {
                 typeBuilder.ToTable("UserRoles");
-                typeBuilder.Ignore(property => property.NormalizedName);
-                typeBuilder.Ignore(property => property.ConcurrencyStamp);
             });
         }
     }

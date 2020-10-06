@@ -4,6 +4,17 @@ import axios from 'axios';
 import { newActionId } from '../lib/utils';
 import { apiRequest, apiResponse } from './api';
 
+function getBaseUri() {
+    if (process.env.NODE_ENV === 'production') {
+        axios.defaults.baseURL = 'https://crithinkapp.com'
+    }
+    else {
+        axios.defaults.baseURL = process.env.REACT_APP_LOCALHOST
+    }
+}
+
+getBaseUri();
+
 function questionReducer (questions) {
     return {
         type: types.QUESTIONS,
@@ -69,7 +80,7 @@ function toDebounceGetDemoNews () {
     return (dispatch) => {
         const actionId = newActionId('Getting demo news', 'getDemoNews');
         dispatch(apiRequest(actionId));
-        axios.get('/api/news-analyzer/demo-news')
+        axios.get('/api/demo/demo-news')
             .then(res => {
                 if(res.status === 200) {
                     dispatch(demonewsReducer(res.data.result));

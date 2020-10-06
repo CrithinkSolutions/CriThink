@@ -8,14 +8,13 @@ namespace CriThink.Server.Core.Entities
     /// </summary>
     public sealed class UserRole : IdentityRole<Guid>, ICriThinkIdentity
     {
-        public UserRole()
+        /// <summary>
+        /// Creates a new role
+        /// </summary>
+        /// <param name="name">Role name</param>
+        public UserRole(string name)
         {
             Id = Guid.NewGuid();
-        }
-
-        public UserRole(string name)
-            : this()
-        {
             Name = name;
         }
     }
