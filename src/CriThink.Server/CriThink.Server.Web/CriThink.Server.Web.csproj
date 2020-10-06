@@ -7,13 +7,8 @@
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>  
     <NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>4dcbda00-d3c7-453e-ab47-2e10d2395573</UserSecretsId>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <RootNamespace>CriThink.Server.Web</RootNamespace>
     <AssemblyName>CriThink.Server.Web</AssemblyName>
-    <IsPackable>false</IsPackable>
-    <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <Company>CriThink Solutions</Company>
     <Authors>CriThinkIT</Authors>
     <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
