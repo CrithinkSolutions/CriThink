@@ -42,6 +42,8 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
+        private const string AllowSpecificOrigins = "AllowSpecificOrigins";
+
         private readonly IWebHostEnvironment _environment;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -108,6 +110,21 @@ namespace CriThink.Server.Web
                 options.Providers.Add<GzipCompressionProvider>();
             });
 
+            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                    builder =>
+                    {
+                        foreach (var corsOrigin in corsOrigins)
+                        {
+                            builder.WithOrigins(corsOrigin)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    });
+            });
+
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
@@ -145,6 +162,8 @@ namespace CriThink.Server.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthentication(); // Identity
 
