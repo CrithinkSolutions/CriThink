@@ -8,7 +8,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
     /// <summary>
     /// Result of the requested analysis
     /// </summary>
-    public class NewsAnalysisProviderResult : IProviderResult
+    public class NewsAnalysisProviderResult : IAnalyzerResult
     {
         public NewsAnalysisProviderResult(NewsAnalysisType analysis, Uri uri, int trustworthinessScore)
         {
@@ -23,7 +23,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
             NewsAnalysisType = analysis;
             Uri = uri;
 
-            Exception = ex ?? throw new ArgumentNullException(nameof(analysis));
+            Exception = ex ?? throw new ArgumentNullException(nameof(ex));
             ErrorDescription = string.IsNullOrWhiteSpace(errorDescription) ? ex.Message : errorDescription;
         }
 

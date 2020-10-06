@@ -8,7 +8,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer
     /// <summary>
     /// Result of the requested analysis
     /// </summary>
-    public class DomainAnalysisProviderResult : IProviderResult
+    public class DomainAnalysisProviderResult : IAnalyzerResult
     {
         public DomainAnalysisProviderResult(NewsAnalysisType analysis, Uri uri, int trustworthinessScore)
         {

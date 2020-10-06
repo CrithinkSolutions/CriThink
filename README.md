@@ -2,8 +2,8 @@
 CriThink is a mobile application able to identity fake news.
 Developed by CriThink Solutions.
 
-![staging_server_publish](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
-![production_server_publish](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+![Build CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
+![Build CriThinkApp](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
 
 # Getting Started
 ## Server
@@ -36,7 +36,12 @@ Insert the following keys and the desired values in the secret files created abo
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
-
+#### User Secret for ReactJS
+* Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
+* Write inside the file:
+	* `REACT_APP_LOCALHOST=[Your localhost url]`
+	
+Note: You need to restart the development server after changing .env.local file.
 ### Environments
 Three environments have been configured:
 * Debug

@@ -16,6 +16,11 @@
         TextSentiment,
 
         /// <summary>
+        /// News title and content keywords
+        /// </summary>
+        Keywords,
+
+        /// <summary>
         /// Check if the given Uri has HTTPS support
         /// </summary>
         HTTPS,

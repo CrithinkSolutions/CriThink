@@ -1,6 +1,6 @@
-﻿using CriThink.Server.Providers.NewsAnalyzer.Analyzers;
-using CriThink.Server.Providers.NewsAnalyzer.Managers;
+﻿using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using CriThink.Server.Providers.NewsAnalyzer.Providers;
+using CriThink.Server.Providers.NewsAnalyzer.Singletons;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CriThink.Server.Providers.NewsAnalyzer
@@ -18,8 +18,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// <param name="azureEndpoint">The Azure Cognitive Services endpoint</param>
         public static void AddNewsAnalyzerProvider(this IServiceCollection serviceCollection, string azureCredentials, string azureEndpoint)
         {
-            TextSentimentAnalyzer.AzureCredentials = azureCredentials;
-            TextSentimentAnalyzer.AzureEndpoint = azureEndpoint;
+            NewsAnalyticsClient.SetupClient(azureEndpoint, azureCredentials);
 
             serviceCollection.AddTransient<INewsAnalyzerProvider, NewsAnalyzerProvider>();
             serviceCollection.AddTransient<INewsScraperManager, NewsScraperManager>();
