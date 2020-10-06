@@ -29,7 +29,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +42,8 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
+        private const string AllowSpecificOrigins = "AllowSpecificOrigins";
+
         private readonly IWebHostEnvironment _environment;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -109,6 +110,21 @@ namespace CriThink.Server.Web
                 options.Providers.Add<GzipCompressionProvider>();
             });
 
+            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                    builder =>
+                    {
+                        foreach (var corsOrigin in corsOrigins)
+                        {
+                            builder.WithOrigins(corsOrigin)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    });
+            });
+
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
@@ -120,15 +136,6 @@ namespace CriThink.Server.Web
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
 
             services.AddRazorPages(); // Razor
-
-            //Startup ReactJS
-            services.AddControllersWithViews();
-
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,6 +150,7 @@ namespace CriThink.Server.Web
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css");
                     options.DisplayRequestDuration();
                 });
             }
@@ -154,6 +162,8 @@ namespace CriThink.Server.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthentication(); // Identity
 
@@ -168,20 +178,6 @@ namespace CriThink.Server.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
-            });
-
-            //Spa Services for ReactJS
-
-            app.UseSpaStaticFiles();
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
             });
         }
 
@@ -313,7 +309,7 @@ namespace CriThink.Server.Web
                     Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]}", Version = "v1", Contact = contact });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
