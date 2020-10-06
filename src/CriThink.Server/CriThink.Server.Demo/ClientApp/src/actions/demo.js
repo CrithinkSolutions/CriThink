@@ -9,8 +9,7 @@ function getBaseUri() {
         axios.defaults.baseURL = 'https://crithinkdemo.com'
     }
     else {
-        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-        axios.defaults.baseURL = 'https://localhost:5001'
+        axios.defaults.baseURL = process.env.REACT_APP_LOCALHOST
     }
 }
 
