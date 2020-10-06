@@ -6,11 +6,10 @@ import { apiRequest, apiResponse } from './api';
 
 function getBaseUri() {
     if (process.env.NODE_ENV === 'production') {
-        axios.defaults.baseURL = 'https://crithinkdemo.com'
+        axios.defaults.baseURL = 'https://crithinkapp.com'
     }
     else {
-        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-        axios.defaults.baseURL = 'https://localhost:5001'
+        axios.defaults.baseURL = process.env.REACT_APP_LOCALHOST
     }
 }
 
