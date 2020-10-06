@@ -36,7 +36,12 @@ Insert the following keys and the desired values in the secret files created abo
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
-
+#### User Secret for ReactJS
+* Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
+* Write inside the file:
+	* `REACT_APP_LOCALHOST=[Your localhost url]`
+	
+Note: You need to restart the development server after changing .env.local file.
 ### Environments
 Three environments have been configured:
 * Debug

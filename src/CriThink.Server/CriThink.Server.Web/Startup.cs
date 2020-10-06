@@ -42,6 +42,8 @@ namespace CriThink.Server.Web
 {
     public class Startup
     {
+        private const string AllowSpecificOrigins = "AllowSpecificOrigins";
+
         private readonly IWebHostEnvironment _environment;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -108,6 +110,21 @@ namespace CriThink.Server.Web
                 options.Providers.Add<GzipCompressionProvider>();
             });
 
+            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                    builder =>
+                    {
+                        foreach (var corsOrigin in corsOrigins)
+                        {
+                            builder.WithOrigins(corsOrigin)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    });
+            });
+
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
@@ -133,6 +150,7 @@ namespace CriThink.Server.Web
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    options.InjectStylesheet("/swagger-custom/swaggerstyle.css");
                     options.DisplayRequestDuration();
                 });
             }
@@ -144,6 +162,8 @@ namespace CriThink.Server.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthentication(); // Identity
 
@@ -289,7 +309,7 @@ namespace CriThink.Server.Web
                     Email = Configuration["SwaggerApiInfo:email"],
                     Url = new Uri(Configuration["SwaggerApiInfo:Uri"])
                 };
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]} v1", Version = "v1", Contact = contact });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{Configuration["SwaggerApiInfo:Title"]}", Version = "v1", Contact = contact });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
