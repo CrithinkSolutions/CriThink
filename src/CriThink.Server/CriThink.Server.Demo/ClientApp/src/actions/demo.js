@@ -6,7 +6,7 @@ import { apiRequest, apiResponse } from './api';
 
 function getBaseUri() {
     if (process.env.NODE_ENV === 'production') {
-        axios.defaults.baseURL = 'https://crithinkdemo.com'
+        axios.defaults.baseURL = 'https://crithinkapp.com'
     }
     else {
         axios.defaults.baseURL = process.env.REACT_APP_LOCALHOST
