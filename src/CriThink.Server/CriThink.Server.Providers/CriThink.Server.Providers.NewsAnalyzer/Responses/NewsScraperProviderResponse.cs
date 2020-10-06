@@ -71,5 +71,11 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// The news uri
         /// </summary>
         public Uri RequestedUri { get; }
+
+        /// <summary>
+        /// Get the first 100 characters of the news body
+        /// </summary>
+        /// <returns></returns>
+        public string GetCaption() => NewsBody.Length > 100 ? $"{NewsBody.Substring(0, 100)}..." : NewsBody;
     }
 }
