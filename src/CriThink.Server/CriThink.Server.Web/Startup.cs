@@ -12,6 +12,8 @@ using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Repositories;
+using CriThink.Server.Providers.DebunkNewsFetcher;
+using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
@@ -341,6 +343,11 @@ namespace CriThink.Server.Web
             services.AddNewsAnalyzerProvider(azureCredentials, azureEndpoint);
             services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
 
+            // DebunkNewsFetcher
+            var openOnlineSettings = Configuration.GetSection("DebunkedNewsSources:OpenOnline").Get<WebSiteSettings>();
+            services.AddDebunkNewsFetcherProvider(openOnlineSettings);
+            services.AddTransient<IDebunkNewsFetcherFacade, DebunkNewsFetcherFacade>();
+
             // DomainAnalyzer
             services.AddDomainAnalyzerProvider();
             services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
@@ -348,6 +355,9 @@ namespace CriThink.Server.Web
             // NewsSource
             services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
             services.AddTransient<INewsSourceService, NewsSourceService>();
+
+            // DebunkNews
+            services.AddTransient<IDebunkNewsService, DebunkNewsService>();
 
             // Infrastructure
             services.AddTransient<INewsSourceRepository, NewsSourceRepository>();

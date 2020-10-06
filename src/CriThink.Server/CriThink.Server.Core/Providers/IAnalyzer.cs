@@ -5,7 +5,7 @@ namespace CriThink.Server.Core.Providers
     /// <summary>
     /// Provides a common interface for the providers' analyzers chains
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Instance of <see cref="IProviderResult"/> type</typeparam>
     public interface IAnalyzer<T> where T : IProviderResult
     {
         /// <summary>

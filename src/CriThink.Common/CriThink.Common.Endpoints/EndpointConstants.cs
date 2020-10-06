@@ -70,6 +70,14 @@
 
         #endregion
 
+        #region DebunkNews
+
+        public const string DebunkNewsBase = "debunking-news/";
+
+        public const string DebunkNewsTriggerUpdate = "trigger-update";
+
+        #endregion
+
         #region Demo
 
         public const string DemoBase = "demo/";

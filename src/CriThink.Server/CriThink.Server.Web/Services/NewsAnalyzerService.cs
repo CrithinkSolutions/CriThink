@@ -73,7 +73,7 @@ namespace CriThink.Server.Web.Services
                 .ToArray();
         }
 
-        public async Task<ScrapeNewsResponse> NewsCheckSpellingAsync(Uri uri)
+        public async Task<ScrapeNewsResponse> ScrapeNewsAsync(Uri uri)
         {
             var scraperResponse = await _newsScraperManager.ScrapeNewsWebPage(uri).ConfigureAwait(false);
 
@@ -225,7 +225,7 @@ namespace CriThink.Server.Web.Services
         /// </summary>
         /// <param name="uri">News uri</param>
         /// <returns>News details such as author, title, body, etc.</returns>
-        Task<ScrapeNewsResponse> NewsCheckSpellingAsync(Uri uri);
+        Task<ScrapeNewsResponse> ScrapeNewsAsync(Uri uri);
 
         /// <summary>
         /// Analyze the given news content and gives scores
