@@ -34,8 +34,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.NewsAnalyzer", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj", "{B245DA8A-5411-4973-A7C0-51D7CFD61981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Providers.DebunkNewsFetcher", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DebunkNewsFetcher\CriThink.Server.Providers.DebunkNewsFetcher.csproj", "{00FA7783-F385-497B-BB6E-82C283E9046C}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Demo", "CriThink.Server\CriThink.Server.Demo\CriThink.Server.Demo.csproj", "{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.DebunkNewsFetcher", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DebunkNewsFetcher\CriThink.Server.Providers.DebunkNewsFetcher.csproj", "{00FA7783-F385-497B-BB6E-82C283E9046C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Demo", "CriThink.Server\CriThink.Server.Demo\CriThink.Server.Demo.csproj", "{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Client.Core", "CriThink.Client\CriThink.Client.Core\CriThink.Client.Core.csproj", "{6334B064-DD22-4F85-AA05-7AB088145757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +90,10 @@ Global
 		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6334B064-DD22-4F85-AA05-7AB088145757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6334B064-DD22-4F85-AA05-7AB088145757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6334B064-DD22-4F85-AA05-7AB088145757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6334B064-DD22-4F85-AA05-7AB088145757}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +111,7 @@ Global
 		{B245DA8A-5411-4973-A7C0-51D7CFD61981} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 		{00FA7783-F385-497B-BB6E-82C283E9046C} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79} = {A6CCE6CD-6ADE-4F6A-991E-3150DC8E7216}
+		{6334B064-DD22-4F85-AA05-7AB088145757} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F84E5D14-E97C-4611-8886-D9A39FDA717E}
