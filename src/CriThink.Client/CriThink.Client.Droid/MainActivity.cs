@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
 
 namespace CriThink.Client.Droid
 {
