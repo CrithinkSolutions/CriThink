@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/root">
+
+  <!--TODO: change icon-->
+  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
+                                                android:layout_height="200dp"
+                                                android:id="@+id/imgTopImg"
+                                                android:layout_marginTop="50dp"
+                                                android:src="@mipmap/ic_launcher" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_below="@+id/imgTopImg"
+      android:layout_alignParentBottom="true"
+      android:gravity="bottom"
+      android:paddingBottom="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Sign Up"
+          android:textStyle="bold"
+          android:fontFamily="@font/urbanist"
+          android:gravity="center"
+          android:textSize="32sp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="It's easier to sign up now"
+          android:gravity="center"
+          android:textSize="16sp"
+          android:layout_marginTop="12dp"
+          android:fontFamily="@font/urbanist"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="TODO: Facebook"
+          android:fontFamily="@font/urbanist"
+          android:layout_marginTop="72dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fontFamily="@font/urbanist"
+          android:text="TODO: Google"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up with Email"
+            android:fontFamily="@font/urbanist"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:fontFamily="@font/urbanist"
+            android:layout_marginTop="48dp">
+
+          <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:fontFamily="@font/urbanist"
+            android:textSize="12sp"/>
+
+          <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="12dp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/urbanist"/>
+
+        </LinearLayout>
+
+  </LinearLayout>
+
+</RelativeLayout>
