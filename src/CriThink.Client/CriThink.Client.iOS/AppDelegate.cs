@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using MvvmCross.Platforms.Ios.Core;
 using UIKit;
 
 namespace CriThink.Client.iOS
@@ -6,7 +7,7 @@ namespace CriThink.Client.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<MvxIosSetup<Core.App>, Core.App>
     {
         // class-level declarations
 
@@ -14,18 +15,6 @@ namespace CriThink.Client.iOS
         {
             get;
             set;
-        }
-
-        public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
-        {
-            // create a new window instance based on the screen size
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
-            Window.RootViewController = new UIViewController();
-
-            // make the window visible
-            Window.MakeKeyAndVisible();
-
-            return true;
         }
 
         public override void OnResignActivation(UIApplication application)
