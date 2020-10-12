@@ -37,6 +37,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
 
@@ -138,6 +139,8 @@ namespace CriThink.Server.Web
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
 
             services.AddRazorPages(); // Razor
+
+            services.AddLiveReload(); // LiveReload
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -160,6 +163,10 @@ namespace CriThink.Server.Web
             app.UseResponseCaching();
 
             app.UseApiVersioning();
+
+            app.UseLiveReload(); // LiveReload
+
+            app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
