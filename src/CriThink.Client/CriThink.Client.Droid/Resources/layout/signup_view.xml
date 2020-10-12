@@ -48,11 +48,17 @@
           android:fontFamily="@font/urbanist"
           android:layout_marginTop="72dp"/>
 
+        <!--<com.google.android.gms.common.SignInButton
+          android:id="@+id/btnGoogle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />-->
+
         <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:id="@+id/btnGoogle"
           android:fontFamily="@font/urbanist"
-          android:text="TODO: Google"/>
+          android:text="Google"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
