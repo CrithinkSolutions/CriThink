@@ -3,6 +3,7 @@ using Android.OS;
 using CriThink.Client.Core.ViewModels;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
+using Xamarin.Facebook;
 
 namespace CriThink.Client.Droid.Views
 {
@@ -14,6 +15,8 @@ namespace CriThink.Client.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.home_view);
+
+            FacebookSdk.FullyInitialize();
         }
     }
 }

@@ -43,7 +43,8 @@
         <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="TODO: Facebook"
+          android:id="@+id/btnFb"
+          android:text="Facebook"
           android:fontFamily="@font/urbanist"
           android:layout_marginTop="72dp"/>
 
