@@ -166,7 +166,7 @@ namespace CriThink.Server.Web
 
             app.UseLiveReload(); // LiveReload
 
-            app.UseDefaultFiles();
+            //app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
