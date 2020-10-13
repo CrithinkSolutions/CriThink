@@ -37,7 +37,6 @@ namespace CriThink.Client.Droid.Views.Users
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signup_view);
 
-            //Facebook
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
                 _btnFb.Click += LoginUsingFacebook;
@@ -47,6 +46,17 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 _btnGoogle.Click += LoginUsingGoogle;
             }
+
+            var btnSignUpEmail = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
+            var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
+
+            var set = CreateBindingSet();
+
+            set.Bind(btnSignUpEmail).To(vm => vm.NavigateToSignUpEmailCommand);
+            set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
+
+            set.Apply();
+
         }
 
         private FirebaseAuth GetFirebaseAuth()
@@ -76,10 +86,11 @@ namespace CriThink.Client.Droid.Views.Users
 
         private void LoginUsingGoogle(object sender, EventArgs e)
         {
+            _socialLoginProvider = SocialLoginProvider.Google;
+
             if (_gso == null || _googleApiClient == null)
                 InitGoogleSignIn();
 
-            //UpdateUI();
             if (_firebaseAuth.CurrentUser == null)
             {
                 var intent = Auth.GoogleSignInApi.GetSignInIntent(_googleApiClient);
@@ -88,7 +99,6 @@ namespace CriThink.Client.Droid.Views.Users
             else
             {
                 _firebaseAuth.SignOut();
-                //UpdateUI();
             }
         }
 
@@ -96,18 +106,23 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == 1)
+            if (_socialLoginProvider == SocialLoginProvider.Google)
             {
-                GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-
-                if (result.IsSuccess)
+                if (requestCode == 1)
                 {
-                    GoogleSignInAccount account = result.SignInAccount;
-                    LoginWithFirebase(account);
+                    GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+
+                    if (result.IsSuccess)
+                    {
+                        GoogleSignInAccount account = result.SignInAccount;
+                        LoginWithFirebase(account);
+                    }
                 }
             }
-
-            //_callbackManager.OnActivityResult(requestCode, (int) resultCode, data);
+            else if (_socialLoginProvider == SocialLoginProvider.Facebook)
+            {
+                _callbackManager.OnActivityResult(requestCode, (int) resultCode, data);
+            }
         }
 
         private void LoginWithFirebase(GoogleSignInAccount account)
@@ -134,10 +149,10 @@ namespace CriThink.Client.Droid.Views.Users
 
         private void LoginUsingFacebook(object sender, EventArgs eventArgs)
         {
+            _socialLoginProvider = SocialLoginProvider.Facebook;
+
             if (_callbackManager == null)
-            {
                 InitFacebookCallbacks();
-            }
 
             if (AccessToken.CurrentAccessToken != null)
                 LoginManager.Instance.LogOut();
