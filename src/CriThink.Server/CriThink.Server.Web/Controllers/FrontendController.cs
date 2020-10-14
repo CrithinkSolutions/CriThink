@@ -22,6 +22,12 @@ namespace CriThink.Server.Web.Controllers
         {
             return View();
         }
+
+        [Route("/debunking-news")]
+        public IActionResult DebunkingNews()
+        {
+            return View();
+        }
     }
 }
 

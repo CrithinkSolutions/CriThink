@@ -29,6 +29,12 @@ function loginAPI(username,email,password,errorEl,clickEl) {
 	});
 }
 
+function getAllNewsSource(){
+	fetch('/api/news-source/all')
+		.then(response => response.json())
+		.then(data => $('#table').bootstrapTable({data: data}))
+}
+
 $(document).on('click', '#btn-login', function(event) {
 	   	event.preventDefault();
 	   	const username = $('#inputemail').val();
@@ -36,3 +42,7 @@ $(document).on('click', '#btn-login', function(event) {
 	   	username.includes('@')? loginAPI('',username,password,'#errordiv', event.target.id) : loginAPI(username,'',password,'#errordiv', event.target.id);
 	}
 );
+
+if (window.location.href.indexOf("debunking-news") > -1) {
+	getAllNewsSource();
+}
