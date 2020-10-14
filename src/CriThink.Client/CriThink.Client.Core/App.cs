@@ -15,7 +15,7 @@ namespace CriThink.Client.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<HomeViewModel>();
+            RegisterAppStart<WelcomeViewModel>();
         }
     }
 }
