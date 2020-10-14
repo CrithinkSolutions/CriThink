@@ -14,8 +14,11 @@ function loginAPI(username,email,password,errorEl,clickEl) {
 	.then(response => response.json())
 	.then(data => {
 		if(data.statusCode == 200) {
-			console.log('Success:', data);
+			const expires = new Date(data.result.token.expirationDate);
+			document.cookie = "username=" + data.result.username + "; expires=" + expires.toUTCString();
+			document.cookie = "token=" + data.result.token.token + "; expires=" + expires.toUTCString();
 			$(errorEl).addClass('d-none');
+			window.location.href="/control-panel";
 		}
   		else {
   			$(errorEl).removeClass('d-none');
