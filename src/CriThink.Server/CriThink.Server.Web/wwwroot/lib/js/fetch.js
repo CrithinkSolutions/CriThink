@@ -52,7 +52,36 @@ function addNews(uri, classification) {
 			alert("Success")
 		}
 	})
+}
 
+function removeNews(uri, classification) {
+	let api = ''
+	switch (classification) {
+		case 'Reliable':
+		case 'Satirical':
+			api = '/api/news-source/whitelist';
+			break;
+		case 'Conspiracist':
+		case 'FakeNews':
+			api = '/api/news-source/blacklist';
+			break;
+	}
+	fetch(api, {
+		method: 'DELETE',
+		headers: {
+    		'Content-Type': 'application/json',
+  		},
+  		body: JSON.stringify({
+  			'uri': 'http://'+uri,
+  			'classification': classification
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+		}
+		location.reload();
+	})
 }
 
 
@@ -79,3 +108,16 @@ $(document).on('click', '#btn-addnews', function(event) {
 $('#addnewsmodal').on('hidden.bs.modal', function () {
 	location.reload();
 })
+
+$('#table').on('check.bs.table', function (e, row, $element) {
+	$('#uriselected').html(row.uri);
+	$('#classificationselected').html(row.classification);
+})
+
+$(document).on('click', '#btn-removenews', function(event) {
+	   	event.preventDefault();
+	   	const uri = $('#uriselected').html();
+	   	const classification = $('#classificationselected').html();
+	   	removeNews(uri,classification)
+	}
+);
