@@ -12,7 +12,7 @@ namespace CriThink.Server.Web.Controllers
     public class FrontendController : Controller
     {   
         [Route("/")]
-        public IActionResult Index(string jwt)
+        public IActionResult Index()
         {
             return View();
         }
