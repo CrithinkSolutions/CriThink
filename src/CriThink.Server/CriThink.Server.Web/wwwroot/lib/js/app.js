@@ -33,7 +33,7 @@ $(document).on('click', '#btn-removenews', function(event) {
 );
 
 // ===== Selector news source =====
-$('#table').on('check.bs.table', function(row) {
+$('#table').on('check.bs.table', function(e, row, element) {
 	$('#uriselected').html(row.uri);
 	$('#classificationselected').html(row.classification);
 })

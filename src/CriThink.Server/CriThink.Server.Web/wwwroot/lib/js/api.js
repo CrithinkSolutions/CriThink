@@ -50,12 +50,13 @@ function getAllNewsSource(){
 		.then(data => $('#table').bootstrapTable({data: data}))
 }
 
-// ===== Add News Source =====
+// ===== Add News Source (JWT) =====
 function addNewsSource(uri, classification) {
 	fetch('/api/news-source', {
 		method: 'POST',
 		headers: {
     		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
   		},
   		body: JSON.stringify({
   			'uri': uri,
@@ -69,7 +70,7 @@ function addNewsSource(uri, classification) {
 	})
 }
 
-// ===== Remove News Source =====
+// ===== Remove News Source (JWT) =====
 function removeNewsSource(uri, classification) {
 	let apiUri = ''
 	switch (classification) {
@@ -87,6 +88,7 @@ function removeNewsSource(uri, classification) {
 		method: 'DELETE',
 		headers: {
     		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
   		},
   		body: JSON.stringify({
   			'uri': 'http://'+uri,
