@@ -42,6 +42,9 @@
         public const string AdminSignUp = "sign-up";
         public const string AdminRole = "role";
 
+        public const string AdminUserGetAll = "user/all";
+        public const string AdminUser = "user";
+
         #endregion
 
         #region NewsAnalyzer
