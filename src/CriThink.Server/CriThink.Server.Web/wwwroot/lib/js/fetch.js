@@ -35,6 +35,27 @@ function getAllNewsSource(){
 		.then(data => $('#table').bootstrapTable({data: data}))
 }
 
+
+function addNews(uri, classification) {
+	fetch('/api/news-source', {
+		method: 'POST',
+		headers: {
+    		'Content-Type': 'application/json',
+  		},
+  		body: JSON.stringify({
+  			'uri': uri,
+  			'classification': classification
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+		}
+	})
+
+}
+
+
 $(document).on('click', '#btn-login', function(event) {
 	   	event.preventDefault();
 	   	const username = $('#inputemail').val();
@@ -46,3 +67,15 @@ $(document).on('click', '#btn-login', function(event) {
 if (window.location.href.indexOf("debunking-news") > -1) {
 	getAllNewsSource();
 }
+
+$(document).on('click', '#btn-addnews', function(event) {
+	   	event.preventDefault();
+	   	const uri = $('#uri-input').val();
+	   	const classification = $('#class-input').val();
+	   	addNews(uri, classification);
+	}
+);
+
+$('#addnewsmodal').on('hidden.bs.modal', function () {
+	location.reload();
+})
