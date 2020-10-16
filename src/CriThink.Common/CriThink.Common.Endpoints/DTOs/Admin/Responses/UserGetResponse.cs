@@ -28,6 +28,6 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         public bool IsLockoutEnabled { get; set; }
 
         [JsonPropertyName("lockoutEnd")]
-        public DateTime? LockoutEnd { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
     }
 }
