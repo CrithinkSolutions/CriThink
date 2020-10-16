@@ -116,5 +116,96 @@ namespace CriThink.Server.Web.Controllers
             await _identityService.UpdateRoleNameAsync(request).ConfigureAwait(false);
             return NoContent();
         }
+
+        /// <summary>
+        /// Get all the users paginated
+        /// </summary>
+        /// <param name="pageSize">How many users must be returned per page</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <returns>Returns list of users</returns>
+        [Route(EndpointConstants.AdminUserGetAll)] // api/admin/user/all
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUserAsync(int pageSize, int pageIndex)
+        {
+            var users = await _identityService.GetAllUsersAsync(pageSize, pageIndex).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(users));
+        }
+
+        /// <summary>
+        /// Get all the users paginated
+        /// </summary>
+        /// <param name="request">User id</param>
+        /// <returns>Returns the user details</returns>
+        [Route(EndpointConstants.AdminUser)] // api/admin/user
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUserAsync([FromQuery] UserGetRequest request)
+        {
+            var user = await _identityService.GetUserByIdAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(user));
+        }
+
+        /// <summary>
+        /// Update the given user
+        /// </summary>
+        /// <param name="request">New user properties</param>
+        /// <returns>Returns NoContent</returns>
+        [Route(EndpointConstants.AdminUser)] // api/admin/user
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserAsync([FromBody] UserUpdateRequest request)
+        {
+            await _identityService.UpdateUserAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Mark the given user as deleted
+        /// </summary>
+        /// <param name="request">User id</param>
+        /// <returns>Returns NoContent</returns>
+        [Route(EndpointConstants.AdminUser)] // api/admin/user
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPatch]
+        public async Task<IActionResult> SoftDeleteUserAsync([FromBody] UserGetRequest request)
+        {
+            await _identityService.SoftDeleteUserAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Delete the user permanently
+        /// </summary>
+        /// <param name="request">User id</param>
+        /// <returns>Returns NoContent</returns>
+        [Route(EndpointConstants.AdminUser)] // api/admin/user
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserAsync([FromBody] UserGetRequest request)
+        {
+            await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
     }
 }
