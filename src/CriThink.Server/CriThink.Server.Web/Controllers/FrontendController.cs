@@ -1,14 +1,12 @@
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authorization;
-using CriThink.Server.Web.ActionFilters;
+using CriThink.Common.Endpoints;
 
 namespace CriThink.Server.Web.Controllers
 {
     [ApiExplorerSettings(IgnoreApi=true)] // No conflict with Swagger
+    [ApiVersion(EndpointConstants.VersionOne)]
     public class FrontendController : Controller
     {   
         [Route("/")]

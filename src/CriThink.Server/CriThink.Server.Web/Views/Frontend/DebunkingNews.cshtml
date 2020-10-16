@@ -2,11 +2,11 @@
 	Layout = "_LayoutApi";
     ViewData["Title"] = "Debunking News";
 }
-<div class="bg-white p-4 shadow text-center">
+<div class="bg-white p-4 shadow text-center m-4">
 	<!-- (START) INPUT SECTION -->
 	<div id="toolbox" class="border p-2 mb-2">
 		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addnewsmodal"><i class="fas fa-plus"></i></button>
-		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removenewsmodal"><i class="fas fa-trash-alt"></i></button>
+		<button id="deletenewstoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removenewsmodal"><i class="fas fa-trash-alt"></i></button>
 	</div>
 	<table id="table" data-click-to-select="true">
 		<thead>

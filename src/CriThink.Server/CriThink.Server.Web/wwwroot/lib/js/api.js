@@ -7,7 +7,7 @@ $(document).on('click', '#btn-login', function(event) {
 	   	event.preventDefault();
 	   	const username = $('#inputemail').val();
 	   	const password = $('#inputpwd').val();
-	   	username.includes('@')? loginAPI('',username,password,'#errordiv', event.target.id) : loginAPI(username,'',password,'#errordiv', event.target.id);
+	   	username.includes('@')? loginAPI('',username,password) : loginAPI(username,'',password);
 	}
 );
 
@@ -47,7 +47,7 @@ function loginAPI(username,email,password) {
 function getAllNewsSource(){
 	fetch('/api/news-source/all')
 		.then(response => response.json())
-		.then(data => $('#table').bootstrapTable({data: data}))
+		.then(data => $('#table').bootstrapTable({data: data}));
 }
 
 // ===== Add News Source (JWT) =====
@@ -83,7 +83,6 @@ function removeNewsSource(uri, classification) {
 			apiUri = '/api/news-source/blacklist';
 			break;
 	}
-	console.log(apiUri)
 	fetch(apiUri, {
 		method: 'DELETE',
 		headers: {

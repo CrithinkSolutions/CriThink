@@ -7,11 +7,19 @@ $('#welcome').html(selectCookie('username'));
 
 // ===== Debunking news page =====
 if (window.location.href.indexOf("debunking-news") > -1) {
+	$("#deletenewstoolbar").prop('disabled', true);
 	getAllNewsSource();
 }
 
 $('#addnewsmodal').on('hidden.bs.modal', function () {
 	location.reload();
+})
+
+// ===== Selector news source =====
+$('#table').on('check.bs.table', function(e, row, element) {
+	$("#deletenewstoolbar").prop('disabled', false);
+	$('#uriselected').html(row.uri);
+	$('#classificationselected').html(row.classification);
 })
 
 // ===== Button for add news source ===== 
@@ -31,13 +39,6 @@ $(document).on('click', '#btn-removenews', function(event) {
 	   	removeNewsSource(uri,classification)
 	}
 );
-
-// ===== Selector news source =====
-$('#table').on('check.bs.table', function(e, row, element) {
-	$('#uriselected').html(row.uri);
-	$('#classificationselected').html(row.classification);
-})
-
 
 // ===== Utility =====
 function selectCookie(value){
