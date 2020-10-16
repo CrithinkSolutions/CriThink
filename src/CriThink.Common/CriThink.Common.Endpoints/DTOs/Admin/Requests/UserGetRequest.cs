@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-// ReSharper disable CheckNamespace
-namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
+// ReSharper disable once CheckNamespace
+namespace CriThink.Common.Endpoints.DTOs.Admin
 {
-    public class UserCompleteSignUpRequest : IValidatableObject
+    public class UserGetRequest : IValidatableObject
     {
         [JsonPropertyName("userId")]
         [Required]

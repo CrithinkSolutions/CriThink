@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
@@ -25,15 +26,17 @@ namespace CriThink.Server.Web.Services
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly IEmailSenderService _emailSender;
+        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
 
-        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
             _jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -188,6 +191,91 @@ namespace CriThink.Server.Web.Services
                 _logger?.LogError(ex, "Error renaming a role", role);
                 throw ex;
             }
+        }
+
+        public async Task<IList<UserGetAllResponse>> GetAllUsersAsync(int pageSize, int pageIndex)
+        {
+            var allUsers = await _userManager.Users
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            var dtos = _mapper.Map<IList<User>, IList<UserGetAllResponse>>(allUsers);
+            return dtos;
+        }
+
+        public async Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            return _mapper.Map<User, UserGetResponse>(user);
+        }
+
+        public async Task UpdateUserAsync(UserUpdateRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            if (!string.IsNullOrWhiteSpace(request.UserName))
+                user.UserName = request.UserName;
+
+            if (request.IsEmailConfirmed != null)
+                user.EmailConfirmed = request.IsEmailConfirmed.Value;
+
+            if (request.AccessFailedCount != null)
+                user.AccessFailedCount = request.AccessFailedCount.Value;
+
+            if (request.IsLockoutEnabled != null)
+                user.LockoutEnabled = request.IsLockoutEnabled.Value;
+
+            if (request.LockoutEnd != null)
+                user.LockoutEnd = request.LockoutEnd;
+
+            await _userManager.UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task SoftDeleteUserAsync(UserGetRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            user.IsDeleted = true;
+
+            await _userManager.UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task DeleteUserAsync(UserGetRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            await _userManager.DeleteAsync(user).ConfigureAwait(false);
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
@@ -454,6 +542,42 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">New role name</param>
         /// <returns>An asynchronous result</returns>
         Task UpdateRoleNameAsync(RoleUpdateNameRequest request);
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <param name="pageSize">How many users must be returned per page</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <returns>Returns list of users</returns>
+        Task<IList<UserGetAllResponse>> GetAllUsersAsync(int pageSize, int pageIndex);
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="request">User id</param>
+        /// <returns>Returns user details</returns>
+        Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request);
+
+        /// <summary>
+        /// Update user properties
+        /// </summary>
+        /// <param name="request">New properties</param>
+        /// <returns></returns>
+        Task UpdateUserAsync(UserUpdateRequest request);
+
+        /// <summary>
+        /// Soft delete a user
+        /// </summary>
+        /// <param name="request">User id</param>
+        /// <returns>The operation result</returns>
+        Task SoftDeleteUserAsync(UserGetRequest request);
+
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task DeleteUserAsync(UserGetRequest request);
 
         /// <summary>
         /// Login the given user
