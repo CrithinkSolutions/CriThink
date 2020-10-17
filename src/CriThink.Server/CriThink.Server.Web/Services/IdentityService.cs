@@ -183,7 +183,6 @@ namespace CriThink.Server.Web.Services
 
             role.Name = request.NewName;
 
-            //var roleRenamingResult = await _roleManager.SetRoleNameAsync(role, request.NewName).ConfigureAwait(false);
             var roleRenamingResult = await _roleManager.UpdateAsync(role).ConfigureAwait(false);
             if (!roleRenamingResult.Succeeded)
             {
@@ -191,6 +190,51 @@ namespace CriThink.Server.Web.Services
                 _logger?.LogError(ex, "Error renaming a role", role);
                 throw ex;
             }
+        }
+
+        public async Task UpdateUserRoleAsync(UserRoleUpdateRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
+            if (role == null)
+                throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
+
+            var currentUserRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            var areRoleRemoved = await _userManager.RemoveFromRolesAsync(user, currentUserRoles).ConfigureAwait(false);
+            if (!areRoleRemoved.Succeeded)
+                throw new IdentityOperationException(areRoleRemoved);
+
+            var isRoleAdded = await _userManager.AddToRoleAsync(user, role.Name).ConfigureAwait(false);
+            if (!isRoleAdded.Succeeded)
+                throw new IdentityOperationException(isRoleAdded);
+        }
+
+        public async Task RemoveRoleFromUserAsync(UserRoleUpdateRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var userId = request.UserId.ToString();
+
+            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found", userId);
+
+            var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
+            if (role == null)
+                throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
+
+            var areRoleRemoved = await _userManager.RemoveFromRoleAsync(user, role.Name).ConfigureAwait(false);
+            if (!areRoleRemoved.Succeeded)
+                throw new IdentityOperationException(areRoleRemoved);
         }
 
         public async Task<IList<UserGetAllResponse>> GetAllUsersAsync(int pageSize, int pageIndex)
@@ -542,6 +586,20 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">New role name</param>
         /// <returns>An asynchronous result</returns>
         Task UpdateRoleNameAsync(RoleUpdateNameRequest request);
+
+        /// <summary>
+        /// Update the user's role
+        /// </summary>
+        /// <param name="request">User and role</param>
+        /// <returns>An asynchronous result</returns>
+        Task UpdateUserRoleAsync(UserRoleUpdateRequest request);
+
+        /// <summary>
+        /// Remove a role from the user
+        /// </summary>
+        /// <param name="request">User and role</param>
+        /// <returns>An asynchronous result</returns>
+        Task RemoveRoleFromUserAsync(UserRoleUpdateRequest request);
 
         /// <summary>
         /// Get all users
