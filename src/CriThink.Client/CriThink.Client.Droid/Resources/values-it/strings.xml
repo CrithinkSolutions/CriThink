@@ -15,4 +15,8 @@
   <string name="login_password">Password</string>
   <string name="login_forgotPassword">Password dimenticata?</string>
   <string name="login_login">Login</string>
+
+  <!-- Welcome Login SignIn -->
+  <string name="loginsigniin_signin">Registrati</string>
+  <string name="loginsigniin_login">Login</string>
 </resources>

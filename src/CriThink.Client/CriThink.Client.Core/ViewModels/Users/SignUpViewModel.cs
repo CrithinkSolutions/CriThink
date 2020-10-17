@@ -26,9 +26,9 @@ namespace CriThink.Client.Core.ViewModels.Users
             await _navigationService.Navigate<LoginViewModel>().ConfigureAwait(true);
         }
 
-        private Task DoNavigateToSignUpEmailCommand()
+        private async Task DoNavigateToSignUpEmailCommand()
         {
-            throw new System.NotImplementedException();
+            await _navigationService.Navigate<SignUpEmailViewModel>().ConfigureAwait(false);
         }
     }
 }

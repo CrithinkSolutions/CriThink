@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -15,20 +15,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_alignParentBottom="true"
-    android:gravity="bottom"
+    android:layout_centerVertical="true"
     android:layout_marginTop="@dimen/margin_big"
     android:padding="@dimen/padding_page">
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnJump"
-      android:text="Jump"/>
 
     <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/txtInput_email"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/login_email"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/urbanist"
+        android:inputType="textEmailAddress"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Username -->
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/txtInput_username"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/login_email"
@@ -58,19 +67,21 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <!-- Repeat Password -->
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/txtInput_repeatPassword"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/btnForgotPassword"
-      android:text="@string/login_forgotPassword"
-      android:background="@null"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:paddingLeft="@dimen/margin_small"
-      android:gravity="right"
-      android:textAllCaps="false"
-      android:textSize="@dimen/textSize_small"
-      android:fontFamily="@font/urbanist"/>
+      android:hint="@string/login_password"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/urbanist"
+        android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
       android:layout_width="match_parent"
@@ -80,30 +91,6 @@
       android:elevation="@dimen/btn_elevation"
       android:textAllCaps="false"
       android:fontFamily="@font/urbanist"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnFb"
-      android:text="@string/facebook_login"
-      android:background="@color/colorFacebook"
-      android:textColor="@android:color/white"
-      android:textAllCaps="false"
-      android:elevation="@dimen/btn_elevation"
-      android:fontFamily="@font/urbanist"
-      android:layout_marginTop="@dimen/margin_huge"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnGoogle"
-      android:textColor="@android:color/black"
-      android:background="@android:color/white"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"
-      android:elevation="@dimen/btn_elevation"
-      android:layout_marginTop="@dimen/margin_medium"
-      android:text="@string/google_login"/>
 
   </LinearLayout>
 

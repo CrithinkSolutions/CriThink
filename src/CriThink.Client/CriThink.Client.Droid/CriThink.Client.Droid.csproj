@@ -72,9 +72,12 @@
     <Compile Include="SocialLogins\SocialLoginProvider.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\Users\BaseSocialLoginActivity.cs" />
     <Compile Include="Views\Users\LoginView.cs" />
+    <Compile Include="Views\Users\SignUpEmailView.cs" />
     <Compile Include="Views\Users\SignUpView.cs" />
     <Compile Include="Views\Users\WelcomeFragment.cs" />
+    <Compile Include="Views\Users\WelcomeLoginSignInView.cs" />
     <Compile Include="Views\Users\WelcomeView.cs" />
     <Compile Include="Views\Users\WelcomeViewFragmentAdapter.cs" />
   </ItemGroup>
@@ -189,7 +192,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\welcome_view.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\signupemail_view.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\welcomeloginsignin_view.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

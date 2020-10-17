@@ -9,8 +9,11 @@ namespace CriThink.Client.Core.ViewModels
         public WelcomeViewModel(IMvxNavigationService navigationService)
         {
             SignUpViewModel = new SignUpViewModel(navigationService);
+            WelcomeLoginSignInViewModel = new WelcomeLoginSignInViewModel(navigationService);
         }
 
         public SignUpViewModel SignUpViewModel { get; }
+
+        public WelcomeLoginSignInViewModel WelcomeLoginSignInViewModel { get; }
     }
 }
