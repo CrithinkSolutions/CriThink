@@ -64,23 +64,27 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\MvxBottomNavigationItemChangedBinding.cs" />
     <Compile Include="Constants\ViewConstants.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="SocialLogins\FacebookCallback.cs" />
     <Compile Include="SocialLogins\SocialLoginProvider.cs" />
     <Compile Include="SplashScreen.cs" />
+    <Compile Include="Views\DebunkingNews\Fragments\DebunkingNewsView.cs" />
     <Compile Include="Views\HomeView.cs" />
-    <Compile Include="Views\Users\BaseSocialLoginActivity.cs" />
-    <Compile Include="Views\Users\LoginView.cs" />
-    <Compile Include="Views\Users\SignUpEmailView.cs" />
-    <Compile Include="Views\Users\SignUpView.cs" />
-    <Compile Include="Views\Users\WelcomeFragment.cs" />
-    <Compile Include="Views\Users\WelcomeLoginSignInView.cs" />
-    <Compile Include="Views\Users\WelcomeView.cs" />
-    <Compile Include="Views\Users\WelcomeViewFragmentAdapter.cs" />
+    <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
+    <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
+    <Compile Include="Views\Users\Activities\LoginView.cs" />
+    <Compile Include="Views\Users\Fragments\SignUpEmailView.cs" />
+    <Compile Include="Views\Users\Activities\SignUpView.cs" />
+    <Compile Include="Views\Users\Fragments\WelcomeFragment.cs" />
+    <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />
+    <Compile Include="Views\Users\Activities\WelcomeView.cs" />
+    <Compile Include="Views\Users\Fragments\WelcomeViewFragmentAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -198,6 +202,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\welcomeloginsignin_view.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\newschecker_view.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\debunkingnews_view.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\bottom_navigation.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

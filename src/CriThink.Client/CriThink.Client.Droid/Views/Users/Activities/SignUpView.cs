@@ -5,11 +5,12 @@ using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "View for LoginViewModel")]
-    public class LoginView : BaseSocialLoginActivity<LoginViewModel>
+    [Activity(Label = "CriThink.SignUpView")]
+    public class SignUpView : BaseSocialLoginActivity<SignUpViewModel>
     {
         private AppCompatButton _btnFb;
         private AppCompatButton _btnGoogle;
@@ -17,10 +18,8 @@ namespace CriThink.Client.Droid.Views.Users
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.login_view);
 
-            var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
-            var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
+            SetContentView(Resource.Layout.signup_view);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
@@ -30,13 +29,13 @@ namespace CriThink.Client.Droid.Views.Users
             if (_btnGoogle != null)
                 _btnGoogle.Click += BtnGoogle_Click;
 
-            var btnJump = FindViewById<AppCompatButton>(Resource.Id.btnJump);
+            var btnSignUpEmail = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
+            var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
 
             var set = CreateBindingSet();
 
-            set.Bind(btnLogin).To(vm => vm.LoginCommand);
-            set.Bind(btnForgotPassword).To(vm => vm.ForgotPasswordCommand);
-            set.Bind(btnJump).To(vm => vm.NavigateToHomeCommand);
+            set.Bind(btnSignUpEmail).To(vm => vm.NavigateToSignUpEmailCommand);
+            set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
 
             set.Apply();
         }

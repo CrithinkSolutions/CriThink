@@ -1,41 +1,45 @@
-﻿using System;
-using System.Threading.Tasks;
-using CriThink.Client.Core.ViewModels.Users;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Client.Core.ViewModels.NewsChecker;
+using MvvmCross;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels
 {
-    public class HomeViewModel : MvxViewModel
+    public class HomeViewModel : MvxNavigationViewModel
     {
-        private readonly IMvxNavigationService _navigationService;
-
-        public HomeViewModel(IMvxNavigationService navigationService)
+        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider)
+            : base(logProvider, navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            var tabs = new List<BaseBottomViewViewModel>
+            {
+                Mvx.IoCProvider.IoCConstruct<NewsCheckerViewModel>(),
+                Mvx.IoCProvider.IoCConstruct<DebunkingNewsViewModel>()
+            };
+
+            BottomViewTabs = tabs;
         }
 
         #region Properties
 
-        private IMvxAsyncCommand _navigateLoginViewCommand;
-        // ReSharper disable once UnusedMember.Global
-        public IMvxAsyncCommand NavigateLoginViewCommand => _navigateLoginViewCommand ??= new MvxAsyncCommand(DoNavigateLoginViewCommand);
+        public List<BaseBottomViewViewModel> BottomViewTabs { get; }
 
-        private IMvxAsyncCommand _navigateSignUpViewCommand;
-        // ReSharper disable once UnusedMember.Global
-        public IMvxAsyncCommand NavigateSignUpViewCommand => _navigateSignUpViewCommand ??= new MvxAsyncCommand(DoNavigateSignUpViewCommand);
+        private IMvxCommand<string> _bottomNavigationItemSelectedCommand;
+        public IMvxCommand<string> BottomNavigationItemSelectedCommand => _bottomNavigationItemSelectedCommand ??= new MvxCommand<string>(DoBottomNavigationItemSelectedCommand);
 
         #endregion
 
-        private async Task DoNavigateLoginViewCommand()
+        private void DoBottomNavigationItemSelectedCommand(string tabId)
         {
-            await _navigationService.Navigate<LoginViewModel>().ConfigureAwait(true);
-        }
-
-        private async Task DoNavigateSignUpViewCommand()
-        {
-            await _navigationService.Navigate<SignUpViewModel>().ConfigureAwait(true);
+            foreach (var item in BottomViewTabs.Where(item => tabId == item.TabId))
+            {
+                NavigationService.Navigate(item);
+                break;
+            }
         }
     }
 }

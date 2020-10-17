@@ -9,10 +9,11 @@ using MvvmCross.Platforms.Android.Views;
 using MvvmCross.Platforms.Android.Views.ViewPager;
 using MvvmCross.ViewModels;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "View for WelcomeViewModel")]
+    [Activity(Label = "CriThink.WelcomeView")]
     public class WelcomeView : MvxActivity<WelcomeViewModel>
     {
         private WelcomeViewFragmentAdapter _adapter;

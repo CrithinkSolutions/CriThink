@@ -6,6 +6,7 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.Fragment.App;
 using CriThink.Client.Droid.Constants;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
     [Register(ViewConstants.Namespace + ".users." + nameof(WelcomeFragment))]

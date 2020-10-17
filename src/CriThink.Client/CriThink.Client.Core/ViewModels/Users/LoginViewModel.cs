@@ -15,6 +15,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
 
+        #region Commands
+
         private IMvxAsyncCommand _loginCommand;
         public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand);
 
@@ -23,6 +25,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _navigateToHomeCommand;
         public IMvxAsyncCommand NavigateToHomeCommand => _navigateToHomeCommand ??= new MvxAsyncCommand(DoNavigateToHomeCommand);
+
+        #endregion
 
         private Task DoForgotPasswordCommand()
         {

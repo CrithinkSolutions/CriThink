@@ -12,9 +12,10 @@ using MvvmCross.ViewModels;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
-    public class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel>, IOnSuccessListener, IOnFailureListener where TViewModel : class, IMvxViewModel
+    public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel>, IOnSuccessListener, IOnFailureListener where TViewModel : class, IMvxViewModel
     {
         private SocialLoginProvider _socialLoginProvider;
         private GoogleApiClient _googleApiClient;

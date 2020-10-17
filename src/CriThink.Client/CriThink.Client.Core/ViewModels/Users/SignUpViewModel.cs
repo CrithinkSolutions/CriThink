@@ -15,11 +15,15 @@ namespace CriThink.Client.Core.ViewModels.Users
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
 
+        #region Commands
+
         private IMvxAsyncCommand _navigateToSignUpEmailCommand;
         public IMvxCommand NavigateToSignUpEmailCommand => _navigateToSignUpEmailCommand ??= new MvxAsyncCommand(DoNavigateToSignUpEmailCommand);
 
         private IMvxAsyncCommand _navigateToLoginCommand;
         public IMvxCommand NavigateToLoginCommand => _navigateToLoginCommand ??= new MvxAsyncCommand(DoNavigateToLoginCommand);
+
+        #endregion
 
         private async Task DoNavigateToLoginCommand()
         {
