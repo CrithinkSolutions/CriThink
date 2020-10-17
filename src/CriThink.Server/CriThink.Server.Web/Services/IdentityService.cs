@@ -193,8 +193,14 @@ namespace CriThink.Server.Web.Services
             }
         }
 
-        public async Task<IList<UserGetAllResponse>> GetAllUsersAsync(int pageSize, int pageIndex)
+        public async Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var pageIndex = request.PageIndex;
+            var pageSize = request.PageSize;
+
             var allUsers = await _userManager.Users
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
@@ -546,10 +552,9 @@ namespace CriThink.Server.Web.Services
         /// <summary>
         /// Get all users
         /// </summary>
-        /// <param name="pageSize">How many users must be returned per page</param>
-        /// <param name="pageIndex">Page index</param>
+        /// <param name="request">Page index and users per page</param>
         /// <returns>Returns list of users</returns>
-        Task<IList<UserGetAllResponse>> GetAllUsersAsync(int pageSize, int pageIndex);
+        Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request);
 
         /// <summary>
         /// Get user by id

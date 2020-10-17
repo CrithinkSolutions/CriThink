@@ -120,8 +120,7 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Get all the users paginated
         /// </summary>
-        /// <param name="pageSize">How many users must be returned per page</param>
-        /// <param name="pageIndex">Page index</param>
+        /// <param name="request">Page index and users per page</param>
         /// <returns>Returns list of users</returns>
         [Route(EndpointConstants.AdminUserGetAll)] // api/admin/user/all
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -130,9 +129,9 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpGet]
-        public async Task<IActionResult> GetAllUserAsync(int pageSize, int pageIndex)
+        public async Task<IActionResult> GetAllUserAsync([FromQuery] UserGetAllRequest request)
         {
-            var users = await _identityService.GetAllUsersAsync(pageSize, pageIndex).ConfigureAwait(false);
+            var users = await _identityService.GetAllUsersAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(users));
         }
 
