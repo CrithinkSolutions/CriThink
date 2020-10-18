@@ -25,4 +25,8 @@
   <!-- Welcome Login SignIn -->
   <string name="loginsigniin_signin">Sign In</string>
   <string name="loginsigniin_login">Login</string>
+
+  <!-- News Checker -->
+  <string name="newschecker_paste">Paste the source</string>
+  <string name="newschecker_results">See the result</string>
 </resources>
