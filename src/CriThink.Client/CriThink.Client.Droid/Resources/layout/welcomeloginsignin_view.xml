@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/padding_page"
+                android:paddingRight="@dimen/padding_page"
+                android:id="@+id/root">
+
+  <!--TODO: change icon-->
+  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/imgTopImg"
+                                                android:layout_marginTop="@dimen/margin_veryBig"
+                                                android:src="@mipmap/ic_launcher" />
+
+  <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_below="@+id/imgTopImg"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/padding_page">
+
+    <androidx.appcompat.widget.AppCompatButton
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:id="@+id/btnSignIn"
+      android:text="@string/loginsigniin_signin"
+      android:textColor="@android:color/black"
+      android:elevation="@dimen/btn_elevation"
+      android:textAllCaps="false"
+      android:fontFamily="@font/urbanist"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_alignParentBottom="true"
+      android:id="@+id/btnLogin"
+      android:text="@string/loginsigniin_login"
+      android:textColor="@android:color/black"
+      android:elevation="@dimen/btn_elevation"
+      android:textAllCaps="false"
+      android:fontFamily="@font/urbanist"/>
+
+  </LinearLayout>
+
+</RelativeLayout>

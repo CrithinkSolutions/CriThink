@@ -1,0 +1,20 @@
+﻿<resources>
+
+  <!-- Margins -->
+  <dimen name="margin_huge">64dp</dimen>
+  <dimen name="margin_veryBig">48dp</dimen>
+  <dimen name="margin_big">32dp</dimen>
+  <dimen name="margin_medium">16dp</dimen>
+  <dimen name="margin_small">12dp</dimen>
+
+  <!-- Padding -->
+  <dimen name="padding_page">16dp</dimen>
+
+  <!-- FontSize -->
+  <dimen name="textSize_title">32sp</dimen>
+  <dimen name="textSize_subheader">16sp</dimen>
+  <dimen name="textSize_small">12sp</dimen>
+
+  <!-- Buttons -->
+  <dimen name="btn_elevation">20dp</dimen>
+</resources>
