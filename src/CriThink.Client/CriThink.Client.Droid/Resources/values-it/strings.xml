@@ -19,4 +19,8 @@
   <!-- Welcome Login SignIn -->
   <string name="loginsigniin_signin">Registrati</string>
   <string name="loginsigniin_login">Login</string>
+
+  <!-- News Checker -->
+  <string name="newschecker_paste">Incolla la notizia</string>
+  <string name="newschecker_results">Vedi i risultati</string>
 </resources>
