@@ -1,0 +1,32 @@
+<resources>
+
+  <string name="app_name">CriThink</string>
+  <string name="action_settings">Settings</string>
+
+  <!-- Facebook (Staging) -->
+  <string name="facebook_app_id">804449043690413</string>
+  <string name="fb_login_protocol_scheme">fb804449043690413</string>
+
+  <!-- SignUp -->
+  <string name="signup_title">SignUp</string>
+  <string name="signup_description">It\'s easier to sign up now</string>
+  <string name="google_login">Continue with Google</string>
+  <string name="facebook_login">Continue with Facebook</string>
+  <string name="signup_email">Sign Up with Email</string>
+  <string name="signup_alreadyHaveAccount">Already have an account?</string>
+  <string name="signup_login">Login</string>
+
+  <!-- Login -->
+  <string name="login_email">Email or username</string>
+  <string name="login_password">Password</string>
+  <string name="login_forgotPassword">Forgot password?</string>
+  <string name="login_login">Login</string>
+
+  <!-- Welcome Login SignIn -->
+  <string name="loginsigniin_signin">Sign In</string>
+  <string name="loginsigniin_login">Login</string>
+
+  <!-- News Checker -->
+  <string name="newschecker_paste">Paste the source</string>
+  <string name="newschecker_results">See the result</string>
+</resources>

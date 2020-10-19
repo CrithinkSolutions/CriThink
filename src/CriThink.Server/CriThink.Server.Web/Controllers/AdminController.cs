@@ -118,6 +118,44 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
+        /// Update the role of the given user
+        /// </summary>
+        /// <param name="request">User and the new role</param>
+        /// <returns>Returns NoContent</returns>
+        [Route(EndpointConstants.AdminUserRole)] // api/admin/user/role
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPatch]
+        public async Task<IActionResult> UpdateUserRoleAsync([FromBody] UserRoleUpdateRequest request)
+        {
+            await _identityService.UpdateUserRoleAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Remove the given role from the given user
+        /// </summary>
+        /// <param name="request">User and the new role</param>
+        /// <returns>Returns NoContent</returns>
+        [Route(EndpointConstants.AdminUserRole)] // api/admin/user/role
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpDelete]
+        public async Task<IActionResult> RemoveRoleFromUserAsync([FromBody] UserRoleUpdateRequest request)
+        {
+            await _identityService.RemoveRoleFromUserAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
         /// Get all the users paginated
         /// </summary>
         /// <param name="request">Page index and users per page</param>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/padding_page"
+                android:paddingRight="@dimen/padding_page"
+                android:id="@+id/root">
+
+  <!--TODO: change icon-->
+  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
+                                                android:layout_height="200dp"
+                                                android:id="@+id/imgTopImg"
+                                                android:layout_marginTop="@dimen/margin_veryBig"
+                                                android:src="@mipmap/ic_launcher" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_below="@+id/imgTopImg"
+      android:layout_alignParentBottom="true"
+      android:gravity="bottom"
+      android:paddingBottom="@dimen/padding_page">
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/signup_title"
+          android:textStyle="bold"
+          android:fontFamily="@font/urbanist"
+          android:gravity="center"
+          android:textSize="@dimen/textSize_title"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/signup_description"
+          android:gravity="center"
+          android:textSize="@dimen/textSize_subheader"
+          android:layout_marginTop="@dimen/margin_medium"
+          android:fontFamily="@font/urbanist"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnFb"
+          android:text="@string/facebook_login"
+          android:background="@color/colorFacebook"
+          android:textColor="@android:color/white"
+          android:textAllCaps="false"
+          android:elevation="@dimen/btn_elevation"
+          android:fontFamily="@font/urbanist"
+          android:layout_marginTop="@dimen/margin_huge"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnGoogle"
+          android:textColor="@android:color/black"
+          android:background="@android:color/white"
+          android:textAllCaps="false"
+          android:fontFamily="@font/urbanist"
+          android:elevation="@dimen/btn_elevation"
+          android:layout_marginTop="@dimen/margin_medium"
+          android:text="@string/google_login"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSignUp"
+            android:text="@string/signup_email"
+            android:textColor="@android:color/black"
+            android:background="@android:color/white"
+            android:layout_marginTop="@dimen/margin_big"
+            android:elevation="@dimen/btn_elevation"
+            android:textAllCaps="false"
+            android:fontFamily="@font/urbanist"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:fontFamily="@font/urbanist"
+            android:layout_marginTop="@dimen/margin_veryBig">
+
+          <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/signup_alreadyHaveAccount"
+            android:fontFamily="@font/urbanist"
+            android:textSize="@dimen/textSize_small"/>
+
+          <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogin"
+            android:text="@string/signup_login"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="@dimen/margin_small"
+            android:textAllCaps="false"
+            android:fontFamily="@font/urbanist"/>
+
+        </LinearLayout>
+
+  </LinearLayout>
+
+</RelativeLayout>
