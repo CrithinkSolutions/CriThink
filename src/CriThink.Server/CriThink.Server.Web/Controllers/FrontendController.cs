@@ -26,6 +26,12 @@ namespace CriThink.Server.Web.Controllers
         {
             return View();
         }
+
+        [Route("/user-management")]
+        public IActionResult UserManagement()
+        {
+            return View();
+        }
     }
 }
 

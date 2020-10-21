@@ -2,6 +2,8 @@
 // api.js - Fetch
 //
 
+// ============================= Login
+
 // ===== Button for login request ===== 
 $(document).on('click', '#btn-login', function(event) {
 	   	event.preventDefault();
@@ -42,6 +44,8 @@ function loginAPI(username,email,password) {
 		$('#btn-login').html('Login');
 	});
 }
+
+// ============================= Debunking News
 
 // ===== Get News Source =====
 function getAllNewsSource(){
@@ -98,6 +102,51 @@ function removeNewsSource(uri, classification) {
 		if(response.status == 204) {
 			alert("Success")
 			location.reload();
+		}
+	})
+}
+
+// ============================= User Management
+
+// ===== Get all users (JWT) =====
+function getAllUsers(){
+	fetch('/api/admin/user/all?PageSize=10&PageIndex=1', {
+		method: 'GET',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+	})
+		.then(response => response.json())
+		.then(data => $('#tableUser').bootstrapTable({data: data.result}));
+}
+
+// ===== Add User (JWT) =====
+function addUser(username, email, password, role) {
+	let roleUri = ''
+	switch (role) {
+		case 'No role':
+			roleUri = '/api/identity/sign-up';
+			break;
+		case 'Admin':
+			roleUri = '/api/admin/sign-up';
+			break;
+	}
+	fetch(roleUri, {
+		method: 'POST',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'username': username,
+  			'email': email,
+  			'password': password
+  		}),
+	})
+	.then(response => {
+		if(response.status == 200) {
+			alert("Success")
 		}
 	})
 }

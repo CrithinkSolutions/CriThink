@@ -2,10 +2,12 @@
 // app.js - View
 //
 
-// ===== Control panel page =====
+// ============================= Control Panel
+
 $('#welcome').html(selectCookie('username'));
 
-// ===== Debunking news page =====
+// ============================= Debunking News
+
 if (window.location.href.indexOf("debunking-news") > -1) {
 	$("#deletenewstoolbar").prop('disabled', true);
 	getAllNewsSource();
@@ -40,7 +42,30 @@ $(document).on('click', '#btn-removenews', function(event) {
 	}
 );
 
-// ===== Utility =====
+// ============================= User Management
+
+if (window.location.href.indexOf("user-management") > -1) {
+	$("#deleteusertoolbar").prop('disabled', true);
+	getAllUsers()
+}
+
+// ===== Button for add user ===== 
+$(document).on('click', '#btn-adduser', function(event) {
+	   	event.preventDefault();
+	   	const username = $('#username-input').val();
+	   	const email = $('#email-input').val();
+	   	const password = $('#password-input').val();
+	   	const role = $('#role-input').val();
+	   	addUser(username,email,password,role);
+	}
+);
+
+$('#addusermodal').on('hidden.bs.modal', function () {
+	location.reload();
+})
+
+
+// ============================= Utility
 function selectCookie(value){
 	const c = document.cookie
 	if (c.includes(value)){
