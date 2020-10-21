@@ -32,7 +32,9 @@ namespace CriThink.Server.Web.MapperProfiles
                 .ForMember(dest =>
                     dest.UserEmail, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest =>
-                    dest.UserName, opt => opt.MapFrom(src => src.UserName));
+                    dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest =>
+                    dest.Role, opt => opt.Ignore());
 
             CreateMap<User, UserGetAllResponse>()
                 .ForMember(dest =>
@@ -42,7 +44,9 @@ namespace CriThink.Server.Web.MapperProfiles
                 .ForMember(dest =>
                     dest.UserEmail, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest =>
-                    dest.UserName, opt => opt.MapFrom(src => src.UserName));
+                    dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest =>
+                    dest.Role, opt => opt.Ignore());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -251,7 +252,16 @@ namespace CriThink.Server.Web.Services
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            var dtos = _mapper.Map<IList<User>, IList<UserGetAllResponse>>(allUsers);
+            var dtos = new List<UserGetAllResponse>();
+
+            foreach (var user in allUsers)
+            {
+                var dto = _mapper.Map<User, UserGetAllResponse>(user);
+                var role = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                dto.Role = role;
+                dtos.Add(dto);
+            }
+
             return dtos;
         }
 
@@ -266,7 +276,11 @@ namespace CriThink.Server.Web.Services
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            return _mapper.Map<User, UserGetResponse>(user);
+            var mapUser = _mapper.Map<User, UserGetResponse>(user);
+            var role = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            mapUser.Role = role;
+
+            return mapUser;
         }
 
         public async Task UpdateUserAsync(UserUpdateRequest request)
