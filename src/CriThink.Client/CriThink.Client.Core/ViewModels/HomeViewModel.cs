@@ -12,7 +12,7 @@ namespace CriThink.Client.Core.ViewModels
 {
     public class HomeViewModel : MvxNavigationViewModel
     {
-        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider)
+        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider, IMvxLog log)
             : base(logProvider, navigationService)
         {
             var tabs = new List<BaseBottomViewViewModel>
