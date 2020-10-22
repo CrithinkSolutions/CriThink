@@ -7,7 +7,8 @@
 	<div id="toolbox" class="border p-2 mb-2">
 		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
 		<button id="deleteusertoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeusermodal"><i class="fas fa-trash-alt"></i></button>
-		<button id="infousertoolbar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
+		<button id="infousertoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
+		<button id="editusertoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
 	</div>
 	<table id="tableUser" data-click-to-select="true">
 		<thead>
@@ -77,7 +78,7 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 id="infoname" class="modal-title"></h5>
+	        <h5 class="modal-title">Info user: <span id="infoname"></span></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -89,6 +90,49 @@
 	  </div>
 	</div>
 	<!-- (END) INFO USER MODAL -->
+	<!-- (START) EDIT USER MODAL -->
+	<div class="modal fade" id="editusermodal" tabindex="-1" role="dialog" aria-labelledby="editusermodal" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+		        <label>Email Confirmed</label>
+		        <input name="checkEmail" type="radio" id="radioENo" value="" checked>
+    			<label for="radioENo">No</label>
+    			<input name="checkEmail" type="radio" id="radioEYes" value="1">
+    			<label for="radioEYes">Yes</label>
+    			<br />
+		        <label>Lockout Enabled</label>
+		        <input name="checkLockout" type="radio" id="radioLNo" value="" checked>
+    			<label for="radioLNo">No</label>
+    			<input name="checkLockout" type="radio" id="radioLYes" value="1">
+    			<label for="radioLYes">Yes</label>
+    			<br />
+		        <label>LockOut End Date</label>
+		        <input type="datetime-local" class="form-control" id="LE-editinput" aria-describedby="basic-addon3">
+		        <small>Must be in UTC format</small>
+		        <br/>
+		        <label>Role</label>
+		        <!-- For now hardcoded -->
+		        <select class="custom-select" id="role-editinput">
+				    <option selected>No role</option>
+				    <option>Admin</option>
+				    <option>User</option>
+			  	</select>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="btn-edituser" class="btn btn-warning">Edit</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- (END) EDIT USER MODAL -->
 	<div class="mt-3">
 		<a href="/control-panel">Return at Control Panel</a>
 	</div>

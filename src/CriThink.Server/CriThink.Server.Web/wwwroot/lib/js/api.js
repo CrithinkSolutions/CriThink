@@ -172,8 +172,8 @@ function removeUser(userId) {
 }
 
 // ===== Info User (JWT) =====
-function infoUser(userId) {
-	fetch('/api/admin/user?' + new URLSearchParams({
+async function infoUser(userId) {
+	const res = await fetch('/api/admin/user?' + new URLSearchParams({
     	UserId: userId,
     	}), {
 		method: 'GET',
@@ -181,7 +181,44 @@ function infoUser(userId) {
     		'Content-Type': 'application/json',
     		'Authorization': 'Bearer '+selectCookie('token')
   		}
+	});
+	return res.json();
+}
+
+// ===== Edit User (JWT) =====
+async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, role) {
+	await fetch('/api/admin/user', {
+		method: 'PUT',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'userId': userId,
+			'isEmailConfirmed': emailconfirmed,
+			'isLockoutEnabled': lockoutenabled,
+			'lockoutEnd': lockoutenddate
+  		}),
 	})
-	.then(response => response.json())
-	.then(data => $('#infobody').html(JSON.stringify(data.result, null, 2)))
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+		}
+	})
+	await fetch('/api/admin/user/role', {
+		method: 'PATCH',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'userId': userId,
+			'role': role
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Role Success")
+		}
+	})
 }

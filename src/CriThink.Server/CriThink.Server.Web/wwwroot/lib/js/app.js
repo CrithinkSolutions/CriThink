@@ -47,13 +47,13 @@ $(document).on('click', '#btn-removenews', function(event) {
 let userId = '';
 
 if (window.location.href.indexOf("user-management") > -1) {
-	$("#deleteusertoolbar, #infousertoolbar").prop('disabled', true);
+	$("#deleteusertoolbar, #infousertoolbar, #editusertoolbar").prop('disabled', true);
 	getAllUsers();
 }
 
 // ===== Selector user =====
 $('#tableUser').on('check.bs.table', function(e, row, element) {
-	$("#deleteusertoolbar, #infousertoolbar").prop('disabled', false);
+	$("#deleteusertoolbar, #infousertoolbar, #editusertoolbar").prop('disabled', false);
 	$('#userselected').html(row.username);
 	$('#roleselected').html(row.role);
 	userId = row.userId;
@@ -70,7 +70,7 @@ $(document).on('click', '#btn-adduser', function(event) {
 	}
 );
 
-$('#addusermodal').on('hidden.bs.modal', function () {
+$('#addusermodal, #editusermodal').on('hidden.bs.modal', function () {
 	location.reload();
 })
 
@@ -81,10 +81,36 @@ $(document).on('click', '#btn-removeuser', function(event) {
 	}
 );
 
-// ===== Button for remove user ===== 
+// ===== Button for info user ===== 
 $(document).on('click', '#infousertoolbar', function(event) {
 	   	event.preventDefault();
-	   	infoUser(userId);
+		infoUser(userId).then(data => {
+			$('#infoname').html(data.result.username);
+			$('#infobody').html(JSON.stringify(data.result, null, 2));
+		});
+	}
+);
+
+// ===== Get info for edit user ===== 
+$(document).on('click', '#editusertoolbar', function(event) {
+	   	event.preventDefault();
+	   	infoUser(userId).then(data => {
+	   		$('#LE-editinput').val(data.result.lockoutEnd);
+	   		data.result.isEmailConfirmed? $('#radioEYes').prop('checked', true) : $('#radioENo').prop('checked', true);
+	   		data.result.isLockoutEnabled? $('#radioLYes').prop('checked', true) : $('#radioLNo').prop('checked', true);
+	   		$('#role-editinput').val(data.result.role[0]);
+	   	});
+	}
+);
+
+// ===== Button for edit user ===== 
+$(document).on('click', '#btn-edituser', function(event) {
+	   	event.preventDefault();
+	   	let emailconfirmed = Boolean($('input[name=checkEmail]:checked').val());
+	   	let lockoutenabled = Boolean($('input[name=checkLockout]:checked').val());
+	   	let lockoutenddate = $('#LE-editinput').val();
+	   	let role = $('#role-editinput').val();
+	   	editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, role);
 	}
 );
 
