@@ -7,6 +7,7 @@
 	<div id="toolbox" class="border p-2 mb-2">
 		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
 		<button id="deleteusertoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeusermodal"><i class="fas fa-trash-alt"></i></button>
+		<button id="infousertoolbar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
 	</div>
 	<table id="tableUser" data-click-to-select="true">
 		<thead>
@@ -62,7 +63,6 @@
 	      </div>
 	      <div class="modal-body">
 	      	You are selected user with name <b id="userselected"></b> and role <b id="roleselected"></b>
-	      	<span id="useriddata" class="d-none"></span>
 	      </div>
 	      <div class="modal-footer">
 	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -72,6 +72,23 @@
 	  </div>
 	</div>
 	<!-- (END) REMOVE USER MODAL -->
+	<!-- (START) INFO USER MODAL -->
+	<div class="modal fade" id="infousermodal" tabindex="-1" role="dialog" aria-labelledby="infousermodal" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 id="infoname" class="modal-title"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<pre id="infobody"></pre>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- (END) INFO USER MODAL -->
 	<div class="mt-3">
 		<a href="/control-panel">Return at Control Panel</a>
 	</div>

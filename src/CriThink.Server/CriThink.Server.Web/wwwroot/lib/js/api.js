@@ -170,3 +170,18 @@ function removeUser(userId) {
 		}
 	})
 }
+
+// ===== Info User (JWT) =====
+function infoUser(userId) {
+	fetch('/api/admin/user?' + new URLSearchParams({
+    	UserId: userId,
+    	}), {
+		method: 'GET',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		}
+	})
+	.then(response => response.json())
+	.then(data => $('#infobody').html(JSON.stringify(data.result, null, 2)))
+}

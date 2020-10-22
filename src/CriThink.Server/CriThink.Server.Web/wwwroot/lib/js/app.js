@@ -44,17 +44,19 @@ $(document).on('click', '#btn-removenews', function(event) {
 
 // ============================= User Management
 
+let userId = '';
+
 if (window.location.href.indexOf("user-management") > -1) {
-	$("#deleteusertoolbar").prop('disabled', true);
+	$("#deleteusertoolbar, #infousertoolbar").prop('disabled', true);
 	getAllUsers();
 }
 
 // ===== Selector user =====
 $('#tableUser').on('check.bs.table', function(e, row, element) {
-	$("#deleteusertoolbar").prop('disabled', false);
+	$("#deleteusertoolbar, #infousertoolbar").prop('disabled', false);
 	$('#userselected').html(row.username);
 	$('#roleselected').html(row.role);
-	$('#useriddata').html(row.userId);
+	userId = row.userId;
 })
 
 // ===== Button for add user ===== 
@@ -75,8 +77,14 @@ $('#addusermodal').on('hidden.bs.modal', function () {
 // ===== Button for remove user ===== 
 $(document).on('click', '#btn-removeuser', function(event) {
 	   	event.preventDefault();
-	   	let userId = $('#useriddata').html();
 	   	removeUser(userId);
+	}
+);
+
+// ===== Button for remove user ===== 
+$(document).on('click', '#infousertoolbar', function(event) {
+	   	event.preventDefault();
+	   	infoUser(userId);
 	}
 );
 
