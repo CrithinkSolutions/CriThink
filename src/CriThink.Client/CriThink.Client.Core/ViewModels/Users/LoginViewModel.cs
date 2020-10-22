@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Services.Contracts;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -10,12 +9,10 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class LoginViewModel : MvxViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-        private readonly IIdentityService _identityService;
 
-        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
+        public LoginViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
         #region Commands

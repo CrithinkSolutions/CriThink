@@ -1,6 +1,4 @@
 ﻿using System;
-using CriThink.Client.Core.Services;
-using CriThink.Client.Core.Services.Contracts;
 using CriThink.Client.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;
@@ -38,7 +36,6 @@ namespace CriThink.Client.Core
         private static void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddHttpClient();
-            serviceCollection.AddTransient<IIdentityService, IdentityService>();
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider,
