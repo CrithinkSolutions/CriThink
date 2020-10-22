@@ -10,13 +10,13 @@
 		<button id="infousertoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
 		<button id="editusertoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
 	</div>
-	<table id="tableUser" data-click-to-select="true">
+	<table id="tableUser" data-click-to-select="true" data-search="true">
 		<thead>
 		    <tr>
 		      <th class="d-none" data-field="state" data-radio="true"></th>
 		      <th data-field="userId">User Id</th>
 		      <th data-field="username">Username</th>
-		      <th data-field="role">Role</th>
+		      <th data-field="role" data-sortable="true">Role</th>
 		    </tr>
   		</thead>
 	</table>

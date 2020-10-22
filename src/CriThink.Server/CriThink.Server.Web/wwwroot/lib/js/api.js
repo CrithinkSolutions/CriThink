@@ -118,7 +118,10 @@ function getAllUsers(){
   		},
 	})
 		.then(response => response.json())
-		.then(data => $('#tableUser').bootstrapTable({data: data.result}));
+		.then(data => $('#tableUser').bootstrapTable({
+			data: data.result,
+			sortStable: true
+		}));
 }
 
 // ===== Add User (JWT) =====
