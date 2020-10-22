@@ -44,7 +44,7 @@ namespace CriThink.Server.Infrastructure.Handlers
                     return null;
 
                 var description = await _dbContext.NewsSourceCategories
-                    .GetCategoryDescriptionByAuthenticityAsync(NewsSourceCategoryProjection.GetDescription, (int) authenticity, cancellationToken)
+                    .GetCategoryDescriptionByAuthenticityAsync(NewsSourceCategoryProjection.GetDescription, authenticity, cancellationToken)
                     .ConfigureAwait(false);
 
                 return new SearchNewsSourceQueryResponse(authenticity, description);
