@@ -46,16 +46,24 @@ $(document).on('click', '#btn-removenews', function(event) {
 
 if (window.location.href.indexOf("user-management") > -1) {
 	$("#deleteusertoolbar").prop('disabled', true);
-	getAllUsers()
+	getAllUsers();
 }
+
+// ===== Selector user =====
+$('#tableUser').on('check.bs.table', function(e, row, element) {
+	$("#deleteusertoolbar").prop('disabled', false);
+	$('#userselected').html(row.username);
+	$('#roleselected').html(row.role);
+	$('#useriddata').html(row.userId);
+})
 
 // ===== Button for add user ===== 
 $(document).on('click', '#btn-adduser', function(event) {
 	   	event.preventDefault();
-	   	const username = $('#username-input').val();
-	   	const email = $('#email-input').val();
-	   	const password = $('#password-input').val();
-	   	const role = $('#role-input').val();
+	   	let username = $('#username-input').val();
+	   	let email = $('#email-input').val();
+	   	let password = $('#password-input').val();
+	   	let role = $('#role-input').val();
 	   	addUser(username,email,password,role);
 	}
 );
@@ -63,6 +71,14 @@ $(document).on('click', '#btn-adduser', function(event) {
 $('#addusermodal').on('hidden.bs.modal', function () {
 	location.reload();
 })
+
+// ===== Button for remove user ===== 
+$(document).on('click', '#btn-removeuser', function(event) {
+	   	event.preventDefault();
+	   	let userId = $('#useriddata').html();
+	   	removeUser(userId);
+	}
+);
 
 
 // ============================= Utility

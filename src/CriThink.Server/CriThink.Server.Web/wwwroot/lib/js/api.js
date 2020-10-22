@@ -150,3 +150,23 @@ function addUser(username, email, password, role) {
 		}
 	})
 }
+
+// ===== Remove User (JWT) =====
+function removeUser(userId) {
+	fetch('/api/admin/user', {
+		method: 'DELETE',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'userId': userId
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+			location.reload();
+		}
+	})
+}
