@@ -77,7 +77,8 @@ $('#addusermodal, #editusermodal').on('hidden.bs.modal', function () {
 // ===== Button for remove user ===== 
 $(document).on('click', '#btn-removeuser', function(event) {
 	   	event.preventDefault();
-	   	removeUser(userId);
+	   	let mode = $('input[name=modeDelete]:checked').val();
+	   	removeUser(userId, mode);
 	}
 );
 

@@ -152,9 +152,18 @@ function addUser(username, email, password, role) {
 }
 
 // ===== Remove User (JWT) =====
-function removeUser(userId) {
+function removeUser(userId, mode) {
+	let deleteMethod = '';
+	switch (mode) {
+		case 'hard':
+			deleteMethod = 'DELETE';
+			break;
+		case 'soft':
+			deleteMethod = 'PATCH';
+			break;
+	}
 	fetch('/api/admin/user', {
-		method: 'DELETE',
+		method: deleteMethod,
 		headers: {
     		'Content-Type': 'application/json',
     		'Authorization': 'Bearer '+selectCookie('token')
