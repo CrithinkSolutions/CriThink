@@ -199,18 +199,19 @@ async function infoUser(userId) {
 
 // ===== Edit User (JWT) =====
 async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, role) {
+	let body = {
+		'userId': userId,
+		'isEmailConfirmed': emailconfirmed,
+		'isLockoutEnabled': lockoutenabled,
+		'lockoutEnd': lockoutenddate
+	} 
 	await fetch('/api/admin/user', {
 		method: 'PUT',
 		headers: {
     		'Content-Type': 'application/json',
     		'Authorization': 'Bearer '+selectCookie('token')
   		},
-  		body: JSON.stringify({
-  			'userId': userId,
-			'isEmailConfirmed': emailconfirmed,
-			'isLockoutEnabled': lockoutenabled,
-			'lockoutEnd': lockoutenddate
-  		}),
+  		body: JSON.stringify(Object.entries(body).reduce((a,[k,v]) => (v === '' ? a : (a[k]=v, a)), {})),
 	})
 	.then(response => {
 		if(response.status == 204) {
