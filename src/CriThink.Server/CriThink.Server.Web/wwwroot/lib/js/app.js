@@ -45,10 +45,13 @@ $(document).on('click', '#btn-removenews', function(event) {
 // ============================= User Management
 
 let userId = '';
+let roleMode = false;
 
 if (window.location.href.indexOf("user-management") > -1) {
 	$("#deleteusertoolbar, #infousertoolbar, #editusertoolbar").prop('disabled', true);
+	$('#tableRole').hide();
 	getAllUsers();
+	getAllRoles();
 }
 
 // ===== Selector user =====
@@ -114,6 +117,20 @@ $(document).on('click', '#btn-edituser', function(event) {
 	   	editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, role);
 	}
 );
+
+// ===== Tab Users/Roles handler ===== 
+$(document).on('click', '#users-tab', function(event) {
+	roleMode = false;
+	$('#tableUser').show();
+	$('.fixed-table-toolbar').show();
+	$('#tableRole').hide();
+});
+$(document).on('click', '#roles-tab', function(event) {
+	roleMode = true;
+	$('#tableUser').hide();
+	$('.fixed-table-toolbar').hide();
+	$('#tableRole').show();
+});
 
 
 // ============================= Utility

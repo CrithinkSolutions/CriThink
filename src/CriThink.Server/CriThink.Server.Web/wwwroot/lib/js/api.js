@@ -124,6 +124,20 @@ function getAllUsers(){
 		}));
 }
 
+// ===== Get all roles (JWT) =====
+function getAllRoles(){
+	fetch('/api/admin/role', {
+		method: 'GET',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+	})
+		.then(response => response.json())
+		.then(data => $('#tableRole').bootstrapTable({data: data.result}));
+}
+
+
 // ===== Add User (JWT) =====
 function addUser(username, email, password, role) {
 	let roleUri = ''

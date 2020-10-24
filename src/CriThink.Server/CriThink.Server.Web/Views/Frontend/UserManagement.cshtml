@@ -10,6 +10,13 @@
 		<button id="infousertoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
 		<button id="editusertoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
 	</div>
+	<nav class="mb-3">
+	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+	    <a class="nav-item nav-link active pointer" id="users-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Users</a>
+	    <a class="nav-item nav-link pointer" id="roles-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Roles</a>
+	  </div>
+	</nav>
+	<!-- (START) USER TABLE -->
 	<table id="tableUser" data-click-to-select="true" data-search="true">
 		<thead>
 		    <tr>
@@ -20,6 +27,17 @@
 		    </tr>
   		</thead>
 	</table>
+	<!-- (END) USER TABLE -->
+	<!-- (START) ROLE TABLE -->
+	<table id="tableRole" data-click-to-select="true">
+		<thead>
+		    <tr>
+		      <th class="d-none" data-field="state" data-radio="true"></th>
+		      <th data-field="name">Role</th>
+		    </tr>
+  		</thead>
+	</table>
+	<!-- (END) ROLE TABLE -->
 	<!-- (END) INPUT SECTION -->
 	<!-- (START) ADD USER MODAL -->
 	<div class="modal fade" id="addusermodal" tabindex="-1" role="dialog" aria-labelledby="addusermodal" aria-hidden="true">

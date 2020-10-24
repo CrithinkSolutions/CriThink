@@ -24,3 +24,7 @@
     background-color: #1f1f65;
     border-color: #1f1f65;
 }
+
+.pointer {
+    cursor: pointer !important;
+}
