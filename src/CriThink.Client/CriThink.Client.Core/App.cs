@@ -1,9 +1,14 @@
 ﻿using System;
-using CriThink.Client.Core.ViewModels;
+using System.IO;
+using System.Reflection;
+using CriThink.Client.Core.Repositories;
+using CriThink.Client.Core.ViewModels.Users;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
+using Polly;
 
 namespace CriThink.Client.Core
 {
@@ -15,31 +20,53 @@ namespace CriThink.Client.Core
 
             InitializeServiceCollection();
 
+            Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
+
             CreatableTypes()
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<HomeViewModel>();
+            RegisterAppStart<LoginViewModel>();
         }
 
         private static void InitializeServiceCollection()
         {
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder();
+
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("CriThink.Client.Core.appsettings.json");
+
+            configBuilder.AddCommandLine(new[] { $"ContentRoot={Directory.GetDirectoryRoot("CriThink.Client.Droid")}" });
+            configBuilder.AddJsonStream(stream);
+
+            IConfigurationRoot configurationRoot = configBuilder.Build();
             IServiceCollection serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
 
+            ConfigureServices(serviceCollection, configurationRoot);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
             MapServiceCollectionToMvx(serviceProvider, serviceCollection);
         }
 
-        private static void ConfigureServices(IServiceCollection serviceCollection)
+        private static void ConfigureServices(IServiceCollection serviceCollection, IConfigurationRoot configurationRoot)
         {
-            serviceCollection.AddHttpClient();
+            var baseApiUri = configurationRoot["BaseApiUri"];
+            if (string.IsNullOrWhiteSpace(baseApiUri))
+                throw new ArgumentException("The base uri is null");
+
+            serviceCollection.AddHttpClient("default", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseApiUri);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
         }
 
-        private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider,
-            IServiceCollection serviceCollection)
+        private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)
         {
             foreach (var serviceDescriptor in serviceCollection)
             {

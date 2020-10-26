@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Services;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -9,10 +11,12 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class LoginViewModel : MvxViewModel
     {
         private readonly IMvxNavigationService _navigationService;
+        private readonly IIdentityService _identityService;
 
-        public LoginViewModel(IMvxNavigationService navigationService)
+        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
         #region Commands
@@ -33,9 +37,9 @@ namespace CriThink.Client.Core.ViewModels.Users
             return Task.CompletedTask;
         }
 
-        private Task DoLoginCommand()
+        private async Task DoLoginCommand()
         {
-            return Task.CompletedTask;
+            await _identityService.PerformLoginAsync(new UserLoginRequest()).ConfigureAwait(false);
         }
 
         private async Task DoNavigateToHomeCommand()
