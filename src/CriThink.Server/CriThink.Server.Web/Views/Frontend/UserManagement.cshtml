@@ -5,17 +5,19 @@
 <div class="bg-white p-4 shadow text-center m-4">
 	<!-- (START) INPUT SECTION -->
 	<div id="toolbox" class="border p-2 mb-2">
-		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
-		<button id="deleteusertoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeusermodal"><i class="fas fa-trash-alt"></i></button>
-		<button id="infousertoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
-		<button id="editusertoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
+		<button id="addtoolbar" type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
+		<button id="deletetoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeusermodal"><i class="fas fa-trash-alt"></i></button>
+		<button id="infotoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
+		<button id="edittoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
 	</div>
+	<!-- (START) TAB NAV -->
 	<nav class="mb-3">
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 	    <a class="nav-item nav-link active pointer" id="users-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Users</a>
 	    <a class="nav-item nav-link pointer" id="roles-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Roles</a>
 	  </div>
 	</nav>
+	<!-- (END) TAB NAV -->
 	<!-- (START) USER TABLE -->
 	<table id="tableUser" data-click-to-select="true" data-search="true">
 		<thead>
@@ -156,6 +158,71 @@
 	  </div>
 	</div>
 	<!-- (END) EDIT USER MODAL -->
+	<!-- (START) ADD ROLE MODAL -->
+	<div class="modal fade" id="addrolemodal" tabindex="-1" role="dialog" aria-labelledby="addrolemodal" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Add role</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+		      	<label>Role</label>
+		        <input type="text" class="form-control" id="addrole-input" aria-describedby="basic-addon3">
+	  	  </div>
+	      <div class="modal-footer">
+	        <button type="button" id="btn-addrole" class="btn btn-success">Add</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- (END) ADD USER MODAL -->
+	<!-- (START) REMOVE ROLE MODAL -->
+	<div class="modal fade" id="removerolemodal" tabindex="-1" role="dialog" aria-labelledby="removerolemodal" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Are you sure to delete this role?</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	You are selected role <b class="rolename"></b>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="btn-removerole" class="btn btn-danger">Delete</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- (END) REMOVE ROLE MODAL -->
+	<!-- (START) EDIT ROLE MODAL -->
+	<div class="modal fade" id="editrolemodal" tabindex="-1" role="dialog" aria-labelledby="editrolemodal" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Change role name</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+		  	<p>You are changing name of <b class="rolename"></b></p>
+		  	<label>New name</label>
+		  	<input type="text" class="form-control" id="newrolename-input" aria-describedby="basic-addon3">
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="btn-editrole" class="btn btn-warning">Edit</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- (END) EDIT ROLE MODAL -->
 	<div class="mt-3">
 		<a href="/control-panel">Return at Control Panel</a>
 	</div>

@@ -124,20 +124,6 @@ function getAllUsers(){
 		}));
 }
 
-// ===== Get all roles (JWT) =====
-function getAllRoles(){
-	fetch('/api/admin/role', {
-		method: 'GET',
-		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-	})
-		.then(response => response.json())
-		.then(data => $('#tableRole').bootstrapTable({data: data.result}));
-}
-
-
 // ===== Add User (JWT) =====
 function addUser(username, email, password, role) {
 	let roleUri = ''
@@ -246,6 +232,79 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 	.then(response => {
 		if(response.status == 204) {
 			alert("Role Success")
+		}
+	})
+}
+
+// ===== Get all roles (JWT) =====
+function getAllRoles(){
+	fetch('/api/admin/role', {
+		method: 'GET',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+	})
+		.then(response => response.json())
+		.then(data => $('#tableRole').bootstrapTable({data: data.result}));
+}
+
+// ===== Add role (JWT) =====
+function addRole(name) {
+	fetch('/api/admin/role', {
+		method: 'POST',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'name': name
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+		}
+	})
+}
+
+// ===== Delete role (JWT) =====
+function deleteRole(name) {
+	fetch('/api/admin/role', {
+		method: 'DELETE',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'name': name
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+			location.reload();
+		}
+	})
+}
+
+// ===== Rename role (JWT) =====
+function renameRole(oldname, name) {
+	fetch('/api/admin/role', {
+		method: 'PATCH',
+		headers: {
+    		'Content-Type': 'application/json',
+    		'Authorization': 'Bearer '+selectCookie('token')
+  		},
+  		body: JSON.stringify({
+  			'oldName': oldname,
+  			'newName': name
+  		}),
+	})
+	.then(response => {
+		if(response.status == 204) {
+			alert("Success")
+			location.reload();
 		}
 	})
 }

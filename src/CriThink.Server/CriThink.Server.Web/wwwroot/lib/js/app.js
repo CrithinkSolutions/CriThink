@@ -45,10 +45,9 @@ $(document).on('click', '#btn-removenews', function(event) {
 // ============================= User Management
 
 let userId = '';
-let roleMode = false;
 
 if (window.location.href.indexOf("user-management") > -1) {
-	$("#deleteusertoolbar, #infousertoolbar, #editusertoolbar").prop('disabled', true);
+	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', true);
 	$('#tableRole').hide();
 	getAllUsers();
 	getAllRoles();
@@ -56,7 +55,7 @@ if (window.location.href.indexOf("user-management") > -1) {
 
 // ===== Selector user =====
 $('#tableUser').on('check.bs.table', function(e, row, element) {
-	$("#deleteusertoolbar, #infousertoolbar, #editusertoolbar").prop('disabled', false);
+	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', false);
 	$('#userselected').html(row.username);
 	$('#roleselected').html(row.role);
 	userId = row.userId;
@@ -86,7 +85,7 @@ $(document).on('click', '#btn-removeuser', function(event) {
 );
 
 // ===== Button for info user ===== 
-$(document).on('click', '#infousertoolbar', function(event) {
+$(document).on('click', '#infotoolbar', function(event) {
 	   	event.preventDefault();
 		infoUser(userId).then(data => {
 			$('#infoname').html(data.result.username);
@@ -120,18 +119,59 @@ $(document).on('click', '#btn-edituser', function(event) {
 
 // ===== Tab Users/Roles handler ===== 
 $(document).on('click', '#users-tab', function(event) {
-	roleMode = false;
 	$('#tableUser').show();
 	$('.fixed-table-toolbar').show();
 	$('#tableRole').hide();
+	$('#addtoolbar').attr('data-target', '#addusermodal');
+	$('#deletetoolbar').attr('data-target', '#removeusermodal');
+	$('#edittoolbar').attr('data-target', '#editusermodal');
 });
 $(document).on('click', '#roles-tab', function(event) {
-	roleMode = true;
 	$('#tableUser').hide();
 	$('.fixed-table-toolbar').hide();
 	$('#tableRole').show();
+	$("#deletetoolbar, #edittoolbar, #infotoolbar").prop('disabled', true);
+	$('#addtoolbar').attr('data-target', '#addrolemodal');
+	$('#deletetoolbar').attr('data-target', '#removerolemodal');
+	$('#edittoolbar').attr('data-target', '#editrolemodal');
 });
 
+// ============================= Role Management
+
+// ===== Selector role =====
+$('#tableRole').on('check.bs.table', function(e, row, element) {
+	$("#deletetoolbar, #edittoolbar").prop('disabled', false);
+	$('.rolename').html(row.name);
+})
+
+$('#addrolemodal, #editrolemodal').on('hidden.bs.modal', function () {
+	location.reload();
+})
+
+// ===== Button for add role ===== 
+$(document).on('click', '#btn-addrole', function(event) {
+	   	event.preventDefault();
+	   	let name = $('#addrole-input').val();
+	   	addRole(name);
+	}
+);
+
+// ===== Button for remove role ===== 
+$(document).on('click', '#btn-removerole', function(event) {
+	   	event.preventDefault();
+	   	let name = $('.rolename').html();
+	   	deleteRole(name);
+	}
+);
+
+// ===== Button for edit role ===== 
+$(document).on('click', '#btn-editrole', function(event) {
+	   	event.preventDefault();
+	   	let oldname = $('.rolename').html();
+	   	let name = $('#newrolename-input').val();
+	   	renameRole(oldname,name);
+	}
+);
 
 // ============================= Utility
 function selectCookie(value){
