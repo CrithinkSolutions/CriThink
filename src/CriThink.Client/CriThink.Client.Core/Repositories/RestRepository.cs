@@ -22,7 +22,7 @@ namespace CriThink.Client.Core.Repositories
         }
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, verb, default, default, default, cancellationToken);
+            MakeRestRequestAsync<T>(request, verb, string.Empty, default, default, cancellationToken);
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, CancellationToken cancellationToken = default) =>
             MakeRestRequestAsync<T>(request, verb, httpClientName, default, default, cancellationToken);
@@ -32,23 +32,23 @@ namespace CriThink.Client.Core.Repositories
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, object data, CancellationToken cancellationToken = default)
         {
-            if ((int) verb > 2)
+            if ((int) verb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, default, data, default, cancellationToken);
+            return MakeRestRequestAsync<T>(request, verb, string.Empty, data, default, cancellationToken);
         }
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, object data, string apiVersion, CancellationToken cancellationToken = default)
         {
-            if ((int) verb > 2)
+            if ((int) verb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, default, data, apiVersion, cancellationToken);
+            return MakeRestRequestAsync<T>(request, verb, string.Empty, data, apiVersion, cancellationToken);
         }
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, CancellationToken cancellationToken = default)
         {
-            if ((int) verb > 2)
+            if ((int) verb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
 
             return MakeRestRequestAsync<T>(request, verb, httpClientName, data, default, cancellationToken);
@@ -56,7 +56,7 @@ namespace CriThink.Client.Core.Repositories
 
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken = default)
         {
-            if ((int) verb > 2)
+            if ((int) verb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
 
             return MakeRestRequestAsync<T>(request, verb, httpClientName, data, apiVersion, cancellationToken);

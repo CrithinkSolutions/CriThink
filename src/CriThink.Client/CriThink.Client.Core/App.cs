@@ -54,7 +54,7 @@ namespace CriThink.Client.Core
             if (string.IsNullOrWhiteSpace(baseApiUri))
                 throw new ArgumentException("The base uri is null");
 
-            serviceCollection.AddHttpClient("default", httpClient =>
+            serviceCollection.AddHttpClient("", httpClient =>
             {
                 httpClient.BaseAddress = new Uri(baseApiUri);
             })

@@ -3,6 +3,7 @@ using Android.App;
 using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
+using Google.Android.Material.TextField;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 // ReSharper disable once CheckNamespace
@@ -22,6 +23,8 @@ namespace CriThink.Client.Droid.Views.Users
 
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
+            var emailOrUsername = FindViewById<TextInputEditText>(Resource.Id.txtEdit_emailOrUsername);
+            var password = FindViewById<TextInputEditText>(Resource.Id.txtEdit_password);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
@@ -34,6 +37,9 @@ namespace CriThink.Client.Droid.Views.Users
             var btnJump = FindViewById<AppCompatButton>(Resource.Id.btnJump);
 
             var set = CreateBindingSet();
+
+            set.Bind(emailOrUsername).To(vm => vm.EmailOrUsername);
+            set.Bind(password).To(vm => vm.Password);
 
             set.Bind(btnLogin).To(vm => vm.LoginCommand);
             set.Bind(btnForgotPassword).To(vm => vm.ForgotPasswordCommand);
