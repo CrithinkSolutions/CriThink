@@ -110,7 +110,7 @@ function removeNewsSource(uri, classification) {
 
 // ===== Get all users (JWT) =====
 function getAllUsers(){
-	fetch('/api/admin/user/all?PageSize=10&PageIndex=1', {
+	fetch('/api/admin/user/all?PageSize=30&PageIndex=1', {
 		method: 'GET',
 		headers: {
     		'Content-Type': 'application/json',
@@ -246,7 +246,8 @@ function getAllRoles(){
   		},
 	})
 		.then(response => response.json())
-		.then(data => $('#tableRole').bootstrapTable({data: data.result}));
+		.then(data => $('#tableRole').bootstrapTable({data: data.result}))
+		.then(() => $('#tableRole').parents('.bootstrap-table').hide());
 }
 
 // ===== Add role (JWT) =====

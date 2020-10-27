@@ -2,7 +2,7 @@
 	Layout = "_LayoutApi";
     ViewData["Title"] = "User Management";
 }
-<div class="bg-white p-4 shadow text-center m-4">
+<div class="bg-white p-4 shadow text-center m-4 mw-100 mh-100">
 	<!-- (START) INPUT SECTION -->
 	<div id="toolbox" class="border p-2 mb-2">
 		<button id="addtoolbar" type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
@@ -19,7 +19,7 @@
 	</nav>
 	<!-- (END) TAB NAV -->
 	<!-- (START) USER TABLE -->
-	<table id="tableUser" data-click-to-select="true" data-search="true">
+	<table id="tableUser" data-click-to-select="true" data-search="true" data-height="250">
 		<thead>
 		    <tr>
 		      <th class="d-none" data-field="state" data-radio="true"></th>
@@ -31,7 +31,7 @@
 	</table>
 	<!-- (END) USER TABLE -->
 	<!-- (START) ROLE TABLE -->
-	<table id="tableRole" data-click-to-select="true">
+	<table id="tableRole" data-click-to-select="true" data-height="250">
 		<thead>
 		    <tr>
 		      <th class="d-none" data-field="state" data-radio="true"></th>

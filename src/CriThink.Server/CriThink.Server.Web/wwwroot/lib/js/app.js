@@ -48,14 +48,13 @@ let userId = '';
 
 if (window.location.href.indexOf("user-management") > -1) {
 	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', true);
-	$('#tableRole').hide();
 	getAllUsers();
 	getAllRoles();
 }
 
 // ===== Selector user =====
 $('#tableUser').on('check.bs.table', function(e, row, element) {
-	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', false);
+	$('#deletetoolbar, #infotoolbar, #edittoolbar').prop('disabled', false);
 	$('#userselected').html(row.username);
 	$('#roleselected').html(row.role);
 	userId = row.userId;
@@ -119,18 +118,17 @@ $(document).on('click', '#btn-edituser', function(event) {
 
 // ===== Tab Users/Roles handler ===== 
 $(document).on('click', '#users-tab', function(event) {
-	$('#tableUser').show();
-	$('.fixed-table-toolbar').show();
-	$('#tableRole').hide();
+	$('#tableUser').parents('.bootstrap-table').show();
+	$('#tableRole').parents('.bootstrap-table').hide();
 	$('#addtoolbar').attr('data-target', '#addusermodal');
 	$('#deletetoolbar').attr('data-target', '#removeusermodal');
 	$('#edittoolbar').attr('data-target', '#editusermodal');
 });
+
 $(document).on('click', '#roles-tab', function(event) {
-	$('#tableUser').hide();
-	$('.fixed-table-toolbar').hide();
-	$('#tableRole').show();
-	$("#deletetoolbar, #edittoolbar, #infotoolbar").prop('disabled', true);
+	$('#tableUser').parents('.bootstrap-table').hide();
+	$('#tableRole').parents('.bootstrap-table').show();
+	$('#deletetoolbar, #edittoolbar, #infotoolbar').prop('disabled', true);
 	$('#addtoolbar').attr('data-target', '#addrolemodal');
 	$('#deletetoolbar').attr('data-target', '#removerolemodal');
 	$('#edittoolbar').attr('data-target', '#editrolemodal');
