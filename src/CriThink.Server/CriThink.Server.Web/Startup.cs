@@ -26,14 +26,17 @@ using CriThink.Server.Web.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -138,6 +141,11 @@ namespace CriThink.Server.Web
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
 
             services.AddRazorPages(); // Razor
+
+            services.AddHealthChecks()
+                .AddCheck<RedisHealthChecker>(EndpointConstants.ServiceRedisHealth, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.ServiceRedisHealth })
+                .AddCheck<SqlServerHealthChecker>(EndpointConstants.ServiceSqlServerHealth, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.ServiceSqlServerHealth })
+                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.DbContextStatus, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.DbContextStatus });
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -180,6 +188,7 @@ namespace CriThink.Server.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
+                SetUpHealthChecks(endpoints);
             });
         }
 
@@ -375,5 +384,31 @@ namespace CriThink.Server.Web
                 options.SuppressModelStateInvalidFilter = true;
             });
         }
+
+        private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
+        {
+            // Redis
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.ServiceRedisHealth),
+                GetHealthCheckFilter(EndpointConstants.ServiceRedisHealth));
+
+            // SQL Server
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.ServiceSqlServerHealth),
+                GetHealthCheckFilter(EndpointConstants.ServiceSqlServerHealth));
+
+            // SQL Server DbContext
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.DbContextStatus),
+                GetHealthCheckFilter(EndpointConstants.DbContextStatus));
+        }
+
+        private static string GetServiceHealthPath(string serviceName) => $"{EndpointConstants.ServiceBase}{serviceName}";
+
+        private static HealthCheckOptions GetHealthCheckFilter(string tag) => new HealthCheckOptions
+        {
+            Predicate = (check) => check.Tags.Contains(tag),
+            AllowCachingResponses = false,
+        };
     }
 }
