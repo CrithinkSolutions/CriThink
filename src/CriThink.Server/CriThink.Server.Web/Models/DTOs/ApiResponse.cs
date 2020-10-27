@@ -8,12 +8,6 @@ namespace CriThink.Server.Web.Models.DTOs
     public class ApiResponse
     {
         /// <summary>
-        /// Get the response status code
-        /// </summary>
-        [JsonPropertyName("statusCode")]
-        public int StatusCode { get; }
-
-        /// <summary>
         /// Get the response message
         /// </summary>
         [JsonPropertyName("message")]
@@ -26,7 +20,6 @@ namespace CriThink.Server.Web.Models.DTOs
         /// <param name="message"></param>
         public ApiResponse(int statusCode, string message = null)
         {
-            StatusCode = statusCode;
             Message = message ?? GetDefaultMessageForStatusCode(statusCode);
         }
 
