@@ -42,7 +42,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(password).To(vm => vm.Password);
 
             set.Bind(btnLogin).To(vm => vm.LoginCommand);
-            set.Bind(btnForgotPassword).To(vm => vm.ForgotPasswordCommand);
+            set.Bind(btnForgotPassword).To(vm => vm.NavigateToForgotPasswordCommand);
             set.Bind(btnJump).To(vm => vm.NavigateToHomeCommand);
 
             set.Apply();

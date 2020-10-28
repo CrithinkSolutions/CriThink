@@ -78,6 +78,7 @@
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
+    <Compile Include="Views\Users\Activities\ForgotPasswordView.cs" />
     <Compile Include="Views\Users\Activities\LoginView.cs" />
     <Compile Include="Views\Users\Fragments\SignUpEmailView.cs" />
     <Compile Include="Views\Users\Activities\SignUpView.cs" />
@@ -209,7 +210,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\debunkingnews_view.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\forgotpassword_view.xml" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\bottom_navigation.xml" />
   </ItemGroup>

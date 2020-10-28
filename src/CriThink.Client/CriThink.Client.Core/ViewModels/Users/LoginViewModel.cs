@@ -48,18 +48,13 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _loginCommand;
         public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand);
 
-        private IMvxAsyncCommand _forgotPasswordCommand;
-        public IMvxAsyncCommand ForgotPasswordCommand => _forgotPasswordCommand ??= new MvxAsyncCommand(DoForgotPasswordCommand);
-
         private IMvxAsyncCommand _navigateToHomeCommand;
         public IMvxAsyncCommand NavigateToHomeCommand => _navigateToHomeCommand ??= new MvxAsyncCommand(DoNavigateToHomeCommand);
 
-        #endregion
+        private IMvxAsyncCommand _navigateToForgotPasswordCommand;
+        public IMvxAsyncCommand NavigateToForgotPasswordCommand => _navigateToForgotPasswordCommand ??= new MvxAsyncCommand(DoNavigateToForgotPasswordCommand);
 
-        private Task DoForgotPasswordCommand()
-        {
-            return Task.CompletedTask;
-        }
+        #endregion
 
         private async Task DoLoginCommand()
         {
@@ -81,6 +76,11 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToHomeCommand()
         {
             await _navigationService.Navigate<HomeViewModel>().ConfigureAwait(true);
+        }
+
+        private async Task DoNavigateToForgotPasswordCommand()
+        {
+            await _navigationService.Navigate<ForgotPasswordViewModel>().ConfigureAwait(true);
         }
 
         public void Dispose()

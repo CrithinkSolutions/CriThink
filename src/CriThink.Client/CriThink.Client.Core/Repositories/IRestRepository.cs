@@ -9,6 +9,25 @@ namespace CriThink.Client.Core.Repositories
     public interface IRestRepository
     {
         /// <summary>
+        /// Performs a REST request with no data and no response
+        /// </summary>
+        /// <param name="request">Endpoint</param>
+        /// <param name="verb">HTTP verb</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Operation status result</returns>
+        Task MakeRequestAsync(string request, HttpVerb verb, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Performs a REST request with no data and no response
+        /// </summary>
+        /// <param name="request">Endpoint</param>
+        /// <param name="verb">HTTP verb</param>
+        /// <param name="data">Data to serialize and send with the request</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Operation status result</returns>
+        Task MakeRequestAsync(string request, HttpVerb verb, object data, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Performs a REST request with no data
         /// </summary>
         /// <typeparam name="T">Returned data type</typeparam>

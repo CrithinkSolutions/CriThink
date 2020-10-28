@@ -21,6 +21,12 @@ namespace CriThink.Client.Core.Repositories
             _logger = mvxLogProvider?.GetLogFor<RestRepository>();
         }
 
+        public Task MakeRequestAsync(string request, HttpVerb verb, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, verb, string.Empty, default, default, cancellationToken);
+
+        public Task MakeRequestAsync(string request, HttpVerb verb, object data, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, verb, string.Empty, data, default, cancellationToken);
+
         public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, CancellationToken cancellationToken = default) =>
             MakeRestRequestAsync<T>(request, verb, string.Empty, default, default, cancellationToken);
 
@@ -62,12 +68,30 @@ namespace CriThink.Client.Core.Repositories
             return MakeRestRequestAsync<T>(request, verb, httpClientName, data, apiVersion, cancellationToken);
         }
 
-        private Task<T> MakeRestRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        private Task MakeRestRequestAsync(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
         {
-            var httpClient = _httpClientFactory.CreateClient(httpClientName);
+            var httpClient = ResolveHttpClient(httpClientName);
             AddApiVersion(httpClient, apiVersion);
 
-            var uri = new Uri(request, UriKind.Relative);
+            var uri = GetUri(request);
+
+            return verb switch
+            {
+                HttpVerb.Get => MakeGetRequestAsync(httpClient, uri, cancellationToken),
+                HttpVerb.Post => MakePostRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpVerb.Put => MakePutRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpVerb.Patch => MakePatchRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpVerb.Delete => MakeDeleteRequestAsync(httpClient, uri, cancellationToken),
+                _ => throw new ArgumentOutOfRangeException(nameof(verb), $"Unknown {nameof(HttpVerb)} type")
+            };
+        }
+
+        private Task<T> MakeRestRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        {
+            var httpClient = ResolveHttpClient(httpClientName);
+            AddApiVersion(httpClient, apiVersion);
+
+            var uri = GetUri(request);
 
             return verb switch
             {
@@ -80,6 +104,20 @@ namespace CriThink.Client.Core.Repositories
             };
         }
 
+        private async Task MakeGetRequestAsync(HttpClient httpClient, Uri uri, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync(uri, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => $"Error GET the uri '{uri}", ex);
+                throw;
+            }
+        }
+
         private async Task<T> MakeGetRequestAsync<T>(HttpClient httpClient, Uri uri, CancellationToken cancellationToken)
         {
             try
@@ -90,6 +128,22 @@ namespace CriThink.Client.Core.Repositories
             catch (Exception ex)
             {
                 _logger?.Log(MvxLogLevel.Fatal, () => $"Error GET the uri '{uri}", ex);
+                throw;
+            }
+        }
+
+        private async Task MakePostRequestAsync(HttpClient httpClient, Uri uri, object data, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var serializedData = JsonSerializer.Serialize(data);
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var response = await httpClient.PostAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => $"Error POST the uri '{uri}", ex);
                 throw;
             }
         }
@@ -110,6 +164,22 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
+        private async Task MakePutRequestAsync(HttpClient httpClient, Uri uri, object data, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var serializedData = JsonSerializer.Serialize(data);
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var response = await httpClient.PutAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PUT the uri '{uri}", ex);
+                throw;
+            }
+        }
+
         private async Task<T> MakePutRequestAsync<T>(HttpClient httpClient, Uri uri, object data, CancellationToken cancellationToken)
         {
             try
@@ -122,6 +192,22 @@ namespace CriThink.Client.Core.Repositories
             catch (Exception ex)
             {
                 _logger?.Log(MvxLogLevel.Fatal, () => $"Error PUT the uri '{uri}", ex);
+                throw;
+            }
+        }
+
+        private async Task MakePatchRequestAsync(HttpClient httpClient, Uri uri, object data, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var serializedData = JsonSerializer.Serialize(data);
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var response = await httpClient.PatchAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PATCH the uri '{uri}", ex);
                 throw;
             }
         }
@@ -142,6 +228,20 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
+        private async Task MakeDeleteRequestAsync(HttpClient httpClient, Uri uri, CancellationToken cancellationToken)
+        {
+            try
+            {
+                using var response = await httpClient.DeleteAsync(uri, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => $"Error DELETE the uri '{uri}", ex);
+                throw;
+            }
+        }
+
         private async Task<T> MakeDeleteRequestAsync<T>(HttpClient httpClient, Uri uri, CancellationToken cancellationToken)
         {
             try
@@ -156,6 +256,8 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
+        private HttpClient ResolveHttpClient(string httpClientName) => _httpClientFactory.CreateClient(httpClientName);
+
         private static void AddApiVersion(HttpClient httpClient, string version)
         {
             if (string.IsNullOrWhiteSpace(version)) return;
@@ -163,6 +265,8 @@ namespace CriThink.Client.Core.Repositories
             httpClient.DefaultRequestHeaders.Remove(EndpointConstants.ApiVersionHeader);
             httpClient.DefaultRequestHeaders.Add(EndpointConstants.ApiVersionHeader, version);
         }
+
+        private static Uri GetUri(string request) => new Uri(request, UriKind.Relative);
 
         private static Task<T> ProcessHttpRequest<T>(HttpResponseMessage response, CancellationToken cancellationToken)
         {

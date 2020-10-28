@@ -29,4 +29,8 @@
   <!-- News Checker -->
   <string name="newschecker_paste">Paste the source</string>
   <string name="newschecker_results">See the result</string>
+
+  <!-- Forgot Password -->
+  <string name="forgotpassword_email">Insert your email</string>
+  <string name="forgotpassword_send">Send</string>
 </resources>
