@@ -15,11 +15,17 @@
 
         public const string ServiceBase = "service/";
         public const string ServiceEnvironment = "environment";
-        public const string ServiceRedisHealth = "redis-health";
-        public const string ServiceSqlServerHealth = "sqlserver-health";
         public const string ServiceLoggingHealth = "logging-health";
         public const string ServiceEnableSignup = "signup-enabled";
-        public const string DbContextStatus = "dbcontext-status";
+
+        #endregion
+
+        #region Health Check
+
+        public const string HealthCheckBase = "health/";
+        public const string HealthCheckRedis = "redis";
+        public const string HealthCheckSqlServer = "sqlserver";
+        public const string HealthCheckDbContext = "dbcontext";
 
         #endregion
 

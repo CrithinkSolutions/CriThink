@@ -143,9 +143,9 @@ namespace CriThink.Server.Web
             services.AddRazorPages(); // Razor
 
             services.AddHealthChecks()
-                .AddCheck<RedisHealthChecker>(EndpointConstants.ServiceRedisHealth, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.ServiceRedisHealth })
-                .AddCheck<SqlServerHealthChecker>(EndpointConstants.ServiceSqlServerHealth, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.ServiceSqlServerHealth })
-                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.DbContextStatus, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.DbContextStatus });
+                .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
+                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
+                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -389,21 +389,21 @@ namespace CriThink.Server.Web
         {
             // Redis
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.ServiceRedisHealth),
-                GetHealthCheckFilter(EndpointConstants.ServiceRedisHealth));
+                GetServiceHealthPath(EndpointConstants.HealthCheckRedis),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckRedis));
 
             // SQL Server
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.ServiceSqlServerHealth),
-                GetHealthCheckFilter(EndpointConstants.ServiceSqlServerHealth));
+                GetServiceHealthPath(EndpointConstants.HealthCheckSqlServer),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckSqlServer));
 
             // SQL Server DbContext
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.DbContextStatus),
-                GetHealthCheckFilter(EndpointConstants.DbContextStatus));
+                GetServiceHealthPath(EndpointConstants.HealthCheckDbContext),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckDbContext));
         }
 
-        private static string GetServiceHealthPath(string serviceName) => $"{EndpointConstants.ServiceBase}{serviceName}";
+        private static string GetServiceHealthPath(string serviceName) => $"{EndpointConstants.HealthCheckBase}{serviceName}";
 
         private static HealthCheckOptions GetHealthCheckFilter(string tag) => new HealthCheckOptions
         {
