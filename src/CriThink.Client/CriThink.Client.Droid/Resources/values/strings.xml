@@ -33,4 +33,9 @@
   <!-- Forgot Password -->
   <string name="forgotpassword_email">Insert your email</string>
   <string name="forgotpassword_send">Send</string>
+
+  <!-- Reset Password -->
+  <string name="resetpassword_password">Insert your new password</string>
+  <string name="resetpassword_repeatPassword">Repeat the new password</string>
+  <string name="resetpassword_send">Send</string>
 </resources>

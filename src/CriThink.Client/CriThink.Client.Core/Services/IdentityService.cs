@@ -59,6 +59,25 @@ namespace CriThink.Client.Core.Services
                 _logger.Log(MvxLogLevel.Error, () => "Error requesting temporary token", ex);
             }
         }
+
+        public async Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var resetPasswordResponse = await _restRepository.MakeRequestAsync<BaseResponse<VerifyUserEmailResponse>>(
+                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
+                    HttpVerb.Post,
+                    request,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            var userData = resetPasswordResponse.Result;
+
+            LoggedUser.Login(userData);
+
+            return userData;
+        }
     }
 
     public interface IIdentityService
@@ -78,5 +97,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Operation status result</returns>
         Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Change the current and forgotten password with the given one
+        /// </summary>
+        /// <param name="request">User id, temporary token and new password</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>User info and token</returns>
+        Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken);
     }
 }

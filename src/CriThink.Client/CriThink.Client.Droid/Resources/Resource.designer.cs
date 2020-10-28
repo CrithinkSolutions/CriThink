@@ -9608,70 +9608,76 @@ namespace CriThink.Client.Droid
 			public const int triangle = 2131296541;
 			
 			// aapt resource value: 0x7F09011E
-			public const int txtEdit_email = 2131296542;
+			public const int txtEditPassword = 2131296542;
 			
 			// aapt resource value: 0x7F09011F
-			public const int txtEdit_emailOrUsername = 2131296543;
+			public const int txtEditRepeatPassword = 2131296543;
 			
 			// aapt resource value: 0x7F090120
-			public const int txtEdit_password = 2131296544;
+			public const int txtEdit_email = 2131296544;
 			
 			// aapt resource value: 0x7F090121
-			public const int txtInput_email = 2131296545;
+			public const int txtEdit_emailOrUsername = 2131296545;
 			
 			// aapt resource value: 0x7F090122
-			public const int txtInput_news = 2131296546;
+			public const int txtEdit_password = 2131296546;
 			
 			// aapt resource value: 0x7F090123
-			public const int txtInput_password = 2131296547;
+			public const int txtInput_email = 2131296547;
 			
 			// aapt resource value: 0x7F090124
-			public const int txtInput_repeatPassword = 2131296548;
+			public const int txtInput_news = 2131296548;
 			
 			// aapt resource value: 0x7F090125
-			public const int txtInput_username = 2131296549;
+			public const int txtInput_password = 2131296549;
 			
 			// aapt resource value: 0x7F090126
-			public const int @unchecked = 2131296550;
+			public const int txtInput_repeatPassword = 2131296550;
 			
 			// aapt resource value: 0x7F090127
-			public const int underline = 2131296551;
+			public const int txtInput_username = 2131296551;
 			
 			// aapt resource value: 0x7F090128
-			public const int uniform = 2131296552;
+			public const int @unchecked = 2131296552;
 			
 			// aapt resource value: 0x7F090129
-			public const int unknown = 2131296553;
+			public const int underline = 2131296553;
 			
 			// aapt resource value: 0x7F09012A
-			public const int unlabeled = 2131296554;
+			public const int uniform = 2131296554;
 			
 			// aapt resource value: 0x7F09012B
-			public const int up = 2131296555;
+			public const int unknown = 2131296555;
 			
 			// aapt resource value: 0x7F09012C
-			public const int useLogo = 2131296556;
+			public const int unlabeled = 2131296556;
 			
 			// aapt resource value: 0x7F09012D
-			public const int view_offset_helper = 2131296557;
+			public const int up = 2131296557;
 			
 			// aapt resource value: 0x7F09012E
-			public const int view_tree_saved_state_registry_owner = 2131296558;
+			public const int useLogo = 2131296558;
 			
 			// aapt resource value: 0x7F09012F
-			public const int visible = 2131296559;
+			public const int view_offset_helper = 2131296559;
 			
 			// aapt resource value: 0x7F090130
-			public const int visible_removing_fragment_view_tag = 2131296560;
+			public const int view_tree_saved_state_registry_owner = 2131296560;
 			
 			// aapt resource value: 0x7F090131
-			public const int wide = 2131296561;
+			public const int visible = 2131296561;
 			
 			// aapt resource value: 0x7F090132
-			public const int withText = 2131296562;
+			public const int visible_removing_fragment_view_tag = 2131296562;
 			
 			// aapt resource value: 0x7F090133
-			public const int wrap_content = 2131296563;
+			public const int wide = 2131296563;
+			
+			// aapt resource value: 0x7F090134
+			public const int withText = 2131296564;
+			
+			// aapt resource value: 0x7F090135
+			public const int wrap_content = 2131296565;
 			
 			static Id()
 			{
@@ -10079,31 +10085,34 @@ namespace CriThink.Client.Droid
 			public const int preference_widget_switch_compat = 2131492953;
 			
 			// aapt resource value: 0x7F0C005A
-			public const int select_dialog_item_material = 2131492954;
+			public const int resetpassword_view = 2131492954;
 			
 			// aapt resource value: 0x7F0C005B
-			public const int select_dialog_multichoice_material = 2131492955;
+			public const int select_dialog_item_material = 2131492955;
 			
 			// aapt resource value: 0x7F0C005C
-			public const int select_dialog_singlechoice_material = 2131492956;
-			
-			// aapt resource value: 0x7F0C005E
-			public const int signupemail_view = 2131492958;
+			public const int select_dialog_multichoice_material = 2131492956;
 			
 			// aapt resource value: 0x7F0C005D
-			public const int signup_view = 2131492957;
+			public const int select_dialog_singlechoice_material = 2131492957;
 			
 			// aapt resource value: 0x7F0C005F
-			public const int SplashScreen = 2131492959;
+			public const int signupemail_view = 2131492959;
+			
+			// aapt resource value: 0x7F0C005E
+			public const int signup_view = 2131492958;
 			
 			// aapt resource value: 0x7F0C0060
-			public const int support_simple_spinner_dropdown_item = 2131492960;
-			
-			// aapt resource value: 0x7F0C0062
-			public const int welcomeloginsignin_view = 2131492962;
+			public const int SplashScreen = 2131492960;
 			
 			// aapt resource value: 0x7F0C0061
-			public const int welcome_view = 2131492961;
+			public const int support_simple_spinner_dropdown_item = 2131492961;
+			
+			// aapt resource value: 0x7F0C0063
+			public const int welcomeloginsignin_view = 2131492963;
+			
+			// aapt resource value: 0x7F0C0062
+			public const int welcome_view = 2131492962;
 			
 			static Layout()
 			{
@@ -10472,34 +10481,43 @@ namespace CriThink.Client.Droid
 			public const int preference_copied = 2131689576;
 			
 			// aapt resource value: 0x7F0F0069
-			public const int search_menu_title = 2131689577;
+			public const int resetpassword_password = 2131689577;
 			
 			// aapt resource value: 0x7F0F006A
-			public const int signup_alreadyHaveAccount = 2131689578;
+			public const int resetpassword_repeatPassword = 2131689578;
 			
 			// aapt resource value: 0x7F0F006B
-			public const int signup_description = 2131689579;
+			public const int resetpassword_send = 2131689579;
 			
 			// aapt resource value: 0x7F0F006C
-			public const int signup_email = 2131689580;
+			public const int search_menu_title = 2131689580;
 			
 			// aapt resource value: 0x7F0F006D
-			public const int signup_login = 2131689581;
+			public const int signup_alreadyHaveAccount = 2131689581;
 			
 			// aapt resource value: 0x7F0F006E
-			public const int signup_title = 2131689582;
+			public const int signup_description = 2131689582;
 			
 			// aapt resource value: 0x7F0F006F
-			public const int status_bar_notification_info_overflow = 2131689583;
+			public const int signup_email = 2131689583;
 			
 			// aapt resource value: 0x7F0F0070
-			public const int summary_collapsed_preference_list = 2131689584;
+			public const int signup_login = 2131689584;
 			
 			// aapt resource value: 0x7F0F0071
-			public const int v7_preference_off = 2131689585;
+			public const int signup_title = 2131689585;
 			
 			// aapt resource value: 0x7F0F0072
-			public const int v7_preference_on = 2131689586;
+			public const int status_bar_notification_info_overflow = 2131689586;
+			
+			// aapt resource value: 0x7F0F0073
+			public const int summary_collapsed_preference_list = 2131689587;
+			
+			// aapt resource value: 0x7F0F0074
+			public const int v7_preference_off = 2131689588;
+			
+			// aapt resource value: 0x7F0F0075
+			public const int v7_preference_on = 2131689589;
 			
 			static String()
 			{

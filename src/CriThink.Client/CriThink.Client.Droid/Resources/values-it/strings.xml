@@ -27,4 +27,9 @@
   <!-- Forgot Password -->
   <string name="forgotpassword_email">Inserisci la tua mail</string>
   <string name="forgotpassword_send">Invia</string>
+
+  <!-- Reset Password -->
+  <string name="resetpassword_password">Inserisci la nuova password</string>
+  <string name="resetpassword_repeatPassword">Ripeti la nuova password</string>
+  <string name="resetpassword_send">Invia</string>
 </resources>
