@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,19 @@ namespace CriThink.Server.Infrastructure.Data
             {
                 typeBuilder.ToTable("UserRoles");
             });
+
+            builder.Entity<NewsSourceCategory>()
+                .Property(nsc => nsc.Authenticity)
+                .HasConversion(
+                    enumValue => enumValue.ToString(),
+                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
+                );
+        }
+
+        private static TEnum GetEnumValue<TEnum>(string value)
+            where TEnum : Enum
+        {
+            return (TEnum)Enum.Parse(typeof(TEnum), value);
         }
     }
 }
