@@ -27,18 +27,19 @@ function loginAPI(username,email,password) {
   			'password': password
   		}),
 	})
-	.then(response => response.json())
-	.then(data => {
-		if(data.statusCode == 200) {
-			const expires = new Date(data.result.token.expirationDate);
-			document.cookie = "username=" + data.result.username + "; expires=" + expires.toUTCString();
-			document.cookie = "token=" + data.result.token.token + "; expires=" + expires.toUTCString();
-			$('#errordiv').addClass('d-none');
-			window.location.href="/control-panel";
+	.then(response => {
+		if(response.status == 200) {
+			response.json().then(data => {
+				const expires = new Date(data.token.expirationDate);
+				document.cookie = "username=" + data.username + "; expires=" + expires.toUTCString();
+				document.cookie = "token=" + data.token.token + "; expires=" + expires.toUTCString();
+				$('#errordiv').addClass('d-none');
+				window.location.href="/control-panel";
+			})
 		}
-  		else {
-  			$('#errordiv').removeClass('d-none');
-  		}
+		else {
+			$('#errordiv').removeClass('d-none');
+		}
 	})
 	.then(() => {
 		$('#btn-login').html('Login');
@@ -119,7 +120,7 @@ function getAllUsers(){
 	})
 		.then(response => response.json())
 		.then(data => $('#tableUser').bootstrapTable({
-			data: data.result,
+			data: data,
 			sortStable: true
 		}));
 }
@@ -246,7 +247,7 @@ function getAllRoles(){
   		},
 	})
 		.then(response => response.json())
-		.then(data => $('#tableRole').bootstrapTable({data: data.result}))
+		.then(data => $('#tableRole').bootstrapTable({data: data}))
 		.then(() => $('#tableRole').parents('.bootstrap-table').hide());
 }
 

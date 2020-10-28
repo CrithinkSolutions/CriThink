@@ -87,8 +87,8 @@ $(document).on('click', '#btn-removeuser', function(event) {
 $(document).on('click', '#infotoolbar', function(event) {
 	   	event.preventDefault();
 		infoUser(userId).then(data => {
-			$('#infoname').html(data.result.username);
-			$('#infobody').html(JSON.stringify(data.result, null, 2));
+			$('#infoname').html(data.username);
+			$('#infobody').html(JSON.stringify(data, null, 2));
 		});
 	}
 );
