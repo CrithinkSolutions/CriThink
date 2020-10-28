@@ -50,9 +50,14 @@ function loginAPI(username,email,password) {
 
 // ===== Get News Source =====
 function getAllNewsSource(){
+	$('#table').bootstrapTable()
+	.bootstrapTable('showLoading');
 	fetch('/api/news-source/all')
 		.then(response => response.json())
-		.then(data => $('#table').bootstrapTable({data: data}));
+		.then(data => {
+			$('#table').bootstrapTable('destroy')
+			.bootstrapTable({data: data});
+		});
 }
 
 // ===== Add News Source (JWT) =====
@@ -111,6 +116,8 @@ function removeNewsSource(uri, classification) {
 
 // ===== Get all users (JWT) =====
 function getAllUsers(){
+	$('#tableUser').bootstrapTable()
+	.bootstrapTable('showLoading');
 	fetch('/api/admin/user/all?PageSize=30&PageIndex=1', {
 		method: 'GET',
 		headers: {
@@ -119,10 +126,10 @@ function getAllUsers(){
   		},
 	})
 		.then(response => response.json())
-		.then(data => $('#tableUser').bootstrapTable({
-			data: data,
-			sortStable: true
-		}));
+		.then(data => {
+			$('#tableUser').bootstrapTable('destroy')
+			.bootstrapTable({data: data});
+		});
 }
 
 // ===== Add User (JWT) =====
@@ -239,6 +246,7 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 
 // ===== Get all roles (JWT) =====
 function getAllRoles(){
+	$('#roles-tab').prop('disabled', true);
 	fetch('/api/admin/role', {
 		method: 'GET',
 		headers: {
@@ -248,7 +256,10 @@ function getAllRoles(){
 	})
 		.then(response => response.json())
 		.then(data => $('#tableRole').bootstrapTable({data: data}))
-		.then(() => $('#tableRole').parents('.bootstrap-table').hide());
+		.then(() => {
+			$('#tableRole').parents('.bootstrap-table').hide();
+			$('#roles-tab').prop('disabled', false);
+		});
 }
 
 // ===== Add role (JWT) =====

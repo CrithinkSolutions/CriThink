@@ -49,7 +49,7 @@ let userId = '';
 if (window.location.href.indexOf("user-management") > -1) {
 	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', true);
 	getAllUsers();
-	getAllRoles();
+	getAllRoles();	
 }
 
 // ===== Selector user =====
@@ -183,4 +183,8 @@ function selectCookie(value){
 		alert("Expired Session");
 		window.location.href="/";
 	}
+}
+
+function loadingTemplate(message) {
+    return '<div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>'
 }

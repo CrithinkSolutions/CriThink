@@ -13,13 +13,13 @@
 	<!-- (START) TAB NAV -->
 	<nav class="mb-3">
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-	    <a class="nav-item nav-link active pointer" id="users-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Users</a>
-	    <a class="nav-item nav-link pointer" id="roles-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Roles</a>
+	    <button class="nav-item nav-link active pointer" id="users-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Users</button>
+	    <button class="nav-item nav-link pointer" id="roles-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Roles</button>
 	  </div>
 	</nav>
 	<!-- (END) TAB NAV -->
 	<!-- (START) USER TABLE -->
-	<table id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true">
+	<table id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
 		<thead>
 		    <tr>
 		      <th class="d-none" data-field="state" data-radio="true"></th>
