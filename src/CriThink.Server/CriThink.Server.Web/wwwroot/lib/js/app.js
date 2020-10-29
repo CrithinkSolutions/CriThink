@@ -48,7 +48,7 @@ let userId = '';
 
 if (window.location.href.indexOf("user-management") > -1) {
 	$("#deletetoolbar, #infotoolbar, #edittoolbar").prop('disabled', true);
-	getAllUsers();
+	getAllUsers(30);
 	getAllRoles();	
 }
 
@@ -113,6 +113,14 @@ $(document).on('click', '#btn-edituser', function(event) {
 	   	let lockoutenddate = $('#LE-editinput').val();
 	   	let role = $('#role-editinput').val();
 	   	editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, role);
+	}
+);
+
+// ===== Button for update settings user ===== 
+$(document).on('click', '#btn-settinguser', function(event) {
+	   	event.preventDefault();
+	   	let num = $('#displayuser-input').val()
+	   	getAllUsers(num);
 	}
 );
 

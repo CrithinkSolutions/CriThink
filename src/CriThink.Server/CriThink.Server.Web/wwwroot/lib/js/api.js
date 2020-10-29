@@ -119,10 +119,10 @@ function removeNewsSource(uri, classification) {
 // ============================= User Management
 
 // ===== Get all users (JWT) =====
-function getAllUsers(){
+function getAllUsers(num){
 	$('#tableUser').bootstrapTable()
 	.bootstrapTable('showLoading');
-	fetch('/api/admin/user/all?PageSize=30&PageIndex=1', {
+	fetch('/api/admin/user/all?PageSize='+num+'&PageIndex=1', {
 		method: 'GET',
 		headers: {
     		'Content-Type': 'application/json',
