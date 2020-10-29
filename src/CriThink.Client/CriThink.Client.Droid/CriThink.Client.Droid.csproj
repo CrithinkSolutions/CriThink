@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\MvxBottomNavigationItemChangedBinding.cs" />
+    <Compile Include="Constants\DeepLinkConstants.cs" />
     <Compile Include="Constants\ViewConstants.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="MainApplication.cs" />
@@ -78,8 +79,10 @@
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
+    <Compile Include="Views\Users\Activities\ForgotPasswordView.cs" />
     <Compile Include="Views\Users\Activities\LoginView.cs" />
-    <Compile Include="Views\Users\Fragments\SignUpEmailView.cs" />
+    <Compile Include="Views\Users\Activities\ResetPasswordView.cs" />
+    <Compile Include="Views\Users\Activities\SignUpEmailView.cs" />
     <Compile Include="Views\Users\Activities\SignUpView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeFragment.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />
@@ -162,6 +165,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj">
+      <Project>{547dc5d0-dfa2-4c2c-9319-6d7cb4cb20b7}</Project>
+      <Name>CriThink.Common.Endpoints</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CriThink.Client.Core\CriThink.Client.Core.csproj">
       <Project>{6334b064-dd22-4f85-aa05-7ab088145757}</Project>
       <Name>CriThink.Client.Core</Name>
@@ -209,10 +216,16 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\debunkingnews_view.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\forgotpassword_view.xml" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\bottom_navigation.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\resetpassword_view.xml" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

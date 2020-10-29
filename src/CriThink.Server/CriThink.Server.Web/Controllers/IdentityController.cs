@@ -157,7 +157,7 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Request a temporary token to reset the forgot password
         /// </summary>
-        /// <param name="dto">Email or the id of the account owner</param>
+        /// <param name="dto">Email or the username of the account owner</param>
         /// <returns>Send an email with the temporary code</returns>
         [AllowAnonymous]
         [Route(EndpointConstants.IdentityForgotPassword)] // api/identity/forgot-password

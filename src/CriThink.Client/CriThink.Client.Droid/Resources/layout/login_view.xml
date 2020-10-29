@@ -37,6 +37,7 @@
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtEdit_emailOrUsername"
         android:fontFamily="@font/urbanist"
         android:inputType="textEmailAddress"/>
 
@@ -53,6 +54,7 @@
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtEdit_password"
         android:fontFamily="@font/urbanist"
         android:inputType="textPassword"/>
 

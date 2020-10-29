@@ -7,16 +7,10 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 {
     public class JwtTokenResponse
     {
-        public JwtTokenResponse(string token, DateTime expirationDate)
-        {
-            Token = token;
-            ExpirationDate = expirationDate;
-        }
-
         [JsonPropertyName("token")]
-        public string Token { get; }
+        public string Token { get; set; }
 
         [JsonPropertyName("expirationDate")]
-        public DateTime ExpirationDate { get; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

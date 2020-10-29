@@ -518,7 +518,11 @@ namespace CriThink.Server.Web.Services
                 .Build();
 
             var tokenString = _jwtTokenHandler.WriteToken(token);
-            return new JwtTokenResponse(tokenString, token.ValidTo);
+            return new JwtTokenResponse
+            {
+                ExpirationDate = token.ValidTo,
+                Token = tokenString
+            };
         }
 
         private async Task ProcessPasswordVerificationResult(User user, PasswordVerificationResult verificationResult)

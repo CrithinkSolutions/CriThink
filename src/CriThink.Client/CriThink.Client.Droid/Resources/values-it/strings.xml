@@ -9,6 +9,12 @@
   <string name="signup_alreadyHaveAccount">Possiedi già un account?</string>
   <string name="signup_login">Login</string>
 
+  <!-- SignUp Email -->
+  <string name="signupemail_email">Email</string>
+  <string name="signupemail_username">Username</string>
+  <string name="signupemail_password">Password</string>
+  <string name="signupemail_repeatPassword">Ripeti Password</string>
+  <string name="signupemail_signUp">Unisciti a noi!</string>
 
   <!-- Login -->
   <string name="login_email">Email o username</string>
@@ -23,4 +29,13 @@
   <!-- News Checker -->
   <string name="newschecker_paste">Incolla la notizia</string>
   <string name="newschecker_results">Vedi i risultati</string>
+
+  <!-- Forgot Password -->
+  <string name="forgotpassword_email">Inserisci la tua mail</string>
+  <string name="forgotpassword_send">Invia</string>
+
+  <!-- Reset Password -->
+  <string name="resetpassword_password">Inserisci la nuova password</string>
+  <string name="resetpassword_repeatPassword">Ripeti la nuova password</string>
+  <string name="resetpassword_send">Invia</string>
 </resources>
