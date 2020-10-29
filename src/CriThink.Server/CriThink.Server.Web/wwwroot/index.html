@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CriThink</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap and JQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<!-- FontAwesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+	<!-- Internal -->
+	<link rel=stylesheet href="./css/main.css">
+</head>
+<body>
+	<div class="main bg-orange d-flex justify-content-center align-items-center">
+		<div class="bg-white p-4 shadow text-center">
+			<img src="logo.svg" width="250" alt="Crithink Logo">
+			<!-- START INPUT SECTION -->
+			<form class="p-3">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fas fa-user"></i></span>
+					</div>
+			    	<input id="inputemail" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Username or Email">
+				</div>
+				<div class="input-group ">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+					</div>
+			    	<input id="inputpwd" type="password" class="form-control"  aria-describedby="emailHelp" placeholder="Password">
+				</div>
+			</form>
+			<button id="btn-login" class="btn btn-purple">Login</button>
+			<button class="btn btn-purple">Register</button>
+			<!-- END INPUT SECTION -->
+			<div id="errordiv" class="alert alert-danger mt-3 d-none">
+				<span><i class="fas fa-exclamation-circle"></i> Input not valid</span>
+			</div>
+		</div>
+	</div>
+	<script src="./js/fetch.js"></script>
+</body>
+</html>
