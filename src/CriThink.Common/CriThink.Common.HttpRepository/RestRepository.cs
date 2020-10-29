@@ -6,103 +6,112 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using MvvmCross.Logging;
 
-namespace CriThink.Client.Core.Repositories
+namespace CriThink.Common.HttpRepository
 {
     public class RestRepository : IRestRepository
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IMvxLog _logger;
+        private const string JsonMediaType = "application/json";
 
-        public RestRepository(IHttpClientFactory httpClientFactory, IMvxLogProvider mvxLogProvider)
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public RestRepository(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-            _logger = mvxLogProvider?.GetLogFor<RestRepository>();
         }
 
-        public Task MakeRequestAsync(string request, HttpVerb verb, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, verb, string.Empty, default, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, string.Empty, default, default, cancellationToken);
 
-        public Task MakeRequestAsync(string request, HttpVerb verb, object data, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, verb, string.Empty, data, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, httpClientName, default, default, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, verb, string.Empty, default, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, httpClientName, default, apiVersion, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, verb, httpClientName, default, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, object data, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, string.Empty, data, default, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, string apiVersion, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, verb, httpClientName, default, apiVersion, cancellationToken);
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, string.Empty, default, default, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, object data, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, default, cancellationToken);
+
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, apiVersion, cancellationToken);
+
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, CancellationToken cancellationToken = default)
         {
-            if ((int) verb < 4)
-                throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
+            if ((int) restVerb < 4)
+                throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, string.Empty, data, default, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, default, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, object data, string apiVersion, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, string apiVersion, CancellationToken cancellationToken = default)
         {
-            if ((int) verb < 4)
-                throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
+            if ((int) restVerb < 4)
+                throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, string.Empty, data, apiVersion, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, apiVersion, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, CancellationToken cancellationToken = default)
         {
-            if ((int) verb < 4)
-                throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
+            if ((int) restVerb < 4)
+                throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, httpClientName, data, default, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, default, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken = default)
         {
-            if ((int) verb < 4)
-                throw new InvalidOperationException($"Can't use {nameof(HttpVerb.Get)} with data");
+            if ((int) restVerb < 4)
+                throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, verb, httpClientName, data, apiVersion, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, apiVersion, cancellationToken);
         }
 
-        private Task MakeRestRequestAsync(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
-        {
-            var httpClient = ResolveHttpClient(httpClientName);
-            AddApiVersion(httpClient, apiVersion);
-
-            var uri = GetUri(request);
-
-            return verb switch
-            {
-                HttpVerb.Get => MakeGetRequestAsync(httpClient, uri, cancellationToken),
-                HttpVerb.Post => MakePostRequestAsync(httpClient, uri, data, cancellationToken),
-                HttpVerb.Put => MakePutRequestAsync(httpClient, uri, data, cancellationToken),
-                HttpVerb.Patch => MakePatchRequestAsync(httpClient, uri, data, cancellationToken),
-                HttpVerb.Delete => MakeDeleteRequestAsync(httpClient, uri, cancellationToken),
-                _ => throw new ArgumentOutOfRangeException(nameof(verb), $"Unknown {nameof(HttpVerb)} type")
-            };
-        }
-
-        private Task<T> MakeRestRequestAsync<T>(string request, HttpVerb verb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        private Task MakeRestRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
         {
             var httpClient = ResolveHttpClient(httpClientName);
             AddApiVersion(httpClient, apiVersion);
 
             var uri = GetUri(request);
 
-            return verb switch
+            return restVerb switch
             {
-                HttpVerb.Get => MakeGetRequestAsync<T>(httpClient, uri, cancellationToken),
-                HttpVerb.Post => MakePostRequestAsync<T>(httpClient, uri, data, cancellationToken),
-                HttpVerb.Put => MakePutRequestAsync<T>(httpClient, uri, data, cancellationToken),
-                HttpVerb.Patch => MakePatchRequestAsync<T>(httpClient, uri, data, cancellationToken),
-                HttpVerb.Delete => MakeDeleteRequestAsync<T>(httpClient, uri, cancellationToken),
-                _ => throw new ArgumentOutOfRangeException(nameof(verb), $"Unknown {nameof(HttpVerb)} type")
+                HttpRestVerb.Get => MakeGetRequestAsync(httpClient, uri, cancellationToken),
+                HttpRestVerb.Post => MakePostRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Put => MakePutRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Patch => MakePatchRequestAsync(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Delete => MakeDeleteRequestAsync(httpClient, uri, cancellationToken),
+                _ => throw new ArgumentOutOfRangeException(nameof(restVerb), $"Unknown {nameof(HttpRestVerb)} type")
             };
         }
+
+        private Task<T> MakeRestRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        {
+            var httpClient = ResolveHttpClient(httpClientName);
+            AddApiVersion(httpClient, apiVersion);
+
+            var uri = GetUri(request);
+
+            return restVerb switch
+            {
+                HttpRestVerb.Get => MakeGetRequestAsync<T>(httpClient, uri, cancellationToken),
+                HttpRestVerb.Post => MakePostRequestAsync<T>(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Put => MakePutRequestAsync<T>(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Patch => MakePatchRequestAsync<T>(httpClient, uri, data, cancellationToken),
+                HttpRestVerb.Delete => MakeDeleteRequestAsync<T>(httpClient, uri, cancellationToken),
+                _ => throw new ArgumentOutOfRangeException(nameof(restVerb), $"Unknown {nameof(HttpRestVerb)} type")
+            };
+        }
+
+        //TODO: add logger
+#pragma warning disable CA1822 // Mark members as static
+#pragma warning disable 168
 
         private async Task MakeGetRequestAsync(HttpClient httpClient, Uri uri, CancellationToken cancellationToken)
         {
@@ -113,7 +122,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error GET the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -127,7 +136,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error GET the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -137,13 +146,13 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PostAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error POST the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -153,13 +162,14 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PostAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 return await ProcessHttpRequest<T>(response, cancellationToken).ConfigureAwait(false);
             }
+
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error POST the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -169,13 +179,13 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PutAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PUT the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -185,13 +195,13 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PutAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 return await ProcessHttpRequest<T>(response, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PUT the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -201,13 +211,13 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PatchAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PATCH the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -217,13 +227,13 @@ namespace CriThink.Client.Core.Repositories
             try
             {
                 var serializedData = JsonSerializer.Serialize(data);
-                using var httpContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                using var httpContent = new StringContent(serializedData, Encoding.UTF8, JsonMediaType);
                 using var response = await httpClient.PatchAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
                 return await ProcessHttpRequest<T>(response, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error PATCH the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -237,7 +247,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error DELETE the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
@@ -249,12 +259,15 @@ namespace CriThink.Client.Core.Repositories
                 using var response = await httpClient.DeleteAsync(uri, cancellationToken).ConfigureAwait(false);
                 return await ProcessHttpRequest<T>(response, cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => $"Error DELETE the uri '{uri}", ex);
+                // TODO: log
                 throw;
             }
         }
+
+#pragma warning restore CA1822 // Mark members as static
+#pragma warning restore 168
 
         private HttpClient ResolveHttpClient(string httpClientName) => _httpClientFactory.CreateClient(httpClientName);
 

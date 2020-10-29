@@ -12,12 +12,10 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class ForgotPasswordViewModel : MvxViewModel
     {
         private readonly IIdentityService _identityService;
-        private readonly CancellationTokenSource _cancellationToken;
 
         public ForgotPasswordViewModel(IIdentityService identityService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _cancellationToken = new CancellationTokenSource();
         }
 
         private string _emailOrUsername;
@@ -32,7 +30,7 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= _sendRequestCommand = new MvxAsyncCommand(DoSendRequestCommand);
 
-        private async Task DoSendRequestCommand()
+        private async Task DoSendRequestCommand(CancellationToken cancellationToken)
         {
             var request = new ForgotPasswordRequest();
 
@@ -43,7 +41,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             else
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
-            await _identityService.RequestTemporaryTokenAsync(request, _cancellationToken.Token).ConfigureAwait(false);
+            await _identityService.RequestTemporaryTokenAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

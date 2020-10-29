@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Singletons;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.HttpRepository;
 using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.Services
@@ -27,7 +27,7 @@ namespace CriThink.Client.Core.Services
 
             var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
                 $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
-                HttpVerb.Post,
+                HttpRestVerb.Post,
                 request,
                 cancellationToken)
                 .ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace CriThink.Client.Core.Services
             {
                 await _restRepository.MakeRequestAsync(
                         $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityForgotPassword}",
-                        HttpVerb.Post,
+                        HttpRestVerb.Post,
                         request,
                         cancellationToken)
                     .ConfigureAwait(false);
@@ -64,7 +64,7 @@ namespace CriThink.Client.Core.Services
 
             var resetPasswordResponse = await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
-                    HttpVerb.Post,
+                    HttpRestVerb.Post,
                     request,
                     cancellationToken)
                 .ConfigureAwait(false);
@@ -81,7 +81,7 @@ namespace CriThink.Client.Core.Services
 
             var signupResponse = await _restRepository.MakeRequestAsync<UserSignUpResponse>(
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
-                    HttpVerb.Post,
+                    HttpRestVerb.Post,
                     request,
                     cancellationToken)
                 .ConfigureAwait(false);
