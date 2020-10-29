@@ -77,6 +77,10 @@ function addNewsSource(uri, classification) {
 		if(response.status == 204) {
 			alert("Success")
 		}
+		if(response.status == 400) {
+			return response.json()
+			.then(data => alert(data.errors.Uri));
+		}
 	})
 }
 
@@ -136,7 +140,7 @@ function getAllUsers(){
 function addUser(username, email, password, role) {
 	let roleUri = ''
 	switch (role) {
-		case 'No role':
+		default:
 			roleUri = '/api/identity/sign-up';
 			break;
 		case 'Admin':
@@ -158,6 +162,10 @@ function addUser(username, email, password, role) {
 	.then(response => {
 		if(response.status == 200) {
 			alert("Success")
+		}
+		if(response.status == 400) {
+			return response.json()
+			.then(data => alert(data.error));
 		}
 	})
 }
@@ -225,6 +233,10 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 		if(response.status == 204) {
 			alert("Success")
 		}
+		if(response.status == 400) {
+			return response.json()
+			.then(data => alert(data.message));
+		}
 	})
 	await fetch('/api/admin/user/role', {
 		method: 'PATCH',
@@ -244,6 +256,8 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 	})
 }
 
+// ============================= Role Management
+
 // ===== Get all roles (JWT) =====
 function getAllRoles(){
 	$('#roles-tab').prop('disabled', true);
@@ -255,7 +269,14 @@ function getAllRoles(){
   		},
 	})
 		.then(response => response.json())
-		.then(data => $('#tableRole').bootstrapTable({data: data}))
+		.then(data => {
+			$('#tableRole').bootstrapTable({data: data})
+			$.each(data, function(key, value) {
+				$('#role-editinput')
+         		.append($("<option></option>")
+                .text(value.name)); 
+			});
+		})
 		.then(() => {
 			$('#tableRole').parents('.bootstrap-table').hide();
 			$('#roles-tab').prop('disabled', false);
