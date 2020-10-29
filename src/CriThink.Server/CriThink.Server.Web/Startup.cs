@@ -67,95 +67,37 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Database
-            services.AddDbContext<CriThinkDbContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
-            });
+            SetupSqlServerConnection(services);
 
-            // User Identity
             SetupUserIdentity(services);
 
-            // Jwt
             SetupJwtAuthentication(services);
 
-            // ResponseCache
             SetupCache(services);
 
-            // API versioning
             SetupAPIVersioning(services);
 
-            // Swagger
             SetupSwagger(services);
 
-            // Settings
             SetupSettings(services);
 
-            // MediatR
-            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+            SetupMediatR(services);
 
-            // Internal
             SetupInternalServices(services);
 
-            // ErrorHandling
             SetupErrorHandling(services);
 
-            // Gzip
-            services.Configure<GzipCompressionProviderOptions>(options =>
-                options.Level = System.IO.Compression.CompressionLevel.Optimal);
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-            });
+            SetupGZipCompression(services);
 
-            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowSpecificOrigins,
-                    builder =>
-                    {
-                        foreach (var corsOrigin in corsOrigins)
-                        {
-                            builder.WithOrigins(corsOrigin)
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                        }
-                    });
-            });
+            SetupCorsOrigins(services);
 
-            services
-                .AddMvc(options => { options.EnableEndpointRouting = false; })
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
-                });
+            SetupJsonSerializer(services);
 
-            services.AddAutoMapper(typeof(Startup)); // AutoMapper
+            SetupAutoMapper(services);
 
-            if (_environment.IsDevelopment())
-            {
-                services.AddRazorPages().AddRazorRuntimeCompilation(); // Razor
+            SetupRazorAutoReload(services);
 
-                services.AddLiveReload(); // LiveReload
-            }
-            else
-            {
-                services.AddRazorPages();
-            }
-
-            services.AddHealthChecks()
-                .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
-                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
-                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
+            SetupHealthChecks(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -195,12 +137,29 @@ namespace CriThink.Server.Web
 
             app.UseResponseCompression();
 
-            app.UseMvc(); // Swagger
+#pragma warning disable MVC1005 // Cannot use UseMvc with Endpoint Routing.
+            app.UseMvc(); // It doesn't detect the setting because it's outside ConfigureServices
+#pragma warning restore MVC1005 // Cannot use UseMvc with Endpoint Routing.
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
                 SetUpHealthChecks(endpoints);
+            });
+        }
+
+        private void SetupSqlServerConnection(IServiceCollection services)
+        {
+            services.AddDbContext<CriThinkDbContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
+                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+                });
             });
         }
 
@@ -350,6 +309,11 @@ namespace CriThink.Server.Web
             services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
         }
 
+        private static void SetupMediatR(IServiceCollection services)
+        {
+            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+        }
+
         private void SetupInternalServices(IServiceCollection services)
         {
             // Email Sender
@@ -395,6 +359,72 @@ namespace CriThink.Server.Web
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+        }
+
+        private static void SetupGZipCompression(IServiceCollection services)
+        {
+            services.Configure<GzipCompressionProviderOptions>(options =>
+                options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+        }
+
+        private void SetupCorsOrigins(IServiceCollection services)
+        {
+            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                    builder =>
+                    {
+                        foreach (var corsOrigin in corsOrigins)
+                        {
+                            builder.WithOrigins(corsOrigin)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    });
+            });
+        }
+
+        private static void SetupJsonSerializer(IServiceCollection services)
+        {
+            services
+                .AddMvc(options => { options.EnableEndpointRouting = false; })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                    options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
+                });
+        }
+
+        private static void SetupAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(Startup)); // AutoMapper
+        }
+
+        private void SetupRazorAutoReload(IServiceCollection services)
+        {
+            if (_environment.IsDevelopment())
+            {
+                services.AddRazorPages().AddRazorRuntimeCompilation(); // Razor
+                services.AddLiveReload(); // LiveReload
+            }
+            else
+            {
+                services.AddRazorPages();
+            }
+        }
+
+        private static void SetupHealthChecks(IServiceCollection services)
+        {
+            services.AddHealthChecks()
+                .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
+                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
+                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
         private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
