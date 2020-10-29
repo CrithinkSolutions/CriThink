@@ -256,10 +256,10 @@ namespace CriThink.Server.Web.Services
 
             foreach (var user in allUsers)
             {
-                var dto = _mapper.Map<User, UserGetAllResponse>(user);
-                var role = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-                dto.Role = role;
-                dtos.Add(dto);
+                var userDto = _mapper.Map<User, UserGetAllResponse>(user);
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                userDto.Roles = roles.ToList().AsReadOnly();
+                dtos.Add(userDto);
             }
 
             return dtos;
@@ -276,11 +276,11 @@ namespace CriThink.Server.Web.Services
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            var mapUser = _mapper.Map<User, UserGetResponse>(user);
-            var role = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            mapUser.Role = role;
+            var userDto = _mapper.Map<User, UserGetResponse>(user);
+            var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            userDto.Roles = roles.ToList().AsReadOnly();
 
-            return mapUser;
+            return userDto;
         }
 
         public async Task UpdateUserAsync(UserUpdateRequest request)

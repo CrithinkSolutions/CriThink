@@ -32,7 +32,7 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         public DateTimeOffset? LockoutEnd { get; set; }
 
         [JsonPropertyName("role")]
-        #pragma warning disable CA2227 // Le proprietà delle raccolte devono essere di sola lettura
-        public IList<string> Role { get; set; }
+        #pragma warning disable CA2227
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }
