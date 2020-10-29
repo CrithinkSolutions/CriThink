@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="authenticity">Authenticty value to search</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
-        internal static Task<string> GetCategoryDescriptionByAuthenticityAsync(this DbSet<NewsSourceCategory> dbSet, Expression<Func<NewsSourceCategory, string>> projection, int authenticity, CancellationToken cancellationToken = default)
+        internal static Task<string> GetCategoryDescriptionByAuthenticityAsync(this DbSet<NewsSourceCategory> dbSet, Expression<Func<NewsSourceCategory, string>> projection, NewsSourceAuthenticity authenticity, CancellationToken cancellationToken = default)
         {
             return dbSet
             .Where(q => q.Authenticity == authenticity)

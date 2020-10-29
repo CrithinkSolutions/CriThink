@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -22,13 +19,11 @@ namespace CriThink.Server.Web.Controllers
     public class ServiceController : Controller
     {
         private readonly IWebHostEnvironment _env;
-        private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IWebHostEnvironment env, CriThinkDbContext dbContext, ILogger<ServiceController> logger)
+        public ServiceController(IWebHostEnvironment env, ILogger<ServiceController> logger)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _logger = logger;
         }
 
@@ -46,61 +41,6 @@ namespace CriThink.Server.Web.Controllers
         {
             var name = _env.EnvironmentName;
             return Ok($"Environment: {name}");
-        }
-
-        /// <summary>
-        /// Returns the Redis connection status
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route(EndpointConstants.ServiceRedisHealth)] // api/service/redis-health
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [HttpHead]
-        public IActionResult GetRedisHealthStatus()
-        {
-            bool isHealthy;
-
-            try
-            {
-                var redis = CriThinkRedisMultiplexer.GetConnection();
-                isHealthy = redis.IsConnected;
-            }
-            catch (Exception)
-            {
-                isHealthy = false;
-            }
-
-            return isHealthy ?
-                NoContent() :
-                StatusCode((int) HttpStatusCode.ServiceUnavailable);
-        }
-
-        /// <summary>
-        /// Returns the SQL Server connection status
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route(EndpointConstants.ServiceSqlServerHealth)] // api/service/sqlserver-health
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [HttpHead]
-        public async Task<IActionResult> GetSqlServerHealthStatusAsync()
-        {
-            bool isHealthy;
-
-            try
-            {
-                isHealthy = await _dbContext.Database.CanConnectAsync().ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                isHealthy = false;
-            }
-
-            return isHealthy ?
-                NoContent() :
-                StatusCode((int) HttpStatusCode.ServiceUnavailable);
         }
 
         /// <summary>
