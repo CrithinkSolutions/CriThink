@@ -141,9 +141,16 @@ namespace CriThink.Server.Web
 
             services.AddAutoMapper(typeof(Startup)); // AutoMapper
 
-            services.AddRazorPages(); // Razor
+            if (_environment.IsDevelopment())
+            {
+                services.AddRazorPages().AddRazorRuntimeCompilation(); // Razor
 
-            services.AddLiveReload(); // LiveReload
+                services.AddLiveReload(); // LiveReload
+            }
+            else
+            {
+                services.AddRazorPages();
+            }
 
             services.AddHealthChecks()
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
@@ -159,6 +166,8 @@ namespace CriThink.Server.Web
             {
                 app.UseDeveloperExceptionPage();
 
+                app.UseLiveReload(); // LiveReload
+
                 app.UseSwagger(); // Swagger
                 app.UseSwaggerUI(options =>
                 {
@@ -171,10 +180,6 @@ namespace CriThink.Server.Web
             app.UseResponseCaching();
 
             app.UseApiVersioning();
-
-            app.UseLiveReload(); // LiveReload
-
-            //app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
