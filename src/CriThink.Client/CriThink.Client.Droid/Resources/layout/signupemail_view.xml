@@ -21,15 +21,15 @@
 
     <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_email"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/login_email"
+      android:hint="@string/signupemail_email"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtInput_email"
         android:fontFamily="@font/urbanist"
         android:inputType="textEmailAddress"/>
 
@@ -37,15 +37,15 @@
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_username"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/login_email"
+      android:hint="@string/signupemail_username"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtInput_username"
         android:fontFamily="@font/urbanist"
         android:inputType="textEmailAddress"/>
 
@@ -53,15 +53,15 @@
 
     <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_password"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/login_password"
+      android:hint="@string/signupemail_password"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtInput_password"
         android:fontFamily="@font/urbanist"
         android:inputType="textPassword"/>
 
@@ -69,15 +69,15 @@
 
     <!-- Repeat Password -->
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_repeatPassword"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/login_password"
+      android:hint="@string/signupemail_repeatPassword"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtInput_repeatPassword"
         android:fontFamily="@font/urbanist"
         android:inputType="textPassword"/>
 
@@ -86,8 +86,8 @@
     <androidx.appcompat.widget.AppCompatButton
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/btnLogin"
-      android:text="@string/login_login"
+      android:id="@+id/btn_signUp"
+      android:text="@string/signupemail_signUp"
       android:elevation="@dimen/btn_elevation"
       android:textAllCaps="false"
       android:fontFamily="@font/urbanist"/>

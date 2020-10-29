@@ -82,7 +82,7 @@
     <Compile Include="Views\Users\Activities\ForgotPasswordView.cs" />
     <Compile Include="Views\Users\Activities\LoginView.cs" />
     <Compile Include="Views\Users\Activities\ResetPasswordView.cs" />
-    <Compile Include="Views\Users\Fragments\SignUpEmailView.cs" />
+    <Compile Include="Views\Users\Activities\SignUpEmailView.cs" />
     <Compile Include="Views\Users\Activities\SignUpView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeFragment.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />

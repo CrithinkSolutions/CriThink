@@ -9,6 +9,12 @@
   <string name="signup_alreadyHaveAccount">Possiedi già un account?</string>
   <string name="signup_login">Login</string>
 
+  <!-- SignUp Email -->
+  <string name="signupemail_email">Email</string>
+  <string name="signupemail_username">Username</string>
+  <string name="signupemail_password">Password</string>
+  <string name="signupemail_repeatPassword">Ripeti Password</string>
+  <string name="signupemail_signUp">Unisciti a noi!</string>
 
   <!-- Login -->
   <string name="login_email">Email o username</string>

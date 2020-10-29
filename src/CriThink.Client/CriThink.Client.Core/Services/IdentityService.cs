@@ -78,6 +78,23 @@ namespace CriThink.Client.Core.Services
 
             return userData;
         }
+
+        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var signupResponse = await _restRepository.MakeRequestAsync<BaseResponse<UserSignUpResponse>>(
+                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
+                    HttpVerb.Post,
+                    request,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            var userData = signupResponse.Result;
+
+            return userData;
+        }
     }
 
     public interface IIdentityService
@@ -105,5 +122,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>User info and token</returns>
         Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Performs user signup
+        /// </summary>
+        /// <param name="request">User data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Registration response data</returns>
+        Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken);
     }
 }

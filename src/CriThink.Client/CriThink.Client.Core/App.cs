@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using CriThink.Client.Core.Repositories;
+using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace CriThink.Client.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<LoginViewModel>();
+            RegisterAppStart<WelcomeViewModel>();
         }
 
         private static void InitializeServiceCollection()
