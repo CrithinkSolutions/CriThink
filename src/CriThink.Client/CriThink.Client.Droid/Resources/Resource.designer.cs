@@ -10433,109 +10433,112 @@ namespace CriThink.Client.Droid
 			public const int google_login = 2131689559;
 			
 			// aapt resource value: 0x7F0F0058
-			public const int hide_bottom_view_on_scroll_behavior = 2131689560;
-			
-			// aapt resource value: 0x7F0F005D
-			public const int loginsigniin_login = 2131689565;
-			
-			// aapt resource value: 0x7F0F005E
-			public const int loginsigniin_signin = 2131689566;
+			public const int google_signin = 2131689560;
 			
 			// aapt resource value: 0x7F0F0059
-			public const int login_email = 2131689561;
+			public const int hide_bottom_view_on_scroll_behavior = 2131689561;
 			
-			// aapt resource value: 0x7F0F005A
-			public const int login_forgotPassword = 2131689562;
-			
-			// aapt resource value: 0x7F0F005B
-			public const int login_login = 2131689563;
-			
-			// aapt resource value: 0x7F0F005C
-			public const int login_password = 2131689564;
+			// aapt resource value: 0x7F0F005E
+			public const int loginsigniin_login = 2131689566;
 			
 			// aapt resource value: 0x7F0F005F
-			public const int mtrl_chip_close_icon_content_description = 2131689567;
+			public const int loginsigniin_signin = 2131689567;
+			
+			// aapt resource value: 0x7F0F005A
+			public const int login_email = 2131689562;
+			
+			// aapt resource value: 0x7F0F005B
+			public const int login_forgotPassword = 2131689563;
+			
+			// aapt resource value: 0x7F0F005C
+			public const int login_login = 2131689564;
+			
+			// aapt resource value: 0x7F0F005D
+			public const int login_password = 2131689565;
 			
 			// aapt resource value: 0x7F0F0060
-			public const int newschecker_paste = 2131689568;
+			public const int mtrl_chip_close_icon_content_description = 2131689568;
 			
 			// aapt resource value: 0x7F0F0061
-			public const int newschecker_results = 2131689569;
+			public const int newschecker_paste = 2131689569;
 			
 			// aapt resource value: 0x7F0F0062
-			public const int not_set = 2131689570;
+			public const int newschecker_results = 2131689570;
 			
 			// aapt resource value: 0x7F0F0063
-			public const int password_toggle_content_description = 2131689571;
+			public const int not_set = 2131689571;
 			
 			// aapt resource value: 0x7F0F0064
-			public const int path_password_eye = 2131689572;
+			public const int password_toggle_content_description = 2131689572;
 			
 			// aapt resource value: 0x7F0F0065
-			public const int path_password_eye_mask_strike_through = 2131689573;
+			public const int path_password_eye = 2131689573;
 			
 			// aapt resource value: 0x7F0F0066
-			public const int path_password_eye_mask_visible = 2131689574;
+			public const int path_password_eye_mask_strike_through = 2131689574;
 			
 			// aapt resource value: 0x7F0F0067
-			public const int path_password_strike_through = 2131689575;
+			public const int path_password_eye_mask_visible = 2131689575;
 			
 			// aapt resource value: 0x7F0F0068
-			public const int preference_copied = 2131689576;
+			public const int path_password_strike_through = 2131689576;
 			
 			// aapt resource value: 0x7F0F0069
-			public const int resetpassword_password = 2131689577;
+			public const int preference_copied = 2131689577;
 			
 			// aapt resource value: 0x7F0F006A
-			public const int resetpassword_repeatPassword = 2131689578;
+			public const int resetpassword_password = 2131689578;
 			
 			// aapt resource value: 0x7F0F006B
-			public const int resetpassword_send = 2131689579;
+			public const int resetpassword_repeatPassword = 2131689579;
 			
 			// aapt resource value: 0x7F0F006C
-			public const int search_menu_title = 2131689580;
-			
-			// aapt resource value: 0x7F0F0072
-			public const int signupemail_email = 2131689586;
-			
-			// aapt resource value: 0x7F0F0073
-			public const int signupemail_password = 2131689587;
-			
-			// aapt resource value: 0x7F0F0074
-			public const int signupemail_repeatPassword = 2131689588;
-			
-			// aapt resource value: 0x7F0F0075
-			public const int signupemail_signUp = 2131689589;
-			
-			// aapt resource value: 0x7F0F0076
-			public const int signupemail_username = 2131689590;
+			public const int resetpassword_send = 2131689580;
 			
 			// aapt resource value: 0x7F0F006D
-			public const int signup_alreadyHaveAccount = 2131689581;
+			public const int search_menu_title = 2131689581;
 			
-			// aapt resource value: 0x7F0F006E
-			public const int signup_description = 2131689582;
+			// aapt resource value: 0x7F0F0073
+			public const int signupemail_email = 2131689587;
 			
-			// aapt resource value: 0x7F0F006F
-			public const int signup_email = 2131689583;
+			// aapt resource value: 0x7F0F0074
+			public const int signupemail_password = 2131689588;
 			
-			// aapt resource value: 0x7F0F0070
-			public const int signup_login = 2131689584;
+			// aapt resource value: 0x7F0F0075
+			public const int signupemail_repeatPassword = 2131689589;
 			
-			// aapt resource value: 0x7F0F0071
-			public const int signup_title = 2131689585;
+			// aapt resource value: 0x7F0F0076
+			public const int signupemail_signUp = 2131689590;
 			
 			// aapt resource value: 0x7F0F0077
-			public const int status_bar_notification_info_overflow = 2131689591;
+			public const int signupemail_username = 2131689591;
+			
+			// aapt resource value: 0x7F0F006E
+			public const int signup_alreadyHaveAccount = 2131689582;
+			
+			// aapt resource value: 0x7F0F006F
+			public const int signup_description = 2131689583;
+			
+			// aapt resource value: 0x7F0F0070
+			public const int signup_email = 2131689584;
+			
+			// aapt resource value: 0x7F0F0071
+			public const int signup_login = 2131689585;
+			
+			// aapt resource value: 0x7F0F0072
+			public const int signup_title = 2131689586;
 			
 			// aapt resource value: 0x7F0F0078
-			public const int summary_collapsed_preference_list = 2131689592;
+			public const int status_bar_notification_info_overflow = 2131689592;
 			
 			// aapt resource value: 0x7F0F0079
-			public const int v7_preference_off = 2131689593;
+			public const int summary_collapsed_preference_list = 2131689593;
 			
 			// aapt resource value: 0x7F0F007A
-			public const int v7_preference_on = 2131689594;
+			public const int v7_preference_off = 2131689594;
+			
+			// aapt resource value: 0x7F0F007B
+			public const int v7_preference_on = 2131689595;
 			
 			static String()
 			{
