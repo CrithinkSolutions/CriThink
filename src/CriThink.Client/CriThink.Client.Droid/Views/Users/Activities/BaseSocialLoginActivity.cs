@@ -10,7 +10,7 @@ using Xamarin.Facebook.Login;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
-    public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel>/*, IOnSuccessListener, IOnFailureListener*/ where TViewModel : class, IMvxViewModel
+    public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel> where TViewModel : class, IMvxViewModel
     {
         private const int RequestCode = 1;
 
