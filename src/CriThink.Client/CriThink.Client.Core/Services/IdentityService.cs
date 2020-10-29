@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Models.DTOs;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Singletons;
 using CriThink.Common.Endpoints;
@@ -26,18 +25,16 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var loginResponse = await _restRepository.MakeRequestAsync<BaseResponse<UserLoginResponse>>(
+            var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
                 $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
                 HttpVerb.Post,
                 request,
                 cancellationToken)
                 .ConfigureAwait(false);
 
-            var userLoginResponse = loginResponse.Result;
+            LoggedUser.Login(loginResponse);
 
-            LoggedUser.Login(userLoginResponse);
-
-            return userLoginResponse;
+            return loginResponse;
         }
 
         public async Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken)
@@ -65,18 +62,16 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var resetPasswordResponse = await _restRepository.MakeRequestAsync<BaseResponse<VerifyUserEmailResponse>>(
+            var resetPasswordResponse = await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
                     HttpVerb.Post,
                     request,
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            var userData = resetPasswordResponse.Result;
+            LoggedUser.Login(resetPasswordResponse);
 
-            LoggedUser.Login(userData);
-
-            return userData;
+            return resetPasswordResponse;
         }
 
         public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
@@ -84,16 +79,14 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var signupResponse = await _restRepository.MakeRequestAsync<BaseResponse<UserSignUpResponse>>(
+            var signupResponse = await _restRepository.MakeRequestAsync<UserSignUpResponse>(
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
                     HttpVerb.Post,
                     request,
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            var userData = signupResponse.Result;
-
-            return userData;
+            return signupResponse;
         }
     }
 
