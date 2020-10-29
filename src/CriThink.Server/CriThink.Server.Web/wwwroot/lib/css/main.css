@@ -6,7 +6,8 @@
 
 .main {
 	width: 100%;
-	height: 100vh;
+	height: auto;
+    min-height: 100vh;
 }
 
 .bg-orange {
