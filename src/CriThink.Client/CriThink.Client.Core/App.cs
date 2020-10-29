@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.ViewModels;
-using CriThink.Client.Core.ViewModels.Users;
+using CriThink.Common.HttpRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;

@@ -1,6 +1,6 @@
-﻿namespace CriThink.Client.Core.Repositories
+﻿namespace CriThink.Common.HttpRepository
 {
-    public enum HttpVerb
+    public enum HttpRestVerb
     {
         Get = 1,
         Delete = 2,
