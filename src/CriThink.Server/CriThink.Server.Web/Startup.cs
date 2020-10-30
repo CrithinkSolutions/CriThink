@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
@@ -19,8 +21,11 @@ using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Middlewares;
+using CriThink.Server.Web.Providers.ExternalLogin;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
@@ -40,6 +45,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Polly;
 
 // ReSharper disable UnusedMember.Global
 
@@ -146,6 +152,8 @@ namespace CriThink.Server.Web
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
                 .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
+
+            SetUpExternalLoginProviders(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -371,6 +379,9 @@ namespace CriThink.Server.Web
             // Infrastructure
             services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
 
+            // Rest Repository
+            services.AddTransient<IRestRepository, RestRepository>();
+
             var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
             services.AddInfrastructure(redisConnectionString);
         }
@@ -410,5 +421,67 @@ namespace CriThink.Server.Web
             Predicate = (check) => check.Tags.Contains(tag),
             AllowCachingResponses = false,
         };
+
+        private static void SetUpExternalLoginProviders(IServiceCollection services)
+        {
+            var baseFacebookURL = Environment.GetEnvironmentVariable("FACEBOOK_API_BASE_URL");
+
+            services.AddHttpClient("facebook", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri( baseFacebookURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseGoogleURL = Environment.GetEnvironmentVariable("GOOGLE_API_BASE_URL");
+
+            services.AddHttpClient("google", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri( baseGoogleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseAppleURL = Environment.GetEnvironmentVariable("APPLE_API_BASE_URL");
+
+            services.AddHttpClient("apple", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri( baseAppleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            services.AddTransient<FacebookProvider>();
+            services.AddTransient<GoogleProvider>();
+            services.AddTransient<AppleProvider>();
+
+            services.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
+            {
+                switch (externalProvider)
+                {
+                    case ExternalLoginProvider.Facebook:
+                        return serviceProvider.GetService<FacebookProvider>();
+                    case ExternalLoginProvider.Google:
+                        return serviceProvider.GetService<GoogleProvider>();
+                    case ExternalLoginProvider.Apple:
+                        return serviceProvider.GetService<AppleProvider>();
+                    case ExternalLoginProvider.Other:
+                    default:
+                        throw new NotSupportedException();
+                }
+            });
+        }
     }
 }
