@@ -46,6 +46,15 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
+        public async Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var command = new DeleteDebunkingNewsCommand(request.Id);
+            var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
         public async Task UpdateRepositoryAsync()
         {
             var query = new GetLastDebunkinNewsFetchTimeQuery();
@@ -141,5 +150,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Debunking news</param>
         /// <returns></returns>
         Task AddDebunkingNewsAsync(DebunkingNewsAddRequest request);
+
+        /// <summary>
+        /// Delete the debunking news with the associated id
+        /// </summary>
+        /// <param name="request">Debunking news id</param>
+        /// <returns></returns>
+        Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request);
     }
 }
