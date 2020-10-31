@@ -1,7 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
+using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.SocialLogins;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
 using Xamarin.Facebook;
@@ -10,11 +12,11 @@ using Xamarin.Facebook.Login;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
-    public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel> where TViewModel : class, IMvxViewModel
+    public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel> where TViewModel : BaseSocialLoginViewModel, IMvxViewModel
     {
         private const int RequestCode = 1;
 
-        private SocialLoginProvider _socialLoginProvider;
+        private ExternalLoginProvider _externalLoginProvider;
         private GoogleSignInClient _signInClient;
         private GoogleSignInOptions _gso;
         private ICallbackManager _callbackManager;
@@ -23,7 +25,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (_socialLoginProvider == SocialLoginProvider.Google)
+            if (_externalLoginProvider == ExternalLoginProvider.Google)
             {
                 if (requestCode == RequestCode)
                 {
@@ -31,7 +33,7 @@ namespace CriThink.Client.Droid.Views.Users
                     var a = account.Result;
                 }
             }
-            else if (_socialLoginProvider == SocialLoginProvider.Facebook)
+            else if (_externalLoginProvider == ExternalLoginProvider.Facebook)
             {
                 _callbackManager.OnActivityResult(requestCode, (int) resultCode, data);
             }
@@ -41,7 +43,7 @@ namespace CriThink.Client.Droid.Views.Users
 
         public void LoginUsingFacebook()
         {
-            _socialLoginProvider = SocialLoginProvider.Facebook;
+            _externalLoginProvider = ExternalLoginProvider.Facebook;
 
             if (_callbackManager == null)
                 InitFacebookCallbacks();
@@ -60,23 +62,9 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 HandleSuccess = loginResult =>
                 {
-                    //var token = AccessToken.CurrentAccessToken.Token;
-                },
-                HandleCancel = () =>
-                {
-                    //Handle Cancel
-                },
-                HandleError = loginError =>
-                {
-                    //Handle Error
-                }
-            };
-
-            var loginStatusCallback = new LoginStatusCallback
-            {
-                HandleSuccess = loginResult =>
-                {
-                    //var token = AccessToken.CurrentAccessToken.Token;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    ViewModel.PerformLoginSignAsync(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 },
                 HandleCancel = () =>
                 {
@@ -89,7 +77,6 @@ namespace CriThink.Client.Droid.Views.Users
             };
 
             LoginManager.Instance.RegisterCallback(_callbackManager, loginCallback);
-            LoginManager.Instance.RetrieveLoginStatus(this, loginStatusCallback);
         }
 
         #endregion
@@ -98,7 +85,7 @@ namespace CriThink.Client.Droid.Views.Users
 
         public void LoginUsingGoogle()
         {
-            _socialLoginProvider = SocialLoginProvider.Google;
+            _externalLoginProvider = ExternalLoginProvider.Google;
 
             if (_gso == null || _signInClient == null)
                 InitGoogleSignIn();

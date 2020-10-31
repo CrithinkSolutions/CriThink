@@ -37,6 +37,23 @@ namespace CriThink.Client.Core.Services
             return loginResponse;
         }
 
+        public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
+                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
+                    HttpRestVerb.Post,
+                    request,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            LoggedUser.Login(loginResponse);
+
+            return loginResponse;
+        }
+
         public async Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
@@ -99,6 +116,14 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Login response data</returns>
         Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Performs login or sign in using an external social provider
+        /// </summary>
+        /// <param name="request">User and social provider data</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
+        /// <returns>Login response data</returns>
+        Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Requests a temporary token to restore the password

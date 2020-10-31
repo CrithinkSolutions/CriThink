@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj" />
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj" />
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj" />
   </ItemGroup>
 
