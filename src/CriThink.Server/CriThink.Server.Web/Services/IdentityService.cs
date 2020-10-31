@@ -15,6 +15,7 @@ using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Jwt;
+using CriThink.Server.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -484,38 +485,7 @@ namespace CriThink.Server.Web.Services
 
             if (currentUser is null)
             {
-                var user = new User
-                {
-                    Email = userAccessInfo.Email,
-                    UserName = userAccessInfo.Username,
-                };
-
-                var userLoginInfo = new UserLoginInfo(provider, userAccessInfo.UserId, provider);
-
-                var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
-                if (userCreated.Succeeded)
-                {
-                    var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
-
-                    if (loginAssociated.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        var ex = new IdentityOperationException(loginAssociated);
-                        _logger?.LogError(ex, "Error associating external provider to user.", provider, user, request);
-                        throw ex;
-                    }
-                }
-                else
-                {
-                    var ex = new IdentityOperationException(userCreated);
-                    _logger?.LogError(ex, "Error creating user.", provider, user, request);
-                    throw ex;
-                }
-
-                currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
+                currentUser = await CreateExternalProviderLoginUser(userAccessInfo, provider).ConfigureAwait(false);
             }
             
             var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
@@ -620,6 +590,42 @@ namespace CriThink.Server.Web.Services
                 var ex = new InvalidOperationException("Error hashing again user password");
                 _logger?.LogError(ex, "Rehash needed but failed", user);
             }
+        }
+
+        private async Task<User> CreateExternalProviderLoginUser(ExternalProviderUserInfo userAccessInfo, string providerName)
+        {
+            var user = new User
+            {
+                Email = userAccessInfo.Email,
+                UserName = userAccessInfo.Username,
+            };
+
+            var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
+
+            var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
+            if (userCreated.Succeeded)
+            {
+                var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
+
+                if (loginAssociated.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
+                }
+                else
+                {
+                    var ex = new IdentityOperationException(loginAssociated);
+                    _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
+                    throw ex;
+                }
+            }
+            else
+            {
+                var ex = new IdentityOperationException(userCreated);
+                _logger?.LogError(ex, "Error creating user.", providerName, user);
+                throw ex;
+            }
+
+            return await _userManager.FindByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
         }
 
         #endregion
