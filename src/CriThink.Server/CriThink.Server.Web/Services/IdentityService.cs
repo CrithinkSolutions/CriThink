@@ -520,7 +520,7 @@ namespace CriThink.Server.Web.Services
             var currentUser = await _userManager.FindByIdAsync(userAccessInfo.UserId).ConfigureAwait(false);
 
             if (currentUser is null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException("Cannot find anyy user with the given id", nameof(userAccessInfo));
             
             var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
 
