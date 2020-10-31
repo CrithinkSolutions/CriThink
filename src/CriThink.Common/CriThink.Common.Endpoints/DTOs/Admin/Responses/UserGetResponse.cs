@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
@@ -29,5 +30,9 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 
         [JsonPropertyName("lockoutEnd")]
         public DateTimeOffset? LockoutEnd { get; set; }
+
+        [JsonPropertyName("role")]
+        #pragma warning disable CA2227
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }

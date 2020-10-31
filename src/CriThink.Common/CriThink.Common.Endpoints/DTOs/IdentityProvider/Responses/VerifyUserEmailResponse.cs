@@ -13,5 +13,8 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 
         [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }
+
+        [JsonPropertyName("username")]
+        public string Username { get; set; }
     }
 }

@@ -258,7 +258,16 @@ namespace CriThink.Server.Web.Services
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            var dtos = _mapper.Map<IList<User>, IList<UserGetAllResponse>>(allUsers);
+            var dtos = new List<UserGetAllResponse>();
+
+            foreach (var user in allUsers)
+            {
+                var userDto = _mapper.Map<User, UserGetAllResponse>(user);
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                userDto.Roles = roles.ToList().AsReadOnly();
+                dtos.Add(userDto);
+            }
+
             return dtos;
         }
 
@@ -273,7 +282,11 @@ namespace CriThink.Server.Web.Services
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            return _mapper.Map<User, UserGetResponse>(user);
+            var userDto = _mapper.Map<User, UserGetResponse>(user);
+            var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            userDto.Roles = roles.ToList().AsReadOnly();
+
+            return userDto;
         }
 
         public async Task UpdateUserAsync(UserUpdateRequest request)
@@ -385,7 +398,8 @@ namespace CriThink.Server.Web.Services
             {
                 UserId = userId,
                 JwtToken = jwtToken,
-                UserEmail = user.Email
+                UserEmail = user.Email,
+                Username = user.UserName
             };
         }
 
@@ -461,7 +475,8 @@ namespace CriThink.Server.Web.Services
             {
                 UserId = userId,
                 JwtToken = jwtToken,
-                UserEmail = user.Email
+                UserEmail = user.Email,
+                Username = user.UserName
             };
         }
 

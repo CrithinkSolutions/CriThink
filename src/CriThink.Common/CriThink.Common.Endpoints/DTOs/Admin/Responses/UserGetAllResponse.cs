@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
@@ -16,5 +17,9 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 
         [JsonPropertyName("isDeleted")]
         public bool IsDeleted { get; set; }
+
+        [JsonPropertyName("role")]
+        #pragma warning disable CA2227
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }
