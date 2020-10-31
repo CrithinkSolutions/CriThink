@@ -22,10 +22,12 @@ namespace CriThink.Server.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;
+        private readonly IDebunkNewsService _debunkingNewsService;
 
-        public AdminController(IIdentityService identityService)
+        public AdminController(IIdentityService identityService, IDebunkNewsService debunkingNewsService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
         /// <summary>
@@ -242,6 +244,19 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> DeleteUserAsync([FromBody] UserGetRequest request)
         {
             await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddDebunkingNewsAsync([FromBody] DebunkingNewsAddRequest request)
+        {
+            await _debunkingNewsService.AddDebunkingNewsAsync(request).ConfigureAwait(false);
             return NoContent();
         }
     }

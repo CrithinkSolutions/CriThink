@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Queries;
@@ -29,6 +30,22 @@ namespace CriThink.Server.Web.Services
             _logger = logger;
         }
 
+        public async Task AddDebunkingNewsAsync(DebunkingNewsAddRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var scrapedNews = await _newsScraperManager.ScrapeNewsWebPage(new Uri(request.Link))
+                .ConfigureAwait(false);
+
+            var keywords = await GetNewsKeywordsAsync(scrapedNews).ConfigureAwait(false);
+
+            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request);
+
+            var command = new CreateDebunkingNewsCommand(new[] { entity });
+            var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
         public async Task UpdateRepositoryAsync()
         {
             var query = new GetLastDebunkinNewsFetchTimeQuery();
@@ -40,7 +57,7 @@ namespace CriThink.Server.Web.Services
             var lastSuccessfullFetchDate = lastDateTask.Result;
             var debunkingNewsCollection = debunkinNewsTask.Result;
 
-            var debunkedNewsCollection = await ScrapeDebunkingNewsAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
+            var debunkedNewsCollection = await ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
 
             if (!debunkedNewsCollection.Any())
                 return;
@@ -49,7 +66,7 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        private async Task<List<DebunkingNews>> ScrapeDebunkingNewsAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
+        private async Task<List<DebunkingNews>> ScrapeDebunkingNewsCollectionAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
         {
             var debunkedNewsCollection = new List<DebunkingNews>();
 
@@ -62,11 +79,13 @@ namespace CriThink.Server.Web.Services
                 {
                     try
                     {
-                        var scrapedNews = await _newsScraperManager.ScrapeNewsWebPage(new Uri(response.Link))
+                        var scrapedNews = await ScrapeNewsAsync(response.Link)
                             .ConfigureAwait(false);
 
-                        var entity = await GetNewsKeywordsAsync(scrapedNews)
+                        var keywords = await GetNewsKeywordsAsync(scrapedNews)
                             .ConfigureAwait(false);
+
+                        var entity = BuildDebunkingNewsEntity(scrapedNews, keywords);
 
                         debunkedNewsCollection.Add(entity);
                     }
@@ -80,18 +99,25 @@ namespace CriThink.Server.Web.Services
             return debunkedNewsCollection;
         }
 
-        private async Task<DebunkingNews> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews)
+        private Task<NewsScraperProviderResponse> ScrapeNewsAsync(string link) =>
+            _newsScraperManager.ScrapeNewsWebPage(new Uri(link));
+
+        private Task<IReadOnlyList<string>> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews) =>
+            _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
+
+        private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords, DebunkingNewsAddRequest customAttributes = null)
         {
-            var keywords = await _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews)
-                .ConfigureAwait(false);
+            var allKeywords = customAttributes?.Keywords != null && customAttributes.Keywords.Any() ?
+                keywords.Union(customAttributes.Keywords).ToList().AsReadOnly() :
+                keywords;
 
             var entity = new DebunkingNews
             {
-                Keywords = string.Join(',', keywords),
+                Keywords = string.Join(',', allKeywords),
                 Link = scrapedNews.RequestedUri.AbsoluteUri,
-                NewsCaption = scrapedNews.GetCaption(),
+                NewsCaption = customAttributes?.Caption ?? scrapedNews.GetCaption(),
                 PublisherName = scrapedNews.WebSiteName,
-                Title = scrapedNews.Title
+                Title = customAttributes?.Title ?? scrapedNews.Title
             };
 
             if (scrapedNews.Date.HasValue)
@@ -108,5 +134,12 @@ namespace CriThink.Server.Web.Services
         /// </summary>
         /// <returns></returns>
         Task UpdateRepositoryAsync();
+
+        /// <summary>
+        /// Add the given debunking news to the repository
+        /// </summary>
+        /// <param name="request">Debunking news</param>
+        /// <returns></returns>
+        Task AddDebunkingNewsAsync(DebunkingNewsAddRequest request);
     }
 }

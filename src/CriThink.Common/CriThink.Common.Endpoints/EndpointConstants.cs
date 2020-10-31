@@ -52,6 +52,7 @@
         public const string AdminUserRole = "user/role";
         public const string AdminUserGetAll = "user/all";
         public const string AdminUser = "user";
+        public const string AdminDebunkingNews = "debunking-news";
 
         #endregion
 
