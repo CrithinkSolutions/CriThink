@@ -480,10 +480,9 @@ namespace CriThink.Server.Web.Services
 
             var provider = request.SocialProvider.ToString().ToUpperInvariant();
 
-            await _signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
-            var signInInfo = await _signInManager.ExternalLoginSignInAsync(provider, userAccessInfo.UserId, isPersistent: false).ConfigureAwait(false);
+            var currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
 
-            if (!signInInfo.Succeeded)
+            if (currentUser is null)
             {
                 var user = new User
                 {
@@ -491,7 +490,7 @@ namespace CriThink.Server.Web.Services
                     UserName = userAccessInfo.Username,
                 };
 
-                var userLoginInfo = new UserLoginInfo(provider, decodedToken, provider);
+                var userLoginInfo = new UserLoginInfo(provider, userAccessInfo.UserId, provider);
 
                 var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
                 if (userCreated.Succeeded)
@@ -515,12 +514,9 @@ namespace CriThink.Server.Web.Services
                     _logger?.LogError(ex, "Error creating user.", provider, user, request);
                     throw ex;
                 }
-            }
-            
-            var currentUser = await _userManager.FindByIdAsync(userAccessInfo.UserId).ConfigureAwait(false);
 
-            if (currentUser is null)
-                throw new ResourceNotFoundException("Cannot find anyy user with the given id", nameof(userAccessInfo));
+                currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
+            }
             
             var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
 
