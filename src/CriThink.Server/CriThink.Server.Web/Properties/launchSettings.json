@@ -13,10 +13,7 @@
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ENABLE_SIGNUP": "true",
-        "FACEBOOK_API_BASE_URL": "https://graph.facebook.com/",
-        "GOOGLE_API_BASE_URL": "https://google.com/",
-        "APPLE_API_BASE_URL": "https://apple.com/"
+        "ENABLE_SIGNUP": "true"
       }
     },
     "IIS Express (Staging)": {
@@ -24,10 +21,7 @@
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Staging",
-        "ENABLE_SIGNUP": "true",
-        "FACEBOOK_API_BASE_URL": "https://graph.facebook.com/",
-        "GOOGLE_API_BASE_URL": "https://google.com/",
-        "APPLE_API_BASE_URL": "https://apple.com/"
+        "ENABLE_SIGNUP": "true"
       }
     },
     "IIS Express (Production)": {
@@ -35,10 +29,7 @@
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
-        "ENABLE_SIGNUP": "false",
-        "FACEBOOK_API_BASE_URL": "https://graph.facebook.com/",
-        "GOOGLE_API_BASE_URL": "https://google.com/",
-        "APPLE_API_BASE_URL": "https://apple.com/"
+        "ENABLE_SIGNUP": "false"
       }
     },
     "CriThink.Web": {
@@ -46,10 +37,7 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "FACEBOOK_API_BASE_URL": "https://graph.facebook.com/",
-        "GOOGLE_API_BASE_URL": "https://google.com/",
-        "APPLE_API_BASE_URL": "https://apple.com/"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

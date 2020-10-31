@@ -422,9 +422,9 @@ namespace CriThink.Server.Web
             AllowCachingResponses = false,
         };
 
-        private static void SetUpExternalLoginProviders(IServiceCollection services)
+        private void SetUpExternalLoginProviders(IServiceCollection services)
         {
-            var baseFacebookURL = Environment.GetEnvironmentVariable("FACEBOOK_API_BASE_URL");
+            var baseFacebookURL = Configuration["FacebookApiUrl"];
 
             services.AddHttpClient("facebook", httpClient =>
             {
@@ -437,7 +437,7 @@ namespace CriThink.Server.Web
                 TimeSpan.FromSeconds(10),
             }));
 
-            var baseGoogleURL = Environment.GetEnvironmentVariable("GOOGLE_API_BASE_URL");
+            var baseGoogleURL = Configuration["GoogleApiUrl"];
 
             services.AddHttpClient("google", httpClient =>
             {
@@ -450,7 +450,7 @@ namespace CriThink.Server.Web
                 TimeSpan.FromSeconds(10),
             }));
 
-            var baseAppleURL = Environment.GetEnvironmentVariable("APPLE_API_BASE_URL");
+            var baseAppleURL = Configuration["AppleApiUrl"];
 
             services.AddHttpClient("apple", httpClient =>
             {
