@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using CriThink.Server.Web.Models.DTOs;
+using CriThink.Server.Web.Models;
 
 namespace CriThink.Server.Web.Interfaces
 {

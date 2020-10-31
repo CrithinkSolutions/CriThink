@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Web.Interfaces;
-using CriThink.Server.Web.Models.DTOs;
+using CriThink.Server.Web.Models;
 using CriThink.Server.Web.Models.DTOs.Facebook;
 using Microsoft.Extensions.Configuration;
 
