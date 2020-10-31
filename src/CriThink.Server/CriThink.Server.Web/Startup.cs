@@ -103,7 +103,6 @@ namespace CriThink.Server.Web
 
             SetupRazorAutoReload(services);
 
-
             SetUpExternalLoginProviders(services);
 
             SetupHealthChecks(services);
@@ -402,15 +401,18 @@ namespace CriThink.Server.Web
             });
         }
 
-        private static void SetupJsonSerializer(IServiceCollection services)
+        private void SetupJsonSerializer(IServiceCollection services)
         {
-            services
+            var mvcBuilder = services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
                 });
+
+            if (_environment.IsDevelopment())
+                mvcBuilder.AddRazorRuntimeCompilation();
         }
 
         private static void SetupAutoMapper(IServiceCollection services)
@@ -420,14 +422,12 @@ namespace CriThink.Server.Web
 
         private void SetupRazorAutoReload(IServiceCollection services)
         {
+            var mvcBuilder = services.AddRazorPages();
+
             if (_environment.IsDevelopment())
             {
-                services.AddRazorPages().AddRazorRuntimeCompilation(); // Razor
+                mvcBuilder.AddRazorRuntimeCompilation(); // Razor
                 services.AddLiveReload(); // LiveReload
-            }
-            else
-            {
-                services.AddRazorPages();
             }
         }
 
@@ -471,7 +471,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Facebook", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseFacebookURL);
+                httpClient.BaseAddress = new Uri(baseFacebookURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
@@ -484,7 +484,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Google", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseGoogleURL);
+                httpClient.BaseAddress = new Uri(baseGoogleURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
@@ -497,7 +497,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Apple", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseAppleURL);
+                httpClient.BaseAddress = new Uri(baseAppleURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
