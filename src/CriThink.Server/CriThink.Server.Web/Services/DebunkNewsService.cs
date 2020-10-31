@@ -55,6 +55,15 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
+        public async Task UpdateDebunkingNewsAsync(DebunkingNewsUpdateRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var command = new UpdateDebunkingNewsCommand(request.Id, request.Title, request.Caption, request.Link, request.Keywords);
+            var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
         public async Task UpdateRepositoryAsync()
         {
             var query = new GetLastDebunkinNewsFetchTimeQuery();
@@ -157,5 +166,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
         Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request);
+
+        /// <summary>
+        /// Update the debunking news
+        /// </summary>
+        /// <param name="request">The new list of keyworks</param>
+        /// <returns></returns>
+        Task UpdateDebunkingNewsAsync(DebunkingNewsUpdateRequest request);
     }
 }

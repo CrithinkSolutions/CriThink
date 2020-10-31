@@ -265,6 +265,11 @@ namespace CriThink.Server.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes the given debunking news
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -276,6 +281,24 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> DeleteDebunkingNewsAsync([FromBody] SimpleDebunkingNewsRequest request)
         {
             await _debunkingNewsService.DeleteDebunkingNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Updates the debunking news keywords
+        /// </summary>
+        /// <param name="request">The new keywords</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateDebunkingNewsKeywordsAsync([FromBody] DebunkingNewsUpdateRequest request)
+        {
+            await _debunkingNewsService.UpdateDebunkingNewsAsync(request).ConfigureAwait(false);
             return NoContent();
         }
     }
