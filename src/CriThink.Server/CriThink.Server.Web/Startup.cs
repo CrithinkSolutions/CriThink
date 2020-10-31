@@ -103,7 +103,6 @@ namespace CriThink.Server.Web
 
             SetupRazorAutoReload(services);
 
-
             SetUpExternalLoginProviders(services);
 
             SetupHealthChecks(services);
@@ -153,7 +152,7 @@ namespace CriThink.Server.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
-                SetUpHealthChecks(endpoints);
+                MapHealthChecks(endpoints);
             });
         }
 
@@ -439,7 +438,7 @@ namespace CriThink.Server.Web
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
-        private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
+        private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
         {
             // Redis
             endpoints.MapHealthChecks(
@@ -471,7 +470,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Facebook", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseFacebookURL);
+                httpClient.BaseAddress = new Uri(baseFacebookURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
@@ -484,7 +483,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Google", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseGoogleURL);
+                httpClient.BaseAddress = new Uri(baseGoogleURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
@@ -497,7 +496,7 @@ namespace CriThink.Server.Web
 
             services.AddHttpClient("Apple", httpClient =>
             {
-                httpClient.BaseAddress = new Uri( baseAppleURL);
+                httpClient.BaseAddress = new Uri(baseAppleURL);
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
             {
