@@ -28,7 +28,10 @@ namespace CriThink.Server.Web.Providers.ExternalLogin
             
             var debugTokenResponse = await _restRepository.MakeRequestAsync<DebugTokenResponse>(tokenInfoPath, HttpRestVerb.Get, "Facebook").ConfigureAwait(false);
 
-            var userInfoPath = $"{debugTokenResponse.Data.UserId}?fields=id,first_name,last_name,picture,gender,email&access_token={accessToken}";
+            if (!debugTokenResponse.Data.IsValid)
+                throw new InvalidOperationException("The given token is wrong or expired");
+
+            var userInfoPath = $"{debugTokenResponse.Data.UserId}?fields=id,first_name,last_name,picture,email&access_token={userToken}";
 
             var userInfoDetail = await _restRepository.MakeRequestAsync<UserInfoDetail>(userInfoPath, HttpRestVerb.Get, "Facebook").ConfigureAwait(false);
 
