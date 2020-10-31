@@ -16,7 +16,7 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         protected IIdentityService IdentityService { get; }
 
-        public async Task PerformLoginSignAsync(string token, ExternalLoginProvider loginProvider)
+        public async Task PerformLoginSignInAsync(string token, ExternalLoginProvider loginProvider)
         {
             var request = new ExternalLoginProviderRequest
             {

@@ -29,8 +29,15 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 if (requestCode == RequestCode)
                 {
-                    var account = GoogleSignIn.GetSignedInAccountFromIntent(data);
-                    var a = account.Result;
+                    var account = GoogleSignIn.GetSignedInAccountFromIntent(data).Result;
+
+                    if (!(account is GoogleSignInAccount googleAccount)) return;
+
+                    var token = googleAccount.IdToken;
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    ViewModel.PerformLoginSignInAsync(token, ExternalLoginProvider.Google);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 }
             }
             else if (_externalLoginProvider == ExternalLoginProvider.Facebook)
@@ -63,7 +70,7 @@ namespace CriThink.Client.Droid.Views.Users
                 HandleSuccess = loginResult =>
                 {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    ViewModel.PerformLoginSignAsync(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
+                    ViewModel.PerformLoginSignInAsync(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 },
                 HandleCancel = () =>
