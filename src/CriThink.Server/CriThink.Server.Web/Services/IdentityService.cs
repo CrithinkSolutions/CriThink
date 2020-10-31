@@ -11,6 +11,7 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.EmailSender.Services;
+using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Jwt;
@@ -31,8 +32,10 @@ namespace CriThink.Server.Web.Services
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
+        private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
+        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger, ExternalLoginProviderResolver externalLoginProviderResolver, SignInManager<User> signInManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
@@ -41,6 +44,8 @@ namespace CriThink.Server.Web.Services
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
             _jwtTokenHandler = new JwtSecurityTokenHandler();
+            _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
+            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
         public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
@@ -456,6 +461,75 @@ namespace CriThink.Server.Web.Services
                 UserId = userId,
                 JwtToken = jwtToken,
                 UserEmail = user.Email
+            };
+        }
+
+        public async Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (string.IsNullOrWhiteSpace(request.UserToken))
+                throw new ArgumentNullException(nameof(request.UserToken));
+
+            IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(request.SocialProvider);
+
+            var decodedToken = Base64Helper.FromBase64(request.UserToken);
+
+            var userAccessInfo = await socialLoginProvider.GetUserAccessInfo(decodedToken).ConfigureAwait(false);
+
+            var provider = request.SocialProvider.ToString().ToUpperInvariant();
+
+            await _signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
+            var signInInfo = await _signInManager.ExternalLoginSignInAsync(provider, userAccessInfo.UserId, isPersistent: false).ConfigureAwait(false);
+
+            if (!signInInfo.Succeeded)
+            {
+                var user = new User
+                {
+                    Email = userAccessInfo.Email,
+                    UserName = userAccessInfo.Username,
+                };
+
+                var userLoginInfo = new UserLoginInfo(provider, decodedToken, provider);
+
+                var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
+                if (userCreated.Succeeded)
+                {
+                    var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
+
+                    if (loginAssociated.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var ex = new IdentityOperationException(loginAssociated);
+                        _logger?.LogError(ex, "Error associating external provider to user.", provider, user, request);
+                        throw ex;
+                    }
+                }
+                else
+                {
+                    var ex = new IdentityOperationException(userCreated);
+                    _logger?.LogError(ex, "Error creating user.", provider, user, request);
+                    throw ex;
+                }
+            }
+            
+            var currentUser = await _userManager.FindByIdAsync(userAccessInfo.UserId).ConfigureAwait(false);
+
+            if (currentUser is null)
+                throw new ResourceNotFoundException();
+            
+            var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
+
+            return new UserLoginResponse
+            {
+                JwtToken = jwtToken,
+                UserEmail = currentUser.Email,
+                UserId = currentUser.Id.ToString(),
+                UserName = currentUser.UserName,
             };
         }
 
