@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -11,8 +11,11 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.EmailSender.Services;
+using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Exceptions;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Jwt;
+using CriThink.Server.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,8 +33,10 @@ namespace CriThink.Server.Web.Services
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
+        private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
+        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger, ExternalLoginProviderResolver externalLoginProviderResolver, SignInManager<User> signInManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
@@ -40,6 +45,8 @@ namespace CriThink.Server.Web.Services
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
             _jwtTokenHandler = new JwtSecurityTokenHandler();
+            _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
+            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
         public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
@@ -473,6 +480,40 @@ namespace CriThink.Server.Web.Services
             };
         }
 
+        public async Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (string.IsNullOrWhiteSpace(request.UserToken))
+                throw new ArgumentNullException(nameof(request.UserToken));
+
+            IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(request.SocialProvider);
+
+            var decodedToken = Base64Helper.FromBase64(request.UserToken);
+
+            var userAccessInfo = await socialLoginProvider.GetUserAccessInfo(decodedToken).ConfigureAwait(false);
+
+            var provider = request.SocialProvider.ToString().ToUpperInvariant();
+
+            var currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
+
+            if (currentUser is null)
+            {
+                currentUser = await CreateExternalProviderLoginUser(userAccessInfo, provider).ConfigureAwait(false);
+            }
+            
+            var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
+
+            return new UserLoginResponse
+            {
+                JwtToken = jwtToken,
+                UserEmail = currentUser.Email,
+                UserId = currentUser.Id.ToString(),
+                UserName = currentUser.UserName,
+            };
+        }
+
         #region Privates
 
         private async Task<User> FindUserAsync(string email = "", string userName = "", string userId = "")
@@ -566,126 +607,42 @@ namespace CriThink.Server.Web.Services
             }
         }
 
+        private async Task<User> CreateExternalProviderLoginUser(ExternalProviderUserInfo userAccessInfo, string providerName)
+        {
+            var user = new User
+            {
+                Email = userAccessInfo.Email,
+                UserName = userAccessInfo.Username,
+            };
+
+            var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
+
+            var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
+            if (userCreated.Succeeded)
+            {
+                var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
+
+                if (loginAssociated.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
+                }
+                else
+                {
+                    var ex = new IdentityOperationException(loginAssociated);
+                    _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
+                    throw ex;
+                }
+            }
+            else
+            {
+                var ex = new IdentityOperationException(userCreated);
+                _logger?.LogError(ex, "Error creating user.", providerName, user);
+                throw ex;
+            }
+
+            return await _userManager.FindByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
+        }
+
         #endregion
-    }
-
-    public interface IIdentityService
-    {
-        /// <summary>
-        /// Create a new user
-        /// </summary>
-        /// <param name="request">DTO with user information</param>
-        /// <returns>The operation result</returns>
-        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request);
-
-        /// <summary>
-        /// Create a new admin
-        /// </summary>
-        /// <param name="request">DTO with admin information</param>
-        /// <returns>The operation result</returns>
-        Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request);
-
-        /// <summary>
-        /// Gets all the roles
-        /// </summary>
-        /// <returns>Role list</returns>
-        Task<IList<RoleGetResponse>> GetRolesAsync();
-
-        /// <summary>
-        /// Add a new identity role
-        /// </summary>
-        /// <param name="request">Role to add</param>
-        /// <returns>An asynchronous result</returns>
-        Task CreateNewRoleAsync(SimpleRoleNameRequest request);
-
-        /// <summary>
-        /// Delete an identity role
-        /// </summary>
-        /// <param name="request">Role to delete</param>
-        /// <returns>An asynchronous result</returns>
-        Task DeleteNewRoleAsync(SimpleRoleNameRequest request);
-
-        /// <summary>
-        /// Rename an identity role name
-        /// </summary>
-        /// <param name="request">New role name</param>
-        /// <returns>An asynchronous result</returns>
-        Task UpdateRoleNameAsync(RoleUpdateNameRequest request);
-
-        /// <summary>
-        /// Update the user's role
-        /// </summary>
-        /// <param name="request">User and role</param>
-        /// <returns>An asynchronous result</returns>
-        Task UpdateUserRoleAsync(UserRoleUpdateRequest request);
-
-        /// <summary>
-        /// Remove a role from the user
-        /// </summary>
-        /// <param name="request">User and role</param>
-        /// <returns>An asynchronous result</returns>
-        Task RemoveRoleFromUserAsync(UserRoleUpdateRequest request);
-
-        /// <summary>
-        /// Get all users
-        /// </summary>
-        /// <param name="request">Page index and users per page</param>
-        /// <returns>Returns list of users</returns>
-        Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request);
-
-        /// <summary>
-        /// Get user by id
-        /// </summary>
-        /// <param name="request">User id</param>
-        /// <returns>Returns user details</returns>
-        Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Update user properties
-        /// </summary>
-        /// <param name="request">New properties</param>
-        /// <returns></returns>
-        Task UpdateUserAsync(UserUpdateRequest request);
-
-        /// <summary>
-        /// Soft delete a user
-        /// </summary>
-        /// <param name="request">User id</param>
-        /// <returns>The operation result</returns>
-        Task SoftDeleteUserAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Delete a user
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task DeleteUserAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Login the given user
-        /// </summary>
-        /// <param name="request">DTO with user information</param>
-        /// <returns>The operation result. It contains the token if successful</returns>
-        Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request);
-        /// <summary>
-        /// Verify the user email through the email link
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="confirmationCode"></param>
-        /// <returns>The operation result</returns>
-        Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode);
-
-        /// <summary>
-        /// Allow user to change its personal password
-        /// </summary>
-        /// <param name="email">User email</param>
-        /// <param name="currentPassword">Current password</param>
-        /// <param name="newPassword">New password</param>
-        /// <returns>Returns true if the password is changed, otherwise false</returns>
-        Task<bool> ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
-
-        Task GenerateUserPasswordTokenAsync(string email, string username);
-
-        Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword);
     }
 }

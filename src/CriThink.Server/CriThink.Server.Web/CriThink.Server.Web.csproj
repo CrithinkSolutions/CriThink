@@ -43,6 +43,7 @@
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj" />
   </ItemGroup>
 
   <ItemGroup>	

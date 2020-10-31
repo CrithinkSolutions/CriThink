@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
