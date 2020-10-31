@@ -426,7 +426,7 @@ namespace CriThink.Server.Web
         {
             var baseFacebookURL = Configuration["FacebookApiUrl"];
 
-            services.AddHttpClient("facebook", httpClient =>
+            services.AddHttpClient("Facebook", httpClient =>
             {
                 httpClient.BaseAddress = new Uri( baseFacebookURL);
             })
@@ -439,7 +439,7 @@ namespace CriThink.Server.Web
 
             var baseGoogleURL = Configuration["GoogleApiUrl"];
 
-            services.AddHttpClient("google", httpClient =>
+            services.AddHttpClient("Google", httpClient =>
             {
                 httpClient.BaseAddress = new Uri( baseGoogleURL);
             })
@@ -452,7 +452,7 @@ namespace CriThink.Server.Web
 
             var baseAppleURL = Configuration["AppleApiUrl"];
 
-            services.AddHttpClient("apple", httpClient =>
+            services.AddHttpClient("Apple", httpClient =>
             {
                 httpClient.BaseAddress = new Uri( baseAppleURL);
             })
