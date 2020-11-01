@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Entities;
