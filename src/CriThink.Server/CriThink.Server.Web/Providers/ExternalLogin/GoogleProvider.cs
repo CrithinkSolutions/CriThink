@@ -23,7 +23,12 @@ namespace CriThink.Server.Web.Providers.ExternalLogin
         {
             var path = $"tokeninfo?id_token={userToken}";
 
+            var appSecret = _configuration["GoogleApiKey"];
+
             var result = await _restRepository.MakeRequestAsync<TokenInfo>(path, HttpRestVerb.Get, "Google").ConfigureAwait(false);
+
+            if (result.ApplicationId != appSecret) 
+                throw new Exception();
 
             if (!result.EmailVerified)
                 throw new Exception();
