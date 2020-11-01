@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
 
 namespace CriThink.Server.Web.Interfaces
 {
@@ -104,6 +106,20 @@ namespace CriThink.Server.Web.Interfaces
         /// <param name="request">DTO with user information</param>
         /// <returns>The operation result. It contains the token if successful</returns>
         Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request);
+
+        /// <summary>
+        /// Login the given user
+        /// </summary>
+        /// <param name="viewModel">Form data</param>
+        /// <returns>The operation result</returns>
+        Task<ClaimsIdentity> LoginUserAsync(LoginViewModel viewModel);
+
+        /// <summary>
+        /// Performs the logout for the current user (MVC)
+        /// </summary>
+        /// <returns></returns>
+        Task LogoutUserAsync();
+
         /// <summary>
         /// Verify the user email through the email link
         /// </summary>

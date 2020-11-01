@@ -5,46 +5,46 @@
 // ============================= Login
 
 // ===== Button for login request ===== 
-$(document).on('click', '#btn-login', function(event) {
-	   	event.preventDefault();
-	   	const username = $('#inputemail').val();
-	   	const password = $('#inputpwd').val();
-	   	username.includes('@')? loginAPI('',username,password) : loginAPI(username,'',password);
-	}
-);
+//$(document).on('click', '#btn-login', function(event) {
+//		event.preventDefault();
+//		const username = $('#inputemail').val();
+//		const password = $('#inputpwd').val();
+//		username.includes('@')? loginAPI('',username,password) : loginAPI(username,'',password);
+//	}
+//);
 
 // ===== Login request =====
-function loginAPI(username,email,password) {
-	$('#btn-login').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-	fetch('/api/identity/login', {
-		method: 'POST',
-		headers: {
-    		'Content-Type': 'application/json',
-  		},
-  		body: JSON.stringify({
-  			'email': email,
-  			'username': username,
-  			'password': password
-  		}),
-	})
-	.then(response => {
-		if(response.status == 200) {
-			response.json().then(data => {
-				const expires = new Date(data.token.expirationDate);
-				document.cookie = "username=" + data.username + "; expires=" + expires.toUTCString();
-				document.cookie = "token=" + data.token.token + "; expires=" + expires.toUTCString();
-				$('#errordiv').addClass('d-none');
-				window.location.href="/control-panel";
-			})
-		}
-		else {
-			$('#errordiv').removeClass('d-none');
-		}
-	})
-	.then(() => {
-		$('#btn-login').html('Login');
-	});
-}
+//function loginAPI(username,email,password) {
+//	$('#btn-login').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+//	fetch('/api/identity/login', {
+//		method: 'POST',
+//		headers: {
+//			'Content-Type': 'application/json',
+//		},
+//		body: JSON.stringify({
+//			'email': email,
+//			'username': username,
+//			'password': password
+//		}),
+//	})
+//	.then(response => {
+//		if(response.status == 200) {
+//			response.json().then(data => {
+//				const expires = new Date(data.token.expirationDate);
+//				document.cookie = "username=" + data.username + "; expires=" + expires.toUTCString();
+//				document.cookie = "token=" + data.token.token + "; expires=" + expires.toUTCString();
+//				$('#errordiv').addClass('d-none');
+//				window.location.href="/control-panel";
+//			})
+//		}
+//		else {
+//			$('#errordiv').removeClass('d-none');
+//		}
+//	})
+//	.then(() => {
+//		$('#btn-login').html('Login');
+//	});
+//}
 
 // ============================= Debunking News
 
@@ -65,13 +65,13 @@ function addNewsSource(uri, classification) {
 	fetch('/api/news-source', {
 		method: 'POST',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'uri': uri,
-  			'classification': classification
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'uri': uri,
+			'classification': classification
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -100,13 +100,13 @@ function removeNewsSource(uri, classification) {
 	fetch(apiUri, {
 		method: 'DELETE',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'uri': 'http://'+uri,
-  			'classification': classification
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'uri': 'http://'+uri,
+			'classification': classification
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -125,9 +125,9 @@ function getAllUsers(num){
 	fetch('/api/admin/user/all?PageSize='+num+'&PageIndex=1', {
 		method: 'GET',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
 	})
 		.then(response => response.json())
 		.then(data => {
@@ -150,14 +150,14 @@ function addUser(username, email, password, role) {
 	fetch(roleUri, {
 		method: 'POST',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'username': username,
-  			'email': email,
-  			'password': password
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'username': username,
+			'email': email,
+			'password': password
+		}),
 	})
 	.then(response => {
 		if(response.status == 200) {
@@ -184,12 +184,12 @@ function removeUser(userId, mode) {
 	fetch('/api/admin/user', {
 		method: deleteMethod,
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'userId': userId
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'userId': userId
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -202,13 +202,13 @@ function removeUser(userId, mode) {
 // ===== Info User (JWT) =====
 async function infoUser(userId) {
 	const res = await fetch('/api/admin/user?' + new URLSearchParams({
-    	UserId: userId,
-    	}), {
+		UserId: userId,
+		}), {
 		method: 'GET',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		}
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		}
 	});
 	return res.json();
 }
@@ -224,10 +224,10 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 	await fetch('/api/admin/user', {
 		method: 'PUT',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify(Object.entries(body).reduce((a,[k,v]) => (v === '' ? a : (a[k]=v, a)), {})),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify(Object.entries(body).reduce((a,[k,v]) => (v === '' ? a : (a[k]=v, a)), {})),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -241,13 +241,13 @@ async function editUser(userId, emailconfirmed, lockoutenabled, lockoutenddate, 
 	await fetch('/api/admin/user/role', {
 		method: 'PATCH',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'userId': userId,
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'userId': userId,
 			'role': role
-  		}),
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -264,17 +264,17 @@ function getAllRoles(){
 	fetch('/api/admin/role', {
 		method: 'GET',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
 	})
 		.then(response => response.json())
 		.then(data => {
 			$('#tableRole').bootstrapTable({data: data})
 			$.each(data, function(key, value) {
 				$('#role-editinput')
-         		.append($("<option></option>")
-                .text(value.name)); 
+				.append($("<option></option>")
+				.text(value.name)); 
 			});
 		})
 		.then(() => {
@@ -288,12 +288,12 @@ function addRole(name) {
 	fetch('/api/admin/role', {
 		method: 'POST',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'name': name
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'name': name
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -307,12 +307,12 @@ function deleteRole(name) {
 	fetch('/api/admin/role', {
 		method: 'DELETE',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'name': name
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'name': name
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {
@@ -327,13 +327,13 @@ function renameRole(oldname, name) {
 	fetch('/api/admin/role', {
 		method: 'PATCH',
 		headers: {
-    		'Content-Type': 'application/json',
-    		'Authorization': 'Bearer '+selectCookie('token')
-  		},
-  		body: JSON.stringify({
-  			'oldName': oldname,
-  			'newName': name
-  		}),
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer '+selectCookie('token')
+		},
+		body: JSON.stringify({
+			'oldName': oldname,
+			'newName': name
+		}),
 	})
 	.then(response => {
 		if(response.status == 204) {

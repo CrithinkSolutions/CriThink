@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
@@ -60,8 +60,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 Password = Password
             };
 
-            var isEmail = Regex.IsMatch(EmailOrUsername, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-
+            var isEmail = EmailHelper.IsEmail(EmailOrUsername);
             if (isEmail)
                 request.Email = EmailOrUsername.ToUpperInvariant();
             else
