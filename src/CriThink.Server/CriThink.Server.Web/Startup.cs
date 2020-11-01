@@ -153,7 +153,7 @@ namespace CriThink.Server.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages(); // Razor
-                SetUpHealthChecks(endpoints);
+                MapHealthChecks(endpoints);
             });
         }
 
@@ -440,7 +440,7 @@ namespace CriThink.Server.Web
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
-        private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
+        private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
         {
             // Redis
             endpoints.MapHealthChecks(
