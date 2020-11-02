@@ -225,6 +225,15 @@ namespace CriThink.Server.Web
                     options.LogoutPath = "/BackOffice/Account/Logout";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;
+
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = (context) =>
+                        {
+                            context.Response.Redirect("/BackOffice/Account" + context.Request.QueryString);
+                            return Task.CompletedTask;
+                        },
+                    };
                 })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
