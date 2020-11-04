@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Entities;
@@ -164,7 +165,7 @@ namespace CriThink.Server.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                SetUpHealthChecks(endpoints);
+                MapHealthChecks(endpoints);
             });
         }
 
@@ -480,7 +481,7 @@ namespace CriThink.Server.Web
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
-        private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
+        private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
         {
             // Redis
             endpoints.MapHealthChecks(

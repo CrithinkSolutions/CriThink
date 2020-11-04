@@ -22,7 +22,7 @@ namespace CriThink.Server.Web.Providers.ExternalLogin
 
         public async Task<ExternalProviderUserInfo> GetUserAccessInfo(string userToken)
         {
-            var accessToken = _configuration["FacebookAPIKey"];
+            var accessToken = _configuration["FacebookApiKey"];
 
             var tokenInfoPath = $"debug_token?input_token={userToken}&access_token={accessToken}";
             
