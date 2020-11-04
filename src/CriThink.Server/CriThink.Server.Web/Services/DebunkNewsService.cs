@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Queries;
+using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.DebunkNewsFetcher;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
@@ -20,13 +22,15 @@ namespace CriThink.Server.Web.Services
         private readonly IDebunkNewsFetcherFacade _debunkNewsFetcherFacade;
         private readonly INewsScraperManager _newsScraperManager;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
         private readonly ILogger<DebunkNewsService> _logger;
 
-        public DebunkNewsService(IDebunkNewsFetcherFacade debunkNewsFetcherFacade, INewsScraperManager newsScraperManager, IMediator mediator, ILogger<DebunkNewsService> logger)
+        public DebunkNewsService(IDebunkNewsFetcherFacade debunkNewsFetcherFacade, INewsScraperManager newsScraperManager, IMediator mediator, IMapper mapper, ILogger<DebunkNewsService> logger)
         {
             _debunkNewsFetcherFacade = debunkNewsFetcherFacade ?? throw new ArgumentNullException(nameof(debunkNewsFetcherFacade));
             _newsScraperManager = newsScraperManager ?? throw new ArgumentNullException(nameof(newsScraperManager));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger;
         }
 
@@ -82,6 +86,24 @@ namespace CriThink.Server.Web.Services
 
             var command = new CreateDebunkingNewsCommand(debunkedNewsCollection);
             var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
+        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
+            var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
+
+            var dtos = new List<DebunkingNewsGetAllResponse>();
+            foreach (var debunkingNews in debunkingNewsCollection)
+            {
+                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetAllResponse>(debunkingNews);
+                dtos.Add(dto);
+            }
+
+            return dtos;
         }
 
         private async Task<List<DebunkingNews>> ScrapeDebunkingNewsCollectionAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
@@ -173,5 +195,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">The new list of keyworks</param>
         /// <returns></returns>
         Task UpdateDebunkingNewsAsync(DebunkingNewsUpdateRequest request);
+
+        /// <summary>
+        /// Get all the debunking news
+        /// </summary>
+        /// <param name="request">Page index and debunking news per page</param>
+        /// <returns></returns>
+        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
     }
 }

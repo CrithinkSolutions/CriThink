@@ -5,6 +5,7 @@ using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
+using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -300,6 +301,22 @@ namespace CriThink.Server.Web.Controllers
         {
             await _debunkingNewsService.UpdateDebunkingNewsAsync(request).ConfigureAwait(false);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Get all the debunking news
+        /// </summary>
+        /// <param name="request">Page index and debunking news per page</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
+        {
+            var allDebunkingNews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(allDebunkingNews));
         }
     }
 }
