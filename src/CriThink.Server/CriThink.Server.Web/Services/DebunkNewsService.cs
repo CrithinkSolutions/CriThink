@@ -106,6 +106,18 @@ namespace CriThink.Server.Web.Services
             return dtos;
         }
 
+        public async Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var query = new GetDebunkingNewsQuery(request.Id);
+            var debunkingNews = await _mediator.Send(query).ConfigureAwait(false);
+
+            var dto = _mapper.Map<DebunkingNews, DebunkingNewsGetResponse>(debunkingNews);
+            return dto;
+        }
+
         private async Task<List<DebunkingNews>> ScrapeDebunkingNewsCollectionAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
         {
             var debunkedNewsCollection = new List<DebunkingNews>();
@@ -202,5 +214,12 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Page index and debunking news per page</param>
         /// <returns></returns>
         Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
+
+        /// <summary>
+        /// Get the specified debunking news
+        /// </summary>
+        /// <param name="request">Debunking news id</param>
+        /// <returns></returns>
+        Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request);
     }
 }

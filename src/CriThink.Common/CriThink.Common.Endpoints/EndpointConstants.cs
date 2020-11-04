@@ -54,6 +54,7 @@
         public const string AdminUserGetAll = "user/all";
         public const string AdminUser = "user";
         public const string AdminDebunkingNews = "debunking-news";
+        public const string AdminDebunkingNewsGetAll = "debunking-news/all";
 
         #endregion
 

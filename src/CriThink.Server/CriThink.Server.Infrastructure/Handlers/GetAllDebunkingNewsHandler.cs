@@ -31,11 +31,11 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var allDemoNews = await _dbContext.DebunkingNews
+                var allDebunkingNews = await _dbContext.DebunkingNews
                     .GetAllDebunkingNewsAsync(request.Size, request.Index, DebunkingNewsProjection.GetAll, cancellationToken)
                     .ConfigureAwait(false);
 
-                return allDemoNews;
+                return allDebunkingNews;
             }
             catch (Exception ex)
             {
