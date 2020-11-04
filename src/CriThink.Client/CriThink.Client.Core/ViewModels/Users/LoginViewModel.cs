@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class LoginViewModel : MvxViewModel, IDisposable
+    public class LoginViewModel : BaseSocialLoginViewModel
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
-        private readonly CancellationTokenSource _cancellationToken;
 
         public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
+            : base(identityService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _cancellationToken = new CancellationTokenSource();
         }
 
         #region Properties
@@ -56,21 +53,20 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #endregion
 
-        private async Task DoLoginCommand()
+        private async Task DoLoginCommand(CancellationToken cancellationToken)
         {
             var request = new UserLoginRequest
             {
                 Password = Password
             };
 
-            var isEmail = Regex.IsMatch(EmailOrUsername, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-
+            var isEmail = EmailHelper.IsEmail(EmailOrUsername);
             if (isEmail)
                 request.Email = EmailOrUsername.ToUpperInvariant();
             else
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
-            await _identityService.PerformLoginAsync(request, _cancellationToken.Token).ConfigureAwait(false);
+            await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
         private async Task DoNavigateToHomeCommand()
@@ -81,20 +77,6 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToForgotPasswordCommand()
         {
             await _navigationService.Navigate<ForgotPasswordViewModel>().ConfigureAwait(true);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _cancellationToken?.Dispose();
-            }
         }
     }
 }

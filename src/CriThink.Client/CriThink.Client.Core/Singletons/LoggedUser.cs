@@ -16,8 +16,7 @@ namespace CriThink.Client.Core.Singletons
 
         public static void Login(VerifyUserEmailResponse userData)
         {
-            // TODO: add username
-            Instance = new User(userData.UserId, userData.UserEmail, string.Empty, userData.JwtToken);
+            Instance = new User(userData.UserId, userData.UserEmail, userData.Username, userData.JwtToken);
         }
 
         public static void Logout()

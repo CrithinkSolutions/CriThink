@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -12,8 +11,13 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.EmailSender.Services;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
+using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Exceptions;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Jwt;
+using CriThink.Server.Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,8 +35,10 @@ namespace CriThink.Server.Web.Services
         private readonly IConfiguration _configuration;
         private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
+        private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
+        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger)
+        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger, ExternalLoginProviderResolver externalLoginProviderResolver, SignInManager<User> signInManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
@@ -41,6 +47,8 @@ namespace CriThink.Server.Web.Services
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger;
             _jwtTokenHandler = new JwtSecurityTokenHandler();
+            _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
+            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
         public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
@@ -109,6 +117,22 @@ namespace CriThink.Server.Web.Services
 
             var roleResult = await _userManager.AddToRoleAsync(adminUser, "Admin").ConfigureAwait(false);
             if (!roleResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(emailConfirmationResult);
+                _logger?.LogError(ex, "Error adding user to role", adminUser, confirmationCode);
+                throw ex;
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, adminUser.Id.ToString()),
+                new Claim(ClaimTypes.Email, adminUser.Email),
+                new Claim(ClaimTypes.Name, adminUser.UserName),
+                new Claim(ClaimTypes.Role, "Admin"),
+            };
+
+            var claimsResult = await _userManager.AddClaimsAsync(adminUser, claims).ConfigureAwait(false);
+            if (!claimsResult.Succeeded)
             {
                 var ex = new IdentityOperationException(emailConfirmationResult);
                 _logger?.LogError(ex, "Error adding user to role", adminUser, confirmationCode);
@@ -200,8 +224,8 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
-            if (user == null)
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
@@ -225,7 +249,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -272,7 +296,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -290,7 +314,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -319,7 +343,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -335,7 +359,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -347,12 +371,12 @@ namespace CriThink.Server.Web.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var user = await FindUserAsync(email: request.Email, userName: request.UserName).ConfigureAwait(false);
+            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
 
             var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-            await ProcessPasswordVerificationResult(user, verificationResult).ConfigureAwait(false);
+            await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
 
             var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
             var response = new UserLoginResponse
@@ -366,6 +390,27 @@ namespace CriThink.Server.Web.Services
             return response;
         }
 
+        public async Task<ClaimsIdentity> LoginUserAsync(LoginViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var user = await FindUserAsync(viewModel.EmailOrUsername).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"EmailOrUsername: '{viewModel.EmailOrUsername}'");
+
+            var result = await _signInManager.PasswordSignInAsync(user, viewModel.Password, viewModel.RememberMe, false).ConfigureAwait(false);
+            ProcessPasswordVerificationResult(result);
+
+            var userClaims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
+            return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task LogoutUserAsync()
+        {
+            await _signInManager.SignOutAsync().ConfigureAwait(false);
+        }
+
         public async Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode)
         {
             if (string.IsNullOrWhiteSpace(userId))
@@ -374,7 +419,7 @@ namespace CriThink.Server.Web.Services
             if (string.IsNullOrWhiteSpace(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
 
@@ -392,7 +437,8 @@ namespace CriThink.Server.Web.Services
             {
                 UserId = userId,
                 JwtToken = jwtToken,
-                UserEmail = user.Email
+                UserEmail = user.Email,
+                Username = user.UserName
             };
         }
 
@@ -428,7 +474,7 @@ namespace CriThink.Server.Web.Services
                 string.IsNullOrWhiteSpace(username))
                 throw new ArgumentNullException($"At least one between {email} and {username} must be provided");
 
-            var user = await FindUserAsync(email, username).ConfigureAwait(false);
+            var user = await FindUserAsync(email ?? username).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}' - username: '{username}'");
 
@@ -449,7 +495,7 @@ namespace CriThink.Server.Web.Services
             if (string.IsNullOrWhiteSpace(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
 
@@ -468,24 +514,60 @@ namespace CriThink.Server.Web.Services
             {
                 UserId = userId,
                 JwtToken = jwtToken,
-                UserEmail = user.Email
+                UserEmail = user.Email,
+                Username = user.UserName
+            };
+        }
+
+        public async Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (string.IsNullOrWhiteSpace(request.UserToken))
+                throw new ArgumentNullException(nameof(request.UserToken));
+
+            IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(request.SocialProvider);
+
+            var decodedToken = Base64Helper.FromBase64(request.UserToken);
+
+            var userAccessInfo = await socialLoginProvider.GetUserAccessInfo(decodedToken).ConfigureAwait(false);
+
+            var provider = request.SocialProvider.ToString().ToUpperInvariant();
+
+            var currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
+
+            if (currentUser is null)
+            {
+                currentUser = await CreateExternalProviderLoginUser(userAccessInfo, provider).ConfigureAwait(false);
+            }
+
+            var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
+
+            return new UserLoginResponse
+            {
+                JwtToken = jwtToken,
+                UserEmail = currentUser.Email,
+                UserId = currentUser.Id.ToString(),
+                UserName = currentUser.UserName,
             };
         }
 
         #region Privates
 
-        private async Task<User> FindUserAsync(string email = "", string userName = "", string userId = "")
+        private async Task<User> FindUserAsync(string value)
         {
-            if (!string.IsNullOrWhiteSpace(email))
-                return await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            if (EmailHelper.IsEmail(value))
+            {
+                return await _userManager.FindByEmailAsync(value).ConfigureAwait(false);
+            }
 
-            if (!string.IsNullOrWhiteSpace(userName))
-                return await _userManager.FindByNameAsync(userName).ConfigureAwait(false);
+            if (Guid.TryParse(value, out _))
+            {
+                return await _userManager.FindByIdAsync(value).ConfigureAwait(false);
+            }
 
-            if (!string.IsNullOrWhiteSpace(userId))
-                return await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
-
-            return null;
+            return await _userManager.FindByNameAsync(value).ConfigureAwait(false);
         }
 
         private async Task<UserRole> FindRoleAsync(string roleName = "", string roleId = "")
@@ -539,7 +621,7 @@ namespace CriThink.Server.Web.Services
             };
         }
 
-        private async Task ProcessPasswordVerificationResult(User user, PasswordVerificationResult verificationResult)
+        private async Task ProcessPasswordVerificationResultAsync(User user, PasswordVerificationResult verificationResult)
         {
             switch (verificationResult)
             {
@@ -555,6 +637,12 @@ namespace CriThink.Server.Web.Services
             }
         }
 
+        private static void ProcessPasswordVerificationResult(SignInResult signInResult)
+        {
+            if (!signInResult.Succeeded)
+                throw new ResourceNotFoundException("Password is not correct");
+        }
+
         private async Task UpdateUserPasswordHashAsync(User user)
         {
             var result = await _userManager.HasPasswordAsync(user).ConfigureAwait(false);
@@ -565,126 +653,42 @@ namespace CriThink.Server.Web.Services
             }
         }
 
+        private async Task<User> CreateExternalProviderLoginUser(ExternalProviderUserInfo userAccessInfo, string providerName)
+        {
+            var user = new User
+            {
+                Email = userAccessInfo.Email,
+                UserName = userAccessInfo.Username,
+            };
+
+            var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
+
+            var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
+            if (userCreated.Succeeded)
+            {
+                var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
+
+                if (loginAssociated.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
+                }
+                else
+                {
+                    var ex = new IdentityOperationException(loginAssociated);
+                    _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
+                    throw ex;
+                }
+            }
+            else
+            {
+                var ex = new IdentityOperationException(userCreated);
+                _logger?.LogError(ex, "Error creating user.", providerName, user);
+                throw ex;
+            }
+
+            return await _userManager.FindByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
+        }
+
         #endregion
-    }
-
-    public interface IIdentityService
-    {
-        /// <summary>
-        /// Create a new user
-        /// </summary>
-        /// <param name="request">DTO with user information</param>
-        /// <returns>The operation result</returns>
-        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request);
-
-        /// <summary>
-        /// Create a new admin
-        /// </summary>
-        /// <param name="request">DTO with admin information</param>
-        /// <returns>The operation result</returns>
-        Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request);
-
-        /// <summary>
-        /// Gets all the roles
-        /// </summary>
-        /// <returns>Role list</returns>
-        Task<IList<RoleGetResponse>> GetRolesAsync();
-
-        /// <summary>
-        /// Add a new identity role
-        /// </summary>
-        /// <param name="request">Role to add</param>
-        /// <returns>An asynchronous result</returns>
-        Task CreateNewRoleAsync(SimpleRoleNameRequest request);
-
-        /// <summary>
-        /// Delete an identity role
-        /// </summary>
-        /// <param name="request">Role to delete</param>
-        /// <returns>An asynchronous result</returns>
-        Task DeleteNewRoleAsync(SimpleRoleNameRequest request);
-
-        /// <summary>
-        /// Rename an identity role name
-        /// </summary>
-        /// <param name="request">New role name</param>
-        /// <returns>An asynchronous result</returns>
-        Task UpdateRoleNameAsync(RoleUpdateNameRequest request);
-
-        /// <summary>
-        /// Update the user's role
-        /// </summary>
-        /// <param name="request">User and role</param>
-        /// <returns>An asynchronous result</returns>
-        Task UpdateUserRoleAsync(UserRoleUpdateRequest request);
-
-        /// <summary>
-        /// Remove a role from the user
-        /// </summary>
-        /// <param name="request">User and role</param>
-        /// <returns>An asynchronous result</returns>
-        Task RemoveRoleFromUserAsync(UserRoleUpdateRequest request);
-
-        /// <summary>
-        /// Get all users
-        /// </summary>
-        /// <param name="request">Page index and users per page</param>
-        /// <returns>Returns list of users</returns>
-        Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request);
-
-        /// <summary>
-        /// Get user by id
-        /// </summary>
-        /// <param name="request">User id</param>
-        /// <returns>Returns user details</returns>
-        Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Update user properties
-        /// </summary>
-        /// <param name="request">New properties</param>
-        /// <returns></returns>
-        Task UpdateUserAsync(UserUpdateRequest request);
-
-        /// <summary>
-        /// Soft delete a user
-        /// </summary>
-        /// <param name="request">User id</param>
-        /// <returns>The operation result</returns>
-        Task SoftDeleteUserAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Delete a user
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task DeleteUserAsync(UserGetRequest request);
-
-        /// <summary>
-        /// Login the given user
-        /// </summary>
-        /// <param name="request">DTO with user information</param>
-        /// <returns>The operation result. It contains the token if successful</returns>
-        Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request);
-        /// <summary>
-        /// Verify the user email through the email link
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="confirmationCode"></param>
-        /// <returns>The operation result</returns>
-        Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode);
-
-        /// <summary>
-        /// Allow user to change its personal password
-        /// </summary>
-        /// <param name="email">User email</param>
-        /// <param name="currentPassword">Current password</param>
-        /// <param name="newPassword">New password</param>
-        /// <returns>Returns true if the password is changed, otherwise false</returns>
-        Task<bool> ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
-
-        Task GenerateUserPasswordTokenAsync(string email, string username);
-
-        Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword);
     }
 }

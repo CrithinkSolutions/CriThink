@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Amazon.SecretsManager.Model;
@@ -6,6 +6,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -221,6 +222,25 @@ namespace CriThink.Server.Web.Controllers
             {
                 throw new ResourceNotFoundException("The provided user, token or the password are incorrect");
             }
+        }
+
+        /// <summary>
+        /// Log the user via an external provider
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityExternalLogin)] // api/identity/external-login
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
+        {
+            var response = await _identityService.ExternalProviderLoginAsync(dto).ConfigureAwait(false);
+
+            return Ok(new ApiOkResponse(response));
         }
     }
 }

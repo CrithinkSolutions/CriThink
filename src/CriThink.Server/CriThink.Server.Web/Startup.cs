@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.Converters;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
@@ -19,17 +22,23 @@ using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Middlewares;
+using CriThink.Server.Web.Providers.ExternalLogin;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
@@ -40,6 +49,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Polly;
 using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
@@ -71,7 +81,7 @@ namespace CriThink.Server.Web
 
             SetupUserIdentity(services);
 
-            SetupJwtAuthentication(services);
+            SetupAuthentication(services);
 
             SetupCache(services);
 
@@ -96,6 +106,10 @@ namespace CriThink.Server.Web
             SetupAutoMapper(services);
 
             SetupRazorAutoReload(services);
+
+            SetupControllers(services);
+
+            SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
         }
@@ -129,7 +143,7 @@ namespace CriThink.Server.Web
 
             app.UseCors(AllowSpecificOrigins);
 
-            app.UseAuthentication(); // Identity
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -143,8 +157,15 @@ namespace CriThink.Server.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages(); // Razor
-                SetUpHealthChecks(endpoints);
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area=BackOffice}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                MapHealthChecks(endpoints);
             });
         }
 
@@ -187,21 +208,35 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupJwtAuthentication(IServiceCollection services)
+        private void SetupAuthentication(IServiceCollection services)
         {
+            // JWT
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
-            services.AddAuthorization();
-
-            services.AddAuthentication(x =>
+            services.AddAuthentication(options =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(options =>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/BackOffice/Account/";
+                    options.LogoutPath = "/BackOffice/Account/Logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
+
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = (context) =>
+                        {
+                            context.Response.Redirect("/BackOffice/Account" + context.Request.QueryString);
+                            return Task.CompletedTask;
+                        },
+                    };
+                })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.SaveToken = true;
 
@@ -230,6 +265,9 @@ namespace CriThink.Server.Web
                         }
                     };
                 });
+
+            // JWT + MVC
+            services.AddAuthorization();
         }
 
         private static void SetupCache(IServiceCollection services)
@@ -347,6 +385,9 @@ namespace CriThink.Server.Web
             // Infrastructure
             services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
 
+            // Rest Repository
+            services.AddTransient<IRestRepository, RestRepository>();
+
             var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
             services.AddInfrastructure(redisConnectionString);
         }
@@ -390,15 +431,18 @@ namespace CriThink.Server.Web
             });
         }
 
-        private static void SetupJsonSerializer(IServiceCollection services)
+        private void SetupJsonSerializer(IServiceCollection services)
         {
-            services
+            var mvcBuilder = services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
                 });
+
+            if (_environment.IsDevelopment())
+                mvcBuilder.AddRazorRuntimeCompilation();
         }
 
         private static void SetupAutoMapper(IServiceCollection services)
@@ -408,15 +452,25 @@ namespace CriThink.Server.Web
 
         private void SetupRazorAutoReload(IServiceCollection services)
         {
+            var mvcBuilder = services.AddRazorPages();
+
             if (_environment.IsDevelopment())
             {
-                services.AddRazorPages().AddRazorRuntimeCompilation(); // Razor
+                mvcBuilder.AddRazorRuntimeCompilation(); // Razor
                 services.AddLiveReload(); // LiveReload
             }
-            else
+        }
+
+        private static void SetupControllers(IServiceCollection services)
+        {
+            services.AddControllersWithViews(config =>
             {
-                services.AddRazorPages();
-            }
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
         private static void SetupHealthChecks(IServiceCollection services)
@@ -427,7 +481,7 @@ namespace CriThink.Server.Web
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
-        private static void SetUpHealthChecks(IEndpointRouteBuilder endpoints)
+        private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
         {
             // Redis
             endpoints.MapHealthChecks(
@@ -452,5 +506,66 @@ namespace CriThink.Server.Web
             Predicate = (check) => check.Tags.Contains(tag),
             AllowCachingResponses = false,
         };
+
+        private void SetupExternalLoginProviders(IServiceCollection services)
+        {
+            var baseFacebookURL = Configuration["FacebookApiUrl"];
+
+            services.AddHttpClient("Facebook", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseFacebookURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseGoogleURL = Configuration["GoogleApiUrl"];
+
+            services.AddHttpClient("Google", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseGoogleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseAppleURL = Configuration["AppleApiUrl"];
+
+            services.AddHttpClient("Apple", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseAppleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            services.AddTransient<FacebookProvider>();
+            services.AddTransient<GoogleProvider>();
+            services.AddTransient<AppleProvider>();
+
+            services.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
+            {
+                switch (externalProvider)
+                {
+                    case ExternalLoginProvider.Facebook:
+                        return serviceProvider.GetService<FacebookProvider>();
+                    case ExternalLoginProvider.Google:
+                        return serviceProvider.GetService<GoogleProvider>();
+                    case ExternalLoginProvider.Apple:
+                        return serviceProvider.GetService<AppleProvider>();
+                    default:
+                        throw new NotSupportedException();
+                }
+            });
+        }
     }
 }
