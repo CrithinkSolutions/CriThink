@@ -109,7 +109,7 @@ namespace CriThink.Server.Web
 
             SetupControllers(services);
 
-            SetUpExternalLoginProviders(services);
+            SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
         }
@@ -507,7 +507,7 @@ namespace CriThink.Server.Web
             AllowCachingResponses = false,
         };
 
-        private void SetUpExternalLoginProviders(IServiceCollection services)
+        private void SetupExternalLoginProviders(IServiceCollection services)
         {
             var baseFacebookURL = Configuration["FacebookApiUrl"];
 
