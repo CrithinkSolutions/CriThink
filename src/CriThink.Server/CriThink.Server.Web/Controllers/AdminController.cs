@@ -5,6 +5,7 @@ using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
+using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,12 @@ namespace CriThink.Server.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;
+        private readonly IDebunkNewsService _debunkingNewsService;
 
-        public AdminController(IIdentityService identityService)
+        public AdminController(IIdentityService identityService, IDebunkNewsService debunkingNewsService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
         /// <summary>
@@ -243,6 +246,95 @@ namespace CriThink.Server.Web.Controllers
         {
             await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Adds the given debunking news. The given values overwrites the scraped data
+        /// </summary>
+        /// <param name="request">The debunking news</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> AddDebunkingNewsAsync([FromBody] DebunkingNewsAddRequest request)
+        {
+            await _debunkingNewsService.AddDebunkingNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Deletes the given debunking news
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDebunkingNewsAsync([FromBody] SimpleDebunkingNewsRequest request)
+        {
+            await _debunkingNewsService.DeleteDebunkingNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Updates the debunking news keywords
+        /// </summary>
+        /// <param name="request">The new keywords</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)] // api/admin/debunking-news
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateDebunkingNewsKeywordsAsync([FromBody] DebunkingNewsUpdateRequest request)
+        {
+            await _debunkingNewsService.UpdateDebunkingNewsAsync(request).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Get all the debunking news
+        /// </summary>
+        /// <param name="request">Page index and debunking news per page</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNewsGetAll)] // api/admin/debunking-news/all
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
+        {
+            var allDebunkingNews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(allDebunkingNews));
+        }
+
+        /// <summary>
+        /// Get the specified debunking news
+        /// </summary>
+        /// <param name="request">Debunking news guid</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminDebunkingNews)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetDebunkingNewsAsync([FromQuery] DebunkingNewsGetRequest request)
+        {
+            var debunkingNews = await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(debunkingNews));
         }
     }
 }
