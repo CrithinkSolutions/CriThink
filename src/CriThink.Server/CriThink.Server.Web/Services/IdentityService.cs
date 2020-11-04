@@ -11,11 +11,13 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.EmailSender.Services;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
 using CriThink.Server.Web.Delegates;
 using CriThink.Server.Web.Exceptions;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Jwt;
 using CriThink.Server.Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -121,6 +123,22 @@ namespace CriThink.Server.Web.Services
                 throw ex;
             }
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, adminUser.Id.ToString()),
+                new Claim(ClaimTypes.Email, adminUser.Email),
+                new Claim(ClaimTypes.Name, adminUser.UserName),
+                new Claim(ClaimTypes.Role, "Admin"),
+            };
+
+            var claimsResult = await _userManager.AddClaimsAsync(adminUser, claims).ConfigureAwait(false);
+            if (!claimsResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(emailConfirmationResult);
+                _logger?.LogError(ex, "Error adding user to role", adminUser, confirmationCode);
+                throw ex;
+            }
+
             var jwtToken = await GenerateTokenAsync(adminUser).ConfigureAwait(false);
 
             return new AdminSignUpResponse
@@ -206,8 +224,8 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
-            if (user == null)
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
@@ -231,7 +249,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -278,7 +296,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -296,7 +314,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -325,7 +343,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -341,7 +359,7 @@ namespace CriThink.Server.Web.Services
 
             var userId = request.UserId.ToString();
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
@@ -353,12 +371,12 @@ namespace CriThink.Server.Web.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var user = await FindUserAsync(email: request.Email, userName: request.UserName).ConfigureAwait(false);
+            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
 
             var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-            await ProcessPasswordVerificationResult(user, verificationResult).ConfigureAwait(false);
+            await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
 
             var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
             var response = new UserLoginResponse
@@ -372,6 +390,27 @@ namespace CriThink.Server.Web.Services
             return response;
         }
 
+        public async Task<ClaimsIdentity> LoginUserAsync(LoginViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var user = await FindUserAsync(viewModel.EmailOrUsername).ConfigureAwait(false);
+            if (user == null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"EmailOrUsername: '{viewModel.EmailOrUsername}'");
+
+            var result = await _signInManager.PasswordSignInAsync(user, viewModel.Password, viewModel.RememberMe, false).ConfigureAwait(false);
+            ProcessPasswordVerificationResult(result);
+
+            var userClaims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
+            return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task LogoutUserAsync()
+        {
+            await _signInManager.SignOutAsync().ConfigureAwait(false);
+        }
+
         public async Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode)
         {
             if (string.IsNullOrWhiteSpace(userId))
@@ -380,7 +419,7 @@ namespace CriThink.Server.Web.Services
             if (string.IsNullOrWhiteSpace(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
 
@@ -435,7 +474,7 @@ namespace CriThink.Server.Web.Services
                 string.IsNullOrWhiteSpace(username))
                 throw new ArgumentNullException($"At least one between {email} and {username} must be provided");
 
-            var user = await FindUserAsync(email, username).ConfigureAwait(false);
+            var user = await FindUserAsync(email ?? username).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}' - username: '{username}'");
 
@@ -456,7 +495,7 @@ namespace CriThink.Server.Web.Services
             if (string.IsNullOrWhiteSpace(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            var user = await FindUserAsync(userId: userId).ConfigureAwait(false);
+            var user = await FindUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
 
@@ -502,7 +541,7 @@ namespace CriThink.Server.Web.Services
             {
                 currentUser = await CreateExternalProviderLoginUser(userAccessInfo, provider).ConfigureAwait(false);
             }
-            
+
             var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
 
             return new UserLoginResponse
@@ -516,18 +555,19 @@ namespace CriThink.Server.Web.Services
 
         #region Privates
 
-        private async Task<User> FindUserAsync(string email = "", string userName = "", string userId = "")
+        private async Task<User> FindUserAsync(string value)
         {
-            if (!string.IsNullOrWhiteSpace(email))
-                return await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            if (EmailHelper.IsEmail(value))
+            {
+                return await _userManager.FindByEmailAsync(value).ConfigureAwait(false);
+            }
 
-            if (!string.IsNullOrWhiteSpace(userName))
-                return await _userManager.FindByNameAsync(userName).ConfigureAwait(false);
+            if (Guid.TryParse(value, out _))
+            {
+                return await _userManager.FindByIdAsync(value).ConfigureAwait(false);
+            }
 
-            if (!string.IsNullOrWhiteSpace(userId))
-                return await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
-
-            return null;
+            return await _userManager.FindByNameAsync(value).ConfigureAwait(false);
         }
 
         private async Task<UserRole> FindRoleAsync(string roleName = "", string roleId = "")
@@ -581,7 +621,7 @@ namespace CriThink.Server.Web.Services
             };
         }
 
-        private async Task ProcessPasswordVerificationResult(User user, PasswordVerificationResult verificationResult)
+        private async Task ProcessPasswordVerificationResultAsync(User user, PasswordVerificationResult verificationResult)
         {
             switch (verificationResult)
             {
@@ -595,6 +635,12 @@ namespace CriThink.Server.Web.Services
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private static void ProcessPasswordVerificationResult(SignInResult signInResult)
+        {
+            if (!signInResult.Succeeded)
+                throw new ResourceNotFoundException("Password is not correct");
         }
 
         private async Task UpdateUserPasswordHashAsync(User user)

@@ -5,7 +5,6 @@ using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
-using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.AdminBase)] //api/admin
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;

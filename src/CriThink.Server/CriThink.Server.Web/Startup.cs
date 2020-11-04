@@ -30,12 +30,15 @@ using CriThink.Server.Web.Providers.ExternalLogin;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
@@ -78,7 +81,7 @@ namespace CriThink.Server.Web
 
             SetupUserIdentity(services);
 
-            SetupJwtAuthentication(services);
+            SetupAuthentication(services);
 
             SetupCache(services);
 
@@ -104,7 +107,9 @@ namespace CriThink.Server.Web
 
             SetupRazorAutoReload(services);
 
-            SetUpExternalLoginProviders(services);
+            SetupControllers(services);
+
+            SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
         }
@@ -138,7 +143,7 @@ namespace CriThink.Server.Web
 
             app.UseCors(AllowSpecificOrigins);
 
-            app.UseAuthentication(); // Identity
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -152,7 +157,14 @@ namespace CriThink.Server.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages(); // Razor
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area=BackOffice}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 MapHealthChecks(endpoints);
             });
         }
@@ -196,21 +208,35 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupJwtAuthentication(IServiceCollection services)
+        private void SetupAuthentication(IServiceCollection services)
         {
+            // JWT
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
-            services.AddAuthorization();
-
-            services.AddAuthentication(x =>
+            services.AddAuthentication(options =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(options =>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/BackOffice/Account/";
+                    options.LogoutPath = "/BackOffice/Account/Logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
+
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = (context) =>
+                        {
+                            context.Response.Redirect("/BackOffice/Account" + context.Request.QueryString);
+                            return Task.CompletedTask;
+                        },
+                    };
+                })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.SaveToken = true;
 
@@ -239,6 +265,9 @@ namespace CriThink.Server.Web
                         }
                     };
                 });
+
+            // JWT + MVC
+            services.AddAuthorization();
         }
 
         private static void SetupCache(IServiceCollection services)
@@ -432,6 +461,18 @@ namespace CriThink.Server.Web
             }
         }
 
+        private static void SetupControllers(IServiceCollection services)
+        {
+            services.AddControllersWithViews(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+        }
+
         private static void SetupHealthChecks(IServiceCollection services)
         {
             services.AddHealthChecks()
@@ -466,7 +507,7 @@ namespace CriThink.Server.Web
             AllowCachingResponses = false,
         };
 
-        private void SetUpExternalLoginProviders(IServiceCollection services)
+        private void SetupExternalLoginProviders(IServiceCollection services)
         {
             var baseFacebookURL = Configuration["FacebookApiUrl"];
 
@@ -521,7 +562,6 @@ namespace CriThink.Server.Web
                         return serviceProvider.GetService<GoogleProvider>();
                     case ExternalLoginProvider.Apple:
                         return serviceProvider.GetService<AppleProvider>();
-                    case ExternalLoginProvider.Other:
                     default:
                         throw new NotSupportedException();
                 }
