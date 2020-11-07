@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CriThink.Server.Web.Areas.Public.ViewModel
+namespace CriThink.Server.Web.Areas.Public.ViewModel.Identity
 {
     public class ResetPasswordViewModel : IValidatableObject
     {

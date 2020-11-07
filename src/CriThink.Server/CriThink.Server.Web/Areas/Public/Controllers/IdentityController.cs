@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Helpers;
-using CriThink.Server.Web.Areas.Public.ViewModel;
+using CriThink.Server.Web.Areas.Public.ViewModel.Identity;
+using CriThink.Server.Web.Areas.Public.ViewModel.Shared;
 using CriThink.Server.Web.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +66,12 @@ namespace CriThink.Server.Web.Areas.Public.Controllers
 
             if (result)
             {
-                return View("Message", "Password resetted correctly, please log in again.");
+                var messageViewModel = new MessageViewModel
+                {
+                    Title = "Password changed",
+                    Message = "Password changed correctly, please log in again.",
+                };
+                return View("Message", messageViewModel);
             }
             else
             {

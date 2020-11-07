@@ -1,7 +1,7 @@
-﻿@{
-    @model string
+﻿@model MessageViewModel
+@{
     Layout = "_Layout";
-    //ViewData["Title"] = "Change password";
+    ViewData["Title"] = @Model.Title;
 }
 
 <style>
@@ -15,6 +15,6 @@
 <div class="bg-white p-4 shadow">
     <div class="p-3">
         <img src="/logo.svg" width="200" alt="Crithink Logo" class="crithink-logo">
-        <h5 class="text-center">@Model</h5>
+        <h5 class="text-center">@Model.Message</h5>
     </div>
 </div>
