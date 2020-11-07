@@ -23,12 +23,6 @@ namespace CriThink.Server.Web.Areas.Public.Controllers
             _logger = logger;
         }
 
-
-        public IActionResult Index()
-        {
-            return RedirectPermanent("/");
-        }
-
         [AllowAnonymous]
         [Route(EndpointConstants.IdentityResetPassword)]
         [HttpGet]
@@ -47,6 +41,7 @@ namespace CriThink.Server.Web.Areas.Public.Controllers
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [Route(EndpointConstants.IdentityResetPassword)]
         [HttpPost]
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel viewModel)
