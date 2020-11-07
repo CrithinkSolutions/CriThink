@@ -15,5 +15,12 @@
     <script src="~/lib/js/jquery-3.5.1.min.js"></script>
     <script src="~/lib/js/bootstrap.js"></script>
     @*<script src="~/lib/js/api.js"></script>*@
+
+    @if (@IsSectionDefined("validationScripts"))
+    {
+        <script src="~/lib/js/jquery.validate.js"></script>
+        <script src="~/lib/js/jquery.validate.unobtrusive.js"></script>
+        @RenderSection("validationScripts")
+    }
 </body>
 </html>
