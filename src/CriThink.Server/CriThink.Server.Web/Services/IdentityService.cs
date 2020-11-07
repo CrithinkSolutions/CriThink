@@ -484,7 +484,7 @@ namespace CriThink.Server.Web.Services
             await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode).ConfigureAwait(false);
         }
 
-        public async Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword)
+        public async Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentNullException(nameof(userId));
@@ -505,18 +505,9 @@ namespace CriThink.Server.Web.Services
             {
                 var ex = new IdentityOperationException(result);
                 _logger?.LogError(ex, "Error resetting user password", user, token);
-                throw ex;
             }
 
-            var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
-
-            return new VerifyUserEmailResponse
-            {
-                UserId = userId,
-                JwtToken = jwtToken,
-                UserEmail = user.Email,
-                Username = user.UserName
-            };
+            return result.Succeeded;
         }
 
         public async Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request)

@@ -139,7 +139,7 @@ namespace CriThink.Server.Web.Interfaces
 
         Task GenerateUserPasswordTokenAsync(string email, string username);
 
-        Task<VerifyUserEmailResponse> ResetUserPasswordAsync(string userId, string token, string newPassword);
+        Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword);
 
         Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request);
     }
