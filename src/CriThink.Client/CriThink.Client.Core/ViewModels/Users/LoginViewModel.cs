@@ -12,7 +12,6 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class LoginViewModel : BaseSocialLoginViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-        private readonly IIdentityService _identityService;
 
         public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
             : base(identityService)
@@ -67,6 +66,8 @@ namespace CriThink.Client.Core.ViewModels.Users
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
             await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
+
+            await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
         }
 
         private async Task DoNavigateToHomeCommand()

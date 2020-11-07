@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using CriThink.Client.Core.ViewModels;
+using CriThink.Client.Core.Data.Settings;
+using CriThink.Client.Core.Repositories;
+using CriThink.Client.Core.Services;
 using CriThink.Common.HttpRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,13 +23,17 @@ namespace CriThink.Client.Core
             InitializeServiceCollection();
 
             Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
+            Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
+            Mvx.IoCProvider.RegisterType<ISettingsRepository, SettingsRepository>();
+            Mvx.IoCProvider.RegisterType<IApplicationService, ApplicationService>();
+            Mvx.IoCProvider.RegisterType<IIdentityRepository, IdentityRepository>();
 
             CreatableTypes()
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<WelcomeViewModel>();
+            RegisterCustomAppStart<AppStart>();
         }
 
         private static void InitializeServiceCollection()

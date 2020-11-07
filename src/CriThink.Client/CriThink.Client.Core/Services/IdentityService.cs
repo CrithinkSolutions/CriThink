@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Singletons;
+using CriThink.Client.Core.Models.Identity;
+using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.HttpRepository;
@@ -12,12 +13,20 @@ namespace CriThink.Client.Core.Services
     public class IdentityService : IIdentityService
     {
         private readonly IRestRepository _restRepository;
+        private readonly IIdentityRepository _identityRepository;
         private readonly IMvxLog _logger;
 
-        public IdentityService(IRestRepository restRepository, IMvxLogProvider logProvider)
+        public IdentityService(IRestRepository restRepository, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
             _logger = logProvider?.GetLogFor<IdentityService>();
+        }
+
+        public async Task<User> GetLoggedUserAsync()
+        {
+            var user = await _identityRepository.GetUserInfoAsync().ConfigureAwait(false);
+            return user;
         }
 
         public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
@@ -32,7 +41,13 @@ namespace CriThink.Client.Core.Services
                 cancellationToken)
                 .ConfigureAwait(false);
 
-            LoggedUser.Login(loginResponse);
+            await _identityRepository.SetUserInfoAsync(
+                loginResponse.UserId,
+                loginResponse.UserEmail,
+                loginResponse.UserName,
+                loginResponse.JwtToken.Token,
+                loginResponse.JwtToken.ExpirationDate)
+                .ConfigureAwait(false);
 
             return loginResponse;
         }
@@ -49,7 +64,13 @@ namespace CriThink.Client.Core.Services
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            LoggedUser.Login(loginResponse);
+            await _identityRepository.SetUserInfoAsync(
+                    loginResponse.UserId,
+                    loginResponse.UserEmail,
+                    loginResponse.UserName,
+                    loginResponse.JwtToken.Token,
+                    loginResponse.JwtToken.ExpirationDate)
+                .ConfigureAwait(false);
 
             return loginResponse;
         }
@@ -86,8 +107,6 @@ namespace CriThink.Client.Core.Services
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            LoggedUser.Login(resetPasswordResponse);
-
             return resetPasswordResponse;
         }
 
@@ -109,6 +128,8 @@ namespace CriThink.Client.Core.Services
 
     public interface IIdentityService
     {
+        Task<User> GetLoggedUserAsync();
+
         /// <summary>
         /// Performs login
         /// </summary>
