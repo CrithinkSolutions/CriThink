@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -83,12 +83,5 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             return client.SendEmailAsync(sendRequest);
         }
-    }
-
-    public interface IEmailSenderService
-    {
-        Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode);
-
-        Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode);
     }
 }
