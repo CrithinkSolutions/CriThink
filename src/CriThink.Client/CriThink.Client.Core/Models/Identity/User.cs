@@ -3,7 +3,7 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 
 namespace CriThink.Client.Core.Models.Identity
 {
-    internal class User
+    public class User
     {
         public User(string userId, string userEmail, string userName, JwtTokenResponse jwtToken)
         {

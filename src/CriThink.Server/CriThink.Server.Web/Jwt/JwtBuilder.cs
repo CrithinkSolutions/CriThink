@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using CriThink.Common.Helpers;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CriThink.Server.Web.Jwt
@@ -65,7 +65,7 @@ namespace CriThink.Server.Web.Jwt
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _subject),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUniversalTime().ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeExtensions.SerializeDateTime(now), ClaimValueTypes.Integer64)
             }.Union(_claims);
 
             return new JwtSecurityToken(

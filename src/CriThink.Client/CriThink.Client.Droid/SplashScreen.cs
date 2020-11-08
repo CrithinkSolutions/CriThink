@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using MvvmCross.Platforms.Android.Views;
 
 namespace CriThink.Client.Droid
@@ -14,5 +15,17 @@ namespace CriThink.Client.Droid
         public SplashScreen()
             : base(Resource.Layout.SplashScreen)
         { }
+
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
+            Xamarin.Essentials.Platform.Init(this, bundle);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }
