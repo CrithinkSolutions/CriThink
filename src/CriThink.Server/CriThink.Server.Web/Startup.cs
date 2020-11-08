@@ -344,7 +344,7 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
-            services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
+            services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
         }
 
         private static void SetupMediatR(IServiceCollection services)
