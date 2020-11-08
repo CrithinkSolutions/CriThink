@@ -19,6 +19,7 @@ using CriThink.Server.Providers.DebunkNewsFetcher;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
 using CriThink.Server.Providers.DomainAnalyzer;
 using CriThink.Server.Providers.EmailSender;
+using CriThink.Server.Providers.EmailSender.Providers;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
@@ -356,6 +357,16 @@ namespace CriThink.Server.Web
         {
             // Email Sender
             services.AddEmailSenderService();
+
+            // Email Sender (Provider)
+            if (_environment.IsDevelopment())
+            {
+                services.AddTransient<IEmailSenderProvider, LocalEmailSenderProvider>();
+            }
+            else
+            {
+                services.AddTransient<IEmailSenderProvider, AwsEmailSenderProvider>();
+            }
 
             // Identity
             services.AddTransient<IIdentityService, IdentityService>();
