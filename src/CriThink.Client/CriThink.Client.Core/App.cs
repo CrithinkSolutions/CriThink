@@ -5,6 +5,7 @@ using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Services;
 using CriThink.Common.HttpRepository;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;
@@ -22,18 +23,28 @@ namespace CriThink.Client.Core
 
             InitializeServiceCollection();
 
+            InitializeInternalServices();
+
+            RegisterCustomAppStart<AppStart>();
+        }
+
+        private static void InitializeInternalServices()
+        {
+            // Repo
             Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
             Mvx.IoCProvider.RegisterType<ISettingsRepository, SettingsRepository>();
-            Mvx.IoCProvider.RegisterType<IApplicationService, ApplicationService>();
             Mvx.IoCProvider.RegisterType<IIdentityRepository, IdentityRepository>();
 
-            CreatableTypes()
-                .EndingWith("Service")
-                .AsInterfaces()
-                .RegisterAsLazySingleton();
+            // Services
+            Mvx.IoCProvider.RegisterType<IApplicationService, ApplicationService>();
+            Mvx.IoCProvider.RegisterType<IdentityService>();
+            Mvx.IoCProvider.RegisterType<IIdentityService, CacheIdentityService>();
 
-            RegisterCustomAppStart<AppStart>();
+            Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IMemoryCache>(() => new MemoryCache(new MemoryCacheOptions
+            {
+                CompactionPercentage = 0.5
+            }));
         }
 
         private static void InitializeServiceCollection()
