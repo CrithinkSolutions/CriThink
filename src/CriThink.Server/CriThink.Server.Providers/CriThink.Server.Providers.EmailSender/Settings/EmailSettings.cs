@@ -1,6 +1,6 @@
 ﻿namespace CriThink.Server.Providers.EmailSender.Settings
 {
-    public class AwsSESSettings
+    public class EmailSettings
     {
         public string FromAddress { get; set; }
         public string ConfirmationEmailSubject { get; set; }
