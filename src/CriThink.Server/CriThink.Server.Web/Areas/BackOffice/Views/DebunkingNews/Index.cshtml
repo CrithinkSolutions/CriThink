@@ -1,3 +1,5 @@
+@using CriThink.Common.Endpoints.DTOs.Admin;
+@model IList<DebunkingNewsGetAllResponse>;
 @{
     Layout = "_LayoutApi";
     ViewData["Title"] = "Debunking News";
@@ -11,12 +13,19 @@
     <table id="table" data-click-to-select="true" data-height="400" data-loading-template="loadingTemplate">
         <thead>
             <tr>
+                @foreach(var debunkingnews in Model) 
+                {
+                    <th>@debunkingnews.Title</th>
+                }
+                @*
                 <th class="d-none" data-field="state" data-radio="true"></th>
                 <th data-field="uri">Uri</th>
                 <th data-field="classification">Classification</th>
+                *@
             </tr>
         </thead>
     </table>
+
     <!-- (END) INPUT SECTION -->
     <!-- (START) ADD NEWS MODAL -->
     <div class="modal fade" id="addnewsmodal" tabindex="-1" role="dialog" aria-labelledby="addnewsmodal" aria-hidden="true">

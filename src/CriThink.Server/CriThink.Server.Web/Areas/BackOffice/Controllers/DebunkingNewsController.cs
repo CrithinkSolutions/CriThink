@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using CriThink.Server.Web.Services;
+using CriThink.Common.Endpoints.DTOs.Admin;
+using System;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
@@ -11,14 +15,27 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Area("BackOffice")]
     public class DebunkingNewsController : Controller
     {
+        private readonly IDebunkNewsService _debunkingNewsService;
+
+        public DebunkingNewsController(IDebunkNewsService debunkingNewsService) 
+        {
+            _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+        }
         /// <summary>
         /// Returns the debunking news section
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int pageSize, int pageIndex)
         {
-            return View();
+            var request = new DebunkingNewsGetAllRequest
+            {
+                PageSize = 30,
+                PageIndex = 1
+            };
+
+            var allnews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
+            return View(allnews);
         }
     }
 }
