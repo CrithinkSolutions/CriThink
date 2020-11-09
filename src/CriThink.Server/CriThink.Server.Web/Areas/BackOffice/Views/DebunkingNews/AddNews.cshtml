@@ -1,0 +1,20 @@
+@{
+    Layout = "_LayoutApi";
+    ViewData["Title"] = "Add News";
+}
+
+<div class="bg-white p-4 shadow text-center m-4 mw-100">
+    <div class="modal-body">
+        <label>Title</label>
+        <input type="text" class="form-control" aria-describedby="basic-addon3">
+        <small>The uri must have http:// or https://</small>
+        <br /><br />
+        <label for="input-classification">Classification</label>
+        <select class="custom-select" id="class-input">
+            <option selected>Reliable</option>
+            <option>Satirical</option>
+            <option>Conspiracist</option>
+            <option>FakeNews</option>
+        </select>
+    </div>
+</div>

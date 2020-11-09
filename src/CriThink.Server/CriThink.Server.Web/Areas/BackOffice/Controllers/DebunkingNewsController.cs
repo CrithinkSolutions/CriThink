@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CriThink.Server.Web.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using System;
+using CriThink.Server.Web.Exceptions;
+using System.Collections.Generic;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
@@ -26,16 +28,54 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Index(int pageSize, int pageIndex)
+        public async Task<IActionResult> Index()
+        {
+            var news = await GetAllNews(30,1).ConfigureAwait(false);
+            return View(news);
+        }
+
+        [HttpGet]
+        public ActionResult AddNewsView()
+        {
+            return View("AddNews");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveNewsView()
+        {
+            var news = await GetAllNews(30,1).ConfigureAwait(false);
+            return View("RemoveNews", news);
+        }
+
+        [HttpGet]
+        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllNews(int pageSize, int pageIndex) 
         {
             var request = new DebunkingNewsGetAllRequest
             {
-                PageSize = 30,
-                PageIndex = 1
+                PageSize = pageSize,
+                PageIndex = pageIndex
             };
 
             var allnews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
-            return View(allnews);
+            return allnews;
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNews(DebunkingNewsAddRequest addnewsModel)
+        {
+            if(addnewsModel == null)
+                throw new ArgumentNullException(nameof(addnewsModel));
+            
+            try 
+            {
+                await _debunkingNewsService.AddDebunkingNewsAsync(addnewsModel).ConfigureAwait(false);
+                return Ok();
+            }
+            catch (ResourceNotFoundException) 
+            {
+               return BadRequest();
+            }
         }
     }
 }

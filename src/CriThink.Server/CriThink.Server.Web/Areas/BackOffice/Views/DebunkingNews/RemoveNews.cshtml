@@ -1,0 +1,18 @@
+@using CriThink.Common.Endpoints.DTOs.Admin;
+@model IList<DebunkingNewsGetAllResponse>;
+@{
+    Layout = "_LayoutApi";
+    ViewData["Title"] = "Remove News";
+}
+
+<div class="bg-white p-4 shadow text-center m-4 mw-100">
+    @using(Html.BeginForm()) 
+    {
+        @foreach(var c in Model)
+        {
+            <input type="radio" value="@c.Title">@c.Title
+        }
+
+    <input type="submit" value="Delete" />
+    }
+</div>
