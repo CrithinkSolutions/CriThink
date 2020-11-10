@@ -36,12 +36,20 @@ Insert the following keys and the desired values in the secret files created abo
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
-#### User Secret for ReactJS
+##### User Secret for ReactJS
 * Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
 * Write inside the file:
 	* `REACT_APP_LOCALHOST=[Your localhost url]`
 	
 Note: You need to restart the development server after changing .env.local file.
+
+#### Smtp4dev local SMTP server
+In order to send easily mails even without an internet connection (and to not charge our AWS Subscription) [smtp4dev](https://github.com/rnwood/smtp4dev) was integrated.
+1. Install smtp4dev for docker: `docker pull rnwood/smtp4dev:v3` (only Win and Linux)
+2. Run it: `docker run --name smtp4dev -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3`
+
+Browse to http://localhost:3000 in order to read the emails.
+
 ### Environments
 Three environments have been configured:
 * Debug
