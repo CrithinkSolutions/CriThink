@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.NewsChecker;
+using CriThink.Client.Core.ViewModels.Users;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
@@ -12,7 +16,9 @@ namespace CriThink.Client.Core.ViewModels
 {
     public class HomeViewModel : MvxNavigationViewModel
     {
-        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider)
+        private readonly IIdentityService _identityService;
+
+        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider, IIdentityService identityService)
             : base(logProvider, navigationService)
         {
             var tabs = new List<BaseBottomViewViewModel>
@@ -22,6 +28,8 @@ namespace CriThink.Client.Core.ViewModels
             };
 
             BottomViewTabs = tabs;
+
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
         #region Properties
@@ -32,6 +40,17 @@ namespace CriThink.Client.Core.ViewModels
         public IMvxCommand<string> BottomNavigationItemSelectedCommand => _bottomNavigationItemSelectedCommand ??= new MvxCommand<string>(DoBottomNavigationItemSelectedCommand);
 
         #endregion
+
+        public override async Task Initialize()
+        {
+            await base.Initialize().ConfigureAwait(false);
+
+            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            if (user is null)
+            {
+                await NavigationService.Navigate<SignUpViewModel>().ConfigureAwait(true);
+            }
+        }
 
         private void DoBottomNavigationItemSelectedCommand(string tabId)
         {
