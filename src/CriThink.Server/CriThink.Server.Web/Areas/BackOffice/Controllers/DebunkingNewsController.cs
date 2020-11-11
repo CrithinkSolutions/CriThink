@@ -66,7 +66,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if(addnewsModel == null)
                 throw new ArgumentNullException(nameof(addnewsModel));
-            
+             
             try 
             {
                 await _debunkingNewsService.AddDebunkingNewsAsync(addnewsModel).ConfigureAwait(false);

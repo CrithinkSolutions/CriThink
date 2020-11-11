@@ -4,7 +4,6 @@
     ViewData["Title"] = "Control Panel";
 }
 <div class="bg-white p-4 shadow text-center">
-    <!-- (START) INPUT SECTION -->
     <i class="fas fa-user-circle fa-7x m-2"></i>
     <h3 id="welcome">Welcome @Model</h3>
     <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
@@ -20,5 +19,4 @@
             <a asp-controller="DebunkingNews" asp-action="Index">Debunking News</a>
         </div>
     </div>
-    <!-- (END) INPUT SECTION -->
 </div>

@@ -9,20 +9,20 @@
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="RemoveNewsView" type="button" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
     </div>
-    <table id="table" data-click-to-select="true" data-height="400" data-loading-template="loadingTemplate">
+    <table class="table">
         <thead>
             <tr>
-                @foreach(var debunkingnews in Model) 
-                {
-                    <th>@debunkingnews.Title</th>
-                }
-                @*
-                <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="uri">Uri</th>
-                <th data-field="classification">Classification</th>
-                *@
+                <th scope="col">Title</th>
+                <th scope="col">Publisher</th>
             </tr>
         </thead>
+        @foreach(var debunkedNews in Model) 
+        {
+            <tr>
+                <td>@debunkedNews.Title</td>
+                <td>@debunkedNews.Publisher</td>
+            </tr>
+        }
     </table>
     <div class="mt-3">
         <a asp-controller="Home" asp-action="Index">Return to Home</a>
