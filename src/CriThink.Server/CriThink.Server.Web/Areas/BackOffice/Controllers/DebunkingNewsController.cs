@@ -66,7 +66,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if(addnewsModel == null)
                 throw new ArgumentNullException(nameof(addnewsModel));
-             
+
             try 
             {
                 await _debunkingNewsService.AddDebunkingNewsAsync(addnewsModel).ConfigureAwait(false);
@@ -74,7 +74,26 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (ResourceNotFoundException) 
             {
-               return BadRequest();
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveNews(SimpleDebunkingNewsRequest removenewsModel)
+        {
+            if(removenewsModel == null)
+                throw new ArgumentNullException(nameof(removenewsModel));
+
+            System.Diagnostics.Debug.WriteLine("QUI:"+removenewsModel.Id);
+
+            try 
+            {
+                await _debunkingNewsService.DeleteDebunkingNewsAsync(removenewsModel).ConfigureAwait(false);
+                return Ok();
+            }
+            catch (ResourceNotFoundException) 
+            {
+                return BadRequest();
             }
         }
     }

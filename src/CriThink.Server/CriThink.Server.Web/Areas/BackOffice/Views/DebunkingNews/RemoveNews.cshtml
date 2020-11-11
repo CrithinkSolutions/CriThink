@@ -6,13 +6,28 @@
 }
 
 <div class="bg-white p-4 shadow text-center m-4 mw-100">
-    @using(Html.BeginForm()) 
+    @foreach(var c in Model)
     {
-        @foreach(var c in Model)
-        {
-            <input type="radio" value="@c.Title">@c.Title
-        }
-
-    <input type="submit" value="Delete" />
+        <input type="radio" name="allnews" value="@c.Id">@c.Title
     }
+    <button id="button">Vai</button>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            $("#button").click(function(){
+                let news = {}
+                news.Id = $('input[name="allnews"]:checked').val();
+                $.post("@Url.Action("RemoveNews")", { removenewsModel: news }, function () {
+                    alert("Success!");
+                    location.reload();
+                })
+                .fail(function(data) {
+                    alert("Error");
+                });
+            });
+        });
+    </script>
+}
