@@ -6,26 +6,54 @@
 }
 
 <div class="bg-white p-4 shadow text-center m-4 mw-100">
-    @foreach(var c in Model)
-    {
-        <input type="radio" name="allnews" value="@c.Id">@c.Title
-    }
-    <button id="button">Vai</button>
+    <div class="mh-50 p-4 m-2">
+        @foreach(var c in Model)
+        {
+            <p><input type="radio" name="allnews" value="@c.Id"><label>@c.Title</label></p>
+
+        }
+    </div>
+    <button id="accessDelete" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
+</div>
+
+<!-- Modal -->
+<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Remove this news</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete <b id="nameNews"></b>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 @section Scripts
 {
     <script type="text/javascript">
         $(function() {
-            $("#button").click(function(){
+            $('#accessDelete').click(function(){
+                if(!$('input[name="allnews"]:checked').next('label').html()){alert("Please select news first")}
+                $('#nameNews').html($('input[name="allnews"]:checked').next('label').html());
+            });
+            $('#sureDelete').click(function(){
                 let news = {}
                 news.Id = $('input[name="allnews"]:checked').val();
-                $.post("@Url.Action("RemoveNews")", { removenewsModel: news }, function () {
-                    alert("Success!");
+                $.post('@Url.Action("RemoveNews")', { removenewsModel: news }, function () {
+                    alert('Success!');
                     location.reload();
                 })
-                .fail(function(data) {
-                    alert("Error");
+                .fail(function() {
+                    alert('Error');
                 });
             });
         });
