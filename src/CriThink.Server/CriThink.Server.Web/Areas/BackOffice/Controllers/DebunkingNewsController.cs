@@ -28,9 +28,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageSize, int pageIndex)
         {
-            var news = await GetAllNews(30,1).ConfigureAwait(false);
+            var news = await GetAllNews(pageSize,pageIndex).ConfigureAwait(false);
             return View(news);
         }
 
@@ -41,20 +41,26 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveNewsView(bool success)
+        public async Task<IActionResult> RemoveNewsView(bool success, int pageSize, int pageIndex)
         {
             if (success)
             {
                 TempData["success"] = "News removed!"; 
             }
 
-            var news = await GetAllNews(30,1).ConfigureAwait(false);
+            var news = await GetAllNews(pageSize,pageIndex).ConfigureAwait(false);
             return View("RemoveNews", news);
         }
 
         [HttpGet]
         public async Task<IList<DebunkingNewsGetAllResponse>> GetAllNews(int pageSize, int pageIndex) 
         {
+            if (pageSize == 0 || pageIndex == 0 ) 
+            {
+                pageSize = 20;
+                pageIndex = 1;
+            }
+
             var request = new DebunkingNewsGetAllRequest
             {
                 PageSize = pageSize,
@@ -63,7 +69,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var allnews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
             return allnews;
-
         }
 
         [HttpPost]

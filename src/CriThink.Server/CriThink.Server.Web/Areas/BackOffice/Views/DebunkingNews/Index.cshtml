@@ -1,9 +1,11 @@
 @using CriThink.Common.Endpoints.DTOs.Admin;
 @model IList<DebunkingNewsGetAllResponse>;
+
 @{
     Layout = "_LayoutApi";
     ViewData["Title"] = "Debunking News";
 }
+
 <div class="bg-white p-4 shadow text-center m-4 mw-100">
     <div id="toolbox" class="border p-2 mb-2">
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
@@ -24,7 +26,72 @@
             </tr>
         }
     </table>
+
+    <!-- PageIndex nav -->
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li id="prevPage" class="page-item">
+          <a class="page-link pointer" aria-label="Previous">
+            <span>Previous</span>
+          </a>
+        </li>
+        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+        <li class="page-item">
+          <a id="nextPage" class="page-link pointer" aria-label="Next">
+            <span>Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- PageIndex nav -->
+
+    <!-- PageSize nav -->
+    <small>User for page</small>
+    <nav>
+      <ul id="pageSizenav" class="pagination justify-content-center">
+        <li class="page-item pointer"><a asp-route-pageSize="20" asp-route-pageIndex="1" class="page-link">20</a></li>
+        <li class="page-item pointer"><a asp-route-pageSize="50" asp-route-pageIndex="1" class="page-link">50</a></li>
+        <li class="page-item pointer"><a asp-route-pageSize="100" asp-route-pageIndex="1" class="page-link">100</a></li>
+      </ul>
+    </nav>
+    <!-- PageSize nav -->
+
     <div class="mt-3 border-top pt-3">
         <a asp-controller="Home" asp-action="Index">Return to Home</a>
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function(){
+            let pageSize = parseInt(GetParameterValues('pageSize'));  
+            let pageIndex = parseInt(GetParameterValues('pageIndex'));
+
+            if(!pageSize || !pageIndex){
+                pageSize = 20;
+                pageIndex = 1;
+            }
+
+            let url = '@Url.Action("Index", "DebunkingNews")'.concat('?pageSize='+pageSize+'&pageIndex=');
+            $('#nextPage').attr('href',url+(pageIndex+1));
+            $('#prevPage').children().attr('href',url+(pageIndex-1));
+
+            $('#currentPage').html(pageIndex);
+
+            if (pageIndex == 1) {
+                $('#prevPage').toggleClass('disabled');
+            }
+
+            function GetParameterValues(param) {  
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');  
+                for (var i = 0; i < url.length; i++) {  
+                    var urlparam = url[i].split('=');  
+                    if (urlparam[0] == param) {  
+                        return urlparam[1];  
+                    }  
+                }  
+            };
+        });
+    </script>
+}
