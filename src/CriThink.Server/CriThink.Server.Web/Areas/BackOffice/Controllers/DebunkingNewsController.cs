@@ -33,13 +33,20 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             var news = await GetAllNews(pageSize,pageIndex).ConfigureAwait(false);
             return View(news);
         }
-
+        /// <summary>
+        /// Returns the add debunking news page
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult AddNewsView()
         {
             return View("AddNews");
         }
 
+        /// <summary>
+        /// Returns the remove debunking news page
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> RemoveNewsView(bool success, int pageSize, int pageIndex)
         {
@@ -52,6 +59,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             return View("RemoveNews", news);
         }
 
+        /// <summary>
+        /// Returns all debunking news
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IList<DebunkingNewsGetAllResponse>> GetAllNews(int pageSize, int pageIndex) 
         {
@@ -71,6 +82,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             return allnews;
         }
 
+        /// <summary>
+        /// Add debunking news
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddNews(DebunkingNewsAddRequest addnewsModel)
         {
@@ -94,6 +109,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove debunking news
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> RemoveNews(SimpleDebunkingNewsRequest removenewsModel)
         {
