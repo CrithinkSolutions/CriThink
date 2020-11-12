@@ -41,8 +41,13 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveNewsView()
+        public async Task<IActionResult> RemoveNewsView(bool success)
         {
+            if (success)
+            {
+                TempData["success"] = "News removed!"; 
+            }
+
             var news = await GetAllNews(30,1).ConfigureAwait(false);
             return View("RemoveNews", news);
         }
@@ -67,10 +72,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if(addnewsModel == null)
                 throw new ArgumentNullException(nameof(addnewsModel));
 
+            if (!ModelState.IsValid)  
+            {  
+                return View("AddNews", addnewsModel);
+            }
+
             try 
             {
                 await _debunkingNewsService.AddDebunkingNewsAsync(addnewsModel).ConfigureAwait(false);
-                return Ok();
+                TempData["success"] = "News added!"; 
+                return View("AddNews");
             }
             catch (ResourceNotFoundException) 
             {
@@ -84,12 +95,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if(removenewsModel == null)
                 throw new ArgumentNullException(nameof(removenewsModel));
 
-            System.Diagnostics.Debug.WriteLine("QUI:"+removenewsModel.Id);
-
             try 
             {
                 await _debunkingNewsService.DeleteDebunkingNewsAsync(removenewsModel).ConfigureAwait(false);
-                return Ok();
+                return RedirectToAction("RemoveNewsView", new { success = true });
             }
             catch (ResourceNotFoundException) 
             {
