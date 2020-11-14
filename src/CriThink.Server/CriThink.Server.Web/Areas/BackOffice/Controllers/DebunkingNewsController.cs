@@ -60,6 +60,22 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
+        /// Returns the edit debunking news page
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> EditNewsView(bool success, int pageSize, int pageIndex)
+        {
+            if (success)
+            {
+                TempData["success"] = "News updated!"; 
+            }
+
+            var news = await GetAllNews(pageSize,pageIndex).ConfigureAwait(false);
+            return View("EditNews", news);
+        }
+
+        /// <summary>
         /// Returns all debunking news
         /// </summary>
         /// <returns></returns>
@@ -128,6 +144,46 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        /// <summary>
+        /// Returns all keywords for a specific debunking news
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DebunkingNewsGetResponse> KeywordNews(DebunkingNewsGetRequest request)
+        {
+            if(request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var keywords = await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
+            return keywords;
+        }
+        
+        /// <summary>
+        /// Edit keywords for a specific debunking news
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> EditNews(Guid id, IReadOnlyList<string> keywords)
+        {
+            if(keywords == null)
+                throw new ArgumentNullException(nameof(keywords));
+
+            var request = new DebunkingNewsUpdateRequest
+            {
+                Id = id,
+                Keywords = keywords
+            };
+
+            try
+            {
+                await _debunkingNewsService.UpdateDebunkingNewsAsync(request).ConfigureAwait(false);
+                return RedirectToAction("EditNewsView", new { success = true });
+            }
+            catch (ResourceNotFoundException) 
+            {
+                return BadRequest();
+            }
+            
         }
     }
 }
