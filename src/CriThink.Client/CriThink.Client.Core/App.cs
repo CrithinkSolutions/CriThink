@@ -38,6 +38,8 @@ namespace CriThink.Client.Core
 
             // Services
             Mvx.IoCProvider.RegisterType<IApplicationService, ApplicationService>();
+            Mvx.IoCProvider.RegisterType<INewsSourceService, CacheNewsSourceService>();
+            Mvx.IoCProvider.RegisterType<NewsSourceService>();
             Mvx.IoCProvider.RegisterType<IdentityService>();
             Mvx.IoCProvider.RegisterType<IIdentityService, CacheIdentityService>();
 
