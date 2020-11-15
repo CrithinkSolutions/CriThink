@@ -49,7 +49,7 @@ In order to send easily mails even without an internet connection (and to not ch
 2. Create a docker container: `docker run --name smtp4dev -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3`
 3. Start smtp4dev in docker: `docker start -a smtp4dev`
 
-Browse to http://localhost:3000 in order to read the emails.
+Browse to http://localhost:3000 with the GUI make sure if SMTP server is listening on port 2525
 
 ### Environments
 Three environments have been configured:
