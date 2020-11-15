@@ -46,7 +46,8 @@ Note: You need to restart the development server after changing .env.local file.
 #### Smtp4dev local SMTP server
 In order to send easily mails even without an internet connection (and to not charge our AWS Subscription) [smtp4dev](https://github.com/rnwood/smtp4dev) was integrated.
 1. Install smtp4dev for docker: `docker pull rnwood/smtp4dev:v3` (only Win and Linux)
-2. Run it: `docker run --name smtp4dev -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3`
+2. Create a docker container: `docker run --name smtp4dev -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3`
+3. Start smtp4dev in docker: `docker start -a smtp4dev`
 
 Browse to http://localhost:3000 in order to read the emails.
 
