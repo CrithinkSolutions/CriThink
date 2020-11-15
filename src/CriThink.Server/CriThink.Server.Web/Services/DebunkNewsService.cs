@@ -88,22 +88,14 @@ namespace CriThink.Server.Web.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
+        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(int? pageSize, int? pageIndex)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            if (pageSize == null || pageSize.HasValue)
+                pageSize = 20;
+            if (pageIndex == null || pageIndex.HasValue)
+                pageIndex = 1;
 
-            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
-            var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
-
-            var dtos = new List<DebunkingNewsGetAllResponse>();
-            foreach (var debunkingNews in debunkingNewsCollection)
-            {
-                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetAllResponse>(debunkingNews);
-                dtos.Add(dto);
-            }
-
-            return dtos;
+            return await GetDebunkingNewsAsync(pageSize.Value, pageIndex.Value).ConfigureAwait(false);
         }
 
         public async Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request)
@@ -156,6 +148,21 @@ namespace CriThink.Server.Web.Services
 
         private Task<IReadOnlyList<string>> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews) =>
             _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
+
+        private async Task<IList<DebunkingNewsGetAllResponse>> GetDebunkingNewsAsync(int pageSize, int pageIndex)
+        {
+            var query = new GetAllDebunkingNewsQuery(pageSize, pageIndex);
+            var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
+
+            var dtos = new List<DebunkingNewsGetAllResponse>();
+            foreach (var debunkingNews in debunkingNewsCollection)
+            {
+                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetAllResponse>(debunkingNews);
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
 
         private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords, DebunkingNewsAddRequest customAttributes = null)
         {
@@ -211,9 +218,10 @@ namespace CriThink.Server.Web.Services
         /// <summary>
         /// Get all the debunking news
         /// </summary>
-        /// <param name="request">Page index and debunking news per page</param>
+        /// <param name="pageSize">Debunking news per page</param>
+        /// <param name="pageIndex">Page index debunking news</param>
         /// <returns></returns>
-        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
+        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(int? pageSize, int? pageIndex);
 
         /// <summary>
         /// Get the specified debunking news
