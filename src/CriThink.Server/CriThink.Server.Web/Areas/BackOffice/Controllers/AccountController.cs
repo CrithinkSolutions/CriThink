@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
-using CriThink.Server.Web.Exceptions;
-using CriThink.Server.Web.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
     /// <summary>
@@ -52,7 +53,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                var claimsIdentity = await _identityService.LoginUserAsync(viewModel).ConfigureAwait(false);
+                var claimsIdentity = await _identityService.LoginUserAsync(viewModel.EmailOrUsername, viewModel.Password, viewModel.RememberMe)
+                    .ConfigureAwait(false);
 
                 await HttpContext
                     .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity))

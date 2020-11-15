@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
     internal abstract class BaseNewsAnalyzer : IAnalyzer<NewsAnalysisProviderResult>
     {
-        protected readonly ConcurrentQueue<Task<NewsAnalysisProviderResult>> Queue;
-
         private IAnalyzer<NewsAnalysisProviderResult> _nextAnalyzer;
 
-        protected BaseNewsAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
-        {
-            ScrapedNews = scrapedNews ?? throw new ArgumentNullException(nameof(scrapedNews));
-            Queue = queue ?? throw new ArgumentNullException(nameof(queue));
-        }
+        internal NewsScraperProviderResponse ScrapedNews { get; set; }
 
-        protected NewsScraperProviderResponse ScrapedNews { get; }
+        internal ConcurrentQueue<Task<NewsAnalysisProviderResult>> Queue { get; set; }
 
         public IAnalyzer<NewsAnalysisProviderResult> SetNext(IAnalyzer<NewsAnalysisProviderResult> analyzer)
         {

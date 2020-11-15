@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class UpdateDebunkingNewsHandler : IRequestHandler<UpdateDebunkingNewsCommand>
+    internal class UpdateDebunkingNewsHandler : IRequestHandler<UpdateDebunkingNewsCommand>
     {
         private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<UpdateDebunkingNewsHandler> _logger;

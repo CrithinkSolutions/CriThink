@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
-using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +18,9 @@ namespace CriThink.Server.Web.Controllers
     [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)] //api/debunking-news
     public class DebunkingNewsController : Controller
     {
-        private readonly IDebunkNewsService _debunkNewsService;
+        private readonly IDebunkingNewsService _debunkNewsService;
 
-        public DebunkingNewsController(IDebunkNewsService debunkNewsService)
+        public DebunkingNewsController(IDebunkingNewsService debunkNewsService)
         {
             _debunkNewsService = debunkNewsService ?? throw new ArgumentNullException(nameof(debunkNewsService));
         }

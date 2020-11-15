@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
 // ReSharper disable once CheckNamespace
 
