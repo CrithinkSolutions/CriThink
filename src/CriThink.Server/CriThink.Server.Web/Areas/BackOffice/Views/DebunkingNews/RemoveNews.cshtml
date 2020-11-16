@@ -27,10 +27,7 @@
             }
         </table>
 
-    @if(TempData["success"] != null)
-    {
-        <div class="alert alert-success">@Html.Encode(TempData["success"])</div>
-    }
+    <div id="message"></div>
 
     <button id="accessDelete" class="btn btn-danger btn-block mb-3" data-toggle="modal" data-target="#modalDelete"><i class="fas fa-trash-alt"></i></button>
 
@@ -104,6 +101,7 @@
                 news.Id = $('input[name="allnews"]:checked').val();
                 $.post('@Url.Action("RemoveNews")', { removenewsModel: news }, function(data){
                     $('body').html(data);
+                    $('#message').addClass('alert alert-success').html('News removed!');
                 })
                 .fail(function(){
                     alert("Error")

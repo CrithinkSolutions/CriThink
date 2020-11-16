@@ -7,6 +7,7 @@ using CriThink.Common.Endpoints.DTOs.Admin;
 using System;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
+using CriThink.Server.Web.Areas.Public.ViewModel.Shared;
 using CriThink.Server.Web.Exceptions;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
@@ -45,7 +46,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("add-news")]
         public ActionResult AddNewsView()
         {
-            return View("AddNews");
+            return View("AddNews", new AddNewsViewModel());
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Route("add-news")]
         public async Task<IActionResult> AddNews(AddNewsViewModel addnewsModel)
         {
             if(addnewsModel == null)
@@ -86,8 +88,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             try 
             {
                 await _debunkingNewsService.AddDebunkingNewsAsync(addnews).ConfigureAwait(false);
-                addnewsModel.Message = "News Added";
-                return View();
+                addnewsModel.Message = "News Added!";
+                return View("AddNews", addnewsModel);
             }
             catch (ResourceNotFoundException) 
             {
@@ -100,6 +102,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Route("remove-news")]
         public async Task<IActionResult> RemoveNews(RemoveNewsViewModel removenewsModel)
         {
             if(removenewsModel == null)
