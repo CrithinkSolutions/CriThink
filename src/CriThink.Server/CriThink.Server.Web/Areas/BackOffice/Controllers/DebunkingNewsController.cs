@@ -55,7 +55,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsView(SimplePagification pagification)
+        public async Task<IActionResult> RemoveNewsViewAsync(SimplePagification pagification)
         {
             var news =  await _debunkingNewsService.GetAllDebunkingNewsAsync(pagification.pageSize, pagification.pageIndex).ConfigureAwait(false);
             return View("RemoveNews", news);
@@ -67,7 +67,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("add-news")]
-        public async Task<IActionResult> AddNews(AddNewsViewModel addnewsModel)
+        public async Task<IActionResult> AddNewsAsync(AddNewsViewModel addnewsModel)
         {
             if(addnewsModel == null)
                 throw new ArgumentNullException(nameof(addnewsModel));
@@ -103,7 +103,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNews(RemoveNewsViewModel removenewsModel)
+        public async Task<IActionResult> RemoveNewsAsync(RemoveNewsViewModel removenewsModel)
         {
             if(removenewsModel == null)
                 throw new ArgumentNullException(nameof(removenewsModel));
