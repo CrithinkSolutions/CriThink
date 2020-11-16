@@ -1,4 +1,4 @@
-@model CriThink.Common.Endpoints.DTOs.Admin.DebunkingNewsAddRequest
+@model CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews.AddNewsViewModel
 @{
     Layout = "_LayoutApi";
     ViewData["Title"] = "Add News";
@@ -36,14 +36,14 @@
             <input asp-for="Keywords" type="text" class="form-control">
         </div>
 
+        @*@if(Model.Message != null) 
+        {
+            <div class="alert alert-success">@Model.Message</div>
+        }*@
+
         @if(!Html.ViewData.ModelState.IsValid) 
         {
             @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
-        }
-
-        @if(TempData["success"] != null)
-        {
-            <div class="alert alert-success">@Html.Encode(TempData["success"])</div>
         }
 
         <button class="btn btn-success btn-block" type="submit" ><i class="fas fa-plus"></i></button>

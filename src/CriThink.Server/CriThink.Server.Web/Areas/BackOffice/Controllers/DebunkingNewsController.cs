@@ -6,6 +6,7 @@ using CriThink.Server.Web.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using System;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
 using CriThink.Server.Web.Exceptions;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
@@ -64,7 +65,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddNews(DebunkingNewsAddRequest addnewsModel)
+        public async Task<IActionResult> AddNews(AddNewsViewModel addnewsModel)
         {
             if(addnewsModel == null)
                 throw new ArgumentNullException(nameof(addnewsModel));
@@ -74,11 +75,19 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return View("AddNews", addnewsModel);
             }
 
+            var addnews = new DebunkingNewsAddRequest 
+            {
+                Title = addnewsModel.Title,
+                Caption = addnewsModel.Caption,
+                Link = addnewsModel.Link,
+                Keywords = addnewsModel.Keywords
+            };
+
             try 
             {
-                await _debunkingNewsService.AddDebunkingNewsAsync(addnewsModel).ConfigureAwait(false);
-                TempData["success"] = "News added!"; 
-                return View("AddNews");
+                await _debunkingNewsService.AddDebunkingNewsAsync(addnews).ConfigureAwait(false);
+                addnewsModel.Message = "News Added";
+                return View();
             }
             catch (ResourceNotFoundException) 
             {
@@ -91,15 +100,25 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> RemoveNews(SimpleDebunkingNewsRequest removenewsModel)
+        public async Task<IActionResult> RemoveNews(RemoveNewsViewModel removenewsModel)
         {
             if(removenewsModel == null)
                 throw new ArgumentNullException(nameof(removenewsModel));
+            
+            if (!ModelState.IsValid)  
+            {  
+                return View("RemoveNews", removenewsModel);
+            }
+
+            var removeNews = new SimpleDebunkingNewsRequest
+            {
+                Id = removenewsModel.Id
+            };
 
             try 
             {
-                await _debunkingNewsService.DeleteDebunkingNewsAsync(removenewsModel).ConfigureAwait(false);
-                return RedirectToAction("RemoveNewsView", new { success = true });
+                await _debunkingNewsService.DeleteDebunkingNewsAsync(removeNews).ConfigureAwait(false);
+                return RedirectToAction("RemoveNewsView");
             }
             catch (ResourceNotFoundException) 
             {
