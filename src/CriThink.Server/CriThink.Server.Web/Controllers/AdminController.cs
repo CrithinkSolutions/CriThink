@@ -306,17 +306,16 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Get all the debunking news
         /// </summary>
-        /// <param name="pageSize">Debunking news per page</param>
-        /// <param name="pageIndex">Page index debunking news</param>
+        /// <param name="request">Page index and Debunking news per page</param>
         /// <returns></returns>
         [Route(EndpointConstants.AdminDebunkingNewsGetAll)] // api/admin/debunking-news/all
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
         [HttpGet]
-        public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] int? pageSize, int? pageIndex)
+        public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
         {
-            var allDebunkingNews = await _debunkingNewsService.GetAllDebunkingNewsAsync(pageSize, pageIndex).ConfigureAwait(false);
+            var allDebunkingNews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(allDebunkingNews));
         }
 

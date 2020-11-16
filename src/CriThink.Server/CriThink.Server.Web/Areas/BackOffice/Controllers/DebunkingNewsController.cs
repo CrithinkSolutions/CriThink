@@ -32,9 +32,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("debunking-news")]
-        public async Task<IActionResult> Index(SimplePagification pagification)
+        public async Task<IActionResult> Index(SimplePagificationViewModel pagification)
         {
-            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(pagification.pageSize, pagification.pageIndex).ConfigureAwait(false);
+            var getnews = new DebunkingNewsGetAllRequest
+            {
+                PageSize = pagification.pageSize,
+                PageIndex = pagification.pageIndex
+            };
+
+            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(getnews).ConfigureAwait(false);
             return View(news);
         }
 
@@ -55,9 +61,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsViewAsync(SimplePagification pagification)
+        public async Task<IActionResult> RemoveNewsViewAsync(SimplePagificationViewModel pagification)
         {
-            var news =  await _debunkingNewsService.GetAllDebunkingNewsAsync(pagification.pageSize, pagification.pageIndex).ConfigureAwait(false);
+            var getnews = new DebunkingNewsGetAllRequest
+            {
+                PageSize = pagification.pageSize,
+                PageIndex = pagification.pageIndex
+            };
+
+            var news =  await _debunkingNewsService.GetAllDebunkingNewsAsync(getnews).ConfigureAwait(false);
             return View("RemoveNews", news);
         }
 
@@ -93,7 +105,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (ResourceNotFoundException) 
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
@@ -103,7 +115,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsAsync(RemoveNewsViewModel removenewsModel)
+        public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel removenewsModel)
         {
             if(removenewsModel == null)
                 throw new ArgumentNullException(nameof(removenewsModel));
@@ -125,7 +137,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (ResourceNotFoundException) 
             {
-                return BadRequest();
+                return NotFound();
             }
         }
     }

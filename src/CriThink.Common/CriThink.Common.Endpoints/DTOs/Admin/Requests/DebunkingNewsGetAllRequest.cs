@@ -9,11 +9,11 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
     {
         [Required]
         [JsonPropertyName("pageSize")]
-        public int PageSize { get; set; }
+        public int? PageSize { get; set; }
 
         [Required]
         [JsonPropertyName("pageIndex")]
-        public int PageIndex { get; set; }
+        public int? PageIndex { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
