@@ -1,21 +1,23 @@
-﻿using System.Collections.Concurrent;
-using System.Net.Http;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 using CriThink.Server.Providers.DebunkNewsFetcher.Fetchers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
 {
     public class DebunkingNewsFetcherBuilder
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentQueue<Task<DebunkingNewsProviderResult>> _queue;
 
         private bool _isOpenOnlineEnabled;
         private IAnalyzer<DebunkingNewsProviderResult> _analyzer;
-        private IHttpClientFactory _httpClientFactory;
 
-        public DebunkingNewsFetcherBuilder()
+        public DebunkingNewsFetcherBuilder(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _queue = new ConcurrentQueue<Task<DebunkingNewsProviderResult>>();
         }
 
@@ -25,20 +27,25 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
             return this;
         }
 
-        internal DebunkingNewsFetcherBuilder SetHttpClient(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-            return this;
-        }
-
         internal IAnalyzer<DebunkingNewsProviderResult> BuildFetchers()
         {
             _queue.Clear();
 
             if (_isOpenOnlineEnabled)
-                AddFetcher(new OpenOnlineFetcher(_queue, _httpClientFactory));
+            {
+                var openOnlineFetcher = GetFetcher<OpenOnlineFetcher>();
+                AddFetcher(openOnlineFetcher);
+            }
 
             return _analyzer;
+        }
+
+        private BaseFetcher GetFetcher<T>() where T : BaseFetcher
+        {
+            var analyzerService = _serviceProvider.GetRequiredService<T>();
+            analyzerService.Queue = _queue;
+
+            return analyzerService;
         }
 
         private void AddFetcher(IAnalyzer<DebunkingNewsProviderResult> fetcher)

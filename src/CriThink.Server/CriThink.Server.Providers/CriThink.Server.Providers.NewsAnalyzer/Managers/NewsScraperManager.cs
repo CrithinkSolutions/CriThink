@@ -12,10 +12,12 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
 {
     internal class NewsScraperManager : INewsScraperManager
     {
+        private readonly NewsAnalyticsClient _newsAnalyticsClient;
         private readonly ILogger<NewsScraperManager> _logger;
 
-        public NewsScraperManager(ILogger<NewsScraperManager> logger)
+        public NewsScraperManager(NewsAnalyticsClient newsAnalyticsClient, ILogger<NewsScraperManager> logger)
         {
+            _newsAnalyticsClient = newsAnalyticsClient ?? throw new ArgumentNullException(nameof(newsAnalyticsClient));
             _logger = logger;
         }
 
@@ -68,12 +70,9 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
                 .AsReadOnly();
         }
 
-        private static async Task<IReadOnlyList<string>> SendAnalysisRequestAsync(string newsBody, string language = "it")
+        private async Task<IReadOnlyList<string>> SendAnalysisRequestAsync(string newsBody, string language = "it")
         {
-            //var keys = await NewsAnalyticsClient.Instance
-            //    .ExtractKeyPhrasesAsync(scrapedNews.NewsBody, "it").ConfigureAwait(false);
-
-            var entities = await NewsAnalyticsClient.Instance.RecognizeEntitiesAsync(newsBody, language)
+            var entities = await _newsAnalyticsClient.Instance.RecognizeEntitiesAsync(newsBody, language)
                 .ConfigureAwait(false);
 
             return entities.Value
@@ -86,22 +85,5 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Managers
                 .ToList()
                 .AsReadOnly();
         }
-    }
-
-    public interface INewsScraperManager
-    {
-        /// <summary>
-        /// Scrape the given news getting its infos
-        /// </summary>
-        /// <param name="uri">News uri</param>
-        /// <returns>News scrape result</returns>
-        Task<NewsScraperProviderResponse> ScrapeNewsWebPage(Uri uri);
-
-        /// <summary>
-        /// Get the keywords of the given news
-        /// </summary>
-        /// <param name="scrapedNews">Scraped news</param>
-        /// <returns>Keywords collection</returns>
-        Task<IReadOnlyList<string>> GetKeywordsFromNewsAsync(NewsScraperProviderResponse scrapedNews);
     }
 }

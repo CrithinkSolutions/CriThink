@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+#pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Common.Endpoints.Converters
 {
     public class StringToBoolConverter : JsonConverter<bool>

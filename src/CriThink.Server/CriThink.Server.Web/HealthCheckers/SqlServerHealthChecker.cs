@@ -5,35 +5,40 @@ using System.Threading.Tasks;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-public class SqlServerHealthChecker : IHealthCheck
+namespace CriThink.Server.Web.HealthCheckers
 {
-    private readonly CriThinkDbContext _dbContext;
-
-    public SqlServerHealthChecker(CriThinkDbContext dbContext)
+    public class SqlServerHealthChecker : IHealthCheck
     {
-        _dbContext = dbContext;
-    }
+        private readonly CriThinkDbContext _dbContext;
 
-    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
-    {
-        bool isHealthy = false;
-
-        try
+        public SqlServerHealthChecker(CriThinkDbContext dbContext)
         {
-            _dbContext.Users.First();
-
-            isHealthy = true;
-        }
-        catch (Exception)
-        {
-            isHealthy = false;
+            _dbContext = dbContext;
         }
 
-        if (isHealthy)
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Healthy("SQL Server is running")).ConfigureAwait(false);
-        }
+            bool isHealthy = false;
 
-        return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Unhealthy("SQL Server is unhealthy.")).ConfigureAwait(false);
+            try
+            {
+                _dbContext.Users.First();
+
+                isHealthy = true;
+            }
+            catch (Exception)
+            {
+                isHealthy = false;
+            }
+
+            if (isHealthy)
+            {
+                return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Healthy("SQL Server is running"))
+                    .ConfigureAwait(false);
+            }
+
+            return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Unhealthy("SQL Server is unhealthy."))
+                .ConfigureAwait(false);
+        }
     }
 }
