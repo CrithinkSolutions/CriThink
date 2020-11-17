@@ -2,10 +2,9 @@ using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
-using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
-using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +22,9 @@ namespace CriThink.Server.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;
-        private readonly IDebunkNewsService _debunkingNewsService;
+        private readonly IDebunkingNewsService _debunkingNewsService;
 
-        public AdminController(IIdentityService identityService, IDebunkNewsService debunkingNewsService)
+        public AdminController(IIdentityService identityService, IDebunkingNewsService debunkingNewsService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));

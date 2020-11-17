@@ -3,15 +3,29 @@
   <item
     android:id="@+id/page_1"
     android:enabled="true"
-    android:icon="@drawable/signup_background"
+    android:icon="@drawable/ic_newschecker"
     android:titleCondensed="news_checker"
     app:showAsAction="always"
-    android:title="favorites"/>
+    android:title="@string/menu_newschecker"/>
   <item
     android:id="@+id/page_2"
     android:enabled="true"
-    android:icon="@drawable/signup_background"
+    android:icon="@drawable/ic_debunkingnews"
     android:titleCondensed="debunking_news"
     app:showAsAction="always"
-    android:title="music"/>
+    android:title="@string/menu_debunkingnews"/>
+  <item
+    android:id="@+id/page_3"
+    android:enabled="true"
+    android:icon="@drawable/ic_spotfakenews"
+    android:titleCondensed="spot_fakenews"
+    app:showAsAction="always"
+    android:title="@string/menu_spotfakenews"/>
+  <item
+    android:id="@+id/page_4"
+    android:enabled="true"
+    android:icon="@drawable/ic_games"
+    android:titleCondensed="play_games"
+    app:showAsAction="always"
+    android:title="@string/menu_playgames"/>
 </menu>

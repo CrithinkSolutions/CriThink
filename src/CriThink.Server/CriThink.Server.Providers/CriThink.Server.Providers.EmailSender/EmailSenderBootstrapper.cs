@@ -9,7 +9,7 @@ namespace CriThink.Server.Providers.EmailSender
     /// </summary>
     public static class EmailSenderBootstrapper
     {
-        public static void AddEmailSenderService(this IServiceCollection serviceCollection)
+        public static void AddEmailSenderProvider(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddRazorViews();
             serviceCollection.AddHttpContextAccessor();

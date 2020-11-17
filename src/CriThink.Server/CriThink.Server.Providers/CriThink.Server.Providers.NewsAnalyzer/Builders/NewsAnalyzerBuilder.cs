@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 using CriThink.Server.Providers.NewsAnalyzer.Analyzers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Builders
 {
     public class NewsAnalyzerBuilder
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentQueue<Task<NewsAnalysisProviderResult>> _queue;
 
         private bool _isOrtographicCheckEnabled;
@@ -16,8 +18,9 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Builders
 
         private IAnalyzer<NewsAnalysisProviderResult> _analyzer;
 
-        public NewsAnalyzerBuilder()
+        public NewsAnalyzerBuilder(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _queue = new ConcurrentQueue<Task<NewsAnalysisProviderResult>>();
         }
 
@@ -44,12 +47,27 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Builders
             _queue.Clear();
 
             if (_isOrtographicCheckEnabled)
-                AddAnalyzer(new LanguageAnalyzer(_scrapedNews, _queue));
+            {
+                var languageAnalyzer = GetAnalyzerService<LanguageAnalyzer>();
+                AddAnalyzer(languageAnalyzer);
+            }
 
             if (_isTextSentimentAnalysisEnabled)
-                AddAnalyzer(new TextSentimentAnalyzer(_scrapedNews, _queue));
+            {
+                var textSentimentAnalyzer = GetAnalyzerService<TextSentimentAnalyzer>();
+                AddAnalyzer(textSentimentAnalyzer);
+            }
 
             return _analyzer;
+        }
+
+        private BaseNewsAnalyzer GetAnalyzerService<T>() where T : BaseNewsAnalyzer
+        {
+            var analyzerService = _serviceProvider.GetRequiredService<T>();
+            analyzerService.ScrapedNews = _scrapedNews;
+            analyzerService.Queue = _queue;
+
+            return analyzerService;
         }
 
         private void AddAnalyzer(IAnalyzer<NewsAnalysisProviderResult> analyzer)

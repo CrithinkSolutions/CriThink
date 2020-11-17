@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CriThink.Server.Providers.DomainAnalyzer.Builders;
 using CriThink.Server.Providers.DomainAnalyzer.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,9 +15,7 @@ namespace CriThink.Server.Providers.DomainAnalyzer
         /// <param name="serviceCollection"></param>
         public static void AddDomainAnalyzerProvider(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-                throw new ArgumentNullException(nameof(serviceCollection));
-
+            serviceCollection.AddTransient<DomainAnalyzerBuilder>();
             serviceCollection.AddTransient<IDomainAnalyzerProvider, DomainAnalyzerProvider>();
         }
     }

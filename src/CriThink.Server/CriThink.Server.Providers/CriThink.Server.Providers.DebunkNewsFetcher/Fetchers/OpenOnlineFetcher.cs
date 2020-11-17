@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +6,8 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
+using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
@@ -14,22 +15,23 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
     {
         private readonly HttpClient _httpClient;
 
-        static OpenOnlineFetcher()
-        {
-            FeedCategories = new List<string>();
-        }
-
-        public OpenOnlineFetcher(ConcurrentQueue<Task<DebunkingNewsProviderResult>> queue, IHttpClientFactory httpClientFactory)
-            : base(queue)
+        public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<WebSiteSettings> options)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
 
+            if (options?.Value == null)
+                throw new ArgumentNullException(nameof(options));
+
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName);
+
+            FeedCategories = new List<string>(options.Value.Categories);
+            WebSiteUri = options.Value.Uri;
         }
 
-        internal static List<string> FeedCategories { get; }
-        internal static Uri WebSiteUri { get; set; }
+        internal static IReadOnlyList<string> FeedCategories { get; private set; }
+
+        internal static Uri WebSiteUri { get; private set; }
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {

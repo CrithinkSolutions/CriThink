@@ -24,6 +24,7 @@
       <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtInput_uri"
         android:fontFamily="@font/urbanist"
         android:inputType="textUri"/>
 
@@ -32,6 +33,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/btn_CheckUri"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_big"
         android:text="@string/newschecker_results"/>

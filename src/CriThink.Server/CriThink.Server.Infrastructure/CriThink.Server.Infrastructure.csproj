@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj" />
     <ProjectReference Include="..\CriThink.Server.Core\CriThink.Server.Core.csproj" />
   </ItemGroup>
 
