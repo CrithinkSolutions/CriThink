@@ -75,8 +75,11 @@
     <Compile Include="SocialLogins\FacebookCallback.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\DebunkingNews\Fragments\DebunkingNewsView.cs" />
+    <Compile Include="Views\Games\Fragments\HomeGameView.cs" />
     <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
+    <Compile Include="Views\SpotFakeNews\Fragments\SpotFakeNewsHomeView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
     <Compile Include="Views\Users\Activities\ForgotPasswordView.cs" />
     <Compile Include="Views\Users\Activities\LoginView.cs" />
@@ -224,7 +227,36 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\resetpassword_view.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\homegame_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\spotfakenewshome_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\tab_color.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_debunkingnews.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_games.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_newschecker.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_spotfakenews.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\newscheckerresult_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

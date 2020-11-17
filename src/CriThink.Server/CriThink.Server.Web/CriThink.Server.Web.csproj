@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,12 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="1.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="AWS.Logger.AspNetCore" Version="2.2.0" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
     <PackageReference Include="Kralizek.Extensions.Configuration.AWSSecretsManager" Version="1.4.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="3.1.9" />
@@ -37,13 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj" />
     <ProjectReference Include="..\CriThink.Server.Infrastructure\CriThink.Server.Infrastructure.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DebunkNewsFetcher\CriThink.Server.Providers.DebunkNewsFetcher.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
-    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj" />
   </ItemGroup>
 
   <ItemGroup>	
