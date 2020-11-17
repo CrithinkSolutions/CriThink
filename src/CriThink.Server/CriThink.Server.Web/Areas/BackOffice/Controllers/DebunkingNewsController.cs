@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System;
+using System.Threading.Tasks;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
+using CriThink.Server.Web.Exceptions;
+using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using CriThink.Server.Web.Services;
-using CriThink.Common.Endpoints.DTOs.Admin;
-using System;
-using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
-using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
-using CriThink.Server.Web.Areas.Public.ViewModel.Shared;
-using CriThink.Server.Web.Exceptions;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
@@ -21,7 +19,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     {
         private readonly IDebunkNewsService _debunkingNewsService;
 
-        public DebunkingNewsController(IDebunkNewsService debunkingNewsService) 
+        public DebunkingNewsController(IDebunkNewsService debunkingNewsService)
         {
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
@@ -32,15 +30,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("debunking-news")]
-        public async Task<IActionResult> Index(SimplePagificationViewModel pagification)
+        public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            var getnews = new DebunkingNewsGetAllRequest
-            {
-                PageSize = pagification.pageSize,
-                PageIndex = pagification.pageIndex
-            };
-
-            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(getnews).ConfigureAwait(false);
+            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
@@ -52,7 +44,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("add-news")]
         public ActionResult AddNewsView()
         {
-            return View("AddNews", new AddNewsViewModel());
+            return View("AddNewsView", new AddNewsViewModel());
         }
 
         /// <summary>
@@ -61,16 +53,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsViewAsync(SimplePagificationViewModel pagification)
+        public async Task<IActionResult> RemoveNewsViewAsync(SimplePaginationViewModel viewModel)
         {
-            var getnews = new DebunkingNewsGetAllRequest
-            {
-                PageSize = pagification.pageSize,
-                PageIndex = pagification.pageIndex
-            };
-
-            var news =  await _debunkingNewsService.GetAllDebunkingNewsAsync(getnews).ConfigureAwait(false);
-            return View("RemoveNews", news);
+            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+            return View("RemoveNewsView", news);
         }
 
         /// <summary>
@@ -78,32 +64,22 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("add-news")]
-        public async Task<IActionResult> AddNewsAsync(AddNewsViewModel addnewsModel)
+        public async Task<IActionResult> AddNewsAsync(AddNewsViewModel viewModel)
         {
-            if(addnewsModel == null)
-                throw new ArgumentNullException(nameof(addnewsModel));
-
-            if (!ModelState.IsValid)  
-            {  
-                return View("AddNews", addnewsModel);
+            if (!ModelState.IsValid)
+            {
+                return View("AddNewsView", viewModel);
             }
 
-            var addnews = new DebunkingNewsAddRequest 
+            try
             {
-                Title = addnewsModel.Title,
-                Caption = addnewsModel.Caption,
-                Link = addnewsModel.Link,
-                Keywords = addnewsModel.Keywords
-            };
-
-            try 
-            {
-                await _debunkingNewsService.AddDebunkingNewsAsync(addnews).ConfigureAwait(false);
-                addnewsModel.Message = "News Added!";
-                return View("AddNews", addnewsModel);
+                await _debunkingNewsService.AddDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                viewModel.Message = "News Added!";
+                return View("AddNewsView", viewModel);
             }
-            catch (ResourceNotFoundException) 
+            catch (ResourceNotFoundException)
             {
                 return NotFound();
             }
@@ -114,28 +90,21 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel removenewsModel)
+        public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
-            if(removenewsModel == null)
-                throw new ArgumentNullException(nameof(removenewsModel));
-            
-            if (!ModelState.IsValid)  
-            {  
-                return View("RemoveNews", removenewsModel);
+            if (!ModelState.IsValid)
+            {
+                return View("RemoveNewsView", viewModel);
             }
 
-            var removeNews = new SimpleDebunkingNewsRequest
+            try
             {
-                Id = removenewsModel.Id
-            };
-
-            try 
-            {
-                await _debunkingNewsService.DeleteDebunkingNewsAsync(removeNews).ConfigureAwait(false);
-                return RedirectToAction("RemoveNewsView");
+                await _debunkingNewsService.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                return RedirectToAction("RemoveNewsViewAsync");
             }
-            catch (ResourceNotFoundException) 
+            catch (ResourceNotFoundException)
             {
                 return NotFound();
             }

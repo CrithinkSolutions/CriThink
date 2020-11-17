@@ -11,6 +11,8 @@ using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.DebunkNewsFetcher;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
 using CriThink.Server.Web.Facades;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -39,15 +41,15 @@ namespace CriThink.Server.Web.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var scrapedNews = await _newsScraperManager.ScrapeNewsWebPage(new Uri(request.Link))
-                .ConfigureAwait(false);
+            await AddDebunkingNewsAsync(request.Link, request.Title, request.Caption, request.Keywords).ConfigureAwait(false);
+        }
 
-            var keywords = await GetNewsKeywordsAsync(scrapedNews).ConfigureAwait(false);
+        public async Task AddDebunkingNewsAsync(AddNewsViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
 
-            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request);
-
-            var command = new CreateDebunkingNewsCommand(new[] { entity });
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            await AddDebunkingNewsAsync(viewModel.Link, viewModel.Title, viewModel.Caption, viewModel.Keywords).ConfigureAwait(false);
         }
 
         public async Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request)
@@ -56,6 +58,14 @@ namespace CriThink.Server.Web.Services
                 throw new ArgumentNullException(nameof(request));
 
             await DeleteDebunkingNewsAsync(request.Id).ConfigureAwait(false);
+        }
+
+        public async Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            await DeleteDebunkingNewsAsync(viewModel.Id).ConfigureAwait(false);
         }
 
         public async Task UpdateDebunkingNewsAsync(DebunkingNewsUpdateRequest request)
@@ -89,12 +99,18 @@ namespace CriThink.Server.Web.Services
 
         public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
         {
-            if (request.PageSize == null || request.PageSize.HasValue)
-                request.PageSize = 20;
-            if (request.PageIndex == null || request.PageIndex.HasValue)
-                request.PageIndex = 1;
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
 
-            return await GetDebunkingNewsAsync(request.PageSize.Value, request.PageIndex.Value).ConfigureAwait(false);
+            return await GetDebunkingNewsAsync(request.PageSize, request.PageIndex).ConfigureAwait(false);
+        }
+
+        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(SimplePaginationViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            return await GetDebunkingNewsAsync(viewModel.PageSize, viewModel.PageIndex).ConfigureAwait(false);
         }
 
         public async Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request)
@@ -145,6 +161,19 @@ namespace CriThink.Server.Web.Services
         private Task<NewsScraperProviderResponse> ScrapeNewsAsync(string link) =>
             _newsScraperManager.ScrapeNewsWebPage(new Uri(link));
 
+        private async Task AddDebunkingNewsAsync(string link, string customTitle = null, string customCaption = null, IReadOnlyCollection<string> customKeywords = null)
+        {
+            var scrapedNews = await _newsScraperManager.ScrapeNewsWebPage(new Uri(link))
+                .ConfigureAwait(false);
+
+            var keywords = await GetNewsKeywordsAsync(scrapedNews).ConfigureAwait(false);
+
+            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, customTitle, customCaption, customKeywords);
+
+            var command = new CreateDebunkingNewsCommand(new[] { entity });
+            var _ = await _mediator.Send(command).ConfigureAwait(false);
+        }
+
         private Task<IReadOnlyList<string>> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews) =>
             _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
 
@@ -163,28 +192,29 @@ namespace CriThink.Server.Web.Services
             return dtos;
         }
 
-        private async Task DeleteDebunkingNewsAsync(Guid Id)
+        private async Task DeleteDebunkingNewsAsync(Guid id)
         {
-            if (Id == null)
-                throw new ArgumentNullException(nameof(Id));
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
 
-            var command = new DeleteDebunkingNewsCommand(Id);
+            var command = new DeleteDebunkingNewsCommand(id);
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords, DebunkingNewsAddRequest customAttributes = null)
+        private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords,
+            string customTitle = null, string customCaption = null, IReadOnlyCollection<string> customKeywords = null)
         {
-            var allKeywords = customAttributes?.Keywords != null && customAttributes.Keywords.Any() ?
-                keywords.Union(customAttributes.Keywords).ToList().AsReadOnly() :
+            var allKeywords = customKeywords != null && customKeywords.Any() ?
+                keywords.Union(customKeywords).ToList().AsReadOnly() :
                 keywords;
 
             var entity = new DebunkingNews
             {
                 Keywords = string.Join(',', allKeywords),
                 Link = scrapedNews.RequestedUri.AbsoluteUri,
-                NewsCaption = customAttributes?.Caption ?? scrapedNews.GetCaption(),
+                NewsCaption = customCaption ?? scrapedNews.GetCaption(),
                 PublisherName = scrapedNews.WebSiteName,
-                Title = customAttributes?.Title ?? scrapedNews.Title
+                Title = customTitle ?? scrapedNews.Title
             };
 
             if (scrapedNews.Date.HasValue)
@@ -210,11 +240,25 @@ namespace CriThink.Server.Web.Services
         Task AddDebunkingNewsAsync(DebunkingNewsAddRequest request);
 
         /// <summary>
+        /// Add the given debunking news to the repository
+        /// </summary>
+        /// <param name="viewModel">Debunking news</param>
+        /// <returns></returns>
+        Task AddDebunkingNewsAsync(AddNewsViewModel viewModel);
+
+        /// <summary>
         /// Delete the debunking news with the associated id
         /// </summary>
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
         Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request);
+
+        /// <summary>
+        /// Delete the debunking news with the associated id
+        /// </summary>
+        /// <param name="viewModel">Debunking news id</param>
+        /// <returns></returns>
+        Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel);
 
         /// <summary>
         /// Update the debunking news
@@ -229,6 +273,13 @@ namespace CriThink.Server.Web.Services
         /// <param name="request">Page index and Debunking news per page</param>
         /// <returns></returns>
         Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
+
+        /// <summary>
+        /// Get all the debunking news
+        /// </summary>
+        /// <param name="viewModel">Page index and Debunking news per page</param>
+        /// <returns></returns>
+        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(SimplePaginationViewModel viewModel);
 
         /// <summary>
         /// Get the specified debunking news
