@@ -22,23 +22,9 @@ namespace CriThink.Server.Core.Interfaces
         /// <summary>
         /// Delete the debunking news with the associated id
         /// </summary>
-        /// <param name="viewModel">Debunking news id</param>
-        /// <returns></returns>
-        public Task AddDebunkingNewsAsync(AddNewsViewModel viewModel);
-
-        /// <summary>
-        /// Delete the debunking news with the associated id
-        /// </summary>
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
         Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request);
-
-        /// <summary>
-        /// Delete the debunking news with the associated id
-        /// </summary>
-        /// <param name="viewModel">Debunking news id</param>
-        /// <returns></returns>
-        Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel);
 
         /// <summary>
         /// Update the debunking news
@@ -53,13 +39,6 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="request">Page index and debunking news per page</param>
         /// <returns></returns>
         Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
-
-        /// <summary>
-        /// Get all the debunking news
-        /// </summary>
-        /// <param name="viewModel">Page index and debunking news per page</param>
-        /// <returns></returns>
-        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(SimplePaginationViewModel viewModel);
 
         /// <summary>
         /// Get the specified debunking news
