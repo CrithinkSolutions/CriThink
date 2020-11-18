@@ -1,75 +1,97 @@
+@using CriThink.Common.Endpoints.DTOs.Admin;
+@model IList<DebunkingNewsGetAllResponse>;
+
 @{
     Layout = "_LayoutApi";
     ViewData["Title"] = "Debunking News";
 }
+
 <div class="bg-white p-4 shadow text-center m-4 mw-100">
-    <!-- (START) INPUT SECTION -->
     <div id="toolbox" class="border p-2 mb-2">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addnewsmodal"><i class="fas fa-plus"></i></button>
-        <button id="deletenewstoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removenewsmodal"><i class="fas fa-trash-alt"></i></button>
+        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
+        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="RemoveNewsView" type="button" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
     </div>
-    <table id="table" data-click-to-select="true" data-height="400" data-loading-template="loadingTemplate">
+    <table class="table">
         <thead>
             <tr>
-                <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="uri">Uri</th>
-                <th data-field="classification">Classification</th>
+                <th scope="col">Title</th>
+                <th scope="col">Publisher</th>
             </tr>
         </thead>
+        @foreach(var debunkedNews in Model) 
+        {
+            <tr>
+                <td>@debunkedNews.Title</td>
+                <td>@debunkedNews.Publisher</td>
+            </tr>
+        }
     </table>
-    <!-- (END) INPUT SECTION -->
-    <!-- (START) ADD NEWS MODAL -->
-    <div class="modal fade" id="addnewsmodal" tabindex="-1" role="dialog" aria-labelledby="addnewsmodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add news source</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label for="input-url">Uri</label>
-                    <input type="text" class="form-control" id="uri-input" aria-describedby="basic-addon3">
-                    <small>The uri must have http:// or https://</small>
-                    <br /><br />
-                    <label for="input-classification">Classification</label>
-                    <select class="custom-select" id="class-input">
-                        <option selected>Reliable</option>
-                        <option>Satirical</option>
-                        <option>Conspiracist</option>
-                        <option>FakeNews</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-addnews" class="btn btn-success">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) ADD NEWS MODAL -->
-    <!-- (START) REMOVE NEWS MODAL -->
-    <div class="modal fade" id="removenewsmodal" tabindex="-1" role="dialog" aria-labelledby="removenewsmodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure to delete this news source?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    You are selected <b id="uriselected"></b> with classification <b id="classificationselected"></b>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btn-removenews" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) REMOVE NEWS MODAL -->
-    <div class="mt-3">
+
+    <!-- PageIndex nav -->
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li id="prevPage" class="page-item">
+          <a class="page-link pointer" aria-label="Previous">
+            <span>Previous</span>
+          </a>
+        </li>
+        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+        <li class="page-item">
+          <a id="nextPage" class="page-link pointer" aria-label="Next">
+            <span>Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- PageIndex nav -->
+
+    <!-- PageSize nav -->
+    <small>User for page</small>
+    <nav>
+      <ul id="pageSizenav" class="pagination justify-content-center">
+        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
+      </ul>
+    </nav>
+    <!-- PageSize nav -->
+
+    <div class="mt-3 border-top pt-3">
         <a asp-controller="Home" asp-action="Index">Return to Home</a>
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function(){
+            let pageSize = parseInt(GetParameterValues('PageSize'));  
+            let pageIndex = parseInt(GetParameterValues('PageIndex'));
+
+            if(!pageSize || !pageIndex){
+                pageSize = 20;
+                pageIndex = 1;
+            }
+
+            let url = '@Url.Action("Index", "DebunkingNews")'.concat('?PageSize='+pageSize+'&PageIndex=');
+            $('#nextPage').attr('href',url+(pageIndex+1));
+            $('#prevPage').children().attr('href',url+(pageIndex-1));
+
+            $('#currentPage').html(pageIndex);
+
+            if (pageIndex == 1) {
+                $('#prevPage').toggleClass('disabled');
+            }
+
+            function GetParameterValues(param) {  
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');  
+                for (var i = 0; i < url.length; i++) {  
+                    var urlparam = url[i].split('=');  
+                    if (urlparam[0] == param) {  
+                        return urlparam[1];  
+                    }  
+                }  
+            };
+        });
+    </script>
+}

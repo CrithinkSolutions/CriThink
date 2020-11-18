@@ -18,6 +18,7 @@ using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Swagger;
@@ -351,6 +352,9 @@ namespace CriThink.Server.Web
 
             // Infrastructure
             services.AddInfrastructure();
+
+            // Facades
+            services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)

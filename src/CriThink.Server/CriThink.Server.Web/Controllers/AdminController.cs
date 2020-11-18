@@ -305,7 +305,7 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Get all the debunking news
         /// </summary>
-        /// <param name="request">Page index and debunking news per page</param>
+        /// <param name="request">Page index and Debunking news per page</param>
         /// <returns></returns>
         [Route(EndpointConstants.AdminDebunkingNewsGetAll)] // api/admin/debunking-news/all
         [ProducesResponseType(StatusCodes.Status200OK)]
