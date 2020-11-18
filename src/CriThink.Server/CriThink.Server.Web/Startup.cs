@@ -10,24 +10,16 @@ using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.HttpRepository;
+using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
-using CriThink.Server.Infrastructure.Repositories;
-using CriThink.Server.Providers.DebunkNewsFetcher;
+using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
-using CriThink.Server.Providers.DomainAnalyzer;
-using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
-using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
-using CriThink.Server.Web.Delegates;
-using CriThink.Server.Web.Facades;
-using CriThink.Server.Web.Interfaces;
+using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
-using CriThink.Server.Web.Providers.ExternalLogin;
-using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,7 +45,6 @@ using Polly;
 using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
-
 namespace CriThink.Server.Web
 {
     public class Startup
@@ -345,6 +336,7 @@ namespace CriThink.Server.Web
         private void SetupSettings(IServiceCollection services)
         {
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
+            services.Configure<WebSiteSettings>(Configuration.GetSection(nameof(WebSiteSettings)));
         }
 
         private static void SetupMediatR(IServiceCollection services)
@@ -352,44 +344,13 @@ namespace CriThink.Server.Web
             services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
         }
 
-        private void SetupInternalServices(IServiceCollection services)
+        private static void SetupInternalServices(IServiceCollection services)
         {
-            // Email Sender
-            services.AddEmailSenderService();
-
-            // Identity
-            services.AddTransient<IIdentityService, IdentityService>();
-
-            // NewsAnalyzer
-            var azureEndpoint = Configuration["Azure-Cognitive-Endpoint"];
-            var azureCredentials = Configuration["Azure-Cognitive-KeyCredentials"];
-            services.AddNewsAnalyzerProvider(azureCredentials, azureEndpoint);
-            services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
-
-            // DebunkNewsFetcher
-            var openOnlineSettings = Configuration.GetSection("DebunkedNewsSources:OpenOnline").Get<WebSiteSettings>();
-            services.AddDebunkNewsFetcherProvider(openOnlineSettings);
-            services.AddTransient<IDebunkNewsFetcherFacade, DebunkNewsFetcherFacade>();
-
-            // DomainAnalyzer
-            services.AddDomainAnalyzerProvider();
-            services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
-
-            // NewsSource
-            services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
-            services.AddTransient<INewsSourceService, NewsSourceService>();
-
-            // DebunkNews
-            services.AddTransient<IDebunkNewsService, DebunkNewsService>();
+            // Core
+            Core.Bootstrapper.AddCore(services);
 
             // Infrastructure
-            services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
-
-            // Rest Repository
-            services.AddTransient<IRestRepository, RestRepository>();
-
-            var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
-            services.AddInfrastructure(redisConnectionString);
+            services.AddInfrastructure();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
@@ -447,7 +408,7 @@ namespace CriThink.Server.Web
 
         private static void SetupAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup)); // AutoMapper
+            services.AddAutoMapper(typeof(Core.Bootstrapper));
         }
 
         private void SetupRazorAutoReload(IServiceCollection services)

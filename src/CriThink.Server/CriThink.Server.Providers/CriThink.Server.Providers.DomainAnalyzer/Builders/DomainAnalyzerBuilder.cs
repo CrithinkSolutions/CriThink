@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 using CriThink.Server.Providers.DomainAnalyzer.Analyzers;
 
 namespace CriThink.Server.Providers.DomainAnalyzer.Builders

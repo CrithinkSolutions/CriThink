@@ -77,6 +77,7 @@
     <Compile Include="Views\DebunkingNews\Fragments\DebunkingNewsView.cs" />
     <Compile Include="Views\Games\Fragments\HomeGameView.cs" />
     <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\SpotFakeNews\Fragments\SpotFakeNewsHomeView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
@@ -145,7 +146,7 @@
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0.5" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0.5" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.2.0.2" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat.Resources">
@@ -160,7 +161,7 @@
     <PackageReference Include="Xamarin.Google.Android.Material">
       <Version>1.0.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.8" />
+    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.7.1" />
     <PackageReference Include="Xamarin.GooglePlayServices.Auth">
       <Version>118.0.0</Version>
     </PackageReference>
@@ -250,6 +251,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_spotfakenews.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\newscheckerresult_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

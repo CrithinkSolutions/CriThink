@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Azure.AI.TextAnalytics;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 using CriThink.Server.Providers.NewsAnalyzer.Singletons;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
@@ -11,11 +10,12 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
     internal class TextSentimentAnalyzer : BaseNewsAnalyzer
     {
         private readonly NewsAnalysisType _analysisType;
+        private readonly NewsAnalyticsClient _newsAnalyticsClient;
 
-        public TextSentimentAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
-            : base(scrapedNews, queue)
+        public TextSentimentAnalyzer(NewsAnalyticsClient newsAnalyticsClient)
         {
             _analysisType = NewsAnalysisType.TextSentiment;
+            _newsAnalyticsClient = newsAnalyticsClient;
         }
 
         public override Task<NewsAnalysisProviderResult>[] AnalyzeAsync()
@@ -35,7 +35,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
             if (ScrapedNews == null)
                 return new NewsAnalysisProviderResult(_analysisType, null, new InvalidOperationException("The given URL is null"));
 
-            DocumentSentiment documentSentiment = NewsAnalyticsClient.Instance.AnalyzeSentiment(ScrapedNews.NewsBody);
+            DocumentSentiment documentSentiment = _newsAnalyticsClient.Instance.AnalyzeSentiment(ScrapedNews.NewsBody);
 
             var negativeAverage = 0d;
 

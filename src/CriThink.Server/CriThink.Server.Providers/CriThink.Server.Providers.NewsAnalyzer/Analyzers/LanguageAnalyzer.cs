@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
@@ -10,8 +9,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
     {
         private readonly NewsAnalysisType _analysisType;
 
-        public LanguageAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
-            : base(scrapedNews, queue)
+        public LanguageAnalyzer()
         {
             _analysisType = NewsAnalysisType.Ortographic;
         }

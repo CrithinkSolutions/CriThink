@@ -44,7 +44,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Client.Droid", "Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Client.iOS", "CriThink.Client\CriThink.Client.iOS\CriThink.Client.iOS.csproj", "{C6331FAC-C417-4B08-95DA-E41F7A301611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Common.HttpRepository", "CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj", "{C2B2A7D6-6B28-498A-9148-7AB3CFA71477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Common.HttpRepository", "CriThink.Common\CriThink.Common.HttpRepository\CriThink.Common.HttpRepository.csproj", "{C2B2A7D6-6B28-498A-9148-7AB3CFA71477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Providers.Common", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.Common\CriThink.Server.Providers.Common.csproj", "{B554CB92-1C69-45BF-8CBA-061EB19AA817}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -240,6 +242,18 @@ Global
 		{C2B2A7D6-6B28-498A-9148-7AB3CFA71477}.Release|iPhone.Build.0 = Release|Any CPU
 		{C2B2A7D6-6B28-498A-9148-7AB3CFA71477}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{C2B2A7D6-6B28-498A-9148-7AB3CFA71477}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|iPhone.Build.0 = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -261,6 +275,7 @@ Global
 		{CE8A0A87-9504-41E0-8AF7-051CDF555348} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
 		{C6331FAC-C417-4B08-95DA-E41F7A301611} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
 		{C2B2A7D6-6B28-498A-9148-7AB3CFA71477} = {BA34B9AC-1947-4BBB-863B-45A5BE35B2B8}
+		{B554CB92-1C69-45BF-8CBA-061EB19AA817} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F84E5D14-E97C-4611-8886-D9A39FDA717E}

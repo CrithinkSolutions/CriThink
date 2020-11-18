@@ -17,7 +17,6 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
         public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
             return fetcherBuilder
-                .SetHttpClient(_httpClientFactory)
                 .BuildFetchers()
                 .AnalyzeAsync();
         }
