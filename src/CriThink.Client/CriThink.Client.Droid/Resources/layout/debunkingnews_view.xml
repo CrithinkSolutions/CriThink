@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:local="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/main_frame"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<androidx.appcompat.widget.LinearLayoutCompat
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/main_frame"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
-  <androidx.appcompat.widget.AppCompatTextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_centerInParent="true"
-       android:text="Debunking News"/>
+  <MvvmCross.DroidX.MvxSwipeRefreshLayout
+    android:id="@+id/refresher"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <mvvmcross.droidx.recyclerview.MvxRecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/list_debunkingNews"
+      app:MvxItemTemplate="@layout/cell_debunkingnews_feed"  />
+  </MvvmCross.DroidX.MvxSwipeRefreshLayout>
  
-</RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
