@@ -19,8 +19,8 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             _debunkingNewsService = debunkngNewsService ?? throw new ArgumentNullException(nameof(debunkngNewsService));
         }
 
-        private DebunkingNewsGetResponse _debunkingNews;
-        public DebunkingNewsGetResponse DebunkingNews
+        private DebunkingNewsGetDetailsResponse _debunkingNews;
+        public DebunkingNewsGetDetailsResponse DebunkingNews
         {
             get => _debunkingNews;
             set => SetProperty(ref _debunkingNews, value);

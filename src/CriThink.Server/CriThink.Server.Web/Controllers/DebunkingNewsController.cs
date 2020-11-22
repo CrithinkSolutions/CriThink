@@ -5,6 +5,7 @@ using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)] //api/debunking-news
     public class DebunkingNewsController : Controller
     {

@@ -12,11 +12,12 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
     public class DebunkingNewsViewModel : BaseBottomViewViewModel, IDisposable
     {
-        private const int PageSize = 20;
+        private const int PageSize = 5;
 
         private readonly IDebunkingNewsService _debunkingNewsService;
 
         private int _pageIndex = 1;
+        private bool _hasMorePages;
         private CancellationTokenSource _cancellationTokenSource;
 
         public DebunkingNewsViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IDebunkingNewsService debunkingNewsService)
@@ -25,12 +26,13 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             TabId = "debunking_news";
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
 
-            Feed = new MvxObservableCollection<DebunkingNewsGetAllResponse>();
+            Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
+            _hasMorePages = true;
         }
 
         #region Properties
 
-        public MvxObservableCollection<DebunkingNewsGetAllResponse> Feed { get; }
+        public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
 
         private bool _isRefreshing;
         public bool IsRefreshing
@@ -51,9 +53,9 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private IMvxCommand _refreshDebunkingNewsCommand;
         public IMvxCommand RefreshDebunkingNewsCommand => _refreshDebunkingNewsCommand ??= new MvxAsyncCommand(DoRefreshDebunkingNewsCommand);
 
-        private IMvxCommand<DebunkingNewsGetAllResponse> _debunkingNewsSelectedCommand;
-        public IMvxCommand<DebunkingNewsGetAllResponse> DebunkingNewsSelectedCommand =>
-            _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<DebunkingNewsGetAllResponse>(DoDebunkingNewsSelectedCommand);
+        private IMvxCommand<DebunkingNewsGetResponse> _debunkingNewsSelectedCommand;
+        public IMvxCommand<DebunkingNewsGetResponse> DebunkingNewsSelectedCommand =>
+            _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<DebunkingNewsGetResponse>(DoDebunkingNewsSelectedCommand);
 
         #endregion
 
@@ -67,7 +69,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private async Task GetDebunkingNewsAsync()
         {
-            if (_pageIndex > 5) // TODO: https://github.com/CrithinkSolutions/CriThink/issues/277
+            if (!_hasMorePages)
                 return;
 
             IsRefreshing = true;
@@ -79,7 +81,8 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                     .GetRecentDebunkingNewsAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
                     .ConfigureAwait(false);
 
-                Feed.AddRange(debunkinNewsCollection);
+                Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                _hasMorePages = debunkinNewsCollection.HasNextPage;
 
                 _pageIndex++;
             }
@@ -89,7 +92,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             }
         }
 
-        private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetAllResponse selectedResponse, CancellationToken cancellationToken)
+        private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
             await NavigationService.Navigate<DebunkingNewsDetailsViewModel, string>(selectedResponse.Id, cancellationToken: cancellationToken).ConfigureAwait(true);
         }
@@ -97,6 +100,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private async Task DoRefreshDebunkingNewsCommand(CancellationToken cancellationToken)
         {
             _pageIndex = 1;
+            _hasMorePages = true;
             Feed.Clear();
             await GetDebunkingNewsAsync().ConfigureAwait(false);
         }

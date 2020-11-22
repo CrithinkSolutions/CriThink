@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
@@ -23,7 +22,7 @@ namespace CriThink.Client.Core.Services
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
-        public async Task<IList<DebunkingNewsGetAllResponse>> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{pageIndex}_{pageSize}", async entry =>
             {
@@ -32,7 +31,7 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public async Task<DebunkingNewsGetResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{DebunkingNewsCacheKey}_{id}", async entry =>
             {

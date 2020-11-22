@@ -23,7 +23,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews.Adapters
         {
             var txtTitle = holder.ItemView.FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
 
-            if (GetItem(position) is DebunkingNewsGetAllResponse debunkingNews && txtTitle != null)
+            if (GetItem(position) is DebunkingNewsGetResponse debunkingNews && txtTitle != null)
             {
                 txtTitle.Text = debunkingNews.Title;
             }

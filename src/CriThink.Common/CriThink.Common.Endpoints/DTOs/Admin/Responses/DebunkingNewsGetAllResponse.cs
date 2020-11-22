@@ -6,6 +6,8 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 {
     public class DebunkingNewsGetAllResponse
     {
+        public DebunkingNewsGetAllResponse() { }
+
         public DebunkingNewsGetAllResponse(IEnumerable<DebunkingNewsGetResponse> debunkingNewsCollection, bool hasNextPage)
         {
             DebunkingNewsCollection = new List<DebunkingNewsGetResponse>(debunkingNewsCollection).AsReadOnly();
@@ -13,9 +15,9 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         }
 
         [JsonPropertyName("debunkingNews")]
-        public IReadOnlyCollection<DebunkingNewsGetResponse> DebunkingNewsCollection { get; }
+        public IReadOnlyCollection<DebunkingNewsGetResponse> DebunkingNewsCollection { get; set; }
 
         [JsonPropertyName("hasNextPage")]
-        public bool HasNextPage { get; }
+        public bool HasNextPage { get; set; }
     }
 }

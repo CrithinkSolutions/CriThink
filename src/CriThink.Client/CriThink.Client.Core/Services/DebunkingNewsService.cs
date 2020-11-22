@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
@@ -17,7 +16,7 @@ namespace CriThink.Client.Core.Services
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
         }
 
-        public async Task<IList<DebunkingNewsGetAllResponse>> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             var request = new DebunkingNewsGetAllRequest
             {
@@ -25,23 +24,30 @@ namespace CriThink.Client.Core.Services
                 PageSize = pageSize
             };
 
-            var debunkingNewsCollection = await _restRepository.MakeRequestAsync<IList<DebunkingNewsGetAllResponse>>(
-                    $"{EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsGetAll}?{request.ToQueryString()}",
-                    HttpRestVerb.Get,
-                    cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                var debunkingNewsCollection = await _restRepository.MakeRequestAsync<DebunkingNewsGetAllResponse>(
+                        $"{EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsGetAll}?{request.ToQueryString()}",
+                        HttpRestVerb.Get,
+                        cancellationToken)
+                    .ConfigureAwait(false);
 
-            return debunkingNewsCollection;
+                return debunkingNewsCollection;
+            }
+            catch (Exception ex)
+            {
+                return new DebunkingNewsGetAllResponse(null, false);
+            }
         }
 
-        public async Task<DebunkingNewsGetResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken)
         {
             var request = new DebunkingNewsGetRequest
             {
                 Id = Guid.Parse(id)
             };
 
-            var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetResponse>(
+            var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetDetailsResponse>(
                     $"{EndpointConstants.DebunkNewsBase}?{request.ToQueryString()}",
                     HttpRestVerb.Get,
                     cancellationToken)
@@ -60,7 +66,7 @@ namespace CriThink.Client.Core.Services
         /// <param name="pageSize">Number of debunking news per page</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
-        Task<IList<DebunkingNewsGetAllResponse>> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
 
         /// <summary>
         /// Returns details of the given debunking news id
@@ -68,6 +74,6 @@ namespace CriThink.Client.Core.Services
         /// <param name="id">Debunking news id</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken);
     }
 }
