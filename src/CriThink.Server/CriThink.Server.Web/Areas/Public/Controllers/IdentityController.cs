@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace CriThink.Server.Web.Areas.Public.Controllers
 {
     [Area("Public")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
