@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Interfaces;
@@ -46,7 +45,7 @@ namespace CriThink.Server.Web.Facades
             await _debunkingNewsService.DeleteDebunkingNewsAsync(request).ConfigureAwait(false);
         }
 
-        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(SimplePaginationViewModel viewModel)
+        public async Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(SimplePaginationViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));

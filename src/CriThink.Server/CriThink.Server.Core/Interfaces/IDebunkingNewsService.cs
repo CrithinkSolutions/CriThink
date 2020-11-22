@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 
 namespace CriThink.Server.Core.Interfaces
@@ -38,13 +37,13 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="request">Page index and debunking news per page</param>
         /// <returns></returns>
-        Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
+        Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request);
 
         /// <summary>
         /// Get the specified debunking news
         /// </summary>
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request);
+        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request);
     }
 }
