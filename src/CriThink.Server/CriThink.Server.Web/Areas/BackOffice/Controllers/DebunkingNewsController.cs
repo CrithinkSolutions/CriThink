@@ -15,6 +15,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DebunkingNewsController : Controller
     {
         private readonly IDebunkingNewsServiceFacade _debunkingNewsService;
