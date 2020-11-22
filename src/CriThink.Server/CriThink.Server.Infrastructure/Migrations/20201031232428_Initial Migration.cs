@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1062 // Validate arguments of public methods
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 namespace CriThink.Server.Infrastructure.Migrations
 {
     public partial class InitialMigration : Migration
@@ -295,10 +296,71 @@ namespace CriThink.Server.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"), "a61cd582-008f-49d4-ae66-0e107a78efeb", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "UserName" },
+                values: new object[] { new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"), 0, "7b86fa0d-0796-416a-a934-5d93515d937c", "service@crithink.com", true, false, false, null, "SERVICE@CRITHINK.COM", "SERVICE", "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==", null, "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD", "service" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", "f62fc754-e296-4aca-0a3f-08d88b1daff7", new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7") },
+                    { 2, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress", "service@crithink.com", new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7") },
+                    { 3, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", "service", new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7") },
+                    { 4, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin", new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"), new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f") });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DeleteData(
+                table: "AspNetUserClaims",
+                keyColumn: "Id",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserClaims",
+                keyColumn: "Id",
+                keyValue: 2);
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserClaims",
+                keyColumn: "Id",
+                keyValue: 3);
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserClaims",
+                keyColumn: "Id",
+                keyValue: 4);
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserRoles",
+                keyColumns: new[] { "UserId", "RoleId" },
+                keyValues: new object[] { new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"), new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f") });
+
+            migrationBuilder.DeleteData(
+                table: "UserRoles",
+                keyColumn: "Id",
+                keyValue: new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"));
+
+            migrationBuilder.DeleteData(
+                table: "Users",
+                keyColumn: "Id",
+                keyValue: new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"));
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
