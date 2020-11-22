@@ -261,7 +261,7 @@ namespace CriThink.Server.Core.Identity
                 throw new IdentityOperationException(areRoleRemoved);
         }
 
-        public async Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request)
+        public async Task<UserGetAllResponse> GetAllUsersAsync(UserGetAllRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -270,25 +270,27 @@ namespace CriThink.Server.Core.Identity
             var pageSize = request.PageSize;
 
             var allUsers = await _userManager.Users
+                .AsQueryable()
                 .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            var dtos = new List<UserGetAllResponse>();
+            var userDtos = new List<UserGetResponse>();
 
-            foreach (var user in allUsers)
+            foreach (var user in allUsers.Take(pageSize))
             {
-                var userDto = _mapper.Map<User, UserGetAllResponse>(user);
+                var userDto = _mapper.Map<User, UserGetResponse>(user);
                 var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
                 userDto.Roles = roles.ToList().AsReadOnly();
-                dtos.Add(userDto);
+                userDtos.Add(userDto);
             }
 
-            return dtos;
+            var response = new UserGetAllResponse(userDtos, allUsers.Count > pageSize);
+            return response;
         }
 
-        public async Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request)
+        public async Task<UserGetDetailsResponse> GetUserByIdAsync(UserGetRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -299,7 +301,7 @@ namespace CriThink.Server.Core.Identity
             if (user == null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            var userDto = _mapper.Map<User, UserGetResponse>(user);
+            var userDto = _mapper.Map<User, UserGetDetailsResponse>(user);
             var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             userDto.Roles = roles.ToList().AsReadOnly();
 
