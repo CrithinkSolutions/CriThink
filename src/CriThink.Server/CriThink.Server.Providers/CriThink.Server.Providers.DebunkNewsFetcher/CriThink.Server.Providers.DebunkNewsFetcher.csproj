@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>CriThink.Server.Providers.DebunkNewsFetcher</AssemblyName>
     <RootNamespace>CriThink.Server.Providers.DebunkNewsFetcher</RootNamespace>
@@ -12,7 +12,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

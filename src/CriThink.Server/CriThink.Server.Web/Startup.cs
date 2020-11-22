@@ -208,7 +208,8 @@ namespace CriThink.Server.Web
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
-            services.AddAuthentication(options =>
+            services
+                .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
@@ -336,6 +337,8 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
+            services.Configure<User>(Configuration.GetSection("ServiceUser"));
+            services.Configure<UserRole>(Configuration.GetSection("AdminRole"));
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
             services.Configure<WebSiteSettings>(Configuration.GetSection(nameof(WebSiteSettings)));
         }

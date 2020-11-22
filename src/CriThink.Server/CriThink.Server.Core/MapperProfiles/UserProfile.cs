@@ -16,7 +16,7 @@ namespace CriThink.Server.Core.MapperProfiles
             CreateMap<UserSignUpRequest, UserCompleteSignUpRequest>()
                 .ForMember(dest => dest.UserId, opt => opt.Ignore());
 
-            CreateMap<User, UserGetResponse>()
+            CreateMap<User, UserGetDetailsResponse>()
                 .ForMember(dest =>
                     dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest =>
@@ -36,7 +36,7 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Roles, opt => opt.Ignore());
 
-            CreateMap<User, UserGetAllResponse>()
+            CreateMap<User, UserGetResponse>()
                 .ForMember(dest =>
                     dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest =>

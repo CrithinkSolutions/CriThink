@@ -68,14 +68,14 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="request">Page index and users per page</param>
         /// <returns>Returns list of users</returns>
-        Task<IList<UserGetAllResponse>> GetAllUsersAsync(UserGetAllRequest request);
+        Task<UserGetAllResponse> GetAllUsersAsync(UserGetAllRequest request);
 
         /// <summary>
         /// Get user by id
         /// </summary>
         /// <param name="request">User id</param>
         /// <returns>Returns user details</returns>
-        Task<UserGetResponse> GetUserByIdAsync(UserGetRequest request);
+        Task<UserGetDetailsResponse> GetUserByIdAsync(UserGetRequest request);
 
         /// <summary>
         /// Update user properties

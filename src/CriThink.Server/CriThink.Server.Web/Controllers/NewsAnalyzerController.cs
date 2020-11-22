@@ -6,6 +6,7 @@ using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace CriThink.Server.Web.Controllers
     /// This controller contains APIs to offer services to analyze news and relative URLs
     /// </summary>
     [ApiVersion(EndpointConstants.VersionOne)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.NewsAnalyzerBase)] //api/news-analyzer

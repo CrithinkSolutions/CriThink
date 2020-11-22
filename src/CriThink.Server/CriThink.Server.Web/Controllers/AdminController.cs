@@ -2,12 +2,16 @@ using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -18,22 +22,27 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.AdminBase)] //api/admin
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IIdentityService identityService, IDebunkingNewsService debunkingNewsService)
+        public AdminController(IIdentityService identityService, IDebunkingNewsService debunkingNewsService, IConfiguration configuration, ILogger<AdminController> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _logger = logger;
         }
 
         /// <summary>
         /// Register a new admin and send an email with confirmation code
         /// </summary>
         /// <returns>If successfull, returns the JWT token</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.AdminSignUp)] // api/admin/sign-up
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,6 +53,23 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> SignUpAdminAsync([FromBody] AdminSignUpRequest request)
         {
             var creationResponse = await _identityService.CreateNewAdminAsync(request).ConfigureAwait(false);
+
+            var configServiceUserId = _configuration["ServiceUser:Id"];
+            try
+            {
+                var serviceUserId = Guid.Parse(configServiceUserId);
+                var serviceUserRequest = new UserGetRequest
+                {
+                    UserId = serviceUserId
+                };
+
+                await _identityService.SoftDeleteUserAsync(serviceUserRequest).ConfigureAwait(false);
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                _logger?.LogError(ex, "Error while deleting service user", configServiceUserId);
+            }
+
             return Ok(new ApiOkResponse(creationResponse));
         }
 
