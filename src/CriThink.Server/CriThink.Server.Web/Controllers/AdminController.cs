@@ -6,6 +6,7 @@ using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [ApiController]
     [Route(EndpointConstants.ApiBase + EndpointConstants.AdminBase)] //api/admin
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AdminController : Controller
     {
         private readonly IIdentityService _identityService;
@@ -41,6 +42,7 @@ namespace CriThink.Server.Web.Controllers
         /// Register a new admin and send an email with confirmation code
         /// </summary>
         /// <returns>If successfull, returns the JWT token</returns>
+        [AllowAnonymous]
         [Route(EndpointConstants.AdminSignUp)] // api/admin/sign-up
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
