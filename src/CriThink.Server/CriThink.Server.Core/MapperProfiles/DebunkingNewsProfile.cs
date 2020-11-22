@@ -12,7 +12,7 @@ namespace CriThink.Server.Core.MapperProfiles
     {
         public DebunkingNewsProfile()
         {
-            CreateMap<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetAllResponse>()
+            CreateMap<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetResponse>()
                 .ForMember(dest =>
                     dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest =>
@@ -20,7 +20,7 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Publisher, opt => opt.MapFrom(src => src.Publisher));
 
-            CreateMap<DebunkingNews, DebunkingNewsGetResponse>()
+            CreateMap<DebunkingNews, DebunkingNewsGetDetailsResponse>()
                 .ForMember(dest =>
                     dest.Caption, opt => opt.MapFrom(src => src.NewsCaption))
                 .ForMember(dest =>

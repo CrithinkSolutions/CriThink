@@ -89,25 +89,26 @@ namespace CriThink.Server.Core.Services
             var _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task<IList<DebunkingNewsGetAllResponse>> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
+        public async Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
+            var query = new GetAllDebunkingNewsQuery(request.PageSize + 1, request.PageIndex);
             var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
 
-            var dtos = new List<DebunkingNewsGetAllResponse>();
-            foreach (var debunkingNews in debunkingNewsCollection)
+            var dtos = new List<DebunkingNewsGetResponse>();
+            foreach (var debunkingNews in debunkingNewsCollection.Take(request.PageSize))
             {
-                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetAllResponse>(debunkingNews);
+                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetResponse>(debunkingNews);
                 dtos.Add(dto);
             }
 
-            return dtos;
+            var response = new DebunkingNewsGetAllResponse(dtos, debunkingNewsCollection.Count > request.PageSize);
+            return response;
         }
 
-        public async Task<DebunkingNewsGetResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request)
+        public async Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -115,7 +116,7 @@ namespace CriThink.Server.Core.Services
             var query = new GetDebunkingNewsQuery(request.Id);
             var debunkingNews = await _mediator.Send(query).ConfigureAwait(false);
 
-            var dto = _mapper.Map<DebunkingNews, DebunkingNewsGetResponse>(debunkingNews);
+            var dto = _mapper.Map<DebunkingNews, DebunkingNewsGetDetailsResponse>(debunkingNews);
             return dto;
         }
 

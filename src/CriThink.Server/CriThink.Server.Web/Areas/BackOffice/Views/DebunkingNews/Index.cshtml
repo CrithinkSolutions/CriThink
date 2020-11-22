@@ -1,5 +1,5 @@
 @using CriThink.Common.Endpoints.DTOs.Admin;
-@model IList<DebunkingNewsGetAllResponse>;
+@model DebunkingNewsGetAllResponse;
 
 @{
     Layout = "_LayoutApi";
@@ -9,7 +9,7 @@
 <div class="bg-white p-4 shadow text-center m-4 mw-100">
     <div id="toolbox" class="border p-2 mb-2">
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="RemoveNewsView" type="button" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="RemoveNewsView" type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
     </div>
     <table class="table">
         <thead>
@@ -18,7 +18,7 @@
                 <th scope="col">Publisher</th>
             </tr>
         </thead>
-        @foreach(var debunkedNews in Model) 
+        @foreach (var debunkedNews in Model.DebunkingNewsCollection)
         {
             <tr>
                 <td>@debunkedNews.Title</td>
@@ -29,30 +29,29 @@
 
     <!-- PageIndex nav -->
     <nav>
-      <ul class="pagination justify-content-center">
-        <li id="prevPage" class="page-item">
-          <a class="page-link pointer" aria-label="Previous">
-            <span>Previous</span>
-          </a>
-        </li>
-        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-        <li class="page-item">
-          <a id="nextPage" class="page-link pointer" aria-label="Next">
-            <span>Next</span>
-          </a>
-        </li>
-      </ul>
+        <ul class="pagination justify-content-center">
+            <li id="prevPage" class="page-item">
+                <a class="page-link pointer" aria-label="Previous">
+                    <span>Previous</span>
+                </a>
+            </li>
+            <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+            <li class="page-item">
+                <a id="nextPage" class="page-link pointer" aria-label="Next">
+                    <span>Next</span>
+                </a>
+            </li>
+        </ul>
     </nav>
     <!-- PageIndex nav -->
-
     <!-- PageSize nav -->
     <small>User for page</small>
     <nav>
-      <ul id="pageSizenav" class="pagination justify-content-center">
-        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
-      </ul>
+        <ul id="pageSizenav" class="pagination justify-content-center">
+            <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
+            <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
+            <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
+        </ul>
     </nav>
     <!-- PageSize nav -->
 
@@ -65,7 +64,7 @@
 {
     <script type="text/javascript">
         $(function(){
-            let pageSize = parseInt(GetParameterValues('PageSize'));  
+            let pageSize = parseInt(GetParameterValues('PageSize'));
             let pageIndex = parseInt(GetParameterValues('PageIndex'));
 
             if(!pageSize || !pageIndex){
@@ -83,14 +82,14 @@
                 $('#prevPage').toggleClass('disabled');
             }
 
-            function GetParameterValues(param) {  
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');  
-                for (var i = 0; i < url.length; i++) {  
-                    var urlparam = url[i].split('=');  
-                    if (urlparam[0] == param) {  
-                        return urlparam[1];  
-                    }  
-                }  
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
             };
         });
     </script>
