@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
@@ -15,16 +17,18 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private const int PageSize = 5;
 
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IMvxMessenger _messenger;
 
         private int _pageIndex = 1;
         private bool _hasMorePages;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public DebunkingNewsViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IDebunkingNewsService debunkingNewsService)
+        public DebunkingNewsViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IDebunkingNewsService debunkingNewsService, IMvxMessenger messenger)
             : base(logProvider, navigationService)
         {
             TabId = "debunking_news";
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
             _hasMorePages = true;
@@ -99,9 +103,15 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private async Task DoRefreshDebunkingNewsCommand(CancellationToken cancellationToken)
         {
+            Feed.Clear();
+
+            // Gives time to break the collection items references currently binded to the UI
+            // and safely deleting the referencing from cache
+            await Task.Delay(600, cancellationToken).ConfigureAwait(true);
+
+            ClearCache();
             _pageIndex = 1;
             _hasMorePages = true;
-            Feed.Clear();
             await GetDebunkingNewsAsync().ConfigureAwait(false);
         }
 
@@ -109,6 +119,12 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         {
             FetchDebunkingNewsTask = MvxNotifyTask.Create(GetDebunkingNewsAsync);
             RaisePropertyChanged(() => FetchDebunkingNewsTask);
+        }
+
+        private void ClearCache()
+        {
+            var message = new ClearDebunkingNewsCacheMessage(this);
+            _messenger.Publish(message);
         }
 
         #endregion

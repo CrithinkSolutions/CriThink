@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
 {
     public class DebunkingNewsGetResponse
