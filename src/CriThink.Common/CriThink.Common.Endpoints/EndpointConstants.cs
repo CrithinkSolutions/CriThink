@@ -89,6 +89,7 @@
         public const string DebunkNewsBase = "debunking-news/";
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
+        public const string DebunkingNewsGetAll = "all";
 
         #endregion
 

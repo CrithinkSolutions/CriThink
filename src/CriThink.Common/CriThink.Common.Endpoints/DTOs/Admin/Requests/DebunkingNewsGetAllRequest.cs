@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
 {
-    public class DebunkingNewsGetAllRequest : IValidatableObject
+    public class DebunkingNewsGetAllRequest : IValidatableObject, IQueryStringRequest
     {
         [Required]
         [JsonPropertyName("pageSize")]
@@ -23,5 +23,7 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
             if (PageIndex < 1)
                 yield return new ValidationResult("PageIndex can't be less than 1");
         }
+
+        public string ToQueryString() => $"{nameof(PageSize)}={PageSize}&{nameof(PageIndex)}={PageIndex}";
     }
 }

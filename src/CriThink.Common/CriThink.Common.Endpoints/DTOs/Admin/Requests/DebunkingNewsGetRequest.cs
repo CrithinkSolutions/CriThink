@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+#pragma warning disable CA1308 // Normalize strings to uppercase
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
 {
-    public class DebunkingNewsGetRequest : IValidatableObject
+    public class DebunkingNewsGetRequest : IValidatableObject, IQueryStringRequest
     {
         [JsonPropertyName("id")]
         [Required]
@@ -19,5 +20,7 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
                 yield return new ValidationResult("Guid can't be empty", new[] { nameof(Id) });
             }
         }
+
+        public string ToQueryString() => $"{nameof(Id)}={Id.ToString().ToLowerInvariant()}";
     }
 }
