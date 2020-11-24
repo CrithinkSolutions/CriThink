@@ -46,4 +46,10 @@
   <string name="resetpassword_password">Insert your new password</string>
   <string name="resetpassword_repeatPassword">Repeat the new password</string>
   <string name="resetpassword_send">Send</string>
+
+  <!-- Home View -->
+  <string name="menu_newschecker">Check</string>
+  <string name="menu_debunkingnews">Debunk</string>
+  <string name="menu_spotfakenews">Spot</string>
+  <string name="menu_playgames">Play</string>
 </resources>

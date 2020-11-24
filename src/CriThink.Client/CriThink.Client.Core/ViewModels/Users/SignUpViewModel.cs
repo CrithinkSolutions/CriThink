@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Services;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class SignUpViewModel : MvxViewModel
+    public class SignUpViewModel : BaseSocialLoginViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public SignUpViewModel(IMvxNavigationService navigationService)
+        public SignUpViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
+            : base(identityService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }

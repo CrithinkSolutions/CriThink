@@ -9,6 +9,12 @@ namespace CriThink.Server.Core.Entities
     public sealed class UserRole : IdentityRole<Guid>, ICriThinkIdentity
     {
         /// <summary>
+        /// Default constructor used by migrations
+        /// </summary>
+        public UserRole()
+        { }
+
+        /// <summary>
         /// Creates a new role
         /// </summary>
         /// <param name="name">Role name</param>

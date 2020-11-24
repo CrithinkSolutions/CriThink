@@ -39,6 +39,7 @@
         public const string IdentityChangePassword = "change-password";
         public const string IdentityForgotPassword = "forgot-password";
         public const string IdentityResetPassword = "reset-password";
+        public const string IdentityExternalLogin = "external-login";
 
         #endregion
 
@@ -52,6 +53,8 @@
         public const string AdminUserRole = "user/role";
         public const string AdminUserGetAll = "user/all";
         public const string AdminUser = "user";
+        public const string AdminDebunkingNews = "debunking-news";
+        public const string AdminDebunkingNewsGetAll = "debunking-news/all";
 
         #endregion
 
@@ -86,6 +89,7 @@
         public const string DebunkNewsBase = "debunking-news/";
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
+        public const string DebunkingNewsGetAll = "all";
 
         #endregion
 

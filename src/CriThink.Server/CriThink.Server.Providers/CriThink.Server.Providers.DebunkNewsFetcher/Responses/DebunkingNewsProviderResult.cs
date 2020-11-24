@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
 // ReSharper disable once CheckNamespace
-
 namespace CriThink.Server.Providers.DebunkNewsFetcher
 {
     public class DebunkingNewsProviderResult : IProviderResult

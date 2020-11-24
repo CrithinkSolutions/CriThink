@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsAnalyzer;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
-using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.DemoBase)] //api/demo
     public class DemoController : Controller
     {
@@ -31,7 +33,6 @@ namespace CriThink.Server.Web.Controllers
         /// Returns a predefined list of news ready to be analyzed
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         [Route(EndpointConstants.DemoNewsGetAll)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -49,7 +50,6 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">News to add</param>
         /// <returns></returns>
-        [Authorize]
         [Route(EndpointConstants.DemoNewsAdd)] // api/news-analyzer/demo-news
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -281,10 +280,12 @@ namespace CriThink.Common.HttpRepository
 
         private static Uri GetUri(string request) => new Uri(request, UriKind.Relative);
 
-        private static Task<T> ProcessHttpRequest<T>(HttpResponseMessage response, CancellationToken cancellationToken)
+        private static async Task<T> ProcessHttpRequest<T>(HttpResponseMessage response, CancellationToken cancellationToken)
         {
+            // TODO: Switch back to ReadFromJsonAsync
             response.EnsureSuccessStatusCode();
-            return response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            var streamContent = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            return await JsonSerializer.DeserializeAsync<T>(streamContent, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }
 }

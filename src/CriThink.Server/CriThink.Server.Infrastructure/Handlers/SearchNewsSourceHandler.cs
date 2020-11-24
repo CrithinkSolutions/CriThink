@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace CriThink.Server.Infrastructure.Handlers
 {
     // ReSharper disable once UnusedMember.Global
-    public class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
+    internal class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly CriThinkDbContext _dbContext;

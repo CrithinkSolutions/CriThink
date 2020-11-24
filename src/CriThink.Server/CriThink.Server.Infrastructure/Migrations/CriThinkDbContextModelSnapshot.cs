@@ -15,7 +15,7 @@ namespace CriThink.Server.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -207,6 +207,23 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7b86fa0d-0796-416a-a934-5d93515d937c",
+                            Email = "service@crithink.com",
+                            EmailConfirmed = true,
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SERVICE@CRITHINK.COM",
+                            NormalizedUserName = "SERVICE",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
+                            SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD",
+                            UserName = "service"
+                        });
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.UserRole", b =>
@@ -235,6 +252,15 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
+                            ConcurrencyStamp = "a61cd582-008f-49d4-ae66-0e107a78efeb",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -281,6 +307,36 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+                            ClaimValue = "f62fc754-e296-4aca-0a3f-08d88b1daff7",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+                            ClaimValue = "service@crithink.com",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                            ClaimValue = "service",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                            ClaimValue = "Admin",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -317,6 +373,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
+                            RoleId = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>

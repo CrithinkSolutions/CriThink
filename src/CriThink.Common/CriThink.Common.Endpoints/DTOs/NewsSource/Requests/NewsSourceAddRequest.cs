@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using CriThink.Common.Endpoints.Converters;
 
 // Resharper disable once CheckNamespace
 #pragma warning disable CA1056 // Uri properties should not be strings

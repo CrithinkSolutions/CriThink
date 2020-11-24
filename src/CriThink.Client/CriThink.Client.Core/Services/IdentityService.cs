@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Singletons;
+using CriThink.Client.Core.Models.Identity;
+using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.HttpRepository;
@@ -12,12 +13,20 @@ namespace CriThink.Client.Core.Services
     public class IdentityService : IIdentityService
     {
         private readonly IRestRepository _restRepository;
+        private readonly IIdentityRepository _identityRepository;
         private readonly IMvxLog _logger;
 
-        public IdentityService(IRestRepository restRepository, IMvxLogProvider logProvider)
+        public IdentityService(IRestRepository restRepository, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
             _logger = logProvider?.GetLogFor<IdentityService>();
+        }
+
+        public async Task<User> GetLoggedUserAsync()
+        {
+            var user = await _identityRepository.GetUserInfoAsync().ConfigureAwait(false);
+            return user;
         }
 
         public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
@@ -32,7 +41,36 @@ namespace CriThink.Client.Core.Services
                 cancellationToken)
                 .ConfigureAwait(false);
 
-            LoggedUser.Login(loginResponse);
+            await _identityRepository.SetUserInfoAsync(
+                loginResponse.UserId,
+                loginResponse.UserEmail,
+                loginResponse.UserName,
+                loginResponse.JwtToken.Token,
+                loginResponse.JwtToken.ExpirationDate)
+                .ConfigureAwait(false);
+
+            return loginResponse;
+        }
+
+        public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
+                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
+                    HttpRestVerb.Post,
+                    request,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            await _identityRepository.SetUserInfoAsync(
+                    loginResponse.UserId,
+                    loginResponse.UserEmail,
+                    loginResponse.UserName,
+                    loginResponse.JwtToken.Token,
+                    loginResponse.JwtToken.ExpirationDate)
+                .ConfigureAwait(false);
 
             return loginResponse;
         }
@@ -69,8 +107,6 @@ namespace CriThink.Client.Core.Services
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            LoggedUser.Login(resetPasswordResponse);
-
             return resetPasswordResponse;
         }
 
@@ -92,6 +128,8 @@ namespace CriThink.Client.Core.Services
 
     public interface IIdentityService
     {
+        Task<User> GetLoggedUserAsync();
+
         /// <summary>
         /// Performs login
         /// </summary>
@@ -99,6 +137,14 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Login response data</returns>
         Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Performs login or sign in using an external social provider
+        /// </summary>
+        /// <param name="request">User and social provider data</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
+        /// <returns>Login response data</returns>
+        Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Requests a temporary token to restore the password

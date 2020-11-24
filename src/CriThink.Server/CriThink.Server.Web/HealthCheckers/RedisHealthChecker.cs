@@ -4,30 +4,40 @@ using System.Threading.Tasks;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-public class RedisHealthChecker : IHealthCheck
+namespace CriThink.Server.Web.HealthCheckers
 {
-    /// <summary>
-    /// Returns the Redis connection status
-    /// </summary>
-    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public class RedisHealthChecker : IHealthCheck
     {
-        bool isHealthy;
+        private readonly CriThinkRedisMultiplexer _multiplexer;
 
-        try
+        public RedisHealthChecker(CriThinkRedisMultiplexer multiplexer)
         {
-            var redis = CriThinkRedisMultiplexer.GetConnection();
-            isHealthy = redis.IsConnected;
-        }
-        catch (Exception)
-        {
-            isHealthy = false;
+            _multiplexer = multiplexer ?? throw new ArgumentNullException(nameof(multiplexer));
         }
 
-        if (isHealthy)
+        /// <summary>
+        /// Returns the Redis connection status
+        /// </summary>
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult<HealthCheckResult>(HealthCheckResult.Healthy("Redis is healty."));
-        }
+            bool isHealthy;
 
-        return Task.FromResult<HealthCheckResult>(HealthCheckResult.Unhealthy("Redis is unhealthy."));
+            try
+            {
+                var redis = _multiplexer.GetConnection();
+                isHealthy = redis.IsConnected;
+            }
+            catch (Exception)
+            {
+                isHealthy = false;
+            }
+
+            if (isHealthy)
+            {
+                return Task.FromResult<HealthCheckResult>(HealthCheckResult.Healthy("Redis is healty."));
+            }
+
+            return Task.FromResult<HealthCheckResult>(HealthCheckResult.Unhealthy("Redis is unhealthy."));
+        }
     }
 }

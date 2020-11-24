@@ -1,0 +1,55 @@
+@model CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews.AddNewsViewModel
+@{
+    Layout = "_LayoutApi";
+    ViewData["Title"] = "Add News";
+}
+
+<div class="bg-white p-4 shadow text-center m-4 mw-100">
+    <h3 class="mb-3">Add News</h3>
+    @using(Html.BeginForm("Addnews", "DebunkingNews", FormMethod.Post)) 
+    {
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Title</span>
+            </div>
+            <input asp-for="Title" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Caption</span>
+            </div>
+            <input asp-for="Caption" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Uri</span>
+            </div>
+            <input asp-for="Link" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Keywords</span>
+            </div>
+            <input asp-for="Keywords" type="text" class="form-control">
+        </div>
+
+        @if (Model.Message != null) 
+        {
+            <div class="alert alert-success">@Model.Message</div>
+        }
+
+        @if(!Html.ViewData.ModelState.IsValid) 
+        {
+            @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
+        }
+
+        <button class="btn btn-success btn-block" type="submit" ><i class="fas fa-plus"></i></button>
+    }
+    
+    <div class="mt-3 border-top pt-3">
+        <a asp-controller="DebunkingNews" asp-action="Index">Return to DebunkingNews</a>
+    </div>
+</div>
