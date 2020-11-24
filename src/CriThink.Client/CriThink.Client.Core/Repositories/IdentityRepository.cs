@@ -13,6 +13,7 @@ namespace CriThink.Client.Core.Repositories
         private const string UserId = "user_id";
         private const string UserUsername = "user_username";
         private const string UserEmail = "user_email";
+        private const string UserPassword = "user_password";
         private const string UserToken = "user_token";
         private const string UserTokenExpiration = "user_token_expiration";
 
@@ -32,12 +33,13 @@ namespace CriThink.Client.Core.Repositories
                 var userIdTask = GetUserInSettingsSettingAsync(UserId);
                 var userUsernameTask = GetUserInSettingsSettingAsync(UserUsername);
                 var userEmailTask = GetUserInSettingsSettingAsync(UserEmail);
+                var userPasswordToken = GetUserInSettingsSettingAsync(UserPassword);
                 var userTokenTask = GetUserInSettingsSettingAsync(UserToken);
                 var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration);
 
-                await Task.WhenAll(userIdTask, userUsernameTask, userEmailTask, userTokenTask, userTokenExpirationTask).ConfigureAwait(false);
+                await Task.WhenAll(userIdTask, userUsernameTask, userEmailTask, userPasswordToken, userTokenTask, userTokenExpirationTask).ConfigureAwait(false);
 
-                return new User(userIdTask.Result, userEmailTask.Result, userUsernameTask.Result, new JwtTokenResponse
+                return new User(userIdTask.Result, userEmailTask.Result, userUsernameTask.Result, userPasswordToken.Result, new JwtTokenResponse
                 {
                     Token = userTokenTask.Result,
                     ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpirationTask.Result)
@@ -50,7 +52,7 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
-        public Task SetUserInfoAsync(string userId, string userEmail, string username, string jwtToken, DateTime tokenExpiration)
+        public Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration)
         {
             try
             {
@@ -58,6 +60,7 @@ namespace CriThink.Client.Core.Repositories
                     UpdateUserInSettingsAsync(UserId, userId),
                     UpdateUserInSettingsAsync(UserUsername, username),
                     UpdateUserInSettingsAsync(UserEmail, userEmail),
+                    UpdateUserInSettingsAsync(UserPassword, password),
                     UpdateUserInSettingsAsync(UserToken, jwtToken),
                     UpdateUserInSettingsAsync(UserTokenExpiration, DateTimeExtensions.SerializeDateTime(tokenExpiration))
                 );
@@ -88,9 +91,10 @@ namespace CriThink.Client.Core.Repositories
         /// <param name="userId">User id</param>
         /// <param name="userEmail">User email</param>
         /// <param name="username">Username</param>
+        /// <param name="password"></param>
         /// <param name="jwtToken">User jwt token for authentication</param>
         /// <param name="tokenExpiration">User jwt token expiration</param>
         /// <returns></returns>
-        Task SetUserInfoAsync(string userId, string userEmail, string username, string jwtToken, DateTime tokenExpiration);
+        Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration);
     }
 }

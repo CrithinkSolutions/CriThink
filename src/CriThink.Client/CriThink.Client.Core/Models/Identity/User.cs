@@ -5,11 +5,12 @@ namespace CriThink.Client.Core.Models.Identity
 {
     public class User
     {
-        public User(string userId, string userEmail, string userName, JwtTokenResponse jwtToken)
+        public User(string userId, string userEmail, string userName, string password, JwtTokenResponse jwtToken)
         {
             UserId = userId ?? throw new ArgumentNullException(nameof(userId));
             UserEmail = userEmail ?? throw new ArgumentNullException(nameof(userEmail));
             UserName = userName ?? throw new ArgumentNullException(nameof(userName));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
             JwtToken = jwtToken ?? throw new ArgumentNullException(nameof(jwtToken));
         }
 
@@ -18,6 +19,8 @@ namespace CriThink.Client.Core.Models.Identity
         public string UserEmail { get; }
 
         public string UserName { get; }
+
+        public string Password { get; }
 
         public JwtTokenResponse JwtToken { get; }
     }
