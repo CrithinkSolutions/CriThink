@@ -165,14 +165,15 @@ namespace CriThink.Server.Web
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 5,
                         maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
+                        errorCodesToAdd: null);
+                })
+                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             });
         }
 
@@ -445,7 +446,7 @@ namespace CriThink.Server.Web
         {
             services.AddHealthChecks()
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
-                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
+                .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 

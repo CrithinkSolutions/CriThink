@@ -44,7 +44,7 @@ namespace CriThink.Server.Infrastructure.Data
 
             builder.Entity<User>(typeBuilder =>
             {
-                typeBuilder.ToTable("Users");
+                typeBuilder.ToTable("users");
                 typeBuilder.Ignore(property => property.TwoFactorEnabled);
                 typeBuilder.Ignore(property => property.PhoneNumberConfirmed);
             });
@@ -58,7 +58,7 @@ namespace CriThink.Server.Infrastructure.Data
 
             builder.Entity<UserRole>(typeBuilder =>
             {
-                typeBuilder.ToTable("UserRoles");
+                typeBuilder.ToTable("user_roles");
             });
 
             var adminRole = _adminRole.Value;
@@ -66,42 +66,65 @@ namespace CriThink.Server.Infrastructure.Data
 
             #endregion
 
-            builder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            builder.Entity<IdentityUserRole<Guid>>(typeBuilder =>
             {
-                RoleId = adminRole.Id,
-                UserId = serviceUser.Id
+                typeBuilder.ToTable("aspnet_user_roles");
+                typeBuilder.HasData(new IdentityUserRole<Guid>
+                {
+                    RoleId = adminRole.Id,
+                    UserId = serviceUser.Id
+                });
             });
 
-            builder.Entity<IdentityUserClaim<Guid>>().HasData(new List<IdentityUserClaim<Guid>>
+            builder.Entity<IdentityUserClaim<Guid>>(typeBuilder =>
             {
-                new IdentityUserClaim<Guid>
+                typeBuilder.ToTable("aspnet_user_claims");
+                typeBuilder.HasData(new List<IdentityUserClaim<Guid>>
                 {
-                    UserId = serviceUser.Id,
-                    ClaimType = ClaimTypes.NameIdentifier,
-                    ClaimValue = serviceUser.Id.ToString(),
-                    Id = 1
-                },
-                new IdentityUserClaim<Guid>
-                {
-                    UserId = serviceUser.Id,
-                    ClaimType = ClaimTypes.Email,
-                    ClaimValue = serviceUser.Email,
-                    Id = 2
-                },
-                new IdentityUserClaim<Guid>
-                {
-                    UserId = serviceUser.Id,
-                    ClaimType = ClaimTypes.Name,
-                    ClaimValue = serviceUser.UserName,
-                    Id = 3
-                },
-                new IdentityUserClaim<Guid>
-                {
-                    UserId = serviceUser.Id,
-                    ClaimType = ClaimTypes.Role,
-                    ClaimValue = adminRole.Name,
-                    Id = 4
-                }
+                    new IdentityUserClaim<Guid>
+                    {
+                        UserId = serviceUser.Id,
+                        ClaimType = ClaimTypes.NameIdentifier,
+                        ClaimValue = serviceUser.Id.ToString(),
+                        Id = 1
+                    },
+                    new IdentityUserClaim<Guid>
+                    {
+                        UserId = serviceUser.Id,
+                        ClaimType = ClaimTypes.Email,
+                        ClaimValue = serviceUser.Email,
+                        Id = 2
+                    },
+                    new IdentityUserClaim<Guid>
+                    {
+                        UserId = serviceUser.Id,
+                        ClaimType = ClaimTypes.Name,
+                        ClaimValue = serviceUser.UserName,
+                        Id = 3
+                    },
+                    new IdentityUserClaim<Guid>
+                    {
+                        UserId = serviceUser.Id,
+                        ClaimType = ClaimTypes.Role,
+                        ClaimValue = adminRole.Name,
+                        Id = 4
+                    }
+                });
+            });
+
+            builder.Entity<IdentityRoleClaim<Guid>>(typeBuilder =>
+            {
+                typeBuilder.ToTable("aspnet_role_claims");
+            });
+
+            builder.Entity<IdentityUserLogin<Guid>>(typeBuilder =>
+            {
+                typeBuilder.ToTable("aspnet_user_logins");
+            });
+
+            builder.Entity<IdentityUserToken<Guid>>(typeBuilder =>
+            {
+                typeBuilder.ToTable("aspnet_user_tokens");
             });
 
             builder.Entity<NewsSourceCategory>()
@@ -115,7 +138,7 @@ namespace CriThink.Server.Infrastructure.Data
         private static TEnum GetEnumValue<TEnum>(string value)
             where TEnum : Enum
         {
-            return (TEnum) Enum.Parse(typeof(TEnum), value);
+            return (TEnum)Enum.Parse(typeof(TEnum), value);
         }
     }
 }
