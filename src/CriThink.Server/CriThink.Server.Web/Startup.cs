@@ -69,7 +69,7 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            SetupSqlServerConnection(services);
+            SetupPostgreSqlConnection(services);
 
             SetupUserIdentity(services);
 
@@ -161,7 +161,7 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupSqlServerConnection(IServiceCollection services)
+        private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
@@ -457,12 +457,12 @@ namespace CriThink.Server.Web
                 GetServiceHealthPath(EndpointConstants.HealthCheckRedis),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckRedis));
 
-            // SQL Server
+            // PostgreSQL
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.HealthCheckSqlServer),
-                GetHealthCheckFilter(EndpointConstants.HealthCheckSqlServer));
+                GetServiceHealthPath(EndpointConstants.HealthCheckPostgreSql),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckPostgreSql));
 
-            // SQL Server DbContext
+            // PostgreSQL DbContext
             endpoints.MapHealthChecks(
                 GetServiceHealthPath(EndpointConstants.HealthCheckDbContext),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckDbContext));
