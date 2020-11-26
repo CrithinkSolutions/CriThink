@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Security.Claims;
+using System.Web;
+using System.Security.Claims; 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,13 +16,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Area("BackOffice")]
     public class HomeController : Controller
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HomeController(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
-
         /// <summary>
         /// Returns the control panel page
         /// </summary>
@@ -28,11 +23,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var claimPrincipal = _httpContextAccessor.HttpContext.User;
-            var username = claimPrincipal.FindFirst(ClaimTypes.Name)?.Value;
-
-            var message = "Hello " + username;
-            return View(model: message);
+            return View();
         }
-    }
+    }   
 }
