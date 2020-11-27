@@ -20,6 +20,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                @if(User.Identity.IsAuthenticated)
+                {
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -42,11 +44,12 @@
                         <input type="checkbox" class="custom-control-input" id="customSwitch1">
                         <label class="custom-control-label" for="customSwitch1">Dark Mode</label>
                     </div>
-                    <span class="mr-3">@User.Identity.Name</span>
+                    <span class="mr-3">@User?.Identity?.Name</span>
                     <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
                         <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button>
                     </form>
                 </div>
+                }
             </div>
         </nav>
     </header>

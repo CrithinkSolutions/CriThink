@@ -25,5 +25,5 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             return View();
         }
-    }   
+    }
 }

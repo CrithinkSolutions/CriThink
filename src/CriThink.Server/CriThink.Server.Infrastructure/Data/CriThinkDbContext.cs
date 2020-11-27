@@ -103,7 +103,7 @@ namespace CriThink.Server.Infrastructure.Data
                     Id = 4
                 }
             });
-            
+
             builder.Entity<NewsSourceCategory>()
                 .Property(nsc => nsc.Authenticity)
                 .HasConversion(
