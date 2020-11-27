@@ -410,11 +410,6 @@ namespace CriThink.Server.Core.Identity
             return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task LogoutUserAsync()
-        {
-            await _signInManager.SignOutAsync().ConfigureAwait(false);
-        }
-
         public async Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode)
         {
             if (string.IsNullOrWhiteSpace(userId))

@@ -77,8 +77,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _identityService.LogoutUserAsync().ConfigureAwait(false);
-            return RedirectToAction("Index", "Account");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).ConfigureAwait(false);
+            return RedirectToAction("Index");
         }
     }
 }
