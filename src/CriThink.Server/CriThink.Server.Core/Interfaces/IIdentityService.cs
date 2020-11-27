@@ -115,12 +115,6 @@ namespace CriThink.Server.Core.Interfaces
         Task<ClaimsIdentity> LoginUserAsync(string emailOrUsername, string password, bool rememberMe);
 
         /// <summary>
-        /// Performs the logout for the current user (MVC)
-        /// </summary>
-        /// <returns></returns>
-        Task LogoutUserAsync();
-
-        /// <summary>
         /// Verify the user email through the email link
         /// </summary>
         /// <param name="userId"></param>
