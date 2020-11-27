@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
-@inject IWebHostEnvironment _env;
+@inject IWebHostEnvironment Env;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @if(User.Identity.IsAuthenticated)
+                @if(User?.Identity?.IsAuthenticated == true)
                 {
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
@@ -61,7 +61,7 @@
 
     <footer class="border-top footer text-muted text-center">
         <div class="container">
-            @_env.EnvironmentName - &copy; 2020 - CriThink
+            @Env.EnvironmentName - &copy; 2020 - CriThink
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

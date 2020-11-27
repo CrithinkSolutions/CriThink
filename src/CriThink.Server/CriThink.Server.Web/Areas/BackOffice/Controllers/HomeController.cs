@@ -1,10 +1,5 @@
-﻿using System;
-using System.Web;
-using System.Security.Claims; 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
