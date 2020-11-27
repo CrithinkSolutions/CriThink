@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
-@inject IWebHostEnvironment _env;
+@inject IWebHostEnvironment Env;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +61,7 @@
 
     <footer class="border-top footer text-muted text-center">
         <div class="container">
-            @_env.EnvironmentName - &copy; 2020 - CriThink
+            @Env.EnvironmentName - &copy; 2020 - CriThink
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
