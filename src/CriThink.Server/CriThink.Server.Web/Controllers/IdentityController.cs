@@ -5,10 +5,10 @@ using Amazon.SecretsManager.Model;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
-using CriThink.Server.Web.Interfaces;
 using CriThink.Server.Web.Models.DTOs;
-using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +22,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)] //api/identity
     public class IdentityController : Controller
     {
@@ -69,9 +70,9 @@ namespace CriThink.Server.Web.Controllers
                 var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The user or the password are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The user or the password are incorrect");
             }
         }
 
@@ -147,9 +148,9 @@ namespace CriThink.Server.Web.Controllers
                 if (result)
                     return Ok();
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
             }
 
             return BadRequest();
@@ -176,9 +177,9 @@ namespace CriThink.Server.Web.Controllers
             {
                 await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
             }
 
             return NoContent();
@@ -218,7 +219,7 @@ namespace CriThink.Server.Web.Controllers
                     .ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
                 throw new ResourceNotFoundException("The provided user, token or the password are incorrect");
             }

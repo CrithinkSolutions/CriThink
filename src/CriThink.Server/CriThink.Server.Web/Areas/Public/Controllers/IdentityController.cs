@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.Public.ViewModel.Identity;
 using CriThink.Server.Web.Areas.Public.ViewModel.Shared;
-using CriThink.Server.Web.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace CriThink.Server.Web.Areas.Public.Controllers
 {
     [Area("Public")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;

@@ -1,5 +1,5 @@
 @using CriThink.Common.Endpoints.DTOs.Admin;
-@model IList<DebunkingNewsGetAllResponse>;
+@model DebunkingNewsGetAllResponse;
 
 @{
     Layout = "_Layout";
@@ -18,7 +18,7 @@
                 <th scope="col">Publisher</th>
             </tr>
         </thead>
-        @foreach(var debunkedNews in Model) 
+        @foreach(var debunkedNews in Model.DebunkingNewsCollection) 
         {
             <tr>
                 <td>@debunkedNews.Title</td>

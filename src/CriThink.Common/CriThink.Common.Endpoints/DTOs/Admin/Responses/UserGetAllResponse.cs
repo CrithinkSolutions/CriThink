@@ -6,20 +6,16 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 {
     public class UserGetAllResponse
     {
-        [JsonPropertyName("userId")]
-        public string UserId { get; set; }
+        public UserGetAllResponse(IEnumerable<UserGetResponse> users, bool hasNextPage)
+        {
+            Users = new List<UserGetResponse>(users);
+            HasNextPage = hasNextPage;
+        }
 
-        [JsonPropertyName("userEmail")]
-        public string UserEmail { get; set; }
+        [JsonPropertyName("users")]
+        public IReadOnlyList<UserGetResponse> Users { get; }
 
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
-
-        [JsonPropertyName("isDeleted")]
-        public bool IsDeleted { get; set; }
-
-        [JsonPropertyName("role")]
-        #pragma warning disable CA2227
-        public IReadOnlyCollection<string> Roles { get; set; }
+        [JsonPropertyName("hasNextPage")]
+        public bool HasNextPage { get; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
-using CriThink.Server.Web.Exceptions;
-using CriThink.Server.Web.Services;
+using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +15,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DebunkingNewsController : Controller
     {
-        private readonly IDebunkNewsService _debunkingNewsService;
+        private readonly IDebunkingNewsServiceFacade _debunkingNewsService;
 
-        public DebunkingNewsController(IDebunkNewsService debunkingNewsService)
+        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsService)
         {
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
@@ -94,14 +95,13 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("remove-news")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("RemoveNewsView", viewModel);
-            }
-
             try
             {
-                await _debunkingNewsService.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                if (ModelState.IsValid)
+                {
+                    await _debunkingNewsService.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                }
+
                 return RedirectToAction("RemoveNewsViewAsync");
             }
             catch (ResourceNotFoundException)

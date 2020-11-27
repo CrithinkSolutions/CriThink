@@ -45,6 +45,7 @@ namespace CriThink.Client.Core.Services
                 loginResponse.UserId,
                 loginResponse.UserEmail,
                 loginResponse.UserName,
+                request.Password,
                 loginResponse.JwtToken.Token,
                 loginResponse.JwtToken.ExpirationDate)
                 .ConfigureAwait(false);
@@ -68,6 +69,7 @@ namespace CriThink.Client.Core.Services
                     loginResponse.UserId,
                     loginResponse.UserEmail,
                     loginResponse.UserName,
+                    request.UserToken,
                     loginResponse.JwtToken.Token,
                     loginResponse.JwtToken.ExpirationDate)
                 .ConfigureAwait(false);

@@ -73,7 +73,7 @@ namespace CriThink.Server.Web.Middlewares
                     _logger.LogCritical(sqlException, "SQL Server connection not available");
                     parameter = new { error = "Service currently unvailable" };
                     break;
-                case Exceptions.ResourceNotFoundException resourceNotFoundException:
+                case Core.Exceptions.ResourceNotFoundException resourceNotFoundException:
                     code = HttpStatusCode.NotFound;
                     _logger.LogWarning(resourceNotFoundException, "An asked resource has not been found");
                     parameter = new { error = ex.Message };

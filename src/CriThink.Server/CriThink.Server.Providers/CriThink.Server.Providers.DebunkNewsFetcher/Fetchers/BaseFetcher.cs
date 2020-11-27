@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
     internal abstract class BaseFetcher : IAnalyzer<DebunkingNewsProviderResult>
     {
-        protected readonly ConcurrentQueue<Task<DebunkingNewsProviderResult>> Queue;
-
         private IAnalyzer<DebunkingNewsProviderResult> _nextAnalyzer;
 
-        protected BaseFetcher(ConcurrentQueue<Task<DebunkingNewsProviderResult>> queue)
-        {
-            Queue = queue ?? throw new ArgumentNullException(nameof(queue));
-        }
+        internal ConcurrentQueue<Task<DebunkingNewsProviderResult>> Queue { get; set; }
 
         public IAnalyzer<DebunkingNewsProviderResult> SetNext(IAnalyzer<DebunkingNewsProviderResult> analyzer)
         {

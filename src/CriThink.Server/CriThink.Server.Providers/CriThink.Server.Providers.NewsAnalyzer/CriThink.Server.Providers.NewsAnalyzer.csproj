@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>CriThink.Server.Providers.NewsAnalyzer</AssemblyName>
     <RootNamespace>CriThink.Server.Providers.NewsAnalyzer</RootNamespace>
@@ -13,12 +13,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
     <PackageReference Include="SmartReader" Version="0.7.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CriThink.Server.Core\CriThink.Server.Core.csproj" />
+    <ProjectReference Include="..\CriThink.Server.Providers.Common\CriThink.Server.Providers.Common.csproj" />
   </ItemGroup>
 
 </Project>
