@@ -215,8 +215,8 @@ namespace CriThink.Server.Web
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.LoginPath = "/BackOffice/Account/";
-                    options.LogoutPath = "/BackOffice/Account/Logout";
+                    options.LoginPath = "/backoffice/account/";
+                    options.LogoutPath = "/backOffice/account/logout";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;
 
@@ -224,7 +224,7 @@ namespace CriThink.Server.Web
                     {
                         OnRedirectToLogin = (context) =>
                         {
-                            context.Response.Redirect("/BackOffice/Account" + context.Request.QueryString);
+                            context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
                             return Task.CompletedTask;
                         },
                     };
