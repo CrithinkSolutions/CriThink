@@ -2,17 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
     <RootNamespace>CriThink.Server.Demo</RootNamespace>
     <AssemblyName>CriThink.Server.Demo</AssemblyName>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <Company>CriThink Solutions</Company>
-    <Authors>CriThinkIT</Authors>
-    <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>    
   </PropertyGroup>
 
   <ItemGroup>

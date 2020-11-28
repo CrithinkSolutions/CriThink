@@ -2,13 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>$(NoWarn);1591</NoWarn>
     <RootNamespace>CriThink.Client.Core</RootNamespace>
     <AssemblyName>CriThink.Client.Core</AssemblyName>
-    <Company>CriThink Solutions</Company>
-    <Authors>CriThinkIT</Authors>
-    <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
