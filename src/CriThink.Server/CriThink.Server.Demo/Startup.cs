@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,8 @@ namespace CriThink.Server.Demo
         /// <param name="services">IoC container/param>
         public void ConfigureServices(IServiceCollection services)
         {
+            SetupKestrelOptions(services);
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -64,6 +67,11 @@ namespace CriThink.Server.Demo
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        private void SetupKestrelOptions(IServiceCollection services)
+        {
+            services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
         }
     }
 }
