@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CriThink.Server.Web.Areas.Public.ViewModel.Identity
+namespace CriThink.Server.Web.Areas.Publics.ViewModel.Identity
 {
     public class ResetPasswordRequestViewModel
     {

@@ -1,4 +1,4 @@
-namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared
+namespace CriThink.Server.Web.Areas.BackOffice.ViewModels
 {
     public class SimplePaginationViewModel
     {

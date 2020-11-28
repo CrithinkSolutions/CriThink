@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
-using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
