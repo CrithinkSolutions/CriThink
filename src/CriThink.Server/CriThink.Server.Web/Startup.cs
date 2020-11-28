@@ -69,7 +69,7 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            SetupSqlServerConnection(services);
+            SetupPostgreSqlConnection(services);
 
             SetupUserIdentity(services);
 
@@ -161,18 +161,19 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupSqlServerConnection(IServiceCollection services)
+        private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 5,
                         maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
+                        errorCodesToAdd: null);
+                })
+                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             });
         }
 
@@ -445,7 +446,7 @@ namespace CriThink.Server.Web
         {
             services.AddHealthChecks()
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
-                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
+                .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckPostgreSql, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckPostgreSql })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
@@ -456,12 +457,12 @@ namespace CriThink.Server.Web
                 GetServiceHealthPath(EndpointConstants.HealthCheckRedis),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckRedis));
 
-            // SQL Server
+            // PostgreSQL
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.HealthCheckSqlServer),
-                GetHealthCheckFilter(EndpointConstants.HealthCheckSqlServer));
+                GetServiceHealthPath(EndpointConstants.HealthCheckPostgreSql),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckPostgreSql));
 
-            // SQL Server DbContext
+            // PostgreSQL DbContext
             endpoints.MapHealthChecks(
                 GetServiceHealthPath(EndpointConstants.HealthCheckDbContext),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckDbContext));
