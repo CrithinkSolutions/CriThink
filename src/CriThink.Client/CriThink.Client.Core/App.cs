@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using CriThink.Client.Core.Data.Settings;
+using CriThink.Client.Core.Handlers;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Services;
 using CriThink.Common.HttpRepository;
@@ -75,16 +76,19 @@ namespace CriThink.Client.Core
             if (string.IsNullOrWhiteSpace(baseApiUri))
                 throw new ArgumentException("The base uri is null");
 
-            serviceCollection.AddHttpClient("", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(baseApiUri);
-            })
-            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-            {
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(10),
-            }));
+            serviceCollection.AddTransient<CriThinkApiHandler>();
+            serviceCollection
+                .AddHttpClient("", httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(10),
+                }));
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)
