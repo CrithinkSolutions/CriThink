@@ -240,7 +240,19 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
         {
             var response = await _identityService.ExternalProviderLoginAsync(dto).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
 
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityUsernameAvailability)] // api/identity/username-availability
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
+        {
+            var response = await _identityService.GetUsernameAvailabilityAsync(dto).ConfigureAwait(false);
             return Ok(new ApiOkResponse(response));
         }
     }

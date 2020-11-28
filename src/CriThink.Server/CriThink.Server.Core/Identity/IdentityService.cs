@@ -543,6 +543,19 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
+        public async Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(
+            UsernameAvailabilityRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var user = await FindUserAsync(request.Username).ConfigureAwait(false);
+            return new UsernameAvailabilityResponse
+            {
+                IsAvailable = user == null
+            };
+        }
+
         #region Privates
 
         private async Task<User> FindUserAsync(string value)
