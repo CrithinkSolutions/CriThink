@@ -7,6 +7,7 @@ using MvvmCross.Platforms.Android.Views.Fragments;
 using MvvmCross.Platforms.Android.Views.ViewPager;
 using MvvmCross.ViewModels;
 
+#pragma warning disable CS0618 // Type or member is obsolete
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {

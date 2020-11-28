@@ -34,7 +34,7 @@ namespace CriThink.Client.Core.Services
 
                 return debunkingNewsCollection;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new DebunkingNewsGetAllResponse(null, false);
             }
