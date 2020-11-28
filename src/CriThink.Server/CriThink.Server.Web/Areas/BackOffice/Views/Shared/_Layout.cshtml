@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
-@inject IWebHostEnvironment Env;
+@inject IAppVersionService AppService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +61,7 @@
 
     <footer class="border-top footer text-muted text-center">
         <div class="container">
-            @Env.EnvironmentName - &copy; 2020 - CriThink
+            @AppService.CurrentEnvironment - @AppService.Version - @AppService.Copyright
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -21,6 +21,7 @@ using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
+using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -355,6 +356,9 @@ namespace CriThink.Server.Web
 
             // Infrastructure
             services.AddInfrastructure();
+
+            // Services
+            services.AddSingleton<IAppVersionService, AppVersionService>();
 
             // Facades
             services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
