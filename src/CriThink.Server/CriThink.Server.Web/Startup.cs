@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -69,6 +70,8 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            SetupKestrelOptions(services);
+
             SetupPostgreSqlConnection(services);
 
             SetupUserIdentity(services);
@@ -160,7 +163,12 @@ namespace CriThink.Server.Web
                 MapHealthChecks(endpoints);
             });
         }
-
+      
+        private void SetupKestrelOptions(IServiceCollection services)
+        {
+            services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
+        }
+      
         private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
