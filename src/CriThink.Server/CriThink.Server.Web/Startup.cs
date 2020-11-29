@@ -134,6 +134,8 @@ namespace CriThink.Server.Web
 
             app.UseStaticFiles();
 
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
+
             app.UseRouting();
 
             app.UseCors(AllowSpecificOrigins);
