@@ -24,7 +24,7 @@
 
         public const string HealthCheckBase = "health/";
         public const string HealthCheckRedis = "redis";
-        public const string HealthCheckSqlServer = "sqlserver";
+        public const string HealthCheckPostgreSql = "postgresql";
         public const string HealthCheckDbContext = "dbcontext";
 
         #endregion

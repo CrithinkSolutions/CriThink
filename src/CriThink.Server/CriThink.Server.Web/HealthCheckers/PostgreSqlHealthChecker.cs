@@ -7,11 +7,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CriThink.Server.Web.HealthCheckers
 {
-    public class SqlServerHealthChecker : IHealthCheck
+    public class PostgreSqlHealthChecker : IHealthCheck
     {
         private readonly CriThinkDbContext _dbContext;
 
-        public SqlServerHealthChecker(CriThinkDbContext dbContext)
+        public PostgreSqlHealthChecker(CriThinkDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -22,7 +22,7 @@ namespace CriThink.Server.Web.HealthCheckers
 
             try
             {
-                _dbContext.Users.First();
+                _ = _dbContext.Users.First();
 
                 isHealthy = true;
             }
@@ -33,12 +33,12 @@ namespace CriThink.Server.Web.HealthCheckers
 
             if (isHealthy)
             {
-                return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Healthy("SQL Server is running"))
-                    .ConfigureAwait(false);
+                return await Task.FromResult(HealthCheckResult.Healthy("PostgreSQL is running"))
+                                 .ConfigureAwait(false);
             }
 
-            return await Task.FromResult<HealthCheckResult>(HealthCheckResult.Unhealthy("SQL Server is unhealthy."))
-                .ConfigureAwait(false);
+            return await Task.FromResult(HealthCheckResult.Unhealthy("PostgreSQL is unhealthy."))
+                             .ConfigureAwait(false);
         }
     }
 }
