@@ -40,6 +40,7 @@
         public const string IdentityForgotPassword = "forgot-password";
         public const string IdentityResetPassword = "reset-password";
         public const string IdentityExternalLogin = "external-login";
+        public const string IdentityUsernameAvailability = "username-availability";
 
         #endregion
 
