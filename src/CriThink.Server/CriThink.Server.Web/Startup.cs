@@ -134,7 +134,7 @@ namespace CriThink.Server.Web
 
             app.UseStaticFiles();
 
-            app.UseStatusCodePagesWithReExecute("/error/{0}");
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
 
             app.UseRouting();
 
