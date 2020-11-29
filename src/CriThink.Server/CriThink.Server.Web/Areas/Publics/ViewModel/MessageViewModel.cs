@@ -1,4 +1,4 @@
-﻿namespace CriThink.Server.Web.Areas.Public.ViewModel.Shared
+﻿namespace CriThink.Server.Web.Areas.Publics.ViewModel
 {
     public class MessageViewModel
     {
