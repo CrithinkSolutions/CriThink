@@ -33,7 +33,8 @@ namespace CriThink.Server.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     is_successful = table.Column<bool>(type: "boolean", nullable: false),
-                    time_stamp = table.Column<string>(type: "text", nullable: true)
+                    time_stamp = table.Column<string>(type: "text", nullable: false),
+                    fail_reason = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: true)
                 },
                 constraints: table =>
                 {
