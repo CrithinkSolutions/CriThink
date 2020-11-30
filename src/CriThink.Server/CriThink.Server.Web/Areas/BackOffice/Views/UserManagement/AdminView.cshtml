@@ -1,19 +1,17 @@
-@using CriThink.Common.Endpoints.DTOs.Admin;
-@model UserGetAllResponse;
-
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "User Management";
+    ViewData["Title"] = "Admins Management";
 }
+
 @section hasSidebar 
 {
 
 <!-- Sidebar -->
 <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light">User</a>
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetRole" class="list-group-item list-group-item-action bg-light">Role</a>
-        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light">Admins</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light font-weight-bold">Admins</a>
     </div>
 </div>
 <!-- /#sidebar-wrapper -->
@@ -27,27 +25,7 @@
         <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
     </div>
 
-    <table class="w-100" id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
-        <thead>
-            <tr>
-                <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="username">Username</th>
-                <th data-field="role" data-sortable="true">Role</th>
-            </tr>
-        </thead>
-        @foreach(var user in Model.Users) 
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>
-                    @foreach (var role in user.Roles)
-                    {
-                        <span class="mr-1">@role</span>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+    <p>Admins</p>
 
     <!-- PageIndex nav -->
     <nav>
@@ -94,7 +72,7 @@
                 pageIndex = 1;
             }
 
-            let url = '@Url.Action("Index", "UserManagement")'.concat('?PageSize='+pageSize+'&PageIndex=');
+            let url = '@Url.Action("GetAdmin", "UserManagement")'.concat('?PageSize='+pageSize+'&PageIndex=');
             $('#nextPage').attr('href',url+(pageIndex+1));
             $('#prevPage').children().attr('href',url+(pageIndex-1));
 
