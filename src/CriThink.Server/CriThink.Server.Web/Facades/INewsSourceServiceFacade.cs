@@ -6,6 +6,6 @@ namespace CriThink.Server.Web.Facades
 {
     public interface INewsSourceServiceFacade
     {
-        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSource();
+        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync();
     }
 }

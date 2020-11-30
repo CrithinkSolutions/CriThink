@@ -15,11 +15,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Area("BackOffice")]
     public class NewsSourceController : Controller
     {
-        private readonly INewsSourceServiceFacade _newsSourceService;
+        private readonly INewsSourceServiceFacade _newsSourceServiceFacade;
 
         public NewsSourceController(INewsSourceServiceFacade newsSourceService)
         {
-            _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _newsSourceServiceFacade = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("news-source")]
         public async Task<IActionResult> Index()
         {
-            var news = await _newsSourceService.GetAllNewsSource().ConfigureAwait(false);
+            var news = await _newsSourceServiceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
             return View(news);
         }
     }

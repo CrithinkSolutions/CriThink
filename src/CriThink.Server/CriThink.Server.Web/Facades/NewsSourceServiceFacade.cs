@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Interfaces;
+using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 
 namespace CriThink.Server.Web.Facades
@@ -15,9 +16,9 @@ namespace CriThink.Server.Web.Facades
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
         }
 
-        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSource()
+        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync()
         {
-            return await _newsSourceService.GetAllNewsSourcesAsync(0).ConfigureAwait(false);
+            return await _newsSourceService.GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest.None).ConfigureAwait(false);
         }
     }
 }
