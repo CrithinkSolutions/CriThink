@@ -18,11 +18,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class DebunkingNewsController : Controller
     {
-        private readonly IDebunkingNewsServiceFacade _debunkingNewsService;
+        private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
 
         public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsService)
         {
-            _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _debunkingNewsServiceFacade = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("debunking-news")]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
@@ -56,7 +56,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("remove-news")]
         public async Task<IActionResult> RemoveNewsViewAsync(SimplePaginationViewModel viewModel)
         {
-            var news = await _debunkingNewsService.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
             return View("RemoveNewsView", news);
         }
 
@@ -76,7 +76,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                await _debunkingNewsService.AddDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                await _debunkingNewsServiceFacade.AddDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 viewModel.Message = "News Added!";
                 return View("AddNewsView", viewModel);
             }
@@ -99,7 +99,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _debunkingNewsService.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                    await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 }
 
                 return RedirectToAction("RemoveNewsViewAsync");
