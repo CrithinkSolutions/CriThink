@@ -33,5 +33,28 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             var users = await _userManagementService.GetAllUserAsync(viewModel).ConfigureAwait(false);
             return View(users);
         }
+
+        /// <summary>
+        /// Returns the role management section
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("user-management/roles")]
+        public async Task<IActionResult> GetRole()
+        {
+            var roles = await _userManagementService.GetAllRolesAsync().ConfigureAwait(false);
+            return View("RoleView", roles);
+        }
+
+        /// <summary>
+        /// Returns the admin management section
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("user-management/admins")]
+        public IActionResult GetAdmin()
+        {
+            return View("AdminView");
+        }
     }
 }
