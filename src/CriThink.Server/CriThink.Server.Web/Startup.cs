@@ -165,12 +165,12 @@ namespace CriThink.Server.Web
                 MapHealthChecks(endpoints);
             });
         }
-      
+
         private void SetupKestrelOptions(IServiceCollection services)
         {
             services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
         }
-      
+
         private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
@@ -227,7 +227,7 @@ namespace CriThink.Server.Web
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.LoginPath = "/backoffice/account/";
-                    options.LogoutPath = "/backOffice/account/logout";
+                    options.LogoutPath = "/backoffice/account/logout";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;
 
@@ -375,6 +375,7 @@ namespace CriThink.Server.Web
 
         private static void SetupErrorHandling(IServiceCollection services)
         {
+            services.AddScoped<CrossServiceAuthenticationFilter>();
             services.AddScoped<ApiValidationFilterAttribute>();
 
             services.Configure<ApiBehaviorOptions>(options =>
