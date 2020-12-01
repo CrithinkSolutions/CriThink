@@ -134,8 +134,6 @@ namespace CriThink.Server.Web
 
             app.UseStaticFiles();
 
-            app.UseStatusCodePagesWithRedirects("/error/{0}");
-
             app.UseRouting();
 
             app.UseCors(AllowSpecificOrigins);
@@ -149,7 +147,8 @@ namespace CriThink.Server.Web
             app.UseResponseCompression();
 
 #pragma warning disable MVC1005 // Cannot use UseMvc with Endpoint Routing.
-            app.UseMvc(); // It doesn't detect the setting because it's outside ConfigureServices
+            app.UseMvc() // It doesn't detect the setting because it's outside ConfigureServices
+                .UseStatusCodePagesWithRedirects("/error/{0}");
 #pragma warning restore MVC1005 // Cannot use UseMvc with Endpoint Routing.
 
             app.UseEndpoints(endpoints =>
