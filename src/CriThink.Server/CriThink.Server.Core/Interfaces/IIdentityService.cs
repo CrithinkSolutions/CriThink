@@ -115,12 +115,6 @@ namespace CriThink.Server.Core.Interfaces
         Task<ClaimsIdentity> LoginUserAsync(string emailOrUsername, string password, bool rememberMe);
 
         /// <summary>
-        /// Performs the logout for the current user (MVC)
-        /// </summary>
-        /// <returns></returns>
-        Task LogoutUserAsync();
-
-        /// <summary>
         /// Verify the user email through the email link
         /// </summary>
         /// <param name="userId"></param>
@@ -142,5 +136,13 @@ namespace CriThink.Server.Core.Interfaces
         Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword);
 
         Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request);
+
+        /// <summary>
+        /// Get the username availability. Returns true if username is not already
+        /// taken
+        /// </summary>
+        /// <param name="request">Username</param>
+        /// <returns>Returns true if the username if available, false if not</returns>
+        Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
-using CriThink.Server.Web.Areas.BackOffice.ViewModels.Shared;
 
 namespace CriThink.Server.Web.Facades
 {

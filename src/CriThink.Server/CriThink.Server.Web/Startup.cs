@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -69,7 +70,9 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            SetupSqlServerConnection(services);
+            SetupKestrelOptions(services);
+
+            SetupPostgreSqlConnection(services);
 
             SetupUserIdentity(services);
 
@@ -144,7 +147,8 @@ namespace CriThink.Server.Web
             app.UseResponseCompression();
 
 #pragma warning disable MVC1005 // Cannot use UseMvc with Endpoint Routing.
-            app.UseMvc(); // It doesn't detect the setting because it's outside ConfigureServices
+            app.UseMvc() // It doesn't detect the setting because it's outside ConfigureServices
+                .UseStatusCodePagesWithRedirects("/error/{0}");
 #pragma warning restore MVC1005 // Cannot use UseMvc with Endpoint Routing.
 
             app.UseEndpoints(endpoints =>
@@ -161,18 +165,24 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupSqlServerConnection(IServiceCollection services)
+        private void SetupKestrelOptions(IServiceCollection services)
+        {
+            services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
+        }
+
+        private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 5,
                         maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
+                        errorCodesToAdd: null);
+                })
+                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             });
         }
 
@@ -215,8 +225,8 @@ namespace CriThink.Server.Web
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.LoginPath = "/BackOffice/Account/";
-                    options.LogoutPath = "/BackOffice/Account/Logout";
+                    options.LoginPath = "/backoffice/account/";
+                    options.LogoutPath = "/backOffice/account/logout";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;
 
@@ -224,7 +234,7 @@ namespace CriThink.Server.Web
                     {
                         OnRedirectToLogin = (context) =>
                         {
-                            context.Response.Redirect("/BackOffice/Account" + context.Request.QueryString);
+                            context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
                             return Task.CompletedTask;
                         },
                     };
@@ -358,6 +368,8 @@ namespace CriThink.Server.Web
 
             // Facades
             services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
+            services.AddTransient<IUserManagementServiceFacade, UserManagementServiceFacade>();
+            services.AddTransient<INewsSourceServiceFacade, NewsSourceServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
@@ -445,7 +457,7 @@ namespace CriThink.Server.Web
         {
             services.AddHealthChecks()
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
-                .AddCheck<SqlServerHealthChecker>(EndpointConstants.HealthCheckSqlServer, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckSqlServer })
+                .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckPostgreSql, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckPostgreSql })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
         }
 
@@ -456,12 +468,12 @@ namespace CriThink.Server.Web
                 GetServiceHealthPath(EndpointConstants.HealthCheckRedis),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckRedis));
 
-            // SQL Server
+            // PostgreSQL
             endpoints.MapHealthChecks(
-                GetServiceHealthPath(EndpointConstants.HealthCheckSqlServer),
-                GetHealthCheckFilter(EndpointConstants.HealthCheckSqlServer));
+                GetServiceHealthPath(EndpointConstants.HealthCheckPostgreSql),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckPostgreSql));
 
-            // SQL Server DbContext
+            // PostgreSQL DbContext
             endpoints.MapHealthChecks(
                 GetServiceHealthPath(EndpointConstants.HealthCheckDbContext),
                 GetHealthCheckFilter(EndpointConstants.HealthCheckDbContext));

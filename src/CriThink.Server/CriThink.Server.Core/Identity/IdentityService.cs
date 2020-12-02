@@ -410,11 +410,6 @@ namespace CriThink.Server.Core.Identity
             return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task LogoutUserAsync()
-        {
-            await _signInManager.SignOutAsync().ConfigureAwait(false);
-        }
-
         public async Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode)
         {
             if (string.IsNullOrWhiteSpace(userId))
@@ -545,6 +540,19 @@ namespace CriThink.Server.Core.Identity
                 UserEmail = currentUser.Email,
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
+            };
+        }
+
+        public async Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(
+            UsernameAvailabilityRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var user = await FindUserAsync(request.Username).ConfigureAwait(false);
+            return new UsernameAvailabilityResponse
+            {
+                IsAvailable = user == null
             };
         }
 

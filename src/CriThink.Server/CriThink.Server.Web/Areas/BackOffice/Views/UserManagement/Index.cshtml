@@ -1,247 +1,118 @@
+@using CriThink.Common.Endpoints.DTOs.Admin;
+@model UserGetAllResponse;
+
 @{
-    Layout = "_LayoutApi";
+    Layout = "_Layout";
     ViewData["Title"] = "User Management";
 }
-<div class="bg-white p-4 shadow text-center m-4 mw-100">
-    <!-- (START) INPUT SECTION -->
-    <div id="toolbox" class="border p-2 mb-2">
-        <button id="addtoolbar" type="button" class="btn btn-success" data-toggle="modal" data-target="#addusermodal"><i class="fas fa-plus"></i></button>
-        <button id="deletetoolbar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeusermodal"><i class="fas fa-trash-alt"></i></button>
-        <button id="infotoolbar" type="button" class="btn btn-info" data-toggle="modal" data-target="#infousermodal"><i class="fas fa-info-circle"></i></button>
-        <button id="edittoolbar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editusermodal"><i class="fas fa-pen"></i></button>
-        <button id="settingtoolbar" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#settingusermodal"><i class="fas fa-cog"></i></button>
+@section hasSidebar 
+{
+
+<!-- Sidebar -->
+<div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="list-group list-group-flush">
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetRole" class="list-group-item list-group-item-action bg-light">Role</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light">Admins</a>
     </div>
-    <!-- (START) TAB NAV -->
-    <nav class="mb-3">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-item nav-link active pointer" id="users-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Users</button>
-            <button class="nav-item nav-link pointer" id="roles-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Roles</button>
-        </div>
-    </nav>
-    <!-- (END) TAB NAV -->
-    <!-- (START) USER TABLE -->
-    <table id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
+</div>
+<!-- /#sidebar-wrapper -->
+
+<div class="p-4 text-center m-4 w-100">
+
+    <div id="toolbox" class="border p-2 mb-2">
+        <button class="btn btn-success"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+        <button class="btn btn-info"><i class="fas fa-info-circle"></i></button>
+        <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
+    </div>
+
+    <table class="w-100" id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
         <thead>
             <tr>
                 <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="userId">User Id</th>
                 <th data-field="username">Username</th>
                 <th data-field="role" data-sortable="true">Role</th>
             </tr>
         </thead>
-    </table>
-    <!-- (END) USER TABLE -->
-    <!-- (START) ROLE TABLE -->
-    <table id="tableRole" data-click-to-select="true" data-height="400">
-        <thead>
+        @foreach(var user in Model.Users) 
+        {
             <tr>
-                <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="name">Role</th>
+                <td>@user.UserName</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="mr-1">@role</span>
+                    }
+                </td>
             </tr>
-        </thead>
+        }
     </table>
-    <!-- (END) ROLE TABLE -->
-    <!-- (END) INPUT SECTION -->
-    <!-- (START) ADD USER MODAL -->
-    <div class="modal fade" id="addusermodal" tabindex="-1" role="dialog" aria-labelledby="addusermodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add user</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Username</label>
-                    <input type="text" class="form-control" id="username-input" aria-describedby="basic-addon3">
-                    <label>Email</label>
-                    <input type="text" class="form-control" id="email-input" aria-describedby="basic-addon3">
-                    <label>Password</label>
-                    <input type="password" class="form-control" id="password-input" aria-describedby="basic-addon3">
-                    <label>Role</label>
-                    <!-- For now hardcoded -->
-                    <select class="custom-select" id="role-input">
-                        <option selected>No role</option>
-                        <option>Admin</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-adduser" class="btn btn-success">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) ADD USER MODAL -->
-    <!-- (START) REMOVE USER MODAL -->
-    <div class="modal fade" id="removeusermodal" tabindex="-1" role="dialog" aria-labelledby="removeusermodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure to delete this user?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    You are selected user with name <b id="userselected"></b> and role <b id="roleselected"></b>
-                    <br /><br />
-                    <input name="modeDelete" type="radio" id="deleteHard" value="hard" checked>
-                    <label for="deleteHard">Hard</label>
-                    <input name="modeDelete" type="radio" id="deleteSoft" value="soft">
-                    <label for="radioEYes">Soft</label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btn-removeuser" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) REMOVE USER MODAL -->
-    <!-- (START) INFO USER MODAL -->
-    <div class="modal fade" id="infousermodal" tabindex="-1" role="dialog" aria-labelledby="infousermodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Info user: <span id="infoname"></span></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <pre id="infobody"></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) INFO USER MODAL -->
-    <!-- (START) EDIT USER MODAL -->
-    <div class="modal fade" id="editusermodal" tabindex="-1" role="dialog" aria-labelledby="editusermodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Email Confirmed</label>
-                    <input name="checkEmail" type="radio" id="radioENo" value="" checked>
-                    <label for="radioENo">No</label>
-                    <input name="checkEmail" type="radio" id="radioEYes" value="1">
-                    <label for="radioEYes">Yes</label>
-                    <br />
-                    <label>Lockout Enabled</label>
-                    <input name="checkLockout" type="radio" id="radioLNo" value="" checked>
-                    <label for="radioLNo">No</label>
-                    <input name="checkLockout" type="radio" id="radioLYes" value="1">
-                    <label for="radioLYes">Yes</label>
-                    <br />
-                    <label>LockOut End Date</label>
-                    <input type="datetime-local" class="form-control" id="LE-editinput" aria-describedby="basic-addon3">
-                    <small>Must be in UTC format</small>
-                    <br />
-                    <label>Role</label>
-                    <select class="custom-select" id="role-editinput"></select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btn-edituser" class="btn btn-warning">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) EDIT USER MODAL -->
-    <!-- (START) SETTINGS USER MODAL -->
-    <div class="modal fade" id="settingusermodal" tabindex="-1" role="dialog" aria-labelledby="settingusermodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Settings</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>User displayed</label>
-                    <input type="number" class="form-control" id="displayuser-input" aria-describedby="basic-addon3" placeholder="30">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-settinguser" class="btn btn-secondary">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) SETTINGS USER MODAL -->
-    <!-- (START) ADD ROLE MODAL -->
-    <div class="modal fade" id="addrolemodal" tabindex="-1" role="dialog" aria-labelledby="addrolemodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add role</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Role</label>
-                    <input type="text" class="form-control" id="addrole-input" aria-describedby="basic-addon3">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-addrole" class="btn btn-success">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) ADD USER MODAL -->
-    <!-- (START) REMOVE ROLE MODAL -->
-    <div class="modal fade" id="removerolemodal" tabindex="-1" role="dialog" aria-labelledby="removerolemodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure to delete this role?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    You are selected role <b class="rolename"></b>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btn-removerole" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) REMOVE ROLE MODAL -->
-    <!-- (START) EDIT ROLE MODAL -->
-    <div class="modal fade" id="editrolemodal" tabindex="-1" role="dialog" aria-labelledby="editrolemodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Change role name</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>You are changing name of <b class="rolename"></b></p>
-                    <label>New name</label>
-                    <input type="text" class="form-control" id="newrolename-input" aria-describedby="basic-addon3">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btn-editrole" class="btn btn-warning">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- (END) EDIT ROLE MODAL -->
 
-    <div class="mt-3">
-        <a asp-controller="Home" asp-action="Index">Return at Control Panel</a>
-    </div>
+    <!-- PageIndex nav -->
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li id="prevPage" class="page-item">
+          <a class="page-link pointer" aria-label="Previous">
+            <span>Previous</span>
+          </a>
+        </li>
+        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+        <li class="page-item">
+          <a id="nextPage" class="page-link pointer" aria-label="Next">
+            <span>Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- PageIndex nav -->
+
+    <!-- PageSize nav -->
+    <small>User for page</small>
+    <nav>
+      <ul id="pageSizenav" class="pagination justify-content-center">
+        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
+      </ul>
+    </nav>
+    <!-- PageSize nav -->
+
 </div>
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function(){
+            let pageSize = parseInt(GetParameterValues('PageSize'));
+            let pageIndex = parseInt(GetParameterValues('PageIndex'));
+
+            if(!pageSize || !pageIndex){
+                pageSize = 20;
+                pageIndex = 1;
+            }
+
+            let url = '@Url.Action("Index", "UserManagement")'.concat('?PageSize='+pageSize+'&PageIndex=');
+            $('#nextPage').attr('href',url+(pageIndex+1));
+            $('#prevPage').children().attr('href',url+(pageIndex-1));
+
+            $('#currentPage').html(pageIndex);
+
+            if (pageIndex == 1) {
+                $('#prevPage').toggleClass('disabled');
+            }
+
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('='); 
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            };
+        });
+    </script>
+}
