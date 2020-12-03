@@ -1,0 +1,4 @@
+1. az group create --location "West Europe" --name CriThink-Staging --tags AppName=CriThink Environment=Staging
+2. az keyvault create --name "crithink-secrets" --resource-group "crithink-staging" --location "West Europe" --enabled-for-template-deployment true
+3. az keyvault secret set --vault-name "crithink-secrets" --name "ExamplePassword" --value "<password>"
+4. az deployment group create --resource-group CriThink-Staging --template-file crithink-staging-deploy.json --parameters crithink-staging-deploy.parameters.json
