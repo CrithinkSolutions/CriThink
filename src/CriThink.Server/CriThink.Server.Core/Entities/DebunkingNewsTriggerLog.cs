@@ -15,7 +15,6 @@ namespace CriThink.Server.Core.Entities
         [Required]
         public string TimeStamp { get; set; }
 
-        [StringLength(1)]
         public string FailReason { get; set; }
     }
 }

@@ -65,8 +65,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("FailReason")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
+                        .HasColumnType("text")
                         .HasColumnName("fail_reason");
 
                     b.Property<bool>("IsSuccessful")
@@ -264,7 +263,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9efbfb37-72aa-4fc4-81b6-ff3f830ef09a",
+                            ConcurrencyStamp = "40695ec9-2b42-4f94-ad0e-2dc1cb6436e5",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -312,7 +311,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
-                            ConcurrencyStamp = "5a65293a-55f8-4024-855e-45420843e3ab",
+                            ConcurrencyStamp = "1d5179e2-77f1-42bc-a09c-1feb44eb7112",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
