@@ -71,14 +71,35 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript">
+
+        const myStyle = document.createElement('style');
+        document.head.appendChild(myStyle);
+        const mySheet = myStyle.sheet;
+        const rule = "*:not(.btn):not(i){background-color: #121212 !important; color: #fff !important;}"
+
+        if (localStorage.getItem('isDarkMode')) {
+            darkMode();
+            $('#darkModeSwitch').prop('checked', true);
+        }
+
         $('#darkModeSwitch').on('click', () => {
             if($('#darkModeSwitch').prop('checked')){
-                $('body').addClass('darkMode');
+                darkMode();
+                localStorage.setItem('isDarkMode', true);
             }
             else {
-                $('body').removeClass('darkMode');
+                lightMode();
+                localStorage.removeItem('isDarkMode');
             }
         })
+        
+        function darkMode() {
+            mySheet.insertRule(rule, 0);
+        }
+
+        function lightMode() {
+            mySheet.deleteRule(rule, 0);
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
