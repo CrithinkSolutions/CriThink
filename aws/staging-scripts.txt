@@ -1,0 +1,37 @@
+VPC
+1. aws ec2 create-vpc --cidr-block <cdr-block1> --region eu-central-1
+2. aws ec2 create-tags --resources <vpc-id> --tags Key=Name,Value=<VPCname> Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+3. aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block <cdr-block2> --region eu-central-1 --availability-zone <eu-central-x1>
+4. aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block <cdr-block3> --region eu-central-1 --availability-zone <eu-central-x1>
+5. aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block <cdr-block4> --region eu-central-1 --availability-zone <eu-central-x2>
+6. aws ec2 create-tags --resources <public-subnet1-id> --tags Key=Name,Value=PublicSubnet Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+7. aws ec2 create-tags --resources <private-subnet1-id> --tags Key=Name,Value=Private<subnetname>A Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+8. aws ec2 create-tags --resources <private-subnet2-id> --tags Key=Name,Value=Private<subnetname>B Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+9. aws ec2 create-internet-gateway --region eu-central-1
+10. aws ec2 create-tags --resource <internet-gateway-id> --tags Key=Name,Value=CriThink<environment>PublicGateway Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+11. aws ec2 attach-internet-gateway --vpc-id <vpc-id> --internet-gateway-id <internet-gateway-id> --region eu-central-1
+12. aws ec2 create-route-table --vpc-id <vpc-id> --region eu-central-1
+13. aws ec2 create-tags --resource <route-table-id> --tags Key=Name,Value=CriThink<environment>RouteTable Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+14. aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0d22e8c2523217120 --region eu-central-1
+15. aws ec2 associate-route-table --subnet-id <public-subnet-id> --route-table-id <route-table-id> --region eu-central-1
+
+RDS
+1. aws rds create-db-subnet-group --db-subnet-group-name crithink-<environment>-dbgroupA --subnet-ids <private-subnet1-id> <private-subnet2-id> --db-subnet-group-description "DB subnet group for CriThink <environment> PostgreSql db" --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+2. aws ec2 create-security-group --group-name crithink-<environment>-privategroup --description "Private group to allow connections only for dev purposes" --vpc-id <vpc-id> --region eu-central-1
+3. aws ec2 create-tags --resources <security-group-id> --tags Key=Name,Value=CriThinkStagingPrivateGroup Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+4. aws rds create-db-instance --db-name Crithink<environment>Db --db-instance-identifier crithink-<environment>-postgresql --allocated-storage <size> --db-instance-class db.t2.micro --engine postgres --master-username crithink_admin --master-user-password <password> --publicly-accessible --vpc-security-group-ids <security-group-id> --db-subnet-group <private-subnet-id> --availability-zone eu-central-1b --region eu-central-1 --port 5432
+
+Note: Check the route table is associated with the internet gateway, otherwise the DB is not accessible by us
+
+EC2
+1. aws ec2 create-security-group --group-name crithink-staging-publicgroup --description "Public EC2 group to allow any kind of connections" --vpc-id vpc-05a3414d5b7b5fed5 --region eu-central-1
+2. aws ec2 create-tags --resources sg-0abe3a5c6d21be539 --tags Key=Name,Value=CriThinkStagingPublicGroup Key=AppName,Value=CriThink Key=Environment,Value=Staging --region eu-central-1
+3. aws ec2 run-instances --image-id ami-0bd39c806c2335b95 --count 1 --instance-type t2.micro --key-name crithink --security-group-ids sg-0abe3a5c6d21be539 --subnet-id subnet-0446f2ba0850ae81a --region eu-central-1 --iam-instance-profile Name=crithink-elasticbeanstalk-staging-role
+4. aws ec2 create-tags --resources i-06c79aacc94ec5f75 --tags Key=Name,Value=CriThinkStagingServer Key=AppName,Value=CriThink Key=Environment,Value=Staging --region eu-central-1
+5. aws ec2 allocate-address --region eu-central-1
+6. aws ec2 create-tags --resources <ip-address> --tags Key=Name,Value=CriThink<environment>IP Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+7. aws ec2 associate-address --instance-id <ec2-instance-id> --region eu-central-1
+
+ElasticBeanstalk
+1. aws elasticbeanstalk create-application --application-name <app-name> --description "<description>" --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+//2. aws elasticbeanstalk create-environment --environment-name <environment-name> --application-name <app-name> --description "" --tier Name=WebServer,Type=Standard --solution-stack-name "64bit Amazon Linux 2 v2.1.0 running .NET Core" -operations-role arn:aws:iam::138772879872:role/crithink-elasticbeanstalk-staging-service-role --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
