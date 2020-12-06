@@ -1,0 +1,60 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-sm">
+		<button class="btn btn-purple btn-block" onclick="log()">Log</button>
+		<div class="mt-2" id="log"></div>
+    </div>
+    <div class="col-sm">
+    	<table class="table text-center">
+		  <thead>
+		    <tr>
+		      <th scope="col">Redis</th>
+		      <th scope="col">PostgreSQL</th>
+		      <th scope="col">DBContext</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td id="redis"></td>
+		      <td id="postgresql"></td>
+		      <td id="dbcontext"></td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+ </div>
+
+
+@section Scripts 
+{
+	<script>
+		$.get('/health/redis', function(data){
+			$('#redis').html(data);
+		}) 
+
+		$.get('/health/postgresql', function(data){
+			$('#postgresql').html(data);
+		})
+
+		$.get('/health/dbcontext', function(data){
+			$('#dbcontext').html(data);
+		})
+
+		function log() {
+			$.ajax({
+				url : '/api/service/logging-health',
+				type : 'HEAD',
+				success : function(){
+				   $('#log').html("Success");           
+				},
+				error : function(){
+				   $('#log').html("Error");           
+				}
+			});
+		}
+	</script>
+}
