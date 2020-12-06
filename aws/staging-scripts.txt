@@ -34,4 +34,4 @@ EC2
 
 ElasticBeanstalk
 1. aws elasticbeanstalk create-application --application-name <app-name> --description "<description>" --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
-//2. aws elasticbeanstalk create-environment --environment-name <environment-name> --application-name <app-name> --description "" --tier Name=WebServer,Type=Standard --solution-stack-name "64bit Amazon Linux 2 v2.1.0 running .NET Core" -operations-role arn:aws:iam::138772879872:role/crithink-elasticbeanstalk-staging-service-role --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
+//2. aws elasticbeanstalk create-environment --environment-name <environment-name> --application-name <app-name> --description "" --tier Name=WebServer,Type=Standard --solution-stack-name "64bit Amazon Linux 2 v2.1.0 running .NET Core" --operations-role arn:aws:iam::138772879872:role/crithink-elasticbeanstalk-staging-service-role --tags Key=AppName,Value=CriThink Key=Environment,Value=<environment> --region eu-central-1
