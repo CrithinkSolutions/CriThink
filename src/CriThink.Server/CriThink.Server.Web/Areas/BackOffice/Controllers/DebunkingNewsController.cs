@@ -69,6 +69,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("add-news")]
         public async Task<IActionResult> AddNewsAsync(AddNewsViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
             if (!ModelState.IsValid)
             {
                 return View("AddNewsView", viewModel);

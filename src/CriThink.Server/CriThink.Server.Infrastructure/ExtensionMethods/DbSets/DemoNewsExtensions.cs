@@ -29,11 +29,10 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// Get demo news with the given id
         /// </summary>
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
-        /// <param name="projection">Projection applied to Select query</param>
         /// <param name="demoNewsId">Question id to search</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
-        internal static ValueTask<DemoNews> GetDemoNewsByIdAsync(this DbSet<DemoNews> dbSet, Expression<Func<DemoNews, DemoNews>> projection, Guid demoNewsId, CancellationToken cancellationToken = default)
+        internal static ValueTask<DemoNews> GetDemoNewsByIdAsync(this DbSet<DemoNews> dbSet, Guid demoNewsId, CancellationToken cancellationToken = default)
         {
             return dbSet
                     .FindAsync(new object[] { demoNewsId }, cancellationToken);

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CriThink.Server.Providers.NewsAnalyzer.Builders;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.NewsAnalyzer.Providers
 {
     internal class NewsAnalyzerProvider : INewsAnalyzerProvider

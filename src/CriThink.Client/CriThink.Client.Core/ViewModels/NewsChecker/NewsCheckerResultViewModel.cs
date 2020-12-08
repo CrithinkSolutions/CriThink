@@ -6,11 +6,13 @@ using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
-    public class NewsCheckerResultViewModel : MvxViewModel<Uri>
+    public class NewsCheckerResultViewModel : MvxViewModel<Uri>, IDisposable
     {
         private readonly INewsSourceService _newsSourceService;
         private Uri _uri;
         private CancellationTokenSource _cancellationTokenSource;
+
+        private bool disposed;
 
         public NewsCheckerResultViewModel(INewsSourceService newsSourceService)
         {
@@ -25,6 +27,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         }
 
         private string _classification;
+
         public string Classification
         {
             get => _classification;
@@ -48,6 +51,25 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             Description = result.Description;
             Classification = result.Classification.ToString();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _cancellationTokenSource?.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

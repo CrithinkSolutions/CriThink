@@ -9,6 +9,7 @@ using System.Xml;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
 using Microsoft.Extensions.Options;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
     internal class OpenOnlineFetcher : BaseFetcher

@@ -3,6 +3,7 @@ using Azure;
 using Azure.AI.TextAnalytics;
 using Microsoft.Extensions.Configuration;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.NewsAnalyzer.Singletons
 {
     /// <summary>

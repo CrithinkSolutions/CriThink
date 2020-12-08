@@ -7,12 +7,14 @@ using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
-    public class DebunkingNewsDetailsViewModel : MvxViewModel<string>
+    public class DebunkingNewsDetailsViewModel : MvxViewModel<string>, IDisposable
     {
         private readonly IDebunkingNewsService _debunkingNewsService;
 
         private string _debunkingNewsId;
         private CancellationTokenSource _cancellationTokenSource;
+
+        private bool disposed;
 
         public DebunkingNewsDetailsViewModel(IDebunkingNewsService debunkngNewsService)
         {
@@ -40,6 +42,25 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             DebunkingNews = await _debunkingNewsService.GetDebunkingNewsByIdAsync(_debunkingNewsId, _cancellationTokenSource.Token).ConfigureAwait(true);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _cancellationTokenSource?.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

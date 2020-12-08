@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CriThink.Common.Helpers;
 
+#pragma warning disable CA1305 // Specify IFormatProvider
 #pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Common.Endpoints.Converters
 {

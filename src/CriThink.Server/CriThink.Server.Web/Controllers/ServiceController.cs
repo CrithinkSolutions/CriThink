@@ -1,9 +1,9 @@
 ﻿using System;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,12 +20,12 @@ namespace CriThink.Server.Web.Controllers
     [Route(EndpointConstants.ApiBase + EndpointConstants.ServiceBase)] //api/service
     public class ServiceController : Controller
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly IAppVersionService _appService;
         private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IWebHostEnvironment env, ILogger<ServiceController> logger)
+        public ServiceController(IAppVersionService appService, ILogger<ServiceController> logger)
         {
-            _env = env ?? throw new ArgumentNullException(nameof(env));
+            _appService = appService ?? throw new ArgumentNullException(nameof(appService));
             _logger = logger;
         }
 
@@ -41,7 +41,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public IActionResult GetEnvironment()
         {
-            var name = _env.EnvironmentName;
+            var name = _appService.CurrentEnvironment;
             return Ok($"Environment: {name}");
         }
 

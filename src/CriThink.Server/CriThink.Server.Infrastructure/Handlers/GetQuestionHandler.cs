@@ -31,7 +31,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var allQuestions = await _dbContext.Questions
-                    .GetQuestionByIdAsync(QuestionProjection.GetAll, request.QuestionId, cancellationToken)
+                    .GetQuestionByIdAsync(request.QuestionId, cancellationToken)
                     .ConfigureAwait(false);
 
                 return allQuestions;

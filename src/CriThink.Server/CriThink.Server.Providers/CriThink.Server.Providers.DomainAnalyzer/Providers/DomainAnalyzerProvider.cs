@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CriThink.Server.Providers.DomainAnalyzer.Builders;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DomainAnalyzer.Providers
 {
     internal class DomainAnalyzerProvider : IDomainAnalyzerProvider
