@@ -1,10 +1,10 @@
 @model CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews.AddNewsViewModel
 @{
-    Layout = "_LayoutApi";
+    Layout = "_Layout";
     ViewData["Title"] = "Add News";
 }
 
-<div class="bg-white p-4 shadow text-center m-4 mw-100">
+<div class="p-4 text-center m-4 mw-100">
     <h3 class="mb-3">Add News</h3>
     @using(Html.BeginForm("Addnews", "DebunkingNews", FormMethod.Post)) 
     {
@@ -50,6 +50,6 @@
     }
     
     <div class="mt-3 border-top pt-3">
-        <a asp-controller="DebunkingNews" asp-action="Index">Return to DebunkingNews</a>
+        <a asp-controller="DebunkingNews" asp-action="Index"><i class="fas fa-angle-left mr-1"></i>Go Back</a>
     </div>
 </div>
