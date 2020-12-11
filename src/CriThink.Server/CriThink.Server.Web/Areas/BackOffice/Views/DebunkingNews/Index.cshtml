@@ -24,11 +24,11 @@
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="RemoveNewsView" type="button" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
     </div>
-    <table class="table">
+    <table class="table mb-3" id="featureT">
         <thead>
             <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Publisher</th>
+                <th>Title</th>
+                <th>Publisher</th>
             </tr>
         </thead>
         @foreach(var debunkedNews in Model.DebunkingNewsCollection) 
@@ -36,9 +36,19 @@
             <tr>
                 <td>@debunkedNews.Title</td>
                 <td>@debunkedNews.Publisher</td>
+                <td style="width:6%">
+                    <a type="button" data-toggle="dropdown">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a >
+                    <div class="dropdown-menu">
+                        <a id="mDelete" class="dropdown-item" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
+                    </div>
+                </td>
             </tr>
         }
     </table>
+
+    <div id="message"></div>
 
     <!-- PageIndex nav -->
     <nav>
@@ -69,12 +79,46 @@
     </nav>
     <!-- PageSize nav -->
 
+    <!-- Modal -->
+    <!-- DELETE -->
+    <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Remove this news</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure to delete the news with name <span class="font-weight-bold" id="nameNews"></span>?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#DELETE -->
+    <!-- End Modal -->
+
 </div>
 
 }
 
 @section Scripts
 {
+    <script type="text/javascript">
+        $(function(){
+            $('#featureT').DataTable({
+                paging: false,
+                ordering: false,
+                info: false
+            });
+        });
+    </script>
+
     <script type="text/javascript">
         $(function(){
             let pageSize = parseInt(GetParameterValues('PageSize'));
@@ -105,5 +149,28 @@
                 }
             };
         });
+
+        let newsId = '';
+
+        $('#mDelete').click(function(){
+            newsId = $(this).data('id');
+            $('#nameNews').html($(this).data('title'));
+        });
+
+        $('#sureDelete').click(function(){
+            let news = {
+                Id: newsId
+            };
+            $.post('@Url.RouteUrl("RemoveNewsAsync")', {Id:newsId}, function(data){
+                //$('body').html(data);
+                //$('#message').addClass('alert alert-success').html('News removed!');
+                console.log(data)
+            })
+            .fail(function(data){
+                //alert("Error");
+                console.log(data);
+            });
+        });
+
     </script>
 }

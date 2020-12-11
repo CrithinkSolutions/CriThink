@@ -95,9 +95,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("remove-news")]
+        [Route("remove-news", Name = "RemoveNewsAsync")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
             try
             {
                 if (ModelState.IsValid)
@@ -105,7 +108,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                     await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 }
 
-                return RedirectToAction("RemoveNewsViewAsync");
+                return RedirectToAction("Index");
             }
             catch (ResourceNotFoundException)
             {
