@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,17 +16,16 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiController]
     [ApiValidationFilter]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.ServiceBase)] //api/service
     public class ServiceController : Controller
     {
-        private readonly IWebHostEnvironment _env;
-        private readonly CriThinkDbContext _dbContext;
+        private readonly IAppVersionService _appService;
         private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IWebHostEnvironment env, CriThinkDbContext dbContext, ILogger<ServiceController> logger)
+        public ServiceController(IAppVersionService appService, ILogger<ServiceController> logger)
         {
-            _env = env ?? throw new ArgumentNullException(nameof(env));
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _appService = appService ?? throw new ArgumentNullException(nameof(appService));
             _logger = logger;
         }
 
@@ -44,63 +41,8 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public IActionResult GetEnvironment()
         {
-            var name = _env.EnvironmentName;
+            var name = _appService.CurrentEnvironment;
             return Ok($"Environment: {name}");
-        }
-
-        /// <summary>
-        /// Returns the Redis connection status
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route(EndpointConstants.ServiceRedisHealth)] // api/service/redis-health
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [HttpHead]
-        public IActionResult GetRedisHealthStatus()
-        {
-            bool isHealthy;
-
-            try
-            {
-                var redis = CriThinkRedisMultiplexer.GetConnection();
-                isHealthy = redis.IsConnected;
-            }
-            catch (Exception)
-            {
-                isHealthy = false;
-            }
-
-            return isHealthy ?
-                NoContent() :
-                StatusCode((int) HttpStatusCode.ServiceUnavailable);
-        }
-
-        /// <summary>
-        /// Returns the SQL Server connection status
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route(EndpointConstants.ServiceSqlServerHealth)] // api/service/sqlserver-health
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        [HttpHead]
-        public async Task<IActionResult> GetSqlServerHealthStatusAsync()
-        {
-            bool isHealthy;
-
-            try
-            {
-                isHealthy = await _dbContext.Database.CanConnectAsync().ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                isHealthy = false;
-            }
-
-            return isHealthy ?
-                NoContent() :
-                StatusCode((int) HttpStatusCode.ServiceUnavailable);
         }
 
         /// <summary>

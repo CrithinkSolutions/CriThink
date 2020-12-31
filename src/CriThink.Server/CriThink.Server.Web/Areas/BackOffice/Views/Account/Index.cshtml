@@ -1,0 +1,37 @@
+@model CriThink.Server.Web.Areas.BackOffice.ViewModels.Account.LoginViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Login";
+}
+<div class="p-4 text-center">
+    <img src="/logo.svg" width="250" alt="Crithink Logo">
+    <!-- (START) INPUT SECTION -->
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <form class="p-3" method="post" asp-area="BackOffice" asp-controller="Account" asp-action="Login">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+            </div>
+            <input asp-for="EmailOrUsername" class="form-control" aria-describedby="emailHelp" placeholder="Username or Email">
+            @*<span asp-validation-for="EmailOrUsername"></span>*@
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+            </div>
+            <input asp-for="Password" type="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
+            @*<span asp-validation-for="Password"></span>*@
+        </div>
+        <div class="input-group mb-3">
+            <label asp-for="RememberMe"></label>
+            <input asp-for="RememberMe" />
+            <span asp-validation-for="RememberMe"></span>
+        </div>
+        <input class="btn btn-purple" type="submit" value="Login" />
+    </form>
+    <!-- (END) INPUT SECTION -->
+    <div id="errordiv" class="alert alert-danger mt-3 d-none">
+        <span><i class="fas fa-exclamation-circle"></i> Input not valid</span>
+    </div>
+</div>

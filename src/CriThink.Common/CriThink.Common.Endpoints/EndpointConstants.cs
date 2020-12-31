@@ -15,10 +15,17 @@
 
         public const string ServiceBase = "service/";
         public const string ServiceEnvironment = "environment";
-        public const string ServiceRedisHealth = "redis-health";
-        public const string ServiceSqlServerHealth = "sqlserver-health";
         public const string ServiceLoggingHealth = "logging-health";
         public const string ServiceEnableSignup = "signup-enabled";
+
+        #endregion
+
+        #region Health Check
+
+        public const string HealthCheckBase = "health/";
+        public const string HealthCheckRedis = "redis";
+        public const string HealthCheckPostgreSql = "postgresql";
+        public const string HealthCheckDbContext = "dbcontext";
 
         #endregion
 
@@ -32,6 +39,8 @@
         public const string IdentityChangePassword = "change-password";
         public const string IdentityForgotPassword = "forgot-password";
         public const string IdentityResetPassword = "reset-password";
+        public const string IdentityExternalLogin = "external-login";
+        public const string IdentityUsernameAvailability = "username-availability";
 
         #endregion
 
@@ -41,6 +50,12 @@
 
         public const string AdminSignUp = "sign-up";
         public const string AdminRole = "role";
+
+        public const string AdminUserRole = "user/role";
+        public const string AdminUserGetAll = "user/all";
+        public const string AdminUser = "user";
+        public const string AdminDebunkingNews = "debunking-news";
+        public const string AdminDebunkingNewsGetAll = "debunking-news/all";
 
         #endregion
 
@@ -75,6 +90,7 @@
         public const string DebunkNewsBase = "debunking-news/";
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
+        public const string DebunkingNewsGetAll = "all";
 
         #endregion
 

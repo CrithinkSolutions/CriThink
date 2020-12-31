@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Providers;
+using CriThink.Server.Providers.Common;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
     internal class LanguageAnalyzer : BaseNewsAnalyzer
     {
         private readonly NewsAnalysisType _analysisType;
 
-        public LanguageAnalyzer(NewsScraperProviderResponse scrapedNews, ConcurrentQueue<Task<NewsAnalysisProviderResult>> queue)
-            : base(scrapedNews, queue)
+        public LanguageAnalyzer()
         {
             _analysisType = NewsAnalysisType.Ortographic;
         }

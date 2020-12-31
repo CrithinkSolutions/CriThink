@@ -1,0 +1,118 @@
+@using CriThink.Common.Endpoints.DTOs.Admin;
+@model UserGetAllResponse;
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "User Management";
+}
+@section hasSidebar 
+{
+
+<!-- Sidebar -->
+<div class="border-right" id="sidebar-wrapper">
+    <div class="list-group list-group-flush">
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetRole" class="list-group-item list-group-item-action bg-light">Role</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light">Admins</a>
+    </div>
+</div>
+<!-- /#sidebar-wrapper -->
+
+<div class="p-4 text-center m-4 w-100">
+
+    <div id="toolbox" class="border p-2 mb-2">
+        <button class="btn btn-success"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+        <button class="btn btn-info"><i class="fas fa-info-circle"></i></button>
+        <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
+    </div>
+
+    <table class="w-100" id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
+        <thead>
+            <tr>
+                <th class="d-none" data-field="state" data-radio="true"></th>
+                <th data-field="username">Username</th>
+                <th data-field="role" data-sortable="true">Role</th>
+            </tr>
+        </thead>
+        @foreach(var user in Model.Users) 
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="mr-1">@role</span>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <!-- PageIndex nav -->
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li id="prevPage" class="page-item">
+          <a class="page-link pointer" aria-label="Previous">
+            <span>Previous</span>
+          </a>
+        </li>
+        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+        <li class="page-item">
+          <a id="nextPage" class="page-link pointer" aria-label="Next">
+            <span>Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- PageIndex nav -->
+
+    <!-- PageSize nav -->
+    <small>User for page</small>
+    <nav>
+      <ul id="pageSizenav" class="pagination justify-content-center">
+        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
+        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
+      </ul>
+    </nav>
+    <!-- PageSize nav -->
+
+</div>
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function(){
+            let pageSize = parseInt(GetParameterValues('PageSize'));
+            let pageIndex = parseInt(GetParameterValues('PageIndex'));
+
+            if(!pageSize || !pageIndex){
+                pageSize = 20;
+                pageIndex = 1;
+            }
+
+            let url = '@Url.Action("Index", "UserManagement")'.concat('?PageSize='+pageSize+'&PageIndex=');
+            $('#nextPage').attr('href',url+(pageIndex+1));
+            $('#prevPage').children().attr('href',url+(pageIndex-1));
+
+            $('#currentPage').html(pageIndex);
+
+            if (pageIndex == 1) {
+                $('#prevPage').toggleClass('disabled');
+            }
+
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('='); 
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            };
+        });
+    </script>
+}

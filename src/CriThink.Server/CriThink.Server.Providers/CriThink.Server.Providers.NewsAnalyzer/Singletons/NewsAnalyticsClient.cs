@@ -1,40 +1,24 @@
 ﻿using System;
 using Azure;
 using Azure.AI.TextAnalytics;
+using Microsoft.Extensions.Configuration;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.NewsAnalyzer.Singletons
 {
     /// <summary>
-    /// Singleton implementation to share a single instance of the Azure <see cref="TextAnalyticsClient"/>
+    /// Singleton to share an instance of the Azure <see cref="TextAnalyticsClient"/>
     /// </summary>
-    internal static class NewsAnalyticsClient
+    internal class NewsAnalyticsClient
     {
-        private static string _azureEndpoint;
-        private static string _azureCredentials;
-        private static TextAnalyticsClient _client;
+        public NewsAnalyticsClient(IConfiguration configuration)
 
-        private static readonly object Locker = new object();
-
-        public static TextAnalyticsClient Instance
         {
-            get
-            {
-                if (_client == null)
-                {
-                    lock (Locker)
-                    {
-                        _client ??= new TextAnalyticsClient(new Uri(_azureEndpoint), new AzureKeyCredential(_azureCredentials));
-                    }
-                }
-
-                return _client;
-            }
+            var azureEndpoint = configuration["Azure-Cognitive-Endpoint"];
+            var azureCredentials = configuration["Azure-Cognitive-KeyCredentials"];
+            Instance ??= new TextAnalyticsClient(new Uri(azureEndpoint), new AzureKeyCredential(azureCredentials));
         }
 
-        public static void SetupClient(string azureEndpoint, string azureCredentials)
-        {
-            _azureEndpoint = azureEndpoint;
-            _azureCredentials = azureCredentials;
-        }
+        public TextAnalyticsClient Instance { get; }
     }
 }

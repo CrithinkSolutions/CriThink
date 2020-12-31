@@ -3,7 +3,8 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
@@ -14,326 +15,471 @@ namespace CriThink.Server.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .UseIdentityByDefaultColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Keywords")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("keywords");
 
                     b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("link");
 
                     b.Property<string>("NewsCaption")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("news_caption");
 
                     b.Property<string>("PublisherName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("publisher_name");
 
                     b.Property<DateTime>("PublishingDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("publishing_date");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_debunking_news");
 
-                    b.ToTable("DebunkingNews");
+                    b.ToTable("debunking_news");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("FailReason")
+                        .HasColumnType("text")
+                        .HasColumnName("fail_reason");
 
                     b.Property<bool>("IsSuccessful")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_successful");
 
                     b.Property<string>("TimeStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("time_stamp");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_debunking_news_trigger_logs");
 
-                    b.ToTable("DebunkingNewsTriggerLogs");
+                    b.ToTable("debunking_news_trigger_logs");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DemoNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Link")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("link");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_demo_news");
 
-                    b.ToTable("DemoNews");
+                    b.ToTable("demo_news");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourceCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<int>("Authenticity")
-                        .HasColumnType("int");
+                    b.Property<string>("Authenticity")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("authenticity");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("description");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_news_source_categories");
 
-                    b.ToTable("NewsSourceCategories");
+                    b.ToTable("news_source_categories");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("content");
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_questions");
 
-                    b.ToTable("Questions");
+                    b.ToTable("questions");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.QuestionAnswer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<Guid>("DemoNewsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("DemoNewsId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("demo_news_id");
 
                     b.Property<bool>("IsPositive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_positive");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("QuestionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("question_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_question_answers");
 
-                    b.HasIndex("DemoNewsId");
+                    b.HasIndex("DemoNewsId")
+                        .HasDatabaseName("ix_question_answers_demo_news_id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionId")
+                        .HasDatabaseName("ix_question_answers_question_id");
 
-                    b.ToTable("QuestionAnswers");
+                    b.ToTable("question_answers");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("access_failed_count");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_confirmed");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("lockout_enabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_email");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_user_name");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("security_stamp");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("user_name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_users");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "40695ec9-2b42-4f94-ad0e-2dc1cb6436e5",
+                            Email = "service@crithink.com",
+                            EmailConfirmed = true,
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SERVICE@CRITHINK.COM",
+                            NormalizedUserName = "SERVICE",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
+                            SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD",
+                            UserName = "service"
+                        });
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.UserRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_roles");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("user_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
+                            ConcurrencyStamp = "1d5179e2-77f1-42bc-a09c-1feb44eb7112",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_role_claims");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_role_claims_role_id");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("aspnet_role_claims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user_claims");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_claims_user_id");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("aspnet_user_claims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+                            ClaimValue = "f62fc754-e296-4aca-0a3f-08d88b1daff7",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+                            ClaimValue = "service@crithink.com",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                            ClaimValue = "service",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                            ClaimValue = "Admin",
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("provider_key");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("provider_display_name");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_user_logins");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_logins_user_id");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("aspnet_user_logins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_user_roles");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_user_roles_role_id");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("aspnet_user_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
+                            RoleId = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("value");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_user_tokens");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("aspnet_user_tokens");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.QuestionAnswer", b =>
@@ -341,14 +487,16 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.DemoNews", "DemoNews")
                         .WithMany()
                         .HasForeignKey("DemoNewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fk_question_answers_demo_news_demo_news_id");
 
                     b.HasOne("CriThink.Server.Core.Entities.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fk_question_answers_questions_question_id");
+
+                    b.Navigation("DemoNews");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -356,6 +504,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_role_claims_asp_net_roles_user_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -365,6 +514,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -374,6 +524,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -383,12 +534,14 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_user_roles_asp_net_roles_user_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -398,6 +551,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

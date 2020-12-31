@@ -8,38 +8,46 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.Converters;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
-using CriThink.Server.Infrastructure.Repositories;
-using CriThink.Server.Providers.DebunkNewsFetcher;
+using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
-using CriThink.Server.Providers.DomainAnalyzer;
-using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.EmailSender.Settings;
-using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Polly;
+using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
-
 namespace CriThink.Server.Web
 {
     public class Startup
@@ -63,81 +71,43 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Database
-            services.AddDbContext<CriThinkDbContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbSqlConnection");
-                options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                });
-            });
+            SetupKestrelOptions(services);
 
-            // User Identity
+            SetupPostgreSqlConnection(services);
+
             SetupUserIdentity(services);
 
-            // Jwt
-            SetupJwtAuthentication(services);
+            SetupAuthentication(services);
 
-            // ResponseCache
             SetupCache(services);
 
-            // API versioning
             SetupAPIVersioning(services);
 
-            // Swagger
             SetupSwagger(services);
 
-            // Settings
             SetupSettings(services);
 
-            // MediatR
-            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+            SetupMediatR(services);
 
-            // Internal
             SetupInternalServices(services);
 
-            // ErrorHandling
             SetupErrorHandling(services);
 
-            // Gzip
-            services.Configure<GzipCompressionProviderOptions>(options =>
-                options.Level = System.IO.Compression.CompressionLevel.Optimal);
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-            });
+            SetupGZipCompression(services);
 
-            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowSpecificOrigins,
-                    builder =>
-                    {
-                        foreach (var corsOrigin in corsOrigins)
-                        {
-                            builder.WithOrigins(corsOrigin)
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                        }
-                    });
-            });
+            SetupCorsOrigins(services);
 
-            services
-                .AddMvc(options => { options.EnableEndpointRouting = false; })
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
-                });
+            SetupJsonSerializer(services);
 
-            services.AddAutoMapper(typeof(Startup)); // AutoMapper
+            SetupAutoMapper(services);
 
-            services.AddRazorPages(); // Razor
+            SetupRazorAutoReload(services);
+
+            SetupControllers(services);
+
+            SetupExternalLoginProviders(services);
+
+            SetupHealthChecks(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -147,6 +117,8 @@ namespace CriThink.Server.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseLiveReload(); // LiveReload
 
                 app.UseSwagger(); // Swagger
                 app.UseSwaggerUI(options =>
@@ -167,7 +139,7 @@ namespace CriThink.Server.Web
 
             app.UseCors(AllowSpecificOrigins);
 
-            app.UseAuthentication(); // Identity
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -175,11 +147,43 @@ namespace CriThink.Server.Web
 
             app.UseResponseCompression();
 
-            app.UseMvc(); // Swagger
+#pragma warning disable MVC1005 // Cannot use UseMvc with Endpoint Routing.
+            app.UseMvc() // It doesn't detect the setting because it's outside ConfigureServices
+                .UseStatusCodePagesWithRedirects("/error/{0}");
+#pragma warning restore MVC1005 // Cannot use UseMvc with Endpoint Routing.
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages(); // Razor
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area=BackOffice}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                MapHealthChecks(endpoints);
+            });
+        }
+
+        private void SetupKestrelOptions(IServiceCollection services)
+        {
+            services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
+        }
+
+        private void SetupPostgreSqlConnection(IServiceCollection services)
+        {
+            services.AddDbContext<CriThinkDbContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorCodesToAdd: null);
+                })
+                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             });
         }
 
@@ -207,21 +211,36 @@ namespace CriThink.Server.Web
             });
         }
 
-        private void SetupJwtAuthentication(IServiceCollection services)
+        private void SetupAuthentication(IServiceCollection services)
         {
+            // JWT
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
-            services.AddAuthorization();
-
-            services.AddAuthentication(x =>
+            services
+                .AddAuthentication(options =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(options =>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/backoffice/account/";
+                    options.LogoutPath = "/backoffice/account/logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
+
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = (context) =>
+                        {
+                            context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
+                            return Task.CompletedTask;
+                        },
+                    };
+                })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.SaveToken = true;
 
@@ -250,6 +269,9 @@ namespace CriThink.Server.Web
                         }
                     };
                 });
+
+            // JWT + MVC
+            services.AddAuthorization();
         }
 
         private static void SetupCache(IServiceCollection services)
@@ -326,53 +348,208 @@ namespace CriThink.Server.Web
 
         private void SetupSettings(IServiceCollection services)
         {
-            services.Configure<AwsSESSettings>(Configuration.GetSection(nameof(AwsSESSettings)));
+            services.Configure<User>(Configuration.GetSection("ServiceUser"));
+            services.Configure<UserRole>(Configuration.GetSection("AdminRole"));
+            services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
+            services.Configure<WebSiteSettings>(Configuration.GetSection("DebunkedNewsSources:OpenOnline"));
         }
 
-        private void SetupInternalServices(IServiceCollection services)
+        private static void SetupMediatR(IServiceCollection services)
         {
-            // Email Sender
-            services.AddEmailSenderService();
+            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+        }
 
-            // Identity
-            services.AddTransient<IIdentityService, IdentityService>();
-
-            // NewsAnalyzer
-            var azureEndpoint = Configuration["Azure-Cognitive-Endpoint"];
-            var azureCredentials = Configuration["Azure-Cognitive-KeyCredentials"];
-            services.AddNewsAnalyzerProvider(azureCredentials, azureEndpoint);
-            services.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
-
-            // DebunkNewsFetcher
-            var openOnlineSettings = Configuration.GetSection("DebunkedNewsSources:OpenOnline").Get<WebSiteSettings>();
-            services.AddDebunkNewsFetcherProvider(openOnlineSettings);
-            services.AddTransient<IDebunkNewsFetcherFacade, DebunkNewsFetcherFacade>();
-
-            // DomainAnalyzer
-            services.AddDomainAnalyzerProvider();
-            services.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
-
-            // NewsSource
-            services.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
-            services.AddTransient<INewsSourceService, NewsSourceService>();
-
-            // DebunkNews
-            services.AddTransient<IDebunkNewsService, DebunkNewsService>();
+        private static void SetupInternalServices(IServiceCollection services)
+        {
+            // Core
+            Core.Bootstrapper.AddCore(services);
 
             // Infrastructure
-            services.AddTransient<INewsSourceRepository, NewsSourceRepository>();
+            services.AddInfrastructure();
 
-            var redisConnectionString = Configuration.GetConnectionString("CriThinkRedisCacheConnection");
-            services.AddInfrastructure(redisConnectionString);
+            // Services
+            services.AddSingleton<IAppVersionService, AppVersionService>();
+
+            // Facades
+            services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
+            services.AddTransient<IUserManagementServiceFacade, UserManagementServiceFacade>();
+            services.AddTransient<INewsSourceServiceFacade, NewsSourceServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
         {
+            services.AddScoped<CrossServiceAuthenticationFilter>();
             services.AddScoped<ApiValidationFilterAttribute>();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
+            });
+        }
+
+        private static void SetupGZipCompression(IServiceCollection services)
+        {
+            services.Configure<GzipCompressionProviderOptions>(options =>
+                options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+        }
+
+        private void SetupCorsOrigins(IServiceCollection services)
+        {
+            var corsOrigins = Configuration.GetSection("AllowCorsOrigin").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                    builder =>
+                    {
+                        foreach (var corsOrigin in corsOrigins)
+                        {
+                            builder.WithOrigins(corsOrigin)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    });
+            });
+        }
+
+        private void SetupJsonSerializer(IServiceCollection services)
+        {
+            var mvcBuilder = services
+                .AddMvc(options => { options.EnableEndpointRouting = false; })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                    options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
+                });
+
+            if (_environment.IsDevelopment())
+                mvcBuilder.AddRazorRuntimeCompilation();
+        }
+
+        private static void SetupAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(Core.Bootstrapper));
+        }
+
+        private void SetupRazorAutoReload(IServiceCollection services)
+        {
+            var mvcBuilder = services.AddRazorPages();
+
+            if (_environment.IsDevelopment())
+            {
+                mvcBuilder.AddRazorRuntimeCompilation(); // Razor
+                services.AddLiveReload(); // LiveReload
+            }
+        }
+
+        private static void SetupControllers(IServiceCollection services)
+        {
+            services.AddControllersWithViews(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+        }
+
+        private static void SetupHealthChecks(IServiceCollection services)
+        {
+            services.AddHealthChecks()
+                .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
+                .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckPostgreSql, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckPostgreSql })
+                .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
+        }
+
+        private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
+        {
+            // Redis
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.HealthCheckRedis),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckRedis));
+
+            // PostgreSQL
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.HealthCheckPostgreSql),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckPostgreSql));
+
+            // PostgreSQL DbContext
+            endpoints.MapHealthChecks(
+                GetServiceHealthPath(EndpointConstants.HealthCheckDbContext),
+                GetHealthCheckFilter(EndpointConstants.HealthCheckDbContext));
+        }
+
+        private static string GetServiceHealthPath(string serviceName) => $"{EndpointConstants.HealthCheckBase}{serviceName}";
+
+        private static HealthCheckOptions GetHealthCheckFilter(string tag) => new HealthCheckOptions
+        {
+            Predicate = (check) => check.Tags.Contains(tag),
+            AllowCachingResponses = false,
+        };
+
+        private void SetupExternalLoginProviders(IServiceCollection services)
+        {
+            var baseFacebookURL = Configuration["FacebookApiUrl"];
+
+            services.AddHttpClient("Facebook", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseFacebookURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseGoogleURL = Configuration["GoogleApiUrl"];
+
+            services.AddHttpClient("Google", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseGoogleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            var baseAppleURL = Configuration["AppleApiUrl"];
+
+            services.AddHttpClient("Apple", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(baseAppleURL);
+            })
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+            }));
+
+            services.AddTransient<FacebookProvider>();
+            services.AddTransient<GoogleProvider>();
+            services.AddTransient<AppleProvider>();
+
+            services.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
+            {
+                switch (externalProvider)
+                {
+                    case ExternalLoginProvider.Facebook:
+                        return serviceProvider.GetService<FacebookProvider>();
+                    case ExternalLoginProvider.Google:
+                        return serviceProvider.GetService<GoogleProvider>();
+                    case ExternalLoginProvider.Apple:
+                        return serviceProvider.GetService<AppleProvider>();
+                    default:
+                        throw new NotSupportedException();
+                }
             });
         }
     }

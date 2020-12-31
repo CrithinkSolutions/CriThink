@@ -8,7 +8,7 @@ Developed by CriThink Solutions.
 # Getting Started
 ## Server
 ### Run Server in Debug mode
-The local development setting uses a local SQL Server instance.
+The local development setting uses a local PostgreSQL instance.
 It also uses the AspNet User Secret API. You can use this feature from the CLI or Visual Studio.
 #### User Secret
 ##### Visual Studio
@@ -26,7 +26,7 @@ The directory where files are created is:
 
 ##### Required User Secrets
 Insert the following keys and the desired values in the secret files created above:
-* SQL Server: `"ConnectionStrings:CriThinkDbSqlConnection": "<cs>"`
+* PostgreSQL: `"ConnectionStrings:CriThinkDbPgSqlConnection": "<cs>"`
 * Redis Cache: `"ConnectionStrings:CriThinkRedisCacheConnection": "<cs>"`
 * JWT data:
     * `"Jwt-Audience": "<audience>"`
@@ -36,12 +36,21 @@ Insert the following keys and the desired values in the secret files created abo
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
-#### User Secret for ReactJS
+##### User Secret for ReactJS
 * Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
 * Write inside the file:
 	* `REACT_APP_LOCALHOST=[Your localhost url]`
-	
+
 Note: You need to restart the development server after changing .env.local file.
+
+#### Smtp4dev local SMTP server
+In order to send easily mails even without an internet connection (and to not charge our AWS Subscription) [smtp4dev](https://github.com/rnwood/smtp4dev) was integrated.
+1. Install smtp4dev for docker: `docker pull rnwood/smtp4dev:v3` (only Win and Linux)
+2. Create a docker container: `docker run --name smtp4dev -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3`
+3. Start smtp4dev in docker: `docker start -a smtp4dev`
+
+Browse to http://localhost:3000 with the GUI make sure if SMTP server is listening on port 2525
+
 ### Environments
 Three environments have been configured:
 * Debug
@@ -51,7 +60,7 @@ Three environments have been configured:
 ### Service endpoints
 * environment: returns the name of which environment is running
 * redis-health: attempt a connection to the Redis cache
-* sqlserver-health: attemp a connection to the SQL Server database instance
+* postgresql: attemp a connection to the PostgreSQL database instance
 
 
 ### AWS Setup
@@ -67,7 +76,7 @@ Three environments have been configured:
 
 Each profile has a specific custom policy to allow access only to the right secrets.
 
-#### SQL Server
+#### PostgreSQL
 * Ask @Krusty93 for admin credentials (if needed)
 * Set in the DB Securty Group (sg-de88c5a7) the access permission to the EC2 Security Group (sg-0121b6999052480c0)
 * When a new instance is created, then go to "Edit" and enable the "Public accessibility"

@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace CriThink.Server.Infrastructure.Handlers
 {
     // ReSharper disable once UnusedMember.Global
-    public class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
+    internal class SearchNewsSourceHandler : IRequestHandler<SearchNewsSourceQuery, SearchNewsSourceQueryResponse>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly CriThinkDbContext _dbContext;
@@ -44,7 +44,7 @@ namespace CriThink.Server.Infrastructure.Handlers
                     return null;
 
                 var description = await _dbContext.NewsSourceCategories
-                    .GetCategoryDescriptionByAuthenticityAsync(NewsSourceCategoryProjection.GetDescription, (int) authenticity, cancellationToken)
+                    .GetCategoryDescriptionByAuthenticityAsync(NewsSourceCategoryProjection.GetDescription, authenticity, cancellationToken)
                     .ConfigureAwait(false);
 
                 return new SearchNewsSourceQueryResponse(authenticity, description);

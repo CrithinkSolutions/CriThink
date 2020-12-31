@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CriThink.Server.Providers.DebunkNewsFetcher.Builders;
 
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
 {
     internal class DebunkingNewsProvider : IDebunkNewsProvider
@@ -17,7 +18,6 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
         public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
             return fetcherBuilder
-                .SetHttpClient(_httpClientFactory)
                 .BuildFetchers()
                 .AnalyzeAsync();
         }

@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Amazon.SecretsManager.Model;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
-using CriThink.Server.Web.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)] //api/identity
     public class IdentityController : Controller
     {
@@ -68,9 +70,9 @@ namespace CriThink.Server.Web.Controllers
                 var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The user or the password are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The user or the password are incorrect");
             }
         }
 
@@ -146,9 +148,9 @@ namespace CriThink.Server.Web.Controllers
                 if (result)
                     return Ok();
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
             }
 
             return BadRequest();
@@ -157,7 +159,7 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Request a temporary token to reset the forgot password
         /// </summary>
-        /// <param name="dto">Email or the id of the account owner</param>
+        /// <param name="dto">Email or the username of the account owner</param>
         /// <returns>Send an email with the temporary code</returns>
         [AllowAnonymous]
         [Route(EndpointConstants.IdentityForgotPassword)] // api/identity/forgot-password
@@ -175,9 +177,9 @@ namespace CriThink.Server.Web.Controllers
             {
                 await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
-                throw new Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
+                throw new Core.Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
             }
 
             return NoContent();
@@ -217,10 +219,41 @@ namespace CriThink.Server.Web.Controllers
                     .ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Exceptions.ResourceNotFoundException)
+            catch (Core.Exceptions.ResourceNotFoundException)
             {
                 throw new ResourceNotFoundException("The provided user, token or the password are incorrect");
             }
+        }
+
+        /// <summary>
+        /// Log the user via an external provider
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityExternalLogin)] // api/identity/external-login
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
+        {
+            var response = await _identityService.ExternalProviderLoginAsync(dto).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
+
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityUsernameAvailability)] // api/identity/username-availability
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
+        {
+            var response = await _identityService.GetUsernameAvailabilityAsync(dto).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
         }
     }
 }

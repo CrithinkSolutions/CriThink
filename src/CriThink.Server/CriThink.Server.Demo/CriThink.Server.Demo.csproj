@@ -1,22 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CriThink.Server.Demo</RootNamespace>
     <AssemblyName>CriThink.Server.Demo</AssemblyName>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <Company>CriThink Solutions</Company>
-    <Authors>CriThinkIT</Authors>
-    <Copyright>CRITHINK SOLUTIONS COPYRIGHT 2020</Copyright>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>    
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.1" />
   </ItemGroup>
 
   <!-- START SPA Settings -->

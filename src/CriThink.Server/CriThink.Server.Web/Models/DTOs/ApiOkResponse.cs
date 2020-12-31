@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using CriThink.Server.Web.Converters;
 using Microsoft.AspNetCore.Http;
 
 namespace CriThink.Server.Web.Models.DTOs
@@ -6,6 +7,7 @@ namespace CriThink.Server.Web.Models.DTOs
     /// <summary>
     /// Base class for successfully responses
     /// </summary>
+    [JsonConverter(typeof(ApiResponseConverter))]
     public class ApiOkResponse : ApiResponse
     {
         /// <summary>
@@ -21,7 +23,7 @@ namespace CriThink.Server.Web.Models.DTOs
         /// <summary>
         /// The response result
         /// </summary>
-        [JsonPropertyName("result")]
+        [JsonIgnore]
         public object Result { get; }
     }
 }

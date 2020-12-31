@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/padding_page"
+                android:paddingRight="@dimen/padding_page"
+                android:id="@+id/root">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_centerInParent="true">
+
+    <!-- News -->
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/txtInput_news"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:hint="@string/newschecker_paste"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtInput_uri"
+        android:fontFamily="@font/urbanist"
+        android:inputType="textUri"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_CheckUri"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_big"
+        android:text="@string/newschecker_results"/>
+
+  </LinearLayout>
+ 
+</RelativeLayout>

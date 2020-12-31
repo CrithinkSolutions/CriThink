@@ -4,8 +4,8 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace CriThink.Server.Web.Middlewares
 {
@@ -68,12 +68,12 @@ namespace CriThink.Server.Web.Middlewares
                     parameter = new { error = aggregate.InnerExceptions.Select(e => e.Message) };
                     _logger.LogError(aggregate, "Aggregate exception");
                     break;
-                case SqlException sqlException:
+                case PostgresException postgresException:
                     code = HttpStatusCode.ServiceUnavailable;
-                    _logger.LogCritical(sqlException, "SQL Server connection not available");
+                    _logger.LogCritical(postgresException, "PostgreSQL connection not available");
                     parameter = new { error = "Service currently unvailable" };
                     break;
-                case Exceptions.ResourceNotFoundException resourceNotFoundException:
+                case Core.Exceptions.ResourceNotFoundException resourceNotFoundException:
                     code = HttpStatusCode.NotFound;
                     _logger.LogWarning(resourceNotFoundException, "An asked resource has not been found");
                     parameter = new { error = ex.Message };

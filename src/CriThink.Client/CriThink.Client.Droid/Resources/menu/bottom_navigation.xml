@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/page_1"
+    android:enabled="true"
+    android:icon="@drawable/ic_newschecker"
+    android:titleCondensed="news_checker"
+    app:showAsAction="always"
+    android:title="@string/menu_newschecker"/>
+  <item
+    android:id="@+id/page_2"
+    android:enabled="true"
+    android:icon="@drawable/ic_debunkingnews"
+    android:titleCondensed="debunking_news"
+    app:showAsAction="always"
+    android:title="@string/menu_debunkingnews"/>
+  <item
+    android:id="@+id/page_3"
+    android:enabled="true"
+    android:icon="@drawable/ic_spotfakenews"
+    android:titleCondensed="spot_fakenews"
+    app:showAsAction="always"
+    android:title="@string/menu_spotfakenews"/>
+  <item
+    android:id="@+id/page_4"
+    android:enabled="true"
+    android:icon="@drawable/ic_games"
+    android:titleCondensed="play_games"
+    app:showAsAction="always"
+    android:title="@string/menu_playgames"/>
+</menu>
