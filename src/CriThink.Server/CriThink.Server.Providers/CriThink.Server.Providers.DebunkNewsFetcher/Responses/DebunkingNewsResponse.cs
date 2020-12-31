@@ -9,7 +9,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
         {
             Title = title;
             Link = link;
-            PublishingDate = publishingDate.Date;
+            PublishingDate = publishingDate.DateTime;
         }
 
         public string Title { get; }
