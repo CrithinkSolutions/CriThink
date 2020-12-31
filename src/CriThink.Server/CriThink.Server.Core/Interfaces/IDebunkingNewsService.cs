@@ -45,5 +45,12 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
         Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsAsync(DebunkingNewsGetRequest request);
+
+        /// <summary>
+        /// Get all trigger logs paginated
+        /// </summary>
+        /// <param name="request">Pagination</param>
+        /// <returns>List of trigger logs</returns>
+        Task<TriggerLogsGetAllResponse> GetAllTriggerLogsAsync(TriggerLogsGetAllRequest request);
     }
 }

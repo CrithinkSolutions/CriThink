@@ -135,6 +135,24 @@ namespace CriThink.Server.Core.Services
             return dto;
         }
 
+        public async Task<TriggerLogsGetAllResponse> GetAllTriggerLogsAsync(TriggerLogsGetAllRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var query = new GetAllTriggerLogsQuery(request.PageSize + 1, request.PageIndex);
+            var triggerLogs = await _mediator.Send(query).ConfigureAwait(false);
+            var dtos = new List<TriggerLogGetResponse>();
+            foreach (var log in triggerLogs.Take(request.PageSize))
+            {
+                var dto = _mapper.Map<GetAllTriggerLogQueryResponse, TriggerLogGetResponse>(log);
+                dtos.Add(dto);
+            }
+
+            var response = new TriggerLogsGetAllResponse(dtos, triggerLogs.Count > request.PageSize);
+            return response;
+        }
+
         private async Task<List<DebunkingNews>> ScrapeDebunkingNewsCollectionAsync(IEnumerable<DebunkingNewsProviderResult> debunkingNewsCollection, DateTime lastSuccessfullFetchDate)
         {
             var debunkedNewsCollection = new List<DebunkingNews>();
