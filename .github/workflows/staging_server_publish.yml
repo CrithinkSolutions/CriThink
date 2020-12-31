@@ -1,6 +1,11 @@
 name: staging_server_publish
+
+env:
+  projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
+
 on:
   push:
+    paths: src/CriThink.Server/**
     branches: [ develop ]
 
 jobs:
@@ -15,17 +20,17 @@ jobs:
         dotnet-version: 5.0.101
     
     - name: dotnet Clean
-      run: dotnet clean src/CriThink.sln
+      run: dotnet clean ${{env.projectPath}}
       
     - name: dotnet Restore dependencies
-      run: dotnet restore src/CriThink.sln
+      run: dotnet restore ${{env.projectPath}}
 
     - name: dotnet Build
-      run: dotnet build src/CriThink.sln -c Release --no-restore
+      run: dotnet build ${{env.projectPath}} -c Release --no-restore
 
     - name: dotnet Publish
       run: |
-        dotnet publish src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj -c Release -o staging_crithink_server --self-contained false -r linux-x64
+        dotnet publish ${{env.projectPath}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
         
     - name: Build deployment package
       run: cd staging_crithink_server && zip -r staging-server-deploy-package.zip * && cd .
