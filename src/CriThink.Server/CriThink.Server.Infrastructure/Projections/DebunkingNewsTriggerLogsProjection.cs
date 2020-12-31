@@ -22,7 +22,8 @@ namespace CriThink.Server.Infrastructure.Projections
             {
                 Id = log.Id,
                 IsSuccessful = log.IsSuccessful,
-                TimeStamp = log.TimeStamp
+                TimeStamp = log.TimeStamp,
+                FailReason = log.FailReason
             };
     }
 }

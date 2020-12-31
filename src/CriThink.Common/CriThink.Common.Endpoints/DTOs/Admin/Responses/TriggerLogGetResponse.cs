@@ -13,5 +13,8 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 
         [JsonPropertyName("timestamp")]
         public string TimeStamp { get; set; }
+
+        [JsonPropertyName("error_message")]
+        public string ErrorMessage { get; set; }
     }
 }
