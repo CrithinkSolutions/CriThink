@@ -220,7 +220,9 @@
                                     "actions": {},
                                     "runAfter": {
                                         "Trigger_the_updater": [
-                                            "Succeeded"
+                                            "Succeeded",
+                                            "Failed",
+                                            "TimedOut"
                                         ]
                                     },
                                     "else": {
@@ -232,7 +234,7 @@
                                                     "body": {
                                                         "Body": "<p>Hi,<br>\nThe CriThink Staging failed to fetch debunking news<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
                                                         "Importance": "High",
-                                                        "Subject": "[[[CriThink-Staging] Trigger fail",
+                                                        "Subject": "[CriThink-Staging] Trigger fail",
                                                         "To": "[parameters('emailRecipient')]"
                                                     },
                                                     "host": {
@@ -285,7 +287,7 @@
                                             "body": {
                                                 "Body": "<p>Hi,<br>\nThe CriThink Staging app seems to be unavailable.<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
                                                 "Importance": "High",
-                                                "Subject": "[[[CriThink-Staging] Server unvailable",
+                                                "Subject": "[CriThink-Staging] Server unvailable",
                                                 "To": "[parameters('emailRecipient')]"
                                             },
                                             "host": {
@@ -304,7 +306,7 @@
                                 "or": [
                                     {
                                         "equals": [
-                                            "",
+                                            "@outputs('Health_check')['statusCode']",
                                             200
                                         ]
                                     }
