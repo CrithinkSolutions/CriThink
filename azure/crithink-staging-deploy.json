@@ -1,0 +1,335 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {       
+        "endpoint": {
+            "type": "string",
+            "metadata": {
+                "description": "Server base URL"
+            },
+            "minLength": 3
+        },
+        "environment": {
+            "type": "string",
+            "metadata": {
+                "description": "Application environment (Staging or Production)"
+            },
+            "minLength": 7
+        },
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Storage Account Name"
+            },
+            "minLength": 8,
+            "maxLength": 24
+        },
+        "cognitiveServiceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Cognitive service name"
+            },
+            "minLength": 8
+        },
+        "logicAppName": {
+            "type": "string",
+            "metadata": {
+                "description": "Logic app name"
+            },
+            "minLength": 8
+        },
+        "triggerRecurrenceHours": {
+            "type": "int",
+            "metadata": {
+                "description": "Trigger interval"
+            }
+        },
+        "X-CriThink-Cross-Service": {
+            "type": "string",
+            "metadata": {
+                "description": "API header value"
+            }
+        },
+        "emailRecipient": {
+            "type": "string",
+            "metadata": {
+                "description": "email address to send email notifications to"
+            }
+        },
+        "connections_outlook_externalid": {
+            "defaultValue": "/subscriptions/b903af29-f057-4345-bed5-eead84dec865/resourceGroups/StagingCriThink/providers/Microsoft.Web/connections/outlook",
+            "type": "String"
+        },
+        "publicVnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "VNET resource name"
+            }
+        },
+        "publicVnetSubnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "VNET subnet name"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-05-01",
+            "name": "[parameters('publicVnetName')]",
+            "location": "westeurope",
+            "tags": {
+                "AppName": "CriThink",
+                "Environment": "Staging"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.1.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('publicVnetSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.1.0.0/24",
+                            "serviceEndpoints": [],
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Enabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-05-01",
+            "name": "[concat(parameters('publicVnetName'), '/', parameters('publicVnetSubnetName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('publicVnetName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.1.0.0/24",
+                "serviceEndpoints": [],
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "name": "[parameters('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "tags": {
+                "AppName": "CriThink",
+                "Environment": "[parameters('environment')]"
+            },
+            "location": "[resourceGroup().location]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            }
+        },
+        {
+            "type": "Microsoft.CognitiveServices/accounts",
+            "apiVersion": "2017-04-18",
+            "name": "[parameters('cognitiveServiceName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "AppName": "CriThink",
+                "Environment": "[parameters('environment')]"
+            },
+            "sku": {
+                "name": "F0"
+            },
+            "kind": "TextAnalytics",
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "privateEndpointConnections": [],
+                "customSubDomainName": "[parameters('cognitiveServiceName')]"
+            }
+        },
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "outlook",
+            "location": "[resourceGroup().location]",
+            "kind": "V1",
+            "properties": {
+                "displayName": "Outlook.com",
+                "customParameterValues": {},
+                "api": {
+                    "id": "/subscriptions/b903af29-f057-4345-bed5-eead84dec865/providers/Microsoft.Web/locations/westeurope/managedApis/outlook"
+                }
+            }
+        },
+        {
+            "name": "[parameters('logicAppName')]",
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "AppName": "CriThink",
+                "Environment": "[parameters('environment')]"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/schemas/2016-06-01/Microsoft.Logic.json",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Hour",
+                                "interval": "[parameters('triggerRecurrenceHours')]"
+                            },
+                            "type": "Recurrence",
+                            "description": "When application should start"
+                        }
+                    },
+                    "actions": {
+                        "Health_check": {
+                            "runAfter": {},
+                            "type": "Http",
+                            "inputs": {
+                                "headers": {
+                                    "api-version": "1.0"
+                                },
+                                "method": "GET",
+                                "uri": "[concat(parameters('endpoint'), 'health/postgresql')]"
+                            },
+                            "description": "Check the web service and DB are working correctly"
+                        },
+                        "Is_server_working_properly": {
+                            "actions": {
+                                "Condition": {
+                                    "actions": {},
+                                    "runAfter": {
+                                        "Trigger_the_updater": [
+                                            "Succeeded",
+                                            "Failed",
+                                            "TimedOut"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {
+                                            "Notify_the_service_hasn't_worked_well": {
+                                                "runAfter": {},
+                                                "type": "ApiConnection",
+                                                "inputs": {
+                                                    "body": {
+                                                        "Body": "<p>Hi,<br>\nThe CriThink Staging failed to fetch debunking news<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
+                                                        "Importance": "High",
+                                                        "Subject": "[CriThink-Staging] Trigger fail",
+                                                        "To": "[parameters('emailRecipient')]"
+                                                    },
+                                                    "host": {
+                                                        "connection": {
+                                                            "name": "@parameters('$connections')['outlook']['connectionId']"
+                                                        }
+                                                    },
+                                                    "method": "post",
+                                                    "path": "/v2/Mail"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "equals": [
+                                                    "@outputs('Trigger_the_updater')['statusCode']",
+                                                    204
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                },
+                                "Trigger_the_updater": {
+                                    "runAfter": {},
+                                    "type": "Http",
+                                    "inputs": {
+                                        "headers": {
+                                            "X-CriThink-Cross-Service": "[parameters('X-CriThink-Cross-Service')]"
+                                        },
+                                        "method": "POST",
+                                        "uri": "[concat(parameters('endpoint'), 'api/debunking-news/trigger-update')]"
+                                    },
+                                    "description": "Trigger the server to update news"
+                                }
+                            },
+                            "runAfter": {
+                                "Health_check": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else": {
+                                "actions": {
+                                    "Notify_server_offline": {
+                                        "runAfter": {},
+                                        "type": "ApiConnection",
+                                        "inputs": {
+                                            "body": {
+                                                "Body": "<p>Hi,<br>\nThe CriThink Staging app seems to be unavailable.<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
+                                                "Importance": "High",
+                                                "Subject": "[CriThink-Staging] Server unvailable",
+                                                "To": "[parameters('emailRecipient')]"
+                                            },
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['outlook']['connectionId']"
+                                                }
+                                            },
+                                            "method": "post",
+                                            "path": "/v2/Mail"
+                                        },
+                                        "description": "Send an email to notify server outage"
+                                    }
+                                }
+                            },
+                            "expression": {
+                                "or": [
+                                    {
+                                        "equals": [
+                                            "@outputs('Health_check')['statusCode']",
+                                            200
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        }
+                    },
+                    "outputs": { }
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "outlook": {
+                                "connectionId": "[parameters('connections_outlook_externalid')]",
+                                "connectionName": "outlook",
+                                "id": "/subscriptions/b903af29-f057-4345-bed5-eead84dec865/providers/Microsoft.Web/locations/westeurope/managedApis/outlook"
+                            }
+                        }
+                    }
+                }
+            }
+        }        
+    ],
+    "outputs": {}
+}

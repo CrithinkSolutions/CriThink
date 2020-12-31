@@ -71,22 +71,37 @@ namespace CriThink.Server.Core.Services
 
         public async Task UpdateRepositoryAsync()
         {
-            var query = new GetLastDebunkinNewsFetchTimeQuery();
-            var lastDateTask = _mediator.Send(query);
-            var debunkinNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
+            var logOperationCommand = new CreateTriggerLogCommand();
 
-            await Task.WhenAll(lastDateTask, debunkinNewsTask).ConfigureAwait(false);
+            try
+            {
+                var query = new GetLastDebunkinNewsFetchTimeQuery();
+                var lastDateTask = _mediator.Send(query);
+                var debunkinNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
 
-            var lastSuccessfullFetchDate = lastDateTask.Result;
-            var debunkingNewsCollection = debunkinNewsTask.Result;
+                await Task.WhenAll(lastDateTask, debunkinNewsTask).ConfigureAwait(false);
 
-            var debunkedNewsCollection = await ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
+                var lastSuccessfullFetchDate = lastDateTask.Result;
+                var debunkingNewsCollection = debunkinNewsTask.Result;
 
-            if (!debunkedNewsCollection.Any())
-                return;
+                var debunkedNewsCollection = await ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
 
-            var command = new CreateDebunkingNewsCommand(debunkedNewsCollection);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+                if (!debunkedNewsCollection.Any())
+                    return;
+
+                var addNewsCommand = new CreateDebunkingNewsCommand(debunkedNewsCollection);
+                _ = await _mediator.Send(addNewsCommand).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error to fetch debunking news");
+                logOperationCommand = new CreateTriggerLogCommand(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _ = await _mediator.Send(logOperationCommand).ConfigureAwait(false);
+            }
         }
 
         public async Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(DebunkingNewsGetAllRequest request)
