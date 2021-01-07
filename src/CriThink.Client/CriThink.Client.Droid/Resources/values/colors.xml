@@ -4,5 +4,12 @@
   <color name="colorPrimaryDark">#1B3147</color>
   <color name="colorAccent">#3498db</color>
 
+  <!-- CriThink blue theme -->
+  <color name="colorBlue">#3F3FCB</color>
+
+  <!-- Facebook related stuff -->
   <color name="colorFacebook">#4267B2</color>
+
+  <!-- Used as background in welcome views -->
+  <color name="welcomeBackground">#ff9600</color>
 </resources>
