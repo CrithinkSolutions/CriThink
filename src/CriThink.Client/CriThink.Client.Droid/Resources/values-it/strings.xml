@@ -1,5 +1,8 @@
 ﻿<resources>
 
+  <!-- Logo -->
+  <string name="logo_motto">Use the HEAD!</string>
+
   <!-- SignUp -->
   <string name="signup_title">Registrati</string>
   <string name="signup_description">E\' semplice collegarsi con noi</string>
