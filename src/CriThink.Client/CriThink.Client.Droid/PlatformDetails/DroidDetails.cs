@@ -27,6 +27,18 @@ namespace CriThink.Client.Droid.PlatformDetails
             LaunchIntent(igUri);
         }
 
+        public void OpenTwitterProfile(string profileId = null)
+        {
+            var twitterIntent = GetIntentOfTheGivenPackage("com.twitter.android");
+            var twitterUri = "https://twitter.com/crithinktech";
+            if (twitterIntent != null)
+            {
+                twitterUri = $"twitter://user?user_id={profileId}";
+            }
+
+            LaunchIntent(twitterUri);
+        }
+
         public void OpenLinkedInProfile(string profileId = null)
         {
             var linkedInUri = $"https://www.linkedin.com/{profileId}";

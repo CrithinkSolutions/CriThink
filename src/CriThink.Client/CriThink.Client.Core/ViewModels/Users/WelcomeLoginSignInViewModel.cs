@@ -29,11 +29,14 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxCommand _openFacebookPageCommand;
         public IMvxCommand OpenFacebookPageCommand => _openFacebookPageCommand ??= new MvxCommand(DoOpenFacebookPageCommand);
 
-        private IMvxCommand _openInstagramPageCommand;
-        public IMvxCommand OpenInstagramPageCommand => _openInstagramPageCommand ??= new MvxCommand(DoOpenInstagramPageCommand);
+        private IMvxCommand _openInstagramProfileCommand;
+        public IMvxCommand OpenInstagramProfileCommand => _openInstagramProfileCommand ??= new MvxCommand(DoOpenInstagramPageCommand);
 
-        private IMvxCommand _openLinkedInPageCommand;
-        public IMvxCommand OpenLinkedInPageCommand => _openLinkedInPageCommand ??= new MvxCommand(DoOpenLinkedInPageCommand);
+        private IMvxCommand _openLinkedInProfileCommand;
+        public IMvxCommand OpenLinkedInProfileCommand => _openLinkedInProfileCommand ??= new MvxCommand(DoOpenLinkedInPageCommand);
+
+        private IMvxCommand _openTwitterProfileCommand;
+        public IMvxCommand OpenTwitterProfileCommand => _openTwitterProfileCommand ??= new MvxCommand(DoOpenTwitterProfileCommand);
 
         #endregion
 
@@ -55,6 +58,11 @@ namespace CriThink.Client.Core.ViewModels.Users
         private void DoOpenInstagramPageCommand()
         {
             _platformService.OpenCriThinkInstagramProfile();
+        }
+
+        private void DoOpenTwitterProfileCommand()
+        {
+            _platformService.OpenCriThinkTwitterProfile();
         }
 
         private void DoOpenLinkedInPageCommand()

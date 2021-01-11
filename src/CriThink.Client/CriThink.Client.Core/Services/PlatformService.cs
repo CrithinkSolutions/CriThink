@@ -8,6 +8,7 @@ namespace CriThink.Client.Core.Services
     {
         private const string FacebookPageId = "111916197191315";
         private const string InstagramProfileName = "crithink.solutions";
+        private const string TwitterProfileName = "1262643502380470273";
         private const string LinkedInProfile = "company/crithink-solutions/";
 
         private readonly IPlatformDetails _platformDetails;
@@ -43,6 +44,18 @@ namespace CriThink.Client.Core.Services
             }
         }
 
+        public void OpenCriThinkTwitterProfile()
+        {
+            try
+            {
+                _platformDetails.OpenTwitterProfile(TwitterProfileName);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Failed to open Twitter app", TwitterProfileName);
+            }
+        }
+
         public void OpenCriThinkLinkedInProfile()
         {
             try
@@ -61,6 +74,8 @@ namespace CriThink.Client.Core.Services
         void OpenCriThinkFacebookPage();
 
         void OpenCriThinkInstagramProfile();
+
+        void OpenCriThinkTwitterProfile();
 
         void OpenCriThinkLinkedInProfile();
     }

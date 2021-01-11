@@ -18,6 +18,12 @@
         public void OpenInstagramProfile(string profileId = null);
 
         /// <summary>
+        /// Open Twitter on the optional desired profile
+        /// </summary>
+        /// <param name="profileId">(Optional) Id of the profile to open</param>
+        public void OpenTwitterProfile(string profileId = null);
+
+        /// <summary>
         /// Open LinkedIn on the optional desired profile
         /// </summary>
         /// <param name="profileId">(Optional) Id of the profile to open</param>

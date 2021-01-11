@@ -4,6 +4,7 @@
   <dimen name="margin_huge">128dp</dimen>
   <dimen name="margin_veryBig">48dp</dimen>
   <dimen name="margin_big">32dp</dimen>
+  <dimen name="margin_littleBig">24dp</dimen>
   <dimen name="margin_medium">16dp</dimen>
   <dimen name="margin_small">12dp</dimen>
 
