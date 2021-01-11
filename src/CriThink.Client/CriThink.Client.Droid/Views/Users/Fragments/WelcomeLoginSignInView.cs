@@ -23,8 +23,15 @@ namespace CriThink.Client.Droid.Views.Users
 
             var btnLogin = view.FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnSignIn = view.FindViewById<AppCompatButton>(Resource.Id.btnSignIn);
+            var btnFacebook = view.FindViewById<AppCompatImageButton>(Resource.Id.imgFacebook);
+            var btnInstagram = view.FindViewById<AppCompatImageButton>(Resource.Id.imgInstagram);
+            var btnLinkedin = view.FindViewById<AppCompatImageButton>(Resource.Id.imgLinkedIn);
 
             var set = CreateBindingSet();
+
+            set.Bind(btnFacebook).For("Click").To(vm => vm.OpenFacebookPageCommand);
+            set.Bind(btnInstagram).For("Click").To(vm => vm.OpenInstagramPageCommand);
+            set.Bind(btnLinkedin).For("Click").To(vm => vm.OpenLinkedInPageCommand);
 
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginViewCommand);
             set.Bind(btnSignIn).To(vm => vm.NavigateToSignInViewCommand);
