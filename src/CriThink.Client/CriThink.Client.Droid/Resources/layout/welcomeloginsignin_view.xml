@@ -1,50 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/padding_page"
-                android:paddingRight="@dimen/padding_page"
-                android:id="@+id/root">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/root">
 
-  <!--TODO: change icon-->
-  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:id="@+id/imgTopImg"
-                                                android:layout_marginTop="@dimen/margin_veryBig"
-                                                android:src="@mipmap/ic_launcher" />
+  <androidx.core.widget.NestedScrollView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingLeft="@dimen/padding_page"
+    android:paddingRight="@dimen/padding_page"
+    android:id="@+id/scrollViewer"
+    android:fillViewport="true">
 
-  <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:layout_below="@+id/imgTopImg"
-                android:layout_alignParentBottom="true"
-                android:gravity="bottom"
-                android:paddingBottom="@dimen/padding_page">
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:id="@+id/btnSignIn"
-      android:text="@string/loginsigniin_signin"
-      android:textColor="@android:color/black"
-      android:elevation="@dimen/btn_elevation"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"/>
+      android:id="@+id/viewInnerLayout"
+      android:scrollbars="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:layout_alignParentBottom="true"
-      android:id="@+id/btnLogin"
-      android:text="@string/loginsigniin_login"
-      android:textColor="@android:color/black"
-      android:elevation="@dimen/btn_elevation"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"/>
+      <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
+                                                    android:layout_height="180dp"
+                                                    android:id="@+id/imgTopImg"
+                                                    app:layout_constraintTop_toTopOf="parent"
+                                                    app:layout_constraintLeft_toLeftOf="parent"
+                                                    app:layout_constraintRight_toRightOf="parent"
+                                                    android:layout_marginTop="@dimen/margin_veryBig"
+                                                    android:src="@drawable/ic_text_logo" />
 
-  </LinearLayout>
+      <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logo_motto"
+        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/margin_veryBig"
+        android:fontFamily="@font/urbanist"
+        android:textSize="@dimen/textSize_title"/>
 
-</RelativeLayout>
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSignIn"
+        android:text="@string/loginsigniin_signin"
+        android:textColor="@android:color/white"
+        android:elevation="@dimen/btn_elevation"
+        android:fontFamily="@font/urbanist"
+        app:layout_constraintBottom_toTopOf="@id/btnLogin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:backgroundTint="@color/colorBlue"
+        android:radius="@dimen/btn_radius"/>
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnLogin"
+        android:text="@string/loginsigniin_login"
+        android:textColor="@android:color/white"
+        android:elevation="@dimen/btn_elevation"
+        android:fontFamily="@font/urbanist"
+        app:layout_constraintBottom_toTopOf="@id/imgFacebook"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="@dimen/margin_huge"
+        android:backgroundTint="@color/colorBlue"
+        android:radius="@dimen/btn_radius"/>
+            
+      <!-- Facebook -->
+      <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="@dimen/imgSize_small"
+        android:layout_height="@dimen/imgSize_small"
+        android:id="@+id/imgFacebook"
+        app:layout_constraintRight_toLeftOf="@id/imgInstagram"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
+        android:layout_marginRight="@dimen/margin_veryBig"
+        android:src="@drawable/ic_facebook_logo"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"/>
+
+      <!-- Download from https://en.instagram-brand.com/assets/icons not working now-->
+      <!-- Instagram -->
+      <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="@dimen/imgSize_small"
+        android:layout_height="@dimen/imgSize_small"
+        android:id="@+id/imgInstagram"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_veryBig"
+        android:layout_marginRight="@dimen/margin_littleBig"
+        android:src="@drawable/ic_instagram_logo"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"/>
+
+      <!-- Twitter -->
+      <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="@dimen/imgSize_small"
+        android:layout_height="@dimen/imgSize_small"
+        android:id="@+id/imgTwitter"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
+        android:layout_marginLeft="@dimen/margin_littleBig"
+        android:src="@drawable/ic_twitter_logo"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"/>
+
+      <!-- LinkedIn -->
+      <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="@dimen/imgSize_small"
+        android:layout_height="@dimen/imgSize_small"
+        android:id="@+id/imgLinkedIn"
+        app:layout_constraintLeft_toRightOf="@id/imgTwitter"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
+        android:layout_marginLeft="@dimen/margin_veryBig"
+        android:src="@drawable/ic_linkedin_logo"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"/>
+
+      <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guidelineVertical"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
