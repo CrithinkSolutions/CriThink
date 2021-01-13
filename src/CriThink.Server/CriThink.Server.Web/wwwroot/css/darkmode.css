@@ -1,4 +1,4 @@
-*:not(.btn):not(i){
+*:not(.btn):not(i):not(.alert) {
 	background-color: #272727 !important; 
 	color: #fff !important;
 }
