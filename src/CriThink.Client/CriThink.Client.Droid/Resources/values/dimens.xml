@@ -22,5 +22,6 @@
 
   <!-- Dimensions -->
   <dimen name="imgSize_small">36dp</dimen>
+  <dimen name="imgSize_bigLogo">180dp</dimen>
   
 </resources>

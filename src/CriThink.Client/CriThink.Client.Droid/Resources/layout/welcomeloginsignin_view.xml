@@ -23,7 +23,7 @@
       android:scrollbars="vertical">
 
       <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
-                                                    android:layout_height="180dp"
+                                                    android:layout_height="@dimen/imgSize_bigLogo"
                                                     android:id="@+id/imgTopImg"
                                                     app:layout_constraintTop_toTopOf="parent"
                                                     app:layout_constraintLeft_toLeftOf="parent"
