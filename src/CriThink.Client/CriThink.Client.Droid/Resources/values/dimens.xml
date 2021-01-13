@@ -7,6 +7,7 @@
   <dimen name="margin_littleBig">24dp</dimen>
   <dimen name="margin_medium">16dp</dimen>
   <dimen name="margin_small">12dp</dimen>
+  <dimen name="margin_mini">6dp</dimen>
 
   <!-- Padding -->
   <dimen name="padding_page">16dp</dimen>
