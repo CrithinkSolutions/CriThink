@@ -52,7 +52,19 @@ namespace CriThink.Client.Droid.Views.Users
             switch (position)
             {
                 case 0:
-                    welcomeFragment.ImageId = Resource.Drawable.signup_background;
+                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_1;
+                    break;
+                case 1:
+                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_2;
+                    break;
+                case 2:
+                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_3;
+                    break;
+                case 3:
+                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_4;
+                    break;
+                case 4:
+                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_5;
                     break;
                 default:
                     throw new NotImplementedException();

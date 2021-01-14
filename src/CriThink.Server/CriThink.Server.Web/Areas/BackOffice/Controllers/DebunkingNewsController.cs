@@ -42,7 +42,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("add-news")]
+        [Route("debunking-news/add-news")]
         public ActionResult AddNewsView()
         {
             return View("AddNewsView", new AddNewsViewModel());
@@ -66,7 +66,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("add-news")]
+        [Route("debunking-news/add-news")]
         public async Task<IActionResult> AddNewsAsync(AddNewsViewModel viewModel)
         {
             if (viewModel == null)

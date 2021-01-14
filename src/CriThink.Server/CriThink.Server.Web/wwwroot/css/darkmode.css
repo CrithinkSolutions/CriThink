@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 *:not(.btn):not(i):not(.alert){
+=======
+*:not(.btn):not(i):not(.alert) {
+>>>>>>> production
 	background-color: #272727 !important; 
 	color: #fff !important;
 }

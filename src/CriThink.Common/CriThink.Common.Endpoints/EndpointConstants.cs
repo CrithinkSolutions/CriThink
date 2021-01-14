@@ -56,6 +56,7 @@
         public const string AdminUser = "user";
         public const string AdminDebunkingNews = "debunking-news";
         public const string AdminDebunkingNewsGetAll = "debunking-news/all";
+        public const string AdminTriggerLogs = "trigger-logs/all";
 
         #endregion
 

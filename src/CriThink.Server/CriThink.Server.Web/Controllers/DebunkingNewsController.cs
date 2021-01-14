@@ -34,6 +34,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <returns>HTTP status code</returns>
         [AllowAnonymous]
+        [ServiceFilter(typeof(CrossServiceAuthenticationFilter))]
         [Route(EndpointConstants.DebunkNewsTriggerUpdate)] // api/debunking-news/trigger
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
