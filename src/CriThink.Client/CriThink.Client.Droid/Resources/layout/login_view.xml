@@ -1,112 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/root">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/root">
 
-  <!--TODO: change icon-->
-  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:id="@+id/imgTopImg"
-                                                android:src="@drawable/signup_background"
-                                                android:adjustViewBounds="true" />
+  <androidx.core.widget.NestedScrollView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingLeft="@dimen/padding_page"
+    android:paddingRight="@dimen/padding_page"
+    android:id="@+id/scrollViewer"
+    android:fillViewport="true">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_alignParentBottom="true"
-    android:gravity="bottom"
-    android:layout_marginTop="@dimen/margin_big"
-    android:padding="@dimen/padding_page">
-
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/btnJump"
-      android:text="Jump"/>
+      android:id="@+id/viewInnerLayout"
+      android:scrollbars="vertical">
 
-    <!-- Email -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_email"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/login_email"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+      <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
+                                                    android:layout_height="@dimen/imgSize_bigLogo"
+                                                    android:id="@+id/imgTopImg"
+                                                    app:layout_constraintTop_toTopOf="parent"
+                                                    app:layout_constraintLeft_toLeftOf="parent"
+                                                    app:layout_constraintRight_toRightOf="parent"
+                                                    android:layout_marginTop="@dimen/margin_veryBig"
+                                                    android:src="@drawable/ic_text_logo" />
 
-      <com.google.android.material.textfield.TextInputEditText
+      <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtEdit_emailOrUsername"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textEmailAddress"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/padding_page">
+        
+        <!-- TEMP -->
+       <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/txtInput_email"
+          android:id="@+id/btnJump"
+          android:text="Jump (DEBUG)"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <!-- Email -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/txtInput_email"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/txtInput_password"
+          android:layout_marginBottom="@dimen/margin_mini"
+          android:hint="@string/login_email"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEdit_emailOrUsername"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+                
+        <!-- Password -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/txtInput_password"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
+          android:layout_marginBottom="@dimen/margin_mini"
+          android:hint="@string/login_password"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEdit_password"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+                
+        <androidx.constraintlayout.widget.Guideline
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/guidelineHorizontal"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="0.5"/>
 
-    <!-- Password -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_password"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/login_password"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
+          android:id="@+id/btnForgotPassword"
+          android:text="@string/login_forgotPassword"
+          android:background="@null"
+          android:minWidth="0dp"
+          android:minHeight="0dp"
+          android:gravity="right"
+          android:textSize="@dimen/textSize_small"
+          android:fontFamily="@font/urbanist"/>
+        
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnLogin"
+          android:text="@string/login_login"
+          android:elevation="@dimen/btn_elevation"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/btnForgotPassword"
+          android:layout_marginTop="@dimen/margin_small"
+          android:fontFamily="@font/urbanist"/>
 
-      <com.google.android.material.textfield.TextInputEditText
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+      <!-- Facebook -->
+      <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtEdit_password"
+        android:id="@+id/btnFb"
+        android:text="@string/facebook_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnGoogle"
+        android:layout_marginBottom="@dimen/margin_littleBig"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_fb"
+        android:elevation="@dimen/btn_elevation"
         android:fontFamily="@font/urbanist"
-        android:inputType="textPassword"/>
+        android:layout_marginTop="@dimen/margin_huge" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+      <!-- Google -->
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnGoogle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_google"
+        android:fontFamily="@font/urbanist"
+        android:elevation="@dimen/btn_elevation"
+        android:layout_marginBottom="@dimen/margin_veryBig"
+        android:text="@string/google_login" />
+    
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnForgotPassword"
-      android:text="@string/login_forgotPassword"
-      android:background="@null"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:paddingLeft="@dimen/margin_small"
-      android:gravity="right"
-      android:textAllCaps="false"
-      android:textSize="@dimen/textSize_small"
-      android:fontFamily="@font/urbanist"/>
+  </androidx.core.widget.NestedScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnLogin"
-      android:text="@string/login_login"
-      android:elevation="@dimen/btn_elevation"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnFb"
-      android:text="@string/facebook_login"
-      android:background="@color/colorFacebook"
-      android:textColor="@android:color/white"
-      android:textAllCaps="false"
-      android:elevation="@dimen/btn_elevation"
-      android:fontFamily="@font/urbanist"
-      android:layout_marginTop="@dimen/margin_huge"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnGoogle"
-      android:textColor="@android:color/black"
-      android:background="@android:color/white"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"
-      android:elevation="@dimen/btn_elevation"
-      android:layout_marginTop="@dimen/margin_medium"
-      android:text="@string/google_login"/>
-
-  </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
