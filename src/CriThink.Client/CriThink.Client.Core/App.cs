@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Handlers;
 using CriThink.Client.Core.Repositories;
@@ -31,6 +32,8 @@ namespace CriThink.Client.Core
 
         private static void InitializeInternalServices()
         {
+            Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
+
             // Repo
             Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
