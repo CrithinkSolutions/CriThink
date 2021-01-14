@@ -361,5 +361,21 @@ namespace CriThink.Server.Web.Controllers
             var debunkingNews = await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(debunkingNews));
         }
+
+        /// <summary>
+        /// Get the list of trigger logs paginated
+        /// </summary>
+        /// <param name="request">Pagination settings</param>
+        /// <returns></returns>
+        [Route(EndpointConstants.AdminTriggerLogs)] //api/admin/trigger-logs/all
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetTriggerLogsAsync([FromQuery] TriggerLogsGetAllRequest request)
+        {
+            var logs = await _debunkingNewsService.GetAllTriggerLogsAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(logs));
+        }
     }
 }

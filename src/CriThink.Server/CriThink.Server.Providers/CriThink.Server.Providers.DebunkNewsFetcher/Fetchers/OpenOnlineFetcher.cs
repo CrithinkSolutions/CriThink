@@ -72,6 +72,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                         if (FeedCategories.Contains(categoryName))
                         {
                             list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, item.PublishDate));
+                            break;
                         }
                     }
                 }
