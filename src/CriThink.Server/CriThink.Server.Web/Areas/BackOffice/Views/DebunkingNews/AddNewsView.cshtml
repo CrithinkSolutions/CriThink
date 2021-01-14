@@ -4,7 +4,7 @@
     ViewData["Title"] = "Add News";
 }
 
-<div class="bg-white p-4 shadow text-center m-4 mw-100">
+<div class="p-4 text-center m-4 mw-100">
     <h3 class="mb-3">Add News</h3>
     @using(Html.BeginForm("Addnews", "DebunkingNews", FormMethod.Post)) 
     {
@@ -48,8 +48,4 @@
 
         <button class="btn btn-success btn-block" type="submit" ><i class="fas fa-plus"></i></button>
     }
-    
-    <div class="mt-3 border-top pt-3">
-        <a asp-controller="DebunkingNews" asp-action="Index">Return to DebunkingNews</a>
-    </div>
 </div>

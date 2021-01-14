@@ -7,10 +7,10 @@ namespace CriThink.Client.Core.ViewModels
 {
     public class WelcomeViewModel : MvxViewModel
     {
-        public WelcomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
+        public WelcomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IPlatformService platformService)
         {
             SignUpViewModel = new SignUpViewModel(navigationService, identityService);
-            WelcomeLoginSignInViewModel = new WelcomeLoginSignInViewModel(navigationService);
+            WelcomeLoginSignInViewModel = new WelcomeLoginSignInViewModel(navigationService, platformService);
         }
 
         public SignUpViewModel SignUpViewModel { get; }

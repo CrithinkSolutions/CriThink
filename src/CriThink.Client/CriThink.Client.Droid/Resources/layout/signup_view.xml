@@ -1,110 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/padding_page"
-                android:paddingRight="@dimen/padding_page"
-                android:id="@+id/root">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/root">
 
-  <!--TODO: change icon-->
-  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
-                                                android:layout_height="200dp"
-                                                android:id="@+id/imgTopImg"
-                                                android:layout_marginTop="@dimen/margin_veryBig"
-                                                android:src="@mipmap/ic_launcher" />
+  <androidx.core.widget.NestedScrollView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingLeft="@dimen/padding_page"
+    android:paddingRight="@dimen/padding_page"
+    android:id="@+id/scrollViewer"
+    android:fillViewport="true">
 
-  <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:layout_below="@+id/imgTopImg"
-      android:layout_alignParentBottom="true"
-      android:gravity="bottom"
-      android:paddingBottom="@dimen/padding_page">
+      android:id="@+id/viewInnerLayout"
+      android:scrollbars="vertical">
+
+      <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
+                                                    android:layout_height="@dimen/imgSize_bigLogo"
+                                                    android:id="@+id/imgTopImg"
+                                                    app:layout_constraintTop_toTopOf="parent"
+                                                    app:layout_constraintLeft_toLeftOf="parent"
+                                                    app:layout_constraintRight_toRightOf="parent"
+                                                    android:layout_marginTop="@dimen/margin_veryBig"
+                                                    android:src="@drawable/ic_text_logo" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_title"
+        android:id="@+id/txtTitle"
+        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/margin_veryBig"
+        android:textStyle="bold"
+        android:fontFamily="@font/urbanist"
+        android:textSize="@dimen/textSize_title" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        android:textSize="@dimen/textSize_subheader"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:fontFamily="@font/urbanist"/>
+      
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFb"
+        android:text="@string/facebook_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnGoogle"
+        android:layout_marginBottom="@dimen/margin_littleBig"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_fb"
+        android:elevation="@dimen/btn_elevation"
+        android:fontFamily="@font/urbanist"
+        android:layout_marginTop="@dimen/margin_huge" />
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnGoogle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+        android:layout_marginBottom="@dimen/margin_littleBig"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_google"
+        android:fontFamily="@font/urbanist"
+        android:elevation="@dimen/btn_elevation"
+        android:text="@string/google_login"/>
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSignUp"
+        android:text="@string/signup_email"
+        android:background="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/viewLogin"
+        android:layout_marginBottom="@dimen/margin_veryBig"
+        android:backgroundTint="@color/colorBlue"
+        android:radius="@dimen/btn_radius"
+        android:textColor="@android:color/white"
+        android:elevation="@dimen/btn_elevation"
+        android:fontFamily="@font/urbanist"/>
+
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/viewLogin"
+        android:fontFamily="@font/urbanist"
+        android:layout_marginBottom="@dimen/margin_littleBig"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/signup_title"
-          android:textStyle="bold"
+          android:text="@string/signup_alreadyHaveAccount"
           android:fontFamily="@font/urbanist"
-          android:gravity="center"
-          android:textSize="@dimen/textSize_title"/>
+          android:textSize="@dimen/textSize_small"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/signup_description"
-          android:gravity="center"
-          android:textSize="@dimen/textSize_subheader"
-          android:layout_marginTop="@dimen/margin_medium"
+          android:id="@+id/btnLogin"
+          android:text="@string/signup_login"
+          android:background="@null"
+          android:minWidth="0dp"
+          android:minHeight="0dp"
+          android:paddingLeft="@dimen/margin_small"
+          android:textAllCaps="false"
           android:fontFamily="@font/urbanist"/>
+      </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/btnFb"
-          android:text="@string/facebook_login"
-          android:background="@color/colorFacebook"
-          android:textColor="@android:color/white"
-          android:textAllCaps="false"
-          android:elevation="@dimen/btn_elevation"
-          android:fontFamily="@font/urbanist"
-          android:layout_marginTop="@dimen/margin_huge"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/btnGoogle"
-          android:textColor="@android:color/black"
-          android:background="@android:color/white"
-          android:textAllCaps="false"
-          android:fontFamily="@font/urbanist"
-          android:elevation="@dimen/btn_elevation"
-          android:layout_marginTop="@dimen/margin_medium"
-          android:text="@string/google_login"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSignUp"
-            android:text="@string/signup_email"
-            android:textColor="@android:color/black"
-            android:background="@android:color/white"
-            android:layout_marginTop="@dimen/margin_big"
-            android:elevation="@dimen/btn_elevation"
-            android:textAllCaps="false"
-            android:fontFamily="@font/urbanist"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:fontFamily="@font/urbanist"
-            android:layout_marginTop="@dimen/margin_veryBig">
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/signup_alreadyHaveAccount"
-            android:fontFamily="@font/urbanist"
-            android:textSize="@dimen/textSize_small"/>
-
-          <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnLogin"
-            android:text="@string/signup_login"
-            android:background="@null"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingLeft="@dimen/margin_small"
-            android:textAllCaps="false"
-            android:fontFamily="@font/urbanist"/>
-
-        </LinearLayout>
-
-  </LinearLayout>
-
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

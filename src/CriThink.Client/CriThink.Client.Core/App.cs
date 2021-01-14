@@ -45,6 +45,7 @@ namespace CriThink.Client.Core
             Mvx.IoCProvider.RegisterType<NewsSourceService>();
             Mvx.IoCProvider.RegisterType<IdentityService>();
             Mvx.IoCProvider.RegisterType<IIdentityService, CacheIdentityService>();
+            Mvx.IoCProvider.RegisterType<IPlatformService, PlatformService>();
 
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IMemoryCache>(() => new MemoryCache(new MemoryCacheOptions
             {

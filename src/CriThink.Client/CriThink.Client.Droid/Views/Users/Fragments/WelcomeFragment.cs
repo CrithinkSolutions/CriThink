@@ -1,8 +1,8 @@
 ﻿using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.Widget;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Fragment.App;
 using CriThink.Client.Droid.Constants;
 
@@ -18,12 +18,12 @@ namespace CriThink.Client.Droid.Views.Users
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var image = new AppCompatImageView(Activity);
+            var image = new AppCompatImageView(Activity) { Id = ImageId + 123 };
 
             var drawable = Context.GetDrawable(ImageId);
             image.SetImageDrawable(drawable);
 
-            var layout = new LinearLayout(Activity)
+            var layout = new ConstraintLayout(Activity)
             {
                 LayoutParameters =
                     new ViewGroup.LayoutParams(
@@ -31,7 +31,15 @@ namespace CriThink.Client.Droid.Views.Users
                         ViewGroup.LayoutParams.MatchParent)
             };
 
+            layout.SetBackgroundResource(Resource.Color.welcomeBackground);
             layout.AddView(image);
+
+            var constraintSet = new ConstraintSet();
+            constraintSet.Connect(image.Id, ConstraintSet.Left, ConstraintSet.ParentId, ConstraintSet.Left, 0);
+            constraintSet.Connect(image.Id, ConstraintSet.Right, ConstraintSet.ParentId, ConstraintSet.Right, 0);
+            constraintSet.Connect(image.Id, ConstraintSet.Top, ConstraintSet.ParentId, ConstraintSet.Top, 0);
+            constraintSet.Connect(image.Id, ConstraintSet.Bottom, ConstraintSet.ParentId, ConstraintSet.Bottom, 0);
+            constraintSet.ApplyTo(layout);
 
             return layout;
         }
