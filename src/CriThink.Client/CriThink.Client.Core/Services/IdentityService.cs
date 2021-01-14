@@ -34,21 +34,39 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
-                $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
-                HttpRestVerb.Post,
-                request,
-                cancellationToken)
-                .ConfigureAwait(false);
+            UserLoginResponse loginResponse;
+            try
+            {
+                throw new Exception();
 
-            await _identityRepository.SetUserInfoAsync(
-                loginResponse.UserId,
-                loginResponse.UserEmail,
-                loginResponse.UserName,
-                request.Password,
-                loginResponse.JwtToken.Token,
-                loginResponse.JwtToken.ExpirationDate)
-                .ConfigureAwait(false);
+                loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
+                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
+                        HttpRestVerb.Post,
+                        request,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the login", ex, request);
+                return null;
+            }
+
+            try
+            {
+                await _identityRepository.SetUserInfoAsync(
+                        loginResponse.UserId,
+                        loginResponse.UserEmail,
+                        loginResponse.UserName,
+                        request.Password,
+                        loginResponse.JwtToken.Token,
+                        loginResponse.JwtToken.ExpirationDate)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Error, () => "An error occurred when saving login data", ex, request);
+            }
 
             return loginResponse;
         }
