@@ -10,14 +10,12 @@
 @section hasSidebar 
 {
 
-<!-- Sidebar -->
 <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Trigger log</a>
     </div>
 </div>
-<!-- /#sidebar-wrapper -->
 
 <div class="p-4 text-center m-4 w-100">
     <div id="toolbox" class="border p-2 mb-2">
@@ -49,7 +47,6 @@
 
     <div id="message"></div>
 
-    <!-- PageIndex nav -->
     <nav>
       <ul class="pagination justify-content-center">
         <li id="prevPage" class="page-item">
@@ -65,10 +62,8 @@
         </li>
       </ul>
     </nav>
-    <!-- PageIndex nav -->
 
-    <!-- PageSize nav -->
-    <small>News for page</small>
+    <small>User for page</small>
     <nav>
       <ul id="pageSizenav" class="pagination justify-content-center">
         <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
@@ -76,10 +71,7 @@
         <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
       </ul>
     </nav>
-    <!-- PageSize nav -->
 
-    <!-- Modal -->
-    <!-- DELETE -->
     <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -99,15 +91,11 @@
         </div>
       </div>
     </div>
-    <!-- /DELETE -->
-    <!-- End Modal -->
     
-    <!-- GetToken -->
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
     {
       @Html.AntiForgeryToken()
     }
-    <!-- /GetToken -->
 
     <!-- HasNextPage -->
     <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
@@ -120,7 +108,6 @@
 @section Scripts
 {
     <script type="text/javascript">
-        // Table features
         $(function(){
             $('#featureT').DataTable({
                 paging: false,
@@ -131,7 +118,6 @@
     </script>
 
     <script type="text/javascript">
-        // Paging Functions
         $(function(){
             let pageSize = parseInt(GetParameterValues('PageSize'));
             let pageIndex = parseInt(GetParameterValues('PageIndex'));
@@ -166,7 +152,7 @@
             };
         });
 
-        { // Delete functions
+        {
 
         let newsId = '';
 
@@ -177,7 +163,7 @@
 
         $('#sureDelete').click(function(){
             let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@Url.RouteUrl("RemoveNewsAsync")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+            $.post('@Url.RouteUrl("RemoveNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
                 $('#message').addClass('alert alert-success').html('News removed!');
             })
