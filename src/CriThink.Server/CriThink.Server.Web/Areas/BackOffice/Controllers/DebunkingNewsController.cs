@@ -95,7 +95,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("remove-news", Name = "RemoveNewsAsync")]
+        [Route("remove-news", Name = "RemoveNews")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)

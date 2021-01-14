@@ -8,7 +8,6 @@
 @section hasSidebar 
 {
 
-<!-- Sidebar -->
 <div class="border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
@@ -16,7 +15,6 @@
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light">Admins</a>
     </div>
 </div>
-<!-- /#sidebar-wrapper -->
 
 <div class="p-4 text-center m-4 w-100">
 
@@ -49,7 +47,6 @@
         }
     </table>
 
-    <!-- PageIndex nav -->
     <nav>
       <ul class="pagination justify-content-center">
         <li id="prevPage" class="page-item">
@@ -65,9 +62,7 @@
         </li>
       </ul>
     </nav>
-    <!-- PageIndex nav -->
 
-    <!-- PageSize nav -->
     <small>User for page</small>
     <nav>
       <ul id="pageSizenav" class="pagination justify-content-center">
@@ -76,7 +71,6 @@
         <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
       </ul>
     </nav>
-    <!-- PageSize nav -->
 
 </div>
 
