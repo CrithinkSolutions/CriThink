@@ -5,6 +5,7 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
@@ -13,13 +14,11 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class LoginViewModel : BaseSocialLoginViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-        private readonly IUserDialogs _userDialogs;
 
-        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
-            : base(identityService)
+        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
+            : base(identityService, userDialogs, logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
         }
 
         #region Properties
@@ -77,7 +76,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             var userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
             if (userInfo == null)
             {
-                await ShowErrorMessage(cancellationToken).ConfigureAwait(false);
+                await ShowErrorMessage("Incorrect email address or password. Please check and try again").ConfigureAwait(false);
             }
             else
             {
@@ -93,14 +92,6 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToForgotPasswordCommand()
         {
             await _navigationService.Navigate<ForgotPasswordViewModel>().ConfigureAwait(true);
-        }
-
-        private async Task ShowErrorMessage(CancellationToken cancellationToken)
-        {
-            await _userDialogs.AlertAsync(
-                message: "Incorrect email address or password. PLease check and try again",
-                okText: "Ok",
-                cancelToken: cancellationToken).ConfigureAwait(true);
         }
     }
 }

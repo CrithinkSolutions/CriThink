@@ -37,8 +37,6 @@ namespace CriThink.Client.Core.Services
             UserLoginResponse loginResponse;
             try
             {
-                throw new Exception();
-
                 loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
                         $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
                         HttpRestVerb.Post,

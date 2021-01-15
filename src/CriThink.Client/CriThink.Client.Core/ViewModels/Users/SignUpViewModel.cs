@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
@@ -10,8 +12,8 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public SignUpViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
-            : base(identityService)
+        public SignUpViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
+            : base(identityService, userDialogs, logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
