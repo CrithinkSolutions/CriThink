@@ -17,7 +17,7 @@ namespace CriThink.Server.Infrastructure.Migrations
             modelBuilder
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
@@ -25,6 +25,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("text")
+                        .HasColumnName("image_link");
 
                     b.Property<string>("Keywords")
                         .HasColumnType("text")
