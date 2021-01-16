@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
@@ -13,8 +15,8 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
-            : base(identityService)
+        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
+            : base(identityService, userDialogs, logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
@@ -22,19 +24,25 @@ namespace CriThink.Client.Core.ViewModels.Users
         #region Properties
 
         private string _emailOrUsername;
-
         public string EmailOrUsername
         {
             get => _emailOrUsername;
-            set => SetProperty(ref _emailOrUsername, value);
+            set
+            {
+                SetProperty(ref _emailOrUsername, value);
+                RaisePropertyChanged(() => LoginCommand);
+            }
         }
 
         private string _password;
-
         public string Password
         {
             get => _password;
-            set => SetProperty(ref _password, value);
+            set
+            {
+                SetProperty(ref _password, value);
+                RaisePropertyChanged(() => LoginCommand);
+            }
         }
 
         #endregion
@@ -42,7 +50,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         #region Commands
 
         private IMvxAsyncCommand _loginCommand;
-        public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand);
+        public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand, () => !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(EmailOrUsername));
 
         private IMvxAsyncCommand _navigateToHomeCommand;
         public IMvxAsyncCommand NavigateToHomeCommand => _navigateToHomeCommand ??= new MvxAsyncCommand(DoNavigateToHomeCommand);
@@ -65,9 +73,15 @@ namespace CriThink.Client.Core.ViewModels.Users
             else
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
-            await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
-
-            await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+            var userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
+            if (userInfo == null)
+            {
+                await ShowErrorMessage("Incorrect email address or password. Please check and try again").ConfigureAwait(false);
+            }
+            else
+            {
+                await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+            }
         }
 
         private async Task DoNavigateToHomeCommand()

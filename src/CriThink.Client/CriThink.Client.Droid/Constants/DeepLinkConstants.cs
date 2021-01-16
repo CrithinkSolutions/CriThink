@@ -11,5 +11,7 @@ namespace CriThink.Client.Droid.Constants
         public const string SchemaHost = "crithink.com";
 
         public const string SchemaPrefixResetPassword = EndpointConstants.ApiBase + EndpointConstants.IdentityBase + EndpointConstants.IdentityResetPassword;
+
+        public const string SchemaPrefixEmailConfirmation = EndpointConstants.ApiBase + EndpointConstants.IdentityBase + EndpointConstants.IdentityConfirmEmail;
     }
 }

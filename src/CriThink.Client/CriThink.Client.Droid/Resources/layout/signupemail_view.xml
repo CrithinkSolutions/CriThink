@@ -1,97 +1,135 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/root">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/root">
 
-  <!--TODO: change icon-->
-  <androidx.appcompat.widget.AppCompatImageView android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:id="@+id/imgTopImg"
-                                                android:src="@drawable/signup_background"
-                                                android:adjustViewBounds="true" />
+  <androidx.core.widget.NestedScrollView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingLeft="@dimen/padding_page"
+    android:paddingRight="@dimen/padding_page"
+    android:id="@+id/scrollViewer"
+    android:fillViewport="true">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_centerVertical="true"
-    android:layout_marginTop="@dimen/margin_big"
-    android:padding="@dimen/padding_page">
-
-    <!-- Email -->
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/signupemail_email"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+      android:id="@+id/viewInnerLayout"
+      android:scrollbars="vertical">
 
-      <com.google.android.material.textfield.TextInputEditText
+      <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
+                                                    android:layout_height="@dimen/imgSize_bigLogo"
+                                                    android:id="@+id/imgTopImg"
+                                                    app:layout_constraintTop_toTopOf="parent"
+                                                    app:layout_constraintLeft_toLeftOf="parent"
+                                                    app:layout_constraintRight_toRightOf="parent"
+                                                    android:layout_marginTop="@dimen/margin_veryBig"
+                                                    android:src="@drawable/ic_text_logo" />
+
+      <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtInput_email"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textEmailAddress"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/padding_page">
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <!-- Email -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtEditEmail"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:hint="@string/signupemail_email"
+          android:layout_marginTop="@dimen/margin_mini"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInput_email"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Username -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/signupemail_username"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Username -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtEditUsername"
+          app:layout_constraintTop_toBottomOf="@id/txtEditEmail"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:hint="@string/signupemail_username"
+          android:layout_marginTop="@dimen/margin_mini"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInput_username"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-      <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtInput_username"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textEmailAddress"/>
+        <!-- Password -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtEditPassword"
+          app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:hint="@string/signupemail_password"
+          app:passwordToggleEnabled="true"
+          android:layout_marginTop="@dimen/margin_mini"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInput_password"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <!-- Repeat Password -->
+        <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtEditRepeatPassword"
+          app:layout_constraintTop_toBottomOf="@id/txtEditPassword"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:hint="@string/signupemail_repeatPassword"
+          app:passwordToggleEnabled="true"
+          android:layout_marginTop="@dimen/margin_mini"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+          <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInput_repeatPassword"
+            android:fontFamily="@font/urbanist"
+            android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Password -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/signupemail_password"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/txtEditRepeatPassword"
+          android:id="@+id/btn_signUp"
+          android:text="@string/signupemail_signUp"
+          android:elevation="@dimen/btn_elevation"
+          android:layout_marginTop="@dimen/margin_big"
+          android:fontFamily="@font/urbanist"/>
 
-      <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtInput_password"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textPassword"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Repeat Password -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/signupemail_repeatPassword"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-      <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtInput_repeatPassword"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textPassword"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btn_signUp"
-      android:text="@string/signupemail_signUp"
-      android:elevation="@dimen/btn_elevation"
-      android:textAllCaps="false"
-      android:fontFamily="@font/urbanist"/>
-
-  </LinearLayout>
-
-</RelativeLayout>
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
