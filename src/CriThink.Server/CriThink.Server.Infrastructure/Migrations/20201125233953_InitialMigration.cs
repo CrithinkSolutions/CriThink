@@ -18,6 +18,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     title = table.Column<string>(type: "text", nullable: true),
                     publishing_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     link = table.Column<string>(type: "text", nullable: true),
+                    image_link = table.Column<string>(type: "text", nullable: true),
                     news_caption = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     publisher_name = table.Column<string>(type: "text", nullable: true),
                     keywords = table.Column<string>(type: "text", nullable: true)

@@ -26,7 +26,8 @@ namespace CriThink.Server.Web.Facades
                 Caption = viewModel.Caption,
                 Link = viewModel.Link,
                 Keywords = viewModel.Keywords,
-                Title = viewModel.Title
+                Title = viewModel.Title,
+                ImageLink = viewModel.ImageLink
             };
 
             await _debunkingNewsService.AddDebunkingNewsAsync(request).ConfigureAwait(false);

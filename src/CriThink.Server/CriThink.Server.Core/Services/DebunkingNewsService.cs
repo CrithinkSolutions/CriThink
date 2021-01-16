@@ -45,7 +45,7 @@ namespace CriThink.Server.Core.Services
 
             var keywords = await GetNewsKeywordsAsync(scrapedNews).ConfigureAwait(false);
 
-            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request.Title, request.Caption, request.Keywords);
+            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request.Title, request.Caption, request.ImageLink, request.Keywords);
 
             var command = new CreateDebunkingNewsCommand(new[] { entity });
             var _ = await _mediator.Send(command).ConfigureAwait(false);
@@ -172,7 +172,7 @@ namespace CriThink.Server.Core.Services
                         var keywords = await GetNewsKeywordsAsync(scrapedNews)
                             .ConfigureAwait(false);
 
-                        var entity = BuildDebunkingNewsEntity(scrapedNews, keywords);
+                        var entity = BuildDebunkingNewsEntity(scrapedNews: scrapedNews, keywords: keywords, imageLink: response.ImageLink);
 
                         debunkedNewsCollection.Add(entity);
                     }
@@ -193,7 +193,7 @@ namespace CriThink.Server.Core.Services
             _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
 
         private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords,
-            string customTitle = null, string customCaption = null, IReadOnlyCollection<string> customKeywords = null)
+            string customTitle = null, string customCaption = null, string imageLink = null, IReadOnlyCollection<string> customKeywords = null)
         {
             var allKeywords = customKeywords != null && customKeywords.Any() ?
                 keywords.Union(customKeywords).ToList().AsReadOnly() :
@@ -205,7 +205,8 @@ namespace CriThink.Server.Core.Services
                 Link = scrapedNews.RequestedUri.AbsoluteUri,
                 NewsCaption = customCaption ?? scrapedNews.GetCaption(),
                 PublisherName = scrapedNews.WebSiteName,
-                Title = customTitle ?? scrapedNews.Title
+                Title = customTitle ?? scrapedNews.Title,
+                ImageLink = imageLink
             };
 
             if (scrapedNews.Date.HasValue)

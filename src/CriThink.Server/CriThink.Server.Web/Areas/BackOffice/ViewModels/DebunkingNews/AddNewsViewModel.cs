@@ -17,6 +17,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews
         public string Link { get; set; }
 
         [Required]
+        [Url]
+        public string ImageLink { get; set; }
+
+        [Required]
         public IReadOnlyCollection<string> Keywords { get; set; }
 
         public string Message { get; set; }
