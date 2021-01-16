@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -73,8 +74,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _signUpCommand;
         public IMvxAsyncCommand SignUpCommand => _signUpCommand ??= new MvxAsyncCommand(DoSignUpCommand, () =>
-            !string.IsNullOrWhiteSpace(Email) &&
+            EmailHelper.IsEmail(Email) &&
             !string.IsNullOrWhiteSpace(Username) &&
+            !string.IsNullOrWhiteSpace(Password) &&
             string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture));
 
         private async Task DoSignUpCommand(CancellationToken cancellationToken)
