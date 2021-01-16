@@ -46,5 +46,7 @@ namespace CriThink.Client.Core.Services
         public Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken) =>
             _identityService.PerformSignUpAsync(request, cancellationToken);
 
+        public Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code) =>
+            _identityService.ConfirmUserEmailAsync(userId, code);
     }
 }

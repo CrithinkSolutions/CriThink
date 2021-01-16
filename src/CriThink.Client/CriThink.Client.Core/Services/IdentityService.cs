@@ -133,14 +133,48 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var signupResponse = await _restRepository.MakeRequestAsync<UserSignUpResponse>(
-                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
-                    HttpRestVerb.Post,
-                    request,
-                    cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                return await _restRepository.MakeRequestAsync<UserSignUpResponse>(
+                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
+                        HttpRestVerb.Post,
+                        request,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the sign in", ex, request);
+                return null;
+            }
+        }
 
-            return signupResponse;
+        public async Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentNullException(nameof(userId));
+
+            if (string.IsNullOrWhiteSpace(code))
+                throw new ArgumentNullException(nameof(code));
+
+            try
+            {
+                var request = new EmailConfirmationRequest
+                {
+                    Code = code,
+                    UserId = Guid.Parse(userId)
+                };
+
+                return await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
+                    $"{EndpointConstants.IdentityBase}{EndpointConstants.Mobile}{EndpointConstants.IdentityConfirmEmail}",
+                    HttpRestVerb.Post,
+                    request).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the email confirmation", ex, userId);
+                return null;
+            }
         }
     }
 
@@ -187,5 +221,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Registration response data</returns>
         Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Verify user email
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="code">Code contained into the email</param>
+        /// <returns>UserInfo and the token</returns>
+        Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code);
     }
 }

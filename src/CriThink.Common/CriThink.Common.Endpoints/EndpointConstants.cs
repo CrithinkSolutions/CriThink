@@ -3,6 +3,7 @@
     public sealed class EndpointConstants
     {
         public const string ApiBase = "api/";
+        public const string Mobile = "mobile/";
 
         #region Versioning
 
