@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/activity_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minWidth="25px"
-                android:minHeight="25px">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/activity_main"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:minWidth="25px"
+  android:minHeight="25px">
+
   <FrameLayout
     android:id="@+id/tabs_container_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/bottom_navigation" />
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottom_navigation"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_gravity="bottom"
     android:background="?android:attr/windowBackground"
     android:fitsSystemWindows="true"
     app:itemIconTint="@drawable/tab_color"
@@ -24,4 +30,4 @@
     app:labelVisibilityMode="labeled"
     android:elevation="10dp"
     app:menu="@menu/bottom_navigation"/>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
