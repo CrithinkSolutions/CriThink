@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
@@ -27,7 +29,40 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                await _dbContext.DebunkingNews.AddRangeAsync(request.DebunkingNewsCollection, cancellationToken).ConfigureAwait(false);
+                foreach (var news in request.DebunkingNewsCollection)
+                {
+                    var sqlQuery = "INSERT INTO debunking_news\n" +
+                        "(id, title, publishing_date, link, news_caption, publisher_name, keywords, image_link)\n" +
+                        "VALUES\n" +
+                        "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})\n" +
+                        "ON CONFLICT (link)\n" +
+                        "DO UPDATE\n" +
+                        "SET\n" +
+                        "title = EXCLUDED.title,\n" +
+                        "news_caption = EXCLUDED.news_caption,\n" +
+                        "image_link = EXCLUDED.image_link,\n" +
+                        "keywords = EXCLUDED.keywords;";
+
+                    var id = new NpgsqlParameter("id", Guid.NewGuid());
+                    var title = new NpgsqlParameter("title", news.Title);
+                    var publishingDate = new NpgsqlParameter("publishing_date", news.PublishingDate);
+                    var link = new NpgsqlParameter("link", news.Link);
+                    var newsCaption = new NpgsqlParameter("news_caption", news.NewsCaption);
+                    var publisherName = new NpgsqlParameter("publisher_name", news.PublisherName);
+                    var keywords = new NpgsqlParameter("keywords", news.Keywords);
+                    var imageLink = new NpgsqlParameter("image_link", news.ImageLink);
+
+                    _dbContext.Database.ExecuteSqlRaw(sqlQuery,
+                         id,
+                         title,
+                         publishingDate,
+                         link,
+                         newsCaption,
+                         publisherName,
+                         keywords,
+                         imageLink);
+                }
+
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
