@@ -9,7 +9,7 @@ using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class ResetPasswordViewModel : MvxViewModel
+    public class ResetPasswordViewModel : BaseViewModel
     {
         private readonly IIdentityService _identityService;
         private readonly IMvxNavigationService _navigationService;

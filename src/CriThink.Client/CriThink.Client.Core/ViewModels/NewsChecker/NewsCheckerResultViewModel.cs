@@ -2,11 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
-    public class NewsCheckerResultViewModel : MvxViewModel<Uri>, IDisposable
+    public class NewsCheckerResultViewModel : BaseViewModel<Uri>, IDisposable
     {
         private readonly INewsSourceService _newsSourceService;
         private Uri _uri;

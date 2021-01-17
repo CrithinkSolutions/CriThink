@@ -3,11 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
-    public class DebunkingNewsDetailsViewModel : MvxViewModel<string>, IDisposable
+    public class DebunkingNewsDetailsViewModel : BaseViewModel<string>, IDisposable
     {
         private readonly IDebunkingNewsService _debunkingNewsService;
 

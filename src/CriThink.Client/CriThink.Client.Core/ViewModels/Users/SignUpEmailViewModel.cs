@@ -7,11 +7,10 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class SignUpEmailViewModel : MvxViewModel
+    public class SignUpEmailViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
