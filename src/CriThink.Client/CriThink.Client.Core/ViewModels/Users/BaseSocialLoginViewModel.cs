@@ -5,11 +5,10 @@ using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class BaseSocialLoginViewModel : MvxViewModel
+    public class BaseSocialLoginViewModel : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
         private readonly ILogger<BaseSocialLoginViewModel> _logger;

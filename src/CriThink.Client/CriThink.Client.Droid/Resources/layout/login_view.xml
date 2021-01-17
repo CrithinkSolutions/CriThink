@@ -47,8 +47,7 @@
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintBottom_toTopOf="@id/txtInput_email"
-          android:id="@+id/btnJump"
-          android:text="Jump (DEBUG)"/>
+          android:id="@+id/btnJump"/>
 
         <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout

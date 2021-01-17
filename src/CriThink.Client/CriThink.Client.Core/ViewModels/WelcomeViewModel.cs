@@ -3,11 +3,10 @@ using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Users;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels
 {
-    public class WelcomeViewModel : MvxViewModel
+    public class WelcomeViewModel : BaseViewModel
     {
         public WelcomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IPlatformService platformService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
         {

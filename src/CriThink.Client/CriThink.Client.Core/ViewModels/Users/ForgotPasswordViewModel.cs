@@ -5,11 +5,10 @@ using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class ForgotPasswordViewModel : MvxViewModel
+    public class ForgotPasswordViewModel : BaseViewModel
     {
         private readonly IIdentityService _identityService;
 

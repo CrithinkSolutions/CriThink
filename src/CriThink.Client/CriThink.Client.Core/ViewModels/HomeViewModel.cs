@@ -10,18 +10,16 @@ using CriThink.Client.Core.ViewModels.SpotFakeNews;
 using CriThink.Client.Core.ViewModels.Users;
 using MvvmCross;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels
 {
-    public class HomeViewModel : MvxNavigationViewModel
+    public class HomeViewModel : BaseViewModel
     {
+        private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
 
-        public HomeViewModel(IMvxNavigationService navigationService, IMvxLogProvider logProvider, IIdentityService identityService)
-            : base(logProvider, navigationService)
+        public HomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
         {
             var tabs = new List<BaseBottomViewViewModel>
             {
@@ -33,6 +31,7 @@ namespace CriThink.Client.Core.ViewModels
 
             BottomViewTabs = tabs;
 
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
@@ -52,7 +51,7 @@ namespace CriThink.Client.Core.ViewModels
             var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
             if (user is null)
             {
-                await NavigationService.Navigate<SignUpViewModel>().ConfigureAwait(true);
+                await _navigationService.Navigate<SignUpViewModel>().ConfigureAwait(true);
             }
         }
 
@@ -60,7 +59,7 @@ namespace CriThink.Client.Core.ViewModels
         {
             foreach (var item in BottomViewTabs.Where(item => tabId == item.TabId))
             {
-                NavigationService.Navigate(item);
+                _navigationService.Navigate(item);
                 break;
             }
         }

@@ -4,6 +4,7 @@ using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using Google.Android.Material.TextField;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 // ReSharper disable once CheckNamespace
@@ -43,6 +44,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             set.Bind(btnLogin).To(vm => vm.LoginCommand);
             set.Bind(btnForgotPassword).To(vm => vm.NavigateToForgotPasswordCommand);
+            set.Bind(btnJump).For(v => v.Text).ToLocalizationId("Jump");
             set.Bind(btnJump).To(vm => vm.NavigateToHomeCommand);
 
             set.Apply();
