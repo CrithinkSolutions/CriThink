@@ -8,14 +8,14 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
         public DebunkingNewsResponse(string title, string link, string imageLink, DateTimeOffset publishingDate)
         {
             Title = title;
-            Link = link;
+            Link = new Uri(link);
             ImageLink = imageLink;
             PublishingDate = publishingDate.DateTime;
         }
 
         public string Title { get; }
 
-        public string Link { get; }
+        public Uri Link { get; }
 
         public DateTime PublishingDate { get; }
 

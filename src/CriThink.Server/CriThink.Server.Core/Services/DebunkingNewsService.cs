@@ -186,8 +186,8 @@ namespace CriThink.Server.Core.Services
             return debunkedNewsCollection;
         }
 
-        private Task<NewsScraperProviderResponse> ScrapeNewsAsync(string link) =>
-            _newsScraperManager.ScrapeNewsWebPage(new Uri(link));
+        private Task<NewsScraperProviderResponse> ScrapeNewsAsync(Uri link) =>
+            _newsScraperManager.ScrapeNewsWebPage(link);
 
         private Task<IReadOnlyList<string>> GetNewsKeywordsAsync(NewsScraperProviderResponse scrapedNews) =>
             _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
