@@ -3,15 +3,17 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210117003358_[DebunkingNews] Add ImageLink")]
+    partial class DebunkingNewsAddImageLink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,10 +59,6 @@ namespace CriThink.Server.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_debunking_news");
-
-                    b.HasIndex("Link")
-                        .IsUnique()
-                        .HasDatabaseName("ix_debunking_news_link");
 
                     b.ToTable("debunking_news");
                 });
@@ -271,7 +269,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4144e09-2e39-4788-83fc-77e89caaa123",
+                            ConcurrencyStamp = "30b63915-ed37-418d-8982-22e80354b267",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -319,7 +317,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
-                            ConcurrencyStamp = "b699027a-4237-4aeb-91bf-acc9ea577d46",
+                            ConcurrencyStamp = "3855861b-a901-450e-978c-482ee7659a83",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

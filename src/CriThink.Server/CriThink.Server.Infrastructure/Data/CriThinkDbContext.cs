@@ -133,6 +133,10 @@ namespace CriThink.Server.Infrastructure.Data
                     enumValue => enumValue.ToString(),
                     stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
                 );
+
+            builder.Entity<DebunkingNews>()
+                .HasIndex(dn => dn.Link)
+                .IsUnique();
         }
 
         private static TEnum GetEnumValue<TEnum>(string value)

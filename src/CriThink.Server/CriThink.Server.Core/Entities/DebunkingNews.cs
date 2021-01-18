@@ -15,6 +15,8 @@ namespace CriThink.Server.Core.Entities
 
         public string Link { get; set; }
 
+        public string ImageLink { get; set; }
+
         [MaxLength(500)]
         public string NewsCaption { get; set; }
 

@@ -61,6 +61,7 @@ namespace CriThink.Client.Droid.Views.Users
                 LoginManager.Instance.LogInWithReadPermissions(this, new[] { "email", "public_profile" });
         }
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         private void InitFacebookCallbacks()
         {
             _callbackManager = CallbackManagerFactory.Create();
@@ -69,9 +70,7 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 HandleSuccess = loginResult =>
                 {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     ViewModel.PerformLoginSignInAsync(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 },
                 HandleCancel = () =>
                 {
@@ -79,12 +78,13 @@ namespace CriThink.Client.Droid.Views.Users
                 },
                 HandleError = loginError =>
                 {
-                    //Handle Error
+                    ViewModel.ShowErrorMessage("An error occurred when logging with Facebook");
                 }
             };
 
             LoginManager.Instance.RegisterCallback(_callbackManager, loginCallback);
         }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         #endregion
 

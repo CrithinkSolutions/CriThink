@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Handlers;
+using CriThink.Client.Core.Localization;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Services;
 using CriThink.Common.HttpRepository;
@@ -11,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;
 using MvvmCross.IoC;
+using MvvmCross.Localization;
+using MvvmCross.Plugin.ResxLocalization;
 using MvvmCross.ViewModels;
 using Polly;
 
@@ -31,6 +35,11 @@ namespace CriThink.Client.Core
 
         private static void InitializeInternalServices()
         {
+            Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
+
+            // Resx
+            Mvx.IoCProvider.RegisterSingleton<IMvxTextProvider>(new MvxResxTextProvider(AppResources.ResourceManager));
+
             // Repo
             Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();

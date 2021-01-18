@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class WelcomeLoginSignInViewModel : MvxViewModel
+    public class WelcomeLoginSignInViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IPlatformService _platformService;

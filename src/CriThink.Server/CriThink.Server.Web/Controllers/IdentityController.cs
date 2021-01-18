@@ -1,10 +1,10 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Amazon.SecretsManager.Model;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -116,6 +116,47 @@ namespace CriThink.Server.Web.Controllers
             }
 
             return View("EmailConfirmation", result);
+        }
+
+        [AllowAnonymous]
+        [Route(EndpointConstants.Mobile + EndpointConstants.IdentityConfirmEmail)] // api/identity/mobile/confirm-email
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
+        {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            if (string.IsNullOrWhiteSpace(dto.Code))
+                return BadRequest("Code can't be null");
+
+            string decodedCode;
+            try
+            {
+                decodedCode = Base64Helper.FromBase64(dto.Code);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("The given code is not valid");
+            }
+
+            try
+            {
+                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), decodedCode).ConfigureAwait(false);
+                return Ok(new ApiOkResponse(userInfo));
+            }
+            catch (IdentityOperationException ex)
+            {
+                _logger?.LogError(ex, "Error confirming email from mobile");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error confirming email from mobile");
+                return BadRequest();
+            }
         }
 
         /// <summary>

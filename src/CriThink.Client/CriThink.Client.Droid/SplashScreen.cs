@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Acr.UserDialogs;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using MvvmCross.Platforms.Android.Views;
@@ -20,6 +21,7 @@ namespace CriThink.Client.Droid
         {
             base.OnCreate(bundle);
             Xamarin.Essentials.Platform.Init(this, bundle);
+            UserDialogs.Init(this);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

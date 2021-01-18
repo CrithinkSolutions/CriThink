@@ -21,6 +21,11 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         public string Link { get; set; }
 
         [Required]
+        [Url]
+        [JsonPropertyName("imageLink")]
+        public string ImageLink { get; set; }
+
+        [Required]
         [JsonPropertyName("keywords")]
         public IReadOnlyCollection<string> Keywords { get; set; }
     }
