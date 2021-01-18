@@ -15,7 +15,7 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
             HasNextPage = hasNextPage;
         }
 
-        [JsonPropertyName("debunkingNews")]
+        [JsonPropertyName("logCollection")]
         public IReadOnlyCollection<TriggerLogGetResponse> LogsCollection { get; set; }
 
         [JsonPropertyName("hasNextPage")]
