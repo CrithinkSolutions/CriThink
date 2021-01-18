@@ -10,11 +10,11 @@ namespace CriThink.Client.Droid
         Label = "CriThink.Client.Droid"
         , MainLauncher = true
         , NoHistory = true
+        , Theme = "@style/SplashTheme"
         , ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreen : MvxSplashScreenActivity
     {
         public SplashScreen()
-            : base(Resource.Layout.SplashScreen)
         { }
 
         protected override void OnCreate(Bundle bundle)
