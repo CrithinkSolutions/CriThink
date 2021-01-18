@@ -20,9 +20,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     {
         private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
 
-        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsService)
+        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsServiceFacade)
         {
-            _debunkingNewsServiceFacade = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _debunkingNewsServiceFacade = debunkingNewsServiceFacade ?? throw new ArgumentNullException(nameof(debunkingNewsServiceFacade));
         }
 
         /// <summary>
