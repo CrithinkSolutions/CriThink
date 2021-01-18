@@ -16,7 +16,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
     internal class OpenOnlineFetcher : BaseFetcher
     {
-        private const string ImagePattern = "(http|https)://www.open.online/wp-content/uploads/\\d{4}/\\d{2}/(.+?)\"";
+        private const string ImagePattern = "(http|https):\\/\\/www.open.online\\/wp-content\\/uploads\\/\\d{4}\\/\\d{2}\\/(.+)\\.(\\w{2,4})";
 
         private readonly ILogger<OpenOnlineFetcher> _logger;
         private readonly HttpClient _httpClient;
@@ -94,7 +94,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             {
                 foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
                 {
-                    //if (!FeedCategories.Contains(categoryName)) continue;
+                    if (!FeedCategories.Contains(categoryName)) continue;
 
                     var imageUri = GetNewsImageFromFeed(item);
                     list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, imageUri, item.PublishDate));
