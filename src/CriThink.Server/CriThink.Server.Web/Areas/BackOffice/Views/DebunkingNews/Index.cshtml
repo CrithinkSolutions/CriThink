@@ -38,7 +38,7 @@
                         <i class="fas fa-ellipsis-h"></i>
                     </a >
                     <div class="dropdown-menu">
-                        <a id="mDelete" class="dropdown-item" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
+                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
                     </div>
                 </td>
             </tr>
@@ -97,9 +97,7 @@
       @Html.AntiForgeryToken()
     }
 
-    <!-- HasNextPage -->
     <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
-    <!-- /HasNextPage -->
     
 </div>
 
@@ -156,14 +154,14 @@
 
         let newsId = '';
 
-        $('#mDelete').click(function(){
+        $('.mDelete').click(function(){
             newsId = $(this).data('id');
             $('#nameNews').html($(this).data('title'));
         });
 
         $('#sureDelete').click(function(){
             let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@Url.RouteUrl("RemoveNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+            $.post('@Url.Action("RemoveNews", "DebunkingNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
                 $('#message').addClass('alert alert-success').html('News removed!');
             })

@@ -49,18 +49,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Returns the remove debunking news page
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsViewAsync(SimplePaginationViewModel viewModel)
-        {
-            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
-            return View("RemoveNewsView", news);
-        }
-
-        /// <summary>
         /// Add debunking news
         /// </summary>
         /// <returns></returns>
@@ -95,7 +83,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("remove-news", Name = "RemoveNews")]
+        [Route("remove-news")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
