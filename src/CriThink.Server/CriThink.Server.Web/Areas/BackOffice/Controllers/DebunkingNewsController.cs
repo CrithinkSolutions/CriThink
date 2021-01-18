@@ -49,18 +49,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Returns the remove debunking news page
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsViewAsync(SimplePaginationViewModel viewModel)
-        {
-            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
-            return View("RemoveNewsView", news);
-        }
-
-        /// <summary>
         /// Add debunking news
         /// </summary>
         /// <returns></returns>
@@ -98,6 +86,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("remove-news")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
             try
             {
                 if (ModelState.IsValid)
@@ -105,7 +96,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                     await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 }
 
-                return RedirectToAction("RemoveNewsViewAsync");
+                return RedirectToAction("Index");
             }
             catch (ResourceNotFoundException)
             {
