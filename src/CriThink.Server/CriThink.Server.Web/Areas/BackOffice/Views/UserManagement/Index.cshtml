@@ -8,7 +8,6 @@
 @section hasSidebar 
 {
 
-<!-- Sidebar -->
 <div class="border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
@@ -16,23 +15,18 @@
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetAdmin" class="list-group-item list-group-item-action bg-light">Admins</a>
     </div>
 </div>
-<!-- /#sidebar-wrapper -->
 
 <div class="p-4 text-center m-4 w-100">
 
     <div id="toolbox" class="border p-2 mb-2">
-        <button class="btn btn-success"><i class="fas fa-plus"></i></button>
-        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-        <button class="btn btn-info"><i class="fas fa-info-circle"></i></button>
-        <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="AddUserView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
     </div>
 
-    <table class="w-100" id="tableUser" data-click-to-select="true" data-search="true" data-height="400" data-show-columns="true" data-loading-template="loadingTemplate">
+    <table class="table mb-3" id="featureT">
         <thead>
             <tr>
-                <th class="d-none" data-field="state" data-radio="true"></th>
-                <th data-field="username">Username</th>
-                <th data-field="role" data-sortable="true">Role</th>
+                <th>Username</th>
+                <th>Role</th>
             </tr>
         </thead>
         @foreach(var user in Model.Users) 
@@ -45,11 +39,18 @@
                         <span class="mr-1">@role</span>
                     }
                 </td>
+                <td style="width:6%">
+                    <a type="button" data-toggle="dropdown">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a >
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Remove user</a>
+                    </div>
+                </td>
             </tr>
         }
     </table>
 
-    <!-- PageIndex nav -->
     <nav>
       <ul class="pagination justify-content-center">
         <li id="prevPage" class="page-item">
@@ -65,9 +66,7 @@
         </li>
       </ul>
     </nav>
-    <!-- PageIndex nav -->
 
-    <!-- PageSize nav -->
     <small>User for page</small>
     <nav>
       <ul id="pageSizenav" class="pagination justify-content-center">
@@ -76,7 +75,6 @@
         <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
       </ul>
     </nav>
-    <!-- PageSize nav -->
 
 </div>
 
