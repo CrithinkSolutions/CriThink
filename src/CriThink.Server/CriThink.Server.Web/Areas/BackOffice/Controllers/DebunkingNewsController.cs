@@ -20,9 +20,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     {
         private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
 
-        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsService)
+        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsServiceFacade)
         {
-            _debunkingNewsServiceFacade = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _debunkingNewsServiceFacade = debunkingNewsServiceFacade ?? throw new ArgumentNullException(nameof(debunkingNewsServiceFacade));
         }
 
         /// <summary>
@@ -46,18 +46,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         public ActionResult AddNewsView()
         {
             return View("AddNewsView", new AddNewsViewModel());
-        }
-
-        /// <summary>
-        /// Returns the remove debunking news page
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("remove-news")]
-        public async Task<IActionResult> RemoveNewsViewAsync(SimplePaginationViewModel viewModel)
-        {
-            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
-            return View("RemoveNewsView", news);
         }
 
         /// <summary>
@@ -98,6 +86,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("remove-news")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
             try
             {
                 if (ModelState.IsValid)
@@ -105,7 +96,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                     await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 }
 
-                return RedirectToAction("RemoveNewsViewAsync");
+                return RedirectToAction("Index");
             }
             catch (ResourceNotFoundException)
             {

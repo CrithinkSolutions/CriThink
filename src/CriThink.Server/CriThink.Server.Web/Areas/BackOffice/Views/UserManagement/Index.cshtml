@@ -60,8 +60,8 @@
           </a>
         </li>
         <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-        <li class="page-item">
-          <a id="nextPage" class="page-link pointer" aria-label="Next">
+        <li id="nextPage" class="page-item">
+          <a class="page-link pointer" aria-label="Next">
             <span>Next</span>
           </a>
         </li>
@@ -76,6 +76,8 @@
         <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
       </ul>
     </nav>
+
+    <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
 
 </div>
 
@@ -94,13 +96,17 @@
             }
 
             let url = '@Url.Action("Index", "UserManagement")'.concat('?PageSize='+pageSize+'&PageIndex=');
-            $('#nextPage').attr('href',url+(pageIndex+1));
+            $('#nextPage').children().attr('href',url+(pageIndex+1));
             $('#prevPage').children().attr('href',url+(pageIndex-1));
 
             $('#currentPage').html(pageIndex);
 
             if (pageIndex == 1) {
                 $('#prevPage').toggleClass('disabled');
+            }
+            
+            if ($('#hasNextPage').text() == 'False') {
+                $('#nextPage').toggleClass('disabled');
             }
 
             function GetParameterValues(param) {
