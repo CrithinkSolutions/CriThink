@@ -47,18 +47,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             var roles = await _userManagementServiceFacade.GetAllRolesAsync().ConfigureAwait(false);
             return View("RoleView", roles);
         }
-
-        /// <summary>
-        /// Returns the admin management section
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("user-management/admins")]
-        public IActionResult GetAdmin()
-        {
-            return View("AdminView");
-        }
-
+        
         /// <summary>
         /// Returns the add user view
         /// </summary>
