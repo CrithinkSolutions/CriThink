@@ -13,6 +13,8 @@ namespace CriThink.Server.Web.Facades
         Task<IList<RoleGetResponse>> GetAllRolesAsync();
 
         Task CreateNewUserAsync(AddUserViewModel viewModel);
+
+        Task CreateNewAdminAsync(AddUserViewModel viewModel);
     }
 
 }

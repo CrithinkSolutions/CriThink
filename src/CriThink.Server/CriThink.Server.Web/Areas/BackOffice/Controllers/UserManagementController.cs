@@ -60,7 +60,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Returns the user management section
+        /// Returns the add user view
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -71,7 +71,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Returns the user management section
+        /// Make a new user
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -91,6 +91,46 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 await _userManagementServiceFacade.CreateNewUserAsync(viewModel).ConfigureAwait(false);
                 viewModel.Message = "User Added!";
+                return View("AddUserView", viewModel);
+            }
+            catch(ResourceNotFoundException)
+            {
+               return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Returns the add admin view
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("user-management/add-admin")]
+        public IActionResult AddAdminView()
+        {
+            return View("AddAdminView", new AddUserViewModel());
+        }
+
+        /// <summary>
+        /// Make a new admin user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("user-management/add-admin")]
+        public async Task<IActionResult> AddAdminAsync(AddUserViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+            {
+                return View("AddUserView", viewModel);
+            }
+
+            try
+            {
+                await _userManagementServiceFacade.CreateNewAdminAsync(viewModel).ConfigureAwait(false);
+                viewModel.Message = "Admin Added!";
                 return View("AddUserView", viewModel);
             }
             catch(ResourceNotFoundException)

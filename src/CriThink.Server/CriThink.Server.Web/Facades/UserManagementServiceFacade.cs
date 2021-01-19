@@ -51,5 +51,20 @@ namespace CriThink.Server.Web.Facades
             
             await _identityService.CreateNewUserAsync(request).ConfigureAwait(false);
         }
+
+        public async Task CreateNewAdminAsync(AddUserViewModel viewModel) 
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new AdminSignUpRequest
+            {
+                UserName = viewModel.UserName,
+                Email = viewModel.Email,
+                Password = viewModel.Password
+            };
+            
+            await _identityService.CreateNewAdminAsync(request).ConfigureAwait(false);
+        }
     }
 }

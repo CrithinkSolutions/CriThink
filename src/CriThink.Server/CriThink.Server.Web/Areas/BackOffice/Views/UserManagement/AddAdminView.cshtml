@@ -1,0 +1,45 @@
+@model CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement.AddUserViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Add Admin";
+}
+
+<div class="p-4 text-center m-4 mw-100">
+    <h3 class="mb-3">Add Admin</h3>
+    @using(Html.BeginForm("AddAdmin", "UserManagement", FormMethod.Post)) 
+    {
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Username</span>
+            </div>
+            <input asp-for="UserName" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Email</span>
+            </div>
+            <input asp-for="Email" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Password</span>
+            </div>
+            <input asp-for="Password" type="password" class="form-control">
+        </div>
+
+        @if (Model.Message != null) 
+        {
+            <div class="alert alert-success">@Model.Message</div>
+        }
+
+        @if(!Html.ViewData.ModelState.IsValid) 
+        {
+            @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
+        }
+
+        <button class="btn btn-success btn-block" type="submit" ><i class="fas fa-plus"></i></button>
+    }
+</div>
