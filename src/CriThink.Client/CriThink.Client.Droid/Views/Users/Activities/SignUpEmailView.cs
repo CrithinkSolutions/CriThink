@@ -4,9 +4,11 @@ using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
+using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
+using MvvmCross.Plugin.Visibility;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -32,6 +34,7 @@ namespace CriThink.Client.Droid.Views.Users
             var password = FindViewById<TextInputEditText>(Resource.Id.txtInput_password);
             var repeatPassword = FindViewById<TextInputEditText>(Resource.Id.txtInput_repeatPassword);
             var btnSignUp = FindViewById<AppCompatButton>(Resource.Id.btn_signUp);
+            var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
 
             var set = CreateBindingSet();
 
@@ -40,6 +43,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(password).To(vm => vm.Password);
             set.Bind(repeatPassword).To(vm => vm.RepeatPassword);
             set.Bind(btnSignUp).To(vm => vm.SignUpCommand);
+            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
 
             set.Apply();
 

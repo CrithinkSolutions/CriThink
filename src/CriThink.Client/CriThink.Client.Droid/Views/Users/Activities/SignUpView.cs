@@ -3,7 +3,9 @@ using Android.App;
 using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
+using CriThink.Client.Droid.Controls;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.Plugin.Visibility;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -31,11 +33,13 @@ namespace CriThink.Client.Droid.Views.Users
 
             var btnSignUpEmail = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
+            var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
 
             var set = CreateBindingSet();
 
             set.Bind(btnSignUpEmail).To(vm => vm.NavigateToSignUpEmailCommand);
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
+            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
 
             set.Apply();
         }
