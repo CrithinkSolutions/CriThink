@@ -22,6 +22,7 @@
   <dimen name="btn_radius">20dp</dimen>
 
   <!-- Dimensions -->
+  <dimen name="imgSize_loader">56dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
   <dimen name="imgSize_bigLogo">180dp</dimen>
   
