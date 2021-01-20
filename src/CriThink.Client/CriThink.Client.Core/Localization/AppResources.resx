@@ -120,4 +120,22 @@
   <data name="LoginViewModel.Jump" xml:space="preserve">
     <value>Skip (DEBUG)</value>
   </data>
+  <data name="NewsCheckerViewModel.GoodAfternoon" xml:space="preserve">
+    <value>Good afternoon</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodEvening" xml:space="preserve">
+    <value>Good evening</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodMorning" xml:space="preserve">
+    <value>Good morning</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodNight" xml:space="preserve">
+    <value>Good night</value>
+  </data>
+  <data name="NewsCheckerViewModel.Motto" xml:space="preserve">
+    <value>USE THE HEAD TODAY</value>
+  </data>
+  <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
+    <value>Which news do you want to check?</value>
+  </data>
 </root>

@@ -68,5 +68,59 @@ namespace CriThink.Client.Core.Localization {
                 return ResourceManager.GetString("LoginViewModel.Jump", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good afternoon.
+        /// </summary>
+        internal static string NewsCheckerViewModel_GoodAfternoon {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.GoodAfternoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good evening.
+        /// </summary>
+        internal static string NewsCheckerViewModel_GoodEvening {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.GoodEvening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good morning.
+        /// </summary>
+        internal static string NewsCheckerViewModel_GoodMorning {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.GoodMorning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good night.
+        /// </summary>
+        internal static string NewsCheckerViewModel_GoodNight {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.GoodNight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE THE HEAD TODAY.
+        /// </summary>
+        internal static string NewsCheckerViewModel_Motto {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.Motto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Which news do you want to check?.
+        /// </summary>
+        internal static string NewsCheckerViewModel_NewsLinkHint {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
     }
 }

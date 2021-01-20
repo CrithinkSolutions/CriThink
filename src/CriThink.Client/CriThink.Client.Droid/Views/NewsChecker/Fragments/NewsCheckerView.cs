@@ -4,7 +4,7 @@ using Android.Views;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
-using Google.Android.Material.TextField;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -22,13 +22,20 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var view = this.BindingInflate(Resource.Layout.newschecker_view, null);
 
-            var txtInputUri = view.FindViewById<TextInputEditText>(Resource.Id.txtInput_uri);
-            var btnCheckUri = view.FindViewById<AppCompatButton>(Resource.Id.btn_CheckUri);
+            var txtWelcome = view.FindViewById<AppCompatTextView>(Resource.Id.txtWelcome);
+            var txtName = view.FindViewById<AppCompatTextView>(Resource.Id.txtName);
+            var txtMotto = view.FindViewById<AppCompatTextView>(Resource.Id.txtMotto);
+            var txtDate = view.FindViewById<AppCompatTextView>(Resource.Id.txtDate);
+            var btnNews = view.FindViewById<AppCompatButton>(Resource.Id.btnNews);
 
             var set = CreateBindingSet();
 
-            set.Bind(txtInputUri).To(vm => vm.News);
-            set.Bind(btnCheckUri).To(vm => vm.CheckNewsCommand);
+            set.Bind(txtWelcome).To(vm => vm.WelcomeText);
+            set.Bind(txtName).To(vm => vm.Username);
+            set.Bind(txtMotto).ToLocalizationId("Motto");
+            set.Bind(txtDate).To(vm => vm.TodayDate);
+            set.Bind(btnNews).For(v => v.Text).ToLocalizationId("NewsLinkHint");
+            set.Bind(btnNews).To(vm => vm.NavigateNewsCheckerCommand);
 
             set.Apply();
 

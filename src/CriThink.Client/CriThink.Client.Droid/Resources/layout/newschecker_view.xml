@@ -1,43 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/padding_page"
-                android:paddingRight="@dimen/padding_page"
-                android:id="@+id/root">
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/root"
+  android:background="@color/colorPrimary">
 
-  <LinearLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingStart="@dimen/padding_page"
+      android:paddingEnd="@dimen/padding_page">
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:layout_centerInParent="true">
+      android:id="@+id/txtWelcome"
+      android:textSize="@dimen/text_caption"
+      android:fontFamily="@font/urbanist_light"
+      android:layout_marginTop="@dimen/margin_medium"
+      android:textColor="@android:color/white"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
-    <!-- News -->
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtInput_news"
-      android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:hint="@string/newschecker_paste"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+      android:id="@+id/txtName"
+      app:textAllCaps="true"
+      android:textSize="@dimen/text_title"
+      android:fontFamily="@font/urbanist"
+      android:textColor="@android:color/white"
+      app:layout_constraintStart_toStartOf="@id/txtWelcome"
+      app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
 
-      <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtInput_uri"
-        android:fontFamily="@font/urbanist"
-        android:inputType="textUri"/>
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/txtMotto"
+      app:layout_constraintStart_toStartOf="@id/txtWelcome"
+      app:layout_constraintTop_toBottomOf="@id/txtName"
+      app:textAllCaps="true"
+      android:textSize="@dimen/text_small"
+      android:textColor="@android:color/white"
+      android:layout_marginTop="@dimen/margin_big"
+      android:fontFamily="@font/urbanist_light"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/txtDate"
+      app:layout_constraintStart_toEndOf="@id/txtMotto"
+      app:layout_constraintBottom_toBottomOf="@id/txtMotto"
+      app:textAllCaps="true"
+      android:textSize="@dimen/text_small"
+      android:textColor="@android:color/white"
+      android:layout_marginStart="@dimen/margin_medium"
+      android:fontFamily="@font/urbanist"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_CheckUri"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_big"
-        android:text="@string/newschecker_results"/>
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/btnNews"
+      android:textAllCaps="false"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/txtDate"
+      android:layout_marginTop="@dimen/margin_veryBig"
+      android:padding="@dimen/edittext_padding"
+      android:background="@drawable/edittext_rounded"
+      android:fontFamily="@font/urbanist"/>
 
-  </LinearLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
  
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
