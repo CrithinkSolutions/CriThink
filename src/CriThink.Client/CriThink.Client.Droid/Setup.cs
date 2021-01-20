@@ -1,4 +1,5 @@
-﻿using CriThink.Client.Core;
+﻿using System.Collections.Generic;
+using CriThink.Client.Core;
 using CriThink.Client.Core.Platform;
 using CriThink.Client.Droid.Bindings;
 using CriThink.Client.Droid.PlatformDetails;
@@ -11,6 +12,16 @@ namespace CriThink.Client.Droid
 {
     public class Setup : MvxAndroidSetup<App>
     {
+        protected override IDictionary<string, string> ViewNamespaceAbbreviations
+        {
+            get
+            {
+                var toReturn = base.ViewNamespaceAbbreviations;
+                toReturn["CriThink"] = "CriThink.Client.Droid.Controls";
+                return toReturn;
+            }
+        }
+
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             base.FillTargetFactories(registry);

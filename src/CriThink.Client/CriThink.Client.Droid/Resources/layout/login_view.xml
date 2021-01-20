@@ -11,14 +11,15 @@
     android:layout_height="match_parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:paddingLeft="@dimen/padding_page"
-    android:paddingRight="@dimen/padding_page"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:id="@+id/scrollViewer"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:paddingLeft="@dimen/padding_page"
+      android:paddingRight="@dimen/padding_page"
       android:id="@+id/viewInnerLayout"
       android:scrollbars="vertical">
 
@@ -28,20 +29,52 @@
                                                     app:layout_constraintTop_toTopOf="parent"
                                                     app:layout_constraintLeft_toLeftOf="parent"
                                                     app:layout_constraintRight_toRightOf="parent"
-                                                    android:layout_marginTop="@dimen/margin_veryBig"
+                                                    android:layout_marginTop="@dimen/margin_medium"
                                                     android:src="@drawable/ic_text_logo" />
+
+      <!-- Facebook -->
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFb"
+        android:text="@string/facebook_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnGoogle"
+        android:layout_marginBottom="@dimen/margin_littleBig"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_fb"
+        android:elevation="@dimen/btn_elevation"
+        android:fontFamily="@font/urbanist"
+        android:layout_marginTop="@dimen/margin_huge" />
+
+      <!-- Google -->
+      <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnGoogle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/btn_google"
+        android:fontFamily="@font/urbanist"
+        android:elevation="@dimen/btn_elevation"
+        android:layout_marginBottom="@dimen/margin_veryBig"
+        android:text="@string/google_login" />
 
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
-        android:layout_alignParentBottom="true"
+        app:layout_constraintTop_toBottomOf="@id/layoutLoader"
         android:padding="@dimen/padding_page">
         
         <!-- TEMP -->
-       <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           app:layout_constraintLeft_toLeftOf="parent"
@@ -95,6 +128,7 @@
           android:orientation="horizontal"
           app:layout_constraintGuide_percent="0.5"/>
 
+        <!-- Forgot password -->
         <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -109,6 +143,7 @@
           android:textSize="@dimen/textSize_small"
           android:fontFamily="@font/urbanist"/>
         
+        <!-- Btn login -->
         <androidx.appcompat.widget.AppCompatButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -122,39 +157,15 @@
           android:fontFamily="@font/urbanist"/>
 
       </androidx.constraintlayout.widget.ConstraintLayout>
-
-      <!-- Facebook -->
-      <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnFb"
-        android:text="@string/facebook_login"
+    
+      <CriThink.LoaderView
+        android:layout_width="@dimen/imgSize_loader"
+        android:layout_height="@dimen/imgSize_loader"
+        android:id="@+id/layoutLoader"
+        android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnGoogle"
-        android:layout_marginBottom="@dimen/margin_littleBig"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"
-        android:drawableLeft="@drawable/btn_fb"
-        android:elevation="@dimen/btn_elevation"
-        android:fontFamily="@font/urbanist"
-        android:layout_marginTop="@dimen/margin_huge" />
-
-      <!-- Google -->
-      <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnGoogle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"
-        android:drawableLeft="@drawable/btn_google"
-        android:fontFamily="@font/urbanist"
-        android:elevation="@dimen/btn_elevation"
-        android:layout_marginBottom="@dimen/margin_veryBig"
-        android:text="@string/google_login" />
+        app:layout_constraintTop_toBottomOf="@id/imgTopImg"/>
     
     </androidx.constraintlayout.widget.ConstraintLayout>
 

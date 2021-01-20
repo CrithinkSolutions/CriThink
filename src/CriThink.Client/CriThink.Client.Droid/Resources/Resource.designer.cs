@@ -13163,6 +13163,2890 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Styleable.View_paddingEnd = global::CriThink.Client.Droid.Resource.Styleable.View_paddingEnd;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Styleable.View_paddingStart = global::CriThink.Client.Droid.Resource.Styleable.View_paddingStart;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Styleable.View_theme = global::CriThink.Client.Droid.Resource.Styleable.View_theme;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_fade_in = global::CriThink.Client.Droid.Resource.Animation.abc_fade_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_fade_out = global::CriThink.Client.Droid.Resource.Animation.abc_fade_out;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_grow_fade_in_from_bottom = global::CriThink.Client.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_popup_enter = global::CriThink.Client.Droid.Resource.Animation.abc_popup_enter;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_popup_exit = global::CriThink.Client.Droid.Resource.Animation.abc_popup_exit;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_shrink_fade_out_from_bottom = global::CriThink.Client.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_slide_in_bottom = global::CriThink.Client.Droid.Resource.Animation.abc_slide_in_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_slide_in_top = global::CriThink.Client.Droid.Resource.Animation.abc_slide_in_top;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_slide_out_bottom = global::CriThink.Client.Droid.Resource.Animation.abc_slide_out_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_slide_out_top = global::CriThink.Client.Droid.Resource.Animation.abc_slide_out_top;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_tooltip_enter = global::CriThink.Client.Droid.Resource.Animation.abc_tooltip_enter;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.abc_tooltip_exit = global::CriThink.Client.Droid.Resource.Animation.abc_tooltip_exit;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_checked_box_inner_merged_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_checked_box_inner_merged_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_checked_box_outer_merged_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_checked_box_outer_merged_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_checked_icon_null_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_checked_icon_null_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_unchecked_box_inner_merged_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_unchecked_box_inner_merged_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_unchecked_check_path_merged_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_unchecked_check_path_merged_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_checkbox_to_unchecked_icon_null_animation = global::CriThink.Client.Droid.Resource.Animation.btn_checkbox_to_unchecked_icon_null_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_off_mtrl_dot_group_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_off_mtrl_dot_group_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_off_mtrl_ring_outer_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_off_mtrl_ring_outer_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_off_mtrl_ring_outer_path_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_off_mtrl_ring_outer_path_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_on_mtrl_dot_group_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_on_mtrl_dot_group_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_on_mtrl_ring_outer_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_on_mtrl_ring_outer_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.btn_radio_to_on_mtrl_ring_outer_path_animation = global::CriThink.Client.Droid.Resource.Animation.btn_radio_to_on_mtrl_ring_outer_path_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.design_bottom_sheet_slide_in = global::CriThink.Client.Droid.Resource.Animation.design_bottom_sheet_slide_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.design_bottom_sheet_slide_out = global::CriThink.Client.Droid.Resource.Animation.design_bottom_sheet_slide_out;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.design_snackbar_in = global::CriThink.Client.Droid.Resource.Animation.design_snackbar_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.design_snackbar_out = global::CriThink.Client.Droid.Resource.Animation.design_snackbar_out;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_close_enter = global::CriThink.Client.Droid.Resource.Animation.fragment_close_enter;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_close_exit = global::CriThink.Client.Droid.Resource.Animation.fragment_close_exit;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_fade_enter = global::CriThink.Client.Droid.Resource.Animation.fragment_fade_enter;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_fade_exit = global::CriThink.Client.Droid.Resource.Animation.fragment_fade_exit;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_fast_out_extra_slow_in = global::CriThink.Client.Droid.Resource.Animation.fragment_fast_out_extra_slow_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_open_enter = global::CriThink.Client.Droid.Resource.Animation.fragment_open_enter;
+			global::MvvmCross.Plugin.Visibility.Resource.Animation.fragment_open_exit = global::CriThink.Client.Droid.Resource.Animation.fragment_open_exit;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.design_appbar_state_list_animator = global::CriThink.Client.Droid.Resource.Animator.design_appbar_state_list_animator;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.design_fab_hide_motion_spec = global::CriThink.Client.Droid.Resource.Animator.design_fab_hide_motion_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.design_fab_show_motion_spec = global::CriThink.Client.Droid.Resource.Animator.design_fab_show_motion_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_btn_state_list_anim = global::CriThink.Client.Droid.Resource.Animator.mtrl_btn_state_list_anim;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_btn_unelevated_state_list_anim = global::CriThink.Client.Droid.Resource.Animator.mtrl_btn_unelevated_state_list_anim;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_chip_state_list_anim = global::CriThink.Client.Droid.Resource.Animator.mtrl_chip_state_list_anim;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_fab_hide_motion_spec = global::CriThink.Client.Droid.Resource.Animator.mtrl_fab_hide_motion_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_fab_show_motion_spec = global::CriThink.Client.Droid.Resource.Animator.mtrl_fab_show_motion_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_fab_transformation_sheet_collapse_spec = global::CriThink.Client.Droid.Resource.Animator.mtrl_fab_transformation_sheet_collapse_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Animator.mtrl_fab_transformation_sheet_expand_spec = global::CriThink.Client.Droid.Resource.Animator.mtrl_fab_transformation_sheet_expand_spec;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarDivider = global::CriThink.Client.Droid.Resource.Attribute.actionBarDivider;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarItemBackground = global::CriThink.Client.Droid.Resource.Attribute.actionBarItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarPopupTheme = global::CriThink.Client.Droid.Resource.Attribute.actionBarPopupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarSize = global::CriThink.Client.Droid.Resource.Attribute.actionBarSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarSplitStyle = global::CriThink.Client.Droid.Resource.Attribute.actionBarSplitStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarStyle = global::CriThink.Client.Droid.Resource.Attribute.actionBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarTabBarStyle = global::CriThink.Client.Droid.Resource.Attribute.actionBarTabBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarTabStyle = global::CriThink.Client.Droid.Resource.Attribute.actionBarTabStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarTabTextStyle = global::CriThink.Client.Droid.Resource.Attribute.actionBarTabTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarTheme = global::CriThink.Client.Droid.Resource.Attribute.actionBarTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionBarWidgetTheme = global::CriThink.Client.Droid.Resource.Attribute.actionBarWidgetTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.actionButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionDropDownStyle = global::CriThink.Client.Droid.Resource.Attribute.actionDropDownStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionLayout = global::CriThink.Client.Droid.Resource.Attribute.actionLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionMenuTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.actionMenuTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionMenuTextColor = global::CriThink.Client.Droid.Resource.Attribute.actionMenuTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeBackground = global::CriThink.Client.Droid.Resource.Attribute.actionModeBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeCloseButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.actionModeCloseButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeCloseDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeCloseDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeCopyDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeCopyDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeCutDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeCutDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeFindDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeFindDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModePasteDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModePasteDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModePopupWindowStyle = global::CriThink.Client.Droid.Resource.Attribute.actionModePopupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeSelectAllDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeSelectAllDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeShareDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeShareDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeSplitBackground = global::CriThink.Client.Droid.Resource.Attribute.actionModeSplitBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeStyle = global::CriThink.Client.Droid.Resource.Attribute.actionModeStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionModeWebSearchDrawable = global::CriThink.Client.Droid.Resource.Attribute.actionModeWebSearchDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionOverflowButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.actionOverflowButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionOverflowMenuStyle = global::CriThink.Client.Droid.Resource.Attribute.actionOverflowMenuStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionProviderClass = global::CriThink.Client.Droid.Resource.Attribute.actionProviderClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.actionViewClass = global::CriThink.Client.Droid.Resource.Attribute.actionViewClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.activityChooserViewStyle = global::CriThink.Client.Droid.Resource.Attribute.activityChooserViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.adjustable = global::CriThink.Client.Droid.Resource.Attribute.adjustable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alertDialogButtonGroupStyle = global::CriThink.Client.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alertDialogCenterButtons = global::CriThink.Client.Droid.Resource.Attribute.alertDialogCenterButtons;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alertDialogStyle = global::CriThink.Client.Droid.Resource.Attribute.alertDialogStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alertDialogTheme = global::CriThink.Client.Droid.Resource.Attribute.alertDialogTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.allowDividerAbove = global::CriThink.Client.Droid.Resource.Attribute.allowDividerAbove;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.allowDividerAfterLastItem = global::CriThink.Client.Droid.Resource.Attribute.allowDividerAfterLastItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.allowDividerBelow = global::CriThink.Client.Droid.Resource.Attribute.allowDividerBelow;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.allowStacking = global::CriThink.Client.Droid.Resource.Attribute.allowStacking;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alpha = global::CriThink.Client.Droid.Resource.Attribute.alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.alphabeticModifiers = global::CriThink.Client.Droid.Resource.Attribute.alphabeticModifiers;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.arrowHeadLength = global::CriThink.Client.Droid.Resource.Attribute.arrowHeadLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.arrowShaftLength = global::CriThink.Client.Droid.Resource.Attribute.arrowShaftLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoCompleteTextViewStyle = global::CriThink.Client.Droid.Resource.Attribute.autoCompleteTextViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoSizeMaxTextSize = global::CriThink.Client.Droid.Resource.Attribute.autoSizeMaxTextSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoSizeMinTextSize = global::CriThink.Client.Droid.Resource.Attribute.autoSizeMinTextSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoSizePresetSizes = global::CriThink.Client.Droid.Resource.Attribute.autoSizePresetSizes;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoSizeStepGranularity = global::CriThink.Client.Droid.Resource.Attribute.autoSizeStepGranularity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.autoSizeTextType = global::CriThink.Client.Droid.Resource.Attribute.autoSizeTextType;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.background = global::CriThink.Client.Droid.Resource.Attribute.background;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.backgroundSplit = global::CriThink.Client.Droid.Resource.Attribute.backgroundSplit;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.backgroundStacked = global::CriThink.Client.Droid.Resource.Attribute.backgroundStacked;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.backgroundTint = global::CriThink.Client.Droid.Resource.Attribute.backgroundTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.backgroundTintMode = global::CriThink.Client.Droid.Resource.Attribute.backgroundTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.barLength = global::CriThink.Client.Droid.Resource.Attribute.barLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_autoHide = global::CriThink.Client.Droid.Resource.Attribute.behavior_autoHide;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_fitToContents = global::CriThink.Client.Droid.Resource.Attribute.behavior_fitToContents;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_hideable = global::CriThink.Client.Droid.Resource.Attribute.behavior_hideable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_overlapTop = global::CriThink.Client.Droid.Resource.Attribute.behavior_overlapTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_peekHeight = global::CriThink.Client.Droid.Resource.Attribute.behavior_peekHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.behavior_skipCollapsed = global::CriThink.Client.Droid.Resource.Attribute.behavior_skipCollapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.borderlessButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.borderWidth = global::CriThink.Client.Droid.Resource.Attribute.borderWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.bottomAppBarStyle = global::CriThink.Client.Droid.Resource.Attribute.bottomAppBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.bottomNavigationStyle = global::CriThink.Client.Droid.Resource.Attribute.bottomNavigationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.bottomSheetDialogTheme = global::CriThink.Client.Droid.Resource.Attribute.bottomSheetDialogTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.bottomSheetStyle = global::CriThink.Client.Droid.Resource.Attribute.bottomSheetStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxBackgroundColor = global::CriThink.Client.Droid.Resource.Attribute.boxBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxBackgroundMode = global::CriThink.Client.Droid.Resource.Attribute.boxBackgroundMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxCollapsedPaddingTop = global::CriThink.Client.Droid.Resource.Attribute.boxCollapsedPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxCornerRadiusBottomEnd = global::CriThink.Client.Droid.Resource.Attribute.boxCornerRadiusBottomEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxCornerRadiusBottomStart = global::CriThink.Client.Droid.Resource.Attribute.boxCornerRadiusBottomStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxCornerRadiusTopEnd = global::CriThink.Client.Droid.Resource.Attribute.boxCornerRadiusTopEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxCornerRadiusTopStart = global::CriThink.Client.Droid.Resource.Attribute.boxCornerRadiusTopStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxStrokeColor = global::CriThink.Client.Droid.Resource.Attribute.boxStrokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.boxStrokeWidth = global::CriThink.Client.Droid.Resource.Attribute.boxStrokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonBarButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonBarButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonBarNegativeButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonBarNeutralButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonBarPositiveButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonBarStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonCompat = global::CriThink.Client.Droid.Resource.Attribute.buttonCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonGravity = global::CriThink.Client.Droid.Resource.Attribute.buttonGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonIconDimen = global::CriThink.Client.Droid.Resource.Attribute.buttonIconDimen;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonPanelSideLayout = global::CriThink.Client.Droid.Resource.Attribute.buttonPanelSideLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonStyle = global::CriThink.Client.Droid.Resource.Attribute.buttonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonStyleSmall = global::CriThink.Client.Droid.Resource.Attribute.buttonStyleSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonTint = global::CriThink.Client.Droid.Resource.Attribute.buttonTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.buttonTintMode = global::CriThink.Client.Droid.Resource.Attribute.buttonTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardBackgroundColor = global::CriThink.Client.Droid.Resource.Attribute.cardBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardCornerRadius = global::CriThink.Client.Droid.Resource.Attribute.cardCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardElevation = global::CriThink.Client.Droid.Resource.Attribute.cardElevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardMaxElevation = global::CriThink.Client.Droid.Resource.Attribute.cardMaxElevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardPreventCornerOverlap = global::CriThink.Client.Droid.Resource.Attribute.cardPreventCornerOverlap;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardUseCompatPadding = global::CriThink.Client.Droid.Resource.Attribute.cardUseCompatPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cardViewStyle = global::CriThink.Client.Droid.Resource.Attribute.cardViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkBoxPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.checkBoxPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkboxStyle = global::CriThink.Client.Droid.Resource.Attribute.checkboxStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkedChip = global::CriThink.Client.Droid.Resource.Attribute.checkedChip;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkedIcon = global::CriThink.Client.Droid.Resource.Attribute.checkedIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkedIconEnabled = global::CriThink.Client.Droid.Resource.Attribute.checkedIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkedIconVisible = global::CriThink.Client.Droid.Resource.Attribute.checkedIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.checkedTextViewStyle = global::CriThink.Client.Droid.Resource.Attribute.checkedTextViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipBackgroundColor = global::CriThink.Client.Droid.Resource.Attribute.chipBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipCornerRadius = global::CriThink.Client.Droid.Resource.Attribute.chipCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipEndPadding = global::CriThink.Client.Droid.Resource.Attribute.chipEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipGroupStyle = global::CriThink.Client.Droid.Resource.Attribute.chipGroupStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipIcon = global::CriThink.Client.Droid.Resource.Attribute.chipIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipIconEnabled = global::CriThink.Client.Droid.Resource.Attribute.chipIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipIconSize = global::CriThink.Client.Droid.Resource.Attribute.chipIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipIconTint = global::CriThink.Client.Droid.Resource.Attribute.chipIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipIconVisible = global::CriThink.Client.Droid.Resource.Attribute.chipIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipMinHeight = global::CriThink.Client.Droid.Resource.Attribute.chipMinHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipSpacing = global::CriThink.Client.Droid.Resource.Attribute.chipSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipSpacingHorizontal = global::CriThink.Client.Droid.Resource.Attribute.chipSpacingHorizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipSpacingVertical = global::CriThink.Client.Droid.Resource.Attribute.chipSpacingVertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipStandaloneStyle = global::CriThink.Client.Droid.Resource.Attribute.chipStandaloneStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipStartPadding = global::CriThink.Client.Droid.Resource.Attribute.chipStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipStrokeColor = global::CriThink.Client.Droid.Resource.Attribute.chipStrokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipStrokeWidth = global::CriThink.Client.Droid.Resource.Attribute.chipStrokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.chipStyle = global::CriThink.Client.Droid.Resource.Attribute.chipStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIcon = global::CriThink.Client.Droid.Resource.Attribute.closeIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconEnabled = global::CriThink.Client.Droid.Resource.Attribute.closeIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconEndPadding = global::CriThink.Client.Droid.Resource.Attribute.closeIconEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconSize = global::CriThink.Client.Droid.Resource.Attribute.closeIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconStartPadding = global::CriThink.Client.Droid.Resource.Attribute.closeIconStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconTint = global::CriThink.Client.Droid.Resource.Attribute.closeIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeIconVisible = global::CriThink.Client.Droid.Resource.Attribute.closeIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.closeItemLayout = global::CriThink.Client.Droid.Resource.Attribute.closeItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.collapseContentDescription = global::CriThink.Client.Droid.Resource.Attribute.collapseContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.collapsedTitleGravity = global::CriThink.Client.Droid.Resource.Attribute.collapsedTitleGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.collapsedTitleTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.collapsedTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.collapseIcon = global::CriThink.Client.Droid.Resource.Attribute.collapseIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.color = global::CriThink.Client.Droid.Resource.Attribute.color;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorAccent = global::CriThink.Client.Droid.Resource.Attribute.colorAccent;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorBackgroundFloating = global::CriThink.Client.Droid.Resource.Attribute.colorBackgroundFloating;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorButtonNormal = global::CriThink.Client.Droid.Resource.Attribute.colorButtonNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorControlActivated = global::CriThink.Client.Droid.Resource.Attribute.colorControlActivated;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorControlHighlight = global::CriThink.Client.Droid.Resource.Attribute.colorControlHighlight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorControlNormal = global::CriThink.Client.Droid.Resource.Attribute.colorControlNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorError = global::CriThink.Client.Droid.Resource.Attribute.colorError;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorPrimary = global::CriThink.Client.Droid.Resource.Attribute.colorPrimary;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorPrimaryDark = global::CriThink.Client.Droid.Resource.Attribute.colorPrimaryDark;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorSecondary = global::CriThink.Client.Droid.Resource.Attribute.colorSecondary;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.colorSwitchThumbNormal = global::CriThink.Client.Droid.Resource.Attribute.colorSwitchThumbNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.commitIcon = global::CriThink.Client.Droid.Resource.Attribute.commitIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentDescription = global::CriThink.Client.Droid.Resource.Attribute.contentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetEnd = global::CriThink.Client.Droid.Resource.Attribute.contentInsetEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetEndWithActions = global::CriThink.Client.Droid.Resource.Attribute.contentInsetEndWithActions;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetLeft = global::CriThink.Client.Droid.Resource.Attribute.contentInsetLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetRight = global::CriThink.Client.Droid.Resource.Attribute.contentInsetRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetStart = global::CriThink.Client.Droid.Resource.Attribute.contentInsetStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentInsetStartWithNavigation = global::CriThink.Client.Droid.Resource.Attribute.contentInsetStartWithNavigation;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentPadding = global::CriThink.Client.Droid.Resource.Attribute.contentPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentPaddingBottom = global::CriThink.Client.Droid.Resource.Attribute.contentPaddingBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentPaddingLeft = global::CriThink.Client.Droid.Resource.Attribute.contentPaddingLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentPaddingRight = global::CriThink.Client.Droid.Resource.Attribute.contentPaddingRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentPaddingTop = global::CriThink.Client.Droid.Resource.Attribute.contentPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.contentScrim = global::CriThink.Client.Droid.Resource.Attribute.contentScrim;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.controlBackground = global::CriThink.Client.Droid.Resource.Attribute.controlBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.coordinatorLayoutStyle = global::CriThink.Client.Droid.Resource.Attribute.coordinatorLayoutStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.cornerRadius = global::CriThink.Client.Droid.Resource.Attribute.cornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.counterEnabled = global::CriThink.Client.Droid.Resource.Attribute.counterEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.counterMaxLength = global::CriThink.Client.Droid.Resource.Attribute.counterMaxLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.counterOverflowTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.counterOverflowTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.counterTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.counterTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.customNavigationLayout = global::CriThink.Client.Droid.Resource.Attribute.customNavigationLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.defaultQueryHint = global::CriThink.Client.Droid.Resource.Attribute.defaultQueryHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.defaultValue = global::CriThink.Client.Droid.Resource.Attribute.defaultValue;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dependency = global::CriThink.Client.Droid.Resource.Attribute.dependency;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogCornerRadius = global::CriThink.Client.Droid.Resource.Attribute.dialogCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogIcon = global::CriThink.Client.Droid.Resource.Attribute.dialogIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogLayout = global::CriThink.Client.Droid.Resource.Attribute.dialogLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogMessage = global::CriThink.Client.Droid.Resource.Attribute.dialogMessage;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.dialogPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogPreferredPadding = global::CriThink.Client.Droid.Resource.Attribute.dialogPreferredPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogTheme = global::CriThink.Client.Droid.Resource.Attribute.dialogTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dialogTitle = global::CriThink.Client.Droid.Resource.Attribute.dialogTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.disableDependentsState = global::CriThink.Client.Droid.Resource.Attribute.disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.displayOptions = global::CriThink.Client.Droid.Resource.Attribute.displayOptions;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.divider = global::CriThink.Client.Droid.Resource.Attribute.divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dividerHorizontal = global::CriThink.Client.Droid.Resource.Attribute.dividerHorizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dividerPadding = global::CriThink.Client.Droid.Resource.Attribute.dividerPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dividerVertical = global::CriThink.Client.Droid.Resource.Attribute.dividerVertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableBottomCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableBottomCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableEndCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableEndCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableLeftCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableLeftCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableRightCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableRightCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableSize = global::CriThink.Client.Droid.Resource.Attribute.drawableSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableStartCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableStartCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableTint = global::CriThink.Client.Droid.Resource.Attribute.drawableTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableTintMode = global::CriThink.Client.Droid.Resource.Attribute.drawableTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawableTopCompat = global::CriThink.Client.Droid.Resource.Attribute.drawableTopCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.drawerArrowStyle = global::CriThink.Client.Droid.Resource.Attribute.drawerArrowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dropdownListPreferredItemHeight = global::CriThink.Client.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dropDownListViewStyle = global::CriThink.Client.Droid.Resource.Attribute.dropDownListViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.dropdownPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.dropdownPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.editTextBackground = global::CriThink.Client.Droid.Resource.Attribute.editTextBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.editTextColor = global::CriThink.Client.Droid.Resource.Attribute.editTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.editTextPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.editTextPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.editTextStyle = global::CriThink.Client.Droid.Resource.Attribute.editTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.elevation = global::CriThink.Client.Droid.Resource.Attribute.elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.enableCopying = global::CriThink.Client.Droid.Resource.Attribute.enableCopying;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.enabled = global::CriThink.Client.Droid.Resource.Attribute.enabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.enforceMaterialTheme = global::CriThink.Client.Droid.Resource.Attribute.enforceMaterialTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.enforceTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.enforceTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.entries = global::CriThink.Client.Droid.Resource.Attribute.entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.entryValues = global::CriThink.Client.Droid.Resource.Attribute.entryValues;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.errorEnabled = global::CriThink.Client.Droid.Resource.Attribute.errorEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.errorTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.errorTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandActivityOverflowButtonDrawable = global::CriThink.Client.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expanded = global::CriThink.Client.Droid.Resource.Attribute.expanded;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleGravity = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleMargin = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleMarginBottom = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleMarginBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleMarginEnd = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleMarginEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleMarginStart = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleMarginStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleMarginTop = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleMarginTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.expandedTitleTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.expandedTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabAlignmentMode = global::CriThink.Client.Droid.Resource.Attribute.fabAlignmentMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabCradleMargin = global::CriThink.Client.Droid.Resource.Attribute.fabCradleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabCradleRoundedCornerRadius = global::CriThink.Client.Droid.Resource.Attribute.fabCradleRoundedCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabCradleVerticalOffset = global::CriThink.Client.Droid.Resource.Attribute.fabCradleVerticalOffset;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabCustomSize = global::CriThink.Client.Droid.Resource.Attribute.fabCustomSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fabSize = global::CriThink.Client.Droid.Resource.Attribute.fabSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fastScrollEnabled = global::CriThink.Client.Droid.Resource.Attribute.fastScrollEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fastScrollHorizontalThumbDrawable = global::CriThink.Client.Droid.Resource.Attribute.fastScrollHorizontalThumbDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fastScrollHorizontalTrackDrawable = global::CriThink.Client.Droid.Resource.Attribute.fastScrollHorizontalTrackDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fastScrollVerticalThumbDrawable = global::CriThink.Client.Droid.Resource.Attribute.fastScrollVerticalThumbDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fastScrollVerticalTrackDrawable = global::CriThink.Client.Droid.Resource.Attribute.fastScrollVerticalTrackDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.firstBaselineToTopHeight = global::CriThink.Client.Droid.Resource.Attribute.firstBaselineToTopHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.floatingActionButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.floatingActionButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.font = global::CriThink.Client.Droid.Resource.Attribute.font;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontFamily = global::CriThink.Client.Droid.Resource.Attribute.fontFamily;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderAuthority = global::CriThink.Client.Droid.Resource.Attribute.fontProviderAuthority;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderCerts = global::CriThink.Client.Droid.Resource.Attribute.fontProviderCerts;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderFetchStrategy = global::CriThink.Client.Droid.Resource.Attribute.fontProviderFetchStrategy;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderFetchTimeout = global::CriThink.Client.Droid.Resource.Attribute.fontProviderFetchTimeout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderPackage = global::CriThink.Client.Droid.Resource.Attribute.fontProviderPackage;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontProviderQuery = global::CriThink.Client.Droid.Resource.Attribute.fontProviderQuery;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontStyle = global::CriThink.Client.Droid.Resource.Attribute.fontStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontVariationSettings = global::CriThink.Client.Droid.Resource.Attribute.fontVariationSettings;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fontWeight = global::CriThink.Client.Droid.Resource.Attribute.fontWeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.foregroundInsidePadding = global::CriThink.Client.Droid.Resource.Attribute.foregroundInsidePadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.fragment = global::CriThink.Client.Droid.Resource.Attribute.fragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.gapBetweenBars = global::CriThink.Client.Droid.Resource.Attribute.gapBetweenBars;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.goIcon = global::CriThink.Client.Droid.Resource.Attribute.goIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.headerLayout = global::CriThink.Client.Droid.Resource.Attribute.headerLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.height = global::CriThink.Client.Droid.Resource.Attribute.height;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.helperText = global::CriThink.Client.Droid.Resource.Attribute.helperText;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.helperTextEnabled = global::CriThink.Client.Droid.Resource.Attribute.helperTextEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.helperTextTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.helperTextTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hideMotionSpec = global::CriThink.Client.Droid.Resource.Attribute.hideMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hideOnContentScroll = global::CriThink.Client.Droid.Resource.Attribute.hideOnContentScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hideOnScroll = global::CriThink.Client.Droid.Resource.Attribute.hideOnScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hintAnimationEnabled = global::CriThink.Client.Droid.Resource.Attribute.hintAnimationEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hintEnabled = global::CriThink.Client.Droid.Resource.Attribute.hintEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hintTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.hintTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.homeAsUpIndicator = global::CriThink.Client.Droid.Resource.Attribute.homeAsUpIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.homeLayout = global::CriThink.Client.Droid.Resource.Attribute.homeLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.hoveredFocusedTranslationZ = global::CriThink.Client.Droid.Resource.Attribute.hoveredFocusedTranslationZ;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.icon = global::CriThink.Client.Droid.Resource.Attribute.icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconEndPadding = global::CriThink.Client.Droid.Resource.Attribute.iconEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconGravity = global::CriThink.Client.Droid.Resource.Attribute.iconGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconifiedByDefault = global::CriThink.Client.Droid.Resource.Attribute.iconifiedByDefault;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconPadding = global::CriThink.Client.Droid.Resource.Attribute.iconPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconSize = global::CriThink.Client.Droid.Resource.Attribute.iconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconSpaceReserved = global::CriThink.Client.Droid.Resource.Attribute.iconSpaceReserved;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconStartPadding = global::CriThink.Client.Droid.Resource.Attribute.iconStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconTint = global::CriThink.Client.Droid.Resource.Attribute.iconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.iconTintMode = global::CriThink.Client.Droid.Resource.Attribute.iconTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.imageButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.imageButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.indeterminateProgressStyle = global::CriThink.Client.Droid.Resource.Attribute.indeterminateProgressStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.initialActivityCount = global::CriThink.Client.Droid.Resource.Attribute.initialActivityCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.initialExpandedChildrenCount = global::CriThink.Client.Droid.Resource.Attribute.initialExpandedChildrenCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.insetForeground = global::CriThink.Client.Droid.Resource.Attribute.insetForeground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.isLightTheme = global::CriThink.Client.Droid.Resource.Attribute.isLightTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.isPreferenceVisible = global::CriThink.Client.Droid.Resource.Attribute.isPreferenceVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemBackground = global::CriThink.Client.Droid.Resource.Attribute.itemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemHorizontalPadding = global::CriThink.Client.Droid.Resource.Attribute.itemHorizontalPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemHorizontalTranslationEnabled = global::CriThink.Client.Droid.Resource.Attribute.itemHorizontalTranslationEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemIconPadding = global::CriThink.Client.Droid.Resource.Attribute.itemIconPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemIconSize = global::CriThink.Client.Droid.Resource.Attribute.itemIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemIconTint = global::CriThink.Client.Droid.Resource.Attribute.itemIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemPadding = global::CriThink.Client.Droid.Resource.Attribute.itemPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemSpacing = global::CriThink.Client.Droid.Resource.Attribute.itemSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.itemTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemTextAppearanceActive = global::CriThink.Client.Droid.Resource.Attribute.itemTextAppearanceActive;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemTextAppearanceInactive = global::CriThink.Client.Droid.Resource.Attribute.itemTextAppearanceInactive;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.itemTextColor = global::CriThink.Client.Droid.Resource.Attribute.itemTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.key = global::CriThink.Client.Droid.Resource.Attribute.key;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.keylines = global::CriThink.Client.Droid.Resource.Attribute.keylines;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.labelVisibilityMode = global::CriThink.Client.Droid.Resource.Attribute.labelVisibilityMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.lastBaselineToBottomHeight = global::CriThink.Client.Droid.Resource.Attribute.lastBaselineToBottomHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout = global::CriThink.Client.Droid.Resource.Attribute.layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layoutManager = global::CriThink.Client.Droid.Resource.Attribute.layoutManager;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_anchor = global::CriThink.Client.Droid.Resource.Attribute.layout_anchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_anchorGravity = global::CriThink.Client.Droid.Resource.Attribute.layout_anchorGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_behavior = global::CriThink.Client.Droid.Resource.Attribute.layout_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_collapseMode = global::CriThink.Client.Droid.Resource.Attribute.layout_collapseMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_collapseParallaxMultiplier = global::CriThink.Client.Droid.Resource.Attribute.layout_collapseParallaxMultiplier;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_dodgeInsetEdges = global::CriThink.Client.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_insetEdge = global::CriThink.Client.Droid.Resource.Attribute.layout_insetEdge;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_keyline = global::CriThink.Client.Droid.Resource.Attribute.layout_keyline;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_scrollFlags = global::CriThink.Client.Droid.Resource.Attribute.layout_scrollFlags;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.layout_scrollInterpolator = global::CriThink.Client.Droid.Resource.Attribute.layout_scrollInterpolator;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.liftOnScroll = global::CriThink.Client.Droid.Resource.Attribute.liftOnScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.lineHeight = global::CriThink.Client.Droid.Resource.Attribute.lineHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.lineSpacing = global::CriThink.Client.Droid.Resource.Attribute.lineSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listChoiceBackgroundIndicator = global::CriThink.Client.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listChoiceIndicatorMultipleAnimated = global::CriThink.Client.Droid.Resource.Attribute.listChoiceIndicatorMultipleAnimated;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listChoiceIndicatorSingleAnimated = global::CriThink.Client.Droid.Resource.Attribute.listChoiceIndicatorSingleAnimated;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listDividerAlertDialog = global::CriThink.Client.Droid.Resource.Attribute.listDividerAlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listItemLayout = global::CriThink.Client.Droid.Resource.Attribute.listItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listLayout = global::CriThink.Client.Droid.Resource.Attribute.listLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listMenuViewStyle = global::CriThink.Client.Droid.Resource.Attribute.listMenuViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPopupWindowStyle = global::CriThink.Client.Droid.Resource.Attribute.listPopupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemHeight = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemHeightLarge = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemHeightLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemHeightSmall = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemHeightSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemPaddingEnd = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemPaddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemPaddingLeft = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemPaddingRight = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemPaddingRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.listPreferredItemPaddingStart = global::CriThink.Client.Droid.Resource.Attribute.listPreferredItemPaddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.logo = global::CriThink.Client.Droid.Resource.Attribute.logo;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.logoDescription = global::CriThink.Client.Droid.Resource.Attribute.logoDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.materialButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.materialButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.materialCardViewStyle = global::CriThink.Client.Droid.Resource.Attribute.materialCardViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.maxActionInlineWidth = global::CriThink.Client.Droid.Resource.Attribute.maxActionInlineWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.maxButtonHeight = global::CriThink.Client.Droid.Resource.Attribute.maxButtonHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.maxHeight = global::CriThink.Client.Droid.Resource.Attribute.maxHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.maxImageSize = global::CriThink.Client.Droid.Resource.Attribute.maxImageSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.maxWidth = global::CriThink.Client.Droid.Resource.Attribute.maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.measureWithLargestChild = global::CriThink.Client.Droid.Resource.Attribute.measureWithLargestChild;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.menu = global::CriThink.Client.Droid.Resource.Attribute.menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.min = global::CriThink.Client.Droid.Resource.Attribute.min;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.multiChoiceItemLayout = global::CriThink.Client.Droid.Resource.Attribute.multiChoiceItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxBind = global::CriThink.Client.Droid.Resource.Attribute.MvxBind;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxDropDownItemTemplate = global::CriThink.Client.Droid.Resource.Attribute.MvxDropDownItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxGroupItemTemplate = global::CriThink.Client.Droid.Resource.Attribute.MvxGroupItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxItemTemplate = global::CriThink.Client.Droid.Resource.Attribute.MvxItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxLang = global::CriThink.Client.Droid.Resource.Attribute.MvxLang;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.MvxTemplate = global::CriThink.Client.Droid.Resource.Attribute.MvxTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.navigationContentDescription = global::CriThink.Client.Droid.Resource.Attribute.navigationContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.navigationIcon = global::CriThink.Client.Droid.Resource.Attribute.navigationIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.navigationMode = global::CriThink.Client.Droid.Resource.Attribute.navigationMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.navigationViewStyle = global::CriThink.Client.Droid.Resource.Attribute.navigationViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.negativeButtonText = global::CriThink.Client.Droid.Resource.Attribute.negativeButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.numericModifiers = global::CriThink.Client.Droid.Resource.Attribute.numericModifiers;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.order = global::CriThink.Client.Droid.Resource.Attribute.order;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.orderingFromXml = global::CriThink.Client.Droid.Resource.Attribute.orderingFromXml;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.overlapAnchor = global::CriThink.Client.Droid.Resource.Attribute.overlapAnchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.paddingBottomNoButtons = global::CriThink.Client.Droid.Resource.Attribute.paddingBottomNoButtons;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.paddingEnd = global::CriThink.Client.Droid.Resource.Attribute.paddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.paddingStart = global::CriThink.Client.Droid.Resource.Attribute.paddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.paddingTopNoTitle = global::CriThink.Client.Droid.Resource.Attribute.paddingTopNoTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.panelBackground = global::CriThink.Client.Droid.Resource.Attribute.panelBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.panelMenuListTheme = global::CriThink.Client.Droid.Resource.Attribute.panelMenuListTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.panelMenuListWidth = global::CriThink.Client.Droid.Resource.Attribute.panelMenuListWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.passwordToggleContentDescription = global::CriThink.Client.Droid.Resource.Attribute.passwordToggleContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.passwordToggleDrawable = global::CriThink.Client.Droid.Resource.Attribute.passwordToggleDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.passwordToggleEnabled = global::CriThink.Client.Droid.Resource.Attribute.passwordToggleEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.passwordToggleTint = global::CriThink.Client.Droid.Resource.Attribute.passwordToggleTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.passwordToggleTintMode = global::CriThink.Client.Droid.Resource.Attribute.passwordToggleTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.persistent = global::CriThink.Client.Droid.Resource.Attribute.persistent;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.popupMenuStyle = global::CriThink.Client.Droid.Resource.Attribute.popupMenuStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.popupTheme = global::CriThink.Client.Droid.Resource.Attribute.popupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.popupWindowStyle = global::CriThink.Client.Droid.Resource.Attribute.popupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.positiveButtonText = global::CriThink.Client.Droid.Resource.Attribute.positiveButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceCategoryStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceCategoryStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceCategoryTitleTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.preferenceCategoryTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceFragmentCompatStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceFragmentCompatStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceFragmentListStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceFragmentListStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceFragmentStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceFragmentStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceInformationStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceInformationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceScreenStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceScreenStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.preferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preferenceTheme = global::CriThink.Client.Droid.Resource.Attribute.preferenceTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.preserveIconSpacing = global::CriThink.Client.Droid.Resource.Attribute.preserveIconSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.pressedTranslationZ = global::CriThink.Client.Droid.Resource.Attribute.pressedTranslationZ;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.progressBarPadding = global::CriThink.Client.Droid.Resource.Attribute.progressBarPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.progressBarStyle = global::CriThink.Client.Droid.Resource.Attribute.progressBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.queryBackground = global::CriThink.Client.Droid.Resource.Attribute.queryBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.queryHint = global::CriThink.Client.Droid.Resource.Attribute.queryHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.radioButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.radioButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.ratingBarStyle = global::CriThink.Client.Droid.Resource.Attribute.ratingBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.ratingBarStyleIndicator = global::CriThink.Client.Droid.Resource.Attribute.ratingBarStyleIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.ratingBarStyleSmall = global::CriThink.Client.Droid.Resource.Attribute.ratingBarStyleSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.recyclerViewStyle = global::CriThink.Client.Droid.Resource.Attribute.recyclerViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.reverseLayout = global::CriThink.Client.Droid.Resource.Attribute.reverseLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.rippleColor = global::CriThink.Client.Droid.Resource.Attribute.rippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.scrimAnimationDuration = global::CriThink.Client.Droid.Resource.Attribute.scrimAnimationDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.scrimBackground = global::CriThink.Client.Droid.Resource.Attribute.scrimBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.scrimVisibleHeightTrigger = global::CriThink.Client.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.searchHintIcon = global::CriThink.Client.Droid.Resource.Attribute.searchHintIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.searchIcon = global::CriThink.Client.Droid.Resource.Attribute.searchIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.searchViewStyle = global::CriThink.Client.Droid.Resource.Attribute.searchViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.seekBarIncrement = global::CriThink.Client.Droid.Resource.Attribute.seekBarIncrement;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.seekBarPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.seekBarPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.seekBarStyle = global::CriThink.Client.Droid.Resource.Attribute.seekBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.selectable = global::CriThink.Client.Droid.Resource.Attribute.selectable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.selectableItemBackground = global::CriThink.Client.Droid.Resource.Attribute.selectableItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.selectableItemBackgroundBorderless = global::CriThink.Client.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.shouldDisableView = global::CriThink.Client.Droid.Resource.Attribute.shouldDisableView;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showAsAction = global::CriThink.Client.Droid.Resource.Attribute.showAsAction;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showDividers = global::CriThink.Client.Droid.Resource.Attribute.showDividers;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showMotionSpec = global::CriThink.Client.Droid.Resource.Attribute.showMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showSeekBarValue = global::CriThink.Client.Droid.Resource.Attribute.showSeekBarValue;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showText = global::CriThink.Client.Droid.Resource.Attribute.showText;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.showTitle = global::CriThink.Client.Droid.Resource.Attribute.showTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.singleChoiceItemLayout = global::CriThink.Client.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.singleLine = global::CriThink.Client.Droid.Resource.Attribute.singleLine;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.singleLineTitle = global::CriThink.Client.Droid.Resource.Attribute.singleLineTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.singleSelection = global::CriThink.Client.Droid.Resource.Attribute.singleSelection;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.snackbarButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.snackbarButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.snackbarStyle = global::CriThink.Client.Droid.Resource.Attribute.snackbarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.spanCount = global::CriThink.Client.Droid.Resource.Attribute.spanCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.spinBars = global::CriThink.Client.Droid.Resource.Attribute.spinBars;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.spinnerDropDownItemStyle = global::CriThink.Client.Droid.Resource.Attribute.spinnerDropDownItemStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.spinnerStyle = global::CriThink.Client.Droid.Resource.Attribute.spinnerStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.splitTrack = global::CriThink.Client.Droid.Resource.Attribute.splitTrack;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.srcCompat = global::CriThink.Client.Droid.Resource.Attribute.srcCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.stackFromEnd = global::CriThink.Client.Droid.Resource.Attribute.stackFromEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.state_above_anchor = global::CriThink.Client.Droid.Resource.Attribute.state_above_anchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.state_collapsed = global::CriThink.Client.Droid.Resource.Attribute.state_collapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.state_collapsible = global::CriThink.Client.Droid.Resource.Attribute.state_collapsible;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.state_liftable = global::CriThink.Client.Droid.Resource.Attribute.state_liftable;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.state_lifted = global::CriThink.Client.Droid.Resource.Attribute.state_lifted;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.statusBarBackground = global::CriThink.Client.Droid.Resource.Attribute.statusBarBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.statusBarScrim = global::CriThink.Client.Droid.Resource.Attribute.statusBarScrim;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.strokeColor = global::CriThink.Client.Droid.Resource.Attribute.strokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.strokeWidth = global::CriThink.Client.Droid.Resource.Attribute.strokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.subMenuArrow = global::CriThink.Client.Droid.Resource.Attribute.subMenuArrow;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.submitBackground = global::CriThink.Client.Droid.Resource.Attribute.submitBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.subtitle = global::CriThink.Client.Droid.Resource.Attribute.subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.subtitleTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.subtitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.subtitleTextColor = global::CriThink.Client.Droid.Resource.Attribute.subtitleTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.subtitleTextStyle = global::CriThink.Client.Droid.Resource.Attribute.subtitleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.suggestionRowLayout = global::CriThink.Client.Droid.Resource.Attribute.suggestionRowLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.summary = global::CriThink.Client.Droid.Resource.Attribute.summary;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.summaryOff = global::CriThink.Client.Droid.Resource.Attribute.summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.summaryOn = global::CriThink.Client.Droid.Resource.Attribute.summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchMinWidth = global::CriThink.Client.Droid.Resource.Attribute.switchMinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchPadding = global::CriThink.Client.Droid.Resource.Attribute.switchPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchPreferenceCompatStyle = global::CriThink.Client.Droid.Resource.Attribute.switchPreferenceCompatStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchPreferenceStyle = global::CriThink.Client.Droid.Resource.Attribute.switchPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchStyle = global::CriThink.Client.Droid.Resource.Attribute.switchStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.switchTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchTextOff = global::CriThink.Client.Droid.Resource.Attribute.switchTextOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.switchTextOn = global::CriThink.Client.Droid.Resource.Attribute.switchTextOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabBackground = global::CriThink.Client.Droid.Resource.Attribute.tabBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabContentStart = global::CriThink.Client.Droid.Resource.Attribute.tabContentStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabGravity = global::CriThink.Client.Droid.Resource.Attribute.tabGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIconTint = global::CriThink.Client.Droid.Resource.Attribute.tabIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIconTintMode = global::CriThink.Client.Droid.Resource.Attribute.tabIconTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicator = global::CriThink.Client.Droid.Resource.Attribute.tabIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicatorAnimationDuration = global::CriThink.Client.Droid.Resource.Attribute.tabIndicatorAnimationDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicatorColor = global::CriThink.Client.Droid.Resource.Attribute.tabIndicatorColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicatorFullWidth = global::CriThink.Client.Droid.Resource.Attribute.tabIndicatorFullWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicatorGravity = global::CriThink.Client.Droid.Resource.Attribute.tabIndicatorGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabIndicatorHeight = global::CriThink.Client.Droid.Resource.Attribute.tabIndicatorHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabInlineLabel = global::CriThink.Client.Droid.Resource.Attribute.tabInlineLabel;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabMaxWidth = global::CriThink.Client.Droid.Resource.Attribute.tabMaxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabMinWidth = global::CriThink.Client.Droid.Resource.Attribute.tabMinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabMode = global::CriThink.Client.Droid.Resource.Attribute.tabMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabPadding = global::CriThink.Client.Droid.Resource.Attribute.tabPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabPaddingBottom = global::CriThink.Client.Droid.Resource.Attribute.tabPaddingBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabPaddingEnd = global::CriThink.Client.Droid.Resource.Attribute.tabPaddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabPaddingStart = global::CriThink.Client.Droid.Resource.Attribute.tabPaddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabPaddingTop = global::CriThink.Client.Droid.Resource.Attribute.tabPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabRippleColor = global::CriThink.Client.Droid.Resource.Attribute.tabRippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabSelectedTextColor = global::CriThink.Client.Droid.Resource.Attribute.tabSelectedTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabStyle = global::CriThink.Client.Droid.Resource.Attribute.tabStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.tabTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabTextColor = global::CriThink.Client.Droid.Resource.Attribute.tabTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tabUnboundedRipple = global::CriThink.Client.Droid.Resource.Attribute.tabUnboundedRipple;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAllCaps = global::CriThink.Client.Droid.Resource.Attribute.textAllCaps;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceBody1 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceBody1;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceBody2 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceBody2;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceButton = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceCaption = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceCaption;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline1 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline1;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline2 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline2;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline3 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline3;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline4 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline4;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline5 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline5;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceHeadline6 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceHeadline6;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceLargePopupMenu = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceListItem = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceListItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceListItemSecondary = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceListItemSecondary;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceListItemSmall = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceListItemSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceOverline = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceOverline;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearancePopupMenuHeader = global::CriThink.Client.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceSearchResultSubtitle = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceSearchResultTitle = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceSmallPopupMenu = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceSubtitle1 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceSubtitle1;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textAppearanceSubtitle2 = global::CriThink.Client.Droid.Resource.Attribute.textAppearanceSubtitle2;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textColorAlertDialogListItem = global::CriThink.Client.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textColorSearchUrl = global::CriThink.Client.Droid.Resource.Attribute.textColorSearchUrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textEndPadding = global::CriThink.Client.Droid.Resource.Attribute.textEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textInputStyle = global::CriThink.Client.Droid.Resource.Attribute.textInputStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textLocale = global::CriThink.Client.Droid.Resource.Attribute.textLocale;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.textStartPadding = global::CriThink.Client.Droid.Resource.Attribute.textStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.theme = global::CriThink.Client.Droid.Resource.Attribute.theme;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.thickness = global::CriThink.Client.Droid.Resource.Attribute.thickness;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.thumbTextPadding = global::CriThink.Client.Droid.Resource.Attribute.thumbTextPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.thumbTint = global::CriThink.Client.Droid.Resource.Attribute.thumbTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.thumbTintMode = global::CriThink.Client.Droid.Resource.Attribute.thumbTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tickMark = global::CriThink.Client.Droid.Resource.Attribute.tickMark;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tickMarkTint = global::CriThink.Client.Droid.Resource.Attribute.tickMarkTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tickMarkTintMode = global::CriThink.Client.Droid.Resource.Attribute.tickMarkTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tint = global::CriThink.Client.Droid.Resource.Attribute.tint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tintMode = global::CriThink.Client.Droid.Resource.Attribute.tintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.title = global::CriThink.Client.Droid.Resource.Attribute.title;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleEnabled = global::CriThink.Client.Droid.Resource.Attribute.titleEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMargin = global::CriThink.Client.Droid.Resource.Attribute.titleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMarginBottom = global::CriThink.Client.Droid.Resource.Attribute.titleMarginBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMarginEnd = global::CriThink.Client.Droid.Resource.Attribute.titleMarginEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMargins = global::CriThink.Client.Droid.Resource.Attribute.titleMargins;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMarginStart = global::CriThink.Client.Droid.Resource.Attribute.titleMarginStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleMarginTop = global::CriThink.Client.Droid.Resource.Attribute.titleMarginTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleTextAppearance = global::CriThink.Client.Droid.Resource.Attribute.titleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleTextColor = global::CriThink.Client.Droid.Resource.Attribute.titleTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.titleTextStyle = global::CriThink.Client.Droid.Resource.Attribute.titleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.toolbarId = global::CriThink.Client.Droid.Resource.Attribute.toolbarId;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.toolbarNavigationButtonStyle = global::CriThink.Client.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.toolbarStyle = global::CriThink.Client.Droid.Resource.Attribute.toolbarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tooltipForegroundColor = global::CriThink.Client.Droid.Resource.Attribute.tooltipForegroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tooltipFrameBackground = global::CriThink.Client.Droid.Resource.Attribute.tooltipFrameBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.tooltipText = global::CriThink.Client.Droid.Resource.Attribute.tooltipText;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.track = global::CriThink.Client.Droid.Resource.Attribute.track;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.trackTint = global::CriThink.Client.Droid.Resource.Attribute.trackTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.trackTintMode = global::CriThink.Client.Droid.Resource.Attribute.trackTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.ttcIndex = global::CriThink.Client.Droid.Resource.Attribute.ttcIndex;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.updatesContinuously = global::CriThink.Client.Droid.Resource.Attribute.updatesContinuously;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.useCompatPadding = global::CriThink.Client.Droid.Resource.Attribute.useCompatPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.useSimpleSummaryProvider = global::CriThink.Client.Droid.Resource.Attribute.useSimpleSummaryProvider;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.viewInflaterClass = global::CriThink.Client.Droid.Resource.Attribute.viewInflaterClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.voiceIcon = global::CriThink.Client.Droid.Resource.Attribute.voiceIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.widgetLayout = global::CriThink.Client.Droid.Resource.Attribute.widgetLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowActionBar = global::CriThink.Client.Droid.Resource.Attribute.windowActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowActionBarOverlay = global::CriThink.Client.Droid.Resource.Attribute.windowActionBarOverlay;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowActionModeOverlay = global::CriThink.Client.Droid.Resource.Attribute.windowActionModeOverlay;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowFixedHeightMajor = global::CriThink.Client.Droid.Resource.Attribute.windowFixedHeightMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowFixedHeightMinor = global::CriThink.Client.Droid.Resource.Attribute.windowFixedHeightMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowFixedWidthMajor = global::CriThink.Client.Droid.Resource.Attribute.windowFixedWidthMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowFixedWidthMinor = global::CriThink.Client.Droid.Resource.Attribute.windowFixedWidthMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowMinWidthMajor = global::CriThink.Client.Droid.Resource.Attribute.windowMinWidthMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowMinWidthMinor = global::CriThink.Client.Droid.Resource.Attribute.windowMinWidthMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Attribute.windowNoTitle = global::CriThink.Client.Droid.Resource.Attribute.windowNoTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Boolean.abc_action_bar_embed_tabs = global::CriThink.Client.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::MvvmCross.Plugin.Visibility.Resource.Boolean.abc_allow_stacked_button_bar = global::CriThink.Client.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::CriThink.Client.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::MvvmCross.Plugin.Visibility.Resource.Boolean.config_materialPreferenceIconSpaceReserved = global::CriThink.Client.Droid.Resource.Boolean.config_materialPreferenceIconSpaceReserved;
+			global::MvvmCross.Plugin.Visibility.Resource.Boolean.mtrl_btn_textappearance_all_caps = global::CriThink.Client.Droid.Resource.Boolean.mtrl_btn_textappearance_all_caps;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_background_cache_hint_selector_material_dark = global::CriThink.Client.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_background_cache_hint_selector_material_light = global::CriThink.Client.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_btn_colored_borderless_text_material = global::CriThink.Client.Droid.Resource.Color.abc_btn_colored_borderless_text_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_btn_colored_text_material = global::CriThink.Client.Droid.Resource.Color.abc_btn_colored_text_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_color_highlight_material = global::CriThink.Client.Droid.Resource.Color.abc_color_highlight_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_decor_view_status_guard = global::CriThink.Client.Droid.Resource.Color.abc_decor_view_status_guard;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_decor_view_status_guard_light = global::CriThink.Client.Droid.Resource.Color.abc_decor_view_status_guard_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_hint_foreground_material_dark = global::CriThink.Client.Droid.Resource.Color.abc_hint_foreground_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_hint_foreground_material_light = global::CriThink.Client.Droid.Resource.Color.abc_hint_foreground_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_primary_text_disable_only_material_dark = global::CriThink.Client.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_primary_text_disable_only_material_light = global::CriThink.Client.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_primary_text_material_dark = global::CriThink.Client.Droid.Resource.Color.abc_primary_text_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_primary_text_material_light = global::CriThink.Client.Droid.Resource.Color.abc_primary_text_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_search_url_text = global::CriThink.Client.Droid.Resource.Color.abc_search_url_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_search_url_text_normal = global::CriThink.Client.Droid.Resource.Color.abc_search_url_text_normal;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_search_url_text_pressed = global::CriThink.Client.Droid.Resource.Color.abc_search_url_text_pressed;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_search_url_text_selected = global::CriThink.Client.Droid.Resource.Color.abc_search_url_text_selected;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_secondary_text_material_dark = global::CriThink.Client.Droid.Resource.Color.abc_secondary_text_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_secondary_text_material_light = global::CriThink.Client.Droid.Resource.Color.abc_secondary_text_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_btn_checkable = global::CriThink.Client.Droid.Resource.Color.abc_tint_btn_checkable;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_default = global::CriThink.Client.Droid.Resource.Color.abc_tint_default;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_edittext = global::CriThink.Client.Droid.Resource.Color.abc_tint_edittext;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_seek_thumb = global::CriThink.Client.Droid.Resource.Color.abc_tint_seek_thumb;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_spinner = global::CriThink.Client.Droid.Resource.Color.abc_tint_spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.abc_tint_switch_track = global::CriThink.Client.Droid.Resource.Color.abc_tint_switch_track;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.accent_material_dark = global::CriThink.Client.Droid.Resource.Color.accent_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.accent_material_light = global::CriThink.Client.Droid.Resource.Color.accent_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.androidx_core_ripple_material_light = global::CriThink.Client.Droid.Resource.Color.androidx_core_ripple_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.androidx_core_secondary_text_default_material_light = global::CriThink.Client.Droid.Resource.Color.androidx_core_secondary_text_default_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.background_floating_material_dark = global::CriThink.Client.Droid.Resource.Color.background_floating_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.background_floating_material_light = global::CriThink.Client.Droid.Resource.Color.background_floating_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.background_material_dark = global::CriThink.Client.Droid.Resource.Color.background_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.background_material_light = global::CriThink.Client.Droid.Resource.Color.background_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_disabled_material_dark = global::CriThink.Client.Droid.Resource.Color.bright_foreground_disabled_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_disabled_material_light = global::CriThink.Client.Droid.Resource.Color.bright_foreground_disabled_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_inverse_material_dark = global::CriThink.Client.Droid.Resource.Color.bright_foreground_inverse_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_inverse_material_light = global::CriThink.Client.Droid.Resource.Color.bright_foreground_inverse_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_material_dark = global::CriThink.Client.Droid.Resource.Color.bright_foreground_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.bright_foreground_material_light = global::CriThink.Client.Droid.Resource.Color.bright_foreground_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.button_material_dark = global::CriThink.Client.Droid.Resource.Color.button_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.button_material_light = global::CriThink.Client.Droid.Resource.Color.button_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.cardview_dark_background = global::CriThink.Client.Droid.Resource.Color.cardview_dark_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.cardview_light_background = global::CriThink.Client.Droid.Resource.Color.cardview_light_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.cardview_shadow_end_color = global::CriThink.Client.Droid.Resource.Color.cardview_shadow_end_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.cardview_shadow_start_color = global::CriThink.Client.Droid.Resource.Color.cardview_shadow_start_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_bottom_navigation_shadow_color = global::CriThink.Client.Droid.Resource.Color.design_bottom_navigation_shadow_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_default_color_primary = global::CriThink.Client.Droid.Resource.Color.design_default_color_primary;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_default_color_primary_dark = global::CriThink.Client.Droid.Resource.Color.design_default_color_primary_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_error = global::CriThink.Client.Droid.Resource.Color.design_error;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_shadow_end_color = global::CriThink.Client.Droid.Resource.Color.design_fab_shadow_end_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_shadow_mid_color = global::CriThink.Client.Droid.Resource.Color.design_fab_shadow_mid_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_shadow_start_color = global::CriThink.Client.Droid.Resource.Color.design_fab_shadow_start_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_stroke_end_inner_color = global::CriThink.Client.Droid.Resource.Color.design_fab_stroke_end_inner_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_stroke_end_outer_color = global::CriThink.Client.Droid.Resource.Color.design_fab_stroke_end_outer_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_stroke_top_inner_color = global::CriThink.Client.Droid.Resource.Color.design_fab_stroke_top_inner_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_fab_stroke_top_outer_color = global::CriThink.Client.Droid.Resource.Color.design_fab_stroke_top_outer_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.design_snackbar_background_color = global::CriThink.Client.Droid.Resource.Color.design_snackbar_background_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.dim_foreground_disabled_material_dark = global::CriThink.Client.Droid.Resource.Color.dim_foreground_disabled_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.dim_foreground_disabled_material_light = global::CriThink.Client.Droid.Resource.Color.dim_foreground_disabled_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.dim_foreground_material_dark = global::CriThink.Client.Droid.Resource.Color.dim_foreground_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.dim_foreground_material_light = global::CriThink.Client.Droid.Resource.Color.dim_foreground_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.error_color_material_dark = global::CriThink.Client.Droid.Resource.Color.error_color_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.error_color_material_light = global::CriThink.Client.Droid.Resource.Color.error_color_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.foreground_material_dark = global::CriThink.Client.Droid.Resource.Color.foreground_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.foreground_material_light = global::CriThink.Client.Droid.Resource.Color.foreground_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.highlighted_text_material_dark = global::CriThink.Client.Droid.Resource.Color.highlighted_text_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.highlighted_text_material_light = global::CriThink.Client.Droid.Resource.Color.highlighted_text_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_blue_grey_800 = global::CriThink.Client.Droid.Resource.Color.material_blue_grey_800;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_blue_grey_900 = global::CriThink.Client.Droid.Resource.Color.material_blue_grey_900;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_blue_grey_950 = global::CriThink.Client.Droid.Resource.Color.material_blue_grey_950;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_deep_teal_200 = global::CriThink.Client.Droid.Resource.Color.material_deep_teal_200;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_deep_teal_500 = global::CriThink.Client.Droid.Resource.Color.material_deep_teal_500;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_100 = global::CriThink.Client.Droid.Resource.Color.material_grey_100;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_300 = global::CriThink.Client.Droid.Resource.Color.material_grey_300;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_50 = global::CriThink.Client.Droid.Resource.Color.material_grey_50;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_600 = global::CriThink.Client.Droid.Resource.Color.material_grey_600;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_800 = global::CriThink.Client.Droid.Resource.Color.material_grey_800;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_850 = global::CriThink.Client.Droid.Resource.Color.material_grey_850;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.material_grey_900 = global::CriThink.Client.Droid.Resource.Color.material_grey_900;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_bottom_nav_colored_item_tint = global::CriThink.Client.Droid.Resource.Color.mtrl_bottom_nav_colored_item_tint;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_bottom_nav_item_tint = global::CriThink.Client.Droid.Resource.Color.mtrl_bottom_nav_item_tint;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_bg_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_bg_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_stroke_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_stroke_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_text_btn_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_text_btn_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_text_color_disabled = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_text_color_disabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_text_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_text_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_btn_transparent_bg_color = global::CriThink.Client.Droid.Resource.Color.mtrl_btn_transparent_bg_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_chip_background_color = global::CriThink.Client.Droid.Resource.Color.mtrl_chip_background_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_chip_close_icon_tint = global::CriThink.Client.Droid.Resource.Color.mtrl_chip_close_icon_tint;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_chip_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_chip_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_chip_text_color = global::CriThink.Client.Droid.Resource.Color.mtrl_chip_text_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_fab_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_fab_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_scrim_color = global::CriThink.Client.Droid.Resource.Color.mtrl_scrim_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_tabs_colored_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_tabs_colored_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_tabs_icon_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_tabs_icon_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_tabs_icon_color_selector_colored = global::CriThink.Client.Droid.Resource.Color.mtrl_tabs_icon_color_selector_colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_tabs_legacy_text_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_tabs_legacy_text_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_tabs_ripple_color = global::CriThink.Client.Droid.Resource.Color.mtrl_tabs_ripple_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_textinput_default_box_stroke_color = global::CriThink.Client.Droid.Resource.Color.mtrl_textinput_default_box_stroke_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_textinput_disabled_color = global::CriThink.Client.Droid.Resource.Color.mtrl_textinput_disabled_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_textinput_filled_box_default_background_color = global::CriThink.Client.Droid.Resource.Color.mtrl_textinput_filled_box_default_background_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_textinput_hovered_box_stroke_color = global::CriThink.Client.Droid.Resource.Color.mtrl_textinput_hovered_box_stroke_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.mtrl_text_btn_text_color_selector = global::CriThink.Client.Droid.Resource.Color.mtrl_text_btn_text_color_selector;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.notification_action_color_filter = global::CriThink.Client.Droid.Resource.Color.notification_action_color_filter;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.notification_icon_bg_color = global::CriThink.Client.Droid.Resource.Color.notification_icon_bg_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.preference_fallback_accent_color = global::CriThink.Client.Droid.Resource.Color.preference_fallback_accent_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_dark_material_dark = global::CriThink.Client.Droid.Resource.Color.primary_dark_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_dark_material_light = global::CriThink.Client.Droid.Resource.Color.primary_dark_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_material_dark = global::CriThink.Client.Droid.Resource.Color.primary_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_material_light = global::CriThink.Client.Droid.Resource.Color.primary_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_text_default_material_dark = global::CriThink.Client.Droid.Resource.Color.primary_text_default_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_text_default_material_light = global::CriThink.Client.Droid.Resource.Color.primary_text_default_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_text_disabled_material_dark = global::CriThink.Client.Droid.Resource.Color.primary_text_disabled_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.primary_text_disabled_material_light = global::CriThink.Client.Droid.Resource.Color.primary_text_disabled_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.ripple_material_dark = global::CriThink.Client.Droid.Resource.Color.ripple_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.ripple_material_light = global::CriThink.Client.Droid.Resource.Color.ripple_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.secondary_text_default_material_dark = global::CriThink.Client.Droid.Resource.Color.secondary_text_default_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.secondary_text_default_material_light = global::CriThink.Client.Droid.Resource.Color.secondary_text_default_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.secondary_text_disabled_material_dark = global::CriThink.Client.Droid.Resource.Color.secondary_text_disabled_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.secondary_text_disabled_material_light = global::CriThink.Client.Droid.Resource.Color.secondary_text_disabled_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_disabled_material_dark = global::CriThink.Client.Droid.Resource.Color.switch_thumb_disabled_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_disabled_material_light = global::CriThink.Client.Droid.Resource.Color.switch_thumb_disabled_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_material_dark = global::CriThink.Client.Droid.Resource.Color.switch_thumb_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_material_light = global::CriThink.Client.Droid.Resource.Color.switch_thumb_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_normal_material_dark = global::CriThink.Client.Droid.Resource.Color.switch_thumb_normal_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.switch_thumb_normal_material_light = global::CriThink.Client.Droid.Resource.Color.switch_thumb_normal_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.tooltip_background_dark = global::CriThink.Client.Droid.Resource.Color.tooltip_background_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Color.tooltip_background_light = global::CriThink.Client.Droid.Resource.Color.tooltip_background_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_content_inset_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_default_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_default_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_default_padding_end_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_default_padding_start_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_elevation_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_elevation_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_stacked_max_height = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_button_min_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_button_min_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_button_min_width_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_button_min_width_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_action_button_min_width_overflow_material = global::CriThink.Client.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_alert_dialog_button_bar_height = global::CriThink.Client.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_alert_dialog_button_dimen = global::CriThink.Client.Droid.Resource.Dimension.abc_alert_dialog_button_dimen;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_button_inset_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_button_inset_vertical_material = global::CriThink.Client.Droid.Resource.Dimension.abc_button_inset_vertical_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_button_padding_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_button_padding_vertical_material = global::CriThink.Client.Droid.Resource.Dimension.abc_button_padding_vertical_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::CriThink.Client.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_config_prefDialogWidth = global::CriThink.Client.Droid.Resource.Dimension.abc_config_prefDialogWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_control_corner_material = global::CriThink.Client.Droid.Resource.Dimension.abc_control_corner_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_control_inset_material = global::CriThink.Client.Droid.Resource.Dimension.abc_control_inset_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_control_padding_material = global::CriThink.Client.Droid.Resource.Dimension.abc_control_padding_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_corner_radius_material = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_corner_radius_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_fixed_height_major = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_fixed_height_minor = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_fixed_width_major = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_fixed_width_minor = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_min_width_major = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_min_width_major;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_min_width_minor = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_min_width_minor;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_padding_material = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_padding_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_padding_top_material = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_padding_top_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dialog_title_divider_material = global::CriThink.Client.Droid.Resource.Dimension.abc_dialog_title_divider_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_disabled_alpha_material_dark = global::CriThink.Client.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_disabled_alpha_material_light = global::CriThink.Client.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dropdownitem_icon_width = global::CriThink.Client.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dropdownitem_text_padding_left = global::CriThink.Client.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_dropdownitem_text_padding_right = global::CriThink.Client.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_edit_text_inset_bottom_material = global::CriThink.Client.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_edit_text_inset_top_material = global::CriThink.Client.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_floating_window_z = global::CriThink.Client.Droid.Resource.Dimension.abc_floating_window_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_list_item_height_large_material = global::CriThink.Client.Droid.Resource.Dimension.abc_list_item_height_large_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_list_item_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_list_item_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_list_item_height_small_material = global::CriThink.Client.Droid.Resource.Dimension.abc_list_item_height_small_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_list_item_padding_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_panel_menu_list_width = global::CriThink.Client.Droid.Resource.Dimension.abc_panel_menu_list_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_progress_bar_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_progress_bar_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_search_view_preferred_height = global::CriThink.Client.Droid.Resource.Dimension.abc_search_view_preferred_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_search_view_preferred_width = global::CriThink.Client.Droid.Resource.Dimension.abc_search_view_preferred_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_seekbar_track_background_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_seekbar_track_progress_height_material = global::CriThink.Client.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_select_dialog_padding_start_material = global::CriThink.Client.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_switch_padding = global::CriThink.Client.Droid.Resource.Dimension.abc_switch_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_body_1_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_body_1_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_body_2_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_body_2_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_button_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_button_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_caption_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_caption_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_display_1_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_display_1_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_display_2_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_display_2_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_display_3_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_display_3_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_display_4_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_display_4_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_headline_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_headline_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_large_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_large_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_medium_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_medium_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_menu_header_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_menu_header_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_menu_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_menu_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_small_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_small_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_subhead_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_subhead_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_title_material = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_title_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.abc_text_size_title_material_toolbar = global::CriThink.Client.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.cardview_compat_inset_shadow = global::CriThink.Client.Droid.Resource.Dimension.cardview_compat_inset_shadow;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.cardview_default_elevation = global::CriThink.Client.Droid.Resource.Dimension.cardview_default_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.cardview_default_radius = global::CriThink.Client.Droid.Resource.Dimension.cardview_default_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_button_inset_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_button_inset_vertical_material = global::CriThink.Client.Droid.Resource.Dimension.compat_button_inset_vertical_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_button_padding_horizontal_material = global::CriThink.Client.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_button_padding_vertical_material = global::CriThink.Client.Droid.Resource.Dimension.compat_button_padding_vertical_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_control_corner_material = global::CriThink.Client.Droid.Resource.Dimension.compat_control_corner_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_notification_large_icon_max_height = global::CriThink.Client.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.compat_notification_large_icon_max_width = global::CriThink.Client.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_appbar_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_appbar_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_active_item_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_active_item_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_active_item_min_width = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_active_item_min_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_active_text_size = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_active_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_height = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_icon_size = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_icon_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_item_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_item_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_item_min_width = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_item_min_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_margin = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_shadow_height = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_shadow_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_navigation_text_size = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_navigation_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_sheet_modal_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_sheet_modal_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_bottom_sheet_peek_height_min = global::CriThink.Client.Droid.Resource.Dimension.design_bottom_sheet_peek_height_min;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_border_width = global::CriThink.Client.Droid.Resource.Dimension.design_fab_border_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_fab_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_image_size = global::CriThink.Client.Droid.Resource.Dimension.design_fab_image_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_size_mini = global::CriThink.Client.Droid.Resource.Dimension.design_fab_size_mini;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_size_normal = global::CriThink.Client.Droid.Resource.Dimension.design_fab_size_normal;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_translation_z_hovered_focused = global::CriThink.Client.Droid.Resource.Dimension.design_fab_translation_z_hovered_focused;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_fab_translation_z_pressed = global::CriThink.Client.Droid.Resource.Dimension.design_fab_translation_z_pressed;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_icon_padding = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_icon_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_icon_size = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_icon_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_item_horizontal_padding = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_item_horizontal_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_item_icon_padding = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_item_icon_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_padding_bottom = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_padding_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_navigation_separator_vertical_padding = global::CriThink.Client.Droid.Resource.Dimension.design_navigation_separator_vertical_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_action_inline_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_action_inline_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_background_corner_radius = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_background_corner_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_elevation = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_extra_spacing_horizontal = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_extra_spacing_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_min_width = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_min_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_padding_horizontal = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_padding_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_padding_vertical = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_padding_vertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_padding_vertical_2lines = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_padding_vertical_2lines;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_snackbar_text_size = global::CriThink.Client.Droid.Resource.Dimension.design_snackbar_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_tab_max_width = global::CriThink.Client.Droid.Resource.Dimension.design_tab_max_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_tab_scrollable_min_width = global::CriThink.Client.Droid.Resource.Dimension.design_tab_scrollable_min_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_tab_text_size = global::CriThink.Client.Droid.Resource.Dimension.design_tab_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_tab_text_size_2line = global::CriThink.Client.Droid.Resource.Dimension.design_tab_text_size_2line;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.design_textinput_caption_translate_y = global::CriThink.Client.Droid.Resource.Dimension.design_textinput_caption_translate_y;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.disabled_alpha_material_dark = global::CriThink.Client.Droid.Resource.Dimension.disabled_alpha_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.disabled_alpha_material_light = global::CriThink.Client.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.fastscroll_default_thickness = global::CriThink.Client.Droid.Resource.Dimension.fastscroll_default_thickness;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.fastscroll_margin = global::CriThink.Client.Droid.Resource.Dimension.fastscroll_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.fastscroll_minimum_range = global::CriThink.Client.Droid.Resource.Dimension.fastscroll_minimum_range;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.highlight_alpha_material_colored = global::CriThink.Client.Droid.Resource.Dimension.highlight_alpha_material_colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.highlight_alpha_material_dark = global::CriThink.Client.Droid.Resource.Dimension.highlight_alpha_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.highlight_alpha_material_light = global::CriThink.Client.Droid.Resource.Dimension.highlight_alpha_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.hint_alpha_material_dark = global::CriThink.Client.Droid.Resource.Dimension.hint_alpha_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.hint_alpha_material_light = global::CriThink.Client.Droid.Resource.Dimension.hint_alpha_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.hint_pressed_alpha_material_dark = global::CriThink.Client.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.hint_pressed_alpha_material_light = global::CriThink.Client.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame = global::CriThink.Client.Droid.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity = global::CriThink.Client.Droid.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.item_touch_helper_swipe_escape_velocity = global::CriThink.Client.Droid.Resource.Dimension.item_touch_helper_swipe_escape_velocity;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_bottomappbar_fabOffsetEndMode = global::CriThink.Client.Droid.Resource.Dimension.mtrl_bottomappbar_fabOffsetEndMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_bottomappbar_fab_cradle_margin = global::CriThink.Client.Droid.Resource.Dimension.mtrl_bottomappbar_fab_cradle_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_bottomappbar_fab_cradle_rounded_corner_radius = global::CriThink.Client.Droid.Resource.Dimension.mtrl_bottomappbar_fab_cradle_rounded_corner_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_bottomappbar_fab_cradle_vertical_offset = global::CriThink.Client.Droid.Resource.Dimension.mtrl_bottomappbar_fab_cradle_vertical_offset;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_bottomappbar_height = global::CriThink.Client.Droid.Resource.Dimension.mtrl_bottomappbar_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_corner_radius = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_corner_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_dialog_btn_min_width = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_dialog_btn_min_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_disabled_elevation = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_disabled_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_disabled_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_disabled_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_elevation = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_focused_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_focused_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_hovered_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_hovered_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_icon_btn_padding_left = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_icon_btn_padding_left;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_icon_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_icon_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_inset = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_inset;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_letter_spacing = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_letter_spacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_padding_bottom = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_padding_bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_padding_left = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_padding_left;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_padding_right = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_padding_right;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_padding_top = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_padding_top;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_pressed_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_pressed_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_stroke_size = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_stroke_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_text_btn_icon_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_text_btn_icon_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_text_btn_padding_left = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_text_btn_padding_left;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_text_btn_padding_right = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_text_btn_padding_right;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_text_size = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_btn_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_btn_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_card_elevation = global::CriThink.Client.Droid.Resource.Dimension.mtrl_card_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_card_spacing = global::CriThink.Client.Droid.Resource.Dimension.mtrl_card_spacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_chip_pressed_translation_z = global::CriThink.Client.Droid.Resource.Dimension.mtrl_chip_pressed_translation_z;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_chip_text_size = global::CriThink.Client.Droid.Resource.Dimension.mtrl_chip_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_fab_elevation = global::CriThink.Client.Droid.Resource.Dimension.mtrl_fab_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_fab_translation_z_hovered_focused = global::CriThink.Client.Droid.Resource.Dimension.mtrl_fab_translation_z_hovered_focused;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_fab_translation_z_pressed = global::CriThink.Client.Droid.Resource.Dimension.mtrl_fab_translation_z_pressed;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_navigation_elevation = global::CriThink.Client.Droid.Resource.Dimension.mtrl_navigation_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_navigation_item_horizontal_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_navigation_item_horizontal_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_navigation_item_icon_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_navigation_item_icon_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_snackbar_background_corner_radius = global::CriThink.Client.Droid.Resource.Dimension.mtrl_snackbar_background_corner_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_snackbar_margin = global::CriThink.Client.Droid.Resource.Dimension.mtrl_snackbar_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_box_corner_radius_medium = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_box_corner_radius_medium;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_box_corner_radius_small = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_box_corner_radius_small;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_box_label_cutout_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_box_label_cutout_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_box_stroke_width_default = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_box_stroke_width_default;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_box_stroke_width_focused = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_box_stroke_width_focused;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_textinput_outline_box_expanded_padding = global::CriThink.Client.Droid.Resource.Dimension.mtrl_textinput_outline_box_expanded_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.mtrl_toolbar_default_height = global::CriThink.Client.Droid.Resource.Dimension.mtrl_toolbar_default_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_action_icon_size = global::CriThink.Client.Droid.Resource.Dimension.notification_action_icon_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_action_text_size = global::CriThink.Client.Droid.Resource.Dimension.notification_action_text_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_big_circle_margin = global::CriThink.Client.Droid.Resource.Dimension.notification_big_circle_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_content_margin_start = global::CriThink.Client.Droid.Resource.Dimension.notification_content_margin_start;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_large_icon_height = global::CriThink.Client.Droid.Resource.Dimension.notification_large_icon_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_large_icon_width = global::CriThink.Client.Droid.Resource.Dimension.notification_large_icon_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_main_column_padding_top = global::CriThink.Client.Droid.Resource.Dimension.notification_main_column_padding_top;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_media_narrow_margin = global::CriThink.Client.Droid.Resource.Dimension.notification_media_narrow_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_right_icon_size = global::CriThink.Client.Droid.Resource.Dimension.notification_right_icon_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_right_side_padding_top = global::CriThink.Client.Droid.Resource.Dimension.notification_right_side_padding_top;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_small_icon_background_padding = global::CriThink.Client.Droid.Resource.Dimension.notification_small_icon_background_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_small_icon_size_as_large = global::CriThink.Client.Droid.Resource.Dimension.notification_small_icon_size_as_large;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_subtext_size = global::CriThink.Client.Droid.Resource.Dimension.notification_subtext_size;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_top_pad = global::CriThink.Client.Droid.Resource.Dimension.notification_top_pad;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.notification_top_pad_large_text = global::CriThink.Client.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.preference_dropdown_padding_start = global::CriThink.Client.Droid.Resource.Dimension.preference_dropdown_padding_start;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.preference_icon_minWidth = global::CriThink.Client.Droid.Resource.Dimension.preference_icon_minWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.preference_seekbar_padding_horizontal = global::CriThink.Client.Droid.Resource.Dimension.preference_seekbar_padding_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.preference_seekbar_padding_vertical = global::CriThink.Client.Droid.Resource.Dimension.preference_seekbar_padding_vertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.preference_seekbar_value_minWidth = global::CriThink.Client.Droid.Resource.Dimension.preference_seekbar_value_minWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_corner_radius = global::CriThink.Client.Droid.Resource.Dimension.tooltip_corner_radius;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_horizontal_padding = global::CriThink.Client.Droid.Resource.Dimension.tooltip_horizontal_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_margin = global::CriThink.Client.Droid.Resource.Dimension.tooltip_margin;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_precise_anchor_extra_offset = global::CriThink.Client.Droid.Resource.Dimension.tooltip_precise_anchor_extra_offset;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_precise_anchor_threshold = global::CriThink.Client.Droid.Resource.Dimension.tooltip_precise_anchor_threshold;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_vertical_padding = global::CriThink.Client.Droid.Resource.Dimension.tooltip_vertical_padding;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_y_offset_non_touch = global::CriThink.Client.Droid.Resource.Dimension.tooltip_y_offset_non_touch;
+			global::MvvmCross.Plugin.Visibility.Resource.Dimension.tooltip_y_offset_touch = global::CriThink.Client.Droid.Resource.Dimension.tooltip_y_offset_touch;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_action_bar_item_background_material = global::CriThink.Client.Droid.Resource.Drawable.abc_action_bar_item_background_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_borderless_material = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_borderless_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_check_material = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_check_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_check_material_anim = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_check_material_anim;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_colored_material = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_colored_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_default_mtrl_shape = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_radio_material = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_radio_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_radio_material_anim = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_radio_material_anim;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::CriThink.Client.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_cab_background_internal_bg = global::CriThink.Client.Droid.Resource.Drawable.abc_cab_background_internal_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_cab_background_top_material = global::CriThink.Client.Droid.Resource.Drawable.abc_cab_background_top_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_control_background_material = global::CriThink.Client.Droid.Resource.Drawable.abc_control_background_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_dialog_material_background = global::CriThink.Client.Droid.Resource.Drawable.abc_dialog_material_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_edit_text_material = global::CriThink.Client.Droid.Resource.Drawable.abc_edit_text_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_ab_back_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_ab_back_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_clear_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_clear_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_go_search_api_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_go_search_api_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_overflow_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_overflow_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_search_api_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_search_api_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_black_16dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_black_16dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_black_36dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_black_36dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_black_48dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_black_48dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_half_black_16dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_half_black_16dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_half_black_36dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_half_black_36dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_star_half_black_48dp = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_star_half_black_48dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ic_voice_search_api_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_item_background_holo_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_item_background_holo_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_item_background_holo_light = global::CriThink.Client.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_divider_material = global::CriThink.Client.Droid.Resource.Drawable.abc_list_divider_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_divider_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_focused_holo = global::CriThink.Client.Droid.Resource.Drawable.abc_list_focused_holo;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_longpressed_holo = global::CriThink.Client.Droid.Resource.Drawable.abc_list_longpressed_holo;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_pressed_holo_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_pressed_holo_light = global::CriThink.Client.Droid.Resource.Drawable.abc_list_pressed_holo_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_disabled_holo_light = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_holo_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_holo_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_list_selector_holo_light = global::CriThink.Client.Droid.Resource.Drawable.abc_list_selector_holo_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::CriThink.Client.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_popup_background_mtrl_mult = global::CriThink.Client.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ratingbar_indicator_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ratingbar_indicator_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ratingbar_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ratingbar_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_ratingbar_small_material = global::CriThink.Client.Droid.Resource.Drawable.abc_ratingbar_small_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::CriThink.Client.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::CriThink.Client.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_seekbar_thumb_material = global::CriThink.Client.Droid.Resource.Drawable.abc_seekbar_thumb_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_seekbar_tick_mark_material = global::CriThink.Client.Droid.Resource.Drawable.abc_seekbar_tick_mark_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_seekbar_track_material = global::CriThink.Client.Droid.Resource.Drawable.abc_seekbar_track_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_spinner_textfield_background_material = global::CriThink.Client.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_switch_thumb_material = global::CriThink.Client.Droid.Resource.Drawable.abc_switch_thumb_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_switch_track_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_tab_indicator_material = global::CriThink.Client.Droid.Resource.Drawable.abc_tab_indicator_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::CriThink.Client.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_textfield_search_material = global::CriThink.Client.Droid.Resource.Drawable.abc_textfield_search_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_cursor_material = global::CriThink.Client.Droid.Resource.Drawable.abc_text_cursor_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::CriThink.Client.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.abc_vector_test = global::CriThink.Client.Droid.Resource.Drawable.abc_vector_test;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.avd_hide_password = global::CriThink.Client.Droid.Resource.Drawable.avd_hide_password;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.avd_show_password = global::CriThink.Client.Droid.Resource.Drawable.avd_show_password;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_checkbox_checked_mtrl = global::CriThink.Client.Droid.Resource.Drawable.btn_checkbox_checked_mtrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_checkbox_checked_to_unchecked_mtrl_animation = global::CriThink.Client.Droid.Resource.Drawable.btn_checkbox_checked_to_unchecked_mtrl_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_checkbox_unchecked_mtrl = global::CriThink.Client.Droid.Resource.Drawable.btn_checkbox_unchecked_mtrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_checkbox_unchecked_to_checked_mtrl_animation = global::CriThink.Client.Droid.Resource.Drawable.btn_checkbox_unchecked_to_checked_mtrl_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_radio_off_mtrl = global::CriThink.Client.Droid.Resource.Drawable.btn_radio_off_mtrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_radio_off_to_on_mtrl_animation = global::CriThink.Client.Droid.Resource.Drawable.btn_radio_off_to_on_mtrl_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_radio_on_mtrl = global::CriThink.Client.Droid.Resource.Drawable.btn_radio_on_mtrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.btn_radio_on_to_off_mtrl_animation = global::CriThink.Client.Droid.Resource.Drawable.btn_radio_on_to_off_mtrl_animation;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_bottom_navigation_item_background = global::CriThink.Client.Droid.Resource.Drawable.design_bottom_navigation_item_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_fab_background = global::CriThink.Client.Droid.Resource.Drawable.design_fab_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_ic_visibility = global::CriThink.Client.Droid.Resource.Drawable.design_ic_visibility;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_ic_visibility_off = global::CriThink.Client.Droid.Resource.Drawable.design_ic_visibility_off;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_password_eye = global::CriThink.Client.Droid.Resource.Drawable.design_password_eye;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.design_snackbar_background = global::CriThink.Client.Droid.Resource.Drawable.design_snackbar_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.ic_arrow_down_24dp = global::CriThink.Client.Droid.Resource.Drawable.ic_arrow_down_24dp;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.ic_mtrl_chip_checked_black = global::CriThink.Client.Droid.Resource.Drawable.ic_mtrl_chip_checked_black;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.ic_mtrl_chip_checked_circle = global::CriThink.Client.Droid.Resource.Drawable.ic_mtrl_chip_checked_circle;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.ic_mtrl_chip_close_circle = global::CriThink.Client.Droid.Resource.Drawable.ic_mtrl_chip_close_circle;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.mtrl_tabs_default_indicator = global::CriThink.Client.Droid.Resource.Drawable.mtrl_tabs_default_indicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.navigation_empty_icon = global::CriThink.Client.Droid.Resource.Drawable.navigation_empty_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_action_background = global::CriThink.Client.Droid.Resource.Drawable.notification_action_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg = global::CriThink.Client.Droid.Resource.Drawable.notification_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg_low = global::CriThink.Client.Droid.Resource.Drawable.notification_bg_low;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg_low_normal = global::CriThink.Client.Droid.Resource.Drawable.notification_bg_low_normal;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg_low_pressed = global::CriThink.Client.Droid.Resource.Drawable.notification_bg_low_pressed;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg_normal = global::CriThink.Client.Droid.Resource.Drawable.notification_bg_normal;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_bg_normal_pressed = global::CriThink.Client.Droid.Resource.Drawable.notification_bg_normal_pressed;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_icon_background = global::CriThink.Client.Droid.Resource.Drawable.notification_icon_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_template_icon_bg = global::CriThink.Client.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_template_icon_low_bg = global::CriThink.Client.Droid.Resource.Drawable.notification_template_icon_low_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notification_tile_bg = global::CriThink.Client.Droid.Resource.Drawable.notification_tile_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.notify_panel_notification_icon_bg = global::CriThink.Client.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.preference_list_divider_material = global::CriThink.Client.Droid.Resource.Drawable.preference_list_divider_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.tooltip_frame_dark = global::CriThink.Client.Droid.Resource.Drawable.tooltip_frame_dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Drawable.tooltip_frame_light = global::CriThink.Client.Droid.Resource.Drawable.tooltip_frame_light;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_action_clickable_span = global::CriThink.Client.Droid.Resource.Id.accessibility_action_clickable_span;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_0 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_0;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_1 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_1;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_10 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_10;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_11 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_11;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_12 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_12;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_13 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_13;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_14 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_14;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_15 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_15;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_16 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_16;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_17 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_17;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_18 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_18;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_19 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_19;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_2 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_2;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_20 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_20;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_21 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_21;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_22 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_22;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_23 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_23;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_24 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_24;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_25 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_25;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_26 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_26;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_27 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_27;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_28 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_28;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_29 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_29;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_3 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_3;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_30 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_30;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_31 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_31;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_4 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_4;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_5 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_5;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_6 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_6;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_7 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_7;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_8 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_8;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.accessibility_custom_action_9 = global::CriThink.Client.Droid.Resource.Id.accessibility_custom_action_9;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.actions = global::CriThink.Client.Droid.Resource.Id.actions;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar = global::CriThink.Client.Droid.Resource.Id.action_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_activity_content = global::CriThink.Client.Droid.Resource.Id.action_bar_activity_content;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_container = global::CriThink.Client.Droid.Resource.Id.action_bar_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_root = global::CriThink.Client.Droid.Resource.Id.action_bar_root;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_spinner = global::CriThink.Client.Droid.Resource.Id.action_bar_spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_subtitle = global::CriThink.Client.Droid.Resource.Id.action_bar_subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_bar_title = global::CriThink.Client.Droid.Resource.Id.action_bar_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_container = global::CriThink.Client.Droid.Resource.Id.action_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_context_bar = global::CriThink.Client.Droid.Resource.Id.action_context_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_divider = global::CriThink.Client.Droid.Resource.Id.action_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_image = global::CriThink.Client.Droid.Resource.Id.action_image;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_menu_divider = global::CriThink.Client.Droid.Resource.Id.action_menu_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_menu_presenter = global::CriThink.Client.Droid.Resource.Id.action_menu_presenter;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_mode_bar = global::CriThink.Client.Droid.Resource.Id.action_mode_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_mode_bar_stub = global::CriThink.Client.Droid.Resource.Id.action_mode_bar_stub;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_mode_close_button = global::CriThink.Client.Droid.Resource.Id.action_mode_close_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.action_text = global::CriThink.Client.Droid.Resource.Id.action_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.activity_chooser_view_content = global::CriThink.Client.Droid.Resource.Id.activity_chooser_view_content;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.add = global::CriThink.Client.Droid.Resource.Id.add;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.alertTitle = global::CriThink.Client.Droid.Resource.Id.alertTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.all = global::CriThink.Client.Droid.Resource.Id.all;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.ALT = global::CriThink.Client.Droid.Resource.Id.ALT;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.always = global::CriThink.Client.Droid.Resource.Id.always;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.async = global::CriThink.Client.Droid.Resource.Id.async;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.auto = global::CriThink.Client.Droid.Resource.Id.auto;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.beginning = global::CriThink.Client.Droid.Resource.Id.beginning;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.blocking = global::CriThink.Client.Droid.Resource.Id.blocking;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.bottom = global::CriThink.Client.Droid.Resource.Id.bottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.buttonPanel = global::CriThink.Client.Droid.Resource.Id.buttonPanel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.center = global::CriThink.Client.Droid.Resource.Id.center;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.center_horizontal = global::CriThink.Client.Droid.Resource.Id.center_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.center_vertical = global::CriThink.Client.Droid.Resource.Id.center_vertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.checkbox = global::CriThink.Client.Droid.Resource.Id.checkbox;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.@checked = global::CriThink.Client.Droid.Resource.Id.@checked;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.chronometer = global::CriThink.Client.Droid.Resource.Id.chronometer;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.clip_horizontal = global::CriThink.Client.Droid.Resource.Id.clip_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.clip_vertical = global::CriThink.Client.Droid.Resource.Id.clip_vertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.collapseActionView = global::CriThink.Client.Droid.Resource.Id.collapseActionView;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.container = global::CriThink.Client.Droid.Resource.Id.container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.content = global::CriThink.Client.Droid.Resource.Id.content;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.contentPanel = global::CriThink.Client.Droid.Resource.Id.contentPanel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.coordinator = global::CriThink.Client.Droid.Resource.Id.coordinator;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.CTRL = global::CriThink.Client.Droid.Resource.Id.CTRL;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.custom = global::CriThink.Client.Droid.Resource.Id.custom;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.customPanel = global::CriThink.Client.Droid.Resource.Id.customPanel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.decor_content_parent = global::CriThink.Client.Droid.Resource.Id.decor_content_parent;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.default_activity_button = global::CriThink.Client.Droid.Resource.Id.default_activity_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.design_bottom_sheet = global::CriThink.Client.Droid.Resource.Id.design_bottom_sheet;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.design_menu_item_action_area = global::CriThink.Client.Droid.Resource.Id.design_menu_item_action_area;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.design_menu_item_action_area_stub = global::CriThink.Client.Droid.Resource.Id.design_menu_item_action_area_stub;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.design_menu_item_text = global::CriThink.Client.Droid.Resource.Id.design_menu_item_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.design_navigation_view = global::CriThink.Client.Droid.Resource.Id.design_navigation_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.dialog_button = global::CriThink.Client.Droid.Resource.Id.dialog_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.disableHome = global::CriThink.Client.Droid.Resource.Id.disableHome;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.edit_query = global::CriThink.Client.Droid.Resource.Id.edit_query;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.end = global::CriThink.Client.Droid.Resource.Id.end;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.enterAlways = global::CriThink.Client.Droid.Resource.Id.enterAlways;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.enterAlwaysCollapsed = global::CriThink.Client.Droid.Resource.Id.enterAlwaysCollapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.exitUntilCollapsed = global::CriThink.Client.Droid.Resource.Id.exitUntilCollapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.expanded_menu = global::CriThink.Client.Droid.Resource.Id.expanded_menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.expand_activities_button = global::CriThink.Client.Droid.Resource.Id.expand_activities_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.fill = global::CriThink.Client.Droid.Resource.Id.fill;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.filled = global::CriThink.Client.Droid.Resource.Id.filled;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.fill_horizontal = global::CriThink.Client.Droid.Resource.Id.fill_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.fill_vertical = global::CriThink.Client.Droid.Resource.Id.fill_vertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.@fixed = global::CriThink.Client.Droid.Resource.Id.@fixed;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.forever = global::CriThink.Client.Droid.Resource.Id.forever;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.fragment_container_view_tag = global::CriThink.Client.Droid.Resource.Id.fragment_container_view_tag;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.FUNCTION = global::CriThink.Client.Droid.Resource.Id.FUNCTION;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.ghost_view = global::CriThink.Client.Droid.Resource.Id.ghost_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.ghost_view_holder = global::CriThink.Client.Droid.Resource.Id.ghost_view_holder;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.group_divider = global::CriThink.Client.Droid.Resource.Id.group_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.home = global::CriThink.Client.Droid.Resource.Id.home;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.homeAsUp = global::CriThink.Client.Droid.Resource.Id.homeAsUp;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.icon = global::CriThink.Client.Droid.Resource.Id.icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.icon_frame = global::CriThink.Client.Droid.Resource.Id.icon_frame;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.icon_group = global::CriThink.Client.Droid.Resource.Id.icon_group;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.ifRoom = global::CriThink.Client.Droid.Resource.Id.ifRoom;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.image = global::CriThink.Client.Droid.Resource.Id.image;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.info = global::CriThink.Client.Droid.Resource.Id.info;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.italic = global::CriThink.Client.Droid.Resource.Id.italic;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.item_touch_helper_previous_elevation = global::CriThink.Client.Droid.Resource.Id.item_touch_helper_previous_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.labeled = global::CriThink.Client.Droid.Resource.Id.labeled;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.largeLabel = global::CriThink.Client.Droid.Resource.Id.largeLabel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.left = global::CriThink.Client.Droid.Resource.Id.left;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.line1 = global::CriThink.Client.Droid.Resource.Id.line1;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.line3 = global::CriThink.Client.Droid.Resource.Id.line3;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.listMode = global::CriThink.Client.Droid.Resource.Id.listMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.list_item = global::CriThink.Client.Droid.Resource.Id.list_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.masked = global::CriThink.Client.Droid.Resource.Id.masked;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.message = global::CriThink.Client.Droid.Resource.Id.message;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.META = global::CriThink.Client.Droid.Resource.Id.META;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.middle = global::CriThink.Client.Droid.Resource.Id.middle;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.mini = global::CriThink.Client.Droid.Resource.Id.mini;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.mtrl_child_content_container = global::CriThink.Client.Droid.Resource.Id.mtrl_child_content_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.mtrl_internal_children_alpha_tag = global::CriThink.Client.Droid.Resource.Id.mtrl_internal_children_alpha_tag;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.multiply = global::CriThink.Client.Droid.Resource.Id.multiply;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.MvvmCrossTagId = global::CriThink.Client.Droid.Resource.Id.MvvmCrossTagId;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.MvxBindingTagUnique = global::CriThink.Client.Droid.Resource.Id.MvxBindingTagUnique;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.navigation_header_container = global::CriThink.Client.Droid.Resource.Id.navigation_header_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.never = global::CriThink.Client.Droid.Resource.Id.never;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.none = global::CriThink.Client.Droid.Resource.Id.none;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.normal = global::CriThink.Client.Droid.Resource.Id.normal;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.notification_background = global::CriThink.Client.Droid.Resource.Id.notification_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.notification_main_column = global::CriThink.Client.Droid.Resource.Id.notification_main_column;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.notification_main_column_container = global::CriThink.Client.Droid.Resource.Id.notification_main_column_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.off = global::CriThink.Client.Droid.Resource.Id.off;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.on = global::CriThink.Client.Droid.Resource.Id.on;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.outline = global::CriThink.Client.Droid.Resource.Id.outline;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.parallax = global::CriThink.Client.Droid.Resource.Id.parallax;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.parentPanel = global::CriThink.Client.Droid.Resource.Id.parentPanel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.parent_matrix = global::CriThink.Client.Droid.Resource.Id.parent_matrix;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.pin = global::CriThink.Client.Droid.Resource.Id.pin;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.progress_circular = global::CriThink.Client.Droid.Resource.Id.progress_circular;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.progress_horizontal = global::CriThink.Client.Droid.Resource.Id.progress_horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.radio = global::CriThink.Client.Droid.Resource.Id.radio;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.recycler_view = global::CriThink.Client.Droid.Resource.Id.recycler_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.right = global::CriThink.Client.Droid.Resource.Id.right;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.right_icon = global::CriThink.Client.Droid.Resource.Id.right_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.right_side = global::CriThink.Client.Droid.Resource.Id.right_side;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.save_non_transition_alpha = global::CriThink.Client.Droid.Resource.Id.save_non_transition_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.save_overlay_view = global::CriThink.Client.Droid.Resource.Id.save_overlay_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.screen = global::CriThink.Client.Droid.Resource.Id.screen;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.scroll = global::CriThink.Client.Droid.Resource.Id.scroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.scrollable = global::CriThink.Client.Droid.Resource.Id.scrollable;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.scrollIndicatorDown = global::CriThink.Client.Droid.Resource.Id.scrollIndicatorDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.scrollIndicatorUp = global::CriThink.Client.Droid.Resource.Id.scrollIndicatorUp;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.scrollView = global::CriThink.Client.Droid.Resource.Id.scrollView;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_badge = global::CriThink.Client.Droid.Resource.Id.search_badge;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_bar = global::CriThink.Client.Droid.Resource.Id.search_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_button = global::CriThink.Client.Droid.Resource.Id.search_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_close_btn = global::CriThink.Client.Droid.Resource.Id.search_close_btn;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_edit_frame = global::CriThink.Client.Droid.Resource.Id.search_edit_frame;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_go_btn = global::CriThink.Client.Droid.Resource.Id.search_go_btn;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_mag_icon = global::CriThink.Client.Droid.Resource.Id.search_mag_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_plate = global::CriThink.Client.Droid.Resource.Id.search_plate;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_src_text = global::CriThink.Client.Droid.Resource.Id.search_src_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.search_voice_btn = global::CriThink.Client.Droid.Resource.Id.search_voice_btn;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.seekbar = global::CriThink.Client.Droid.Resource.Id.seekbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.seekbar_value = global::CriThink.Client.Droid.Resource.Id.seekbar_value;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.selected = global::CriThink.Client.Droid.Resource.Id.selected;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.select_dialog_listview = global::CriThink.Client.Droid.Resource.Id.select_dialog_listview;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.SHIFT = global::CriThink.Client.Droid.Resource.Id.SHIFT;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.shortcut = global::CriThink.Client.Droid.Resource.Id.shortcut;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.showCustom = global::CriThink.Client.Droid.Resource.Id.showCustom;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.showHome = global::CriThink.Client.Droid.Resource.Id.showHome;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.showTitle = global::CriThink.Client.Droid.Resource.Id.showTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.smallLabel = global::CriThink.Client.Droid.Resource.Id.smallLabel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.snackbar_action = global::CriThink.Client.Droid.Resource.Id.snackbar_action;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.snackbar_text = global::CriThink.Client.Droid.Resource.Id.snackbar_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.snap = global::CriThink.Client.Droid.Resource.Id.snap;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.snapMargins = global::CriThink.Client.Droid.Resource.Id.snapMargins;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.spacer = global::CriThink.Client.Droid.Resource.Id.spacer;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.spinner = global::CriThink.Client.Droid.Resource.Id.spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.split_action_bar = global::CriThink.Client.Droid.Resource.Id.split_action_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.src_atop = global::CriThink.Client.Droid.Resource.Id.src_atop;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.src_in = global::CriThink.Client.Droid.Resource.Id.src_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.src_over = global::CriThink.Client.Droid.Resource.Id.src_over;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.start = global::CriThink.Client.Droid.Resource.Id.start;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.stretch = global::CriThink.Client.Droid.Resource.Id.stretch;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.submenuarrow = global::CriThink.Client.Droid.Resource.Id.submenuarrow;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.submit_area = global::CriThink.Client.Droid.Resource.Id.submit_area;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.switchWidget = global::CriThink.Client.Droid.Resource.Id.switchWidget;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.SYM = global::CriThink.Client.Droid.Resource.Id.SYM;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tabMode = global::CriThink.Client.Droid.Resource.Id.tabMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_accessibility_actions = global::CriThink.Client.Droid.Resource.Id.tag_accessibility_actions;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_accessibility_clickable_spans = global::CriThink.Client.Droid.Resource.Id.tag_accessibility_clickable_spans;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_accessibility_heading = global::CriThink.Client.Droid.Resource.Id.tag_accessibility_heading;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_accessibility_pane_title = global::CriThink.Client.Droid.Resource.Id.tag_accessibility_pane_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_screen_reader_focusable = global::CriThink.Client.Droid.Resource.Id.tag_screen_reader_focusable;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_transition_group = global::CriThink.Client.Droid.Resource.Id.tag_transition_group;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_unhandled_key_event_manager = global::CriThink.Client.Droid.Resource.Id.tag_unhandled_key_event_manager;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.tag_unhandled_key_listeners = global::CriThink.Client.Droid.Resource.Id.tag_unhandled_key_listeners;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.text = global::CriThink.Client.Droid.Resource.Id.text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.text2 = global::CriThink.Client.Droid.Resource.Id.text2;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textinput_counter = global::CriThink.Client.Droid.Resource.Id.textinput_counter;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textinput_error = global::CriThink.Client.Droid.Resource.Id.textinput_error;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textinput_helper_text = global::CriThink.Client.Droid.Resource.Id.textinput_helper_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textSpacerNoButtons = global::CriThink.Client.Droid.Resource.Id.textSpacerNoButtons;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textSpacerNoTitle = global::CriThink.Client.Droid.Resource.Id.textSpacerNoTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.textStart = global::CriThink.Client.Droid.Resource.Id.textStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.time = global::CriThink.Client.Droid.Resource.Id.time;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.title = global::CriThink.Client.Droid.Resource.Id.title;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.titleDividerNoCustom = global::CriThink.Client.Droid.Resource.Id.titleDividerNoCustom;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.title_template = global::CriThink.Client.Droid.Resource.Id.title_template;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.top = global::CriThink.Client.Droid.Resource.Id.top;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.topPanel = global::CriThink.Client.Droid.Resource.Id.topPanel;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.touch_outside = global::CriThink.Client.Droid.Resource.Id.touch_outside;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.transition_current_scene = global::CriThink.Client.Droid.Resource.Id.transition_current_scene;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.transition_layout_save = global::CriThink.Client.Droid.Resource.Id.transition_layout_save;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.transition_position = global::CriThink.Client.Droid.Resource.Id.transition_position;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.transition_scene_layoutid_cache = global::CriThink.Client.Droid.Resource.Id.transition_scene_layoutid_cache;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.transition_transform = global::CriThink.Client.Droid.Resource.Id.transition_transform;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.@unchecked = global::CriThink.Client.Droid.Resource.Id.@unchecked;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.uniform = global::CriThink.Client.Droid.Resource.Id.uniform;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.unlabeled = global::CriThink.Client.Droid.Resource.Id.unlabeled;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
+			global::MvvmCross.Plugin.Visibility.Resource.Id.wrap_content = global::CriThink.Client.Droid.Resource.Id.wrap_content;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.abc_config_activityDefaultDur = global::CriThink.Client.Droid.Resource.Integer.abc_config_activityDefaultDur;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.abc_config_activityShortDur = global::CriThink.Client.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.app_bar_elevation_anim_duration = global::CriThink.Client.Droid.Resource.Integer.app_bar_elevation_anim_duration;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.bottom_sheet_slide_duration = global::CriThink.Client.Droid.Resource.Integer.bottom_sheet_slide_duration;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.cancel_button_image_alpha = global::CriThink.Client.Droid.Resource.Integer.cancel_button_image_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.config_tooltipAnimTime = global::CriThink.Client.Droid.Resource.Integer.config_tooltipAnimTime;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.design_snackbar_text_max_lines = global::CriThink.Client.Droid.Resource.Integer.design_snackbar_text_max_lines;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.design_tab_indicator_anim_duration_ms = global::CriThink.Client.Droid.Resource.Integer.design_tab_indicator_anim_duration_ms;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.hide_password_duration = global::CriThink.Client.Droid.Resource.Integer.hide_password_duration;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.mtrl_btn_anim_delay_ms = global::CriThink.Client.Droid.Resource.Integer.mtrl_btn_anim_delay_ms;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.mtrl_btn_anim_duration_ms = global::CriThink.Client.Droid.Resource.Integer.mtrl_btn_anim_duration_ms;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.mtrl_chip_anim_duration = global::CriThink.Client.Droid.Resource.Integer.mtrl_chip_anim_duration;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.mtrl_tab_indicator_anim_duration_ms = global::CriThink.Client.Droid.Resource.Integer.mtrl_tab_indicator_anim_duration_ms;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.show_password_duration = global::CriThink.Client.Droid.Resource.Integer.show_password_duration;
+			global::MvvmCross.Plugin.Visibility.Resource.Integer.status_bar_notification_info_maxnum = global::CriThink.Client.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_checkbox_checked_mtrl_animation_interpolator_0 = global::CriThink.Client.Droid.Resource.Interpolator.btn_checkbox_checked_mtrl_animation_interpolator_0;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_checkbox_checked_mtrl_animation_interpolator_1 = global::CriThink.Client.Droid.Resource.Interpolator.btn_checkbox_checked_mtrl_animation_interpolator_1;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_checkbox_unchecked_mtrl_animation_interpolator_0 = global::CriThink.Client.Droid.Resource.Interpolator.btn_checkbox_unchecked_mtrl_animation_interpolator_0;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_checkbox_unchecked_mtrl_animation_interpolator_1 = global::CriThink.Client.Droid.Resource.Interpolator.btn_checkbox_unchecked_mtrl_animation_interpolator_1;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_radio_to_off_mtrl_animation_interpolator_0 = global::CriThink.Client.Droid.Resource.Interpolator.btn_radio_to_off_mtrl_animation_interpolator_0;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.btn_radio_to_on_mtrl_animation_interpolator_0 = global::CriThink.Client.Droid.Resource.Interpolator.btn_radio_to_on_mtrl_animation_interpolator_0;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.fast_out_slow_in = global::CriThink.Client.Droid.Resource.Interpolator.fast_out_slow_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.mtrl_fast_out_linear_in = global::CriThink.Client.Droid.Resource.Interpolator.mtrl_fast_out_linear_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.mtrl_fast_out_slow_in = global::CriThink.Client.Droid.Resource.Interpolator.mtrl_fast_out_slow_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.mtrl_linear = global::CriThink.Client.Droid.Resource.Interpolator.mtrl_linear;
+			global::MvvmCross.Plugin.Visibility.Resource.Interpolator.mtrl_linear_out_slow_in = global::CriThink.Client.Droid.Resource.Interpolator.mtrl_linear_out_slow_in;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_bar_title_item = global::CriThink.Client.Droid.Resource.Layout.abc_action_bar_title_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_bar_up_container = global::CriThink.Client.Droid.Resource.Layout.abc_action_bar_up_container;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_menu_item_layout = global::CriThink.Client.Droid.Resource.Layout.abc_action_menu_item_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_menu_layout = global::CriThink.Client.Droid.Resource.Layout.abc_action_menu_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_mode_bar = global::CriThink.Client.Droid.Resource.Layout.abc_action_mode_bar;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_action_mode_close_item_material = global::CriThink.Client.Droid.Resource.Layout.abc_action_mode_close_item_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_activity_chooser_view = global::CriThink.Client.Droid.Resource.Layout.abc_activity_chooser_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_activity_chooser_view_list_item = global::CriThink.Client.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_alert_dialog_button_bar_material = global::CriThink.Client.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_alert_dialog_material = global::CriThink.Client.Droid.Resource.Layout.abc_alert_dialog_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_alert_dialog_title_material = global::CriThink.Client.Droid.Resource.Layout.abc_alert_dialog_title_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_cascading_menu_item_layout = global::CriThink.Client.Droid.Resource.Layout.abc_cascading_menu_item_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_dialog_title_material = global::CriThink.Client.Droid.Resource.Layout.abc_dialog_title_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_expanded_menu_layout = global::CriThink.Client.Droid.Resource.Layout.abc_expanded_menu_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_list_menu_item_checkbox = global::CriThink.Client.Droid.Resource.Layout.abc_list_menu_item_checkbox;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_list_menu_item_icon = global::CriThink.Client.Droid.Resource.Layout.abc_list_menu_item_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_list_menu_item_layout = global::CriThink.Client.Droid.Resource.Layout.abc_list_menu_item_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_list_menu_item_radio = global::CriThink.Client.Droid.Resource.Layout.abc_list_menu_item_radio;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_popup_menu_header_item_layout = global::CriThink.Client.Droid.Resource.Layout.abc_popup_menu_header_item_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_popup_menu_item_layout = global::CriThink.Client.Droid.Resource.Layout.abc_popup_menu_item_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_screen_content_include = global::CriThink.Client.Droid.Resource.Layout.abc_screen_content_include;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_screen_simple = global::CriThink.Client.Droid.Resource.Layout.abc_screen_simple;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_screen_simple_overlay_action_mode = global::CriThink.Client.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_screen_toolbar = global::CriThink.Client.Droid.Resource.Layout.abc_screen_toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_search_dropdown_item_icons_2line = global::CriThink.Client.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_search_view = global::CriThink.Client.Droid.Resource.Layout.abc_search_view;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_select_dialog_material = global::CriThink.Client.Droid.Resource.Layout.abc_select_dialog_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.abc_tooltip = global::CriThink.Client.Droid.Resource.Layout.abc_tooltip;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.custom_dialog = global::CriThink.Client.Droid.Resource.Layout.custom_dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_bottom_navigation_item = global::CriThink.Client.Droid.Resource.Layout.design_bottom_navigation_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_bottom_sheet_dialog = global::CriThink.Client.Droid.Resource.Layout.design_bottom_sheet_dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_layout_snackbar = global::CriThink.Client.Droid.Resource.Layout.design_layout_snackbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_layout_snackbar_include = global::CriThink.Client.Droid.Resource.Layout.design_layout_snackbar_include;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_layout_tab_icon = global::CriThink.Client.Droid.Resource.Layout.design_layout_tab_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_layout_tab_text = global::CriThink.Client.Droid.Resource.Layout.design_layout_tab_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_menu_item_action_area = global::CriThink.Client.Droid.Resource.Layout.design_menu_item_action_area;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_item = global::CriThink.Client.Droid.Resource.Layout.design_navigation_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_item_header = global::CriThink.Client.Droid.Resource.Layout.design_navigation_item_header;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_item_separator = global::CriThink.Client.Droid.Resource.Layout.design_navigation_item_separator;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_item_subheader = global::CriThink.Client.Droid.Resource.Layout.design_navigation_item_subheader;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_menu = global::CriThink.Client.Droid.Resource.Layout.design_navigation_menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.design_navigation_menu_item = global::CriThink.Client.Droid.Resource.Layout.design_navigation_menu_item;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.expand_button = global::CriThink.Client.Droid.Resource.Layout.expand_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.image_frame = global::CriThink.Client.Droid.Resource.Layout.image_frame;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.mtrl_layout_snackbar = global::CriThink.Client.Droid.Resource.Layout.mtrl_layout_snackbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.mtrl_layout_snackbar_include = global::CriThink.Client.Droid.Resource.Layout.mtrl_layout_snackbar_include;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_action = global::CriThink.Client.Droid.Resource.Layout.notification_action;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_action_tombstone = global::CriThink.Client.Droid.Resource.Layout.notification_action_tombstone;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_template_custom_big = global::CriThink.Client.Droid.Resource.Layout.notification_template_custom_big;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_template_icon_group = global::CriThink.Client.Droid.Resource.Layout.notification_template_icon_group;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_template_part_chronometer = global::CriThink.Client.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.notification_template_part_time = global::CriThink.Client.Droid.Resource.Layout.notification_template_part_time;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference = global::CriThink.Client.Droid.Resource.Layout.preference;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_category = global::CriThink.Client.Droid.Resource.Layout.preference_category;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_category_material = global::CriThink.Client.Droid.Resource.Layout.preference_category_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_dialog_edittext = global::CriThink.Client.Droid.Resource.Layout.preference_dialog_edittext;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_dropdown = global::CriThink.Client.Droid.Resource.Layout.preference_dropdown;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_dropdown_material = global::CriThink.Client.Droid.Resource.Layout.preference_dropdown_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_information = global::CriThink.Client.Droid.Resource.Layout.preference_information;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_information_material = global::CriThink.Client.Droid.Resource.Layout.preference_information_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_list_fragment = global::CriThink.Client.Droid.Resource.Layout.preference_list_fragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_material = global::CriThink.Client.Droid.Resource.Layout.preference_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_recyclerview = global::CriThink.Client.Droid.Resource.Layout.preference_recyclerview;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_widget_checkbox = global::CriThink.Client.Droid.Resource.Layout.preference_widget_checkbox;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_widget_seekbar = global::CriThink.Client.Droid.Resource.Layout.preference_widget_seekbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_widget_seekbar_material = global::CriThink.Client.Droid.Resource.Layout.preference_widget_seekbar_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_widget_switch = global::CriThink.Client.Droid.Resource.Layout.preference_widget_switch;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.preference_widget_switch_compat = global::CriThink.Client.Droid.Resource.Layout.preference_widget_switch_compat;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.select_dialog_item_material = global::CriThink.Client.Droid.Resource.Layout.select_dialog_item_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.select_dialog_multichoice_material = global::CriThink.Client.Droid.Resource.Layout.select_dialog_multichoice_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.select_dialog_singlechoice_material = global::CriThink.Client.Droid.Resource.Layout.select_dialog_singlechoice_material;
+			global::MvvmCross.Plugin.Visibility.Resource.Layout.support_simple_spinner_dropdown_item = global::CriThink.Client.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_action_bar_home_description = global::CriThink.Client.Droid.Resource.String.abc_action_bar_home_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_action_bar_up_description = global::CriThink.Client.Droid.Resource.String.abc_action_bar_up_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_action_menu_overflow_description = global::CriThink.Client.Droid.Resource.String.abc_action_menu_overflow_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_action_mode_done = global::CriThink.Client.Droid.Resource.String.abc_action_mode_done;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_activitychooserview_choose_application = global::CriThink.Client.Droid.Resource.String.abc_activitychooserview_choose_application;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_activity_chooser_view_see_all = global::CriThink.Client.Droid.Resource.String.abc_activity_chooser_view_see_all;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_capital_off = global::CriThink.Client.Droid.Resource.String.abc_capital_off;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_capital_on = global::CriThink.Client.Droid.Resource.String.abc_capital_on;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_alt_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_alt_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_ctrl_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_ctrl_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_delete_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_delete_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_enter_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_enter_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_function_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_function_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_meta_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_meta_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_shift_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_shift_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_space_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_space_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_menu_sym_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_menu_sym_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_prepend_shortcut_label = global::CriThink.Client.Droid.Resource.String.abc_prepend_shortcut_label;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_searchview_description_clear = global::CriThink.Client.Droid.Resource.String.abc_searchview_description_clear;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_searchview_description_query = global::CriThink.Client.Droid.Resource.String.abc_searchview_description_query;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_searchview_description_search = global::CriThink.Client.Droid.Resource.String.abc_searchview_description_search;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_searchview_description_submit = global::CriThink.Client.Droid.Resource.String.abc_searchview_description_submit;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_searchview_description_voice = global::CriThink.Client.Droid.Resource.String.abc_searchview_description_voice;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_search_hint = global::CriThink.Client.Droid.Resource.String.abc_search_hint;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_shareactionprovider_share_with = global::CriThink.Client.Droid.Resource.String.abc_shareactionprovider_share_with;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_shareactionprovider_share_with_application = global::CriThink.Client.Droid.Resource.String.abc_shareactionprovider_share_with_application;
+			global::MvvmCross.Plugin.Visibility.Resource.String.abc_toolbar_collapse_description = global::CriThink.Client.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.appbar_scrolling_view_behavior = global::CriThink.Client.Droid.Resource.String.appbar_scrolling_view_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.String.bottom_sheet_behavior = global::CriThink.Client.Droid.Resource.String.bottom_sheet_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.String.character_counter_content_description = global::CriThink.Client.Droid.Resource.String.character_counter_content_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.character_counter_pattern = global::CriThink.Client.Droid.Resource.String.character_counter_pattern;
+			global::MvvmCross.Plugin.Visibility.Resource.String.copy = global::CriThink.Client.Droid.Resource.String.copy;
+			global::MvvmCross.Plugin.Visibility.Resource.String.expand_button_title = global::CriThink.Client.Droid.Resource.String.expand_button_title;
+			global::MvvmCross.Plugin.Visibility.Resource.String.fab_transformation_scrim_behavior = global::CriThink.Client.Droid.Resource.String.fab_transformation_scrim_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.String.fab_transformation_sheet_behavior = global::CriThink.Client.Droid.Resource.String.fab_transformation_sheet_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.String.hide_bottom_view_on_scroll_behavior = global::CriThink.Client.Droid.Resource.String.hide_bottom_view_on_scroll_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.String.mtrl_chip_close_icon_content_description = global::CriThink.Client.Droid.Resource.String.mtrl_chip_close_icon_content_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.not_set = global::CriThink.Client.Droid.Resource.String.not_set;
+			global::MvvmCross.Plugin.Visibility.Resource.String.password_toggle_content_description = global::CriThink.Client.Droid.Resource.String.password_toggle_content_description;
+			global::MvvmCross.Plugin.Visibility.Resource.String.path_password_eye = global::CriThink.Client.Droid.Resource.String.path_password_eye;
+			global::MvvmCross.Plugin.Visibility.Resource.String.path_password_eye_mask_strike_through = global::CriThink.Client.Droid.Resource.String.path_password_eye_mask_strike_through;
+			global::MvvmCross.Plugin.Visibility.Resource.String.path_password_eye_mask_visible = global::CriThink.Client.Droid.Resource.String.path_password_eye_mask_visible;
+			global::MvvmCross.Plugin.Visibility.Resource.String.path_password_strike_through = global::CriThink.Client.Droid.Resource.String.path_password_strike_through;
+			global::MvvmCross.Plugin.Visibility.Resource.String.preference_copied = global::CriThink.Client.Droid.Resource.String.preference_copied;
+			global::MvvmCross.Plugin.Visibility.Resource.String.search_menu_title = global::CriThink.Client.Droid.Resource.String.search_menu_title;
+			global::MvvmCross.Plugin.Visibility.Resource.String.status_bar_notification_info_overflow = global::CriThink.Client.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.String.summary_collapsed_preference_list = global::CriThink.Client.Droid.Resource.String.summary_collapsed_preference_list;
+			global::MvvmCross.Plugin.Visibility.Resource.String.v7_preference_off = global::CriThink.Client.Droid.Resource.String.v7_preference_off;
+			global::MvvmCross.Plugin.Visibility.Resource.String.v7_preference_on = global::CriThink.Client.Droid.Resource.String.v7_preference_on;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.AlertDialog_AppCompat = global::CriThink.Client.Droid.Resource.Style.AlertDialog_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.AlertDialog_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.AlertDialog_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Animation_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Animation_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Animation_AppCompat_DropDownUp = global::CriThink.Client.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Animation_AppCompat_Tooltip = global::CriThink.Client.Droid.Resource.Style.Animation_AppCompat_Tooltip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Animation_Design_BottomSheetDialog = global::CriThink.Client.Droid.Resource.Style.Animation_Design_BottomSheetDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_AlertDialog_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_AlertDialog_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_AlertDialog_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Animation_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::CriThink.Client.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Animation_AppCompat_Tooltip = global::CriThink.Client.Droid.Resource.Style.Base_Animation_AppCompat_Tooltip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_CardView = global::CriThink.Client.Droid.Resource.Style.Base_CardView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_DialogWindowTitle_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Button = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Large = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Small = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Title = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Tooltip = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Tooltip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::CriThink.Client.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_ThemeOverlay_MaterialComponents_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_ThemeOverlay_MaterialComponents_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_CompactMenu = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_CompactMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Dialog_FixedSize = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Dialog_FixedSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_DarkActionBar = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_DarkActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_DarkActionBar_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_DarkActionBar_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_FixedSize = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_FixedSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Base_Theme_MaterialComponents_Light_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_ThemeOverlay_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V14_ThemeOverlay_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_ThemeOverlay_MaterialComponents_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Base_V14_ThemeOverlay_MaterialComponents_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Light = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Light_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Light_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Light_DarkActionBar_Bridge = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Light_DarkActionBar_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V14_Theme_MaterialComponents_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V14_Theme_MaterialComponents_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V21_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V21_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V22_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V22_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V22_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V23_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V23_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V23_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V26_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V26_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V26_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::CriThink.Client.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V28_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V28_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V28_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::CriThink.Client.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::CriThink.Client.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_V7_Widget_AppCompat_Toolbar = global::CriThink.Client.Droid.Resource.Style.Base_V7_Widget_AppCompat_Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionButton = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActionMode = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Button_Small = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_EditText = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ImageButton = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ListView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_RatingBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_SearchView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_SeekBar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Spinner = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_TextView = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_TextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Toolbar = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::CriThink.Client.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_Design_TabLayout = global::CriThink.Client.Droid.Resource.Style.Base_Widget_Design_TabLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_MaterialComponents_Chip = global::CriThink.Client.Droid.Resource.Style.Base_Widget_MaterialComponents_Chip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_MaterialComponents_TextInputEditText = global::CriThink.Client.Droid.Resource.Style.Base_Widget_MaterialComponents_TextInputEditText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Base_Widget_MaterialComponents_TextInputLayout = global::CriThink.Client.Droid.Resource.Style.Base_Widget_MaterialComponents_TextInputLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.CardView = global::CriThink.Client.Droid.Resource.Style.CardView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.CardView_Dark = global::CriThink.Client.Droid.Resource.Style.CardView_Dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.CardView_Light = global::CriThink.Client.Droid.Resource.Style.CardView_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_AppCompat = global::CriThink.Client.Droid.Resource.Style.Platform_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Platform_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_MaterialComponents = global::CriThink.Client.Droid.Resource.Style.Platform_MaterialComponents;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Platform_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_MaterialComponents_Light = global::CriThink.Client.Droid.Resource.Style.Platform_MaterialComponents_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_MaterialComponents_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Platform_MaterialComponents_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_ThemeOverlay_AppCompat = global::CriThink.Client.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::CriThink.Client.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_V21_AppCompat = global::CriThink.Client.Droid.Resource.Style.Platform_V21_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_V21_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Platform_V21_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_V25_AppCompat = global::CriThink.Client.Droid.Resource.Style.Platform_V25_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_V25_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Platform_V25_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Platform_Widget_AppCompat_Spinner = global::CriThink.Client.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference = global::CriThink.Client.Droid.Resource.Style.Preference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceCategoryTitleTextStyle = global::CriThink.Client.Droid.Resource.Style.PreferenceCategoryTitleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceFragment = global::CriThink.Client.Droid.Resource.Style.PreferenceFragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceFragmentList = global::CriThink.Client.Droid.Resource.Style.PreferenceFragmentList;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceFragmentList_Material = global::CriThink.Client.Droid.Resource.Style.PreferenceFragmentList_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceFragment_Material = global::CriThink.Client.Droid.Resource.Style.PreferenceFragment_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceSummaryTextStyle = global::CriThink.Client.Droid.Resource.Style.PreferenceSummaryTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceThemeOverlay = global::CriThink.Client.Droid.Resource.Style.PreferenceThemeOverlay;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceThemeOverlay_v14 = global::CriThink.Client.Droid.Resource.Style.PreferenceThemeOverlay_v14;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.PreferenceThemeOverlay_v14_Material = global::CriThink.Client.Droid.Resource.Style.PreferenceThemeOverlay_v14_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_Category = global::CriThink.Client.Droid.Resource.Style.Preference_Category;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_Category_Material = global::CriThink.Client.Droid.Resource.Style.Preference_Category_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_CheckBoxPreference = global::CriThink.Client.Droid.Resource.Style.Preference_CheckBoxPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_CheckBoxPreference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_CheckBoxPreference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DialogPreference = global::CriThink.Client.Droid.Resource.Style.Preference_DialogPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DialogPreference_EditTextPreference = global::CriThink.Client.Droid.Resource.Style.Preference_DialogPreference_EditTextPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DialogPreference_EditTextPreference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_DialogPreference_EditTextPreference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DialogPreference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_DialogPreference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DropDown = global::CriThink.Client.Droid.Resource.Style.Preference_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_DropDown_Material = global::CriThink.Client.Droid.Resource.Style.Preference_DropDown_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_Information = global::CriThink.Client.Droid.Resource.Style.Preference_Information;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_Information_Material = global::CriThink.Client.Droid.Resource.Style.Preference_Information_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_PreferenceScreen = global::CriThink.Client.Droid.Resource.Style.Preference_PreferenceScreen;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_PreferenceScreen_Material = global::CriThink.Client.Droid.Resource.Style.Preference_PreferenceScreen_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SeekBarPreference = global::CriThink.Client.Droid.Resource.Style.Preference_SeekBarPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SeekBarPreference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_SeekBarPreference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SwitchPreference = global::CriThink.Client.Droid.Resource.Style.Preference_SwitchPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SwitchPreferenceCompat = global::CriThink.Client.Droid.Resource.Style.Preference_SwitchPreferenceCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SwitchPreferenceCompat_Material = global::CriThink.Client.Droid.Resource.Style.Preference_SwitchPreferenceCompat_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Preference_SwitchPreference_Material = global::CriThink.Client.Droid.Resource.Style.Preference_SwitchPreference_Material;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::CriThink.Client.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::CriThink.Client.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::CriThink.Client.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Body1 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Body2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Button = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Caption = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Display1 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Display2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Display3 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Display4 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Headline = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Large = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Medium = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Menu = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Small = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Subhead = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Tooltip = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Tooltip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::CriThink.Client.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Compat_Notification = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Compat_Notification;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Compat_Notification_Info = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Compat_Notification_Time = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Compat_Notification_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Counter = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Counter;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Counter_Overflow = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Counter_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Error = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Error;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_HelperText = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_HelperText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Hint = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Hint;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Snackbar_Message = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Snackbar_Message;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Design_Tab = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Design_Tab;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Body1 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Body1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Body2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Body2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Button = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Caption = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Caption;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Chip = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Chip;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline1 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline3 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline3;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline4 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline4;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline5 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline5;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Headline6 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Headline6;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Overline = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Overline;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Subtitle1 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Subtitle1;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_MaterialComponents_Subtitle2 = global::CriThink.Client.Droid.Resource.Style.TextAppearance_MaterialComponents_Subtitle2;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::CriThink.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_Dark = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_DayNight = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_DayNight;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_DayNight_ActionBar = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_DayNight_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_ActionBar = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_Dark = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_Dark;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_Dark_ActionBar = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_Dark_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_Light = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense = global::CriThink.Client.Droid.Resource.Style.ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_CompactMenu = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Dialog = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Empty = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Empty;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_AppCompat_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design = global::CriThink.Client.Droid.Resource.Style.Theme_Design;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design_BottomSheetDialog = global::CriThink.Client.Droid.Resource.Style.Theme_Design_BottomSheetDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design_Light = global::CriThink.Client.Droid.Resource.Style.Theme_Design_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design_Light_BottomSheetDialog = global::CriThink.Client.Droid.Resource.Style.Theme_Design_Light_BottomSheetDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design_Light_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_Design_Light_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_Design_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_Design_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_BottomSheetDialog = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_BottomSheetDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Bridge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_CompactMenu = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_CompactMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Dialog = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_BottomSheetDialog = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_BottomSheetDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_Bridge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_DarkActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_DarkActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_DarkActionBar_Bridge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_DarkActionBar_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_Dialog = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_DialogWhenLarge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_DialogWhenLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_Dialog_Alert = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_Dialog_Alert;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_Dialog_MinWidth = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_Dialog_MinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_Light_NoActionBar_Bridge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_Light_NoActionBar_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_NoActionBar = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_NoActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Theme_MaterialComponents_NoActionBar_Bridge = global::CriThink.Client.Droid.Resource.Style.Theme_MaterialComponents_NoActionBar_Bridge;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionButton = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActionMode = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActionMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ActivityChooserView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ButtonBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button_Borderless = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button_Colored = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Button_Small = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Button_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_EditText = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_EditText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ImageButton = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ImageButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionButton = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_SearchView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ListMenuView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ListMenuView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ListPopupWindow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ListView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ListView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ListView_DropDown = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ListView_Menu = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_PopupMenu = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_PopupWindow = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ProgressBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_RatingBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_RatingBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_RatingBar_Small = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_SearchView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_SearchView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_SeekBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_SeekBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Spinner = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_TextView = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_TextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Toolbar = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::CriThink.Client.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Compat_NotificationActionContainer = global::CriThink.Client.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Compat_NotificationActionText = global::CriThink.Client.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_AppBarLayout = global::CriThink.Client.Droid.Resource.Style.Widget_Design_AppBarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_BottomNavigationView = global::CriThink.Client.Droid.Resource.Style.Widget_Design_BottomNavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_BottomSheet_Modal = global::CriThink.Client.Droid.Resource.Style.Widget_Design_BottomSheet_Modal;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_CollapsingToolbar = global::CriThink.Client.Droid.Resource.Style.Widget_Design_CollapsingToolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_FloatingActionButton = global::CriThink.Client.Droid.Resource.Style.Widget_Design_FloatingActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_NavigationView = global::CriThink.Client.Droid.Resource.Style.Widget_Design_NavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_ScrimInsetsFrameLayout = global::CriThink.Client.Droid.Resource.Style.Widget_Design_ScrimInsetsFrameLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_Snackbar = global::CriThink.Client.Droid.Resource.Style.Widget_Design_Snackbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_TabLayout = global::CriThink.Client.Droid.Resource.Style.Widget_Design_TabLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Design_TextInputLayout = global::CriThink.Client.Droid.Resource.Style.Widget_Design_TextInputLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_BottomAppBar = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_BottomAppBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_BottomAppBar_Colored = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_BottomAppBar_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_BottomNavigationView = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_BottomNavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_BottomNavigationView_Colored = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_BottomNavigationView_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_BottomSheet_Modal = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_BottomSheet_Modal;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_Icon = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_OutlinedButton = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_OutlinedButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_OutlinedButton_Icon = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_OutlinedButton_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_TextButton = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_TextButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_TextButton_Dialog = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_TextButton_Dialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_TextButton_Dialog_Icon = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_TextButton_Dialog_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_TextButton_Icon = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_TextButton_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_UnelevatedButton = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_UnelevatedButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Button_UnelevatedButton_Icon = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Button_UnelevatedButton_Icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_CardView = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_CardView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_ChipGroup = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_ChipGroup;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Chip_Action = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Chip_Action;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Chip_Choice = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Chip_Choice;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Chip_Entry = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Chip_Entry;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Chip_Filter = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Chip_Filter;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_FloatingActionButton = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_FloatingActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_NavigationView = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_NavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Snackbar = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Snackbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Snackbar_FullWidth = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Snackbar_FullWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TabLayout = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TabLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TabLayout_Colored = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TabLayout_Colored;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputEditText_FilledBox = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputEditText_FilledBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputEditText_FilledBox_Dense = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputEditText_FilledBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputEditText_OutlinedBox = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputEditText_OutlinedBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputLayout_FilledBox = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_FilledBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputLayout_FilledBox_Dense = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_FilledBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_MaterialComponents_Toolbar = global::CriThink.Client.Droid.Resource.Style.Widget_MaterialComponents_Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Style.Widget_Support_CoordinatorLayout = global::CriThink.Client.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar = global::CriThink.Client.Droid.Resource.Styleable.ActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBarLayout = global::CriThink.Client.Droid.Resource.Styleable.ActionBarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::CriThink.Client.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_background = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_backgroundSplit = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_backgroundSplit;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_backgroundStacked = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_backgroundStacked;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetEnd = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetLeft = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetRight = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetStart = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_customNavigationLayout = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_displayOptions = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_displayOptions;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_divider = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_elevation = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_height = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_hideOnContentScroll = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_homeAsUpIndicator = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_homeLayout = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_homeLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_icon = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_itemPadding = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_itemPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_logo = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_logo;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_navigationMode = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_navigationMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_popupTheme = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_popupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_progressBarPadding = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_progressBarPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_progressBarStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_progressBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_subtitle = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_subtitleTextStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_title = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionBar_titleTextStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionBar_titleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMenuItemView = global::CriThink.Client.Droid.Resource.Styleable.ActionMenuItemView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMenuItemView_android_minWidth = global::CriThink.Client.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMenuView = global::CriThink.Client.Droid.Resource.Styleable.ActionMenuView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode = global::CriThink.Client.Droid.Resource.Styleable.ActionMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_background = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_backgroundSplit = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_backgroundSplit;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_closeItemLayout = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_closeItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_height = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_subtitleTextStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActionMode_titleTextStyle = global::CriThink.Client.Droid.Resource.Styleable.ActionMode_titleTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActivityChooserView = global::CriThink.Client.Droid.Resource.Styleable.ActivityChooserView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::CriThink.Client.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ActivityChooserView_initialActivityCount = global::CriThink.Client.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_android_layout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_buttonIconDimen = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_buttonIconDimen;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_listItemLayout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_listItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_listLayout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_listLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_showTitle = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_showTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::CriThink.Client.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableItem = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableTransition = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableTransition;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::CriThink.Client.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayoutStates = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayoutStates;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayoutStates_state_collapsed = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayoutStates_state_collapsible = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayoutStates_state_liftable = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_liftable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayoutStates_state_lifted = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_lifted;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_android_background = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_android_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_android_keyboardNavigationCluster = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_android_keyboardNavigationCluster;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_android_touchscreenBlocksFocus = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_android_touchscreenBlocksFocus;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_elevation = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_expanded = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_expanded;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_Layout = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppBarLayout_liftOnScroll = global::CriThink.Client.Droid.Resource.Styleable.AppBarLayout_liftOnScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatImageView = global::CriThink.Client.Droid.Resource.Styleable.AppCompatImageView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatImageView_android_src = global::CriThink.Client.Droid.Resource.Styleable.AppCompatImageView_android_src;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatImageView_srcCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatImageView_tint = global::CriThink.Client.Droid.Resource.Styleable.AppCompatImageView_tint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatImageView_tintMode = global::CriThink.Client.Droid.Resource.Styleable.AppCompatImageView_tintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatSeekBar = global::CriThink.Client.Droid.Resource.Styleable.AppCompatSeekBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatSeekBar_android_thumb = global::CriThink.Client.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatSeekBar_tickMark = global::CriThink.Client.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::CriThink.Client.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::CriThink.Client.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_android_textAppearance = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableBottomCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableBottomCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableEndCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableEndCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableLeftCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableLeftCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableRightCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableRightCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableStartCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableStartCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableTint = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableTintMode = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_drawableTopCompat = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_drawableTopCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_fontFamily = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_fontFamily;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_fontVariationSettings = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_fontVariationSettings;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_lineHeight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_lineHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_textAllCaps = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTextView_textLocale = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTextView_textLocale;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarDivider = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarSize = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_checkboxStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorAccent = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorAccent;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorControlActivated = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorControlNormal = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorError = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorError;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorPrimary = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorPrimary;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_controlBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dialogTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dividerVertical = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dividerVertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_editTextBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_editTextBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_editTextColor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_editTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_editTextStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_editTextStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingEnd = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingStart = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_panelBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_panelBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_searchViewStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_seekBarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_spinnerStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_switchStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_toolbarStyle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowActionBar = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.AppCompatTheme_windowNoTitle = global::CriThink.Client.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BackgroundStyle = global::CriThink.Client.Droid.Resource.Styleable.BackgroundStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BackgroundStyle_android_selectableItemBackground = global::CriThink.Client.Droid.Resource.Styleable.BackgroundStyle_android_selectableItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BackgroundStyle_selectableItemBackground = global::CriThink.Client.Droid.Resource.Styleable.BackgroundStyle_selectableItemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_backgroundTint = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_backgroundTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_fabAlignmentMode = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_fabAlignmentMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_fabCradleMargin = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_fabCradleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_fabCradleRoundedCornerRadius = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_fabCradleRoundedCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_fabCradleVerticalOffset = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_fabCradleVerticalOffset;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomAppBar_hideOnScroll = global::CriThink.Client.Droid.Resource.Styleable.BottomAppBar_hideOnScroll;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_elevation = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemBackground = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemHorizontalTranslationEnabled = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemHorizontalTranslationEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemIconSize = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemIconTint = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemTextAppearanceActive = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemTextAppearanceActive;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemTextAppearanceInactive = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemTextAppearanceInactive;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_itemTextColor = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_itemTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_labelVisibilityMode = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_labelVisibilityMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomNavigationView_menu = global::CriThink.Client.Droid.Resource.Styleable.BottomNavigationView_menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomSheetBehavior_Layout = global::CriThink.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomSheetBehavior_Layout_behavior_fitToContents = global::CriThink.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_fitToContents;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable = global::CriThink.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight = global::CriThink.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed = global::CriThink.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ButtonBarLayout = global::CriThink.Client.Droid.Resource.Styleable.ButtonBarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ButtonBarLayout_allowStacking = global::CriThink.Client.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView = global::CriThink.Client.Droid.Resource.Styleable.CardView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_android_minHeight = global::CriThink.Client.Droid.Resource.Styleable.CardView_android_minHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_android_minWidth = global::CriThink.Client.Droid.Resource.Styleable.CardView_android_minWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardBackgroundColor = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardCornerRadius = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardElevation = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardElevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardMaxElevation = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardMaxElevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardPreventCornerOverlap = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardPreventCornerOverlap;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_cardUseCompatPadding = global::CriThink.Client.Droid.Resource.Styleable.CardView_cardUseCompatPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_contentPadding = global::CriThink.Client.Droid.Resource.Styleable.CardView_contentPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_contentPaddingBottom = global::CriThink.Client.Droid.Resource.Styleable.CardView_contentPaddingBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_contentPaddingLeft = global::CriThink.Client.Droid.Resource.Styleable.CardView_contentPaddingLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_contentPaddingRight = global::CriThink.Client.Droid.Resource.Styleable.CardView_contentPaddingRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CardView_contentPaddingTop = global::CriThink.Client.Droid.Resource.Styleable.CardView_contentPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_android_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_android_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_android_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_android_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_android_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_android_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CheckBoxPreference_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.CheckBoxPreference_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip = global::CriThink.Client.Droid.Resource.Styleable.Chip;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_checkedChip = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_checkedChip;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_chipSpacing = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_chipSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_chipSpacingHorizontal = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_chipSpacingHorizontal;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_chipSpacingVertical = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_chipSpacingVertical;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_singleLine = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_singleLine;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ChipGroup_singleSelection = global::CriThink.Client.Droid.Resource.Styleable.ChipGroup_singleSelection;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_android_checkable = global::CriThink.Client.Droid.Resource.Styleable.Chip_android_checkable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_android_ellipsize = global::CriThink.Client.Droid.Resource.Styleable.Chip_android_ellipsize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_android_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.Chip_android_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_android_text = global::CriThink.Client.Droid.Resource.Styleable.Chip_android_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_android_textAppearance = global::CriThink.Client.Droid.Resource.Styleable.Chip_android_textAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_checkedIcon = global::CriThink.Client.Droid.Resource.Styleable.Chip_checkedIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_checkedIconEnabled = global::CriThink.Client.Droid.Resource.Styleable.Chip_checkedIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_checkedIconVisible = global::CriThink.Client.Droid.Resource.Styleable.Chip_checkedIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipBackgroundColor = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipCornerRadius = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipCornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipEndPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipIcon = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipIconEnabled = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipIconSize = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipIconTint = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipIconVisible = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipMinHeight = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipMinHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipStartPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipStrokeColor = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipStrokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_chipStrokeWidth = global::CriThink.Client.Droid.Resource.Styleable.Chip_chipStrokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIcon = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconEnabled = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconEndPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconSize = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconStartPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconTint = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_closeIconVisible = global::CriThink.Client.Droid.Resource.Styleable.Chip_closeIconVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_hideMotionSpec = global::CriThink.Client.Droid.Resource.Styleable.Chip_hideMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_iconEndPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_iconEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_iconStartPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_iconStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_rippleColor = global::CriThink.Client.Droid.Resource.Styleable.Chip_rippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_showMotionSpec = global::CriThink.Client.Droid.Resource.Styleable.Chip_showMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_textEndPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_textEndPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Chip_textStartPadding = global::CriThink.Client.Droid.Resource.Styleable.Chip_textStartPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_contentScrim = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_contentScrim;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_Layout = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_title = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_titleEnabled = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_titleEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CollapsingToolbarLayout_toolbarId = global::CriThink.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_toolbarId;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ColorStateListItem = global::CriThink.Client.Droid.Resource.Styleable.ColorStateListItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ColorStateListItem_alpha = global::CriThink.Client.Droid.Resource.Styleable.ColorStateListItem_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ColorStateListItem_android_alpha = global::CriThink.Client.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ColorStateListItem_android_color = global::CriThink.Client.Droid.Resource.Styleable.ColorStateListItem_android_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CompoundButton = global::CriThink.Client.Droid.Resource.Styleable.CompoundButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CompoundButton_android_button = global::CriThink.Client.Droid.Resource.Styleable.CompoundButton_android_button;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CompoundButton_buttonCompat = global::CriThink.Client.Droid.Resource.Styleable.CompoundButton_buttonCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CompoundButton_buttonTint = global::CriThink.Client.Droid.Resource.Styleable.CompoundButton_buttonTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CompoundButton_buttonTintMode = global::CriThink.Client.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_keylines = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::CriThink.Client.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_dialogIcon = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_dialogIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_dialogLayout = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_dialogLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_dialogMessage = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_dialogMessage;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_dialogTitle = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_dialogTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_negativeButtonText = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_negativeButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_android_positiveButtonText = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_android_positiveButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_dialogIcon = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_dialogIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_dialogLayout = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_dialogLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_dialogMessage = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_dialogMessage;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_dialogTitle = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_dialogTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_negativeButtonText = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_negativeButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DialogPreference_positiveButtonText = global::CriThink.Client.Droid.Resource.Styleable.DialogPreference_positiveButtonText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_barLength = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_color = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_drawableSize = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_spinBars = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.DrawerArrowToggle_thickness = global::CriThink.Client.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.EditTextPreference = global::CriThink.Client.Droid.Resource.Styleable.EditTextPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.EditTextPreference_useSimpleSummaryProvider = global::CriThink.Client.Droid.Resource.Styleable.EditTextPreference_useSimpleSummaryProvider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_backgroundTint = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_backgroundTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_backgroundTintMode = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_backgroundTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_Behavior_Layout = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_borderWidth = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_borderWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_elevation = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_fabCustomSize = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_fabCustomSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_fabSize = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_fabSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_hideMotionSpec = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_hideMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_hoveredFocusedTranslationZ = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_hoveredFocusedTranslationZ;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_maxImageSize = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_maxImageSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_pressedTranslationZ = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_pressedTranslationZ;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_rippleColor = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_rippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_showMotionSpec = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_showMotionSpec;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FloatingActionButton_useCompatPadding = global::CriThink.Client.Droid.Resource.Styleable.FloatingActionButton_useCompatPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FlowLayout = global::CriThink.Client.Droid.Resource.Styleable.FlowLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FlowLayout_itemSpacing = global::CriThink.Client.Droid.Resource.Styleable.FlowLayout_itemSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FlowLayout_lineSpacing = global::CriThink.Client.Droid.Resource.Styleable.FlowLayout_lineSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily = global::CriThink.Client.Droid.Resource.Styleable.FontFamily;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_android_font = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_android_font;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_android_fontStyle = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_android_fontWeight = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_font = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_font;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_fontStyle = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_fontWeight = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamilyFont_ttcIndex = global::CriThink.Client.Droid.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderAuthority = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderCerts = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderPackage = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FontFamily_fontProviderQuery = global::CriThink.Client.Droid.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ForegroundLinearLayout = global::CriThink.Client.Droid.Resource.Styleable.ForegroundLinearLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ForegroundLinearLayout_android_foreground = global::CriThink.Client.Droid.Resource.Styleable.ForegroundLinearLayout_android_foreground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity = global::CriThink.Client.Droid.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding = global::CriThink.Client.Droid.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Fragment = global::CriThink.Client.Droid.Resource.Styleable.Fragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FragmentContainerView = global::CriThink.Client.Droid.Resource.Styleable.FragmentContainerView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FragmentContainerView_android_name = global::CriThink.Client.Droid.Resource.Styleable.FragmentContainerView_android_name;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.FragmentContainerView_android_tag = global::CriThink.Client.Droid.Resource.Styleable.FragmentContainerView_android_tag;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Fragment_android_id = global::CriThink.Client.Droid.Resource.Styleable.Fragment_android_id;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Fragment_android_name = global::CriThink.Client.Droid.Resource.Styleable.Fragment_android_name;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Fragment_android_tag = global::CriThink.Client.Droid.Resource.Styleable.Fragment_android_tag;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor = global::CriThink.Client.Droid.Resource.Styleable.GradientColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColorItem = global::CriThink.Client.Droid.Resource.Styleable.GradientColorItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColorItem_android_color = global::CriThink.Client.Droid.Resource.Styleable.GradientColorItem_android_color;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColorItem_android_offset = global::CriThink.Client.Droid.Resource.Styleable.GradientColorItem_android_offset;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_centerColor = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_centerColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_centerX = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_centerX;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_centerY = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_centerY;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_endColor = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_endColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_endX = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_endX;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_endY = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_endY;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_gradientRadius = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_startColor = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_startColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_startX = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_startX;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_startY = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_startY;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_tileMode = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_tileMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.GradientColor_android_type = global::CriThink.Client.Droid.Resource.Styleable.GradientColor_android_type;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_android_gravity = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_android_orientation = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_divider = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_Layout = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.LinearLayoutCompat_showDividers = global::CriThink.Client.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPopupWindow = global::CriThink.Client.Droid.Resource.Styleable.ListPopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::CriThink.Client.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::CriThink.Client.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference = global::CriThink.Client.Droid.Resource.Styleable.ListPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference_android_entries = global::CriThink.Client.Droid.Resource.Styleable.ListPreference_android_entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference_android_entryValues = global::CriThink.Client.Droid.Resource.Styleable.ListPreference_android_entryValues;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference_entries = global::CriThink.Client.Droid.Resource.Styleable.ListPreference_entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference_entryValues = global::CriThink.Client.Droid.Resource.Styleable.ListPreference_entryValues;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ListPreference_useSimpleSummaryProvider = global::CriThink.Client.Droid.Resource.Styleable.ListPreference_useSimpleSummaryProvider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_android_insetBottom = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_android_insetBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_android_insetLeft = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_android_insetLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_android_insetRight = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_android_insetRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_android_insetTop = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_android_insetTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_backgroundTint = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_backgroundTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_backgroundTintMode = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_backgroundTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_cornerRadius = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_cornerRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_icon = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_iconGravity = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_iconGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_iconPadding = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_iconPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_iconSize = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_iconSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_iconTint = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_iconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_iconTintMode = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_iconTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_rippleColor = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_rippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_strokeColor = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_strokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialButton_strokeWidth = global::CriThink.Client.Droid.Resource.Styleable.MaterialButton_strokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialCardView = global::CriThink.Client.Droid.Resource.Styleable.MaterialCardView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialCardView_strokeColor = global::CriThink.Client.Droid.Resource.Styleable.MaterialCardView_strokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MaterialCardView_strokeWidth = global::CriThink.Client.Droid.Resource.Styleable.MaterialCardView_strokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_checkableBehavior = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_enabled = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_enabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_id = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_id;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_menuCategory = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_orderInCategory = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuGroup_android_visible = global::CriThink.Client.Droid.Resource.Styleable.MenuGroup_android_visible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem = global::CriThink.Client.Droid.Resource.Styleable.MenuItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_actionLayout = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_actionLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_actionProviderClass = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_actionProviderClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_actionViewClass = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_actionViewClass;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_alphabeticModifiers = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_alphabeticModifiers;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_checkable = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_checkable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_checked = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_checked;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_enabled = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_enabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_icon = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_id = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_id;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_menuCategory = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_menuCategory;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_numericShortcut = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_onClick = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_onClick;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_orderInCategory = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_title = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_titleCondensed = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_android_visible = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_android_visible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_contentDescription = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_contentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_iconTint = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_iconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_iconTintMode = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_iconTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_numericModifiers = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_numericModifiers;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_showAsAction = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_showAsAction;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuItem_tooltipText = global::CriThink.Client.Droid.Resource.Styleable.MenuItem_tooltipText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView = global::CriThink.Client.Droid.Resource.Styleable.MenuView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_headerBackground = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_headerBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_horizontalDivider = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_itemBackground = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_itemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_itemTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_verticalDivider = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_verticalDivider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_android_windowAnimationStyle = global::CriThink.Client.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_preserveIconSpacing = global::CriThink.Client.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MenuView_subMenuArrow = global::CriThink.Client.Droid.Resource.Styleable.MenuView_subMenuArrow;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MultiSelectListPreference = global::CriThink.Client.Droid.Resource.Styleable.MultiSelectListPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MultiSelectListPreference_android_entries = global::CriThink.Client.Droid.Resource.Styleable.MultiSelectListPreference_android_entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MultiSelectListPreference_android_entryValues = global::CriThink.Client.Droid.Resource.Styleable.MultiSelectListPreference_android_entryValues;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MultiSelectListPreference_entries = global::CriThink.Client.Droid.Resource.Styleable.MultiSelectListPreference_entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MultiSelectListPreference_entryValues = global::CriThink.Client.Droid.Resource.Styleable.MultiSelectListPreference_entryValues;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxBinding = global::CriThink.Client.Droid.Resource.Styleable.MvxBinding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxBinding_MvxBind = global::CriThink.Client.Droid.Resource.Styleable.MvxBinding_MvxBind;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxBinding_MvxLang = global::CriThink.Client.Droid.Resource.Styleable.MvxBinding_MvxLang;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxControl = global::CriThink.Client.Droid.Resource.Styleable.MvxControl;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxControl_MvxTemplate = global::CriThink.Client.Droid.Resource.Styleable.MvxControl_MvxTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxExpandableListView = global::CriThink.Client.Droid.Resource.Styleable.MvxExpandableListView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate = global::CriThink.Client.Droid.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxListView = global::CriThink.Client.Droid.Resource.Styleable.MvxListView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxListView_MvxDropDownItemTemplate = global::CriThink.Client.Droid.Resource.Styleable.MvxListView_MvxDropDownItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.MvxListView_MvxItemTemplate = global::CriThink.Client.Droid.Resource.Styleable.MvxListView_MvxItemTemplate;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView = global::CriThink.Client.Droid.Resource.Styleable.NavigationView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_android_background = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_android_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_android_fitsSystemWindows = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_android_fitsSystemWindows;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_android_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_android_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_elevation = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_headerLayout = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_headerLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemBackground = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemHorizontalPadding = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemHorizontalPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemIconPadding = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemIconPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemIconTint = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_itemTextColor = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_itemTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.NavigationView_menu = global::CriThink.Client.Droid.Resource.Styleable.NavigationView_menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindow = global::CriThink.Client.Droid.Resource.Styleable.PopupWindow;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindowBackgroundState = global::CriThink.Client.Droid.Resource.Styleable.PopupWindowBackgroundState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::CriThink.Client.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::CriThink.Client.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindow_android_popupBackground = global::CriThink.Client.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PopupWindow_overlapAnchor = global::CriThink.Client.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference = global::CriThink.Client.Droid.Resource.Styleable.Preference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragment = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragmentCompat = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragmentCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragmentCompat_allowDividerAfterLastItem = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragmentCompat_allowDividerAfterLastItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragmentCompat_android_divider = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragmentCompat_android_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragmentCompat_android_dividerHeight = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragmentCompat_android_dividerHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragmentCompat_android_layout = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragmentCompat_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragment_allowDividerAfterLastItem = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragment_allowDividerAfterLastItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragment_android_divider = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragment_android_divider;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragment_android_dividerHeight = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragment_android_dividerHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceFragment_android_layout = global::CriThink.Client.Droid.Resource.Styleable.PreferenceFragment_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceGroup = global::CriThink.Client.Droid.Resource.Styleable.PreferenceGroup;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceGroup_android_orderingFromXml = global::CriThink.Client.Droid.Resource.Styleable.PreferenceGroup_android_orderingFromXml;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceGroup_initialExpandedChildrenCount = global::CriThink.Client.Droid.Resource.Styleable.PreferenceGroup_initialExpandedChildrenCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceGroup_orderingFromXml = global::CriThink.Client.Droid.Resource.Styleable.PreferenceGroup_orderingFromXml;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceImageView = global::CriThink.Client.Droid.Resource.Styleable.PreferenceImageView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceImageView_android_maxHeight = global::CriThink.Client.Droid.Resource.Styleable.PreferenceImageView_android_maxHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceImageView_android_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.PreferenceImageView_android_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceImageView_maxHeight = global::CriThink.Client.Droid.Resource.Styleable.PreferenceImageView_maxHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceImageView_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.PreferenceImageView_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_checkBoxPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_checkBoxPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_dialogPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_dialogPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_dropdownPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_dropdownPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_editTextPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_editTextPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceCategoryStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceCategoryStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceCategoryTitleTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceCategoryTitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceFragmentCompatStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceFragmentCompatStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceFragmentListStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceFragmentListStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceFragmentStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceFragmentStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceInformationStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceInformationStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceScreenStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceScreenStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_preferenceTheme = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_preferenceTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_seekBarPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_seekBarPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_switchPreferenceCompatStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_switchPreferenceCompatStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.PreferenceTheme_switchPreferenceStyle = global::CriThink.Client.Droid.Resource.Styleable.PreferenceTheme_switchPreferenceStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_allowDividerAbove = global::CriThink.Client.Droid.Resource.Styleable.Preference_allowDividerAbove;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_allowDividerBelow = global::CriThink.Client.Droid.Resource.Styleable.Preference_allowDividerBelow;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_defaultValue = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_defaultValue;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_dependency = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_dependency;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_enabled = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_enabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_fragment = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_fragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_icon = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_iconSpaceReserved = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_iconSpaceReserved;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_key = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_key;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_layout = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_order = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_order;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_persistent = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_persistent;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_selectable = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_selectable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_shouldDisableView = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_shouldDisableView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_singleLineTitle = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_singleLineTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_summary = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_summary;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_title = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_android_widgetLayout = global::CriThink.Client.Droid.Resource.Styleable.Preference_android_widgetLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_defaultValue = global::CriThink.Client.Droid.Resource.Styleable.Preference_defaultValue;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_dependency = global::CriThink.Client.Droid.Resource.Styleable.Preference_dependency;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_enableCopying = global::CriThink.Client.Droid.Resource.Styleable.Preference_enableCopying;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_enabled = global::CriThink.Client.Droid.Resource.Styleable.Preference_enabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_fragment = global::CriThink.Client.Droid.Resource.Styleable.Preference_fragment;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_icon = global::CriThink.Client.Droid.Resource.Styleable.Preference_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_iconSpaceReserved = global::CriThink.Client.Droid.Resource.Styleable.Preference_iconSpaceReserved;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_isPreferenceVisible = global::CriThink.Client.Droid.Resource.Styleable.Preference_isPreferenceVisible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_key = global::CriThink.Client.Droid.Resource.Styleable.Preference_key;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_layout = global::CriThink.Client.Droid.Resource.Styleable.Preference_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_order = global::CriThink.Client.Droid.Resource.Styleable.Preference_order;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_persistent = global::CriThink.Client.Droid.Resource.Styleable.Preference_persistent;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_selectable = global::CriThink.Client.Droid.Resource.Styleable.Preference_selectable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_shouldDisableView = global::CriThink.Client.Droid.Resource.Styleable.Preference_shouldDisableView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_singleLineTitle = global::CriThink.Client.Droid.Resource.Styleable.Preference_singleLineTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_summary = global::CriThink.Client.Droid.Resource.Styleable.Preference_summary;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_title = global::CriThink.Client.Droid.Resource.Styleable.Preference_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Preference_widgetLayout = global::CriThink.Client.Droid.Resource.Styleable.Preference_widgetLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecycleListView = global::CriThink.Client.Droid.Resource.Styleable.RecycleListView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::CriThink.Client.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::CriThink.Client.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_android_clipToPadding = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_android_clipToPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_android_descendantFocusability = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_android_descendantFocusability;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_android_orientation = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_android_orientation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_fastScrollEnabled = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_fastScrollEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_fastScrollHorizontalThumbDrawable = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_fastScrollHorizontalThumbDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_fastScrollHorizontalTrackDrawable = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_fastScrollHorizontalTrackDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_fastScrollVerticalThumbDrawable = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_fastScrollVerticalThumbDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_fastScrollVerticalTrackDrawable = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_fastScrollVerticalTrackDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_layoutManager = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_layoutManager;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_reverseLayout = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_reverseLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_spanCount = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_spanCount;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.RecyclerView_stackFromEnd = global::CriThink.Client.Droid.Resource.Styleable.RecyclerView_stackFromEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ScrimInsetsFrameLayout = global::CriThink.Client.Droid.Resource.Styleable.ScrimInsetsFrameLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::CriThink.Client.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ScrollingViewBehavior_Layout = global::CriThink.Client.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::CriThink.Client.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView = global::CriThink.Client.Droid.Resource.Styleable.SearchView;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_android_focusable = global::CriThink.Client.Droid.Resource.Styleable.SearchView_android_focusable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_android_imeOptions = global::CriThink.Client.Droid.Resource.Styleable.SearchView_android_imeOptions;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_android_inputType = global::CriThink.Client.Droid.Resource.Styleable.SearchView_android_inputType;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_android_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.SearchView_android_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_closeIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_closeIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_commitIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_commitIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_defaultQueryHint = global::CriThink.Client.Droid.Resource.Styleable.SearchView_defaultQueryHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_goIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_goIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_iconifiedByDefault = global::CriThink.Client.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_layout = global::CriThink.Client.Droid.Resource.Styleable.SearchView_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_queryBackground = global::CriThink.Client.Droid.Resource.Styleable.SearchView_queryBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_queryHint = global::CriThink.Client.Droid.Resource.Styleable.SearchView_queryHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_searchHintIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_searchHintIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_searchIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_searchIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_submitBackground = global::CriThink.Client.Droid.Resource.Styleable.SearchView_submitBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_suggestionRowLayout = global::CriThink.Client.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SearchView_voiceIcon = global::CriThink.Client.Droid.Resource.Styleable.SearchView_voiceIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_adjustable = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_adjustable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_android_layout = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_android_max = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_android_max;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_min = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_min;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_seekBarIncrement = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_seekBarIncrement;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_showSeekBarValue = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_showSeekBarValue;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SeekBarPreference_updatesContinuously = global::CriThink.Client.Droid.Resource.Styleable.SeekBarPreference_updatesContinuously;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Snackbar = global::CriThink.Client.Droid.Resource.Styleable.Snackbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SnackbarLayout = global::CriThink.Client.Droid.Resource.Styleable.SnackbarLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SnackbarLayout_android_maxWidth = global::CriThink.Client.Droid.Resource.Styleable.SnackbarLayout_android_maxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SnackbarLayout_elevation = global::CriThink.Client.Droid.Resource.Styleable.SnackbarLayout_elevation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SnackbarLayout_maxActionInlineWidth = global::CriThink.Client.Droid.Resource.Styleable.SnackbarLayout_maxActionInlineWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Snackbar_snackbarButtonStyle = global::CriThink.Client.Droid.Resource.Styleable.Snackbar_snackbarButtonStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Snackbar_snackbarStyle = global::CriThink.Client.Droid.Resource.Styleable.Snackbar_snackbarStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner = global::CriThink.Client.Droid.Resource.Styleable.Spinner;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner_android_dropDownWidth = global::CriThink.Client.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner_android_entries = global::CriThink.Client.Droid.Resource.Styleable.Spinner_android_entries;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner_android_popupBackground = global::CriThink.Client.Droid.Resource.Styleable.Spinner_android_popupBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner_android_prompt = global::CriThink.Client.Droid.Resource.Styleable.Spinner_android_prompt;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Spinner_popupTheme = global::CriThink.Client.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawableItem = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawableItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawableItem_android_drawable = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawableItem_android_drawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_constantSize = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_constantSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_dither = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_dither;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_variablePadding = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_variablePadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.StateListDrawable_android_visible = global::CriThink.Client.Droid.Resource.Styleable.StateListDrawable_android_visible;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_android_textOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_android_textOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_android_textOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_android_textOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_android_thumb = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_android_thumb;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_showText = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_showText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_splitTrack = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_splitTrack;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_switchMinWidth = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_switchPadding = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_switchPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_switchTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_thumbTextPadding = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_thumbTint = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_thumbTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_thumbTintMode = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_thumbTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_track = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_track;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_trackTint = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_trackTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchCompat_trackTintMode = global::CriThink.Client.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_android_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_android_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_android_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_android_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_android_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_android_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_android_switchTextOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_android_switchTextOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_android_switchTextOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_android_switchTextOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_switchTextOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_switchTextOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreferenceCompat_switchTextOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreferenceCompat_switchTextOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_android_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_android_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_android_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_android_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_android_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_android_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_android_switchTextOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_android_switchTextOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_android_switchTextOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_android_switchTextOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_disableDependentsState = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_disableDependentsState;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_summaryOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_summaryOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_summaryOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_summaryOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_switchTextOff = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_switchTextOff;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.SwitchPreference_switchTextOn = global::CriThink.Client.Droid.Resource.Styleable.SwitchPreference_switchTextOn;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabItem = global::CriThink.Client.Droid.Resource.Styleable.TabItem;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabItem_android_icon = global::CriThink.Client.Droid.Resource.Styleable.TabItem_android_icon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabItem_android_layout = global::CriThink.Client.Droid.Resource.Styleable.TabItem_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabItem_android_text = global::CriThink.Client.Droid.Resource.Styleable.TabItem_android_text;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout = global::CriThink.Client.Droid.Resource.Styleable.TabLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabBackground = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabBackground;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabContentStart = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabContentStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabGravity = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIconTint = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIconTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIconTintMode = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIconTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicator = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicator;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicatorAnimationDuration = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorAnimationDuration;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicatorColor = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicatorFullWidth = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorFullWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicatorGravity = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabIndicatorHeight = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabInlineLabel = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabInlineLabel;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabMaxWidth = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabMaxWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabMinWidth = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabMinWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabMode = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabPadding = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabPadding;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabPaddingBottom = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabPaddingBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabPaddingEnd = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabPaddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabPaddingStart = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabPaddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabPaddingTop = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabRippleColor = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabRippleColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabSelectedTextColor = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabSelectedTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabTextColor = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TabLayout_tabUnboundedRipple = global::CriThink.Client.Droid.Resource.Styleable.TabLayout_tabUnboundedRipple;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_fontFamily = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_fontFamily;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_shadowColor = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_shadowDx = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_shadowDy = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_shadowRadius = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textColor = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textColorHint = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textColorHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textColorLink = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textColorLink;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textFontWeight = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textFontWeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textSize = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textSize;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_textStyle = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_textStyle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_android_typeface = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_android_typeface;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_fontFamily = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_fontFamily;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_fontVariationSettings = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_fontVariationSettings;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_textAllCaps = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextAppearance_textLocale = global::CriThink.Client.Droid.Resource.Styleable.TextAppearance_textLocale;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_android_hint = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_android_hint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_android_textColorHint = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_android_textColorHint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxBackgroundColor = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxBackgroundColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxBackgroundMode = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxBackgroundMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxCollapsedPaddingTop = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxCollapsedPaddingTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxCornerRadiusBottomEnd = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxCornerRadiusBottomEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxCornerRadiusBottomStart = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxCornerRadiusBottomStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxCornerRadiusTopEnd = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxCornerRadiusTopEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxCornerRadiusTopStart = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxCornerRadiusTopStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxStrokeColor = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxStrokeColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_boxStrokeWidth = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_boxStrokeWidth;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_counterEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_counterEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_counterMaxLength = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_counterMaxLength;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_counterTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_counterTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_errorEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_errorEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_errorTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_errorTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_helperText = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_helperText;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_helperTextEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_helperTextEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_helperTextTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_helperTextTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_hintAnimationEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_hintAnimationEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_hintEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_hintEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_hintTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_hintTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_passwordToggleContentDescription = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_passwordToggleDrawable = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleDrawable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_passwordToggleEnabled = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleEnabled;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_passwordToggleTint = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.TextInputLayout_passwordToggleTintMode = global::CriThink.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ThemeEnforcement = global::CriThink.Client.Droid.Resource.Styleable.ThemeEnforcement;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ThemeEnforcement_android_textAppearance = global::CriThink.Client.Droid.Resource.Styleable.ThemeEnforcement_android_textAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ThemeEnforcement_enforceMaterialTheme = global::CriThink.Client.Droid.Resource.Styleable.ThemeEnforcement_enforceMaterialTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ThemeEnforcement_enforceTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.ThemeEnforcement_enforceTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar = global::CriThink.Client.Droid.Resource.Styleable.Toolbar;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_android_gravity = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_android_gravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_android_minHeight = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_android_minHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_buttonGravity = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_buttonGravity;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_collapseContentDescription = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_collapseIcon = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_collapseIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetEnd = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetLeft = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetRight = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetRight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetStart = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_logo = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_logo;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_logoDescription = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_logoDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_maxButtonHeight = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_menu = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_menu;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_navigationContentDescription = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_navigationIcon = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_navigationIcon;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_popupTheme = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_popupTheme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_subtitle = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_subtitle;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_subtitleTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_subtitleTextColor = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_title = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_title;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMargin = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMargin;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMarginBottom = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMarginEnd = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMargins = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMargins;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMarginStart = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMarginStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleMarginTop = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleMarginTop;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleTextAppearance = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.Toolbar_titleTextColor = global::CriThink.Client.Droid.Resource.Styleable.Toolbar_titleTextColor;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View = global::CriThink.Client.Droid.Resource.Styleable.View;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewBackgroundHelper = global::CriThink.Client.Droid.Resource.Styleable.ViewBackgroundHelper;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewBackgroundHelper_android_background = global::CriThink.Client.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::CriThink.Client.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::CriThink.Client.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewStubCompat = global::CriThink.Client.Droid.Resource.Styleable.ViewStubCompat;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewStubCompat_android_id = global::CriThink.Client.Droid.Resource.Styleable.ViewStubCompat_android_id;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewStubCompat_android_inflatedId = global::CriThink.Client.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.ViewStubCompat_android_layout = global::CriThink.Client.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View_android_focusable = global::CriThink.Client.Droid.Resource.Styleable.View_android_focusable;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View_android_theme = global::CriThink.Client.Droid.Resource.Styleable.View_android_theme;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View_paddingEnd = global::CriThink.Client.Droid.Resource.Styleable.View_paddingEnd;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View_paddingStart = global::CriThink.Client.Droid.Resource.Styleable.View_paddingStart;
+			global::MvvmCross.Plugin.Visibility.Resource.Styleable.View_theme = global::CriThink.Client.Droid.Resource.Styleable.View_theme;
 			global::Xamarin.Essentials.Resource.Attribute.alpha = global::CriThink.Client.Droid.Resource.Attribute.alpha;
 			global::Xamarin.Essentials.Resource.Attribute.font = global::CriThink.Client.Droid.Resource.Attribute.font;
 			global::Xamarin.Essentials.Resource.Attribute.fontProviderAuthority = global::CriThink.Client.Droid.Resource.Attribute.fontProviderAuthority;
@@ -17825,652 +20709,655 @@ namespace CriThink.Client.Droid
 			public const int imgSize_bigLogo = 2131099832;
 			
 			// aapt resource value: 0x7F0600B9
-			public const int imgSize_small = 2131099833;
+			public const int imgSize_loader = 2131099833;
 			
 			// aapt resource value: 0x7F0600BA
-			public const int item_touch_helper_max_drag_scroll_per_frame = 2131099834;
+			public const int imgSize_small = 2131099834;
 			
 			// aapt resource value: 0x7F0600BB
-			public const int item_touch_helper_swipe_escape_max_velocity = 2131099835;
+			public const int item_touch_helper_max_drag_scroll_per_frame = 2131099835;
 			
 			// aapt resource value: 0x7F0600BC
-			public const int item_touch_helper_swipe_escape_velocity = 2131099836;
+			public const int item_touch_helper_swipe_escape_max_velocity = 2131099836;
 			
 			// aapt resource value: 0x7F0600BD
-			public const int margin_big = 2131099837;
+			public const int item_touch_helper_swipe_escape_velocity = 2131099837;
 			
 			// aapt resource value: 0x7F0600BE
-			public const int margin_huge = 2131099838;
+			public const int margin_big = 2131099838;
 			
 			// aapt resource value: 0x7F0600BF
-			public const int margin_littleBig = 2131099839;
+			public const int margin_huge = 2131099839;
 			
 			// aapt resource value: 0x7F0600C0
-			public const int margin_medium = 2131099840;
+			public const int margin_littleBig = 2131099840;
 			
 			// aapt resource value: 0x7F0600C1
-			public const int margin_mini = 2131099841;
+			public const int margin_medium = 2131099841;
 			
 			// aapt resource value: 0x7F0600C2
-			public const int margin_small = 2131099842;
+			public const int margin_mini = 2131099842;
 			
 			// aapt resource value: 0x7F0600C3
-			public const int margin_veryBig = 2131099843;
+			public const int margin_small = 2131099843;
 			
 			// aapt resource value: 0x7F0600C4
-			public const int material_emphasis_disabled = 2131099844;
+			public const int margin_veryBig = 2131099844;
 			
 			// aapt resource value: 0x7F0600C5
-			public const int material_emphasis_high_type = 2131099845;
+			public const int material_emphasis_disabled = 2131099845;
 			
 			// aapt resource value: 0x7F0600C6
-			public const int material_emphasis_medium = 2131099846;
+			public const int material_emphasis_high_type = 2131099846;
 			
 			// aapt resource value: 0x7F0600C7
-			public const int material_text_view_test_line_height = 2131099847;
+			public const int material_emphasis_medium = 2131099847;
 			
 			// aapt resource value: 0x7F0600C8
-			public const int material_text_view_test_line_height_override = 2131099848;
+			public const int material_text_view_test_line_height = 2131099848;
 			
 			// aapt resource value: 0x7F0600C9
-			public const int mtrl_alert_dialog_background_inset_bottom = 2131099849;
+			public const int material_text_view_test_line_height_override = 2131099849;
 			
 			// aapt resource value: 0x7F0600CA
-			public const int mtrl_alert_dialog_background_inset_end = 2131099850;
+			public const int mtrl_alert_dialog_background_inset_bottom = 2131099850;
 			
 			// aapt resource value: 0x7F0600CB
-			public const int mtrl_alert_dialog_background_inset_start = 2131099851;
+			public const int mtrl_alert_dialog_background_inset_end = 2131099851;
 			
 			// aapt resource value: 0x7F0600CC
-			public const int mtrl_alert_dialog_background_inset_top = 2131099852;
+			public const int mtrl_alert_dialog_background_inset_start = 2131099852;
 			
 			// aapt resource value: 0x7F0600CD
-			public const int mtrl_alert_dialog_picker_background_inset = 2131099853;
+			public const int mtrl_alert_dialog_background_inset_top = 2131099853;
 			
 			// aapt resource value: 0x7F0600CE
-			public const int mtrl_badge_horizontal_edge_offset = 2131099854;
+			public const int mtrl_alert_dialog_picker_background_inset = 2131099854;
 			
 			// aapt resource value: 0x7F0600CF
-			public const int mtrl_badge_long_text_horizontal_padding = 2131099855;
+			public const int mtrl_badge_horizontal_edge_offset = 2131099855;
 			
 			// aapt resource value: 0x7F0600D0
-			public const int mtrl_badge_radius = 2131099856;
+			public const int mtrl_badge_long_text_horizontal_padding = 2131099856;
 			
 			// aapt resource value: 0x7F0600D1
-			public const int mtrl_badge_text_horizontal_edge_offset = 2131099857;
+			public const int mtrl_badge_radius = 2131099857;
 			
 			// aapt resource value: 0x7F0600D2
-			public const int mtrl_badge_text_size = 2131099858;
+			public const int mtrl_badge_text_horizontal_edge_offset = 2131099858;
 			
 			// aapt resource value: 0x7F0600D3
-			public const int mtrl_badge_with_text_radius = 2131099859;
+			public const int mtrl_badge_text_size = 2131099859;
 			
 			// aapt resource value: 0x7F0600D4
-			public const int mtrl_bottomappbar_fabOffsetEndMode = 2131099860;
+			public const int mtrl_badge_with_text_radius = 2131099860;
 			
 			// aapt resource value: 0x7F0600D5
-			public const int mtrl_bottomappbar_fab_bottom_margin = 2131099861;
+			public const int mtrl_bottomappbar_fabOffsetEndMode = 2131099861;
 			
 			// aapt resource value: 0x7F0600D6
-			public const int mtrl_bottomappbar_fab_cradle_margin = 2131099862;
+			public const int mtrl_bottomappbar_fab_bottom_margin = 2131099862;
 			
 			// aapt resource value: 0x7F0600D7
-			public const int mtrl_bottomappbar_fab_cradle_rounded_corner_radius = 2131099863;
+			public const int mtrl_bottomappbar_fab_cradle_margin = 2131099863;
 			
 			// aapt resource value: 0x7F0600D8
-			public const int mtrl_bottomappbar_fab_cradle_vertical_offset = 2131099864;
+			public const int mtrl_bottomappbar_fab_cradle_rounded_corner_radius = 2131099864;
 			
 			// aapt resource value: 0x7F0600D9
-			public const int mtrl_bottomappbar_height = 2131099865;
+			public const int mtrl_bottomappbar_fab_cradle_vertical_offset = 2131099865;
 			
 			// aapt resource value: 0x7F0600DA
-			public const int mtrl_btn_corner_radius = 2131099866;
+			public const int mtrl_bottomappbar_height = 2131099866;
 			
 			// aapt resource value: 0x7F0600DB
-			public const int mtrl_btn_dialog_btn_min_width = 2131099867;
+			public const int mtrl_btn_corner_radius = 2131099867;
 			
 			// aapt resource value: 0x7F0600DC
-			public const int mtrl_btn_disabled_elevation = 2131099868;
+			public const int mtrl_btn_dialog_btn_min_width = 2131099868;
 			
 			// aapt resource value: 0x7F0600DD
-			public const int mtrl_btn_disabled_z = 2131099869;
+			public const int mtrl_btn_disabled_elevation = 2131099869;
 			
 			// aapt resource value: 0x7F0600DE
-			public const int mtrl_btn_elevation = 2131099870;
+			public const int mtrl_btn_disabled_z = 2131099870;
 			
 			// aapt resource value: 0x7F0600DF
-			public const int mtrl_btn_focused_z = 2131099871;
+			public const int mtrl_btn_elevation = 2131099871;
 			
 			// aapt resource value: 0x7F0600E0
-			public const int mtrl_btn_hovered_z = 2131099872;
+			public const int mtrl_btn_focused_z = 2131099872;
 			
 			// aapt resource value: 0x7F0600E1
-			public const int mtrl_btn_icon_btn_padding_left = 2131099873;
+			public const int mtrl_btn_hovered_z = 2131099873;
 			
 			// aapt resource value: 0x7F0600E2
-			public const int mtrl_btn_icon_padding = 2131099874;
+			public const int mtrl_btn_icon_btn_padding_left = 2131099874;
 			
 			// aapt resource value: 0x7F0600E3
-			public const int mtrl_btn_inset = 2131099875;
+			public const int mtrl_btn_icon_padding = 2131099875;
 			
 			// aapt resource value: 0x7F0600E4
-			public const int mtrl_btn_letter_spacing = 2131099876;
+			public const int mtrl_btn_inset = 2131099876;
 			
 			// aapt resource value: 0x7F0600E5
-			public const int mtrl_btn_padding_bottom = 2131099877;
+			public const int mtrl_btn_letter_spacing = 2131099877;
 			
 			// aapt resource value: 0x7F0600E6
-			public const int mtrl_btn_padding_left = 2131099878;
+			public const int mtrl_btn_padding_bottom = 2131099878;
 			
 			// aapt resource value: 0x7F0600E7
-			public const int mtrl_btn_padding_right = 2131099879;
+			public const int mtrl_btn_padding_left = 2131099879;
 			
 			// aapt resource value: 0x7F0600E8
-			public const int mtrl_btn_padding_top = 2131099880;
+			public const int mtrl_btn_padding_right = 2131099880;
 			
 			// aapt resource value: 0x7F0600E9
-			public const int mtrl_btn_pressed_z = 2131099881;
+			public const int mtrl_btn_padding_top = 2131099881;
 			
 			// aapt resource value: 0x7F0600EA
-			public const int mtrl_btn_stroke_size = 2131099882;
+			public const int mtrl_btn_pressed_z = 2131099882;
 			
 			// aapt resource value: 0x7F0600EB
-			public const int mtrl_btn_text_btn_icon_padding = 2131099883;
+			public const int mtrl_btn_stroke_size = 2131099883;
 			
 			// aapt resource value: 0x7F0600EC
-			public const int mtrl_btn_text_btn_padding_left = 2131099884;
+			public const int mtrl_btn_text_btn_icon_padding = 2131099884;
 			
 			// aapt resource value: 0x7F0600ED
-			public const int mtrl_btn_text_btn_padding_right = 2131099885;
+			public const int mtrl_btn_text_btn_padding_left = 2131099885;
 			
 			// aapt resource value: 0x7F0600EE
-			public const int mtrl_btn_text_size = 2131099886;
+			public const int mtrl_btn_text_btn_padding_right = 2131099886;
 			
 			// aapt resource value: 0x7F0600EF
-			public const int mtrl_btn_z = 2131099887;
+			public const int mtrl_btn_text_size = 2131099887;
 			
 			// aapt resource value: 0x7F0600F0
-			public const int mtrl_calendar_action_height = 2131099888;
+			public const int mtrl_btn_z = 2131099888;
 			
 			// aapt resource value: 0x7F0600F1
-			public const int mtrl_calendar_action_padding = 2131099889;
+			public const int mtrl_calendar_action_height = 2131099889;
 			
 			// aapt resource value: 0x7F0600F2
-			public const int mtrl_calendar_bottom_padding = 2131099890;
+			public const int mtrl_calendar_action_padding = 2131099890;
 			
 			// aapt resource value: 0x7F0600F3
-			public const int mtrl_calendar_content_padding = 2131099891;
-			
-			// aapt resource value: 0x7F0600FA
-			public const int mtrl_calendar_days_of_week_height = 2131099898;
+			public const int mtrl_calendar_bottom_padding = 2131099891;
 			
 			// aapt resource value: 0x7F0600F4
-			public const int mtrl_calendar_day_corner = 2131099892;
-			
-			// aapt resource value: 0x7F0600F5
-			public const int mtrl_calendar_day_height = 2131099893;
-			
-			// aapt resource value: 0x7F0600F6
-			public const int mtrl_calendar_day_horizontal_padding = 2131099894;
-			
-			// aapt resource value: 0x7F0600F7
-			public const int mtrl_calendar_day_today_stroke = 2131099895;
-			
-			// aapt resource value: 0x7F0600F8
-			public const int mtrl_calendar_day_vertical_padding = 2131099896;
-			
-			// aapt resource value: 0x7F0600F9
-			public const int mtrl_calendar_day_width = 2131099897;
+			public const int mtrl_calendar_content_padding = 2131099892;
 			
 			// aapt resource value: 0x7F0600FB
-			public const int mtrl_calendar_dialog_background_inset = 2131099899;
+			public const int mtrl_calendar_days_of_week_height = 2131099899;
+			
+			// aapt resource value: 0x7F0600F5
+			public const int mtrl_calendar_day_corner = 2131099893;
+			
+			// aapt resource value: 0x7F0600F6
+			public const int mtrl_calendar_day_height = 2131099894;
+			
+			// aapt resource value: 0x7F0600F7
+			public const int mtrl_calendar_day_horizontal_padding = 2131099895;
+			
+			// aapt resource value: 0x7F0600F8
+			public const int mtrl_calendar_day_today_stroke = 2131099896;
+			
+			// aapt resource value: 0x7F0600F9
+			public const int mtrl_calendar_day_vertical_padding = 2131099897;
+			
+			// aapt resource value: 0x7F0600FA
+			public const int mtrl_calendar_day_width = 2131099898;
 			
 			// aapt resource value: 0x7F0600FC
-			public const int mtrl_calendar_header_content_padding = 2131099900;
+			public const int mtrl_calendar_dialog_background_inset = 2131099900;
 			
 			// aapt resource value: 0x7F0600FD
-			public const int mtrl_calendar_header_content_padding_fullscreen = 2131099901;
+			public const int mtrl_calendar_header_content_padding = 2131099901;
 			
 			// aapt resource value: 0x7F0600FE
-			public const int mtrl_calendar_header_divider_thickness = 2131099902;
+			public const int mtrl_calendar_header_content_padding_fullscreen = 2131099902;
 			
 			// aapt resource value: 0x7F0600FF
-			public const int mtrl_calendar_header_height = 2131099903;
+			public const int mtrl_calendar_header_divider_thickness = 2131099903;
 			
 			// aapt resource value: 0x7F060100
-			public const int mtrl_calendar_header_height_fullscreen = 2131099904;
+			public const int mtrl_calendar_header_height = 2131099904;
 			
 			// aapt resource value: 0x7F060101
-			public const int mtrl_calendar_header_selection_line_height = 2131099905;
+			public const int mtrl_calendar_header_height_fullscreen = 2131099905;
 			
 			// aapt resource value: 0x7F060102
-			public const int mtrl_calendar_header_text_padding = 2131099906;
+			public const int mtrl_calendar_header_selection_line_height = 2131099906;
 			
 			// aapt resource value: 0x7F060103
-			public const int mtrl_calendar_header_toggle_margin_bottom = 2131099907;
+			public const int mtrl_calendar_header_text_padding = 2131099907;
 			
 			// aapt resource value: 0x7F060104
-			public const int mtrl_calendar_header_toggle_margin_top = 2131099908;
+			public const int mtrl_calendar_header_toggle_margin_bottom = 2131099908;
 			
 			// aapt resource value: 0x7F060105
-			public const int mtrl_calendar_landscape_header_width = 2131099909;
+			public const int mtrl_calendar_header_toggle_margin_top = 2131099909;
 			
 			// aapt resource value: 0x7F060106
-			public const int mtrl_calendar_maximum_default_fullscreen_minor_axis = 2131099910;
+			public const int mtrl_calendar_landscape_header_width = 2131099910;
 			
 			// aapt resource value: 0x7F060107
-			public const int mtrl_calendar_month_horizontal_padding = 2131099911;
+			public const int mtrl_calendar_maximum_default_fullscreen_minor_axis = 2131099911;
 			
 			// aapt resource value: 0x7F060108
-			public const int mtrl_calendar_month_vertical_padding = 2131099912;
+			public const int mtrl_calendar_month_horizontal_padding = 2131099912;
 			
 			// aapt resource value: 0x7F060109
-			public const int mtrl_calendar_navigation_bottom_padding = 2131099913;
+			public const int mtrl_calendar_month_vertical_padding = 2131099913;
 			
 			// aapt resource value: 0x7F06010A
-			public const int mtrl_calendar_navigation_height = 2131099914;
+			public const int mtrl_calendar_navigation_bottom_padding = 2131099914;
 			
 			// aapt resource value: 0x7F06010B
-			public const int mtrl_calendar_navigation_top_padding = 2131099915;
+			public const int mtrl_calendar_navigation_height = 2131099915;
 			
 			// aapt resource value: 0x7F06010C
-			public const int mtrl_calendar_pre_l_text_clip_padding = 2131099916;
+			public const int mtrl_calendar_navigation_top_padding = 2131099916;
 			
 			// aapt resource value: 0x7F06010D
-			public const int mtrl_calendar_selection_baseline_to_top_fullscreen = 2131099917;
+			public const int mtrl_calendar_pre_l_text_clip_padding = 2131099917;
 			
 			// aapt resource value: 0x7F06010E
-			public const int mtrl_calendar_selection_text_baseline_to_bottom = 2131099918;
+			public const int mtrl_calendar_selection_baseline_to_top_fullscreen = 2131099918;
 			
 			// aapt resource value: 0x7F06010F
-			public const int mtrl_calendar_selection_text_baseline_to_bottom_fullscreen = 2131099919;
+			public const int mtrl_calendar_selection_text_baseline_to_bottom = 2131099919;
 			
 			// aapt resource value: 0x7F060110
-			public const int mtrl_calendar_selection_text_baseline_to_top = 2131099920;
+			public const int mtrl_calendar_selection_text_baseline_to_bottom_fullscreen = 2131099920;
 			
 			// aapt resource value: 0x7F060111
-			public const int mtrl_calendar_text_input_padding_top = 2131099921;
+			public const int mtrl_calendar_selection_text_baseline_to_top = 2131099921;
 			
 			// aapt resource value: 0x7F060112
-			public const int mtrl_calendar_title_baseline_to_top = 2131099922;
+			public const int mtrl_calendar_text_input_padding_top = 2131099922;
 			
 			// aapt resource value: 0x7F060113
-			public const int mtrl_calendar_title_baseline_to_top_fullscreen = 2131099923;
+			public const int mtrl_calendar_title_baseline_to_top = 2131099923;
 			
 			// aapt resource value: 0x7F060114
-			public const int mtrl_calendar_year_corner = 2131099924;
+			public const int mtrl_calendar_title_baseline_to_top_fullscreen = 2131099924;
 			
 			// aapt resource value: 0x7F060115
-			public const int mtrl_calendar_year_height = 2131099925;
+			public const int mtrl_calendar_year_corner = 2131099925;
 			
 			// aapt resource value: 0x7F060116
-			public const int mtrl_calendar_year_horizontal_padding = 2131099926;
+			public const int mtrl_calendar_year_height = 2131099926;
 			
 			// aapt resource value: 0x7F060117
-			public const int mtrl_calendar_year_vertical_padding = 2131099927;
+			public const int mtrl_calendar_year_horizontal_padding = 2131099927;
 			
 			// aapt resource value: 0x7F060118
-			public const int mtrl_calendar_year_width = 2131099928;
+			public const int mtrl_calendar_year_vertical_padding = 2131099928;
 			
 			// aapt resource value: 0x7F060119
-			public const int mtrl_card_checked_icon_margin = 2131099929;
+			public const int mtrl_calendar_year_width = 2131099929;
 			
 			// aapt resource value: 0x7F06011A
-			public const int mtrl_card_checked_icon_size = 2131099930;
+			public const int mtrl_card_checked_icon_margin = 2131099930;
 			
 			// aapt resource value: 0x7F06011B
-			public const int mtrl_card_corner_radius = 2131099931;
+			public const int mtrl_card_checked_icon_size = 2131099931;
 			
 			// aapt resource value: 0x7F06011C
-			public const int mtrl_card_dragged_z = 2131099932;
+			public const int mtrl_card_corner_radius = 2131099932;
 			
 			// aapt resource value: 0x7F06011D
-			public const int mtrl_card_elevation = 2131099933;
+			public const int mtrl_card_dragged_z = 2131099933;
 			
 			// aapt resource value: 0x7F06011E
-			public const int mtrl_card_spacing = 2131099934;
+			public const int mtrl_card_elevation = 2131099934;
 			
 			// aapt resource value: 0x7F06011F
-			public const int mtrl_chip_pressed_translation_z = 2131099935;
+			public const int mtrl_card_spacing = 2131099935;
 			
 			// aapt resource value: 0x7F060120
-			public const int mtrl_chip_text_size = 2131099936;
+			public const int mtrl_chip_pressed_translation_z = 2131099936;
 			
 			// aapt resource value: 0x7F060121
-			public const int mtrl_edittext_rectangle_top_offset = 2131099937;
+			public const int mtrl_chip_text_size = 2131099937;
 			
 			// aapt resource value: 0x7F060122
-			public const int mtrl_exposed_dropdown_menu_popup_elevation = 2131099938;
+			public const int mtrl_edittext_rectangle_top_offset = 2131099938;
 			
 			// aapt resource value: 0x7F060123
-			public const int mtrl_exposed_dropdown_menu_popup_vertical_offset = 2131099939;
+			public const int mtrl_exposed_dropdown_menu_popup_elevation = 2131099939;
 			
 			// aapt resource value: 0x7F060124
-			public const int mtrl_exposed_dropdown_menu_popup_vertical_padding = 2131099940;
+			public const int mtrl_exposed_dropdown_menu_popup_vertical_offset = 2131099940;
 			
 			// aapt resource value: 0x7F060125
-			public const int mtrl_extended_fab_bottom_padding = 2131099941;
+			public const int mtrl_exposed_dropdown_menu_popup_vertical_padding = 2131099941;
 			
 			// aapt resource value: 0x7F060126
-			public const int mtrl_extended_fab_corner_radius = 2131099942;
+			public const int mtrl_extended_fab_bottom_padding = 2131099942;
 			
 			// aapt resource value: 0x7F060127
-			public const int mtrl_extended_fab_disabled_elevation = 2131099943;
+			public const int mtrl_extended_fab_corner_radius = 2131099943;
 			
 			// aapt resource value: 0x7F060128
-			public const int mtrl_extended_fab_disabled_translation_z = 2131099944;
+			public const int mtrl_extended_fab_disabled_elevation = 2131099944;
 			
 			// aapt resource value: 0x7F060129
-			public const int mtrl_extended_fab_elevation = 2131099945;
+			public const int mtrl_extended_fab_disabled_translation_z = 2131099945;
 			
 			// aapt resource value: 0x7F06012A
-			public const int mtrl_extended_fab_end_padding = 2131099946;
+			public const int mtrl_extended_fab_elevation = 2131099946;
 			
 			// aapt resource value: 0x7F06012B
-			public const int mtrl_extended_fab_end_padding_icon = 2131099947;
+			public const int mtrl_extended_fab_end_padding = 2131099947;
 			
 			// aapt resource value: 0x7F06012C
-			public const int mtrl_extended_fab_icon_size = 2131099948;
+			public const int mtrl_extended_fab_end_padding_icon = 2131099948;
 			
 			// aapt resource value: 0x7F06012D
-			public const int mtrl_extended_fab_icon_text_spacing = 2131099949;
+			public const int mtrl_extended_fab_icon_size = 2131099949;
 			
 			// aapt resource value: 0x7F06012E
-			public const int mtrl_extended_fab_min_height = 2131099950;
+			public const int mtrl_extended_fab_icon_text_spacing = 2131099950;
 			
 			// aapt resource value: 0x7F06012F
-			public const int mtrl_extended_fab_min_width = 2131099951;
+			public const int mtrl_extended_fab_min_height = 2131099951;
 			
 			// aapt resource value: 0x7F060130
-			public const int mtrl_extended_fab_start_padding = 2131099952;
+			public const int mtrl_extended_fab_min_width = 2131099952;
 			
 			// aapt resource value: 0x7F060131
-			public const int mtrl_extended_fab_start_padding_icon = 2131099953;
+			public const int mtrl_extended_fab_start_padding = 2131099953;
 			
 			// aapt resource value: 0x7F060132
-			public const int mtrl_extended_fab_top_padding = 2131099954;
+			public const int mtrl_extended_fab_start_padding_icon = 2131099954;
 			
 			// aapt resource value: 0x7F060133
-			public const int mtrl_extended_fab_translation_z_base = 2131099955;
+			public const int mtrl_extended_fab_top_padding = 2131099955;
 			
 			// aapt resource value: 0x7F060134
-			public const int mtrl_extended_fab_translation_z_hovered_focused = 2131099956;
+			public const int mtrl_extended_fab_translation_z_base = 2131099956;
 			
 			// aapt resource value: 0x7F060135
-			public const int mtrl_extended_fab_translation_z_pressed = 2131099957;
+			public const int mtrl_extended_fab_translation_z_hovered_focused = 2131099957;
 			
 			// aapt resource value: 0x7F060136
-			public const int mtrl_fab_elevation = 2131099958;
+			public const int mtrl_extended_fab_translation_z_pressed = 2131099958;
 			
 			// aapt resource value: 0x7F060137
-			public const int mtrl_fab_min_touch_target = 2131099959;
+			public const int mtrl_fab_elevation = 2131099959;
 			
 			// aapt resource value: 0x7F060138
-			public const int mtrl_fab_translation_z_hovered_focused = 2131099960;
+			public const int mtrl_fab_min_touch_target = 2131099960;
 			
 			// aapt resource value: 0x7F060139
-			public const int mtrl_fab_translation_z_pressed = 2131099961;
+			public const int mtrl_fab_translation_z_hovered_focused = 2131099961;
 			
 			// aapt resource value: 0x7F06013A
-			public const int mtrl_high_ripple_default_alpha = 2131099962;
+			public const int mtrl_fab_translation_z_pressed = 2131099962;
 			
 			// aapt resource value: 0x7F06013B
-			public const int mtrl_high_ripple_focused_alpha = 2131099963;
+			public const int mtrl_high_ripple_default_alpha = 2131099963;
 			
 			// aapt resource value: 0x7F06013C
-			public const int mtrl_high_ripple_hovered_alpha = 2131099964;
+			public const int mtrl_high_ripple_focused_alpha = 2131099964;
 			
 			// aapt resource value: 0x7F06013D
-			public const int mtrl_high_ripple_pressed_alpha = 2131099965;
+			public const int mtrl_high_ripple_hovered_alpha = 2131099965;
 			
 			// aapt resource value: 0x7F06013E
-			public const int mtrl_large_touch_target = 2131099966;
+			public const int mtrl_high_ripple_pressed_alpha = 2131099966;
 			
 			// aapt resource value: 0x7F06013F
-			public const int mtrl_low_ripple_default_alpha = 2131099967;
+			public const int mtrl_large_touch_target = 2131099967;
 			
 			// aapt resource value: 0x7F060140
-			public const int mtrl_low_ripple_focused_alpha = 2131099968;
+			public const int mtrl_low_ripple_default_alpha = 2131099968;
 			
 			// aapt resource value: 0x7F060141
-			public const int mtrl_low_ripple_hovered_alpha = 2131099969;
+			public const int mtrl_low_ripple_focused_alpha = 2131099969;
 			
 			// aapt resource value: 0x7F060142
-			public const int mtrl_low_ripple_pressed_alpha = 2131099970;
+			public const int mtrl_low_ripple_hovered_alpha = 2131099970;
 			
 			// aapt resource value: 0x7F060143
-			public const int mtrl_min_touch_target_size = 2131099971;
+			public const int mtrl_low_ripple_pressed_alpha = 2131099971;
 			
 			// aapt resource value: 0x7F060144
-			public const int mtrl_navigation_elevation = 2131099972;
+			public const int mtrl_min_touch_target_size = 2131099972;
 			
 			// aapt resource value: 0x7F060145
-			public const int mtrl_navigation_item_horizontal_padding = 2131099973;
+			public const int mtrl_navigation_elevation = 2131099973;
 			
 			// aapt resource value: 0x7F060146
-			public const int mtrl_navigation_item_icon_padding = 2131099974;
+			public const int mtrl_navigation_item_horizontal_padding = 2131099974;
 			
 			// aapt resource value: 0x7F060147
-			public const int mtrl_navigation_item_icon_size = 2131099975;
+			public const int mtrl_navigation_item_icon_padding = 2131099975;
 			
 			// aapt resource value: 0x7F060148
-			public const int mtrl_navigation_item_shape_horizontal_margin = 2131099976;
+			public const int mtrl_navigation_item_icon_size = 2131099976;
 			
 			// aapt resource value: 0x7F060149
-			public const int mtrl_navigation_item_shape_vertical_margin = 2131099977;
+			public const int mtrl_navigation_item_shape_horizontal_margin = 2131099977;
 			
 			// aapt resource value: 0x7F06014A
-			public const int mtrl_shape_corner_size_large_component = 2131099978;
+			public const int mtrl_navigation_item_shape_vertical_margin = 2131099978;
 			
 			// aapt resource value: 0x7F06014B
-			public const int mtrl_shape_corner_size_medium_component = 2131099979;
+			public const int mtrl_shape_corner_size_large_component = 2131099979;
 			
 			// aapt resource value: 0x7F06014C
-			public const int mtrl_shape_corner_size_small_component = 2131099980;
+			public const int mtrl_shape_corner_size_medium_component = 2131099980;
 			
 			// aapt resource value: 0x7F06014D
-			public const int mtrl_slider_halo_radius = 2131099981;
+			public const int mtrl_shape_corner_size_small_component = 2131099981;
 			
 			// aapt resource value: 0x7F06014E
-			public const int mtrl_slider_label_padding = 2131099982;
+			public const int mtrl_slider_halo_radius = 2131099982;
 			
 			// aapt resource value: 0x7F06014F
-			public const int mtrl_slider_label_radius = 2131099983;
+			public const int mtrl_slider_label_padding = 2131099983;
 			
 			// aapt resource value: 0x7F060150
-			public const int mtrl_slider_label_square_side = 2131099984;
+			public const int mtrl_slider_label_radius = 2131099984;
 			
 			// aapt resource value: 0x7F060151
-			public const int mtrl_slider_thumb_elevation = 2131099985;
+			public const int mtrl_slider_label_square_side = 2131099985;
 			
 			// aapt resource value: 0x7F060152
-			public const int mtrl_slider_thumb_radius = 2131099986;
+			public const int mtrl_slider_thumb_elevation = 2131099986;
 			
 			// aapt resource value: 0x7F060153
-			public const int mtrl_slider_track_height = 2131099987;
+			public const int mtrl_slider_thumb_radius = 2131099987;
 			
 			// aapt resource value: 0x7F060154
-			public const int mtrl_slider_track_side_padding = 2131099988;
+			public const int mtrl_slider_track_height = 2131099988;
 			
 			// aapt resource value: 0x7F060155
-			public const int mtrl_slider_track_top = 2131099989;
+			public const int mtrl_slider_track_side_padding = 2131099989;
 			
 			// aapt resource value: 0x7F060156
-			public const int mtrl_slider_widget_height = 2131099990;
+			public const int mtrl_slider_track_top = 2131099990;
 			
 			// aapt resource value: 0x7F060157
-			public const int mtrl_snackbar_action_text_color_alpha = 2131099991;
+			public const int mtrl_slider_widget_height = 2131099991;
 			
 			// aapt resource value: 0x7F060158
-			public const int mtrl_snackbar_background_corner_radius = 2131099992;
+			public const int mtrl_snackbar_action_text_color_alpha = 2131099992;
 			
 			// aapt resource value: 0x7F060159
-			public const int mtrl_snackbar_background_overlay_color_alpha = 2131099993;
+			public const int mtrl_snackbar_background_corner_radius = 2131099993;
 			
 			// aapt resource value: 0x7F06015A
-			public const int mtrl_snackbar_margin = 2131099994;
+			public const int mtrl_snackbar_background_overlay_color_alpha = 2131099994;
 			
 			// aapt resource value: 0x7F06015B
-			public const int mtrl_switch_thumb_elevation = 2131099995;
+			public const int mtrl_snackbar_margin = 2131099995;
 			
 			// aapt resource value: 0x7F06015C
-			public const int mtrl_textinput_box_corner_radius_medium = 2131099996;
+			public const int mtrl_switch_thumb_elevation = 2131099996;
 			
 			// aapt resource value: 0x7F06015D
-			public const int mtrl_textinput_box_corner_radius_small = 2131099997;
+			public const int mtrl_textinput_box_corner_radius_medium = 2131099997;
 			
 			// aapt resource value: 0x7F06015E
-			public const int mtrl_textinput_box_label_cutout_padding = 2131099998;
+			public const int mtrl_textinput_box_corner_radius_small = 2131099998;
 			
 			// aapt resource value: 0x7F06015F
-			public const int mtrl_textinput_box_stroke_width_default = 2131099999;
+			public const int mtrl_textinput_box_label_cutout_padding = 2131099999;
 			
 			// aapt resource value: 0x7F060160
-			public const int mtrl_textinput_box_stroke_width_focused = 2131100000;
+			public const int mtrl_textinput_box_stroke_width_default = 2131100000;
 			
 			// aapt resource value: 0x7F060161
-			public const int mtrl_textinput_counter_margin_start = 2131100001;
+			public const int mtrl_textinput_box_stroke_width_focused = 2131100001;
 			
 			// aapt resource value: 0x7F060162
-			public const int mtrl_textinput_end_icon_margin_start = 2131100002;
+			public const int mtrl_textinput_counter_margin_start = 2131100002;
 			
 			// aapt resource value: 0x7F060163
-			public const int mtrl_textinput_outline_box_expanded_padding = 2131100003;
+			public const int mtrl_textinput_end_icon_margin_start = 2131100003;
 			
 			// aapt resource value: 0x7F060164
-			public const int mtrl_textinput_start_icon_margin_end = 2131100004;
+			public const int mtrl_textinput_outline_box_expanded_padding = 2131100004;
 			
 			// aapt resource value: 0x7F060165
-			public const int mtrl_toolbar_default_height = 2131100005;
+			public const int mtrl_textinput_start_icon_margin_end = 2131100005;
 			
 			// aapt resource value: 0x7F060166
-			public const int mtrl_tooltip_arrowSize = 2131100006;
+			public const int mtrl_toolbar_default_height = 2131100006;
 			
 			// aapt resource value: 0x7F060167
-			public const int mtrl_tooltip_cornerSize = 2131100007;
+			public const int mtrl_tooltip_arrowSize = 2131100007;
 			
 			// aapt resource value: 0x7F060168
-			public const int mtrl_tooltip_minHeight = 2131100008;
+			public const int mtrl_tooltip_cornerSize = 2131100008;
 			
 			// aapt resource value: 0x7F060169
-			public const int mtrl_tooltip_minWidth = 2131100009;
+			public const int mtrl_tooltip_minHeight = 2131100009;
 			
 			// aapt resource value: 0x7F06016A
-			public const int mtrl_tooltip_padding = 2131100010;
+			public const int mtrl_tooltip_minWidth = 2131100010;
 			
 			// aapt resource value: 0x7F06016B
-			public const int mtrl_transition_shared_axis_slide_distance = 2131100011;
+			public const int mtrl_tooltip_padding = 2131100011;
 			
 			// aapt resource value: 0x7F06016C
-			public const int notification_action_icon_size = 2131100012;
+			public const int mtrl_transition_shared_axis_slide_distance = 2131100012;
 			
 			// aapt resource value: 0x7F06016D
-			public const int notification_action_text_size = 2131100013;
+			public const int notification_action_icon_size = 2131100013;
 			
 			// aapt resource value: 0x7F06016E
-			public const int notification_big_circle_margin = 2131100014;
+			public const int notification_action_text_size = 2131100014;
 			
 			// aapt resource value: 0x7F06016F
-			public const int notification_content_margin_start = 2131100015;
+			public const int notification_big_circle_margin = 2131100015;
 			
 			// aapt resource value: 0x7F060170
-			public const int notification_large_icon_height = 2131100016;
+			public const int notification_content_margin_start = 2131100016;
 			
 			// aapt resource value: 0x7F060171
-			public const int notification_large_icon_width = 2131100017;
+			public const int notification_large_icon_height = 2131100017;
 			
 			// aapt resource value: 0x7F060172
-			public const int notification_main_column_padding_top = 2131100018;
+			public const int notification_large_icon_width = 2131100018;
 			
 			// aapt resource value: 0x7F060173
-			public const int notification_media_narrow_margin = 2131100019;
+			public const int notification_main_column_padding_top = 2131100019;
 			
 			// aapt resource value: 0x7F060174
-			public const int notification_right_icon_size = 2131100020;
+			public const int notification_media_narrow_margin = 2131100020;
 			
 			// aapt resource value: 0x7F060175
-			public const int notification_right_side_padding_top = 2131100021;
+			public const int notification_right_icon_size = 2131100021;
 			
 			// aapt resource value: 0x7F060176
-			public const int notification_small_icon_background_padding = 2131100022;
+			public const int notification_right_side_padding_top = 2131100022;
 			
 			// aapt resource value: 0x7F060177
-			public const int notification_small_icon_size_as_large = 2131100023;
+			public const int notification_small_icon_background_padding = 2131100023;
 			
 			// aapt resource value: 0x7F060178
-			public const int notification_subtext_size = 2131100024;
+			public const int notification_small_icon_size_as_large = 2131100024;
 			
 			// aapt resource value: 0x7F060179
-			public const int notification_top_pad = 2131100025;
+			public const int notification_subtext_size = 2131100025;
 			
 			// aapt resource value: 0x7F06017A
-			public const int notification_top_pad_large_text = 2131100026;
+			public const int notification_top_pad = 2131100026;
 			
 			// aapt resource value: 0x7F06017B
-			public const int padding_page = 2131100027;
+			public const int notification_top_pad_large_text = 2131100027;
 			
 			// aapt resource value: 0x7F06017C
-			public const int preference_dropdown_padding_start = 2131100028;
+			public const int padding_page = 2131100028;
 			
 			// aapt resource value: 0x7F06017D
-			public const int preference_icon_minWidth = 2131100029;
+			public const int preference_dropdown_padding_start = 2131100029;
 			
 			// aapt resource value: 0x7F06017E
-			public const int preference_seekbar_padding_horizontal = 2131100030;
+			public const int preference_icon_minWidth = 2131100030;
 			
 			// aapt resource value: 0x7F06017F
-			public const int preference_seekbar_padding_vertical = 2131100031;
+			public const int preference_seekbar_padding_horizontal = 2131100031;
 			
 			// aapt resource value: 0x7F060180
-			public const int preference_seekbar_value_minWidth = 2131100032;
+			public const int preference_seekbar_padding_vertical = 2131100032;
 			
 			// aapt resource value: 0x7F060181
-			public const int subtitle_corner_radius = 2131100033;
+			public const int preference_seekbar_value_minWidth = 2131100033;
 			
 			// aapt resource value: 0x7F060182
-			public const int subtitle_outline_width = 2131100034;
+			public const int subtitle_corner_radius = 2131100034;
 			
 			// aapt resource value: 0x7F060183
-			public const int subtitle_shadow_offset = 2131100035;
+			public const int subtitle_outline_width = 2131100035;
 			
 			// aapt resource value: 0x7F060184
-			public const int subtitle_shadow_radius = 2131100036;
+			public const int subtitle_shadow_offset = 2131100036;
 			
 			// aapt resource value: 0x7F060185
-			public const int test_mtrl_calendar_day_cornerSize = 2131100037;
+			public const int subtitle_shadow_radius = 2131100037;
 			
 			// aapt resource value: 0x7F060186
-			public const int textSize_small = 2131100038;
+			public const int test_mtrl_calendar_day_cornerSize = 2131100038;
 			
 			// aapt resource value: 0x7F060187
-			public const int textSize_subheader = 2131100039;
+			public const int textSize_small = 2131100039;
 			
 			// aapt resource value: 0x7F060188
-			public const int textSize_title = 2131100040;
+			public const int textSize_subheader = 2131100040;
 			
 			// aapt resource value: 0x7F060189
-			public const int tooltip_corner_radius = 2131100041;
+			public const int textSize_title = 2131100041;
 			
 			// aapt resource value: 0x7F06018A
-			public const int tooltip_horizontal_padding = 2131100042;
+			public const int tooltip_corner_radius = 2131100042;
 			
 			// aapt resource value: 0x7F06018B
-			public const int tooltip_margin = 2131100043;
+			public const int tooltip_horizontal_padding = 2131100043;
 			
 			// aapt resource value: 0x7F06018C
-			public const int tooltip_precise_anchor_extra_offset = 2131100044;
+			public const int tooltip_margin = 2131100044;
 			
 			// aapt resource value: 0x7F06018D
-			public const int tooltip_precise_anchor_threshold = 2131100045;
+			public const int tooltip_precise_anchor_extra_offset = 2131100045;
 			
 			// aapt resource value: 0x7F06018E
-			public const int tooltip_vertical_padding = 2131100046;
+			public const int tooltip_precise_anchor_threshold = 2131100046;
 			
 			// aapt resource value: 0x7F06018F
-			public const int tooltip_y_offset_non_touch = 2131100047;
+			public const int tooltip_vertical_padding = 2131100047;
 			
 			// aapt resource value: 0x7F060190
-			public const int tooltip_y_offset_touch = 2131100048;
+			public const int tooltip_y_offset_non_touch = 2131100048;
+			
+			// aapt resource value: 0x7F060191
+			public const int tooltip_y_offset_touch = 2131100049;
 			
 			static Dimension()
 			{
@@ -18984,139 +21871,142 @@ namespace CriThink.Client.Droid
 			public const int ic_welcome_5 = 2131165355;
 			
 			// aapt resource value: 0x7F0700AC
-			public const int material_ic_calendar_black_24dp = 2131165356;
+			public const int loader_indicator = 2131165356;
 			
 			// aapt resource value: 0x7F0700AD
-			public const int material_ic_clear_black_24dp = 2131165357;
+			public const int material_ic_calendar_black_24dp = 2131165357;
 			
 			// aapt resource value: 0x7F0700AE
-			public const int material_ic_edit_black_24dp = 2131165358;
+			public const int material_ic_clear_black_24dp = 2131165358;
 			
 			// aapt resource value: 0x7F0700AF
-			public const int material_ic_keyboard_arrow_left_black_24dp = 2131165359;
+			public const int material_ic_edit_black_24dp = 2131165359;
 			
 			// aapt resource value: 0x7F0700B0
-			public const int material_ic_keyboard_arrow_right_black_24dp = 2131165360;
+			public const int material_ic_keyboard_arrow_left_black_24dp = 2131165360;
 			
 			// aapt resource value: 0x7F0700B1
-			public const int material_ic_menu_arrow_down_black_24dp = 2131165361;
+			public const int material_ic_keyboard_arrow_right_black_24dp = 2131165361;
 			
 			// aapt resource value: 0x7F0700B2
-			public const int material_ic_menu_arrow_up_black_24dp = 2131165362;
+			public const int material_ic_menu_arrow_down_black_24dp = 2131165362;
 			
 			// aapt resource value: 0x7F0700B3
-			public const int mtrl_dialog_background = 2131165363;
+			public const int material_ic_menu_arrow_up_black_24dp = 2131165363;
 			
 			// aapt resource value: 0x7F0700B4
-			public const int mtrl_dropdown_arrow = 2131165364;
+			public const int mtrl_dialog_background = 2131165364;
 			
 			// aapt resource value: 0x7F0700B5
-			public const int mtrl_ic_arrow_drop_down = 2131165365;
+			public const int mtrl_dropdown_arrow = 2131165365;
 			
 			// aapt resource value: 0x7F0700B6
-			public const int mtrl_ic_arrow_drop_up = 2131165366;
+			public const int mtrl_ic_arrow_drop_down = 2131165366;
 			
 			// aapt resource value: 0x7F0700B7
-			public const int mtrl_ic_cancel = 2131165367;
+			public const int mtrl_ic_arrow_drop_up = 2131165367;
 			
 			// aapt resource value: 0x7F0700B8
-			public const int mtrl_ic_error = 2131165368;
+			public const int mtrl_ic_cancel = 2131165368;
 			
 			// aapt resource value: 0x7F0700B9
-			public const int mtrl_popupmenu_background = 2131165369;
+			public const int mtrl_ic_error = 2131165369;
 			
 			// aapt resource value: 0x7F0700BA
-			public const int mtrl_popupmenu_background_dark = 2131165370;
+			public const int mtrl_popupmenu_background = 2131165370;
 			
 			// aapt resource value: 0x7F0700BB
-			public const int mtrl_tabs_default_indicator = 2131165371;
+			public const int mtrl_popupmenu_background_dark = 2131165371;
 			
 			// aapt resource value: 0x7F0700BC
-			public const int navigation_empty_icon = 2131165372;
+			public const int mtrl_tabs_default_indicator = 2131165372;
 			
 			// aapt resource value: 0x7F0700BD
-			public const int notification_action_background = 2131165373;
+			public const int navigation_empty_icon = 2131165373;
 			
 			// aapt resource value: 0x7F0700BE
-			public const int notification_bg = 2131165374;
+			public const int notification_action_background = 2131165374;
 			
 			// aapt resource value: 0x7F0700BF
-			public const int notification_bg_low = 2131165375;
+			public const int notification_bg = 2131165375;
 			
 			// aapt resource value: 0x7F0700C0
-			public const int notification_bg_low_normal = 2131165376;
+			public const int notification_bg_low = 2131165376;
 			
 			// aapt resource value: 0x7F0700C1
-			public const int notification_bg_low_pressed = 2131165377;
+			public const int notification_bg_low_normal = 2131165377;
 			
 			// aapt resource value: 0x7F0700C2
-			public const int notification_bg_normal = 2131165378;
+			public const int notification_bg_low_pressed = 2131165378;
 			
 			// aapt resource value: 0x7F0700C3
-			public const int notification_bg_normal_pressed = 2131165379;
+			public const int notification_bg_normal = 2131165379;
 			
 			// aapt resource value: 0x7F0700C4
-			public const int notification_icon_background = 2131165380;
+			public const int notification_bg_normal_pressed = 2131165380;
 			
 			// aapt resource value: 0x7F0700C5
-			public const int notification_template_icon_bg = 2131165381;
+			public const int notification_icon_background = 2131165381;
 			
 			// aapt resource value: 0x7F0700C6
-			public const int notification_template_icon_low_bg = 2131165382;
+			public const int notification_template_icon_bg = 2131165382;
 			
 			// aapt resource value: 0x7F0700C7
-			public const int notification_tile_bg = 2131165383;
+			public const int notification_template_icon_low_bg = 2131165383;
 			
 			// aapt resource value: 0x7F0700C8
-			public const int notify_panel_notification_icon_bg = 2131165384;
+			public const int notification_tile_bg = 2131165384;
 			
 			// aapt resource value: 0x7F0700C9
-			public const int preference_list_divider_material = 2131165385;
+			public const int notify_panel_notification_icon_bg = 2131165385;
 			
 			// aapt resource value: 0x7F0700CA
-			public const int roundedbg = 2131165386;
+			public const int preference_list_divider_material = 2131165386;
 			
 			// aapt resource value: 0x7F0700CB
-			public const int roundedbgdark = 2131165387;
+			public const int roundedbg = 2131165387;
 			
 			// aapt resource value: 0x7F0700CC
-			public const int signup_background = 2131165388;
+			public const int roundedbgdark = 2131165388;
 			
 			// aapt resource value: 0x7F0700CD
-			public const int splash_background = 2131165389;
+			public const int signup_background = 2131165389;
 			
 			// aapt resource value: 0x7F0700CE
-			public const int tab_color = 2131165390;
+			public const int splash_background = 2131165390;
 			
 			// aapt resource value: 0x7F0700CF
-			public const int test_custom_background = 2131165391;
+			public const int tab_color = 2131165391;
 			
 			// aapt resource value: 0x7F0700D0
-			public const int tooltip_frame_dark = 2131165392;
+			public const int test_custom_background = 2131165392;
 			
 			// aapt resource value: 0x7F0700D1
-			public const int tooltip_frame_light = 2131165393;
+			public const int tooltip_frame_dark = 2131165393;
 			
 			// aapt resource value: 0x7F0700D2
-			public const int vpi__tab_indicator = 2131165394;
+			public const int tooltip_frame_light = 2131165394;
 			
 			// aapt resource value: 0x7F0700D3
-			public const int vpi__tab_selected_focused_holo = 2131165395;
+			public const int vpi__tab_indicator = 2131165395;
 			
 			// aapt resource value: 0x7F0700D4
-			public const int vpi__tab_selected_holo = 2131165396;
+			public const int vpi__tab_selected_focused_holo = 2131165396;
 			
 			// aapt resource value: 0x7F0700D5
-			public const int vpi__tab_selected_pressed_holo = 2131165397;
+			public const int vpi__tab_selected_holo = 2131165397;
 			
 			// aapt resource value: 0x7F0700D6
-			public const int vpi__tab_unselected_focused_holo = 2131165398;
+			public const int vpi__tab_selected_pressed_holo = 2131165398;
 			
 			// aapt resource value: 0x7F0700D7
-			public const int vpi__tab_unselected_holo = 2131165399;
+			public const int vpi__tab_unselected_focused_holo = 2131165399;
 			
 			// aapt resource value: 0x7F0700D8
-			public const int vpi__tab_unselected_pressed_holo = 2131165400;
+			public const int vpi__tab_unselected_holo = 2131165400;
+			
+			// aapt resource value: 0x7F0700D9
+			public const int vpi__tab_unselected_pressed_holo = 2131165401;
 			
 			static Drawable()
 			{
@@ -19847,145 +22737,148 @@ namespace CriThink.Client.Droid
 			public const int layout = 2131296496;
 			
 			// aapt resource value: 0x7F0900F1
-			public const int left = 2131296497;
+			public const int layoutLoader = 2131296497;
 			
 			// aapt resource value: 0x7F0900F2
-			public const int light = 2131296498;
+			public const int left = 2131296498;
 			
 			// aapt resource value: 0x7F0900F3
-			public const int line1 = 2131296499;
+			public const int light = 2131296499;
 			
 			// aapt resource value: 0x7F0900F4
-			public const int line3 = 2131296500;
+			public const int line1 = 2131296500;
 			
 			// aapt resource value: 0x7F0900F5
-			public const int linear = 2131296501;
+			public const int line3 = 2131296501;
 			
 			// aapt resource value: 0x7F0900F6
-			public const int listMode = 2131296502;
+			public const int linear = 2131296502;
 			
 			// aapt resource value: 0x7F0900F7
-			public const int list_debunkingNews = 2131296503;
+			public const int listMode = 2131296503;
 			
 			// aapt resource value: 0x7F0900F8
-			public const int list_item = 2131296504;
+			public const int list_debunkingNews = 2131296504;
 			
 			// aapt resource value: 0x7F0900F9
-			public const int loadingImage = 2131296505;
+			public const int list_item = 2131296505;
 			
 			// aapt resource value: 0x7F0900FA
-			public const int loadingProgressBar = 2131296506;
+			public const int loadingImage = 2131296506;
 			
 			// aapt resource value: 0x7F0900FB
-			public const int loadingProgressWheel = 2131296507;
+			public const int loadingProgressBar = 2131296507;
 			
 			// aapt resource value: 0x7F0900FC
-			public const int main_frame = 2131296508;
+			public const int loadingProgressWheel = 2131296508;
 			
 			// aapt resource value: 0x7F0900FD
-			public const int masked = 2131296509;
+			public const int main_frame = 2131296509;
 			
 			// aapt resource value: 0x7F0900FE
-			public const int media_actions = 2131296510;
+			public const int masked = 2131296510;
 			
 			// aapt resource value: 0x7F0900FF
-			public const int message = 2131296511;
+			public const int media_actions = 2131296511;
+			
+			// aapt resource value: 0x7F090100
+			public const int message = 2131296512;
 			
 			// aapt resource value: 0x7F090005
 			public const int META = 2131296261;
 			
-			// aapt resource value: 0x7F090100
-			public const int middle = 2131296512;
-			
 			// aapt resource value: 0x7F090101
-			public const int mini = 2131296513;
+			public const int middle = 2131296513;
 			
 			// aapt resource value: 0x7F090102
-			public const int month_grid = 2131296514;
+			public const int mini = 2131296514;
 			
 			// aapt resource value: 0x7F090103
-			public const int month_navigation_bar = 2131296515;
+			public const int month_grid = 2131296515;
 			
 			// aapt resource value: 0x7F090104
-			public const int month_navigation_fragment_toggle = 2131296516;
+			public const int month_navigation_bar = 2131296516;
 			
 			// aapt resource value: 0x7F090105
-			public const int month_navigation_next = 2131296517;
+			public const int month_navigation_fragment_toggle = 2131296517;
 			
 			// aapt resource value: 0x7F090106
-			public const int month_navigation_previous = 2131296518;
+			public const int month_navigation_next = 2131296518;
 			
 			// aapt resource value: 0x7F090107
-			public const int month_title = 2131296519;
+			public const int month_navigation_previous = 2131296519;
 			
 			// aapt resource value: 0x7F090108
-			public const int motion_base = 2131296520;
-			
-			// aapt resource value: 0x7F09010A
-			public const int mtrl_calendar_days_of_week = 2131296522;
+			public const int month_title = 2131296520;
 			
 			// aapt resource value: 0x7F090109
-			public const int mtrl_calendar_day_selector_frame = 2131296521;
+			public const int motion_base = 2131296521;
 			
 			// aapt resource value: 0x7F09010B
-			public const int mtrl_calendar_frame = 2131296523;
+			public const int mtrl_calendar_days_of_week = 2131296523;
+			
+			// aapt resource value: 0x7F09010A
+			public const int mtrl_calendar_day_selector_frame = 2131296522;
 			
 			// aapt resource value: 0x7F09010C
-			public const int mtrl_calendar_main_pane = 2131296524;
+			public const int mtrl_calendar_frame = 2131296524;
 			
 			// aapt resource value: 0x7F09010D
-			public const int mtrl_calendar_months = 2131296525;
+			public const int mtrl_calendar_main_pane = 2131296525;
 			
 			// aapt resource value: 0x7F09010E
-			public const int mtrl_calendar_selection_frame = 2131296526;
+			public const int mtrl_calendar_months = 2131296526;
 			
 			// aapt resource value: 0x7F09010F
-			public const int mtrl_calendar_text_input_frame = 2131296527;
+			public const int mtrl_calendar_selection_frame = 2131296527;
 			
 			// aapt resource value: 0x7F090110
-			public const int mtrl_calendar_year_selector_frame = 2131296528;
+			public const int mtrl_calendar_text_input_frame = 2131296528;
 			
 			// aapt resource value: 0x7F090111
-			public const int mtrl_card_checked_layer_id = 2131296529;
+			public const int mtrl_calendar_year_selector_frame = 2131296529;
 			
 			// aapt resource value: 0x7F090112
-			public const int mtrl_child_content_container = 2131296530;
+			public const int mtrl_card_checked_layer_id = 2131296530;
 			
 			// aapt resource value: 0x7F090113
-			public const int mtrl_internal_children_alpha_tag = 2131296531;
+			public const int mtrl_child_content_container = 2131296531;
 			
 			// aapt resource value: 0x7F090114
-			public const int mtrl_motion_snapshot_view = 2131296532;
+			public const int mtrl_internal_children_alpha_tag = 2131296532;
 			
 			// aapt resource value: 0x7F090115
-			public const int mtrl_picker_fullscreen = 2131296533;
+			public const int mtrl_motion_snapshot_view = 2131296533;
 			
 			// aapt resource value: 0x7F090116
-			public const int mtrl_picker_header = 2131296534;
+			public const int mtrl_picker_fullscreen = 2131296534;
 			
 			// aapt resource value: 0x7F090117
-			public const int mtrl_picker_header_selection_text = 2131296535;
+			public const int mtrl_picker_header = 2131296535;
 			
 			// aapt resource value: 0x7F090118
-			public const int mtrl_picker_header_title_and_selection = 2131296536;
+			public const int mtrl_picker_header_selection_text = 2131296536;
 			
 			// aapt resource value: 0x7F090119
-			public const int mtrl_picker_header_toggle = 2131296537;
+			public const int mtrl_picker_header_title_and_selection = 2131296537;
 			
 			// aapt resource value: 0x7F09011A
-			public const int mtrl_picker_text_input_date = 2131296538;
+			public const int mtrl_picker_header_toggle = 2131296538;
 			
 			// aapt resource value: 0x7F09011B
-			public const int mtrl_picker_text_input_range_end = 2131296539;
+			public const int mtrl_picker_text_input_date = 2131296539;
 			
 			// aapt resource value: 0x7F09011C
-			public const int mtrl_picker_text_input_range_start = 2131296540;
+			public const int mtrl_picker_text_input_range_end = 2131296540;
 			
 			// aapt resource value: 0x7F09011D
-			public const int mtrl_picker_title_text = 2131296541;
+			public const int mtrl_picker_text_input_range_start = 2131296541;
 			
 			// aapt resource value: 0x7F09011E
-			public const int multiply = 2131296542;
+			public const int mtrl_picker_title_text = 2131296542;
+			
+			// aapt resource value: 0x7F09011F
+			public const int multiply = 2131296543;
 			
 			// aapt resource value: 0x7F090006
 			public const int MvvmCrossTagId = 2131296262;
@@ -19993,242 +22886,242 @@ namespace CriThink.Client.Droid
 			// aapt resource value: 0x7F090007
 			public const int MvxBindingTagUnique = 2131296263;
 			
-			// aapt resource value: 0x7F09011F
-			public const int navigation_header_container = 2131296543;
-			
 			// aapt resource value: 0x7F090120
-			public const int never = 2131296544;
+			public const int navigation_header_container = 2131296544;
 			
 			// aapt resource value: 0x7F090121
-			public const int never_display = 2131296545;
-			
-			// aapt resource value: 0x7F090123
-			public const int none = 2131296547;
-			
-			// aapt resource value: 0x7F090124
-			public const int normal = 2131296548;
+			public const int never = 2131296545;
 			
 			// aapt resource value: 0x7F090122
-			public const int noScroll = 2131296546;
+			public const int never_display = 2131296546;
+			
+			// aapt resource value: 0x7F090124
+			public const int none = 2131296548;
 			
 			// aapt resource value: 0x7F090125
-			public const int notification_background = 2131296549;
+			public const int normal = 2131296549;
+			
+			// aapt resource value: 0x7F090123
+			public const int noScroll = 2131296547;
 			
 			// aapt resource value: 0x7F090126
-			public const int notification_main_column = 2131296550;
+			public const int notification_background = 2131296550;
 			
 			// aapt resource value: 0x7F090127
-			public const int notification_main_column_container = 2131296551;
+			public const int notification_main_column = 2131296551;
+			
+			// aapt resource value: 0x7F090128
+			public const int notification_main_column_container = 2131296552;
 			
 			// aapt resource value: 0x7F090008
 			public const int NO_DEBUG = 2131296264;
 			
-			// aapt resource value: 0x7F090128
-			public const int off = 2131296552;
-			
 			// aapt resource value: 0x7F090129
-			public const int on = 2131296553;
+			public const int off = 2131296553;
 			
 			// aapt resource value: 0x7F09012A
-			public const int open_graph = 2131296554;
+			public const int on = 2131296554;
 			
 			// aapt resource value: 0x7F09012B
-			public const int outline = 2131296555;
+			public const int open_graph = 2131296555;
 			
 			// aapt resource value: 0x7F09012C
-			public const int packed = 2131296556;
+			public const int outline = 2131296556;
 			
 			// aapt resource value: 0x7F09012D
-			public const int page = 2131296557;
-			
-			// aapt resource value: 0x7F090132
-			public const int pager = 2131296562;
+			public const int packed = 2131296557;
 			
 			// aapt resource value: 0x7F09012E
-			public const int page_1 = 2131296558;
-			
-			// aapt resource value: 0x7F09012F
-			public const int page_2 = 2131296559;
-			
-			// aapt resource value: 0x7F090130
-			public const int page_3 = 2131296560;
-			
-			// aapt resource value: 0x7F090131
-			public const int page_4 = 2131296561;
+			public const int page = 2131296558;
 			
 			// aapt resource value: 0x7F090133
-			public const int parallax = 2131296563;
+			public const int pager = 2131296563;
+			
+			// aapt resource value: 0x7F09012F
+			public const int page_1 = 2131296559;
+			
+			// aapt resource value: 0x7F090130
+			public const int page_2 = 2131296560;
+			
+			// aapt resource value: 0x7F090131
+			public const int page_3 = 2131296561;
+			
+			// aapt resource value: 0x7F090132
+			public const int page_4 = 2131296562;
 			
 			// aapt resource value: 0x7F090134
-			public const int parent = 2131296564;
+			public const int parallax = 2131296564;
 			
 			// aapt resource value: 0x7F090135
-			public const int parentPanel = 2131296565;
+			public const int parent = 2131296565;
 			
 			// aapt resource value: 0x7F090136
-			public const int parentRelative = 2131296566;
+			public const int parentPanel = 2131296566;
 			
 			// aapt resource value: 0x7F090137
-			public const int parent_matrix = 2131296567;
+			public const int parentRelative = 2131296567;
 			
 			// aapt resource value: 0x7F090138
-			public const int password_toggle = 2131296568;
+			public const int parent_matrix = 2131296568;
 			
 			// aapt resource value: 0x7F090139
-			public const int path = 2131296569;
+			public const int password_toggle = 2131296569;
 			
 			// aapt resource value: 0x7F09013A
-			public const int pathRelative = 2131296570;
+			public const int path = 2131296570;
 			
 			// aapt resource value: 0x7F09013B
-			public const int peekHeight = 2131296571;
+			public const int pathRelative = 2131296571;
 			
 			// aapt resource value: 0x7F09013C
-			public const int percent = 2131296572;
+			public const int peekHeight = 2131296572;
 			
 			// aapt resource value: 0x7F09013D
-			public const int pin = 2131296573;
+			public const int percent = 2131296573;
 			
 			// aapt resource value: 0x7F09013E
-			public const int position = 2131296574;
+			public const int pin = 2131296574;
 			
 			// aapt resource value: 0x7F09013F
-			public const int postLayout = 2131296575;
+			public const int position = 2131296575;
 			
 			// aapt resource value: 0x7F090140
-			public const int progress_bar = 2131296576;
+			public const int postLayout = 2131296576;
 			
 			// aapt resource value: 0x7F090141
-			public const int progress_circular = 2131296577;
+			public const int progress_bar = 2131296577;
 			
 			// aapt resource value: 0x7F090142
-			public const int progress_horizontal = 2131296578;
+			public const int progress_circular = 2131296578;
 			
 			// aapt resource value: 0x7F090143
-			public const int radio = 2131296579;
+			public const int progress_horizontal = 2131296579;
 			
 			// aapt resource value: 0x7F090144
-			public const int ratio = 2131296580;
+			public const int radio = 2131296580;
 			
 			// aapt resource value: 0x7F090145
-			public const int rectangles = 2131296581;
+			public const int ratio = 2131296581;
 			
 			// aapt resource value: 0x7F090146
-			public const int recycler_view = 2131296582;
+			public const int rectangles = 2131296582;
 			
 			// aapt resource value: 0x7F090147
-			public const int refresher = 2131296583;
+			public const int recycler_view = 2131296583;
 			
 			// aapt resource value: 0x7F090148
-			public const int reverseSawtooth = 2131296584;
+			public const int refresher = 2131296584;
 			
 			// aapt resource value: 0x7F090149
-			public const int right = 2131296585;
+			public const int reverseSawtooth = 2131296585;
 			
 			// aapt resource value: 0x7F09014A
-			public const int right_icon = 2131296586;
+			public const int right = 2131296586;
 			
 			// aapt resource value: 0x7F09014B
-			public const int right_side = 2131296587;
+			public const int right_icon = 2131296587;
 			
 			// aapt resource value: 0x7F09014C
-			public const int root = 2131296588;
+			public const int right_side = 2131296588;
 			
 			// aapt resource value: 0x7F09014D
-			public const int rounded = 2131296589;
+			public const int root = 2131296589;
 			
 			// aapt resource value: 0x7F09014E
-			public const int row_index_key = 2131296590;
+			public const int rounded = 2131296590;
 			
 			// aapt resource value: 0x7F09014F
-			public const int save_non_transition_alpha = 2131296591;
+			public const int row_index_key = 2131296591;
 			
 			// aapt resource value: 0x7F090150
-			public const int save_overlay_view = 2131296592;
+			public const int save_non_transition_alpha = 2131296592;
 			
 			// aapt resource value: 0x7F090151
-			public const int sawtooth = 2131296593;
+			public const int save_overlay_view = 2131296593;
 			
 			// aapt resource value: 0x7F090152
-			public const int scale = 2131296594;
+			public const int sawtooth = 2131296594;
 			
 			// aapt resource value: 0x7F090153
-			public const int screen = 2131296595;
+			public const int scale = 2131296595;
 			
 			// aapt resource value: 0x7F090154
-			public const int scroll = 2131296596;
-			
-			// aapt resource value: 0x7F090159
-			public const int scrollable = 2131296601;
+			public const int screen = 2131296596;
 			
 			// aapt resource value: 0x7F090155
-			public const int scrollIndicatorDown = 2131296597;
-			
-			// aapt resource value: 0x7F090156
-			public const int scrollIndicatorUp = 2131296598;
-			
-			// aapt resource value: 0x7F090157
-			public const int scrollView = 2131296599;
-			
-			// aapt resource value: 0x7F090158
-			public const int scrollViewer = 2131296600;
+			public const int scroll = 2131296597;
 			
 			// aapt resource value: 0x7F09015A
-			public const int search_badge = 2131296602;
+			public const int scrollable = 2131296602;
+			
+			// aapt resource value: 0x7F090156
+			public const int scrollIndicatorDown = 2131296598;
+			
+			// aapt resource value: 0x7F090157
+			public const int scrollIndicatorUp = 2131296599;
+			
+			// aapt resource value: 0x7F090158
+			public const int scrollView = 2131296600;
+			
+			// aapt resource value: 0x7F090159
+			public const int scrollViewer = 2131296601;
 			
 			// aapt resource value: 0x7F09015B
-			public const int search_bar = 2131296603;
+			public const int search_badge = 2131296603;
 			
 			// aapt resource value: 0x7F09015C
-			public const int search_button = 2131296604;
+			public const int search_bar = 2131296604;
 			
 			// aapt resource value: 0x7F09015D
-			public const int search_close_btn = 2131296605;
+			public const int search_button = 2131296605;
 			
 			// aapt resource value: 0x7F09015E
-			public const int search_edit_frame = 2131296606;
+			public const int search_close_btn = 2131296606;
 			
 			// aapt resource value: 0x7F09015F
-			public const int search_go_btn = 2131296607;
+			public const int search_edit_frame = 2131296607;
 			
 			// aapt resource value: 0x7F090160
-			public const int search_mag_icon = 2131296608;
+			public const int search_go_btn = 2131296608;
 			
 			// aapt resource value: 0x7F090161
-			public const int search_plate = 2131296609;
+			public const int search_mag_icon = 2131296609;
 			
 			// aapt resource value: 0x7F090162
-			public const int search_src_text = 2131296610;
+			public const int search_plate = 2131296610;
 			
 			// aapt resource value: 0x7F090163
-			public const int search_voice_btn = 2131296611;
+			public const int search_src_text = 2131296611;
 			
 			// aapt resource value: 0x7F090164
-			public const int seekbar = 2131296612;
+			public const int search_voice_btn = 2131296612;
 			
 			// aapt resource value: 0x7F090165
-			public const int seekbar_value = 2131296613;
-			
-			// aapt resource value: 0x7F090167
-			public const int selected = 2131296615;
+			public const int seekbar = 2131296613;
 			
 			// aapt resource value: 0x7F090166
-			public const int select_dialog_listview = 2131296614;
+			public const int seekbar_value = 2131296614;
+			
+			// aapt resource value: 0x7F090168
+			public const int selected = 2131296616;
+			
+			// aapt resource value: 0x7F090167
+			public const int select_dialog_listview = 2131296615;
 			
 			// aapt resource value: 0x7F090009
 			public const int SHIFT = 2131296265;
 			
-			// aapt resource value: 0x7F090168
-			public const int shortcut = 2131296616;
-			
 			// aapt resource value: 0x7F090169
-			public const int showCustom = 2131296617;
+			public const int shortcut = 2131296617;
 			
 			// aapt resource value: 0x7F09016A
-			public const int showHome = 2131296618;
+			public const int showCustom = 2131296618;
 			
 			// aapt resource value: 0x7F09016B
-			public const int showTitle = 2131296619;
+			public const int showHome = 2131296619;
+			
+			// aapt resource value: 0x7F09016C
+			public const int showTitle = 2131296620;
 			
 			// aapt resource value: 0x7F09000A
 			public const int SHOW_ALL = 2131296266;
@@ -20239,209 +23132,209 @@ namespace CriThink.Client.Droid
 			// aapt resource value: 0x7F09000C
 			public const int SHOW_PROGRESS = 2131296268;
 			
-			// aapt resource value: 0x7F09016C
-			public const int sin = 2131296620;
-			
 			// aapt resource value: 0x7F09016D
-			public const int skipCollapsed = 2131296621;
+			public const int sin = 2131296621;
 			
 			// aapt resource value: 0x7F09016E
-			public const int slide = 2131296622;
+			public const int skipCollapsed = 2131296622;
 			
 			// aapt resource value: 0x7F09016F
-			public const int small = 2131296623;
+			public const int slide = 2131296623;
 			
 			// aapt resource value: 0x7F090170
-			public const int smallLabel = 2131296624;
+			public const int small = 2131296624;
 			
 			// aapt resource value: 0x7F090171
-			public const int snackbar_action = 2131296625;
+			public const int smallLabel = 2131296625;
 			
 			// aapt resource value: 0x7F090172
-			public const int snackbar_text = 2131296626;
+			public const int snackbar_action = 2131296626;
 			
 			// aapt resource value: 0x7F090173
-			public const int snap = 2131296627;
+			public const int snackbar_text = 2131296627;
 			
 			// aapt resource value: 0x7F090174
-			public const int snapMargins = 2131296628;
+			public const int snap = 2131296628;
 			
 			// aapt resource value: 0x7F090175
-			public const int spacer = 2131296629;
+			public const int snapMargins = 2131296629;
 			
 			// aapt resource value: 0x7F090176
-			public const int spinner = 2131296630;
+			public const int spacer = 2131296630;
 			
 			// aapt resource value: 0x7F090177
-			public const int spline = 2131296631;
+			public const int spinner = 2131296631;
 			
 			// aapt resource value: 0x7F090178
-			public const int split_action_bar = 2131296632;
+			public const int spline = 2131296632;
 			
 			// aapt resource value: 0x7F090179
-			public const int spread = 2131296633;
+			public const int split_action_bar = 2131296633;
 			
 			// aapt resource value: 0x7F09017A
-			public const int spread_inside = 2131296634;
+			public const int spread = 2131296634;
 			
 			// aapt resource value: 0x7F09017B
-			public const int square = 2131296635;
+			public const int spread_inside = 2131296635;
 			
 			// aapt resource value: 0x7F09017C
-			public const int src_atop = 2131296636;
+			public const int square = 2131296636;
 			
 			// aapt resource value: 0x7F09017D
-			public const int src_in = 2131296637;
+			public const int src_atop = 2131296637;
 			
 			// aapt resource value: 0x7F09017E
-			public const int src_over = 2131296638;
+			public const int src_in = 2131296638;
 			
 			// aapt resource value: 0x7F09017F
-			public const int standard = 2131296639;
+			public const int src_over = 2131296639;
 			
 			// aapt resource value: 0x7F090180
-			public const int start = 2131296640;
+			public const int standard = 2131296640;
 			
 			// aapt resource value: 0x7F090181
-			public const int startHorizontal = 2131296641;
+			public const int start = 2131296641;
 			
 			// aapt resource value: 0x7F090182
-			public const int startVertical = 2131296642;
+			public const int startHorizontal = 2131296642;
 			
 			// aapt resource value: 0x7F090183
-			public const int staticLayout = 2131296643;
+			public const int startVertical = 2131296643;
 			
 			// aapt resource value: 0x7F090184
-			public const int staticPostLayout = 2131296644;
+			public const int staticLayout = 2131296644;
 			
 			// aapt resource value: 0x7F090185
-			public const int status_bar_latest_event_content = 2131296645;
+			public const int staticPostLayout = 2131296645;
 			
 			// aapt resource value: 0x7F090186
-			public const int stop = 2131296646;
+			public const int status_bar_latest_event_content = 2131296646;
 			
 			// aapt resource value: 0x7F090187
-			public const int stretch = 2131296647;
+			public const int stop = 2131296647;
 			
 			// aapt resource value: 0x7F090188
-			public const int submenuarrow = 2131296648;
+			public const int stretch = 2131296648;
 			
 			// aapt resource value: 0x7F090189
-			public const int submit_area = 2131296649;
+			public const int submenuarrow = 2131296649;
 			
 			// aapt resource value: 0x7F09018A
-			public const int switchWidget = 2131296650;
+			public const int submit_area = 2131296650;
+			
+			// aapt resource value: 0x7F09018B
+			public const int switchWidget = 2131296651;
 			
 			// aapt resource value: 0x7F09000D
 			public const int SYM = 2131296269;
 			
-			// aapt resource value: 0x7F09018B
-			public const int tabMode = 2131296651;
-			
 			// aapt resource value: 0x7F09018C
-			public const int tabs_container_frame = 2131296652;
+			public const int tabMode = 2131296652;
 			
 			// aapt resource value: 0x7F09018D
-			public const int tag_accessibility_actions = 2131296653;
+			public const int tabs_container_frame = 2131296653;
 			
 			// aapt resource value: 0x7F09018E
-			public const int tag_accessibility_clickable_spans = 2131296654;
+			public const int tag_accessibility_actions = 2131296654;
 			
 			// aapt resource value: 0x7F09018F
-			public const int tag_accessibility_heading = 2131296655;
+			public const int tag_accessibility_clickable_spans = 2131296655;
 			
 			// aapt resource value: 0x7F090190
-			public const int tag_accessibility_pane_title = 2131296656;
+			public const int tag_accessibility_heading = 2131296656;
 			
 			// aapt resource value: 0x7F090191
-			public const int tag_screen_reader_focusable = 2131296657;
+			public const int tag_accessibility_pane_title = 2131296657;
 			
 			// aapt resource value: 0x7F090192
-			public const int tag_transition_group = 2131296658;
+			public const int tag_screen_reader_focusable = 2131296658;
 			
 			// aapt resource value: 0x7F090193
-			public const int tag_unhandled_key_event_manager = 2131296659;
+			public const int tag_transition_group = 2131296659;
 			
 			// aapt resource value: 0x7F090194
-			public const int tag_unhandled_key_listeners = 2131296660;
+			public const int tag_unhandled_key_event_manager = 2131296660;
 			
 			// aapt resource value: 0x7F090195
-			public const int test_checkbox_android_button_tint = 2131296661;
+			public const int tag_unhandled_key_listeners = 2131296661;
 			
 			// aapt resource value: 0x7F090196
-			public const int test_checkbox_app_button_tint = 2131296662;
+			public const int test_checkbox_android_button_tint = 2131296662;
 			
 			// aapt resource value: 0x7F090197
-			public const int test_radiobutton_android_button_tint = 2131296663;
+			public const int test_checkbox_app_button_tint = 2131296663;
 			
 			// aapt resource value: 0x7F090198
-			public const int test_radiobutton_app_button_tint = 2131296664;
+			public const int test_radiobutton_android_button_tint = 2131296664;
 			
 			// aapt resource value: 0x7F090199
-			public const int text = 2131296665;
+			public const int test_radiobutton_app_button_tint = 2131296665;
 			
 			// aapt resource value: 0x7F09019A
-			public const int text2 = 2131296666;
+			public const int text = 2131296666;
 			
 			// aapt resource value: 0x7F09019B
-			public const int textEnd = 2131296667;
-			
-			// aapt resource value: 0x7F0901A2
-			public const int textinput_counter = 2131296674;
-			
-			// aapt resource value: 0x7F0901A3
-			public const int textinput_error = 2131296675;
-			
-			// aapt resource value: 0x7F0901A4
-			public const int textinput_helper_text = 2131296676;
-			
-			// aapt resource value: 0x7F0901A5
-			public const int textinput_placeholder = 2131296677;
-			
-			// aapt resource value: 0x7F0901A6
-			public const int textinput_prefix_text = 2131296678;
-			
-			// aapt resource value: 0x7F0901A7
-			public const int textinput_suffix_text = 2131296679;
+			public const int text2 = 2131296667;
 			
 			// aapt resource value: 0x7F09019C
-			public const int textSpacerNoButtons = 2131296668;
+			public const int textEnd = 2131296668;
 			
-			// aapt resource value: 0x7F09019D
-			public const int textSpacerNoTitle = 2131296669;
+			// aapt resource value: 0x7F0901A3
+			public const int textinput_counter = 2131296675;
 			
-			// aapt resource value: 0x7F09019E
-			public const int textStart = 2131296670;
+			// aapt resource value: 0x7F0901A4
+			public const int textinput_error = 2131296676;
 			
-			// aapt resource value: 0x7F09019F
-			public const int textViewStatus = 2131296671;
+			// aapt resource value: 0x7F0901A5
+			public const int textinput_helper_text = 2131296677;
 			
-			// aapt resource value: 0x7F0901A0
-			public const int text_input_end_icon = 2131296672;
+			// aapt resource value: 0x7F0901A6
+			public const int textinput_placeholder = 2131296678;
 			
-			// aapt resource value: 0x7F0901A1
-			public const int text_input_start_icon = 2131296673;
+			// aapt resource value: 0x7F0901A7
+			public const int textinput_prefix_text = 2131296679;
 			
 			// aapt resource value: 0x7F0901A8
-			public const int time = 2131296680;
+			public const int textinput_suffix_text = 2131296680;
+			
+			// aapt resource value: 0x7F09019D
+			public const int textSpacerNoButtons = 2131296669;
+			
+			// aapt resource value: 0x7F09019E
+			public const int textSpacerNoTitle = 2131296670;
+			
+			// aapt resource value: 0x7F09019F
+			public const int textStart = 2131296671;
+			
+			// aapt resource value: 0x7F0901A0
+			public const int textViewStatus = 2131296672;
+			
+			// aapt resource value: 0x7F0901A1
+			public const int text_input_end_icon = 2131296673;
+			
+			// aapt resource value: 0x7F0901A2
+			public const int text_input_start_icon = 2131296674;
 			
 			// aapt resource value: 0x7F0901A9
-			public const int title = 2131296681;
+			public const int time = 2131296681;
 			
 			// aapt resource value: 0x7F0901AA
-			public const int titleDividerNoCustom = 2131296682;
+			public const int title = 2131296682;
 			
 			// aapt resource value: 0x7F0901AB
-			public const int title_template = 2131296683;
+			public const int titleDividerNoCustom = 2131296683;
 			
 			// aapt resource value: 0x7F0901AC
-			public const int toggle = 2131296684;
+			public const int title_template = 2131296684;
 			
 			// aapt resource value: 0x7F0901AD
-			public const int top = 2131296685;
+			public const int toggle = 2131296685;
 			
 			// aapt resource value: 0x7F0901AE
-			public const int topPanel = 2131296686;
+			public const int top = 2131296686;
+			
+			// aapt resource value: 0x7F0901AF
+			public const int topPanel = 2131296687;
 			
 			// aapt resource value: 0x7F09000E
 			public const int TOP_END = 2131296270;
@@ -20449,140 +23342,140 @@ namespace CriThink.Client.Droid
 			// aapt resource value: 0x7F09000F
 			public const int TOP_START = 2131296271;
 			
-			// aapt resource value: 0x7F0901AF
-			public const int touch_outside = 2131296687;
-			
 			// aapt resource value: 0x7F0901B0
-			public const int transitionToEnd = 2131296688;
+			public const int touch_outside = 2131296688;
 			
 			// aapt resource value: 0x7F0901B1
-			public const int transitionToStart = 2131296689;
+			public const int transitionToEnd = 2131296689;
 			
 			// aapt resource value: 0x7F0901B2
-			public const int transition_current_scene = 2131296690;
+			public const int transitionToStart = 2131296690;
 			
 			// aapt resource value: 0x7F0901B3
-			public const int transition_layout_save = 2131296691;
+			public const int transition_current_scene = 2131296691;
 			
 			// aapt resource value: 0x7F0901B4
-			public const int transition_position = 2131296692;
+			public const int transition_layout_save = 2131296692;
 			
 			// aapt resource value: 0x7F0901B5
-			public const int transition_scene_layoutid_cache = 2131296693;
+			public const int transition_position = 2131296693;
 			
 			// aapt resource value: 0x7F0901B6
-			public const int transition_transform = 2131296694;
+			public const int transition_scene_layoutid_cache = 2131296694;
 			
 			// aapt resource value: 0x7F0901B7
-			public const int triangle = 2131296695;
+			public const int transition_transform = 2131296695;
 			
 			// aapt resource value: 0x7F0901B8
-			public const int txtCaption = 2131296696;
+			public const int triangle = 2131296696;
 			
 			// aapt resource value: 0x7F0901B9
-			public const int txtClassification = 2131296697;
+			public const int txtCaption = 2131296697;
 			
 			// aapt resource value: 0x7F0901BA
-			public const int txtDescription = 2131296698;
+			public const int txtClassification = 2131296698;
 			
 			// aapt resource value: 0x7F0901BB
-			public const int txtEditEmail = 2131296699;
+			public const int txtDescription = 2131296699;
 			
 			// aapt resource value: 0x7F0901BC
-			public const int txtEditPassword = 2131296700;
+			public const int txtEditEmail = 2131296700;
 			
 			// aapt resource value: 0x7F0901BD
-			public const int txtEditRepeatPassword = 2131296701;
+			public const int txtEditPassword = 2131296701;
 			
 			// aapt resource value: 0x7F0901BE
-			public const int txtEditUsername = 2131296702;
+			public const int txtEditRepeatPassword = 2131296702;
 			
 			// aapt resource value: 0x7F0901BF
-			public const int txtEdit_email = 2131296703;
+			public const int txtEditUsername = 2131296703;
 			
 			// aapt resource value: 0x7F0901C0
-			public const int txtEdit_emailOrUsername = 2131296704;
+			public const int txtEdit_email = 2131296704;
 			
 			// aapt resource value: 0x7F0901C1
-			public const int txtEdit_password = 2131296705;
+			public const int txtEdit_emailOrUsername = 2131296705;
 			
 			// aapt resource value: 0x7F0901C2
-			public const int txtInput_email = 2131296706;
+			public const int txtEdit_password = 2131296706;
 			
 			// aapt resource value: 0x7F0901C3
-			public const int txtInput_news = 2131296707;
+			public const int txtInput_email = 2131296707;
 			
 			// aapt resource value: 0x7F0901C4
-			public const int txtInput_password = 2131296708;
+			public const int txtInput_news = 2131296708;
 			
 			// aapt resource value: 0x7F0901C5
-			public const int txtInput_repeatPassword = 2131296709;
+			public const int txtInput_password = 2131296709;
 			
 			// aapt resource value: 0x7F0901C6
-			public const int txtInput_uri = 2131296710;
+			public const int txtInput_repeatPassword = 2131296710;
 			
 			// aapt resource value: 0x7F0901C7
-			public const int txtInput_username = 2131296711;
+			public const int txtInput_uri = 2131296711;
 			
 			// aapt resource value: 0x7F0901C8
-			public const int txtTitle = 2131296712;
+			public const int txtInput_username = 2131296712;
 			
 			// aapt resource value: 0x7F0901C9
-			public const int @unchecked = 2131296713;
+			public const int txtTitle = 2131296713;
 			
 			// aapt resource value: 0x7F0901CA
-			public const int underline = 2131296714;
+			public const int @unchecked = 2131296714;
 			
 			// aapt resource value: 0x7F0901CB
-			public const int uniform = 2131296715;
+			public const int underline = 2131296715;
 			
 			// aapt resource value: 0x7F0901CC
-			public const int unknown = 2131296716;
+			public const int uniform = 2131296716;
 			
 			// aapt resource value: 0x7F0901CD
-			public const int unlabeled = 2131296717;
+			public const int unknown = 2131296717;
 			
 			// aapt resource value: 0x7F0901CE
-			public const int up = 2131296718;
+			public const int unlabeled = 2131296718;
 			
 			// aapt resource value: 0x7F0901CF
-			public const int useLogo = 2131296719;
+			public const int up = 2131296719;
 			
 			// aapt resource value: 0x7F0901D0
-			public const int viewInnerLayout = 2131296720;
+			public const int useLogo = 2131296720;
 			
 			// aapt resource value: 0x7F0901D1
-			public const int viewLogin = 2131296721;
+			public const int viewInnerLayout = 2131296721;
 			
 			// aapt resource value: 0x7F0901D2
-			public const int view_offset_helper = 2131296722;
+			public const int viewLogin = 2131296722;
 			
 			// aapt resource value: 0x7F0901D3
-			public const int view_tree_saved_state_registry_owner = 2131296723;
+			public const int view_offset_helper = 2131296723;
 			
 			// aapt resource value: 0x7F0901D4
-			public const int visible = 2131296724;
+			public const int view_tree_saved_state_registry_owner = 2131296724;
 			
 			// aapt resource value: 0x7F0901D5
-			public const int visible_removing_fragment_view_tag = 2131296725;
+			public const int visible = 2131296725;
 			
 			// aapt resource value: 0x7F0901D6
-			public const int wide = 2131296726;
-			
-			// aapt resource value: 0x7F0901D8
-			public const int withinBounds = 2131296728;
+			public const int visible_removing_fragment_view_tag = 2131296726;
 			
 			// aapt resource value: 0x7F0901D7
-			public const int withText = 2131296727;
+			public const int wide = 2131296727;
 			
 			// aapt resource value: 0x7F0901D9
-			public const int wrap = 2131296729;
+			public const int withinBounds = 2131296729;
+			
+			// aapt resource value: 0x7F0901D8
+			public const int withText = 2131296728;
 			
 			// aapt resource value: 0x7F0901DA
-			public const int wrap_content = 2131296730;
+			public const int wrap = 2131296730;
 			
 			// aapt resource value: 0x7F0901DB
-			public const int zero_corner_chip = 2131296731;
+			public const int wrap_content = 2131296731;
+			
+			// aapt resource value: 0x7F0901DC
+			public const int zero_corner_chip = 2131296732;
 			
 			static Id()
 			{

@@ -66,6 +66,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)
         {
+            IsLoading = true;
+
             var request = new ResetPasswordRequest
             {
                 NewPassword = Password,
@@ -77,6 +79,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             //TODO: show welcome message
             await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+
+            IsLoading = false;
         }
     }
 }

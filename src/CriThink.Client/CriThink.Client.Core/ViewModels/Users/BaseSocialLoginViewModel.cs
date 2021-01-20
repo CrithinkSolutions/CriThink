@@ -24,6 +24,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public async Task PerformLoginSignInAsync(string token, ExternalLoginProvider loginProvider)
         {
+            IsLoading = true;
+
             try
             {
                 var request = new ExternalLoginProviderRequest
@@ -36,8 +38,13 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token), loginProvider);
+                _logger?.LogError(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token),
+                    loginProvider);
                 await ShowErrorMessage($"An error occurred when logging in with {loginProvider}").ConfigureAwait(true);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 

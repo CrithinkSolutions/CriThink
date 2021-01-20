@@ -80,6 +80,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoSignUpCommand(CancellationToken cancellationToken)
         {
+            IsLoading = true;
+
             var request = new UserSignUpRequest
             {
                 Password = Password,
@@ -97,6 +99,8 @@ namespace CriThink.Client.Core.ViewModels.Users
                 await ShowErrorMessage("Thank you for joining us! We sent you an email with a confirmation link. Please click on that link and perform the login").ConfigureAwait(true);
                 await _navigationService.Navigate<LoginViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
             }
+
+            IsLoading = false;
         }
 
         public async Task ShowErrorMessage(string message)
@@ -108,6 +112,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public async Task ConfirmUserEmailAsync(string userId, string code)
         {
+            IsLoading = true;
+
             var userInfo = await _identityService.ConfirmUserEmailAsync(userId, code).ConfigureAwait(false);
             if (userInfo == null)
             {
@@ -118,6 +124,8 @@ namespace CriThink.Client.Core.ViewModels.Users
                 await ShowErrorMessage($"Hello {userInfo.Username}! You now can login").ConfigureAwait(true);
                 await _navigationService.Navigate<LoginViewModel>().ConfigureAwait(true);
             }
+
+            IsLoading = false;
         }
     }
 }

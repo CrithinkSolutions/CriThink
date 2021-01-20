@@ -3,9 +3,11 @@ using Android.App;
 using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
+using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.Plugin.Visibility;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -26,6 +28,7 @@ namespace CriThink.Client.Droid.Views.Users
             var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
             var emailOrUsername = FindViewById<TextInputEditText>(Resource.Id.txtEdit_emailOrUsername);
             var password = FindViewById<TextInputEditText>(Resource.Id.txtEdit_password);
+            var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
@@ -46,6 +49,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnForgotPassword).To(vm => vm.NavigateToForgotPasswordCommand);
             set.Bind(btnJump).For(v => v.Text).ToLocalizationId("Jump");
             set.Bind(btnJump).To(vm => vm.NavigateToHomeCommand);
+            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
 
             set.Apply();
         }
