@@ -8,11 +8,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement
         [Required]
         public string UserName { get; set; }
         
-        [RegularExpression(EmailHelper.EmailPattern, ErrorMessage = "Email is not valid")]
+        [EmailAddress]
         [Required]
         public string Email { get; set; }
 
-        [StringLength(int.MaxValue, MinimumLength=8, ErrorMessage = "Password must be at least {2} characters")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters")]
         [RegularExpression(@"^(?=.*\d)(?=.*[A-Z])(?=.*[^\w\d\s:])([^\s])*$", ErrorMessage = "Password must have: one non-alphanumeric character, one digit (0-9), one uppercase (A-Z)")]
         [DataType(DataType.Password)]
         [Required]
