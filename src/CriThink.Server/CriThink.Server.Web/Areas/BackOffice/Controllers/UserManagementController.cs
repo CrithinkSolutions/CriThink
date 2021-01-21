@@ -17,7 +17,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Area("BackOffice")]
     public class UserManagementController : Controller
     {
-        public readonly IUserManagementServiceFacade _userManagementServiceFacade;
+        private readonly IUserManagementServiceFacade _userManagementServiceFacade;
 
         public UserManagementController(IUserManagementServiceFacade userManagementServiceFacade)
         {
@@ -56,7 +56,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("user-management/add-user")]
         public IActionResult AddUserView()
         {
-            return View("AddUserView", new AddUserViewModel());
+            return View("AddUserView");
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route("user-management/add-admin")]
         public IActionResult AddAdminView()
         {
-            return View("AddAdminView", new AddUserViewModel());
+            return View("AddAdminView");
         }
 
         /// <summary>
