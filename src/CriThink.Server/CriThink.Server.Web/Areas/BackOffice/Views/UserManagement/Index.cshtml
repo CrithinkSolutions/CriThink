@@ -27,8 +27,10 @@
             <tr>
                 <th>Username</th>
                 <th>Role</th>
+                <th>Options</th>
             </tr>
         </thead>
+        <tbody>
         @foreach(var user in Model.Users) 
         {
             <tr>
@@ -39,17 +41,20 @@
                         <span class="mr-1">@role</span>
                     }
                 </td>
-                <td style="width:6%">
+                <td style="width:8%">
                     <a type="button" data-toggle="dropdown">
                         <i class="fas fa-ellipsis-h"></i>
-                    </a >
+                    </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Remove user</a>
                     </div>
                 </td>
             </tr>
         }
+        </tbody>
     </table>
+
+     <div id="message"></div>
 
     <nav>
       <ul class="pagination justify-content-center">
@@ -76,6 +81,31 @@
       </ul>
     </nav>
 
+    <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Remove this news</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure to delete the news with name <span class="font-weight-bold" id="nameNews"></span>?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+    {
+      @Html.AntiForgeryToken()
+    }
+
     <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
 
 </div>
@@ -84,6 +114,16 @@
 
 @section Scripts
 {
+    <script type="text/javascript">
+        $(function(){
+            $('#featureT').DataTable({
+                paging: false,
+                ordering: false,
+                info: false
+            });
+        });
+    </script>
+
     <script type="text/javascript">
         $(function(){
             let pageSize = parseInt(GetParameterValues('PageSize'));
@@ -118,6 +158,28 @@
                 }
             };
         });
+
+        {
+
+        let newsId = '';
+
+        $('.mDelete').click(function(){
+            newsId = $(this).data('id');
+            $('#nameNews').html($(this).data('title'));
+        });
+
+        $('#sureDelete').click(function(){
+            let token = $('input[name="__RequestVerificationToken"]').val();
+            $.post('@Url.Action("RemoveNews", "DebunkingNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+                $('body').html(data);
+                $('#message').addClass('alert alert-success').html('News removed!');
+            })
+            .fail(function(data){
+                alert("Error");
+            });
+        });
+
+        }
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
