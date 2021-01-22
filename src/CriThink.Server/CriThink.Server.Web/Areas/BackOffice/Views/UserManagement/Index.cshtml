@@ -27,6 +27,7 @@
             <tr>
                 <th>Username</th>
                 <th>Role</th>
+                <th>Soft Delete</th>
                 <th>Options</th>
             </tr>
         </thead>
@@ -41,12 +42,14 @@
                         <span class="mr-1">@role</span>
                     }
                 </td>
+                <td>@user.IsDeleted</td>
                 <td style="width:8%">
                     <a type="button" data-toggle="dropdown">
                         <i class="fas fa-ellipsis-h"></i>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Remove user</a>
+                        <a class="dropdown-item srDelete" data-toggle="modal" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Soft remove user</a>
                     </div>
                 </td>
             </tr>
@@ -162,6 +165,7 @@
         {
 
         let userId = '';
+        let token = $('input[name="__RequestVerificationToken"]').val();
 
         $('.mDelete').click(function(){
             userId = $(this).data('id');
@@ -169,7 +173,6 @@
         });
 
         $('#sureDelete').click(function(){
-            let token = $('input[name="__RequestVerificationToken"]').val();
             $.post('@Url.Action("DeleteUser", "UserManagement")', {Id:userId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
                 $('#message').addClass('alert alert-success').html('User removed!');
@@ -178,6 +181,16 @@
                 alert("Error");
             });
         });
+
+        $('.srDelete').click(function(){
+          userId = $(this).data('id');
+          $.post('@Url.Action("SoftDeleteUser", "UserManagement")', {Id:userId, __RequestVerificationToken: token}, function(data){
+                $('body').html(data);
+            })
+            .fail(function(data){
+                alert("Error");
+            });
+        })
 
         }
 

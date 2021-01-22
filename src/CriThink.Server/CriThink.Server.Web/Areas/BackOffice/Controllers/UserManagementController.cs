@@ -154,5 +154,32 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Softremove a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("user-management/softremove-user")]
+        public async Task<IActionResult> SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _userManagementServiceFacade.SoftDeleteUserAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }
