@@ -34,7 +34,7 @@ namespace CriThink.Server.Core.Services
             var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
 
             var command = new CreateNewsSourceCommand(uri, authenticity);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task RemoveBadSourceAsync(Uri uri)
@@ -43,7 +43,7 @@ namespace CriThink.Server.Core.Services
                 throw new ArgumentNullException(nameof(uri));
 
             var command = new RemoveBadNewsSourceCommand(uri);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task RemoveGoodNewsSourceAsync(Uri uri)
@@ -52,7 +52,7 @@ namespace CriThink.Server.Core.Services
                 throw new ArgumentNullException(nameof(uri));
 
             var command = new RemoveGoodNewsSourceCommand(uri);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri)
