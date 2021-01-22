@@ -104,5 +104,9 @@
         public const string DemoNewsAdd = "demo-news";
 
         #endregion
+
+        #region MVC
+        public const string Add = "add";
+        #endregion
     }
 }
