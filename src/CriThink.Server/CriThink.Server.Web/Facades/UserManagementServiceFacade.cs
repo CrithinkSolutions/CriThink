@@ -66,5 +66,18 @@ namespace CriThink.Server.Web.Facades
             
             await _identityService.CreateNewAdminAsync(request).ConfigureAwait(false);
         }
+
+        public async Task DeleteUserAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+            
+            var request = new UserGetRequest
+            {
+                UserId = viewModel.Id
+            };
+
+            await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
+        }
     }
 }

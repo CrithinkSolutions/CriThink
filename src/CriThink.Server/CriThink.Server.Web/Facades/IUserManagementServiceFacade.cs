@@ -15,6 +15,8 @@ namespace CriThink.Server.Web.Facades
         Task CreateNewUserAsync(AddUserViewModel viewModel);
 
         Task CreateNewAdminAsync(AddUserViewModel viewModel);
+
+        Task DeleteUserAsync(SimpleUserManagementViewModel viewModel);
     }
 
 }
