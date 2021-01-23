@@ -42,6 +42,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews.Dialogs
             dialog?.Window?.ClearFlags(WindowManagerFlags.DimBehind);
             if (dialog is BottomSheetDialog bottomSheetDialog && Resources?.DisplayMetrics != null)
             {
+                bottomSheetDialog.SetCanceledOnTouchOutside(false);
                 bottomSheetDialog.Behavior.PeekHeight = (int) (Resources?.DisplayMetrics?.HeightPixels * 0.55);
                 bottomSheetDialog.Behavior.Hideable = false;
             }
