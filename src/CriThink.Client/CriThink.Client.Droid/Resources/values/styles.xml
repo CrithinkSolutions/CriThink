@@ -12,4 +12,12 @@
       <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+      <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+      <item name="android:background">@drawable/bottomsheet_rounded</item>
+    </style>
+
 </resources>

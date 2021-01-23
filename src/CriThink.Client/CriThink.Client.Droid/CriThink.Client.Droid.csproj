@@ -85,6 +85,7 @@
     <Compile Include="Views\Games\Fragments\HomeGameView.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
+    <Compile Include="Views\DebunkingNews\Dialogs\DebunkingNewsCollectionView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\SpotFakeNews\Fragments\SpotFakeNewsHomeView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
@@ -158,6 +159,9 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.470</Version>
     </PackageReference>
+    <PackageReference Include="MvvmCross.DroidX.Material">
+      <Version>7.1.2</Version>
+    </PackageReference>
     <PackageReference Include="MvvmCross.DroidX.RecyclerView">
       <Version>7.1.2</Version>
     </PackageReference>
@@ -178,6 +182,9 @@
     </PackageReference>
     <PackageReference Include="ViewPagerIndicator">
       <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CardView">
+      <Version>1.0.0.6</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
       <Version>2.0.4.1</Version>
@@ -478,7 +485,21 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\loader_indicator.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\edittext_rounded.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\bottomsheet_rounded.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_bottom_sheet_grapple.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

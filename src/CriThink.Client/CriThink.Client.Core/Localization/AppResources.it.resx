@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DebunkingNewsCollectionView.DebunkingNewsTitle" xml:space="preserve">
+    <value>Ultime Debunking News</value>
+  </data>
   <data name="LoginViewModel.Jump" xml:space="preserve">
     <value>Salta (DEBUG)</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodAfternoon" xml:space="preserve">
+    <value>Buon pomeriggio</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodEvening" xml:space="preserve">
+    <value>Buonasera</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodMorning" xml:space="preserve">
+    <value>Buongiorno</value>
+  </data>
+  <data name="NewsCheckerViewModel.GoodNight" xml:space="preserve">
+    <value>Buonanotte</value>
+  </data>
+  <data name="NewsCheckerViewModel.Motto" xml:space="preserve">
+    <value>USE THE HEAD TODAY</value>
+  </data>
+  <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
+    <value>Quale news vuoi controllare?</value>
   </data>
 </root>
