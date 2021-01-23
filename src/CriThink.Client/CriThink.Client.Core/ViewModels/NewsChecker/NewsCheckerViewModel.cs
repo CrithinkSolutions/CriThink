@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
@@ -79,6 +80,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 return;
 
             Username = user.UserName;
+
+            await NavigationService.Navigate<DebunkingNewsCollectionViewModel>().ConfigureAwait(true);
         }
 
         private Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)

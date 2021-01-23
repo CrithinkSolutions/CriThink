@@ -1,21 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/main_frame"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  >
 
+  <FFImageLoading.Cross.MvxCachedImageView
+    android:id="@+id/bottomSheetGrapple"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_medium"
+    android:src="@drawable/ic_bottom_sheet_grapple"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/txtTitle"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginTop="@dimen/margin_veryBig"
+    android:paddingStart="@dimen/padding_page"
+    android:paddingEnd="@dimen/padding_page">
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Latest Debunking News"
+      android:id="@+id/txtSectionTitle"
+      android:textSize="@dimen/text_caption"
+      android:fontFamily="@font/urbanist"
+      android:textColor="@android:color/black"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="parent" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+  
   <MvvmCross.DroidX.MvxSwipeRefreshLayout
     android:id="@+id/refresher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_veryBig"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/txtTitle"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <mvvmcross.droidx.recyclerview.MvxRecyclerView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:id="@+id/list_debunkingNews"
-      app:MvxItemTemplate="@layout/cell_debunkingnews_feed"  />
+      app:MvxItemTemplate="@layout/cell_debunkingnews_feed" />
   </MvvmCross.DroidX.MvxSwipeRefreshLayout>
- 
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
