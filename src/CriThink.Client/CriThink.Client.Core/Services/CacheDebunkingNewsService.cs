@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Messenger;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Primitives;
-using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
 {
@@ -14,22 +11,17 @@ namespace CriThink.Client.Core.Services
         private const string AllDebunkingNewsCacheKey = "all_debunking";
         private const string DebunkingNewsCacheKey = "debunking";
 
-        private CancellationTokenSource _resetCacheToken;
-
         private readonly IMemoryCache _memoryCache;
         private readonly DebunkingNewsService _debunkingNewsService;
-        private readonly MvxSubscriptionToken _token;
 
         private bool _isDisposed;
 
         private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-        public CacheDebunkingNewsService(IMemoryCache memoryCache, DebunkingNewsService debunkingNewsService, IMvxMessenger messenger)
+        public CacheDebunkingNewsService(IMemoryCache memoryCache, DebunkingNewsService debunkingNewsService)
         {
-            _resetCacheToken = new CancellationTokenSource();
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
-            _token = messenger?.Subscribe<ClearDebunkingNewsCacheMessage>(OnClearMessage) ?? throw new ArgumentNullException(nameof(messenger));
         }
 
         public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
@@ -37,7 +29,6 @@ namespace CriThink.Client.Core.Services
             return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{pageIndex}_{pageSize}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
-                entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
                 return await _debunkingNewsService.GetRecentDebunkingNewsAsync(pageIndex, pageSize, cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
@@ -53,17 +44,6 @@ namespace CriThink.Client.Core.Services
 
         public Task OpenDebunkingNewsInBrowser(string link) =>
             _debunkingNewsService.OpenDebunkingNewsInBrowser(link);
-
-        private void OnClearMessage(ClearDebunkingNewsCacheMessage obj)
-        {
-            if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
-            {
-                _resetCacheToken.Cancel();
-                _resetCacheToken.Dispose();
-            }
-
-            _resetCacheToken = new CancellationTokenSource();
-        }
 
         #region IDisposable
 
@@ -81,8 +61,6 @@ namespace CriThink.Client.Core.Services
             if (disposing)
             {
                 _memoryCache?.Dispose();
-                _token?.Dispose();
-                _resetCacheToken?.Dispose();
             }
 
             _isDisposed = true;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.Games;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Core.ViewModels.SpotFakeNews;
@@ -24,7 +23,6 @@ namespace CriThink.Client.Core.ViewModels
             var tabs = new List<BaseBottomViewViewModel>
             {
                 Mvx.IoCProvider.IoCConstruct<NewsCheckerViewModel>(),
-                Mvx.IoCProvider.IoCConstruct<DebunkingNewsViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<SpotFakeNewsHomeViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<HomeGameViewModel>()
             };

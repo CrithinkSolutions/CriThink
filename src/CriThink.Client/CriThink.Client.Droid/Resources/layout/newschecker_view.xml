@@ -1,77 +1,116 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:id="@+id/root"
+  android:nestedScrollingEnabled="true"
   android:background="@color/colorPrimary">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:paddingStart="@dimen/padding_page"
-      android:paddingEnd="@dimen/padding_page">
+  <androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtWelcome"
-      android:textSize="@dimen/text_caption"
-      android:fontFamily="@font/urbanist_light"
-      android:layout_marginTop="@dimen/margin_medium"
-      android:textColor="@android:color/white"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtName"
-      app:textAllCaps="true"
-      android:textSize="@dimen/text_title"
-      android:fontFamily="@font/urbanist"
-      android:textColor="@android:color/white"
-      app:layout_constraintStart_toStartOf="@id/txtWelcome"
-      app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtMotto"
-      app:layout_constraintStart_toStartOf="@id/txtWelcome"
-      app:layout_constraintTop_toBottomOf="@id/txtName"
-      app:textAllCaps="true"
-      android:textSize="@dimen/text_small"
-      android:textColor="@android:color/white"
-      android:layout_marginTop="@dimen/margin_big"
-      android:fontFamily="@font/urbanist_light"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtDate"
-      app:layout_constraintStart_toEndOf="@id/txtMotto"
-      app:layout_constraintBottom_toBottomOf="@id/txtMotto"
-      app:textAllCaps="true"
-      android:textSize="@dimen/text_small"
-      android:textColor="@android:color/white"
-      android:layout_marginStart="@dimen/margin_medium"
-      android:fontFamily="@font/urbanist"/>
-
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/btnNews"
-      android:textAllCaps="false"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/txtDate"
-      android:layout_marginTop="@dimen/margin_veryBig"
-      android:padding="@dimen/edittext_padding"
-      android:background="@drawable/edittext_rounded"
-      android:fontFamily="@font/urbanist"/>
+      android:id="@+id/root">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
- 
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/containerMain"
+        android:paddingStart="@dimen/padding_page"
+        android:paddingEnd="@dimen/padding_page">
+        
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtWelcome"
+          android:textSize="@dimen/text_caption"
+          android:fontFamily="@font/urbanist_light"
+          android:layout_marginTop="@dimen/margin_medium"
+          android:textColor="@android:color/white"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"/>
+        
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtName"
+          app:textAllCaps="true"
+          android:textSize="@dimen/text_title"
+          android:fontFamily="@font/urbanist"
+          android:textColor="@android:color/white"
+          app:layout_constraintStart_toStartOf="@id/txtWelcome"
+          app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
+        
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtMotto"
+          app:layout_constraintStart_toStartOf="@id/txtWelcome"
+          app:layout_constraintTop_toBottomOf="@id/txtName"
+          app:textAllCaps="true"
+          android:textSize="@dimen/text_small"
+          android:textColor="@android:color/white"
+          android:layout_marginTop="@dimen/margin_big"
+          android:fontFamily="@font/urbanist_light"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtDate"
+          app:layout_constraintStart_toEndOf="@id/txtMotto"
+          app:layout_constraintBottom_toBottomOf="@id/txtMotto"
+          app:textAllCaps="true"
+          android:textSize="@dimen/text_small"
+          android:textColor="@android:color/white"
+          android:layout_marginStart="@dimen/margin_medium"
+          android:fontFamily="@font/urbanist"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnNews"
+          android:textAllCaps="false"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/txtDate"
+          android:layout_marginTop="@dimen/margin_veryBig"
+          android:padding="@dimen/edittext_padding"
+          android:background="@drawable/edittext_rounded"
+          android:fontFamily="@font/urbanist"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtSectionTitle"
+          android:textSize="@dimen/text_caption"
+          android:fontFamily="@font/urbanist"
+          android:textColor="@android:color/white"
+          app:layout_constraintTop_toBottomOf="@id/btnNews"
+          app:layout_constraintStart_toStartOf="parent"
+          android:layout_marginTop="@dimen/margin_huge"/>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+      <mvvmcross.droidx.recyclerview.MvxRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/containerMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/list_debunkingNews" />
+      
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+  
 </androidx.constraintlayout.widget.ConstraintLayout>

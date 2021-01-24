@@ -61,20 +61,20 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Latest Debunking News.
-        /// </summary>
-        internal static string DebunkingNewsCollectionView_DebunkingNewsTitle {
-            get {
-                return ResourceManager.GetString("DebunkingNewsCollectionView.DebunkingNewsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Skip (DEBUG).
         /// </summary>
         internal static string LoginViewModel_Jump {
             get {
                 return ResourceManager.GetString("LoginViewModel.Jump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latest Debunking News.
+        /// </summary>
+        internal static string NewsCheckerViewModel_DebunkingNewsTitle {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.DebunkingNewsTitle", resourceCulture);
             }
         }
         
