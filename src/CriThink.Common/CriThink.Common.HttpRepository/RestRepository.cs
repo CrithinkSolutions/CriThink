@@ -285,7 +285,7 @@ namespace CriThink.Common.HttpRepository
             if (string.IsNullOrWhiteSpace(token)) return;
 
             httpClient.DefaultRequestHeaders.Remove(EndpointConstants.AuthorizationHeader);
-            httpClient.DefaultRequestHeaders.Add(EndpointConstants.AuthorizationHeader, $"{EndpointConstants.BearerHeader}{token}");
+            httpClient.DefaultRequestHeaders.Add(EndpointConstants.AuthorizationHeader, $"{EndpointConstants.BearerPrefix}{token}");
         }
 
         private static Uri GetUri(string request) => new Uri(request, UriKind.Relative);

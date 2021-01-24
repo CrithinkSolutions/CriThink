@@ -15,7 +15,7 @@
         #region Authentication
 
         public const string AuthorizationHeader = "Authorization";
-        public const string BearerHeader = "Bearer ";
+        public const string BearerPrefix = "Bearer ";
 
         #endregion
 
