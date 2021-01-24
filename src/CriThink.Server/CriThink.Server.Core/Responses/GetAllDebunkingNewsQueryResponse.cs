@@ -9,5 +9,9 @@ namespace CriThink.Server.Core.Responses
         public string Title { get; set; }
 
         public string Publisher { get; set; }
+
+        public string NewsLink { get; set; }
+
+        public string NewsImageLink { get; set; }
     }
 }

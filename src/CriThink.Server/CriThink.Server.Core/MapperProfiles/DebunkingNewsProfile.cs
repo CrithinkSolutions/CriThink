@@ -18,7 +18,11 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest =>
-                    dest.Publisher, opt => opt.MapFrom(src => src.Publisher));
+                    dest.Publisher, opt => opt.MapFrom(src => src.Publisher))
+                .ForMember(dest =>
+                    dest.NewsLink, opt => opt.MapFrom(src => src.NewsLink))
+                .ForMember(dest =>
+                    dest.NewsImageLink, opt => opt.MapFrom(src => src.NewsImageLink));
 
             CreateMap<DebunkingNews, DebunkingNewsGetDetailsResponse>()
                 .ForMember(dest =>

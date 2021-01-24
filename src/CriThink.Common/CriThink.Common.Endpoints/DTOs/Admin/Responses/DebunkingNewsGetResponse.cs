@@ -13,5 +13,11 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 
         [JsonPropertyName("publisher")]
         public string Publisher { get; set; }
+
+        [JsonPropertyName("newsLink")]
+        public string NewsLink { get; set; }
+
+        [JsonPropertyName("newsImageLink")]
+        public string NewsImageLink { get; set; }
     }
 }
