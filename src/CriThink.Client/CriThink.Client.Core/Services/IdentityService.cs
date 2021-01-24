@@ -29,6 +29,12 @@ namespace CriThink.Client.Core.Services
             return user;
         }
 
+        public async Task<string> GetUserTokenAsync()
+        {
+            var userToken = await _identityRepository.GetUserTokenAsync().ConfigureAwait(false);
+            return userToken;
+        }
+
         public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
@@ -41,7 +47,7 @@ namespace CriThink.Client.Core.Services
                         $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
                         HttpRestVerb.Post,
                         request,
-                        cancellationToken)
+                        cancellationToken: cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -78,7 +84,7 @@ namespace CriThink.Client.Core.Services
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
                     HttpRestVerb.Post,
                     request,
-                    cancellationToken)
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             await _identityRepository.SetUserInfoAsync(
@@ -104,7 +110,7 @@ namespace CriThink.Client.Core.Services
                         $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityForgotPassword}",
                         HttpRestVerb.Post,
                         request,
-                        cancellationToken)
+                        cancellationToken: cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -122,7 +128,7 @@ namespace CriThink.Client.Core.Services
                     $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
                     HttpRestVerb.Post,
                     request,
-                    cancellationToken)
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             return resetPasswordResponse;
@@ -139,7 +145,7 @@ namespace CriThink.Client.Core.Services
                         $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
                         HttpRestVerb.Post,
                         request,
-                        cancellationToken)
+                        cancellationToken: cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -180,7 +186,17 @@ namespace CriThink.Client.Core.Services
 
     public interface IIdentityService
     {
+        /// <summary>
+        /// Get logged user information
+        /// </summary>
+        /// <returns>User info</returns>
         Task<User> GetLoggedUserAsync();
+
+        /// <summary>
+        /// Get logged user token
+        /// </summary>
+        /// <returns>User token</returns>
+        Task<string> GetUserTokenAsync();
 
         /// <summary>
         /// Performs login

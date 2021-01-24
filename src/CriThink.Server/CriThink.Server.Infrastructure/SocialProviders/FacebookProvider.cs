@@ -25,14 +25,14 @@ namespace CriThink.Server.Infrastructure.SocialProviders
 
             var tokenInfoPath = $"debug_token?input_token={userToken}&access_token={accessToken}";
 
-            var debugTokenResponse = await _restRepository.MakeRequestAsync<FacebookTokenResponse>(tokenInfoPath, HttpRestVerb.Get, "Facebook").ConfigureAwait(false);
+            var debugTokenResponse = await _restRepository.MakeRequestAsync<FacebookTokenResponse>(tokenInfoPath, HttpRestVerb.Get, httpClientName: "Facebook").ConfigureAwait(false);
 
             if (!debugTokenResponse.Data.IsValid)
                 throw new InvalidOperationException("The given token is wrong or expired");
 
             var userInfoPath = $"{debugTokenResponse.Data.UserId}?fields=id,first_name,last_name,picture,email&access_token={userToken}";
 
-            var userInfoDetail = await _restRepository.MakeRequestAsync<FacebookUserInfoDetail>(userInfoPath, HttpRestVerb.Get, "Facebook").ConfigureAwait(false);
+            var userInfoDetail = await _restRepository.MakeRequestAsync<FacebookUserInfoDetail>(userInfoPath, HttpRestVerb.Get, httpClientName: "Facebook").ConfigureAwait(false);
 
             return new ExternalProviderUserInfo
             {
