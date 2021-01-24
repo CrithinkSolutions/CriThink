@@ -4,6 +4,7 @@ using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -181,5 +182,29 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Softremove a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("user-management/user-info")]
+        public async Task<IActionResult> GetUserByIdAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                var info = await _userManagementServiceFacade.GetUserByIdAsync(viewModel).ConfigureAwait(false);
+                return Ok(new ApiOkResponse(info));
+            }
+            catch (Exception ex)
+            {
+                return (IActionResult)ex;
+            }
+        }
+
     }
 }

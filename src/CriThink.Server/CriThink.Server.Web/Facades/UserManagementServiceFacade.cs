@@ -80,7 +80,7 @@ namespace CriThink.Server.Web.Facades
             await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
         }
 
-         public async Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
+        public async Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -91,6 +91,19 @@ namespace CriThink.Server.Web.Facades
             };
 
             await _identityService.SoftDeleteUserAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task<UserGetDetailsResponse> GetUserByIdAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new UserGetRequest
+            {
+                UserId = viewModel.Id
+            };
+
+            return await _identityService.GetUserByIdAsync(request).ConfigureAwait(false);
         }
     }
 }
