@@ -1,5 +1,5 @@
-@using CriThink.Common.Endpoints.DTOs.NewsSource;
-@model IList<NewsSourceGetAllResponse>;
+@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
+@model IndexViewModel;
 
 @{
     Layout = "_Layout";
@@ -10,49 +10,48 @@
 <div class="p-4 text-center m-4 w-100">
     <div id="toolbox" class="border p-2 mb-2">
         <a type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-        <a type="button" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+        <a type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
     </div>
-	<table class="table">
+    <table class="table">
         <thead>
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Classification</th>
             </tr>
         </thead>
-        @foreach (var news in Model)
+        @foreach (var news in Model.NewsSources)
         {
             <tr>
                 <td>@news.Uri</td>
-                <td>@news.NewsSourceClassification</td>
+                <td>@news.Classification</td>
             </tr>
         }
-	</table>
+    </table>
 
     <!-- PageIndex nav -->
     <nav>
         <ul class="pagination justify-content-center">
-        <li id="prevPage" class="page-item">
-            <a class="page-link pointer" aria-label="Previous">
-            <span>Previous</span>
-            </a>
-        </li>
-        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-        <li class="page-item">
-            <a id="nextPage" class="page-link pointer" aria-label="Next">
-            <span>Next</span>
-            </a>
-        </li>
+            <li id="prevPage" class="page-item">
+                <a class="page-link pointer" aria-label="Previous">
+                    <span>Previous</span>
+                </a>
+            </li>
+            <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+            <li class="page-item">
+                <a id="nextPage" class="page-link pointer" aria-label="Next">
+                    <span>Next</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- PageIndex nav -->
-
     <!-- PageSize nav -->
     <small>News for page</small>
     <nav>
         <ul id="pageSizenav" class="pagination justify-content-center">
-        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
+            <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
+            <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
+            <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
         </ul>
     </nav>
     <!-- PageSize nav -->
@@ -83,7 +82,7 @@
             function GetParameterValues(param) {
                 var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
                 for (var i = 0; i < url.length; i++) {
-                    var urlparam = url[i].split('='); 
+                    var urlparam = url[i].split('=');
                     if (urlparam[0] == param) {
                         return urlparam[1];
                     }

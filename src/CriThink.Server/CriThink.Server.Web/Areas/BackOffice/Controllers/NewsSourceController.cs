@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable CA1062 // Validate arguments of public methods
+
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
-    /// <summary>
-    /// Controller to handle the backoffice operations
-    /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
@@ -24,10 +23,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             _newsSourceFacade = newsSourceFacade ?? throw new ArgumentNullException(nameof(newsSourceFacade));
         }
 
-        /// <summary>
-        /// Returns the news source section
-        /// </summary>
-        /// <returns></returns>
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -35,28 +31,25 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             return View(news);
         }
 
-        /// <summary>
-        /// Add the given source to white or black list
-        /// </summary>
-        /// <param name="viewModel">Source to add</param>
-        /// <returns>Returns the operation result</returns>
-        [Authorize]
-        [Produces("application/json")]
-        [Route(EndpointConstants.Add)]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Add)]  // news-source/add
+        [HttpGet]
+        public IActionResult AddSource()
+        {
+            return View();
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Add)]  // news-source/add
         [HttpPost]
-        public async Task<IActionResult> AddSourceAsync(AddNewsSourceViewModel viewModel)
+        public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
             await _newsSourceFacade.AddNewsSourceAsync(viewModel).ConfigureAwait(false);
             return NoContent();
         }
 
-        /// <summary>
-        /// Remove the given source from the whitelist
-        /// </summary>
-        /// <param name="viewModel">Source to remove</param>
-        /// <returns>Returns the operation result</returns>
-        [Authorize]
-        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // api/news-source/whitelist
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // news-source/whitelist
         [HttpDelete]
         public async Task<IActionResult> RemoveGoodNewsSourceAsync(RemoveWhitelistViewModel viewModel)
         {
@@ -65,14 +58,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Remove the given source from the blacklist
-        /// </summary>
-        /// <param name="viewModel">Source to remove</param>
-        /// <returns>Returns the operation result</returns>
-        [Authorize]
-        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // api/news-source/blacklist
-        [Produces("application/json")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // news-source/blacklist
         [HttpDelete]
         public async Task<IActionResult> RemoveBadNewsSourceAsync(RemoveBlacklistViewModel viewModel)
         {
