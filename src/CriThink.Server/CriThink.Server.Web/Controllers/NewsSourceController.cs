@@ -40,7 +40,8 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
-        [HttpGet] // api/news-source/
+        [Route(EndpointConstants.NewsSourceSearch)] // api/news-source/search
+        [HttpGet]
         public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
