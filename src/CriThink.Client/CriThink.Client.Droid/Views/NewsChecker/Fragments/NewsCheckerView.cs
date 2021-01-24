@@ -2,9 +2,13 @@
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
+using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
+using CriThink.Client.Droid.Extensions;
+using CriThink.Client.Droid.Views.DebunkingNews;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -12,7 +16,7 @@ using MvvmCross.Platforms.Android.Views.Fragments;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.NewsChecker
 {
-    [MvxFragmentPresentation(typeof(HomeViewModel), null)]
+    [MvxFragmentPresentation(typeof(HomeViewModel), "tabs_container_frame")]
     [Register(nameof(NewsCheckerView))]
     public class NewsCheckerView : MvxFragment<NewsCheckerViewModel>
     {
@@ -28,6 +32,20 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtDate = view.FindViewById<AppCompatTextView>(Resource.Id.txtDate);
             var btnNews = view.FindViewById<AppCompatButton>(Resource.Id.btnNews);
 
+            var txtSectionTitle = view?.FindViewById<AppCompatTextView>(Resource.Id.txtSectionTitle);
+            var listDebunkingNews = view?.FindViewById<MvxRecyclerView>(Resource.Id.list_debunkingNews);
+
+            var layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
+            listDebunkingNews.SetLayoutManager(layoutManager);
+
+            var adapter = new DebunkingNewsAdapter((IMvxAndroidBindingContext) BindingContext);
+            listDebunkingNews.Adapter = adapter;
+
+            listDebunkingNews.AddOnScrollFetchItemsListener(
+                layoutManager,
+                () => ViewModel.FetchDebunkingNewsTask,
+                () => ViewModel.FetchDebunkingNewsCommand);
+
             var set = CreateBindingSet();
 
             set.Bind(txtWelcome).To(vm => vm.WelcomeText);
@@ -36,6 +54,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(txtDate).To(vm => vm.TodayDate);
             set.Bind(btnNews).For(v => v.Text).ToLocalizationId("NewsLinkHint");
             set.Bind(btnNews).To(vm => vm.NavigateNewsCheckerCommand);
+            set.Bind(adapter).For(v => v.ItemsSource).To(vm => vm.Feed);
+            set.Bind(listDebunkingNews).For(v => v.ItemClick).To(vm => vm.DebunkingNewsSelectedCommand);
+
+            set.Bind(txtSectionTitle).ToLocalizationId("DebunkingNewsTitle");
 
             set.Apply();
 

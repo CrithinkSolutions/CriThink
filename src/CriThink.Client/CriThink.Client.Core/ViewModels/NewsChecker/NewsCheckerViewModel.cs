@@ -4,23 +4,43 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
-    public class NewsCheckerViewModel : BaseBottomViewViewModel
+    public class NewsCheckerViewModel : BaseBottomViewViewModel, IDisposable
     {
+        private const int PageSize = 15;
+
+        private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IIdentityService _identityService;
 
-        public NewsCheckerViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService)
+        private int _pageIndex = 1;
+        private bool _hasMorePages;
+        private CancellationTokenSource _cancellationTokenSource;
+
+        public NewsCheckerViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IDebunkingNewsService debunkingNewsService)
             : base(logProvider, navigationService)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             TabId = "news_checker";
+
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+
+            Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
+            _hasMorePages = true;
         }
+
+        #region Properties
+
+        public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
+
+        public MvxNotifyTask FetchDebunkingNewsTask { get; private set; }
 
         private string _newsLinkText;
         public string NewsLinkText
@@ -50,8 +70,21 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             set => SetProperty(ref _todayDate, value);
         }
 
+        #endregion
+
+        #region Commands
+
         private IMvxAsyncCommand _navigateNewsCheckerCommand;
         public IMvxAsyncCommand NavigateNewsCheckerCommand => _navigateNewsCheckerCommand ??= new MvxAsyncCommand(DoNavigateNewsCheckerCommand);
+
+        private IMvxCommand _fetchDebunkingNewsCommand;
+        public IMvxCommand FetchDebunkingNewsCommand => _fetchDebunkingNewsCommand ??= new MvxCommand(DoFetchDebunkingNewsCommand);
+
+        private IMvxCommand<DebunkingNewsGetResponse> _debunkingNewsSelectedCommand;
+        public IMvxCommand<DebunkingNewsGetResponse> DebunkingNewsSelectedCommand =>
+            _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<DebunkingNewsGetResponse>(DoDebunkingNewsSelectedCommand);
+
+        #endregion
 
         public override void Prepare()
         {
@@ -75,13 +108,43 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
+
+#pragma warning disable 4014
+            GetDebunkingNewsAsync();
+#pragma warning restore 4014
+
             var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
             if (user is null)
                 return;
 
             Username = user.UserName;
+        }
 
-            await NavigationService.Navigate<DebunkingNewsCollectionViewModel>().ConfigureAwait(true);
+        #region Privates
+
+        private async Task GetDebunkingNewsAsync()
+        {
+            if (!_hasMorePages)
+                return;
+
+            IsLoading = true;
+
+            try
+            {
+                _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                var debunkinNewsCollection = await _debunkingNewsService
+                    .GetRecentDebunkingNewsAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+
+                Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                _hasMorePages = debunkinNewsCollection.HasNextPage;
+
+                _pageIndex++;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)
@@ -99,5 +162,36 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             var uri = new Uri(NewsLinkText);
             await NavigationService.Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken).ConfigureAwait(true);
         }
+
+        private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
+        {
+            await NavigationService.Navigate<DebunkingNewsDetailsViewModel, string>(selectedResponse.Id, cancellationToken: cancellationToken).ConfigureAwait(true);
+        }
+
+        private void DoFetchDebunkingNewsCommand()
+        {
+            FetchDebunkingNewsTask = MvxNotifyTask.Create(GetDebunkingNewsAsync);
+            RaisePropertyChanged(() => FetchDebunkingNewsTask);
+        }
+
+        #endregion
+
+        #region Dispose
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _cancellationTokenSource?.Dispose();
+            }
+        }
+
+        #endregion
     }
 }

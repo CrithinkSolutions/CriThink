@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DebunkingNewsCollectionViewModel.DebunkingNewsTitle" xml:space="preserve">
-    <value>Latest Debunking News</value>
-  </data>
   <data name="LoginViewModel.Jump" xml:space="preserve">
     <value>Skip (DEBUG)</value>
+  </data>
+  <data name="NewsCheckerViewModel.DebunkingNewsTitle" xml:space="preserve">
+    <value>Latest Debunking News</value>
   </data>
   <data name="NewsCheckerViewModel.GoodAfternoon" xml:space="preserve">
     <value>Good afternoon</value>

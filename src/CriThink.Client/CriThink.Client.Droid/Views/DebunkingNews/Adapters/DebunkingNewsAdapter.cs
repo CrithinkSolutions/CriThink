@@ -1,14 +1,16 @@
 ﻿using System;
 using Android.Runtime;
+using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using FFImageLoading;
 using FFImageLoading.Cross;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 
-namespace CriThink.Client.Droid.Views.DebunkingNews.Adapters
+// ReSharper disable once CheckNamespace
+namespace CriThink.Client.Droid.Views.DebunkingNews
 {
     public class DebunkingNewsAdapter : MvxRecyclerAdapter
     {
@@ -16,26 +18,44 @@ namespace CriThink.Client.Droid.Views.DebunkingNews.Adapters
             : base(bindingContext)
         { }
 
-        [Android.Runtime.Preserve(Conditional = true)]
+        [Preserve(Conditional = true)]
         protected DebunkingNewsAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         { }
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var txtTitle = holder.ItemView.FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
-            var txtPublisher = holder.ItemView.FindViewById<AppCompatTextView>(Resource.Id.txtPublisher);
-            var imgNews = holder.ItemView.FindViewById<MvxCachedImageView>(Resource.Id.imgNews);
+            var itemBindingContext = new MvxAndroidBindingContext(parent.Context, BindingContext.LayoutInflaterHolder);
+            var view = InflateViewForHolder(parent, Resource.Layout.cell_debunkingnews_feed, itemBindingContext);
+            view.LayoutParameters.Width = (int) (parent.Width * 0.7);
 
-            if (GetItem(position) is DebunkingNewsGetResponse debunkingNews)
+            return new DebunkingNewsViewHolder(view, itemBindingContext);
+        }
+    }
+
+    public class DebunkingNewsViewHolder : MvxRecyclerViewHolder
+    {
+        private readonly AppCompatTextView _txtTitle;
+        private readonly AppCompatTextView _txtPublisher;
+        private readonly MvxCachedImageView _imgNews;
+
+        public DebunkingNewsViewHolder(View itemView, IMvxAndroidBindingContext context)
+            : base(itemView, context)
+        {
+            _txtTitle = itemView.FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
+            _txtPublisher = itemView.FindViewById<AppCompatTextView>(Resource.Id.txtPublisher);
+            _imgNews = itemView.FindViewById<MvxCachedImageView>(Resource.Id.imgNews);
+
+            this.DelayBind(() =>
             {
-                txtTitle.Text = debunkingNews.Title;
-                txtPublisher.Text = debunkingNews.Publisher;
-                ImageService.Instance.LoadUrl(debunkingNews.NewsImageLink)
-                    .Into(imgNews);
-            }
+                var set = this.CreateBindingSet<DebunkingNewsViewHolder, DebunkingNewsGetResponse>();
 
-            base.OnBindViewHolder(holder, position);
+                set.Bind(_txtTitle).To(x => x.Title);
+                set.Bind(_txtPublisher).To(x => x.Publisher);
+                set.Bind(_imgNews).For(v => v.ImagePath).To(vm => vm.NewsImageLink);
+
+                set.Apply();
+            });
         }
     }
 }
