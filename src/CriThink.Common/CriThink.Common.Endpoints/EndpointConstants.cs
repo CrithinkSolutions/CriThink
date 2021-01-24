@@ -90,7 +90,7 @@
 
         public const string NewsSourceRemoveBlackNewsSource = "blacklist";
         public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
-        public const string NewsSourceNewsSourceGetAll = "all";
+        public const string NewsSourceSearch = "search";
 
         #endregion
 
@@ -110,6 +110,10 @@
         public const string DemoNewsGetAll = "demo-news";
         public const string DemoNewsAdd = "demo-news";
 
+        #endregion
+
+        #region MVC
+        public const string Add = "add";
         #endregion
     }
 }

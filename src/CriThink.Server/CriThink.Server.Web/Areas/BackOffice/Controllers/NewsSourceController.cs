@@ -1,37 +1,71 @@
 using System;
 using System.Threading.Tasks;
-using CriThink.Server.Web.Areas.BackOffice.ViewModels;
+using CriThink.Common.Endpoints;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable CA1062 // Validate arguments of public methods
+
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
-    /// <summary>
-    /// Controller to handle the backoffice operations
-    /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
     public class NewsSourceController : Controller
     {
-        private readonly INewsSourceServiceFacade _newsSourceServiceFacade;
+        private readonly INewsSourceFacade _newsSourceFacade;
 
-        public NewsSourceController(INewsSourceServiceFacade newsSourceService)
+        public NewsSourceController(INewsSourceFacade newsSourceFacade)
         {
-            _newsSourceServiceFacade = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _newsSourceFacade = newsSourceFacade ?? throw new ArgumentNullException(nameof(newsSourceFacade));
         }
 
-        /// <summary>
-        /// Returns the news source section
-        /// </summary>
-        /// <returns></returns>
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
-        [Route("news-source")]
         public async Task<IActionResult> Index()
         {
-            var news = await _newsSourceServiceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
+            var news = await _newsSourceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
             return View(news);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Add)]  // news-source/add
+        [HttpGet]
+        public IActionResult AddSource()
+        {
+            return View();
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Add)]  // news-source/add
+        [HttpPost]
+        public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
+        {
+            await _newsSourceFacade.AddNewsSourceAsync(viewModel).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // news-source/whitelist
+        [HttpDelete]
+        public async Task<IActionResult> RemoveGoodNewsSourceAsync(RemoveWhitelistViewModel viewModel)
+        {
+            var uri = new Uri(viewModel.Uri);
+            await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(uri).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // news-source/blacklist
+        [HttpDelete]
+        public async Task<IActionResult> RemoveBadNewsSourceAsync(RemoveBlacklistViewModel viewModel)
+        {
+            var uri = new Uri(viewModel.Uri);
+            await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
+            return NoContent();
         }
     }
 }
