@@ -80,20 +80,5 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
-
-        /// <summary>
-        /// Search the given source and returns the list that contains it
-        /// </summary>
-        /// <param name="viewModel">Source to search</param>
-        /// <returns>Returns the list where the source is contained</returns>
-        [AllowAnonymous]
-        [Produces("application/json")]
-        [HttpGet] // api/news-source/
-        public async Task<IActionResult> SearchNewsSourceAsync(SearchNewsSourceViewModel viewModel)
-        {
-            var uri = new Uri(viewModel.Uri);
-            var searchResponse = await _newsSourceFacade.SearchNewsSourceAsync(uri).ConfigureAwait(false);
-            return Ok(searchResponse);
-        }
     }
 }
