@@ -4,16 +4,20 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.HttpRepository;
+using MvvmCross.Logging;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
 {
     public class DebunkingNewsService : IDebunkingNewsService
     {
         private readonly IRestRepository _restRepository;
+        private readonly IMvxLog _logger;
 
-        public DebunkingNewsService(IRestRepository restRepository)
+        public DebunkingNewsService(IRestRepository restRepository, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _logger = logProvider?.GetLogFor<DebunkingNewsService>();
         }
 
         public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
@@ -55,6 +59,19 @@ namespace CriThink.Client.Core.Services
 
             return debunkingNewsDetails;
         }
+
+        public async Task OpenDebunkingNewsInBrowser(string link)
+        {
+            try
+            {
+                var uri = new Uri(link, UriKind.Absolute);
+                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Fatal, () => "Error launching the browser with debunking news", ex, link);
+            }
+        }
     }
 
     public interface IDebunkingNewsService
@@ -75,5 +92,7 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken);
+
+        Task OpenDebunkingNewsInBrowser(string link);
     }
 }

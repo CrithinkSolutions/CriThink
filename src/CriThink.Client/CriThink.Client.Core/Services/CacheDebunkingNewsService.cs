@@ -51,6 +51,9 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
+        public Task OpenDebunkingNewsInBrowser(string link) =>
+            _debunkingNewsService.OpenDebunkingNewsInBrowser(link);
+
         private void OnClearMessage(ClearDebunkingNewsCacheMessage obj)
         {
             if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
