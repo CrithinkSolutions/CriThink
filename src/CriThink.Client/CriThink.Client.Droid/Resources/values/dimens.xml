@@ -41,5 +41,8 @@
 
   <!-- Card View -->
   <dimen name="cardview_corners_radius">25dp</dimen>
+  <dimen name="cardview_elevation">8dp</dimen>
+  <dimen name="cardview_marginTopList">18dp</dimen>
+  <dimen name="cardview_marginSidesList">12dp</dimen>
   
 </resources>
