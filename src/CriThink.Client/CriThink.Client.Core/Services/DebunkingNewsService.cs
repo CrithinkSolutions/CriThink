@@ -12,11 +12,13 @@ namespace CriThink.Client.Core.Services
     public class DebunkingNewsService : IDebunkingNewsService
     {
         private readonly IRestRepository _restRepository;
+        private readonly IIdentityService _identityService;
         private readonly IMvxLog _logger;
 
-        public DebunkingNewsService(IRestRepository restRepository, IMvxLogProvider logProvider)
+        public DebunkingNewsService(IRestRepository restRepository, IIdentityService identityService, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _logger = logProvider?.GetLogFor<DebunkingNewsService>();
         }
 
@@ -28,11 +30,14 @@ namespace CriThink.Client.Core.Services
                 PageSize = pageSize
             };
 
+            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
+
             try
             {
                 var debunkingNewsCollection = await _restRepository.MakeRequestAsync<DebunkingNewsGetAllResponse>(
                         $"{EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsGetAll}?{request.ToQueryString()}",
                         HttpRestVerb.Get,
+                        token,
                         cancellationToken)
                     .ConfigureAwait(false);
 
@@ -51,9 +56,12 @@ namespace CriThink.Client.Core.Services
                 Id = Guid.Parse(id)
             };
 
+            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
+
             var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetDetailsResponse>(
                     $"{EndpointConstants.DebunkNewsBase}?{request.ToQueryString()}",
                     HttpRestVerb.Get,
+                    token,
                     cancellationToken)
                 .ConfigureAwait(false);
 

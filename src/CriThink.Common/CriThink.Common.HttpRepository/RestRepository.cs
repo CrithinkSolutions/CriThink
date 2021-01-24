@@ -19,63 +19,64 @@ namespace CriThink.Common.HttpRepository
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, restVerb, string.Empty, default, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, string.Empty, default, default, token, cancellationToken);
 
-        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, restVerb, httpClientName, default, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, httpClientName, default, default, token, cancellationToken);
 
-        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, restVerb, httpClientName, default, apiVersion, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, httpClientName, default, apiVersion, token, cancellationToken);
 
-        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, object data, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync(request, restVerb, string.Empty, data, default, cancellationToken);
+        public Task MakeRequestAsync(string request, HttpRestVerb restVerb, object data, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync(request, restVerb, string.Empty, data, default, token, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, restVerb, string.Empty, default, default, cancellationToken);
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, string.Empty, default, default, token, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, default, cancellationToken);
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, default, token, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, CancellationToken cancellationToken = default) =>
-            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, apiVersion, cancellationToken);
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, string apiVersion, string token = null, CancellationToken cancellationToken = default) =>
+            MakeRestRequestAsync<T>(request, restVerb, httpClientName, default, apiVersion, token, cancellationToken);
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, string token = null, CancellationToken cancellationToken = default)
         {
             if ((int) restVerb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, default, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, default, token, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, string apiVersion, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, object data, string apiVersion, string token = null, CancellationToken cancellationToken = default)
         {
             if ((int) restVerb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, apiVersion, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, string.Empty, data, apiVersion, token, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string token = null, CancellationToken cancellationToken = default)
         {
             if ((int) restVerb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, default, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, default, token, cancellationToken);
         }
 
-        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken = default)
+        public Task<T> MakeRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, string token = null, CancellationToken cancellationToken = default)
         {
             if ((int) restVerb < 4)
                 throw new InvalidOperationException($"Can't use {nameof(HttpRestVerb.Get)} with data");
 
-            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, apiVersion, cancellationToken);
+            return MakeRestRequestAsync<T>(request, restVerb, httpClientName, data, apiVersion, token, cancellationToken);
         }
 
-        private Task MakeRestRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        private Task MakeRestRequestAsync(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, string token, CancellationToken cancellationToken)
         {
             var httpClient = ResolveHttpClient(httpClientName);
             AddApiVersion(httpClient, apiVersion);
+            AddBearerToken(httpClient, token);
 
             var uri = GetUri(request);
 
@@ -90,10 +91,11 @@ namespace CriThink.Common.HttpRepository
             };
         }
 
-        private Task<T> MakeRestRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, CancellationToken cancellationToken)
+        private Task<T> MakeRestRequestAsync<T>(string request, HttpRestVerb restVerb, string httpClientName, object data, string apiVersion, string token, CancellationToken cancellationToken)
         {
             var httpClient = ResolveHttpClient(httpClientName);
             AddApiVersion(httpClient, apiVersion);
+            AddBearerToken(httpClient, token);
 
             var uri = GetUri(request);
 
@@ -276,6 +278,14 @@ namespace CriThink.Common.HttpRepository
 
             httpClient.DefaultRequestHeaders.Remove(EndpointConstants.ApiVersionHeader);
             httpClient.DefaultRequestHeaders.Add(EndpointConstants.ApiVersionHeader, version);
+        }
+
+        private static void AddBearerToken(HttpClient httpClient, string token)
+        {
+            if (string.IsNullOrWhiteSpace(token)) return;
+
+            httpClient.DefaultRequestHeaders.Remove(EndpointConstants.AuthorizationHeader);
+            httpClient.DefaultRequestHeaders.Add(EndpointConstants.AuthorizationHeader, $"{EndpointConstants.BearerHeader}{token}");
         }
 
         private static Uri GetUri(string request) => new Uri(request, UriKind.Relative);

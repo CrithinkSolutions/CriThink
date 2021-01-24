@@ -25,7 +25,7 @@ namespace CriThink.Server.Infrastructure.SocialProviders
 
             var appSecret = _configuration["GoogleApiKey"];
 
-            var result = await _restRepository.MakeRequestAsync<GoogleTokenInfo>(path, HttpRestVerb.Get, "Google").ConfigureAwait(false);
+            var result = await _restRepository.MakeRequestAsync<GoogleTokenInfo>(path, HttpRestVerb.Get, httpClientName: "Google").ConfigureAwait(false);
 
             if (result.ApplicationId != appSecret)
                 throw new Exception();

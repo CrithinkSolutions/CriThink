@@ -52,6 +52,20 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
+        public async Task<string> GetUserTokenAsync()
+        {
+            try
+            {
+                var userToken = await GetUserInSettingsSettingAsync(UserToken).ConfigureAwait(false);
+                return userToken;
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log(MvxLogLevel.Error, () => "Error getting user token", ex);
+                throw;
+            }
+        }
+
         public Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration)
         {
             try
@@ -84,6 +98,12 @@ namespace CriThink.Client.Core.Repositories
         /// </summary>
         /// <returns></returns>
         Task<User> GetUserInfoAsync();
+
+        /// <summary>
+        /// Get logged user token
+        /// </summary>
+        /// <returns>User token</returns>
+        Task<string> GetUserTokenAsync();
 
         /// <summary>
         /// Save user info to secure storage asynchronous

@@ -12,6 +12,13 @@
 
         #endregion
 
+        #region Authentication
+
+        public const string AuthorizationHeader = "Authorization";
+        public const string BearerHeader = "Bearer ";
+
+        #endregion
+
         #region Service
 
         public const string ServiceBase = "service/";

@@ -11,10 +11,12 @@ namespace CriThink.Client.Core.Services
     public class NewsSourceService : INewsSourceService
     {
         private readonly IRestRepository _restRepository;
+        private readonly IIdentityService _identityService;
 
-        public NewsSourceService(IRestRepository restRepository)
+        public NewsSourceService(IRestRepository restRepository, IIdentityService identityService)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
@@ -27,9 +29,12 @@ namespace CriThink.Client.Core.Services
                 Uri = uri.ToString()
             };
 
+            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
+
             var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchResponse>(
                     $"{EndpointConstants.NewsSourceBase}?{request.ToQueryString()}",
                     HttpRestVerb.Get,
+                    token,
                     cancellationToken)
                 .ConfigureAwait(false);
 
