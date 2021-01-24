@@ -95,9 +95,9 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             }
         }
 
-        private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
+        private Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse)
         {
-            await _navigationService.Navigate<DebunkingNewsDetailsViewModel, string>(selectedResponse.Id, cancellationToken: cancellationToken).ConfigureAwait(true);
+            return _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink);
         }
 
         private async Task DoRefreshDebunkingNewsCommand(CancellationToken cancellationToken)
