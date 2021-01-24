@@ -12,7 +12,9 @@ namespace CriThink.Server.Infrastructure.Projections
             {
                 Id = debunkingNews.Id,
                 Publisher = debunkingNews.PublisherName,
-                Title = debunkingNews.Title
+                Title = debunkingNews.Title,
+                NewsImageLink = debunkingNews.ImageLink,
+                NewsLink = debunkingNews.Link
             };
     }
 }

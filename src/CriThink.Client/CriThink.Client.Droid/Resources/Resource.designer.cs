@@ -26352,70 +26352,73 @@ namespace CriThink.Client.Droid
 			public const int txtName = 2131296717;
 			
 			// aapt resource value: 0x7F0901CE
-			public const int txtSectionTitle = 2131296718;
+			public const int txtPublisher = 2131296718;
 			
 			// aapt resource value: 0x7F0901CF
-			public const int txtTitle = 2131296719;
+			public const int txtSectionTitle = 2131296719;
 			
 			// aapt resource value: 0x7F0901D0
-			public const int txtWelcome = 2131296720;
+			public const int txtTitle = 2131296720;
 			
 			// aapt resource value: 0x7F0901D1
-			public const int @unchecked = 2131296721;
+			public const int txtWelcome = 2131296721;
 			
 			// aapt resource value: 0x7F0901D2
-			public const int underline = 2131296722;
+			public const int @unchecked = 2131296722;
 			
 			// aapt resource value: 0x7F0901D3
-			public const int uniform = 2131296723;
+			public const int underline = 2131296723;
 			
 			// aapt resource value: 0x7F0901D4
-			public const int unknown = 2131296724;
+			public const int uniform = 2131296724;
 			
 			// aapt resource value: 0x7F0901D5
-			public const int unlabeled = 2131296725;
+			public const int unknown = 2131296725;
 			
 			// aapt resource value: 0x7F0901D6
-			public const int up = 2131296726;
+			public const int unlabeled = 2131296726;
 			
 			// aapt resource value: 0x7F0901D7
-			public const int useLogo = 2131296727;
+			public const int up = 2131296727;
 			
 			// aapt resource value: 0x7F0901D8
-			public const int viewInnerLayout = 2131296728;
+			public const int useLogo = 2131296728;
 			
 			// aapt resource value: 0x7F0901D9
-			public const int viewLogin = 2131296729;
+			public const int viewInnerLayout = 2131296729;
 			
 			// aapt resource value: 0x7F0901DA
-			public const int view_offset_helper = 2131296730;
+			public const int viewLogin = 2131296730;
 			
 			// aapt resource value: 0x7F0901DB
-			public const int view_tree_saved_state_registry_owner = 2131296731;
+			public const int view_offset_helper = 2131296731;
 			
 			// aapt resource value: 0x7F0901DC
-			public const int visible = 2131296732;
+			public const int view_tree_saved_state_registry_owner = 2131296732;
 			
 			// aapt resource value: 0x7F0901DD
-			public const int visible_removing_fragment_view_tag = 2131296733;
+			public const int visible = 2131296733;
 			
 			// aapt resource value: 0x7F0901DE
-			public const int wide = 2131296734;
-			
-			// aapt resource value: 0x7F0901E0
-			public const int withinBounds = 2131296736;
+			public const int visible_removing_fragment_view_tag = 2131296734;
 			
 			// aapt resource value: 0x7F0901DF
-			public const int withText = 2131296735;
+			public const int wide = 2131296735;
 			
 			// aapt resource value: 0x7F0901E1
-			public const int wrap = 2131296737;
+			public const int withinBounds = 2131296737;
+			
+			// aapt resource value: 0x7F0901E0
+			public const int withText = 2131296736;
 			
 			// aapt resource value: 0x7F0901E2
-			public const int wrap_content = 2131296738;
+			public const int wrap = 2131296738;
 			
 			// aapt resource value: 0x7F0901E3
-			public const int zero_corner_chip = 2131296739;
+			public const int wrap_content = 2131296739;
+			
+			// aapt resource value: 0x7F0901E4
+			public const int zero_corner_chip = 2131296740;
 			
 			static Id()
 			{
