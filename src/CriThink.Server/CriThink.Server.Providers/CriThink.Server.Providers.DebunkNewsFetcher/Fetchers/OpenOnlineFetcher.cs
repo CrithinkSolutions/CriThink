@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -98,7 +98,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             {
                 foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
                 {
-                    //if (!FeedCategories.Contains(categoryName)) continue;
+                    if (!FeedCategories.Contains(categoryName)) continue;
 
                     var imageUri = GetNewsImageFromFeed(item);
 
