@@ -84,6 +84,7 @@
     <Compile Include="Views\Games\Fragments\HomeGameView.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
+    <Compile Include="Views\NewsChecker\Dialogs\CheckNewsView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\SpotFakeNews\Fragments\SpotFakeNewsHomeView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
@@ -494,6 +495,14 @@
     <AndroidResource Include="Resources\drawable\ic_bottom_sheet_grapple.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\checknews_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\toolbar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

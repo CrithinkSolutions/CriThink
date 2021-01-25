@@ -61,6 +61,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent search.
+        /// </summary>
+        internal static string CheckNewsViewModel_RecentSearch {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.RecentSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skip (DEBUG).
         /// </summary>
         internal static string LoginViewModel_Jump {
