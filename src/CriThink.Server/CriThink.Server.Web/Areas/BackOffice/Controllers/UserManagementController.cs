@@ -184,7 +184,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Softremove a user
+        /// Get info by id for a user
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -203,6 +203,60 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             catch (Exception ex)
             {
                 return (IActionResult)ex;
+            }
+        }
+
+        /// <summary>
+        /// Update property a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("user-management/edit-user")]
+        public async Task<IActionResult> UpdateUserAsync(UserUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _userManagementServiceFacade.UpdateUserAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Update role for a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("user-management/edit-roleuser")]
+        public async Task<IActionResult> UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _userManagementServiceFacade.UpdateUserRoleAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
             }
         }
 

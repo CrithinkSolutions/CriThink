@@ -48,7 +48,7 @@
                         <i class="fas fa-ellipsis-h"></i>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" data-toggle="modal" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-pen mr-2"></i>Edit</a>
+                        <a class="dropdown-item mEdit" data-toggle="modal" data-target="#modalEdit" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-pen mr-2"></i>Edit</a>
                         <a class="dropdown-item info" data-toggle="modal" data-target="#modalInfo" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-info-circle mr-2"></i>Info</a>
                         <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Remove user</a>
                         <a class="dropdown-item srDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Soft remove user</a>
@@ -119,6 +119,65 @@
         </div>
       </div>
     </div>
+
+    <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit user <span class="nameUser font-weight-bold"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Username</span>
+              </div>
+              <input type="text" id="iUsername" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Email Confirmed</span>
+              </div>
+              <div class="form-control">
+                <input id="boolETrue" name="boolemailConfirmed" value="true" type="radio">
+                <label for="boolETrue">Yes</label>
+                <input id="boolEFalse" name="boolemailConfirmed" value="false" type="radio">
+                <label for="boolEFalse">No</label>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Role</span>
+              </div>
+              <input type="text" id="iRole" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Lockout Enabled</span>
+              </div>
+              <div class="form-control">
+                <input id="boolLTrue" name="boolLockout" value="true" type="radio">
+                <label for="boolLTrue">Yes</label>
+                <input id="boolLFalse" name="boolLockout" value="false" type="radio">
+                <label for="boolLFalse">No</label>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Lockout End</span>
+              </div>
+              <input type="datetime-local" id="iLockoutend" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
     
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
     {
@@ -185,7 +244,7 @@
 
         $('.mDelete').click(function(){
             userId = $(this).data('id');
-            $('#nameUser').html($(this).data('title'));
+            $('.nameUser').html($(this).data('title'));
         });
 
         $('#sureDelete').click(function(){
@@ -220,6 +279,49 @@
             .fail(function(data){
                 alert("Error");
             });
+        })
+
+        $('.mEdit').click(function(){
+          userId = $(this).data('id');
+          $('.nameUser').html($(this).data('title'));
+          $.post('@Url.Action("GetUserById", "UserManagement")', {Id:userId, __RequestVerificationToken: token}, function(data){
+                $('#iUsername').val(data["username"]);
+                $('input[name=boolemailConfirmed]').val([data["isEmailConfirmed"]]);
+                $('#iRole').val(data["role"]);
+                $('input[name=boolLockout]').val([data["isLockoutEnabled"]]);
+                $('#iLockoutend').val(data["lockoutEnd"]);
+            })
+            .fail(function(data){
+                alert("Error");
+            });
+        })
+
+        $('#sureEdit').click(function(){
+          $.post('@Url.Action("UpdateUser", "UserManagement")', {
+              Id:userId, 
+              __RequestVerificationToken: token,
+              UserName: $('#iUsername').val(),
+              IsEmailConfirmed: $('input[name=boolemailConfirmed]:checked').val(),
+              IsLockoutEnabled: $('input[name=boolLockout]:checked').val(),
+              LockoutEnd: $('#iLockoutend').val()
+            }, function(data){
+              $('body').html(data);
+              $('#message').addClass('alert alert-success').html('Edited user!');
+            })
+            .fail(function(data){
+                alert("Error");
+            });
+          $.post('@Url.Action("UpdateUserRole", "UserManagement")',{
+              Id:userId,
+              __RequestVerificationToken: token,
+              Role: $('#iRole').val()
+          }, function(data){
+              $('body').html(data);
+              $('#message').addClass('alert alert-success').html('Role updated!');
+          })
+          .fail(function(data){
+            alert("Error!");
+          });
         })
 
         }

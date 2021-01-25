@@ -21,6 +21,10 @@ namespace CriThink.Server.Web.Facades
         Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel);
 
         Task<UserGetDetailsResponse> GetUserByIdAsync(SimpleUserManagementViewModel viewModel);
+
+        Task UpdateUserAsync(UserUpdateViewModel viewModel);
+
+        Task UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel);
     }
 
 }
