@@ -7,6 +7,7 @@ using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Server.Providers.DebunkNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 
         private readonly ILogger<OpenOnlineFetcher> _logger;
         private readonly HttpClient _httpClient;
+        private readonly HttpClient _urlResolver;
 
         public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<WebSiteSettings> options, ILogger<OpenOnlineFetcher> logger)
         {
@@ -30,6 +32,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                 throw new ArgumentNullException(nameof(options));
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName);
+            _urlResolver = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.UrlResolverHttpClientName);
             _logger = logger;
 
             FeedCategories = new List<string>(options.Value.Categories);
@@ -65,7 +68,8 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
-            var list = ReadFeed(feed);
+            var list = await ReadFeed(feed).ConfigureAwait(false);
+
             return new DebunkingNewsProviderResult(list);
         }
 
@@ -86,7 +90,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             }
         }
 
-        private IList<DebunkingNewsResponse> ReadFeed(SyndicationFeed feed)
+        private async Task<IList<DebunkingNewsResponse>> ReadFeed(SyndicationFeed feed)
         {
             var list = new List<DebunkingNewsResponse>();
 
@@ -94,11 +98,11 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             {
                 foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
                 {
-                    if (!FeedCategories.Contains(categoryName)) continue;
+                    //if (!FeedCategories.Contains(categoryName)) continue;
 
                     var imageUri = GetNewsImageFromFeed(item);
 
-                    var link = GetOpenLink(item);
+                    var link = await GetOpenLink(item).ConfigureAwait(false);
 
                     list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
                     break;
@@ -110,7 +114,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             {
                 list.Add(new DebunkingNewsResponse(
                     "Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission",
-                    "https://www.open.online/?p=391373",
+                    "https://www.open.online/2020/09/10/fondi-lega-arrestati-commercialisti-inchiesta-lombardia-film-commission/",
                     "https://www.open.online/wp-content/uploads/2020/02/guardia-di-finanza.jpg",
                     DateTime.Now));
             }
@@ -118,14 +122,13 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             return list;
         }
 
-        private static string GetOpenLink(SyndicationItem item)
+        private async Task<string> GetOpenLink(SyndicationItem item)
         {
-            string link;
             var syndicationLink = item.Links.FirstOrDefault();
 
             if (syndicationLink is not null)
             {
-                link = syndicationLink.Uri.ToString();
+                var link = syndicationLink.Uri.ToString();
 
                 if (!string.IsNullOrEmpty(link))
                 {
@@ -134,9 +137,17 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             }
 
             // Solve Redirect from "permalink"
-            link = item.Id;
+            var result = await _urlResolver.GetAsync(new Uri(item.Id)).ConfigureAwait(false);
 
-            return link;
+            if (result.StatusCode == System.Net.HttpStatusCode.Moved)
+            {
+                if (result.Headers.Location is not null)
+                {
+                    return result.Headers.Location.ToString();
+                }
+            }
+
+            throw new LinkUnavailableException(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName, item.Id);
         }
 
         private string GetNewsImageFromFeed(SyndicationItem item)
