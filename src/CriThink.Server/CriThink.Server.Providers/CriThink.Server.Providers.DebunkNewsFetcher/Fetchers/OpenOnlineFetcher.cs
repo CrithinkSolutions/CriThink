@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -68,7 +68,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
-            var list = await ReadFeed(feed).ConfigureAwait(false);
+            var list = await ReadFeedAsync(feed).ConfigureAwait(false);
 
             return new DebunkingNewsProviderResult(list);
         }
@@ -90,7 +90,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNewsResponse>> ReadFeed(SyndicationFeed feed)
+        private async Task<IList<DebunkingNewsResponse>> ReadFeedAsync(SyndicationFeed feed)
         {
             var list = new List<DebunkingNewsResponse>();
 
@@ -102,7 +102,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 
                     var imageUri = GetNewsImageFromFeed(item);
 
-                    var link = await GetOpenLink(item).ConfigureAwait(false);
+                    var link = await GetOpenLinkAsync(item).ConfigureAwait(false);
 
                     list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
                     break;
@@ -122,7 +122,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             return list;
         }
 
-        private async Task<string> GetOpenLink(SyndicationItem item)
+        private async Task<string> GetOpenLinkAsync(SyndicationItem item)
         {
             var syndicationLink = item.Links.FirstOrDefault();
 
