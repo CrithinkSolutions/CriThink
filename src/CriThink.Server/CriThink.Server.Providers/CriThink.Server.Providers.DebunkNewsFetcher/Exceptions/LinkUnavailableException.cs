@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Globalization;
 
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Exceptions
 {
 #pragma warning disable CA1032 // Implement standard exception constructors
     public class LinkUnavailableException : Exception
     {
-        public LinkUnavailableException(string provider, string link) : base($"Unable to resolve link '{link}' from provider named '{provider}'") { }
+        private const string ErrorMessage = "Unable to resolve link '{0}' from provider named '{1}'";
 
-        public LinkUnavailableException(string provider, string link, Exception innerException) : base($"Unable to resolve link '{link}' from provider named '{provider}'", innerException) { }
+        public LinkUnavailableException(string provider, string link) : base(string.Format(CultureInfo.InvariantCulture, ErrorMessage, provider, link)) { }
+
+        public LinkUnavailableException(string provider, string link, Exception innerException) : base(string.Format(CultureInfo.InvariantCulture, ErrorMessage, provider, link), innerException) { }
 
     }
 }
