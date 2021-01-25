@@ -97,7 +97,10 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                     if (!FeedCategories.Contains(categoryName)) continue;
 
                     var imageUri = GetNewsImageFromFeed(item);
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, imageUri, item.PublishDate));
+
+                    var link = GetOpenLink(item);
+
+                    list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
                     break;
                 }
             }
@@ -113,6 +116,27 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             }
 #endif
             return list;
+        }
+
+        private static string GetOpenLink(SyndicationItem item)
+        {
+            string link;
+            var syndicationLink = item.Links.FirstOrDefault();
+
+            if (syndicationLink is not null)
+            {
+                link = syndicationLink.Uri.ToString();
+
+                if (!string.IsNullOrEmpty(link))
+                {
+                    return link;
+                }
+            }
+
+            // Solve Redirect from "permalink"
+            link = item.Id;
+
+            return link;
         }
 
         private string GetNewsImageFromFeed(SyndicationItem item)
