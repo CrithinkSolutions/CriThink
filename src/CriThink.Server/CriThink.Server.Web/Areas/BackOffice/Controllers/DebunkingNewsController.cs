@@ -4,6 +4,7 @@ using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +84,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("remove-news")]
+        [Route("debunking-news/remove-news")]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
@@ -94,6 +95,57 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 if (ModelState.IsValid)
                 {
                     await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Info debunking news by id
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("debunking-news/info-news")]
+        public async Task<IActionResult> GetDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                var info = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                return Ok(new ApiOkResponse(info));
+
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Update debunking news
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("debunking-news/edit-news")]
+        public async Task<IActionResult> UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _debunkingNewsServiceFacade.UpdateDebunkingNewsAsync(viewModel).ConfigureAwait(false);
                 }
 
                 return RedirectToAction("Index");

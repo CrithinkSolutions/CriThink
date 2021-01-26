@@ -39,6 +39,7 @@
                         <i class="fas fa-ellipsis-h"></i>
                     </a >
                     <div class="dropdown-menu">
+                        <a class="dropdown-item mEdit" data-toggle="modal" data-target="#modalEdit" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-pen mr-2"></i>Edit news</a>
                         <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
                     </div>
                 </td>
@@ -83,11 +84,54 @@
             </button>
           </div>
           <div class="modal-body">
-            Are you sure to delete the news with name <span class="font-weight-bold" id="nameNews"></span>?
+            Are you sure to delete the news with name <span class="font-weight-bold nameNews"></span>?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit news: <span class="font-weight-bold nameNews"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Title</span>
+              </div>
+              <input type="text" id="iTitle" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Caption</span>
+              </div>
+              <input type="text" id="iCaption" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Link</span>
+              </div>
+              <input type="text" id="iLink" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Keywords</span>
+              </div>
+              <input type="text" id="iKeywords" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
           </div>
         </div>
       </div>
@@ -157,7 +201,7 @@
 
         $('.mDelete').click(function(){
             newsId = $(this).data('id');
-            $('#nameNews').html($(this).data('title'));
+            $('.nameNews').html($(this).data('title'));
         });
 
         $('#sureDelete').click(function(){
@@ -167,7 +211,37 @@
                 $('#message').addClass('alert alert-success').html('News removed!');
             })
             .fail(function(data){
-                alert("Error");
+                $('#message').addClass('alert alert-danger').html('Error!');
+            });
+        });
+
+        $('.mEdit').click(function(){
+            newsId = $(this).data('id');
+            $('.nameNews').html($(this).data('title'));
+            let token = $('input[name="__RequestVerificationToken"]').val();
+            $.post('@Url.Action("GetDebunkingNews", "DebunkingNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+                $('#iTitle').val(data["title"]);
+                $('#iCaption').val(data["caption"]);
+                $('#iLink').val(data["link"]);
+                $('#iKeywords').val(data["keywords"]);
+            })
+        });
+
+        $('#sureEdit').click(function(){
+            let token = $('input[name="__RequestVerificationToken"]').val();
+            $.post('@Url.Action("UpdateDebunkingNews", "DebunkingNews")', {
+              Id:newsId, 
+              __RequestVerificationToken: token,
+              Title:$('#iTitle').val(),
+              Caption:$('#iCaption').val(),
+              Link:$('#iLink').val(),
+              Keywords:$('iKeywords').val()
+              }, function(data){
+                $('body').html(data);
+                $('#message').addClass('alert alert-success').html('News removed!');
+            })
+            .fail(function(data){
+                $('#message').addClass('alert alert-danger').html('Error!');
             });
         });
 
