@@ -61,6 +61,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Which news do you want to check?.
+        /// </summary>
+        internal static string CheckNewsViewModel_NewsLinkHint {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recent search.
         /// </summary>
         internal static string CheckNewsViewModel_RecentSearch {

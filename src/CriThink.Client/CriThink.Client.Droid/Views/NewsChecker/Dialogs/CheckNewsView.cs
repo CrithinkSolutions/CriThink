@@ -22,6 +22,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
     [Register(nameof(CheckNewsView))]
     public class CheckNewsView : MvxBottomSheetDialogFragment<CheckNewsViewModel>
     {
+        private HomeView BaseActivity => (HomeView) Activity;
+
         public CheckNewsView()
         { }
 
@@ -68,6 +70,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var txtRecentSearch = view.FindViewById<AppCompatTextView>(Resource.Id.txtRecentSearch);
             var recyclerRecentSearch = view.FindViewById<MvxRecyclerView>(Resource.Id.recyclerRecentSearch);
+            var toolbar = view.FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
+            var editTextSearch = view.FindViewById<AppCompatEditText>(Resource.Id.editTextSearch);
+
+            HasOptionsMenu = true;
+            BaseActivity.SetSupportActionBar(toolbar);
+            BaseActivity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
             var layoutManager = new LinearLayoutManager(Activity);
             recyclerRecentSearch.SetLayoutManager(layoutManager);
@@ -76,10 +84,18 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var set = CreateBindingSet();
 
             set.Bind(txtRecentSearch).ToLocalizationId("RecentSearch");
+            set.Bind(editTextSearch).For(v => v.Hint).ToLocalizationId("NewsLinkHint");
+            set.Bind(editTextSearch).To(vm => vm.NewsUri);
 
             set.Apply();
 
             return view;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            Dismiss();
+            return true;
         }
     }
 }

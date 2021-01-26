@@ -10,7 +10,7 @@ using Xamarin.Facebook;
 namespace CriThink.Client.Droid.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.HomeView", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class HomeView : MvxActivity<HomeViewModel>
     {
         protected override void OnCreate(Bundle bundle)
