@@ -253,7 +253,7 @@
                 $('#message').addClass('alert alert-success').html('User removed!');
             })
             .fail(function(data){
-                alert("Error");
+                $('#message').addClass('alert alert-danger').html('Error!');
             });
         });
 
@@ -263,7 +263,7 @@
                 $('body').html(data);
             })
             .fail(function(data){
-                alert("Error");
+                $('#message').addClass('alert alert-danger').html('Error!');
             });
         })
 
@@ -277,7 +277,7 @@
                 }
             })
             .fail(function(data){
-                alert("Error");
+                $('#message').addClass('alert alert-danger').html('Error!');
             });
         })
 
@@ -290,9 +290,6 @@
                 $('#iRole').val(data["role"]);
                 $('input[name=boolLockout]').val([data["isLockoutEnabled"]]);
                 $('#iLockoutend').val(data["lockoutEnd"]);
-            })
-            .fail(function(data){
-                alert("Error");
             });
         })
 
@@ -309,7 +306,7 @@
               $('#message').addClass('alert alert-success').html('Edited user!');
             })
             .fail(function(data){
-                alert("Error");
+                $('#message').addClass('alert alert-danger').html('Error!');
             });
           $.post('@Url.Action("UpdateUserRole", "UserManagement")',{
               Id:userId,
@@ -320,7 +317,7 @@
               $('#message').addClass('alert alert-success').html('Role updated!');
           })
           .fail(function(data){
-            alert("Error!");
+            $('#message').addClass('alert alert-danger').html('Error!');
           });
         })
 
