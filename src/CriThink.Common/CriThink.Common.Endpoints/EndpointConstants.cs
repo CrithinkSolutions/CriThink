@@ -96,17 +96,17 @@
 
         #endregion
 
-        #region UserMngmt
+        #region UserManagement
 
-        public const string UserMngmtBase = "user-management/";
-        public const string UserMngmtRoles = "roles";
-        public const string UserMngmtAddUser = "add-user";
-        public const string UserMngmtAddAdmin = "add-admin";
-        public const string UserMngmtRemoveUser = "remove-admin";
-        public const string UserMngmtSoftRemoveUser = "softremove-admin";
-        public const string UserMngmtInfoUser = "info-user";
-        public const string UserMngmtEditUser = "edit-user";
-        public const string UserMngmtEditRoleUser = "edit-roleuser";
+        public const string UserManagementBase = "user-management/";
+        public const string UserManagementRoles = "roles";
+        public const string UserManagementAddUser = "add-user";
+        public const string UserManagementAddAdmin = "add-admin";
+        public const string UserManagementRemoveUser = "remove-admin";
+        public const string UserManagementSoftRemoveUser = "softremove-admin";
+        public const string UserManagementInfoUser = "info-user";
+        public const string UserManagementEditUser = "edit-user";
+        public const string UserManagementEditRoleUser = "edit-roleuser";
         
         #endregion
 

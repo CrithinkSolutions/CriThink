@@ -249,7 +249,7 @@
         });
 
         $('#sureDelete').click(function(){
-            $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtRemoveUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
+            $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementRemoveUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
                 $('#message').addClass('alert alert-success').html('User removed!');
             })
@@ -260,7 +260,7 @@
 
         $('.srDelete').click(function(){
           userId = $(this).data('id');
-          $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtSoftRemoveUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
+          $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementSoftRemoveUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
             })
             .fail(function(data){
@@ -272,7 +272,7 @@
           userId = $(this).data('id');
           $('.nameUser').html($(this).data('title'));
           $('#infoBody').html(null);
-          $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtInfoUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
+          $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementInfoUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
                 for(var property in data){
                   $('#infoBody').append('<p><span class="font-weight-bold">'+property+': </span> '+data[property]+'</p>');
                 }
@@ -285,7 +285,7 @@
         $('.mEdit').click(function(){
           userId = $(this).data('id');
           $('.nameUser').html($(this).data('title'));
-          $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtInfoUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
+          $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementInfoUser}")', {Id:userId, __RequestVerificationToken: token}, function(data){
                 $('#iUsername').val(data["username"]);
                 $('input[name=boolemailConfirmed]').val([data["isEmailConfirmed"]]);
                 $('#iRole').val(data["role"]);
@@ -295,7 +295,7 @@
         })
 
         $('#sureEdit').click(function(){
-          $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtEditUser}")', {
+          $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementEditUser}")', {
               Id:userId, 
               __RequestVerificationToken: token,
               UserName: $('#iUsername').val(),
@@ -309,7 +309,7 @@
             .fail(function(data){
                 $('#message').addClass('alert alert-danger').html('Error!');
             });
-          $.post('@($"{@EndpointConstants.UserMngmtBase}{EndpointConstants.UserMngmtEditRoleUser}")',{
+          $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementEditRoleUser}")',{
               Id:userId,
               __RequestVerificationToken: token,
               Role: $('#iRole').val()
