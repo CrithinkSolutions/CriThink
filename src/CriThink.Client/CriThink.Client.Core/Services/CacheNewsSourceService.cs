@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -29,5 +31,12 @@ namespace CriThink.Client.Core.Services
                 return await _newsSourceService.SearchNewsSourceAsync(uri, cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
+
+        public Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks() =>
+            _newsSourceService.GetLatestNewsChecks();
+
+
+        public Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck) =>
+            _newsSourceService.AddLatestNewsCheck(newsCheck);
     }
 }

@@ -7,7 +7,7 @@ using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels.NewsChecker;
-using CriThink.Client.Droid.Views.DebunkingNews;
+using CriThink.Client.Droid.Controls;
 using Google.Android.Material.BottomSheet;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.Material;
@@ -71,7 +71,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtRecentSearch = view.FindViewById<AppCompatTextView>(Resource.Id.txtRecentSearch);
             var recyclerRecentSearch = view.FindViewById<MvxRecyclerView>(Resource.Id.recyclerRecentSearch);
             var toolbar = view.FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
-            var editTextSearch = view.FindViewById<AppCompatEditText>(Resource.Id.editTextSearch);
+            var editTextSearch = view.FindViewById<BindableEditText>(Resource.Id.editTextSearch);
 
             HasOptionsMenu = true;
             BaseActivity.SetSupportActionBar(toolbar);
@@ -79,13 +79,15 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var layoutManager = new LinearLayoutManager(Activity);
             recyclerRecentSearch.SetLayoutManager(layoutManager);
-            recyclerRecentSearch.Adapter = new DebunkingNewsAdapter(BindingContext as IMvxAndroidBindingContext);
+            recyclerRecentSearch.Adapter = new RecentNewsChecksAdapter(BindingContext as IMvxAndroidBindingContext);
 
             var set = CreateBindingSet();
 
             set.Bind(txtRecentSearch).ToLocalizationId("RecentSearch");
             set.Bind(editTextSearch).For(v => v.Hint).ToLocalizationId("NewsLinkHint");
             set.Bind(editTextSearch).To(vm => vm.NewsUri);
+            set.Bind(editTextSearch).For(v => v.KeyCommand).To(vm => vm.SubmitUriCommand);
+            set.Bind(recyclerRecentSearch).For(v => v.ItemsSource).To(vm => vm.RecentNewsChecksCollection);
 
             set.Apply();
 

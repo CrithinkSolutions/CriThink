@@ -24,6 +24,7 @@
   <!-- Dimensions -->
   <dimen name="imgSize_loader">56dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
+  <dimen name="imgSize_medium">60dp</dimen>
   <dimen name="imgSize_debunkingCollection">180dp</dimen>
   <dimen name="imgSize_bigLogo">180dp</dimen>
 
