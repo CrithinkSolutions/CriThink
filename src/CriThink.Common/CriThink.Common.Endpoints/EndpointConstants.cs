@@ -113,7 +113,10 @@
         #endregion
 
         #region MVC
+
         public const string Add = "add";
+        public const string Edit = "edit";
+
         #endregion
     }
 }
