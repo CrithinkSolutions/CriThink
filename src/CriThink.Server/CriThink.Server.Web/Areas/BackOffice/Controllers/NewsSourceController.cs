@@ -74,5 +74,71 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Edit)] // news-source/edit
+        [HttpGet]
+        public async Task<IActionResult> Edit(string newsSourceLink)
+        {
+            if (string.IsNullOrEmpty(newsSourceLink))
+                return RedirectToAction(nameof(Index));
+
+            if (!Uri.TryCreate($"https://{newsSourceLink}", UriKind.Absolute, out Uri uri))
+                return RedirectToAction(nameof(Index));
+
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+
+            if (searchResult is null)
+                return RedirectToAction(nameof(Index));
+
+            var viewModel = new EditNewsSourceViewModel
+            {
+                OldLink = searchResult.Uri,
+
+                NewLink = searchResult.Uri,
+                Classification = searchResult.Classification,
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.Edit)] // news-source/edit
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditNewsSourceViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            if (!Uri.TryCreate(viewModel.OldLink, UriKind.Absolute, out Uri oldLink))
+                return RedirectToAction(nameof(Index));
+
+            if (!Uri.TryCreate(viewModel.NewLink, UriKind.Absolute, out Uri newLink))
+                return RedirectToAction(nameof(Index));
+
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(oldLink).ConfigureAwait(false);
+
+            if (searchResult is null)
+                return RedirectToAction(nameof(Index));
+
+            if (searchResult.Classification == Classification.Conspiracist || searchResult.Classification == Classification.FakeNews)
+            {
+                await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(oldLink).ConfigureAwait(false);
+            }
+            else
+            {
+                await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(oldLink).ConfigureAwait(false);
+            }
+
+            var newsSource = new NewsSourceViewModel
+            {
+                Classification = viewModel.Classification,
+                Uri = viewModel.NewLink,
+            };
+
+            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

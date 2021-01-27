@@ -1,0 +1,10 @@
+﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
+@model EditNewsSourceViewModel
+
+<form asp-antiforgery="true" method="post">
+    @Html.HiddenFor(x => x.OldLink)
+    <input asp-for="NewLink" />
+    <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+
+    <input type="submit" value="Submit" />
+</form>
