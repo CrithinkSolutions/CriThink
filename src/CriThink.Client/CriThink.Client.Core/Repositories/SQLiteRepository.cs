@@ -23,7 +23,7 @@ namespace CriThink.Client.Core.Repositories
         {
             try
             {
-                var db = OpenSqLiteConnection(SQLiteOpenFlags.ReadOnly | SQLiteOpenFlags.Create);
+                var db = OpenSqLiteConnection();
                 await db.CreateTableAsync<LatestNewsCheck>().ConfigureAwait(false);
 
                 var query = $@"select * 
@@ -47,7 +47,7 @@ namespace CriThink.Client.Core.Repositories
 
             try
             {
-                var db = OpenSqLiteConnection(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                var db = OpenSqLiteConnection();
                 await db.CreateTableAsync<LatestNewsCheck>().ConfigureAwait(false);
 
                 var command = $@"insert into {nameof(LatestNewsCheck)}
@@ -62,9 +62,9 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
-        private SQLiteAsyncConnection OpenSqLiteConnection(SQLiteOpenFlags flags)
+        private SQLiteAsyncConnection OpenSqLiteConnection()
         {
-            return new SQLiteAsyncConnection(_databasePath/*, flags*/);
+            return new SQLiteAsyncConnection(_databasePath);
         }
     }
 
