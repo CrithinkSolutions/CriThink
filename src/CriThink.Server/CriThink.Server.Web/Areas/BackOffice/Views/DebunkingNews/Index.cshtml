@@ -1,4 +1,5 @@
 @using CriThink.Common.Endpoints.DTOs.Admin;
+@using CriThink.Common.Endpoints
 @model DebunkingNewsGetAllResponse;
 
 @{
@@ -206,7 +207,7 @@
 
         $('#sureDelete').click(function(){
             let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@Url.Action("RemoveNews", "DebunkingNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsRemoveNews}")', {Id:newsId, __RequestVerificationToken: token}, function(data){
                 $('body').html(data);
                 $('#message').addClass('alert alert-success').html('News removed!');
             })
@@ -219,7 +220,7 @@
             newsId = $(this).data('id');
             $('.nameNews').html($(this).data('title'));
             let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@Url.Action("GetDebunkingNews", "DebunkingNews")', {Id:newsId, __RequestVerificationToken: token}, function(data){
+            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsInfoNews}")', {Id:newsId, __RequestVerificationToken: token}, function(data){
                 $('#iTitle').val(data["title"]);
                 $('#iCaption').val(data["caption"]);
                 $('#iLink').val(data["link"]);
@@ -229,7 +230,7 @@
 
         $('#sureEdit').click(function(){
             let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@Url.Action("UpdateDebunkingNews", "DebunkingNews")', {
+            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsEditNews}")', {
               Id:newsId, 
               __RequestVerificationToken: token,
               Title:$('#iTitle').val(),

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
@@ -17,6 +18,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Route(EndpointConstants.DebunkNewsBase)] 
     public class DebunkingNewsController : Controller
     {
         private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
@@ -31,7 +33,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("debunking-news")]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
@@ -43,7 +44,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("debunking-news/add-news")]
+        [Route(EndpointConstants.DebunkingNewsAddNews)]
         public ActionResult AddNewsView()
         {
             return View("AddNewsView", new AddNewsViewModel());
@@ -55,7 +56,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("debunking-news/add-news")]
+        [Route(EndpointConstants.DebunkingNewsAddNews)]
         public async Task<IActionResult> AddNewsAsync(AddNewsViewModel viewModel)
         {
             if (viewModel == null)
@@ -84,7 +85,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("debunking-news/remove-news")]
+        [Route(EndpointConstants.DebunkingNewsRemoveNews)]
         public async Task<IActionResult> RemoveNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
@@ -111,7 +112,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("debunking-news/info-news")]
+        [Route(EndpointConstants.DebunkingNewsInfoNews)]
         public async Task<IActionResult> GetDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
@@ -135,7 +136,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("debunking-news/edit-news")]
+        [Route(EndpointConstants.DebunkingNewsEditNews)]
         public async Task<IActionResult> UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)

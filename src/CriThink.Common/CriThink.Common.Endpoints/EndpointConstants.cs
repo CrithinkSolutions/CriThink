@@ -100,6 +100,10 @@
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
         public const string DebunkingNewsGetAll = "all";
+        public const string DebunkingNewsAddNews = "add-news";
+        public const string DebunkingNewsRemoveNews = "remove-news";
+        public const string DebunkingNewsInfoNews = "info-news";
+        public const string DebunkingNewsEditNews = "edit-news";
 
         #endregion
 
