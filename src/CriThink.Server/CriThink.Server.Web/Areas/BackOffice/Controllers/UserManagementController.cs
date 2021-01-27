@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
@@ -16,6 +17,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
+    [Route(EndpointConstants.UserMngmtBase)]
     public class UserManagementController : Controller
     {
         private readonly IUserManagementServiceFacade _userManagementServiceFacade;
@@ -30,7 +32,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management")]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var users = await _userManagementServiceFacade.GetAllUserAsync(viewModel).ConfigureAwait(false);
@@ -42,7 +43,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/roles")]
+        [Route(EndpointConstants.UserMngmtRoles)]
         public async Task<IActionResult> GetRole()
         {
             var roles = await _userManagementServiceFacade.GetAllRolesAsync().ConfigureAwait(false);
@@ -54,7 +55,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/add-user")]
+        [Route(EndpointConstants.UserMngmtAddUser)]
         public IActionResult AddUserView()
         {
             return View("AddUserView");
@@ -66,7 +67,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/add-user")]
+        [Route(EndpointConstants.UserMngmtAddUser)]
         public async Task<IActionResult> AddUserAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
@@ -94,7 +95,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/add-admin")]
+        [Route(EndpointConstants.UserMngmtAddAdmin)]
         public IActionResult AddAdminView()
         {
             return View("AddAdminView");
@@ -106,7 +107,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/add-admin")]
+        [Route(EndpointConstants.UserMngmtAddAdmin)]
         public async Task<IActionResult> AddAdminAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
@@ -135,7 +136,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/remove-user")]
+        [Route(EndpointConstants.UserMngmtRemoveUser)]
         public async Task<IActionResult> DeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
@@ -162,7 +163,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/softremove-user")]
+        [Route(EndpointConstants.UserMngmtSoftRemoveUser)]
         public async Task<IActionResult> SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
@@ -189,7 +190,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/user-info")]
+        [Route(EndpointConstants.UserMngmtInfoUser)]
         public async Task<IActionResult> GetUserByIdAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
@@ -212,7 +213,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/edit-user")]
+        [Route(EndpointConstants.UserMngmtEditUser)]
         public async Task<IActionResult> UpdateUserAsync(UserUpdateViewModel viewModel)
         {
             if (viewModel == null)
@@ -239,7 +240,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/edit-roleuser")]
+        [Route(EndpointConstants.UserMngmtEditRoleUser)]
         public async Task<IActionResult> UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel)
         {
             if (viewModel == null)
