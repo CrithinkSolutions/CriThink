@@ -28,7 +28,7 @@ namespace CriThink.Server.Web.Facades
             };
         }
 
-        public async Task AddNewsSourceAsync(AddNewsSourceViewModel viewModel)
+        public async Task AddNewsSourceAsync(NewsSourceViewModel viewModel)
         {
             if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));

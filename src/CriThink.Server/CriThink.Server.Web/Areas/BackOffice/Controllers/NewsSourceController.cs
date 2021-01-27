@@ -44,7 +44,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
-            await _newsSourceFacade.AddNewsSourceAsync(viewModel).ConfigureAwait(false);
+            var newsSource = new NewsSourceViewModel
+            {
+                Classification = viewModel.Classification,
+                Uri = viewModel.Uri,
+            };
+
+            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+
             return NoContent();
         }
 
