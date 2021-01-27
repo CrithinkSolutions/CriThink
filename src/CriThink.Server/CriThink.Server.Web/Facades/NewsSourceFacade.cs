@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 
@@ -27,7 +28,7 @@ namespace CriThink.Server.Web.Facades
             };
         }
 
-        public async Task AddNewsSourceAsync(AddNewsSourceViewModel viewModel)
+        public async Task AddNewsSourceAsync(NewsSourceViewModel viewModel)
         {
             if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -62,13 +63,21 @@ namespace CriThink.Server.Web.Facades
             if (uri is null)
                 throw new ArgumentNullException(nameof(uri));
 
-            var response = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
-
-            return new NewsSourceViewModel
+            try
             {
-                Uri = response.Description,
-                Classification = ToViewModelEnum(response.Classification),
-            };
+                var response = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+
+                return new NewsSourceViewModel
+                {
+                    Uri = uri.ToString(),
+                    Description = response.Description,
+                    Classification = ToViewModelEnum(response.Classification),
+                };
+            }
+            catch (ResourceNotFoundException)
+            {
+                return null;
+            }
         }
 
         private static NewsSource ToNewsSource(NewsSourceGetAllResponse newsSource) => new NewsSource

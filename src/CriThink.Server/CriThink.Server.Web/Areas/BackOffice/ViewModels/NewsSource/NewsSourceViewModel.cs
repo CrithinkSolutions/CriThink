@@ -4,5 +4,6 @@
     {
         public string Uri { get; set; }
         public Classification Classification { get; set; }
+        public string Description { get; set; }
     }
 }
