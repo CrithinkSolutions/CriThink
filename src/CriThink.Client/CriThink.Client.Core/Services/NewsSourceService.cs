@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
@@ -10,6 +11,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.HttpRepository;
+using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
 {
@@ -18,12 +20,14 @@ namespace CriThink.Client.Core.Services
         private readonly IRestRepository _restRepository;
         private readonly IIdentityService _identityService;
         private readonly ISQLiteRepository _sqlRepo;
+        private readonly IMvxMessenger _messenger;
 
-        public NewsSourceService(IRestRepository restRepository, IIdentityService identityService, ISQLiteRepository sqlRepo)
+        public NewsSourceService(IRestRepository restRepository, IIdentityService identityService, ISQLiteRepository sqlRepo, IMvxMessenger messenger)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
+            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
         }
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
@@ -79,6 +83,14 @@ namespace CriThink.Client.Core.Services
             };
 
             await _sqlRepo.AddLatestNewsCheck(entity).ConfigureAwait(false);
+
+            ClearRecentNewsChecksCache();
+        }
+
+        private void ClearRecentNewsChecksCache()
+        {
+            var message = new ClearRecentNewsSourceCacheMessage(this);
+            _messenger.Publish(message);
         }
     }
 
