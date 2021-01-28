@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -8,6 +9,7 @@ using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -86,7 +88,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToHomeCommand()
         {
-            await _navigationService.Navigate<HomeViewModel>().ConfigureAwait(true);
+            await IdentityService.PerformLoginAsync(new UserLoginRequest { UserName = "service", Password = "king2Pac!" }, default).ConfigureAwait(false);
+
+            await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
+            {
+                {"MyCustomFlag","" }
+            })).ConfigureAwait(false);
         }
 
         private async Task DoNavigateToForgotPasswordCommand()
