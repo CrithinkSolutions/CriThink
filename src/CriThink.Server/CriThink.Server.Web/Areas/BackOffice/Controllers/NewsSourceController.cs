@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -44,15 +45,31 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             var newsSource = new NewsSourceViewModel
             {
                 Classification = viewModel.Classification,
                 Uri = viewModel.Uri,
             };
 
-            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
-
-            return NoContent();
+            try 
+            {
+                await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+                viewModel.Message = "Source Added!";
+                return View(viewModel);
+            }
+            catch(ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+            
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]

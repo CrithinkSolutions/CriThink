@@ -3,20 +3,20 @@
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "News Analyzer";
+    ViewData["Title"] = "News Source";
 }
 
 
 <div class="p-4 text-center m-4 w-100">
     <div id="toolbox" class="border p-2 mb-2">
-        <a type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-        <a type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+        <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="AddSource" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
     </div>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Classification</th>
+                <th>Uri</th>
+                <th>Classification</th>
+                <th>Options</th>
             </tr>
         </thead>
         @foreach (var news in Model.NewsSources)
@@ -24,6 +24,16 @@
             <tr>
                 <td>@news.Uri</td>
                 <td>@news.Classification</td>
+                <td style="width:8%">
+                    <a type="button" data-toggle="dropdown">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item mEdit" data-toggle="modal" data-target="#modalEdit" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-pen mr-2"></i>Edit</a>
+                        <a class="dropdown-item info" data-toggle="modal" data-target="#modalInfo" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-info-circle mr-2"></i>Info</a>
+                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-trash-alt mr-2"></i>Remove</a>
+                    </div>
+                </td>
             </tr>
         }
     </table>
