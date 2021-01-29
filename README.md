@@ -2,8 +2,10 @@
 CriThink is a platform able to identity trusted news sources.
 Developed by CriThink Solutions.
 
-![Build CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
-![Build CriThinkApp](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+![CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
+![CriThink](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+![CriThinkAndroidDemo](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/production/badge)]
+![CriThinkAndroid](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/develop/badge)]
 
 # Getting Started
 ## Server
