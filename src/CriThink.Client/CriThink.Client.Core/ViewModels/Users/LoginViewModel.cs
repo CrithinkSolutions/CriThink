@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
@@ -88,11 +89,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToHomeCommand()
         {
-            await IdentityService.PerformLoginAsync(new UserLoginRequest { UserName = "service", Password = "king2Pac!" }, default).ConfigureAwait(false);
-
             await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
             {
-                {"MyCustomFlag","" }
+                {MvxBundleConstaints.ClearBackStack,"" }
             })).ConfigureAwait(false);
         }
 

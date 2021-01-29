@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Android.Content;
+using CriThink.Client.Core.Constants;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 
@@ -18,7 +19,7 @@ namespace CriThink.Client.Droid.Presenters
 
             if (request.PresentationValues != null)
             {
-                if (request.PresentationValues.ContainsKey("MyCustomFlag"))
+                if (request.PresentationValues.ContainsKey(MvxBundleConstaints.ClearBackStack))
                 {
                     intent.AddFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop);
                 }
