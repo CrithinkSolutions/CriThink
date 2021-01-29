@@ -6,6 +6,7 @@ using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.Plugin.Visibility;
@@ -35,6 +36,10 @@ namespace CriThink.Client.Droid.Views.Users
             var repeatPassword = FindViewById<TextInputEditText>(Resource.Id.txtInput_repeatPassword);
             var btnSignUp = FindViewById<AppCompatButton>(Resource.Id.btn_signUp);
             var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
+            var txtEditEmail = FindViewById<TextInputLayout>(Resource.Id.txtEditEmail);
+            var txtEditUsername = FindViewById<TextInputLayout>(Resource.Id.txtEditUsername);
+            var txtEditPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditPassword);
+            var txtEditRepeatPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditRepeatPassword);
 
             var set = CreateBindingSet();
 
@@ -43,7 +48,12 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(password).To(vm => vm.Password);
             set.Bind(repeatPassword).To(vm => vm.RepeatPassword);
             set.Bind(btnSignUp).To(vm => vm.SignUpCommand);
+            set.Bind(btnSignUp).For(v => v.Text).ToLocalizationId("SignUp");
             set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(txtEditEmail).For(v => v.Hint).ToLocalizationId("EmailHint");
+            set.Bind(txtEditUsername).For(v => v.Hint).ToLocalizationId("UsernameHint");
+            set.Bind(txtEditPassword).For(v => v.Hint).ToLocalizationId("PasswordHint");
+            set.Bind(txtEditRepeatPassword).For(v => v.Hint).ToLocalizationId("RepeatPasswordHint");
 
             set.Apply();
 
