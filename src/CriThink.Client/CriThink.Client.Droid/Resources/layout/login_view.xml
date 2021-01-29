@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnFb"
-        android:text="@string/facebook_login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnGoogle"
@@ -62,8 +61,7 @@
         android:drawableLeft="@drawable/btn_google"
         android:fontFamily="@font/urbanist"
         android:elevation="@dimen/btn_elevation"
-        android:layout_marginBottom="@dimen/margin_veryBig"
-        android:text="@string/google_login" />
+        android:layout_marginBottom="@dimen/margin_veryBig" />
 
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -91,7 +89,6 @@
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintBottom_toTopOf="@id/txtInput_password"
           android:layout_marginBottom="@dimen/margin_mini"
-          android:hint="@string/login_email"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -111,7 +108,6 @@
           app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
           app:passwordToggleEnabled="true"
           android:layout_marginBottom="@dimen/margin_mini"
-          android:hint="@string/login_password"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -135,7 +131,6 @@
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
           android:id="@+id/btnForgotPassword"
-          android:text="@string/login_forgotPassword"
           android:background="@null"
           android:minWidth="0dp"
           android:minHeight="0dp"
@@ -148,7 +143,6 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/btnLogin"
-          android:text="@string/login_login"
           android:elevation="@dimen/btn_elevation"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"

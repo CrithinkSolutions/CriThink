@@ -8,6 +8,7 @@ using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using Google.Android.Material.TextField;
 using MvvmCross;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
@@ -43,15 +44,20 @@ namespace CriThink.Client.Droid.Views.Users
                 }
             }
 
+            var txtInputPassword = FindViewById<TextInputLayout>(Resource.Id.txtInputPassword);
+            var txtInputRepeatPassword = FindViewById<TextInputLayout>(Resource.Id.txtInputRepeatPassword);
             var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtEditPassword);
             var txtRepeatPassword = FindViewById<TextInputEditText>(Resource.Id.txtEditRepeatPassword);
             var btnSend = FindViewById<AppCompatButton>(Resource.Id.btnSend);
 
             var set = CreateBindingSet();
 
+            set.Bind(txtInputPassword).For(v => v.Hint).ToLocalizationId("InsertPassword");
+            set.Bind(txtInputRepeatPassword).For(v => v.Hint).ToLocalizationId("RepeatPassword");
             set.Bind(txtPassword).To(vm => vm.Password);
             set.Bind(txtRepeatPassword).To(vm => vm.RepeatPassword);
 
+            set.Bind(btnSend).For(v => v.Text).ToLocalizationId("Send");
             set.Bind(btnSend).To(vm => vm.SendRequestCommand);
 
             set.Apply();
