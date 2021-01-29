@@ -79,11 +79,83 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert your email.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_InsertEmail {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.InsertEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_Send {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email or username.
+        /// </summary>
+        internal static string LoginViewModel_EmailHint {
+            get {
+                return ResourceManager.GetString("LoginViewModel.EmailHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue with Facebook.
+        /// </summary>
+        internal static string LoginViewModel_Facebook {
+            get {
+                return ResourceManager.GetString("LoginViewModel.Facebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password?.
+        /// </summary>
+        internal static string LoginViewModel_ForgotPassword {
+            get {
+                return ResourceManager.GetString("LoginViewModel.ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue with Google.
+        /// </summary>
+        internal static string LoginViewModel_Google {
+            get {
+                return ResourceManager.GetString("LoginViewModel.Google", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skip (DEBUG).
         /// </summary>
         internal static string LoginViewModel_Jump {
             get {
                 return ResourceManager.GetString("LoginViewModel.Jump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string LoginViewModel_Login {
+            get {
+                return ResourceManager.GetString("LoginViewModel.Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string LoginViewModel_PasswordHint {
+            get {
+                return ResourceManager.GetString("LoginViewModel.PasswordHint", resourceCulture);
             }
         }
         
@@ -147,6 +219,168 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerViewModel_NewsLinkHint {
             get {
                 return ResourceManager.GetString("NewsCheckerViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert your new password.
+        /// </summary>
+        internal static string ResetPasswordViewModel_InsertPassword {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.InsertPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat the new password.
+        /// </summary>
+        internal static string ResetPasswordViewModel_RepeatPassword {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        internal static string ResetPasswordViewModel_Send {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string SignUpEmailViewModel_EmailHint {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.EmailHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string SignUpEmailViewModel_PasswordHint {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.PasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat Password.
+        /// </summary>
+        internal static string SignUpEmailViewModel_RepeatPasswordHint {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.RepeatPasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join Us!.
+        /// </summary>
+        internal static string SignUpEmailViewModel_SignUp {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        internal static string SignUpEmailViewModel_UsernameHint {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.UsernameHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Already have an account?.
+        /// </summary>
+        internal static string SignUpViewModel_AlreadyAccount {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.AlreadyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignUp with Facebook.
+        /// </summary>
+        internal static string SignUpViewModel_Facebook {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.Facebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignUp with Google.
+        /// </summary>
+        internal static string SignUpViewModel_Google {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.Google", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string SignUpViewModel_Login {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It&apos;s easier to sign up now.
+        /// </summary>
+        internal static string SignUpViewModel_SignUpCaption {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.SignUpCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignUp with Email.
+        /// </summary>
+        internal static string SignUpViewModel_SignUpEmail {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.SignUpEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignUp.
+        /// </summary>
+        internal static string SignUpViewModel_SignUpTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.SignUpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string WelcomeLoginSignInViewModel_Login {
+            get {
+                return ResourceManager.GetString("WelcomeLoginSignInViewModel.Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the HEAD!.
+        /// </summary>
+        internal static string WelcomeLoginSignInViewModel_Motto {
+            get {
+                return ResourceManager.GetString("WelcomeLoginSignInViewModel.Motto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign In.
+        /// </summary>
+        internal static string WelcomeLoginSignInViewModel_SignIn {
+            get {
+                return ResourceManager.GetString("WelcomeLoginSignInViewModel.SignIn", resourceCulture);
             }
         }
     }

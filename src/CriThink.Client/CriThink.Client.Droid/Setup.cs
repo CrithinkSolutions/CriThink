@@ -3,10 +3,12 @@ using CriThink.Client.Core;
 using CriThink.Client.Core.Platform;
 using CriThink.Client.Droid.Bindings;
 using CriThink.Client.Droid.PlatformDetails;
+using CriThink.Client.Droid.Presenters;
 using Google.Android.Material.BottomNavigation;
 using MvvmCross;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Platforms.Android.Core;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace CriThink.Client.Droid
 {
@@ -36,5 +38,8 @@ namespace CriThink.Client.Droid
 
             Mvx.IoCProvider.RegisterSingleton<IPlatformDetails>(new DroidDetails());
         }
+
+        protected override IMvxAndroidViewPresenter CreateViewPresenter()
+            => new ClearStackPresenter(AndroidViewAssemblies);
     }
 }

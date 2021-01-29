@@ -34,7 +34,6 @@
       <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup_title"
         android:id="@+id/txtTitle"
         app:layout_constraintTop_toBottomOf="@id/imgTopImg"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +47,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtCaption"
-        android:text="@string/signup_description"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitle"
@@ -60,7 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnFb"
-        android:text="@string/facebook_login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnGoogle"
@@ -84,14 +81,12 @@
         android:background="@android:color/white"
         android:drawableLeft="@drawable/btn_google"
         android:fontFamily="@font/urbanist"
-        android:elevation="@dimen/btn_elevation"
-        android:text="@string/google_login"/>
+        android:elevation="@dimen/btn_elevation"/>
 
       <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSignUp"
-        android:text="@string/signup_email"
         android:background="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -117,7 +112,7 @@
         <androidx.appcompat.widget.AppCompatTextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/signup_alreadyHaveAccount"
+          android:id="@+id/alreadyAccount"
           android:fontFamily="@font/urbanist"
           android:textSize="@dimen/textSize_small"/>
 
@@ -125,7 +120,6 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/btnLogin"
-          android:text="@string/signup_login"
           android:background="@null"
           android:minWidth="0dp"
           android:minHeight="0dp"

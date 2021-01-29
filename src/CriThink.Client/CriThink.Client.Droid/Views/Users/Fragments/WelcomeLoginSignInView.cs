@@ -4,6 +4,7 @@ using Android.Views;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -21,6 +22,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             var view = this.BindingInflate(Resource.Layout.welcomeloginsignin_view, null);
 
+            var txtMotto = view.FindViewById<AppCompatTextView>(Resource.Id.txtMotto);
             var btnLogin = view.FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnSignIn = view.FindViewById<AppCompatButton>(Resource.Id.btnSignIn);
             var btnFacebook = view.FindViewById<AppCompatImageButton>(Resource.Id.imgFacebook);
@@ -35,8 +37,12 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnTwitter).For("Click").To(vm => vm.OpenTwitterProfileCommand);
             set.Bind(btnLinkedin).For("Click").To(vm => vm.OpenLinkedInProfileCommand);
 
+            set.Bind(txtMotto).ToLocalizationId("Motto");
+
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginViewCommand);
+            set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
             set.Bind(btnSignIn).To(vm => vm.NavigateToSignInViewCommand);
+            set.Bind(btnSignIn).For(v => v.Text).ToLocalizationId("SignIn");
 
             set.Apply();
 

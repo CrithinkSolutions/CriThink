@@ -80,7 +80,7 @@ namespace CriThink.Server.Web.Facades
             await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
         }
 
-         public async Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
+        public async Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -91,6 +91,50 @@ namespace CriThink.Server.Web.Facades
             };
 
             await _identityService.SoftDeleteUserAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task<UserGetDetailsResponse> GetUserByIdAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new UserGetRequest
+            {
+                UserId = viewModel.Id
+            };
+
+            return await _identityService.GetUserByIdAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task UpdateUserAsync(UserUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new UserUpdateRequest
+            {
+                UserId = viewModel.Id,
+                UserName = viewModel.UserName,
+                IsEmailConfirmed = viewModel.IsEmailConfirmed,
+                IsLockoutEnabled = viewModel.IsLockoutEnabled,
+                LockoutEnd = viewModel.LockoutEnd
+            };
+
+            await _identityService.UpdateUserAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new UserRoleUpdateRequest
+            {
+                UserId = viewModel.Id,
+                Role = viewModel.Role
+            };
+
+            await _identityService.UpdateUserRoleAsync(request).ConfigureAwait(false);
         }
     }
 }

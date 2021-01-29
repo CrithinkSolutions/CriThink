@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -86,7 +89,10 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToHomeCommand()
         {
-            await _navigationService.Navigate<HomeViewModel>().ConfigureAwait(true);
+            await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
+            {
+                {MvxBundleConstaints.ClearBackStack,"" }
+            })).ConfigureAwait(false);
         }
 
         private async Task DoNavigateToForgotPasswordCommand()

@@ -1,14 +1,17 @@
 # CriThink
-CriThink is a mobile application able to identity fake news.
+CriThink is a platform able to identity trusted news sources.
 Developed by CriThink Solutions.
 
-![Build CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
-![Build CriThinkApp](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+![CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
+![CriThink](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
+[![Build status](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/develop/badge)](https://appcenter.ms)
+[![Build status](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/production/badge)](https://appcenter.ms)
 
 # Getting Started
 ## Server
 ### Run Server in Debug mode
-The local development setting uses a local PostgreSQL instance.
+Before running the project, you need a PostgreSQL and Redis Cache instances. You can have your own on local machine or use the instances hosted on AWS for development purposes. Remmeber to apply migrations for the SQL database.
+
 It also uses the AspNet User Secret API. You can use this feature from the CLI or Visual Studio.
 #### User Secret
 ##### Visual Studio
@@ -36,6 +39,21 @@ Insert the following keys and the desired values in the secret files created abo
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
+* Social networks:
+    * `"FacebookApiKey": "<apiKey>"`
+    * `"GoogleApiKey": "<apiKey>"`
+* Users seed:
+    * `"ServiceUser:SecurityStamp": "<stamp>"`
+    * `"ServiceUser:PasswordHash": "<hash>"`
+    * `"ServiceUser:EmailConfirmed": "<boolean>"`
+    * `"ServiceUser:Email": "<email>"`
+    * `"ServiceUser:NormalizedUserName": "<username>"`
+    * `"ServiceUser:Id": "<id>"`
+    * `"AdminRole:Name": "<name>"`
+    * `"AdminRole:NormalizedName": "<name>"`
+* Headers:
+    * `"CrossService:Header": "<header>"`
+    * `"CrossService:Value": "<value>"`
 ##### User Secret for ReactJS
 * Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
 * Write inside the file:
@@ -59,8 +77,10 @@ Three environments have been configured:
 
 ### Service endpoints
 * environment: returns the name of which environment is running
-* redis-health: attempt a connection to the Redis cache
-* postgresql: attemp a connection to the PostgreSQL database instance
+### Health endpoints
+* health/redis: attempt a connection to the Redis cache
+* health/postgresql: attempt a connection to the PostgreSQL database instance
+* health/dbcontext: attempt a read-only access to the `DbContext` instance
 
 
 ### AWS Setup
@@ -91,3 +111,16 @@ Each profile has a specific custom policy to allow access only to the right secr
 #### HTTP redirect to HTTPS
 * HTTPS forward to target group
 * Target group forward to EC2 instance on port 80
+
+## Mobile Apps
+Developed using Xamarin and MvvmCross.
+
+### Android
+* Target SDK: 29
+* Min SDK: 23
+* Package name: `com.crithink.client.droid`
+
+### iOS
+* MinimumOSVersion: `11.2`
+* Package name: `com.crithink.client.ios`
+* Only iPhone
