@@ -37,6 +37,9 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             listDebunkingNews.SetLayoutManager(layoutManager);
+            // Workaround to avoid a crash when navigating from login view model.
+            // Seems to be a recycler view bug: https://stackoverflow.com/a/58540280/3415073
+            listDebunkingNews.SetItemAnimator(null);
 
             var adapter = new DebunkingNewsAdapter((IMvxAndroidBindingContext) BindingContext);
             listDebunkingNews.Adapter = adapter;

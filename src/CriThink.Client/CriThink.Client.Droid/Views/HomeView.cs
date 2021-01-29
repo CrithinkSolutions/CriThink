@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.OS;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Droid.Bindings;
@@ -10,7 +11,7 @@ using Xamarin.Facebook;
 namespace CriThink.Client.Droid.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.HomeView", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity]
     public class HomeView : MvxActivity<HomeViewModel>
     {
         protected override void OnCreate(Bundle bundle)
@@ -30,6 +31,19 @@ namespace CriThink.Client.Droid.Views
             set.Apply();
 
             ViewModel.BottomNavigationItemSelectedCommand.Execute(ViewModel.BottomViewTabs[0].TabId);
+        }
+
+        public override void OnBackPressed()
+        {
+            Minimise();
+        }
+
+        private void Minimise()
+        {
+            var minimiseIntent = new Intent(Intent.ActionMain);
+            minimiseIntent.AddCategory(Intent.CategoryHome);
+            minimiseIntent.SetFlags(ActivityFlags.NewTask);
+            StartActivity(minimiseIntent);
         }
     }
 }
