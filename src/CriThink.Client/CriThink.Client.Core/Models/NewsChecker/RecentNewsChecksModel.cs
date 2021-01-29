@@ -20,7 +20,6 @@ namespace CriThink.Client.Core.Models.NewsChecker
         }
 
         private string _classification;
-
         public string Classification
         {
             get => _classification;
@@ -28,7 +27,6 @@ namespace CriThink.Client.Core.Models.NewsChecker
         }
 
         private DateTime _searchDateTime;
-
         public DateTime SearchDateTime
         {
             get => _searchDateTime;
@@ -36,7 +34,6 @@ namespace CriThink.Client.Core.Models.NewsChecker
         }
 
         private string _newsImageLink;
-
         public string NewsImageLink
         {
             get => _newsImageLink;
