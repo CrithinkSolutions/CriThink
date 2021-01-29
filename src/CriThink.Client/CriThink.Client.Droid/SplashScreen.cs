@@ -6,8 +6,7 @@ using MvvmCross.Platforms.Android.Views;
 namespace CriThink.Client.Droid
 {
     [Activity(
-        Label = "CriThink.Client.Droid"
-        , MainLauncher = true
+        MainLauncher = true
         , NoHistory = true
         , Theme = "@style/SplashTheme"
         , ScreenOrientation = ScreenOrientation.Portrait)]
