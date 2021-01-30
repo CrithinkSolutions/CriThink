@@ -2,6 +2,11 @@
 using Acr.UserDialogs;
 using Android.App;
 using Android.Runtime;
+#if (!DEBUG)
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+#endif
 using MvvmCross.Platforms.Android.Views;
 
 namespace CriThink.Client.Droid
