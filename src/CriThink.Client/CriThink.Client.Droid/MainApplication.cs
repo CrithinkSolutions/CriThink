@@ -2,7 +2,7 @@
 using Acr.UserDialogs;
 using Android.App;
 using Android.Runtime;
-#if (!DEBUG)
+#if (APPCENTER)
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -14,6 +14,10 @@ namespace CriThink.Client.Droid
     [Application]
     public class MainApplication : MvxAndroidApplication<Setup, Core.App>
     {
+#if (APPCENTER)
+        private const string AppCenterApiKey = "<APPCENTER_API_KEY>";
+# endif
+
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
@@ -21,8 +25,8 @@ namespace CriThink.Client.Droid
 
         public override void OnCreate()
         {
-#if (!DEBUG)
-            AppCenter.Start("fac58211-3881-4d0b-bda8-8fe6e0ec9243", typeof(Analytics), typeof(Crashes));
+#if (APPCENTER)
+            AppCenter.Start(AppCenterApiKey, typeof(Analytics), typeof(Crashes));
 #endif
             UserDialogs.Init(this);
             base.OnCreate();
