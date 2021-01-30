@@ -74,6 +74,7 @@ namespace CriThink.Client.Core.Services
             if (newsCheck == null)
                 throw new ArgumentNullException(nameof(newsCheck));
 
+            // TODO: Replce with real data
             var entity = new LatestNewsCheck
             {
                 Classification = newsCheck.Classification,
