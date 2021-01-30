@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 
+# Move to AppCenter folder
+cd $APPCENTER_SOURCE_DIRECTORY
+
+# Move to project dir
+cd $PROJECT_DIR
+
 # Replace base URI
-sed -i "s/$LOCAL_API_URL/$API_URL/" $API_URL_FILENAME
+find $API_URL_FILENAME -type f -exec sed -i '' -e 's/'"$LOCAL_API_URL"'/'"$API_URL"'/' {} \;
