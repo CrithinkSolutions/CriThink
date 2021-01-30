@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
@@ -147,10 +146,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        private Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)
+        private async Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //return NavigationService.Navigate<NewsCheckerSearchView>(cancellationToken: cancellationToken);
+            await NavigationService.Navigate<CheckNewsViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
         }
 
         private async Task DoCheckNewsCommand(CancellationToken cancellationToken)
@@ -165,7 +163,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            await NavigationService.Navigate<DebunkingNewsDetailsViewModel, string>(selectedResponse.Id, cancellationToken: cancellationToken).ConfigureAwait(true);
+            await _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink).ConfigureAwait(false);
         }
 
         private void DoFetchDebunkingNewsCommand()

@@ -30,19 +30,35 @@ namespace CriThink.Client.Core.Repositories
         {
             try
             {
-                var userIdTask = GetUserInSettingsSettingAsync(UserId);
-                var userUsernameTask = GetUserInSettingsSettingAsync(UserUsername);
-                var userEmailTask = GetUserInSettingsSettingAsync(UserEmail);
-                var userPasswordToken = GetUserInSettingsSettingAsync(UserPassword);
-                var userTokenTask = GetUserInSettingsSettingAsync(UserToken);
-                var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration);
+                var userIdTask = GetUserInSettingsSettingAsync(UserId, null);
+                var usernameTask = GetUserInSettingsSettingAsync(UserUsername, null);
+                var userEmailTask = GetUserInSettingsSettingAsync(UserEmail, null);
+                var userPasswordTask = GetUserInSettingsSettingAsync(UserPassword, null);
+                var userTokenTask = GetUserInSettingsSettingAsync(UserToken, null);
+                var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration, null);
 
-                await Task.WhenAll(userIdTask, userUsernameTask, userEmailTask, userPasswordToken, userTokenTask, userTokenExpirationTask).ConfigureAwait(false);
+                await Task.WhenAll(userIdTask, usernameTask, userEmailTask, userPasswordTask, userTokenTask, userTokenExpirationTask)
+                    .ConfigureAwait(false);
 
-                return new User(userIdTask.Result, userEmailTask.Result, userUsernameTask.Result, userPasswordToken.Result, new JwtTokenResponse
+                var userId = userIdTask.Result;
+                var email = userEmailTask.Result;
+                var username = usernameTask.Result;
+                var userPassword = userPasswordTask.Result;
+                var userToken = userTokenExpirationTask.Result;
+                var userTokenExpiration = userTokenExpirationTask.Result;
+
+                if (userId is null ||
+                    email is null ||
+                    username is null ||
+                    userPassword is null ||
+                    userToken is null ||
+                    userTokenExpiration is null)
+                    return null;
+
+                return new User(userId, email, username, userPassword, new JwtTokenResponse
                 {
-                    Token = userTokenTask.Result,
-                    ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpirationTask.Result)
+                    Token = userToken,
+                    ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpiration),
                 });
             }
             catch (Exception ex)

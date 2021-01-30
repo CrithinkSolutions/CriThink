@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
+    <value>Which news do you want to check?</value>
+  </data>
+  <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
+    <value>Recent search</value>
+  </data>
   <data name="ForgotPasswordViewModel.InsertEmail" xml:space="preserve">
     <value>Insert your email</value>
   </data>

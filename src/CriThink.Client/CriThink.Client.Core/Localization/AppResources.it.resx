@@ -120,6 +120,12 @@
   <data name="ForgotPasswordViewModel.InsertEmail" xml:space="preserve">
     <value>Inserisci la tua email</value>
   </data>
+  <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
+    <value>Ultime ricerche</value>
+  </data>
+  <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
+    <value>Quale news vuoi controllare?</value>
+  </data>
   <data name="ForgotPasswordViewModel.Send" xml:space="preserve">
     <value>Invia</value>
   </data>
