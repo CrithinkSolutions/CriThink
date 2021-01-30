@@ -2,9 +2,6 @@
 using Acr.UserDialogs;
 using Android.App;
 using Android.Runtime;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using MvvmCross.Platforms.Android.Views;
 
 namespace CriThink.Client.Droid
@@ -19,7 +16,9 @@ namespace CriThink.Client.Droid
 
         public override void OnCreate()
         {
+#if (!DEBUG)
             AppCenter.Start("fac58211-3881-4d0b-bda8-8fe6e0ec9243", typeof(Analytics), typeof(Crashes));
+#endif
             UserDialogs.Init(this);
             base.OnCreate();
         }
