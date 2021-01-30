@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using MvvmCross;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core
 {
-    public class AppStart : MvxAppStart
+    public class AppStart : MvxAppStart, IDisposable
     {
         private readonly IIdentityService _identityService;
         private readonly IApplicationService _applicationService;
         private readonly IMvxLog _logger;
+
+        private bool _isDisposed;
 
         public AppStart(IMvxApplication application, IMvxNavigationService navigationService, IIdentityService identityService, IApplicationService applicationService, IMvxLog logger)
             : base(application, navigationService)
@@ -24,6 +29,8 @@ namespace CriThink.Client.Core
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
             _logger = logger;
+
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
         protected override async Task NavigateToFirstViewModel(object hint = null)
@@ -89,5 +96,35 @@ namespace CriThink.Client.Core
         }
 
         private Task NavigateToLoginViewAsync(CancellationToken cancellationToken) => NavigationService.Navigate<LoginViewModel>(cancellationToken: cancellationToken);
+
+        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess == NetworkAccess.None ||
+                e.NetworkAccess == NetworkAccess.Unknown ||
+                e.NetworkAccess == NetworkAccess.Local)
+            {
+                var userDialogs = Mvx.IoCProvider.Resolve<IUserDialogs>();
+                userDialogs.Toast("No internet connection", TimeSpan.FromSeconds(5));
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+            }
+
+            _isDisposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }
