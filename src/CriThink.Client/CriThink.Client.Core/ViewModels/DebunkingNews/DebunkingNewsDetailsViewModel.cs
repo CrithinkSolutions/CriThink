@@ -3,21 +3,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
     public class DebunkingNewsDetailsViewModel : BaseViewModel<string>, IDisposable
     {
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IMvxLog _log;
 
         private string _debunkingNewsId;
         private CancellationTokenSource _cancellationTokenSource;
 
-        private bool disposed;
+        private bool _disposed;
 
-        public DebunkingNewsDetailsViewModel(IDebunkingNewsService debunkngNewsService)
+        public DebunkingNewsDetailsViewModel(IDebunkingNewsService debunkngNewsService, IMvxLogProvider logProvider)
         {
             _debunkingNewsService = debunkngNewsService ?? throw new ArgumentNullException(nameof(debunkngNewsService));
+            _log = logProvider?.GetLogFor<DebunkingNewsDetailsViewModel>();
         }
 
         private DebunkingNewsGetDetailsResponse _debunkingNews;
@@ -30,7 +33,11 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         public override void Prepare(string parameter)
         {
             if (string.IsNullOrWhiteSpace(parameter))
-                throw new ArgumentNullException(nameof(parameter));
+            {
+                var argumentNullException = new ArgumentNullException(nameof(parameter));
+                _log?.ErrorException("The given debunking news id is null", argumentNullException);
+                throw argumentNullException;
+            }
 
             _debunkingNewsId = parameter;
         }
@@ -40,8 +47,12 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             await base.Initialize().ConfigureAwait(false);
 
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            DebunkingNews = await _debunkingNewsService.GetDebunkingNewsByIdAsync(_debunkingNewsId, _cancellationTokenSource.Token).ConfigureAwait(true);
+            var debunkingNews = await _debunkingNewsService.GetDebunkingNewsByIdAsync(_debunkingNewsId, _cancellationTokenSource.Token).ConfigureAwait(true);
+            if (debunkingNews != null)
+                DebunkingNews = debunkingNews;
         }
+
+        #region Disposable
 
         public void Dispose()
         {
@@ -51,15 +62,17 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    _cancellationTokenSource?.Dispose();
-                }
+            if (_disposed)
+                return;
 
-                disposed = true;
+            if (disposing)
+            {
+                _cancellationTokenSource?.Dispose();
             }
+
+            _disposed = true;
         }
+
+        #endregion
     }
 }

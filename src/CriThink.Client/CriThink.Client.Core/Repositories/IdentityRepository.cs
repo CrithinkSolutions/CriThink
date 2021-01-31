@@ -18,12 +18,12 @@ namespace CriThink.Client.Core.Repositories
         private const string UserTokenExpiration = "user_token_expiration";
 
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IMvxLog _logger;
+        private readonly IMvxLog _log;
 
-        public IdentityRepository(ISettingsRepository settingsRepository, IMvxLog logger)
+        public IdentityRepository(ISettingsRepository settingsRepository, IMvxLogProvider logProvider)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
-            _logger = logger;
+            _log = logProvider?.GetLogFor<IdentityRepository>();
         }
 
         public async Task<User> GetUserInfoAsync()
@@ -63,7 +63,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error getting user info", ex);
+                _log?.FatalException("Error getting user info", ex);
                 throw;
             }
         }
@@ -77,7 +77,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error getting user token", ex);
+                _log?.FatalException("Error getting user token", ex);
                 throw;
             }
         }
@@ -97,7 +97,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error saving user info", ex, userId);
+                _log.ErrorException("Error saving user info", ex, userId);
                 throw;
             }
         }

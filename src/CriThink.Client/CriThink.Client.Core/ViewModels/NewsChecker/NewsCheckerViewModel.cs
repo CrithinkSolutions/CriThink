@@ -135,7 +135,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     .GetRecentDebunkingNewsAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
                     .ConfigureAwait(false);
 
-                Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                if (debunkinNewsCollection.DebunkingNewsCollection != null)
+                    Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+
                 _hasMorePages = debunkinNewsCollection.HasNextPage;
 
                 _pageIndex++;

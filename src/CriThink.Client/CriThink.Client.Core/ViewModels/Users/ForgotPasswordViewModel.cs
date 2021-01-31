@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
@@ -11,10 +12,12 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class ForgotPasswordViewModel : BaseViewModel
     {
         private readonly IIdentityService _identityService;
+        private readonly IUserDialogs _userDialogs;
 
-        public ForgotPasswordViewModel(IIdentityService identityService)
+        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
         }
 
         private string _emailOrUsername;
@@ -39,7 +42,21 @@ namespace CriThink.Client.Core.ViewModels.Users
             else
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
-            await _identityService.RequestTemporaryTokenAsync(request, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                await _identityService.RequestTemporaryTokenAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                await ShowErrorMessage("An error occurred requesting a temporary token").ConfigureAwait(true);
+            }
+        }
+
+        public async Task ShowErrorMessage(string message)
+        {
+            await _userDialogs.AlertAsync(
+                message,
+                okText: "Ok").ConfigureAwait(true);
         }
     }
 }

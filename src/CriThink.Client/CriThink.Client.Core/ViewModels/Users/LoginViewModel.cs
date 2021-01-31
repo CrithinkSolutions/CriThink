@@ -7,8 +7,8 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
-using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -18,8 +18,8 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
-            : base(identityService, userDialogs, logger)
+        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
+            : base(identityService, userDialogs, logProvider)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
@@ -77,7 +77,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
             var userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
-            if (userInfo == null)
+            if (userInfo is null)
             {
                 await ShowErrorMessage("Incorrect email address or password. Please check and try again").ConfigureAwait(false);
             }
@@ -89,10 +89,17 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToHomeCommand()
         {
-            await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
+            try
             {
-                {MvxBundleConstaints.ClearBackStack,"" }
-            })).ConfigureAwait(false);
+                await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
+                {
+                    {MvxBundleConstaints.ClearBackStack, ""}
+                })).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log?.FatalException("Error clearing back stack", ex);
+            }
         }
 
         private async Task DoNavigateToForgotPasswordCommand()

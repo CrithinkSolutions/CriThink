@@ -13,13 +13,13 @@ namespace CriThink.Client.Core.Services
     {
         private readonly IRestRepository _restRepository;
         private readonly IIdentityService _identityService;
-        private readonly IMvxLog _logger;
+        private readonly IMvxLog _log;
 
         public DebunkingNewsService(IRestRepository restRepository, IIdentityService identityService, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _logger = logProvider?.GetLogFor<DebunkingNewsService>();
+            _log = logProvider?.GetLogFor<DebunkingNewsService>();
         }
 
         public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
@@ -43,8 +43,9 @@ namespace CriThink.Client.Core.Services
 
                 return debunkingNewsCollection;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _log?.ErrorException("Can't get recent debunking news", ex);
                 return new DebunkingNewsGetAllResponse(null, false);
             }
         }
@@ -58,14 +59,22 @@ namespace CriThink.Client.Core.Services
 
             var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
 
-            var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetDetailsResponse>(
-                    $"{EndpointConstants.DebunkNewsBase}?{request.ToQueryString()}",
-                    HttpRestVerb.Get,
-                    token,
-                    cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetDetailsResponse>(
+                        $"{EndpointConstants.DebunkNewsBase}?{request.ToQueryString()}",
+                        HttpRestVerb.Get,
+                        token,
+                        cancellationToken)
+                    .ConfigureAwait(false);
 
-            return debunkingNewsDetails;
+                return debunkingNewsDetails;
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Can't get debunking news details", ex);
+                return null;
+            }
         }
 
         public async Task OpenDebunkingNewsInBrowser(string link)
@@ -77,7 +86,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => "Error launching the browser with debunking news", ex, link);
+                _log?.ErrorException("Error launching the browser with debunking news", ex, link);
             }
         }
     }
