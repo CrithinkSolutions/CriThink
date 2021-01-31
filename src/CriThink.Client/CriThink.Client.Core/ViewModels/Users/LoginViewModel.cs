@@ -63,6 +63,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #endregion
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            Log?.Info("User navigates to login");
+        }
+
         private async Task DoLoginCommand(CancellationToken cancellationToken)
         {
             var request = new UserLoginRequest

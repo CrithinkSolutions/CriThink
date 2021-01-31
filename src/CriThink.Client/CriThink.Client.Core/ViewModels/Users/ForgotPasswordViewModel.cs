@@ -6,6 +6,7 @@ using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -13,11 +14,13 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IIdentityService _identityService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IMvxLog _log;
 
-        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs)
+        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            _log = logProvider?.GetLogFor<ForgotPasswordViewModel>();
         }
 
         private string _emailOrUsername;
@@ -31,6 +34,12 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _sendRequestCommand;
 
         public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= _sendRequestCommand = new MvxAsyncCommand(DoSendRequestCommand);
+
+        public override void Prepare()
+        {
+            base.Prepare();
+            _log?.Info("User navigates to forgot password");
+        }
 
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)
         {
@@ -52,7 +61,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
         }
 
-        public async Task ShowErrorMessage(string message)
+        private async Task ShowErrorMessage(string message)
         {
             await _userDialogs.AlertAsync(
                 message,

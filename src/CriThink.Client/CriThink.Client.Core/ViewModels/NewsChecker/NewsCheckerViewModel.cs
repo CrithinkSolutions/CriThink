@@ -18,6 +18,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IIdentityService _identityService;
+        private readonly IMvxLog _log;
 
         private int _pageIndex = 1;
         private bool _hasMorePages;
@@ -30,6 +31,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
             _hasMorePages = true;
@@ -166,6 +168,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
             await _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink).ConfigureAwait(false);
+            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
         }
 
         private void DoFetchDebunkingNewsCommand()

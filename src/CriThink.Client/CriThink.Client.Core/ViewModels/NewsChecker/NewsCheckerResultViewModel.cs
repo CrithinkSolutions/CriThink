@@ -47,6 +47,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
 
             _uri = parameter;
+            _log?.Info("User checks news source", _uri);
         }
 
         public override async Task Initialize()

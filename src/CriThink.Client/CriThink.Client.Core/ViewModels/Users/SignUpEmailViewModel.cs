@@ -82,6 +82,12 @@ namespace CriThink.Client.Core.ViewModels.Users
             !string.IsNullOrWhiteSpace(Password) &&
             string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture));
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            _log?.Info("User navigates to sign up with email");
+        }
+
         private async Task DoSignUpCommand(CancellationToken cancellationToken)
         {
             IsLoading = true;

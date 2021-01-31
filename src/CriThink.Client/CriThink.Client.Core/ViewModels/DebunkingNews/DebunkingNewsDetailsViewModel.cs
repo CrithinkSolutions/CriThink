@@ -40,6 +40,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             }
 
             _debunkingNewsId = parameter;
+            _log?.Info("Visit debunking news details", _debunkingNewsId);
         }
 
         public override async Task Initialize()

@@ -28,6 +28,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #endregion
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            Log?.Info("User navigates to sign up");
+        }
+
         private async Task DoNavigateToLoginCommand()
         {
             await _navigationService.Navigate<LoginViewModel>().ConfigureAwait(true);

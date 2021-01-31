@@ -73,6 +73,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #endregion
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            _log?.Info("User navigates to reset password");
+        }
+
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)
         {
             IsLoading = true;
