@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +10,7 @@ using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
+using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 
 namespace CriThink.Server.Core.Services
@@ -18,11 +19,13 @@ namespace CriThink.Server.Core.Services
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IEmailSenderService _emailSenderService;
 
-        public NewsSourceService(IMediator mediator, IMapper mapper)
+        public NewsSourceService(IMediator mediator, IMapper mapper, IEmailSenderService emailSenderService)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
         }
 
         public async Task AddSourceAsync(NewsSourceAddRequest request)
@@ -74,6 +77,18 @@ namespace CriThink.Server.Core.Services
             }
 
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
+        }
+
+        public async Task<NewsSourceSearchResponse> SearchNewsSourceWithAlertAsync(Uri uri)
+        {
+            var searchResponse = await SearchNewsSourceAsync(uri).ConfigureAwait(false);
+
+            if (searchResponse is null)
+            {
+                await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString()).ConfigureAwait(false);
+            }
+
+            return searchResponse;
         }
 
         public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest request)
