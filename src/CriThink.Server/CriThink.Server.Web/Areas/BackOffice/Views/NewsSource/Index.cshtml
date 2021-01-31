@@ -25,12 +25,9 @@
                 <td>@news.Uri</td>
                 <td>@news.Classification</td>
                 <td style="width:8%">
-                    <a type="button" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-area="BackOffice" asp-controller="NewsSource" asp-action="Edit" asp-route-newsSourceLink="@news.Uri" ><i class="fas fa-pen mr-2"></i>Edit</a>              
-                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-trash-alt mr-2"></i>Remove</a>
+                    <div class="btn-group">
+                        <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Edit" asp-route-newsSourceLink="@news.Uri" ><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
+                        <button class="btn btn-outline-danger mDelete" data-toggle="modal" data-target="#modalDelete" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </td>
             </tr>
