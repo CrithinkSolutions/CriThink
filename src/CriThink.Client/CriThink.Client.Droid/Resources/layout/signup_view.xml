@@ -22,14 +22,14 @@
       android:id="@+id/viewInnerLayout"
       android:scrollbars="vertical">
 
-      <androidx.appcompat.widget.AppCompatImageView android:layout_width="0dp"
-                                                    android:layout_height="@dimen/imgSize_bigLogo"
-                                                    android:id="@+id/imgTopImg"
-                                                    app:layout_constraintTop_toTopOf="parent"
-                                                    app:layout_constraintLeft_toLeftOf="parent"
-                                                    app:layout_constraintRight_toRightOf="parent"
-                                                    android:layout_marginTop="@dimen/margin_veryBig"
-                                                    android:src="@drawable/ic_text_logo" />
+      <FFImageLoading.Cross.MvxCachedImageView android:layout_width="0dp"
+                                               android:layout_height="@dimen/imgSize_bigLogo"
+                                               android:id="@+id/imgTopImg"
+                                               app:layout_constraintTop_toTopOf="parent"
+                                               app:layout_constraintLeft_toLeftOf="parent"
+                                               app:layout_constraintRight_toRightOf="parent"
+                                               android:layout_marginTop="@dimen/margin_veryBig"
+                                               android:src="@drawable/ic_text_logo" />
 
       <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
