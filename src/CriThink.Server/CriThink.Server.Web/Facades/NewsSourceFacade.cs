@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 
 namespace CriThink.Server.Web.Facades
@@ -18,13 +18,24 @@ namespace CriThink.Server.Web.Facades
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
         }
 
-        public async Task<IndexViewModel> GetAllNewsSourcesAsync()
+        public async Task<IndexViewModel> GetAllNewsSourcesAsync(SimplePaginationViewModel viewModel)
         {
-            var response = await _newsSourceService.GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest.None).ConfigureAwait(false);
+            if (viewModel is null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new NewsSourceGetAllRequest
+            {
+                Filter = NewsSourceGetAllFilterRequest.None,
+                PageIndex = viewModel.PageIndex,
+                PageSize = viewModel.PageSize,
+            };
+
+            var response = await _newsSourceService.GetAllNewsSourcesAsync(request).ConfigureAwait(false);
 
             return new IndexViewModel
             {
-                NewsSources = response.Select(ToNewsSource),
+                NewsSources = response.NewsSourcesCollection.Select(ToNewsSource),
+                HasNextPage = response.HasNextPage,
             };
         }
 
@@ -80,11 +91,12 @@ namespace CriThink.Server.Web.Facades
             }
         }
 
-        private static NewsSource ToNewsSource(NewsSourceGetAllResponse newsSource) => new NewsSource
-        {
-            Uri = newsSource.Uri,
-            Classification = ToViewModelEnum(newsSource.NewsSourceClassification),
-        };
+        private static NewsSource ToNewsSource(NewsSourceGetResponse newsSource) =>
+            new NewsSource
+            {
+                Uri = newsSource.Uri,
+                Classification = ToViewModelEnum(newsSource.NewsSourceClassification),
+            };
 
         private static Classification ToViewModelEnum(NewsSourceClassification newsSourceClassification)
             => newsSourceClassification switch

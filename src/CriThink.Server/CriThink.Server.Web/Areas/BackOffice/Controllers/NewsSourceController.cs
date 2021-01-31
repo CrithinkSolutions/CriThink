@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -26,9 +27,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            var news = await _newsSourceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
+            var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
@@ -59,17 +60,17 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 Uri = viewModel.Uri,
             };
 
-            try 
+            try
             {
                 await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
                 viewModel.Message = "Source Added!";
                 return View(viewModel);
             }
-            catch(ResourceNotFoundException)
+            catch (ResourceNotFoundException)
             {
                 return NotFound();
             }
-            
+
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
