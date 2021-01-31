@@ -91,6 +91,7 @@
         public const string NewsSourceRemoveBlackNewsSource = "blacklist";
         public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
         public const string NewsSourceSearch = "search";
+        public const string NewsSourceNotifyMe = "notify-me";
 
         #endregion
 

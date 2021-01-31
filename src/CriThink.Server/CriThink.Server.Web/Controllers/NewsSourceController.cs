@@ -35,9 +35,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to search</param>
         /// <returns>Returns the list where the source is contained</returns>
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
         [Route(EndpointConstants.NewsSourceSearch)] // api/news-source/search
@@ -45,8 +43,27 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
-            var searchResponse = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+            var searchResponse = await _newsSourceService.SearchNewsSourceWithAlertAsync(uri).ConfigureAwait(false);
+
+            if (searchResponse is null)
+                return NotFound();
+
             return Ok(searchResponse);
+        }
+
+        /// <summary>
+        /// Register the user for being notified if a news source is analyzed
+        /// </summary>
+        /// <param name="request">User info</param>
+        /// <returns>Returns the list where the source is contained</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [Route(EndpointConstants.NewsSourceNotifyMe)] // api/news-source/notify-me
+        [HttpPost]
+        public async Task<IActionResult> RegisterUserForNotificationAsync([FromBody] object request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
