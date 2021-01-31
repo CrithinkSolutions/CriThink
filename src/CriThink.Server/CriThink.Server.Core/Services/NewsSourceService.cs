@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,6 +67,10 @@ namespace CriThink.Server.Core.Services
             {
                 var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(searchResponse);
                 return response;
+            }
+            else if (queryResponse is null)
+            {
+                return null;
             }
 
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
