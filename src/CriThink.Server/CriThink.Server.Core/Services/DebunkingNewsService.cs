@@ -109,7 +109,7 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllDebunkingNewsQuery(request.PageSize + 1, request.PageIndex);
+            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
             var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
 
             var dtos = new List<DebunkingNewsGetResponse>();
@@ -140,7 +140,7 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllTriggerLogsQuery(request.PageSize + 1, request.PageIndex);
+            var query = new GetAllTriggerLogsQuery(request.PageSize, request.PageIndex);
             var triggerLogs = await _mediator.Send(query).ConfigureAwait(false);
             var dtos = new List<TriggerLogGetResponse>();
             foreach (var log in triggerLogs.Take(request.PageSize))
