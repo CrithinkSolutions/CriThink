@@ -132,12 +132,7 @@
             let token = $('input[name="__RequestVerificationToken"]').val();
             let endpoint = '';
 
-            if ($(this).data('classification') == "Reliable" || "Satirical"){
-                endpoint = '@($"{@EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceRemoveWhiteNewsSource}")';
-            }
-            else {
-                endpoint = '@($"{@EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceRemoveBlackNewsSource}")';
-            }
+            endpoint = '@($"{@EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceRemoveNewsSource}")';
 
             $.ajax({
                 url: endpoint,

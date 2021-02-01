@@ -36,21 +36,12 @@ namespace CriThink.Server.Core.Services
             _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task RemoveBadSourceAsync(Uri uri)
+        public async Task RemoveNewsSourceAsync(Uri uri)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
-            var command = new RemoveBadNewsSourceCommand(uri);
-            _ = await _mediator.Send(command).ConfigureAwait(false);
-        }
-
-        public async Task RemoveGoodNewsSourceAsync(Uri uri)
-        {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
-
-            var command = new RemoveGoodNewsSourceCommand(uri);
+            var command = new RemoveNewsSourceCommand(uri);
             _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
@@ -78,7 +69,7 @@ namespace CriThink.Server.Core.Services
 
             var sourceFilter = _mapper.Map<NewsSourceGetAllFilterRequest, GetAllNewsSourceFilter>(request.Filter);
 
-            var query = new GetAllNewsSourceQuery(request.PageSize + 1, request.PageIndex, sourceFilter);
+            var query = new GetAllNewsSourceQuery(request.PageSize, request.PageIndex, sourceFilter);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
             var dtos = new List<NewsSourceGetResponse>();
