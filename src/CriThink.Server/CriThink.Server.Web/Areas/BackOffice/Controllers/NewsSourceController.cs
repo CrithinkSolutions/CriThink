@@ -66,9 +66,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "Source " + newsSource.Uri +" successfully added";
                 return View(viewModel);
             }
-            catch (ResourceNotFoundException)
+            catch (Exception)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
         }
