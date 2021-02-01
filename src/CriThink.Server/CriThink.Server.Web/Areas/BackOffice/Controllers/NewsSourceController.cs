@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
