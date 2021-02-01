@@ -1,29 +1,36 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using MvvmCross;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core
 {
-    public class AppStart : MvxAppStart
+    public class AppStart : MvxAppStart, IDisposable
     {
         private readonly IIdentityService _identityService;
         private readonly IApplicationService _applicationService;
-        private readonly IMvxLog _logger;
+        private readonly IMvxLog _log;
+
+        private bool _isDisposed;
 
         public AppStart(IMvxApplication application, IMvxNavigationService navigationService, IIdentityService identityService, IApplicationService applicationService, IMvxLogProvider logProvider)
             : base(application, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
-            _logger = logProvider?.GetLogFor<AppStart>();
+            _log = logProvider?.GetLogFor<AppStart>();
+
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
         protected override async Task NavigateToFirstViewModel(object hint = null)
@@ -49,14 +56,14 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => "Error initializing app start", ex, hint);
+                _log?.Log(MvxLogLevel.Fatal, () => "Error initializing app start", ex, hint);
                 throw;
             }
         }
 
         private async Task PerformFirstNavigationAsync()
         {
-            _logger?.Info("First app navigation");
+            _log?.Info("First app navigation");
 
             await _applicationService.SetFirstAppStartAsync().ConfigureAwait(false);
             await NavigationService.Navigate<WelcomeViewModel>().ConfigureAwait(true);
@@ -64,13 +71,13 @@ namespace CriThink.Client.Core
 
         private Task NavigateToSignUpViewAsync()
         {
-            _logger?.Info($"User not logged. Navigating to {nameof(SignUpViewModel)}");
+            _log?.Info($"User not logged. Navigating to {nameof(SignUpViewModel)}");
             return NavigationService.Navigate<SignUpViewModel>();
         }
 
         private async Task PerformLoginAndNavigationToHomeAsync(User loggedUser)
         {
-            _logger?.Info($"User logged. Navigating to {nameof(HomeViewModel)}");
+            _log?.Info($"User logged. Navigating to {nameof(HomeViewModel)}");
 
             using var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 
@@ -91,12 +98,42 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _logger.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex, loggedUser.UserName);
+                _log.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex, loggedUser.UserName);
                 await NavigateToLoginViewAsync(cancellationToken.Token).ConfigureAwait(true);
             }
         }
 
         private Task NavigateToLoginViewAsync(CancellationToken cancellationToken) =>
             NavigationService.Navigate<LoginViewModel>(cancellationToken: cancellationToken);
+
+        private static void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess == NetworkAccess.None ||
+                e.NetworkAccess == NetworkAccess.Unknown ||
+                e.NetworkAccess == NetworkAccess.Local)
+            {
+                var userDialogs = Mvx.IoCProvider.Resolve<IUserDialogs>();
+                userDialogs.Toast("No internet connection", TimeSpan.FromSeconds(5));
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+            }
+
+            _isDisposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }
