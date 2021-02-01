@@ -171,6 +171,12 @@
   <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
     <value>Which news do you want to check?</value>
   </data>
+  <data name="ResetPasswordViewModel.ConfirmPasswordReset" xml:space="preserve">
+    <value>Hey {0}, you have successfully reset your password</value>
+  </data>
+  <data name="ResetPasswordViewModel.ErrorPasswordReset" xml:space="preserve">
+    <value>Sorry, we can't reset your password right now</value>
+  </data>
   <data name="ResetPasswordViewModel.InsertPassword" xml:space="preserve">
     <value>Insert your new password</value>
   </data>
@@ -180,8 +186,17 @@
   <data name="ResetPasswordViewModel.Send" xml:space="preserve">
     <value>Send</value>
   </data>
+  <data name="SignUpEmailViewModel.ConfirmErrorMessage" xml:space="preserve">
+    <value>Sorry but we can't confirm your email right now</value>
+  </data>
+  <data name="SignUpEmailViewModel.ConfirmWelcomeMessage" xml:space="preserve">
+    <value>Hello {0}! You can now login</value>
+  </data>
   <data name="SignUpEmailViewModel.EmailHint" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="SignUpEmailViewModel.ErrorMessage" xml:space="preserve">
+    <value>Sorry but we can't complete the sign up now</value>
   </data>
   <data name="SignUpEmailViewModel.PasswordHint" xml:space="preserve">
     <value>Password</value>
@@ -194,6 +209,9 @@
   </data>
   <data name="SignUpEmailViewModel.UsernameHint" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="SignUpEmailViewModel.WelcomeMessage" xml:space="preserve">
+    <value>Thank you for joining us! We sent you an email with a confirmation link. Please click on that link and perform the login</value>
   </data>
   <data name="SignUpViewModel.AlreadyAccount" xml:space="preserve">
     <value>Already have an account?</value>

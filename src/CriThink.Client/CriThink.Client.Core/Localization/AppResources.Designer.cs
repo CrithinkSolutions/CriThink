@@ -223,6 +223,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hey {0}, you have successfully reset your password.
+        /// </summary>
+        internal static string ResetPasswordViewModel_ConfirmPasswordReset {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.ConfirmPasswordReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, we can&apos;t reset your password right now.
+        /// </summary>
+        internal static string ResetPasswordViewModel_ErrorPasswordReset {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.ErrorPasswordReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert your new password.
         /// </summary>
         internal static string ResetPasswordViewModel_InsertPassword {
@@ -250,11 +268,38 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry but we can&apos;t confirm your email right now.
+        /// </summary>
+        internal static string SignUpEmailViewModel_ConfirmErrorMessage {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.ConfirmErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello {0}! You can now login.
+        /// </summary>
+        internal static string SignUpEmailViewModel_ConfirmWelcomeMessage {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.ConfirmWelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string SignUpEmailViewModel_EmailHint {
             get {
                 return ResourceManager.GetString("SignUpEmailViewModel.EmailHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry but we can&apos;t complete the sign up now.
+        /// </summary>
+        internal static string SignUpEmailViewModel_ErrorMessage {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.ErrorMessage", resourceCulture);
             }
         }
         
@@ -291,6 +336,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string SignUpEmailViewModel_UsernameHint {
             get {
                 return ResourceManager.GetString("SignUpEmailViewModel.UsernameHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for joining us! We sent you an email with a confirmation link. Please click on that link and perform the login.
+        /// </summary>
+        internal static string SignUpEmailViewModel_WelcomeMessage {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.WelcomeMessage", resourceCulture);
             }
         }
         

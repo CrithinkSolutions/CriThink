@@ -21,7 +21,7 @@ namespace CriThink.Client.Core.Handlers
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Version = new Version(2, 0);
+            request.Version = new Version(1, 0);
             return base.SendAsync(request, cancellationToken);
         }
     }

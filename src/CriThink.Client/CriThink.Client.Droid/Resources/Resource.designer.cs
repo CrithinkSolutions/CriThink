@@ -36827,25 +36827,28 @@ namespace CriThink.Client.Droid
 		{
 			
 			// aapt resource value: 0x7F130000
-			public const int image_share_filepaths = 2131951616;
+			public const int appcenter_backup_rule = 2131951616;
 			
 			// aapt resource value: 0x7F130001
-			public const int standalone_badge = 2131951617;
+			public const int image_share_filepaths = 2131951617;
 			
 			// aapt resource value: 0x7F130002
-			public const int standalone_badge_gravity_bottom_end = 2131951618;
+			public const int standalone_badge = 2131951618;
 			
 			// aapt resource value: 0x7F130003
-			public const int standalone_badge_gravity_bottom_start = 2131951619;
+			public const int standalone_badge_gravity_bottom_end = 2131951619;
 			
 			// aapt resource value: 0x7F130004
-			public const int standalone_badge_gravity_top_start = 2131951620;
+			public const int standalone_badge_gravity_bottom_start = 2131951620;
 			
 			// aapt resource value: 0x7F130005
-			public const int standalone_badge_offset = 2131951621;
+			public const int standalone_badge_gravity_top_start = 2131951621;
 			
 			// aapt resource value: 0x7F130006
-			public const int xamarin_essentials_fileprovider_file_paths = 2131951622;
+			public const int standalone_badge_offset = 2131951622;
+			
+			// aapt resource value: 0x7F130007
+			public const int xamarin_essentials_fileprovider_file_paths = 2131951623;
 			
 			static Xml()
 			{

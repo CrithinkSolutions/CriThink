@@ -1,6 +1,6 @@
 ﻿using System;
 using CriThink.Client.Core.Platform;
-using Microsoft.Extensions.Logging;
+using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.Services
 {
@@ -12,12 +12,12 @@ namespace CriThink.Client.Core.Services
         private const string LinkedInProfile = "company/crithink-solutions/";
 
         private readonly IPlatformDetails _platformDetails;
-        private readonly ILogger<PlatformService> _logger;
+        private readonly IMvxLog _log;
 
-        public PlatformService(IPlatformDetails platformDetails, ILogger<PlatformService> logger)
+        public PlatformService(IPlatformDetails platformDetails, IMvxLogProvider logProvider)
         {
             _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
-            _logger = logger;
+            _log = logProvider?.GetLogFor<PlatformService>();
         }
 
         public void OpenCriThinkFacebookPage()
@@ -28,7 +28,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Failed to open Facebook app", FacebookPageId);
+                _log?.Error(ex, "Failed to open Facebook page", FacebookPageId);
             }
         }
 
@@ -40,7 +40,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Failed to open Instagram app", InstagramProfileName);
+                _log?.Error(ex, "Failed to open Instagram profile", InstagramProfileName);
             }
         }
 
@@ -52,7 +52,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Failed to open Twitter app", TwitterProfileName);
+                _log?.Error(ex, "Failed to open Twitter profile", TwitterProfileName);
             }
         }
 
@@ -64,7 +64,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Failed to open LinkedIn app", LinkedInProfile);
+                _log?.Error(ex, "Failed to open LinkedIn profile", LinkedInProfile);
             }
         }
     }
