@@ -1,5 +1,6 @@
-﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
-@model EditNewsSourceViewModel
+﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
+@using CriThink.Common.Endpoints;
+@model EditNewsSourceViewModel;
 
 @{
     Layout = "_Layout";
@@ -8,8 +9,7 @@
 
 <div class="p-4 text-center m-4 mw-100">
     <h3 class="mb-3">Edit News Source</h3>
-    @using(Html.BeginForm("Edit", "NewsSource", FormMethod.Post)) 
-    {
+    <form action='@($"/{@EndpointConstants.NewsSourceBase}{@EndpointConstants.Edit}")' asp-antiforgery="true" method="post">
         @Html.HiddenFor(x => x.OldLink)
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -31,5 +31,5 @@
         }
 
         <button class="btn btn-warning btn-block" type="submit" ><i class="fas fa-pen"></i></button>
-    }
+    </form>
 </div>
