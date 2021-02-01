@@ -63,7 +63,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             try
             {
                 await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
-                viewModel.Message = "Source Added!";
+                viewModel.Message = "Source " + newsSource.Uri +" successfully added";
                 return View(viewModel);
             }
             catch (ResourceNotFoundException)
