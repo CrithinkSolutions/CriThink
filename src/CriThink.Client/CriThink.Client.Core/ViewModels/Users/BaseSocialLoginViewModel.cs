@@ -4,23 +4,24 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
-using Microsoft.Extensions.Logging;
+using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
     public class BaseSocialLoginViewModel : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
-        private readonly ILogger<BaseSocialLoginViewModel> _logger;
 
-        public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
+        public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
         {
             IdentityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _logger = logger;
+            Log = logProvider?.GetLogFor<BaseSocialLoginViewModel>();
         }
 
         protected IIdentityService IdentityService { get; }
+
+        protected IMvxLog Log { get; }
 
         public async Task PerformLoginSignInAsync(string token, ExternalLoginProvider loginProvider)
         {
@@ -38,8 +39,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token),
-                    loginProvider);
+                Log?.FatalException("Error while loggin using social login", ex, string.IsNullOrWhiteSpace(token), loginProvider);
                 await ShowErrorMessage($"An error occurred when logging in with {loginProvider}").ConfigureAwait(true);
             }
             finally

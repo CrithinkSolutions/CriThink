@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.Log(MvxLogLevel.Fatal, () => "Error getting recent news checks from DB;", ex);
+                _log?.ErrorException("Error getting recent news checks from DB", ex);
                 return Array.Empty<LatestNewsCheck>();
             }
         }
@@ -58,7 +58,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.Log(MvxLogLevel.Fatal, () => "Error adding a recent news to DB", ex, latesNewsCheck);
+                _log?.ErrorException("Error adding a recent news to DB", ex, latesNewsCheck);
             }
         }
 

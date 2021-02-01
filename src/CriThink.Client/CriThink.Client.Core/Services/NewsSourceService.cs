@@ -11,6 +11,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.HttpRepository;
+using MvvmCross.Logging;
 using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
@@ -21,13 +22,15 @@ namespace CriThink.Client.Core.Services
         private readonly IIdentityService _identityService;
         private readonly ISQLiteRepository _sqlRepo;
         private readonly IMvxMessenger _messenger;
+        private readonly IMvxLog _log;
 
-        public NewsSourceService(IRestRepository restRepository, IIdentityService identityService, ISQLiteRepository sqlRepo, IMvxMessenger messenger)
+        public NewsSourceService(IRestRepository restRepository, IIdentityService identityService, ISQLiteRepository sqlRepo, IMvxMessenger messenger, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
+            _log = logProvider?.GetLogFor<NewsSourceService>();
         }
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
@@ -42,14 +45,22 @@ namespace CriThink.Client.Core.Services
 
             var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
 
-            var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchResponse>(
-                    $"{EndpointConstants.NewsSourceBase}?{request.ToQueryString()}",
-                    HttpRestVerb.Get,
-                    token,
-                    cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchResponse>(
+                        $"{EndpointConstants.NewsSourceBase}?{request.ToQueryString()}",
+                        HttpRestVerb.Get,
+                        token,
+                        cancellationToken)
+                    .ConfigureAwait(false);
 
-            return loginResponse;
+                return loginResponse;
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error searching a news source", ex, request.Uri);
+                return null;
+            }
         }
 
         public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks()
