@@ -403,7 +403,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SignUp.
+        ///   Looks up a localized string similar to Join Us.
         /// </summary>
         internal static string SignUpViewModel_SignUpTitle {
             get {

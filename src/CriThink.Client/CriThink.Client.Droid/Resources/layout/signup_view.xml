@@ -1,141 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:id="@+id/root">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    android:fitsSystemWindows="true">
 
   <androidx.core.widget.NestedScrollView
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:paddingLeft="@dimen/padding_page"
-    android:paddingRight="@dimen/padding_page"
-    android:id="@+id/scrollViewer"
-    android:fillViewport="true">
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:id="@+id/scrollViewer"
+      android:fillViewport="true"
+      android:overScrollMode="always">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/viewInnerLayout"
-      android:scrollbars="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_page"
+        android:paddingRight="@dimen/padding_page"
+        android:id="@+id/viewInnerLayout"
+        android:scrollbars="vertical">
 
-      <FFImageLoading.Cross.MvxCachedImageView android:layout_width="0dp"
-                                               android:layout_height="@dimen/imgSize_bigLogo"
-                                               android:id="@+id/imgTopImg"
-                                               app:layout_constraintTop_toTopOf="parent"
-                                               app:layout_constraintLeft_toLeftOf="parent"
-                                               app:layout_constraintRight_toRightOf="parent"
-                                               android:layout_marginTop="@dimen/margin_veryBig"
-                                               android:src="@drawable/ic_text_logo" />
+      <FFImageLoading.Cross.MvxCachedImageView
+          android:layout_width="0dp"
+          android:layout_height="@dimen/imgSize_bigLogo"
+          android:id="@+id/imgTopImg"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:layout_marginTop="@dimen/margin_medium"
+          android:src="@drawable/ic_text_logo" />
 
       <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtTitle"
-        app:layout_constraintTop_toBottomOf="@id/imgTopImg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/margin_veryBig"
-        android:textStyle="bold"
-        android:fontFamily="@font/urbanist"
-        android:textSize="@dimen/textSize_title" />
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtTitle"
+          app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          android:layout_marginTop="@dimen/margin_littleBig"
+          android:textStyle="bold"
+          android:textSize="@dimen/textSize_title"
+          android:gravity="center" />
 
       <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtCaption"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        android:textSize="@dimen/textSize_subheader"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:fontFamily="@font/urbanist"/>
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtCaption"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/txtTitle"
+          android:textSize="@dimen/textSize_subheader"
+          android:layout_marginTop="@dimen/margin_small"
+          android:gravity="center"/>
       
       <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnFb"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnGoogle"
-        android:layout_marginBottom="@dimen/margin_littleBig"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"
-        android:drawableLeft="@drawable/btn_fb"
-        android:elevation="@dimen/btn_elevation"
-        android:fontFamily="@font/urbanist"
-        android:layout_marginTop="@dimen/margin_huge" />
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnFb"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/btnGoogle"
+          android:layout_marginBottom="@dimen/margin_littleBig"
+          android:textColor="@android:color/black"
+          android:background="@android:color/white"
+          android:drawableLeft="@drawable/btn_fb"
+          android:elevation="@dimen/btn_elevation" />
 
       <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnGoogle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnSignUp"
-        android:layout_marginBottom="@dimen/margin_littleBig"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"
-        android:drawableLeft="@drawable/btn_google"
-        android:fontFamily="@font/urbanist"
-        android:elevation="@dimen/btn_elevation"/>
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnGoogle"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+          android:layout_marginBottom="@dimen/margin_littleBig"
+          android:textColor="@android:color/black"
+          android:background="@android:color/white"
+          android:drawableLeft="@drawable/btn_google"
+          android:elevation="@dimen/btn_elevation"/>
 
       <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSignUp"
-        android:background="@android:color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/viewLogin"
-        android:layout_marginBottom="@dimen/margin_veryBig"
-        android:backgroundTint="@color/colorBlue"
-        android:radius="@dimen/btn_radius"
-        android:textColor="@android:color/white"
-        android:elevation="@dimen/btn_elevation"
-        android:fontFamily="@font/urbanist"/>
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/btnSignUp"
+          android:background="@android:color/white"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toTopOf="@id/viewLogin"
+          android:layout_marginBottom="@dimen/margin_big"
+          android:backgroundTint="@color/colorBlue"
+          android:radius="@dimen/btn_radius"
+          android:textColor="@android:color/white"
+          android:elevation="@dimen/btn_elevation"/>
 
-      <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/viewLogin"
-        android:fontFamily="@font/urbanist"
-        android:layout_marginBottom="@dimen/margin_littleBig"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:id="@+id/viewLogin"
+          android:layout_marginBottom="@dimen/margin_littleBig"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/alreadyAccount"
-          android:fontFamily="@font/urbanist"
-          android:textSize="@dimen/textSize_small"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/alreadyAccount"
+            android:textSize="@dimen/textSize_small"/>
 
         <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/btnLogin"
-          android:background="@null"
-          android:minWidth="0dp"
-          android:minHeight="0dp"
-          android:paddingLeft="@dimen/margin_small"
-          android:textAllCaps="false"
-          android:fontFamily="@font/urbanist"/>
-      </LinearLayout>
-            
-      <CriThink.LoaderView
-        android:layout_width="@dimen/imgSize_loader"
-        android:layout_height="@dimen/imgSize_loader"
-        android:id="@+id/layoutLoader"
-        android:layout_marginTop="@dimen/margin_medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtCaption"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogin"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="@dimen/margin_small"
+            android:textAllCaps="false"/>
+      </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.core.widget.NestedScrollView>

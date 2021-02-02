@@ -20,7 +20,7 @@
           app:layout_constraintTop_toTopOf="parent"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:layout_marginTop="@dimen/margin_littleBig"
+          android:layout_marginTop="@dimen/margin_medium"
           android:src="@drawable/ic_text_logo" />
 
       <androidx.appcompat.widget.AppCompatTextView
