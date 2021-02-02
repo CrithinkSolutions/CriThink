@@ -183,6 +183,9 @@
   <data name="ResetPasswordViewModel.RepeatPassword" xml:space="preserve">
     <value>Repeat the new password</value>
   </data>
+  <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
+    <value>Insert a new password</value>
+  </data>
   <data name="ResetPasswordViewModel.Send" xml:space="preserve">
     <value>Send</value>
   </data>

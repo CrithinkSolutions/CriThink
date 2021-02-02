@@ -24898,43 +24898,40 @@ namespace CriThink.Client.Droid
 			public const int roundedbgdark = 2131165390;
 			
 			// aapt resource value: 0x7F0700CF
-			public const int signup_background = 2131165391;
+			public const int splash_background = 2131165391;
 			
 			// aapt resource value: 0x7F0700D0
-			public const int splash_background = 2131165392;
+			public const int tab_color = 2131165392;
 			
 			// aapt resource value: 0x7F0700D1
-			public const int tab_color = 2131165393;
+			public const int test_custom_background = 2131165393;
 			
 			// aapt resource value: 0x7F0700D2
-			public const int test_custom_background = 2131165394;
+			public const int tooltip_frame_dark = 2131165394;
 			
 			// aapt resource value: 0x7F0700D3
-			public const int tooltip_frame_dark = 2131165395;
+			public const int tooltip_frame_light = 2131165395;
 			
 			// aapt resource value: 0x7F0700D4
-			public const int tooltip_frame_light = 2131165396;
+			public const int vpi__tab_indicator = 2131165396;
 			
 			// aapt resource value: 0x7F0700D5
-			public const int vpi__tab_indicator = 2131165397;
+			public const int vpi__tab_selected_focused_holo = 2131165397;
 			
 			// aapt resource value: 0x7F0700D6
-			public const int vpi__tab_selected_focused_holo = 2131165398;
+			public const int vpi__tab_selected_holo = 2131165398;
 			
 			// aapt resource value: 0x7F0700D7
-			public const int vpi__tab_selected_holo = 2131165399;
+			public const int vpi__tab_selected_pressed_holo = 2131165399;
 			
 			// aapt resource value: 0x7F0700D8
-			public const int vpi__tab_selected_pressed_holo = 2131165400;
+			public const int vpi__tab_unselected_focused_holo = 2131165400;
 			
 			// aapt resource value: 0x7F0700D9
-			public const int vpi__tab_unselected_focused_holo = 2131165401;
+			public const int vpi__tab_unselected_holo = 2131165401;
 			
 			// aapt resource value: 0x7F0700DA
-			public const int vpi__tab_unselected_holo = 2131165402;
-			
-			// aapt resource value: 0x7F0700DB
-			public const int vpi__tab_unselected_pressed_holo = 2131165403;
+			public const int vpi__tab_unselected_pressed_holo = 2131165402;
 			
 			static Drawable()
 			{

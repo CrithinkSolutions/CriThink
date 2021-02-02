@@ -272,9 +272,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\signup_background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\font\urbanist.xml" />
   </ItemGroup>
   <ItemGroup>

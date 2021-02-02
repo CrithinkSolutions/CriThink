@@ -259,6 +259,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert a new password.
+        /// </summary>
+        internal static string ResetPasswordViewModel_ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         internal static string ResetPasswordViewModel_Send {

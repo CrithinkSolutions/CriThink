@@ -69,7 +69,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _sendRequestCommand;
 
-        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= new MvxAsyncCommand(DoSendRequestCommand);
+        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= new MvxAsyncCommand(DoSendRequestCommand, () =>
+            !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(RepeatPassword) && !string.IsNullOrWhiteSpace(UserId));
 
         #endregion
 

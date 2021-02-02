@@ -243,4 +243,7 @@
   <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
     <value>Recupera la password</value>
   </data>
+  <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
+    <value>Inserisci una nuova password</value>
+  </data>
 </root>
