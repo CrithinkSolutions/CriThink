@@ -1,10 +1,35 @@
-﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
-@model EditNewsSourceViewModel
+﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
+@using CriThink.Common.Endpoints;
+@model EditNewsSourceViewModel;
 
-<form asp-antiforgery="true" method="post">
-    @Html.HiddenFor(x => x.OldLink)
-    <input asp-for="NewLink" />
-    <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit News Source";
+}
 
-    <input type="submit" value="Submit" />
-</form>
+<div class="p-4 text-center m-4 mw-100">
+    <h3 class="mb-3">Edit News Source</h3>
+    <form action='@($"/{@EndpointConstants.NewsSourceBase}{@EndpointConstants.Edit}")' asp-antiforgery="true" method="post">
+        @Html.HiddenFor(x => x.OldLink)
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Uri</span>
+            </div>
+            <input asp-for="NewLink" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Classification</span>
+            </div>
+             <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+        </div>
+
+        @if(!Html.ViewData.ModelState.IsValid) 
+        {
+            @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
+        }
+
+        <button class="btn btn-warning btn-block" type="submit" ><i class="fas fa-pen"></i></button>
+    </form>
+</div>

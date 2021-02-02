@@ -1,4 +1,5 @@
-﻿namespace CriThink.Common.Endpoints.DTOs.NewsSource.Requests
+﻿// ReSharper disable once CheckNamespace
+namespace CriThink.Common.Endpoints.DTOs.NewsSource
 {
     /// <summary>
     /// Options to filter news sources

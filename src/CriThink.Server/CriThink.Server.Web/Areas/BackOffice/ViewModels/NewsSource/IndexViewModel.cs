@@ -5,6 +5,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
     public class IndexViewModel
     {
         public IEnumerable<NewsSource> NewsSources { get; set; }
+
+        public bool HasNextPage { get; set; }
     }
 
     public class NewsSource

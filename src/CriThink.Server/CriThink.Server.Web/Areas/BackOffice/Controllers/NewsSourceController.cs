@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -25,9 +27,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            var news = await _newsSourceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
+            var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
@@ -44,15 +46,31 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             var newsSource = new NewsSourceViewModel
             {
                 Classification = viewModel.Classification,
                 Uri = viewModel.Uri,
             };
 
-            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+            try
+            {
+                await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+                viewModel.Message = $"Source {newsSource.Uri} successfully added";
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-            return NoContent();
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]

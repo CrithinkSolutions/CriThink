@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
@@ -63,29 +62,34 @@ namespace CriThink.Server.Core.Services
             var query = new SearchNewsSourceQuery(uri);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (queryResponse is SearchNewsSourceQueryResponse searchResponse)
+            if (queryResponse != null)
             {
-                var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(searchResponse);
+                var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(queryResponse);
                 return response;
             }
 
             throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
         }
 
-        public async Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest request)
+        public async Task<NewsSourceGetAllResponse> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request)
         {
-            var sourceFilter = _mapper.Map<NewsSourceGetAllFilterRequest, GetAllNewsSourceFilter>(request);
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllNewsSourceQuery(sourceFilter);
+            var sourceFilter = _mapper.Map<NewsSourceGetAllFilterRequest, GetAllNewsSourceFilter>(request.Filter);
+
+            var query = new GetAllNewsSourceQuery(request.PageSize + 1, request.PageIndex, sourceFilter);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (queryResponse is IEnumerable<GetAllNewsSourceQueryResponse> allNewsSources)
+            var dtos = new List<NewsSourceGetResponse>();
+            foreach (var newsSource in queryResponse.Take(request.PageSize))
             {
-                var response = _mapper.Map<IEnumerable<GetAllNewsSourceQueryResponse>, IEnumerable<NewsSourceGetAllResponse>>(allNewsSources);
-                return response.ToList();
+                var dto = _mapper.Map<GetAllNewsSourceQueryResponse, NewsSourceGetResponse>(newsSource);
+                dtos.Add(dto);
             }
 
-            throw new Exception("An error is occurred");
+            var response = new NewsSourceGetAllResponse(dtos, queryResponse.Count > request.PageSize);
+            return response;
         }
     }
 }
