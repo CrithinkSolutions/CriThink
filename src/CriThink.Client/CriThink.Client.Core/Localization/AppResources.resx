@@ -232,7 +232,7 @@
     <value>SignUp with Email</value>
   </data>
   <data name="SignUpViewModel.SignUpTitle" xml:space="preserve">
-    <value>SignUp</value>
+    <value>Join Us</value>
   </data>
   <data name="WelcomeLoginSignInViewModel.Login" xml:space="preserve">
     <value>Login</value>
