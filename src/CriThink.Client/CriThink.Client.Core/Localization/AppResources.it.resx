@@ -141,9 +141,6 @@
   <data name="LoginViewModel.Google" xml:space="preserve">
     <value>Continua con Google</value>
   </data>
-  <data name="LoginViewModel.Jump" xml:space="preserve">
-    <value>Salta (DEBUG)</value>
-  </data>
   <data name="LoginViewModel.Login" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -242,5 +239,11 @@
   </data>
   <data name="SignUpEmailViewModel.ConfirmWelcomeMessage" xml:space="preserve">
     <value>Ciao {0}! Ora puoi effettuare il login</value>
+  </data>
+  <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
+    <value>Recupera la password</value>
+  </data>
+  <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
+    <value>Inserisci una nuova password</value>
   </data>
 </root>

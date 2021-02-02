@@ -31,7 +31,6 @@ namespace CriThink.Client.Droid.Views.Users
                         ViewGroup.LayoutParams.MatchParent)
             };
 
-            layout.SetBackgroundResource(Resource.Color.welcomeBackground);
             layout.AddView(image);
 
             var constraintSet = new ConstraintSet();

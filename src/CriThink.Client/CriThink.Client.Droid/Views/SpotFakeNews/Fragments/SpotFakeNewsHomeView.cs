@@ -10,7 +10,7 @@ using MvvmCross.Platforms.Android.Views.Fragments;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.SpotFakeNews
 {
-    [MvxFragmentPresentation(typeof(HomeViewModel), null)]
+    [MvxFragmentPresentation(typeof(HomeViewModel), "tabs_container_frame")]
     [Register(nameof(SpotFakeNewsHomeView))]
     public class SpotFakeNewsHomeView : MvxFragment<SpotFakeNewsHomeViewModel>
     {

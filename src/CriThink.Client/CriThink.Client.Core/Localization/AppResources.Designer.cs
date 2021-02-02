@@ -88,6 +88,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore your password.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RecoverPassword {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RecoverPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         internal static string ForgotPasswordViewModel_Send {
@@ -129,15 +138,6 @@ namespace CriThink.Client.Core.Localization {
         internal static string LoginViewModel_Google {
             get {
                 return ResourceManager.GetString("LoginViewModel.Google", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Skip (DEBUG).
-        /// </summary>
-        internal static string LoginViewModel_Jump {
-            get {
-                return ResourceManager.GetString("LoginViewModel.Jump", resourceCulture);
             }
         }
         
@@ -255,6 +255,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string ResetPasswordViewModel_RepeatPassword {
             get {
                 return ResourceManager.GetString("ResetPasswordViewModel.RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert a new password.
+        /// </summary>
+        internal static string ResetPasswordViewModel_ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPasswordViewModel.ResetPassword", resourceCulture);
             }
         }
         
@@ -403,7 +412,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SignUp.
+        ///   Looks up a localized string similar to Join Us.
         /// </summary>
         internal static string SignUpViewModel_SignUpTitle {
             get {

@@ -33,7 +33,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _sendRequestCommand;
 
-        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= _sendRequestCommand = new MvxAsyncCommand(DoSendRequestCommand);
+        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= _sendRequestCommand = new MvxAsyncCommand(DoSendRequestCommand,
+            () => !string.IsNullOrWhiteSpace(EmailOrUsername));
 
         public override void Prepare()
         {

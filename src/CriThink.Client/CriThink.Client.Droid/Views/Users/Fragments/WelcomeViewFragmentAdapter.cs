@@ -63,9 +63,6 @@ namespace CriThink.Client.Droid.Views.Users
                 case 3:
                     welcomeFragment.ImageId = Resource.Drawable.ic_welcome_4;
                     break;
-                case 4:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_5;
-                    break;
                 default:
                     throw new NotImplementedException();
             }

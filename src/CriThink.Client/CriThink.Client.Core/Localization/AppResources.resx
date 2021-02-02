@@ -126,6 +126,9 @@
   <data name="ForgotPasswordViewModel.InsertEmail" xml:space="preserve">
     <value>Insert your email</value>
   </data>
+  <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
+    <value>Restore your password</value>
+  </data>
   <data name="ForgotPasswordViewModel.Send" xml:space="preserve">
     <value>Send</value>
   </data>
@@ -140,9 +143,6 @@
   </data>
   <data name="LoginViewModel.Google" xml:space="preserve">
     <value>Continue with Google</value>
-  </data>
-  <data name="LoginViewModel.Jump" xml:space="preserve">
-    <value>Skip (DEBUG)</value>
   </data>
   <data name="LoginViewModel.Login" xml:space="preserve">
     <value>Login</value>
@@ -182,6 +182,9 @@
   </data>
   <data name="ResetPasswordViewModel.RepeatPassword" xml:space="preserve">
     <value>Repeat the new password</value>
+  </data>
+  <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
+    <value>Insert a new password</value>
   </data>
   <data name="ResetPasswordViewModel.Send" xml:space="preserve">
     <value>Send</value>
@@ -232,7 +235,7 @@
     <value>SignUp with Email</value>
   </data>
   <data name="SignUpViewModel.SignUpTitle" xml:space="preserve">
-    <value>SignUp</value>
+    <value>Join Us</value>
   </data>
   <data name="WelcomeLoginSignInViewModel.Login" xml:space="preserve">
     <value>Login</value>
