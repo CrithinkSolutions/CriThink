@@ -55,9 +55,6 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _loginCommand;
         public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand, () => !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(EmailOrUsername));
 
-        private IMvxAsyncCommand _navigateToHomeCommand;
-        public IMvxAsyncCommand NavigateToHomeCommand => _navigateToHomeCommand ??= new MvxAsyncCommand(DoNavigateToHomeCommand);
-
         private IMvxAsyncCommand _navigateToForgotPasswordCommand;
         public IMvxAsyncCommand NavigateToForgotPasswordCommand => _navigateToForgotPasswordCommand ??= new MvxAsyncCommand(DoNavigateToForgotPasswordCommand);
 

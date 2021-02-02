@@ -133,15 +133,6 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Skip (DEBUG).
-        /// </summary>
-        internal static string LoginViewModel_Jump {
-            get {
-                return ResourceManager.GetString("LoginViewModel.Jump", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string LoginViewModel_Login {

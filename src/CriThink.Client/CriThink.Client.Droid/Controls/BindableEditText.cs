@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
 using Android.Content;
 using Android.Util;
-using AndroidX.AppCompat.Widget;
+using Google.Android.Material.TextField;
 
 namespace CriThink.Client.Droid.Controls
 {
-    public class BindableEditText : AppCompatEditText
+    public class BindableEditText : TextInputEditText
     {
         public BindableEditText(Context c, IAttributeSet a)
             : base(c, a)

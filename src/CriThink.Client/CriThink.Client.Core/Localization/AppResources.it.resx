@@ -141,9 +141,6 @@
   <data name="LoginViewModel.Google" xml:space="preserve">
     <value>Continua con Google</value>
   </data>
-  <data name="LoginViewModel.Jump" xml:space="preserve">
-    <value>Salta (DEBUG)</value>
-  </data>
   <data name="LoginViewModel.Login" xml:space="preserve">
     <value>Login</value>
   </data>
