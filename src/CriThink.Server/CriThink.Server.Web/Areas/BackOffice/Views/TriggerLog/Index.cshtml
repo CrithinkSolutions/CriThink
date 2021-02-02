@@ -91,10 +91,11 @@
             $('#nextPage').children().attr('href',url+(pageIndex+1));
             $('#prevPage').children().attr('href',url+(pageIndex-1));
 
-            $('#currentPage').html(pageIndex);
+            $('#currentPage').html(pageIndex+1);
 
-            if (pageIndex == 1) {
+            if (!pageIndex) {
                 $('#prevPage').toggleClass('disabled');
+                $('#currentPage').html("1");
             }
 
             if ($('#hasNextPage').text() == 'False') {
