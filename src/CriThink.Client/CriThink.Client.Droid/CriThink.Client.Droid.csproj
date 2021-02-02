@@ -366,9 +366,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_welcome_4.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_welcome_5.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\ic_welcome_2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -376,9 +373,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\ic_welcome_4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_welcome_5.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ic_welcome_2.png" />
@@ -390,9 +384,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_welcome_4.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_welcome_5.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_welcome_2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -402,9 +393,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_welcome_4.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_welcome_5.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_welcome_2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -412,9 +400,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_welcome_4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_welcome_5.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_facebook_logo.png" />
