@@ -126,6 +126,9 @@
   <data name="ForgotPasswordViewModel.InsertEmail" xml:space="preserve">
     <value>Insert your email</value>
   </data>
+  <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
+    <value>Restore your password</value>
+  </data>
   <data name="ForgotPasswordViewModel.Send" xml:space="preserve">
     <value>Send</value>
   </data>

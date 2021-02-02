@@ -88,6 +88,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore your password.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RecoverPassword {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RecoverPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         internal static string ForgotPasswordViewModel_Send {

@@ -240,4 +240,7 @@
   <data name="SignUpEmailViewModel.ConfirmWelcomeMessage" xml:space="preserve">
     <value>Ciao {0}! Ora puoi effettuare il login</value>
   </data>
+  <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
+    <value>Recupera la password</value>
+  </data>
 </root>
