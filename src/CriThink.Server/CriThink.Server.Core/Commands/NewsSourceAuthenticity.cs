@@ -11,6 +11,9 @@
 
         // Bad
         Conspiracist = 10,
-        FakeNews = 11
+        FakeNews = 11,
+
+        // Not yet analized sources
+        Unknown = 9999,
     }
 }
