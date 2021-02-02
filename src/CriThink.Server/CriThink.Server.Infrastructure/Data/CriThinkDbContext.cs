@@ -35,6 +35,10 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<DebunkingNewsTriggerLog> DebunkingNewsTriggerLogs { get; set; }
 
+        public DbSet<UnknownSource> UnknownSources { get; set; }
+
+        public DbSet<UnknownSourcesNotificationRequest> UnknownSourcesNotificationRequests { get; set; }
+
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Injected")]
         protected override void OnModelCreating(ModelBuilder builder)
         {
