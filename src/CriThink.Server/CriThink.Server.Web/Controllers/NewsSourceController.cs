@@ -59,10 +59,11 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
-        [Route(EndpointConstants.NewsSourceNotifyMe)] // api/news-source/notify-me
+        [Route(EndpointConstants.NewsSourceRegisterForNotification)] // api/news-source/register-for-notification
         [HttpPost]
-        public async Task<IActionResult> RegisterUserForNotificationAsync([FromBody] object request)
+        public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] object request)
         {
+            await Task.Delay(1);
             throw new NotImplementedException();
         }
     }
