@@ -24,7 +24,8 @@ namespace CriThink.Client.Core.ViewModels
             {
                 Mvx.IoCProvider.IoCConstruct<NewsCheckerViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<SpotFakeNewsHomeViewModel>(),
-                Mvx.IoCProvider.IoCConstruct<HomeGameViewModel>()
+                Mvx.IoCProvider.IoCConstruct<HomeGameViewModel>(),
+                Mvx.IoCProvider.IoCConstruct<AboutViewModel>(),
             };
 
             BottomViewTabs = tabs;
