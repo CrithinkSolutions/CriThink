@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
+@using CriThink.Common.Endpoints;
+@model AddNewsSourceViewModel;
+
 @{
+    Layout = "_Layout";
+    ViewData["Title"] = "Add News Source";
 }
+
+<div class="p-4 text-center m-4 mw-100">
+    <h3 class="mb-3">Add News Source</h3>
+    <form action='@($"/{@EndpointConstants.NewsSourceBase}{@EndpointConstants.Add}")' asp-antiforgery="true" method="post">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Uri</span>
+            </div>
+            <input asp-for="Uri" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Classification</span>
+            </div>
+             <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model?.Message))  
+        {
+            <div class="alert alert-success">@Model.Message</div>
+        }
+
+        @if(!Html.ViewData.ModelState.IsValid) 
+        {
+            @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
+        }
+
+        <button class="btn btn-success btn-block" type="submit" ><i class="fas fa-plus"></i></button>
+    </form>
+</div>

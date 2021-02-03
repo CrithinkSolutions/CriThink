@@ -48,19 +48,25 @@ namespace CriThink.Server.Infrastructure.Repositories
         /// <summary>
         /// Get all data from the black and white lists
         /// </summary>
+        /// <param name="size">Page size</param>
+        /// <param name="index">Page index</param>
         /// <returns></returns>
-        Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync();
+        Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync(int size, int index);
 
         /// <summary>
         /// Get all data from the whitelist
         /// </summary>
+        /// <param name="size">Page size</param>
+        /// <param name="index">Page index</param>
         /// <returns></returns>
-        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources();
+        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources(int size, int index);
 
         /// <summary>
         /// Get all data from the blacklist
         /// </summary>
+        /// <param name="size">Page size</param>
+        /// <param name="index">Page index</param>
         /// <returns></returns>
-        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources();
+        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources(int size, int index);
     }
 }

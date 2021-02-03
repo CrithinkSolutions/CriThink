@@ -11,7 +11,7 @@ namespace CriThink.Server.Core.MapperProfiles
     {
         public NewsSourceProfile()
         {
-            CreateMap<GetAllNewsSourceQueryResponse, NewsSourceGetAllResponse>()
+            CreateMap<GetAllNewsSourceQueryResponse, NewsSourceGetResponse>()
                 .ForMember(dest => dest.Uri,
                     opt => opt.MapFrom(src => UriHelper.GetHostNameFromUri(src.Uri)))
                 .ForMember(dest => dest.NewsSourceClassification,

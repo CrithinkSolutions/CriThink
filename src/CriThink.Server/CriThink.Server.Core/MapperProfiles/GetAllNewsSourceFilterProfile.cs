@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Core.Queries;
 
 namespace CriThink.Server.Core.MapperProfiles
