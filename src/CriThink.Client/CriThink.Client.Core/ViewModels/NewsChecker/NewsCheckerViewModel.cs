@@ -20,7 +20,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private readonly IIdentityService _identityService;
         private readonly IMvxLog _log;
 
-        private int _pageIndex = 1;
+        private int _pageIndex;
         private bool _hasMorePages;
         private CancellationTokenSource _cancellationTokenSource;
 
