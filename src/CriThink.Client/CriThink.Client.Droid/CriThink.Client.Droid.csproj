@@ -100,6 +100,7 @@
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
     <Compile Include="Views\Users\Activities\ForgotPasswordView.cs" />
     <Compile Include="Views\Users\Activities\LoginView.cs" />
+    <Compile Include="Views\Users\Activities\ProfileView.cs" />
     <Compile Include="Views\Users\Activities\ResetPasswordView.cs" />
     <Compile Include="Views\Users\Activities\SignUpEmailView.cs" />
     <Compile Include="Views\Users\Activities\SignUpView.cs" />
@@ -559,6 +560,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\cell_version.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\profile_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\edit_actionbar.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

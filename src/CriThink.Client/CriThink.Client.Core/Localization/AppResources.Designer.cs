@@ -358,6 +358,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hi, I&apos;m {0}.
+        /// </summary>
+        internal static string ProfileViewModel_Hello {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hey {0}, you have successfully reset your password.
         /// </summary>
         internal static string ResetPasswordViewModel_ConfirmPasswordReset {

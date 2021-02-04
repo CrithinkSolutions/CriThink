@@ -216,6 +216,9 @@
   <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
     <value>Which news do you want to check?</value>
   </data>
+  <data name="ProfileViewModel.Hello" xml:space="preserve">
+    <value>Hi, I'm {0}</value>
+  </data>
   <data name="ResetPasswordViewModel.ConfirmPasswordReset" xml:space="preserve">
     <value>Hey {0}, you have successfully reset your password</value>
   </data>

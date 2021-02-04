@@ -291,4 +291,7 @@
   <data name="AboutViewModel.Version" xml:space="preserve">
     <value>Version {0}</value>
   </data>
+  <data name="ProfileViewModel.Hello" xml:space="preserve">
+    <value>Ciao, sono {0}</value>
+  </data>
 </root>
