@@ -1,5 +1,6 @@
 @using CriThink.Common.Endpoints.DTOs.Admin;
-@using CriThink.Common.Endpoints
+@using CriThink.Common.Endpoints;
+@using CriThink.Server.Web.Areas.BackOffice.Controllers;
 @model DebunkingNewsGetAllResponse;
 
 @{
@@ -8,151 +9,151 @@
 }
 
 
-@section hasSidebar 
+@section hasSidebar
 {
 
-<div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="list-group list-group-flush">
-        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
-        <a asp-area="BackOffice" asp-controller="TriggerLog" asp-action="Index" class="list-group-item list-group-item-action bg-light">Trigger log</a>
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
+            <a asp-area="BackOffice" asp-controller="TriggerLog" asp-action="Index" class="list-group-item list-group-item-action bg-light">Trigger log</a>
+        </div>
     </div>
-</div>
 
-<div class="p-4 text-center m-4 w-100">
-    <div id="toolbox" class="border p-2 mb-2">
-        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-    </div>
-    <table class="table mb-3" id="featureT">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Publisher</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        @foreach(var debunkedNews in Model.DebunkingNewsCollection) 
-        {
-            <tr>
-                <td>@debunkedNews.Title</td>
-                <td>@debunkedNews.Publisher</td>
-                <td style="width:6%">
-                    <a type="button" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a >
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item mEdit" data-toggle="modal" data-target="#modalEdit" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-pen mr-2"></i>Edit news</a>
-                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
+    <div class="p-4 text-center m-4 w-100">
+        <div id="toolbox" class="border p-2 mb-2">
+            <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
+        </div>
+        <table class="table mb-3" id="featureT">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            @foreach (var debunkedNews in Model.DebunkingNewsCollection)
+            {
+                <tr>
+                    <td>@debunkedNews.Title</td>
+                    <td>@debunkedNews.Publisher</td>
+                    <td style="width:6%">
+                        <a type="button" href="" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-route-id="@debunkedNews.Id" asp-action="@nameof(DebunkingNewsController.UpdateDebunkingNewsAsync).Replace("Async", string.Empty)"><i class="fas fa-pen mr-2"></i>Edit news</a>
+                            <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div id="message"></div>
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li id="prevPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Previous">
+                        <span>Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+                <li id="nextPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Next">
+                        <span>Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <small>News for page</small>
+        <nav>
+            <ul id="pageSizenav" class="pagination justify-content-center">
+                <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="0" class="page-link">20</a></li>
+                <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="0" class="page-link">50</a></li>
+                <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="0" class="page-link">100</a></li>
+            </ul>
+        </nav>
+
+        <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove this news</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </td>
-            </tr>
+                    <div class="modal-body">
+                        Are you sure to delete the news with name <span class="font-weight-bold nameNews"></span>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit news: <span class="font-weight-bold nameNews"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Title</span>
+                            </div>
+                            <input type="text" id="iTitle" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Caption</span>
+                            </div>
+                            <input type="text" id="iCaption" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Link</span>
+                            </div>
+                            <input type="text" id="iLink" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Keywords</span>
+                            </div>
+                            <input type="text" id="iKeywords" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+        {
+            @Html.AntiForgeryToken()
         }
-    </table>
 
-    <div id="message"></div>
+        <div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
 
-    <nav>
-      <ul class="pagination justify-content-center">
-        <li id="prevPage" class="page-item">
-          <a class="page-link pointer" aria-label="Previous">
-            <span>Previous</span>
-          </a>
-        </li>
-        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-        <li id="nextPage" class="page-item">
-          <a class="page-link pointer" aria-label="Next">
-            <span>Next</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <small>News for page</small>
-    <nav>
-      <ul id="pageSizenav" class="pagination justify-content-center">
-        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="0" class="page-link">20</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="0" class="page-link">50</a></li>
-        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="0" class="page-link">100</a></li>
-      </ul>
-    </nav>
-
-    <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Remove this news</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure to delete the news with name <span class="font-weight-bold nameNews"></span>?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit news: <span class="font-weight-bold nameNews"></span></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">Title</span>
-              </div>
-              <input type="text" id="iTitle" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">Caption</span>
-              </div>
-              <input type="text" id="iCaption" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">Link</span>
-              </div>
-              <input type="text" id="iLink" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">Keywords</span>
-              </div>
-              <input type="text" id="iKeywords" class="form-control">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
-    {
-      @Html.AntiForgeryToken()
-    }
-
-    <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
-    
-</div>
 
 }
 
 @section Scripts
 {
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             $('#featureT').DataTable({
                 paging: false,
                 ordering: false,
@@ -184,7 +185,7 @@
             function GetParameterValues(param) {
                 var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
                 for (var i = 0; i < url.length; i++) {
-                    var urlparam = url[i].split('='); 
+                    var urlparam = url[i].split('=');
                     if (urlparam[0] == param) {
                         return urlparam[1];
                     }
@@ -211,37 +212,6 @@
                 $('#message').addClass('alert alert-danger').html('Error!');
             });
         });
-
-        $('.mEdit').click(function(){
-            newsId = $(this).data('id');
-            $('.nameNews').html($(this).data('title'));
-            let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsInfoNews}")', {Id:newsId, __RequestVerificationToken: token}, function(data){
-                $('#iTitle').val(data["title"]);
-                $('#iCaption').val(data["caption"]);
-                $('#iLink').val(data["link"]);
-                $('#iKeywords').val(data["keywords"]);
-            })
-        });
-
-        $('#sureEdit').click(function(){
-            let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsEditNews}")', {
-              Id:newsId, 
-              __RequestVerificationToken: token,
-              Title:$('#iTitle').val(),
-              Caption:$('#iCaption').val(),
-              Link:$('#iLink').val(),
-              Keywords:$('iKeywords').val()
-              }, function(data){
-                $('body').html(data);
-                $('#message').addClass('alert alert-success').html('News removed!');
-            })
-            .fail(function(data){
-                $('#message').addClass('alert alert-danger').html('Error!');
-            });
-        });
-
         }
 
     </script>

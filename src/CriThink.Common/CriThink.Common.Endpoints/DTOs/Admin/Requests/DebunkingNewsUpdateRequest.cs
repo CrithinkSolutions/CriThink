@@ -25,6 +25,9 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         [JsonPropertyName("keywords")]
         public IReadOnlyList<string> Keywords { get; set; }
 
+        [JsonPropertyName("imageLink")]
+        public string ImageLink { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Id == Guid.Empty)
