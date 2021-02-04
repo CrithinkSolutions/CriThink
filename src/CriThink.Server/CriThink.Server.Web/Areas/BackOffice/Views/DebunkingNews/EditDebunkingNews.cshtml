@@ -1,0 +1,90 @@
+﻿@model CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews.EditDebunkingNewsViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit Debunkning News";
+}
+
+<div class="p-4 text-center m-4 mw-100 container-fluid">
+    <h3 class="mb-3">Edit Debunkning News</h3>
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.Id)
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Title</span>
+            </div>
+            <input asp-for="Title" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Caption</span>
+            </div>
+            <input asp-for="Caption" type="text" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Uri</span>
+            </div>
+            <input asp-for="Link" type="text" class="form-control">
+            <a type="button" class="btn btn-outline-primary" href="@Model.Link" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Keywords</span>
+            </div>
+            <input type="text" readonly class="form-control" value="@Model.Keywords">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Image (link)</span>
+            </div>
+            <input asp-for="ImageLink" type="text" class="form-control" onchange="updateNewImage(this.value)">
+        </div>
+
+        <div class="row">
+            <div class="col-5">
+                @if (!string.IsNullOrEmpty(Model.ImageLink))
+                {
+                    <span>Existing image preview</span>
+                    <img src="@Model.ImageLink" style="max-width: 400px" />
+                }
+            </div>
+            <div class="col-5">
+                <span>New image preview</span>
+                <img src="@Model?.ImageLink" style="max-width: 400px" id="newImage" />
+            </div>
+            <div class="col-2 d-flex align-content-around flex-wrap justify-content-center">
+                <div>
+                    <strong>Note:</strong>&nbsp;<span>You can't edit keywords.</span>
+                </div>
+                <div>
+                    <button class="btn btn-outline-success"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Message != null)
+        {
+            <div class="alert alert-success">@Model.Message</div>
+        }
+
+        @if (!Html.ViewData.ModelState.IsValid)
+        {
+            @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
+        }
+    }
+
+    @section Scripts
+    {
+    <script>
+        function updateNewImage(value) {
+            document.getElementById("newImage").src = value;
+        }
+    </script>
+    }
+</div>

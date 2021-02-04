@@ -38,7 +38,9 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest =>
-                    dest.Keywords, opt => opt.MapFrom(src => src.Keywords.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList()));
+                    dest.Keywords, opt => opt.MapFrom(src => src.Keywords.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList()))
+                .ForMember(dest =>
+                    dest.ImageLink, opt => opt.MapFrom(src => src.ImageLink));
         }
     }
 }

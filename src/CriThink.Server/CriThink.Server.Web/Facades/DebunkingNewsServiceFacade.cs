@@ -67,13 +67,13 @@ namespace CriThink.Server.Web.Facades
 
             var request = new DebunkingNewsGetRequest
             {
-               Id = viewModel.Id
+                Id = viewModel.Id
             };
 
             return await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
         }
 
-        public async Task UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
+        public async Task UpdateDebunkingNewsAsync(EditDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -84,7 +84,7 @@ namespace CriThink.Server.Web.Facades
                 Title = viewModel.Title,
                 Caption = viewModel.Caption,
                 Link = viewModel.Link,
-                Keywords = viewModel.Keywords
+                ImageLink = viewModel.ImageLink,
             };
 
             await _debunkingNewsService.UpdateDebunkingNewsAsync(request).ConfigureAwait(false);
