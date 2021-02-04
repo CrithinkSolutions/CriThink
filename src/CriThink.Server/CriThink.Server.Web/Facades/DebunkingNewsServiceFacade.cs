@@ -73,7 +73,7 @@ namespace CriThink.Server.Web.Facades
             return await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
         }
 
-        public async Task UpdateDebunkingNewsAsync(EditDebunkingNewsViewModel viewModel)
+        public async Task UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));

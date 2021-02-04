@@ -130,9 +130,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
         }
 
-        [Route(EndpointConstants.Edit)]
+        [Route(EndpointConstants.MvcEdit)]
         [HttpGet]
-        public async Task<IActionResult> EditDebunkingNewsAsync(Guid id)
+        public async Task<IActionResult> UpdateDebunkingNewsAsync(Guid id)
         {
             var debunkingNews = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(new SimpleDebunkingNewsViewModel
             {
@@ -141,7 +141,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             if (debunkingNews is not null)
             {
-                var viewModel = new EditDebunkingNewsViewModel
+                var viewModel = new UpdateDebunkingNewsViewModel
                 {
                     Title = debunkingNews.Title,
                     Caption = debunkingNews.Caption,
@@ -157,9 +157,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return NotFound();
         }
 
-        [Route(EndpointConstants.Edit)]
+        [Route(EndpointConstants.MvcEdit)]
         [HttpPost]
-        public async Task<IActionResult> EditDebunkingNewsAsync(EditDebunkingNewsViewModel viewModel)
+        public async Task<IActionResult> PostUpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
         {
             if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));

@@ -12,44 +12,44 @@
 @section hasSidebar
 {
 
-<div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="list-group list-group-flush">
-        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
-        <a asp-area="BackOffice" asp-controller="TriggerLog" asp-action="Index" class="list-group-item list-group-item-action bg-light">Trigger log</a>
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
+            <a asp-area="BackOffice" asp-controller="TriggerLog" asp-action="Index" class="list-group-item list-group-item-action bg-light">Trigger log</a>
+        </div>
     </div>
-</div>
 
-<div class="p-4 text-center m-4 w-100">
-    <div id="toolbox" class="border p-2 mb-2">
-        <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-    </div>
-    <table class="table mb-3" id="featureT">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Publisher</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        @foreach (var debunkedNews in Model.DebunkingNewsCollection)
-        {
-            <tr>
-                <td>@debunkedNews.Title</td>
-                <td>@debunkedNews.Publisher</td>
-                <td style="width:6%">
-                    <a type="button" href="" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-route-id="@debunkedNews.Id" asp-action="@nameof(DebunkingNewsController.EditDebunkingNewsAsync)" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-pen mr-2"></i>Edit news</a>
-                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="p-4 text-center m-4 w-100">
+        <div id="toolbox" class="border p-2 mb-2">
+            <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
+        </div>
+        <table class="table mb-3" id="featureT">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            @foreach (var debunkedNews in Model.DebunkingNewsCollection)
+            {
+                <tr>
+                    <td>@debunkedNews.Title</td>
+                    <td>@debunkedNews.Publisher</td>
+                    <td style="width:6%">
+                        <a type="button" href="" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-route-id="@debunkedNews.Id" asp-action="@nameof(DebunkingNewsController.UpdateDebunkingNewsAsync).Replace("Async", string.Empty)"><i class="fas fa-pen mr-2"></i>Edit news</a>
+                            <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
 
-    <div id="message"></div>
+        <div id="message"></div>
 
         <nav>
             <ul class="pagination justify-content-center">

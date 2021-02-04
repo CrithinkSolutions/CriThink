@@ -15,6 +15,6 @@ namespace CriThink.Server.Web.Facades
 
         Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsAsync(SimpleDebunkingNewsViewModel viewModel);
 
-        Task UpdateDebunkingNewsAsync(EditDebunkingNewsViewModel viewModel);
+        Task UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel);
     }
 }
