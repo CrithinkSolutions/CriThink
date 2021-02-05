@@ -9,7 +9,7 @@ namespace CriThink.Server.Core.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public Uri Uri { get; set; }
+        public string Uri { get; set; }
 
         public DateTime FirstRequestedAt { get; set; }
 

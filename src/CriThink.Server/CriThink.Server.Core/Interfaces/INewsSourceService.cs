@@ -42,6 +42,7 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns></returns>
         Task<NewsSourceSearchResponse> SearchNewsSourceWithAlertAsync(Uri uri);
+
         /// <summary>
         /// Get all the news sources stored. Result can be filtered
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
+using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,10 +25,12 @@ namespace CriThink.Server.Web.Controllers
     public class NewsSourceController : Controller
     {
         private readonly INewsSourceService _newsSourceService;
+        private readonly IUnknownNewsSourceService _unknownNewsSourceService;
 
-        public NewsSourceController(INewsSourceService newsSourceService)
+        public NewsSourceController(INewsSourceService newsSourceService, IUnknownNewsSourceService unknownNewsSourceService)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _unknownNewsSourceService = unknownNewsSourceService ?? throw new ArgumentNullException(nameof(unknownNewsSourceService));
         }
 
         /// <summary>
@@ -61,9 +64,9 @@ namespace CriThink.Server.Web.Controllers
         [Produces("application/json")]
         [Route(EndpointConstants.NewsSourceRegisterForNotification)] // api/news-source/register-for-notification
         [HttpPost]
-        public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] object request)
+        public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] NewsSourceNotificationForUnknownDomainRequest request)
         {
-            await Task.Delay(1);
+            await _unknownNewsSourceService.RequestNotificationForUnknownSourceAsync(request).ConfigureAwait(false);
             throw new NotImplementedException();
         }
     }

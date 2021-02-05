@@ -51,14 +51,14 @@ namespace CriThink.Server.Infrastructure.Handlers
                     authenticity);
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+                return Unit.Value;
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, ex.Message);
                 throw;
             }
-
-            return Unit.Value;
         }
     }
 }

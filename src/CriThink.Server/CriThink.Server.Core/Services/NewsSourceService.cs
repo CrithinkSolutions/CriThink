@@ -86,6 +86,8 @@ namespace CriThink.Server.Core.Services
             if (searchResponse is null)
             {
                 await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString()).ConfigureAwait(false);
+                var command = new CreateUnknownNewsSourceCommand(uri);
+                await _mediator.Publish(command).ConfigureAwait(false);
             }
 
             return searchResponse;
