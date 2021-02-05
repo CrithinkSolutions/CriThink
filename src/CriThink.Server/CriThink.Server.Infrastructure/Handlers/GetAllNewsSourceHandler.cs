@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
@@ -8,6 +9,7 @@ using CriThink.Server.Core.Responses;
 using CriThink.Server.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
@@ -23,7 +25,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public async Task<IList<GetAllNewsSourceQueryResponse>> Handle(GetAllNewsSourceQuery request, CancellationToken cancellationToken)
+        public Task<IList<GetAllNewsSourceQueryResponse>> Handle(GetAllNewsSourceQuery request, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -32,19 +34,13 @@ namespace CriThink.Server.Infrastructure.Handlers
             {
                 var size = request.Size;
                 var index = request.Index;
+                var filter = request.Filter;
 
-                var redisValues = request.Filter switch
-                {
-                    GetAllNewsSourceFilter.All => await _newsSourceRepository.GetAllSearchNewsSourcesAsync(size, index)
-                        .ConfigureAwait(false),
-                    GetAllNewsSourceFilter.Whitelist => _newsSourceRepository.GetAllGoodNewsSources(size, index),
-                    GetAllNewsSourceFilter.Blacklist => _newsSourceRepository.GetAllBadNewsSources(size, index),
-                    _ => throw new NotImplementedException(),
-                };
+                var redisValues = _newsSourceRepository.GetAllSearchNewsSources();
 
-                var responses = new List<GetAllNewsSourceQueryResponse>();
+                IList<GetAllNewsSourceQueryResponse> responses = new List<GetAllNewsSourceQueryResponse>();
 
-                foreach (var (redisKey, redisValue) in redisValues)
+                foreach (var (redisKey, redisValue) in ApplyQueryFilter(redisValues, size, index, filter))
                 {
                     var uri = new Uri(redisKey.ToString(), UriKind.Absolute);
 
@@ -56,13 +52,38 @@ namespace CriThink.Server.Infrastructure.Handlers
                     responses.Add(response);
                 }
 
-                return responses;
+                return Task.FromResult(responses);
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error getting all news source", request);
                 throw;
             }
+        }
+
+        private static IEnumerable<Tuple<RedisKey, RedisValue>> ApplyQueryFilter(
+            IEnumerable<Tuple<RedisKey, RedisValue>> query,
+            int size, int index,
+            GetAllNewsSourceFilter filter)
+        {
+            return query
+                .Skip(size * index)
+                .Take(size + 1)
+                .Where(k =>
+                    Enum.TryParse(k.Item2.ToString(), true, out NewsSourceAuthenticity authenticity) &&
+                    IsSameCategory(filter, authenticity));
+        }
+
+        private static bool IsSameCategory(GetAllNewsSourceFilter filter, NewsSourceAuthenticity authenticity)
+        {
+            return filter switch
+            {
+                GetAllNewsSourceFilter.Blacklist => authenticity == NewsSourceAuthenticity.Conspiracist ||
+                                                    authenticity == NewsSourceAuthenticity.FakeNews,
+                GetAllNewsSourceFilter.Whitelist => authenticity == NewsSourceAuthenticity.Reliable ||
+                                                    authenticity == NewsSourceAuthenticity.Satirical,
+                _ => true
+            };
         }
     }
 }

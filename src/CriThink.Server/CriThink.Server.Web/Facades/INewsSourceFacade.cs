@@ -11,9 +11,7 @@ namespace CriThink.Server.Web.Facades
 
         Task AddNewsSourceAsync(NewsSourceViewModel viewModel);
 
-        Task RemoveWhitelistNewsSourceAsync(Uri uri);
-
-        Task RemoveBlacklistNewsSourceAsync(Uri uri);
+        Task RemoveNewsSourceAsync(Uri uri);
 
         Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri);
     }

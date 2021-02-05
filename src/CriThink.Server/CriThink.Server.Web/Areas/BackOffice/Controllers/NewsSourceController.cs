@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
@@ -69,26 +70,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // news-source/whitelist
+        [Route(EndpointConstants.NewsSourceRemoveNewsSource)] // news-source/blacklist
         [HttpDelete]
-        public async Task<IActionResult> RemoveGoodNewsSourceAsync(RemoveWhitelistViewModel viewModel)
+        public async Task<IActionResult> RemoveNewsSourceAsync(RemoveBlacklistViewModel viewModel)
         {
             var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(uri).ConfigureAwait(false);
-            return NoContent();
-        }
-
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // news-source/blacklist
-        [HttpDelete]
-        public async Task<IActionResult> RemoveBadNewsSourceAsync(RemoveBlacklistViewModel viewModel)
-        {
-            var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
+            await _newsSourceFacade.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
 
@@ -138,14 +128,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (searchResult is null)
                 return RedirectToAction(nameof(Index));
 
-            if (searchResult.Classification == Classification.Conspiracist || searchResult.Classification == Classification.FakeNews)
-            {
-                await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(oldLink).ConfigureAwait(false);
-            }
-            else
-            {
-                await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(oldLink).ConfigureAwait(false);
-            }
+            await _newsSourceFacade.RemoveNewsSourceAsync(oldLink).ConfigureAwait(false);
 
             var newsSource = new NewsSourceViewModel
             {

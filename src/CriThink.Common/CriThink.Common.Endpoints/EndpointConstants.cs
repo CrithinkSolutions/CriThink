@@ -88,8 +88,7 @@
 
         public const string NewsSourceBase = "news-source/";
 
-        public const string NewsSourceRemoveBlackNewsSource = "blacklist";
-        public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
+        public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
 
         #endregion

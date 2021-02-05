@@ -18,14 +18,7 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns>A task</returns>
-        Task RemoveBadSourceAsync(Uri uri);
-
-        /// <summary>
-        /// Remove a source from the whitelist
-        /// </summary>
-        /// <param name="uri"><see cref="Uri"/> to analyze</param>
-        /// <returns>A task</returns>
-        Task RemoveGoodNewsSourceAsync(Uri uri);
+        Task RemoveNewsSourceAsync(Uri uri);
 
         /// <summary>
         /// Search the given source in the black and whitelist

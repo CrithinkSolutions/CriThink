@@ -53,20 +53,12 @@ namespace CriThink.Server.Web.Facades
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
         }
 
-        public async Task RemoveWhitelistNewsSourceAsync(Uri uri)
+        public async Task RemoveNewsSourceAsync(Uri uri)
         {
             if (uri is null)
                 throw new ArgumentNullException(nameof(uri));
 
-            await _newsSourceService.RemoveGoodNewsSourceAsync(uri).ConfigureAwait(false);
-        }
-
-        public async Task RemoveBlacklistNewsSourceAsync(Uri uri)
-        {
-            if (uri is null)
-                throw new ArgumentNullException(nameof(uri));
-
-            await _newsSourceService.RemoveBadSourceAsync(uri).ConfigureAwait(false);
+            await _newsSourceService.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
         }
 
         public async Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri)

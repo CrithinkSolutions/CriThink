@@ -22,11 +22,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            if (request.IsGoodSource)
-                await _newsSourceRepository.AddNewsSourceToWhitelistAsync(request.Uri, request.Authencity).ConfigureAwait(false);
-            else
-                await _newsSourceRepository.AddNewsSourceToBlacklistAsync(request.Uri, request.Authencity).ConfigureAwait(false);
-
+            await _newsSourceRepository.AddNewsSourceAsync(request.Uri, request.Authencity).ConfigureAwait(false);
             return Unit.Value;
         }
     }
