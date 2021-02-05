@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownSourcesNotificationRequest : ICriThinkIdentity
+    public class UnknownSourceNotificationRequest : ICriThinkIdentity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

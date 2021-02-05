@@ -37,7 +37,7 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UnknownSource> UnknownSources { get; set; }
 
-        public DbSet<UnknownSourcesNotificationRequest> UnknownSourcesNotificationRequests { get; set; }
+        public DbSet<UnknownSourceNotificationRequest> UnknownSourceNotificationRequests { get; set; }
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Injected")]
         protected override void OnModelCreating(ModelBuilder builder)

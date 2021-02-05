@@ -27,14 +27,14 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var unknownSourcesNotificationRequest = new UnknownSourcesNotificationRequest
+                var unknownSourcesNotificationRequest = new UnknownSourceNotificationRequest
                 {
                     Email = request.Email,
                     NewsSourceId = request.NewsSourceId,
                     RequestedAt = DateTime.Now,
                 };
 
-                _dbContext.UnknownSourcesNotificationRequests.Add(unknownSourcesNotificationRequest);
+                _dbContext.UnknownSourceNotificationRequests.Add(unknownSourcesNotificationRequest);
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
