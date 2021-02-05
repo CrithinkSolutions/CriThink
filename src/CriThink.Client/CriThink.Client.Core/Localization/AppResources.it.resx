@@ -268,7 +268,7 @@
     <value>Legale</value>
   </data>
   <data name="AboutViewModel.Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Esci</value>
   </data>
   <data name="AboutViewModel.Notifications" xml:space="preserve">
     <value>Notifiche</value>
@@ -293,5 +293,20 @@
   </data>
   <data name="ProfileViewModel.Hello" xml:space="preserve">
     <value>Ciao, sono {0}</value>
+  </data>
+  <data name="AboutViewModel.LogoutCancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="AboutViewModel.LogoutMessage" xml:space="preserve">
+    <value>Confermi di voler uscire?</value>
+  </data>
+  <data name="AboutViewModel.LogoutOk" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="AbouteViewModel.LogoutErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
+    <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
 </root>

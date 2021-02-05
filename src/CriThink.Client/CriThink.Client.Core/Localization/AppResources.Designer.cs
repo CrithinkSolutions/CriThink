@@ -61,6 +61,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string AbouteViewModel_LogoutErrorOk {
+            get {
+                return ResourceManager.GetString("AbouteViewModel.LogoutErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account settings.
         /// </summary>
         internal static string AboutViewModel_AccountSettings {
@@ -120,6 +129,42 @@ namespace CriThink.Client.Core.Localization {
         internal static string AboutViewModel_Logout {
             get {
                 return ResourceManager.GetString("AboutViewModel.Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string AboutViewModel_LogoutCancel {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, you can&apos;t log out right now.
+        /// </summary>
+        internal static string AboutViewModel_LogoutErrorMessage {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to log out?.
+        /// </summary>
+        internal static string AboutViewModel_LogoutMessage {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        internal static string AboutViewModel_LogoutOk {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutOk", resourceCulture);
             }
         }
         

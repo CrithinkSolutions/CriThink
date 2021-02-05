@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Games;
 using CriThink.Client.Core.ViewModels.NewsChecker;
@@ -10,6 +11,7 @@ using CriThink.Client.Core.ViewModels.Users;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels
 {
@@ -50,7 +52,11 @@ namespace CriThink.Client.Core.ViewModels
             var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
             if (user is null)
             {
-                await _navigationService.Navigate<SignUpViewModel>().ConfigureAwait(true);
+                await _navigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    })).ConfigureAwait(true);
             }
         }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Models.Menu;
 using CriThink.Client.Core.Services;
 using FFImageLoading.Transformations;
@@ -18,12 +20,14 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class AboutViewModel : BaseBottomViewViewModel
     {
         private readonly IIdentityService _identityService;
+        private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
 
-        public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService)
+        public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
             : base(logProvider, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = LogProvider?.GetLogFor<AboutViewModel>();
 
             ProfileImageTransformations = new List<ITransformation>
@@ -48,7 +52,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 new MenuModel(LocalizedTextSource.GetText("ToS")),
                 new MenuModel(LocalizedTextSource.GetText("PrivacySettings")),
 
-                new ActionModel(LocalizedTextSource.GetText("Logout"))
+                new ActionModel(LocalizedTextSource.GetText("Logout"), new MvxAsyncCommand(DoLogoutCommand))
             };
 
             TabId = "profile";
@@ -103,6 +107,34 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToProfile(CancellationToken cancellationToken)
         {
             await NavigationService.Navigate<ProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task DoLogoutCommand(CancellationToken cancellationToken)
+        {
+            var cancelText = LocalizedTextSource.GetText("LogoutCancel");
+            var ok = LocalizedTextSource.GetText("LogoutOk");
+            var message = LocalizedTextSource.GetText("LogoutMessage");
+            var isConfirmed = await _userDialogs.ConfirmAsync(message, null, ok, cancelText, cancelToken: cancellationToken).ConfigureAwait(true);
+            if (!isConfirmed)
+                return;
+
+            try
+            {
+                _identityService.PerformLogout();
+
+                await NavigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    }),
+                    cancellationToken: cancellationToken).ConfigureAwait(true);
+            }
+            catch
+            {
+                var errorLogoutOk = LocalizedTextSource.GetText("LogoutErrorOk");
+                var errorLogoutMessage = LocalizedTextSource.GetText("LogoutErrorMessage");
+                await _userDialogs.AlertAsync(errorLogoutMessage, null, errorLogoutOk, cancelToken: cancellationToken).ConfigureAwait(false);
+            }
         }
     }
 }

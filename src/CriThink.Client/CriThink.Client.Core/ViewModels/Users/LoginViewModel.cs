@@ -86,22 +86,12 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             else
             {
-                await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
-            }
-        }
-
-        private async Task DoNavigateToHomeCommand()
-        {
-            try
-            {
-                await _navigationService.Navigate<HomeViewModel>(new MvxBundle(new Dictionary<string, string>
-                {
-                    {MvxBundleConstaints.ClearBackStack, ""}
-                })).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log?.FatalException("Error clearing back stack", ex);
+                await _navigationService.Navigate<HomeViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    }),
+                    cancellationToken: cancellationToken).ConfigureAwait(true);
             }
         }
 

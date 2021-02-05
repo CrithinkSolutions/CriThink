@@ -41,22 +41,63 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken) =>
-            _identityService.PerformLoginAsync(request, cancellationToken);
+        public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _identityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
 
-        public Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default) =>
-            _identityService.PerformSocialLoginSignInAsync(request, cancellationToken);
+        public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
+        {
+            var response = await _identityService.PerformSocialLoginSignInAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
 
-        public Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken) =>
-            _identityService.RequestTemporaryTokenAsync(request, cancellationToken);
+        public async Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken)
+        {
+            await _identityService.RequestTemporaryTokenAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+        }
 
-        public Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken) =>
-            _identityService.ResetPasswordAsync(request, cancellationToken);
+        public async Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _identityService.ResetPasswordAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
 
-        public Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken) =>
-            _identityService.PerformSignUpAsync(request, cancellationToken);
+        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _identityService.PerformSignUpAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
 
-        public Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code) =>
-            _identityService.ConfirmUserEmailAsync(userId, code);
+        public async Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code)
+        {
+            var response = await _identityService.ConfirmUserEmailAsync(userId, code).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
+
+        public void PerformLogout()
+        {
+            try
+            {
+                _identityService.PerformLogout();
+            }
+            finally
+            {
+                ClearUserInfoFromCache();
+            }
+        }
+
+        private void ClearUserInfoFromCache()
+        {
+            _memoryCache.Remove(UserCacheKey);
+            _memoryCache.Remove(UserTokenCacheKey);
+        }
     }
 }
