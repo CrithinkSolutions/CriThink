@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
@@ -34,7 +34,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Add)]  // news-source/add
+        [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpGet]
         public IActionResult AddSource()
         {
@@ -42,7 +42,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Add)]  // news-source/add
+        [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
@@ -70,31 +70,20 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // news-source/whitelist
+        [Route(EndpointConstants.NewsSourceRemoveNewsSource)] // news-source/blacklist
         [HttpDelete]
-        public async Task<IActionResult> RemoveGoodNewsSourceAsync(RemoveWhitelistViewModel viewModel)
+        public async Task<IActionResult> RemoveNewsSourceAsync(RemoveBlacklistViewModel viewModel)
         {
             var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(uri).ConfigureAwait(false);
+            await _newsSourceFacade.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // news-source/blacklist
-        [HttpDelete]
-        public async Task<IActionResult> RemoveBadNewsSourceAsync(RemoveBlacklistViewModel viewModel)
-        {
-            var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
-            return NoContent();
-        }
-
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Edit)] // news-source/edit
+        [Route(EndpointConstants.MvcEdit)] // news-source/edit
         [HttpGet]
         public async Task<IActionResult> Edit(string newsSourceLink)
         {
@@ -121,7 +110,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Edit)] // news-source/edit
+        [Route(EndpointConstants.MvcEdit)] // news-source/edit
         [HttpPost]
         public async Task<IActionResult> Edit(EditNewsSourceViewModel viewModel)
         {
@@ -139,14 +128,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (searchResult is null)
                 return RedirectToAction(nameof(Index));
 
-            if (searchResult.Classification == Classification.Conspiracist || searchResult.Classification == Classification.FakeNews)
-            {
-                await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(oldLink).ConfigureAwait(false);
-            }
-            else
-            {
-                await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(oldLink).ConfigureAwait(false);
-            }
+            await _newsSourceFacade.RemoveNewsSourceAsync(oldLink).ConfigureAwait(false);
 
             var newsSource = new NewsSourceViewModel
             {

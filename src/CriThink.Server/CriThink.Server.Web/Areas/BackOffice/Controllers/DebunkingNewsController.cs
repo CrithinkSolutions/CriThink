@@ -18,7 +18,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Route(EndpointConstants.DebunkNewsBase)] 
+    [Route(EndpointConstants.DebunkNewsBase)]
     public class DebunkingNewsController : Controller
     {
         private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
@@ -90,7 +90,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 if (ModelState.IsValid)
@@ -117,7 +117,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 var info = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(viewModel).ConfigureAwait(false);
@@ -130,31 +130,46 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
         }
 
-        /// <summary>
-        /// Update debunking news
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route(EndpointConstants.DebunkingNewsEditNews)]
-        public async Task<IActionResult> UpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
+        [Route(EndpointConstants.MvcEdit)]
+        [HttpGet]
+        public async Task<IActionResult> UpdateDebunkingNewsAsync(Guid id)
         {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-                
-            try
+            var debunkingNews = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(new SimpleDebunkingNewsViewModel
             {
-                if (ModelState.IsValid)
-                {
-                    await _debunkingNewsServiceFacade.UpdateDebunkingNewsAsync(viewModel).ConfigureAwait(false);
-                }
+                Id = id,
+            }).ConfigureAwait(false);
 
-                return RedirectToAction("Index");
-            }
-            catch (ResourceNotFoundException)
+            if (debunkingNews is not null)
             {
-                return NotFound();
+                var viewModel = new UpdateDebunkingNewsViewModel
+                {
+                    Title = debunkingNews.Title,
+                    Caption = debunkingNews.Caption,
+                    Link = debunkingNews.Link,
+                    ImageLink = debunkingNews.ImageLink,
+                    Keywords = string.Join(", ", debunkingNews.Keywords),
+                };
+
+                return View(viewModel);
             }
+
+            else
+                return NotFound();
+        }
+
+        [Route(EndpointConstants.MvcEdit)]
+        [HttpPost]
+        public async Task<IActionResult> PostUpdateDebunkingNewsAsync(UpdateDebunkingNewsViewModel viewModel)
+        {
+            if (viewModel is null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            await _debunkingNewsServiceFacade.UpdateDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

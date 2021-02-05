@@ -14,8 +14,5 @@ namespace CriThink.Server.Core.Commands
         public Uri Uri { get; }
 
         public NewsSourceAuthenticity Authencity { get; }
-
-        public bool IsGoodSource => Authencity == NewsSourceAuthenticity.Satirical ||
-                                    Authencity == NewsSourceAuthenticity.Reliable;
     }
 }

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    internal class RemoveBadNewsSourceHandler : IRequestHandler<RemoveBadNewsSourceCommand>
+    internal class RemoveBadNewsSourceHandler : IRequestHandler<RemoveNewsSourceCommand>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
 
@@ -17,31 +17,12 @@ namespace CriThink.Server.Infrastructure.Handlers
             _newsSourceRepository = newsSourceRepository ?? throw new ArgumentNullException(nameof(newsSourceRepository));
         }
 
-        public async Task<Unit> Handle(RemoveBadNewsSourceCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RemoveNewsSourceCommand request, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            await _newsSourceRepository.RemoveNewsSourceFromBlacklistAsync(request.Uri).ConfigureAwait(false);
-            return Unit.Value;
-        }
-    }
-
-    internal class RemoveGoodNewsSourceHandler : IRequestHandler<RemoveGoodNewsSourceCommand>
-    {
-        private readonly INewsSourceRepository _newsSourceRepository;
-
-        public RemoveGoodNewsSourceHandler(INewsSourceRepository newsSourceRepository)
-        {
-            _newsSourceRepository = newsSourceRepository ?? throw new ArgumentNullException(nameof(newsSourceRepository));
-        }
-
-        public async Task<Unit> Handle(RemoveGoodNewsSourceCommand request, CancellationToken cancellationToken)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            await _newsSourceRepository.RemoveNewsSourceFromWhitelistAsync(request.Uri).ConfigureAwait(false);
+            await _newsSourceRepository.RemoveNewsSourceAsync(request.Uri).ConfigureAwait(false);
             return Unit.Value;
         }
     }

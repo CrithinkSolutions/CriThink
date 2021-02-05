@@ -14,29 +14,14 @@ namespace CriThink.Server.Infrastructure.Repositories
         /// <param name="uri">Host to save</param>
         /// <param name="authenticity">Authenticity rate</param>
         /// <returns>A task</returns>
-        Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthenticity authenticity);
-
-        /// <summary>
-        /// Adds the given source with the authenticity rate to a whitelist
-        /// </summary>
-        /// <param name="uri">Host to save</param>
-        /// <param name="authenticity">Authenticity rate</param>
-        /// <returns>A task</returns>
-        Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthenticity authenticity);
+        Task<bool> AddNewsSourceAsync(Uri uri, NewsSourceAuthenticity authenticity);
 
         /// <summary>
         /// Remove a news source from the blacklist
         /// </summary>
         /// <param name="uri">Host to remove</param>
         /// <returns>A task</returns>
-        Task RemoveNewsSourceFromBlacklistAsync(Uri uri);
-
-        /// <summary>
-        /// Remove a news source from the whitelist
-        /// </summary>
-        /// <param name="uri">Host to remove</param>
-        /// <returns>A task</returns>
-        Task RemoveNewsSourceFromWhitelistAsync(Uri uri);
+        Task RemoveNewsSourceAsync(Uri uri);
 
         /// <summary>
         /// Search for the given source (key) in black and white lists
@@ -48,25 +33,7 @@ namespace CriThink.Server.Infrastructure.Repositories
         /// <summary>
         /// Get all data from the black and white lists
         /// </summary>
-        /// <param name="size">Page size</param>
-        /// <param name="index">Page index</param>
         /// <returns></returns>
-        Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync(int size, int index);
-
-        /// <summary>
-        /// Get all data from the whitelist
-        /// </summary>
-        /// <param name="size">Page size</param>
-        /// <param name="index">Page index</param>
-        /// <returns></returns>
-        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources(int size, int index);
-
-        /// <summary>
-        /// Get all data from the blacklist
-        /// </summary>
-        /// <param name="size">Page size</param>
-        /// <param name="index">Page index</param>
-        /// <returns></returns>
-        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources(int size, int index);
+        IEnumerable<Tuple<RedisKey, RedisValue>> GetAllSearchNewsSources();
     }
 }

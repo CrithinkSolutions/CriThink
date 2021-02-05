@@ -11,8 +11,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 {
     internal class NewsSourceRepository : INewsSourceRepository
     {
-        private const int BlacklistDatabase = 1;
-        private const int WhitelistDatabase = 2;
+        private const int NewsSourceDatabase = 1;
 
         private readonly CriThinkRedisMultiplexer _multiplexer;
 
@@ -21,40 +20,21 @@ namespace CriThink.Server.Infrastructure.Repositories
             _multiplexer = multiplexer ?? throw new ArgumentNullException(nameof(multiplexer));
         }
 
-        public Task<bool> AddNewsSourceToBlacklistAsync(Uri uri, NewsSourceAuthenticity authenticity)
+        public Task<bool> AddNewsSourceAsync(Uri uri, NewsSourceAuthenticity authenticity)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
-            var db = _multiplexer.GetDatabase(BlacklistDatabase);
+            var db = _multiplexer.GetDatabase(NewsSourceDatabase);
             return db.StringSetAsync(GetHostName(uri), authenticity.ToString());
         }
 
-        public Task<bool> AddNewsSourceToWhitelistAsync(Uri uri, NewsSourceAuthenticity authenticity)
+        public Task RemoveNewsSourceAsync(Uri uri)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
 
-            var db = _multiplexer.GetDatabase(WhitelistDatabase);
-
-            return db.StringSetAsync(GetHostName(uri), authenticity.ToString());
-        }
-
-        public Task RemoveNewsSourceFromBlacklistAsync(Uri uri)
-        {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
-
-            var db = _multiplexer.GetDatabase(BlacklistDatabase);
-            return RemoveNewsSource(db, uri);
-        }
-
-        public Task RemoveNewsSourceFromWhitelistAsync(Uri uri)
-        {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
-
-            var db = _multiplexer.GetDatabase(WhitelistDatabase);
+            var db = _multiplexer.GetDatabase(NewsSourceDatabase);
             return RemoveNewsSource(db, uri);
         }
 
@@ -65,91 +45,34 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             var hostName = GetHostName(uri);
 
-            var db = _multiplexer.GetDatabase(WhitelistDatabase);
+            var db = _multiplexer.GetDatabase(NewsSourceDatabase);
             var whitelistValue = await db.StringGetAsync(hostName).ConfigureAwait(false);
-
-            if (whitelistValue.IsNull)
-            {
-                db = _multiplexer.GetDatabase(BlacklistDatabase);
-                var blacklistValue = await db.StringGetAsync(hostName).ConfigureAwait(false);
-                return blacklistValue;
-            }
-
             return whitelistValue;
         }
 
-        public async Task<IEnumerable<Tuple<RedisKey, RedisValue>>> GetAllSearchNewsSourcesAsync(int size, int index)
+        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllSearchNewsSources()
         {
-            var (goodSize, badSize) = GetPaginationForBothDatabases(size);
-
-            var whitelistTask = Task.Run(() => GetAllGoodNewsSources(goodSize, index));
-            var blacklistTask = Task.Run(() => GetAllBadNewsSources(badSize, index));
-
-            await Task.WhenAll(whitelistTask, blacklistTask).ConfigureAwait(false);
-
-            var whitelistResults = whitelistTask.Result.ToList();
-            var blacklistResults = blacklistTask.Result.ToList();
-
-            return whitelistResults.Union(blacklistResults);
-        }
-
-        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllGoodNewsSources(int size, int index)
-        {
-            var db = _multiplexer.GetDatabase(WhitelistDatabase);
+            var db = _multiplexer.GetDatabase(NewsSourceDatabase);
             var server = _multiplexer.GetServer();
 
-            var results = GetNewsSources(db, server, size, index);
-            return results;
-        }
-
-        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllBadNewsSources(int size, int index)
-        {
-            var db = _multiplexer.GetDatabase(BlacklistDatabase);
-            var server = _multiplexer.GetServer();
-
-            var results = GetNewsSources(db, server, size, index);
+            var results = GetNewsSources(db, server);
             return results;
         }
 
         #region Privates
 
-        private static (int goodSize, int badSize) GetPaginationForBothDatabases(int size)
+        private static IEnumerable<Tuple<RedisKey, RedisValue>> GetNewsSources(IDatabase database, IServer server)
         {
-            var goodSize = size;
-            var badSize = size;
-            bool isSizeOdd = false;
-
-            if (size % 2 != 0)
-            {
-                isSizeOdd = true;
-                badSize -= 1;
-                goodSize -= 1;
-            }
-
-            badSize /= 2;
-            goodSize /= 2;
-
-            if (isSizeOdd)
-                badSize += 1;
-
-            return (goodSize, badSize);
+            return server
+                .Keys(database.Database, "*")
+                .Select(k => ReadValue(k, database));
         }
 
-        private static IEnumerable<Tuple<RedisKey, RedisValue>> GetNewsSources(IDatabase database, IServer server, int size, int index)
+        private static Tuple<RedisKey, RedisValue> ReadValue(RedisKey key, IDatabase database)
         {
-            var list = new List<Tuple<RedisKey, RedisValue>>();
-
-            foreach (var key in server
-                .Keys(database.Database, "*")
-                .Skip(size * (index - 1))
-                .Take(size))
-            {
-                var redisValue = database.StringGet(key);
-                var tuple = new Tuple<RedisKey, RedisValue>($"https://{key}", redisValue);
-                list.Add(tuple);
-            }
-
-            return list;
+            var redisValue = database.StringGet(key);
+            var tuple = new Tuple<RedisKey, RedisValue>($"https://{key}", redisValue);
+            return tuple;
         }
 
         private static Task RemoveNewsSource(IDatabase database, Uri uri)

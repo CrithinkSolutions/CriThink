@@ -9,7 +9,7 @@
 
 <div class="p-4 text-center m-4 mw-100">
     <h3 class="mb-3">Edit News Source</h3>
-    <form action='@($"/{@EndpointConstants.NewsSourceBase}{@EndpointConstants.Edit}")' asp-antiforgery="true" method="post">
+    <form action='@($"/{@EndpointConstants.NewsSourceBase}{@EndpointConstants.MvcEdit}")' asp-antiforgery="true" method="post">
         @Html.HiddenFor(x => x.OldLink)
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -22,14 +22,14 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Classification</span>
             </div>
-             <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
         </div>
 
-        @if(!Html.ViewData.ModelState.IsValid) 
+        @if (!Html.ViewData.ModelState.IsValid)
         {
             @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
         }
 
-        <button class="btn btn-warning btn-block" type="submit" ><i class="fas fa-pen"></i></button>
+        <button class="btn btn-warning btn-block" type="submit"><i class="fas fa-pen"></i></button>
     </form>
 </div>

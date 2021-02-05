@@ -88,8 +88,7 @@
 
         public const string NewsSourceBase = "news-source/";
 
-        public const string NewsSourceRemoveBlackNewsSource = "blacklist";
-        public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
+        public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
 
         #endregion
@@ -118,7 +117,7 @@
         public const string UserManagementInfoUser = "info-user";
         public const string UserManagementEditUser = "edit-user";
         public const string UserManagementEditRoleUser = "edit-roleuser";
-        
+
         #endregion
 
         #region Demo
@@ -132,8 +131,8 @@
 
         #region MVC
 
-        public const string Add = "add";
-        public const string Edit = "edit";
+        public const string MvcAdd = "add";
+        public const string MvcEdit = "edit";
 
         #endregion
     }
