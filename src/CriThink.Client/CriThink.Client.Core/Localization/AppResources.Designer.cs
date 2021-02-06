@@ -61,6 +61,186 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string AbouteViewModel_LogoutErrorOk {
+            get {
+                return ResourceManager.GetString("AbouteViewModel.LogoutErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account settings.
+        /// </summary>
+        internal static string AboutViewModel_AccountSettings {
+            get {
+                return ResourceManager.GetString("AboutViewModel.AccountSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get help.
+        /// </summary>
+        internal static string AboutViewModel_GetHelp {
+            get {
+                return ResourceManager.GetString("AboutViewModel.GetHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give us feedback.
+        /// </summary>
+        internal static string AboutViewModel_GiveFeedback {
+            get {
+                return ResourceManager.GetString("AboutViewModel.GiveFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How CriThink works.
+        /// </summary>
+        internal static string AboutViewModel_HowWorks {
+            get {
+                return ResourceManager.GetString("AboutViewModel.HowWorks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite friends.
+        /// </summary>
+        internal static string AboutViewModel_InviteFriends {
+            get {
+                return ResourceManager.GetString("AboutViewModel.InviteFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legal.
+        /// </summary>
+        internal static string AboutViewModel_Legal {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Legal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        internal static string AboutViewModel_Logout {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string AboutViewModel_LogoutCancel {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, you can&apos;t log out right now.
+        /// </summary>
+        internal static string AboutViewModel_LogoutErrorMessage {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to log out?.
+        /// </summary>
+        internal static string AboutViewModel_LogoutMessage {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        internal static string AboutViewModel_LogoutOk {
+            get {
+                return ResourceManager.GetString("AboutViewModel.LogoutOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        internal static string AboutViewModel_Notifications {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal information.
+        /// </summary>
+        internal static string AboutViewModel_PersonalInfo {
+            get {
+                return ResourceManager.GetString("AboutViewModel.PersonalInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy settings.
+        /// </summary>
+        internal static string AboutViewModel_PrivacySettings {
+            get {
+                return ResourceManager.GetString("AboutViewModel.PrivacySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Referrals.
+        /// </summary>
+        internal static string AboutViewModel_Referrals {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Referrals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        internal static string AboutViewModel_Support {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of Service.
+        /// </summary>
+        internal static string AboutViewModel_ToS {
+            get {
+                return ResourceManager.GetString("AboutViewModel.ToS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        internal static string AboutViewModel_Version {
+            get {
+                return ResourceManager.GetString("AboutViewModel.Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show profile.
+        /// </summary>
+        internal static string AboutViewModel_ViewProfile {
+            get {
+                return ResourceManager.GetString("AboutViewModel.ViewProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Which news do you want to check?.
         /// </summary>
         internal static string CheckNewsViewModel_NewsLinkHint {
@@ -219,6 +399,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerViewModel_NewsLinkHint {
             get {
                 return ResourceManager.GetString("NewsCheckerViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi, I&apos;m {0}.
+        /// </summary>
+        internal static string ProfileViewModel_Hello {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.Hello", resourceCulture);
             }
         }
         
