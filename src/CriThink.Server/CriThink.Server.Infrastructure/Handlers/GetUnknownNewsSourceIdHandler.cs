@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Infrastructure.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
@@ -21,19 +21,19 @@ namespace CriThink.Server.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public Task<Guid> Handle(GetUnknownNewsSourceIdCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(GetUnknownNewsSourceIdCommand request, CancellationToken cancellationToken)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             try
             {
-                var newsSource = _dbContext.UnknownSources.SingleOrDefault(_ => _.Uri == request.Uri);
+                var newsSource = await _dbContext.UnknownSources.SingleOrDefaultAsync(us => us.Uri == request.Uri, cancellationToken).ConfigureAwait(false);
 
                 if (newsSource is null)
                     throw new ResourceNotFoundException($"Cannot find '{request.Uri}' in unknown news sources.");
 
-                return Task.FromResult(newsSource.Id);
+                return newsSource.Id;
             }
             catch (Exception ex)
             {
