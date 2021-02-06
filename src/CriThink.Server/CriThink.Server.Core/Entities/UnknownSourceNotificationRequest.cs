@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriThink.Server.Core.Entities
@@ -8,10 +9,12 @@ namespace CriThink.Server.Core.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
         public DateTime RequestedAt { get; set; }
 
-        public Guid NewsSourceId { get; set; }
+        [Required]
+        public Guid UnknownNewsSourceId { get; set; }
     }
 }

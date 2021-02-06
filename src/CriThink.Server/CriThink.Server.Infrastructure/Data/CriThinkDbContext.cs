@@ -141,6 +141,14 @@ namespace CriThink.Server.Infrastructure.Data
             builder.Entity<DebunkingNews>()
                 .HasIndex(dn => dn.Link)
                 .IsUnique();
+
+            builder.Entity<UnknownSource>()
+                .Property(us => us.FirstRequestedAt)
+                .HasDefaultValue(DateTime.Now);
+
+            builder.Entity<UnknownSourceNotificationRequest>()
+                .Property(usnr => usnr.RequestedAt)
+                .HasDefaultValue(DateTime.Now);
         }
 
         private static TEnum GetEnumValue<TEnum>(string value)
