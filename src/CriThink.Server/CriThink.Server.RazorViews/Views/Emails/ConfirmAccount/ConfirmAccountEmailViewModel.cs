@@ -5,11 +5,14 @@
     /// </summary>
     public class ConfirmAccountEmailViewModel
     {
-        public ConfirmAccountEmailViewModel(string confirmEmailUrl)
+        public ConfirmAccountEmailViewModel(string confirmEmailUrl, string hostnameUrl)
         {
             ConfirmEmailUrl = confirmEmailUrl;
+            HostnameUrl = hostnameUrl;
         }
 
         public string ConfirmEmailUrl { get; }
+
+        public string HostnameUrl { get; }
     }
 }

@@ -33,7 +33,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var subject = _emailSettings.ConfirmationEmailSubject;
 
             var callbackUrl = string.Format(CultureInfo.InvariantCulture, _emailSettings.ConfirmationEmailLink, hostname, userId, encodedCode);
-            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl);
+            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname);
 
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
 
@@ -47,7 +47,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var subject = _emailSettings.ForgotPasswordSubject;
 
             var callbackUrl = string.Format(CultureInfo.InvariantCulture, _emailSettings.ForgotPasswordLink, hostname, userId, encodedCode);
-            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl);
+            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname);
 
             // TODO: custom email for this scope
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
