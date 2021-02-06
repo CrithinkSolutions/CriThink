@@ -32,16 +32,16 @@ namespace CriThink.Server.Infrastructure.Handlers
                            "(id, uri, first_requested_at, request_count, authenticity)\n" +
                            "VALUES\n" +
                            "({0}, {1}, {2}, {3}, {4})\n" +
-                           "ON CONFLICT (link)\n" +
+                           "ON CONFLICT (uri)\n" +
                            "DO UPDATE\n" +
                            "SET\n" +
-                           "request_count = (EXCLUDED.request_count + 1);";
+                           "request_count = (unknown_sources.request_count + 1);";
 
                 var id = new NpgsqlParameter("id", Guid.NewGuid());
-                var uri = new NpgsqlParameter("uri", request.Uri);
+                var uri = new NpgsqlParameter("uri", request.Uri.ToString());
                 var first_requested_at = new NpgsqlParameter("first_requested_at", DateTime.Now);
                 var request_count = new NpgsqlParameter("request_count", 1);
-                var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown);
+                var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
 
                 _dbContext.Database.ExecuteSqlRaw(sqlQuery,
                     id,

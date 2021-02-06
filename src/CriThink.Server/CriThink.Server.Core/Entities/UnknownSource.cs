@@ -15,7 +15,7 @@ namespace CriThink.Server.Core.Entities
 
         public DateTime FirstRequestedAt { get; set; }
 
-        public DateTime IdentifiedAt { get; set; }
+        public DateTime? IdentifiedAt { get; set; }
 
         public int RequestCount { get; set; }
 

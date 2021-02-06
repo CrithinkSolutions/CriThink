@@ -143,12 +143,15 @@ namespace CriThink.Server.Infrastructure.Data
                 .IsUnique();
 
             builder.Entity<UnknownSource>()
-                .Property(us => us.FirstRequestedAt)
-                .HasDefaultValue(DateTime.Now);
+                .Property(us => us.Authenticity)
+                .HasConversion(
+                    enumValue => enumValue.ToString(),
+                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
+                );
 
-            builder.Entity<UnknownSourceNotificationRequest>()
-                .Property(usnr => usnr.RequestedAt)
-                .HasDefaultValue(DateTime.Now);
+            builder.Entity<UnknownSource>()
+                .HasIndex(us => us.Uri)
+                .IsUnique();
         }
 
         private static TEnum GetEnumValue<TEnum>(string value)
