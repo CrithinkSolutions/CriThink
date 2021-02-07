@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
+using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,56 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).ConfigureAwait(false);
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Returns the forgot password page
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ForgotPasswordAsync()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Send a email to reset password
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            try
+            {
+                if (viewModel.EmailOrUsername.Contains("@"))
+                {
+                    var email = viewModel.EmailOrUsername;
+                    await _identityService.GenerateUserPasswordTokenAsync(email, null).ConfigureAwait(false);
+                    viewModel.Message = "Email sent!";
+                    return View(viewModel);
+                }
+                else
+                {
+                    var username = viewModel.EmailOrUsername;
+                    await _identityService.GenerateUserPasswordTokenAsync(null, username).ConfigureAwait(false);
+                    viewModel.Message = "Email sent!";
+                    return View(viewModel);
+                }
+            }
+            catch (Exception)
+            {
+                return View();
+            }
         }
     }
 }
