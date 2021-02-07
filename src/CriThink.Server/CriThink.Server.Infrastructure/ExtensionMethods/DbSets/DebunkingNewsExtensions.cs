@@ -29,7 +29,9 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             CancellationToken cancellationToken = default)
         {
             return dbSet
-                .ApplyPagination(pageSize, pageIndex)
+                .OrderByDescending(dn => dn.PublishingDate)
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize + 1)
                 .Select(projection)
                 .ToListAsync(cancellationToken);
         }
