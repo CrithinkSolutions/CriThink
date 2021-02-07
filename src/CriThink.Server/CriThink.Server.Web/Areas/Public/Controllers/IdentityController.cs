@@ -32,6 +32,9 @@ namespace CriThink.Server.Web.Areas.Publics.Controllers
             if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));
 
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index", "Account");
+
             var model = new ResetPasswordViewModel
             {
                 Code = viewModel.Code,
