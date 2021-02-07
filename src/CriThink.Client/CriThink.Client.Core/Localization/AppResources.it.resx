@@ -246,4 +246,67 @@
   <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
     <value>Inserisci una nuova password</value>
   </data>
+  <data name="AboutViewModel.ViewProfile" xml:space="preserve">
+    <value>Vedi profilo</value>
+  </data>
+  <data name="AboutViewModel.AccountSettings" xml:space="preserve">
+    <value>Impostazioni account</value>
+  </data>
+  <data name="AboutViewModel.GetHelp" xml:space="preserve">
+    <value>Chiedi aiuto</value>
+  </data>
+  <data name="AboutViewModel.GiveFeedback" xml:space="preserve">
+    <value>Dicci cosa pensi di noi</value>
+  </data>
+  <data name="AboutViewModel.HowWorks" xml:space="preserve">
+    <value>Come funziona CriThink</value>
+  </data>
+  <data name="AboutViewModel.InviteFriends" xml:space="preserve">
+    <value>Invita amici</value>
+  </data>
+  <data name="AboutViewModel.Legal" xml:space="preserve">
+    <value>Legale</value>
+  </data>
+  <data name="AboutViewModel.Logout" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="AboutViewModel.Notifications" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
+  <data name="AboutViewModel.PersonalInfo" xml:space="preserve">
+    <value>Informazioni personali</value>
+  </data>
+  <data name="AboutViewModel.PrivacySettings" xml:space="preserve">
+    <value>Impostazioni privacy</value>
+  </data>
+  <data name="AboutViewModel.Referrals" xml:space="preserve">
+    <value>Referral</value>
+  </data>
+  <data name="AboutViewModel.Support" xml:space="preserve">
+    <value>Supporto</value>
+  </data>
+  <data name="AboutViewModel.ToS" xml:space="preserve">
+    <value>Termini di Servizio</value>
+  </data>
+  <data name="AboutViewModel.Version" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="ProfileViewModel.Hello" xml:space="preserve">
+    <value>Ciao, sono {0}</value>
+  </data>
+  <data name="AboutViewModel.LogoutCancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="AboutViewModel.LogoutMessage" xml:space="preserve">
+    <value>Confermi di voler uscire?</value>
+  </data>
+  <data name="AboutViewModel.LogoutOk" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="AbouteViewModel.LogoutErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
+    <value>Mi spiace, ma non puoi eseguire ora il logout</value>
+  </data>
 </root>

@@ -44,7 +44,7 @@ namespace CriThink.Client.Core.Repositories
                 var email = userEmailTask.Result;
                 var username = usernameTask.Result;
                 var userPassword = userPasswordTask.Result;
-                var userToken = userTokenExpirationTask.Result;
+                var userToken = userTokenTask.Result;
                 var userTokenExpiration = userTokenExpirationTask.Result;
 
                 if (userId is null ||
@@ -102,9 +102,29 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
+        public void EraseUserInfo()
+        {
+            try
+            {
+                EraseUserSettingsAsync(UserId);
+                EraseUserSettingsAsync(UserUsername);
+                EraseUserSettingsAsync(UserEmail);
+                EraseUserSettingsAsync(UserPassword);
+                EraseUserSettingsAsync(UserToken);
+                EraseUserSettingsAsync(UserTokenExpiration);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error deleting user info", ex);
+                throw;
+            }
+        }
+
         private Task UpdateUserInSettingsAsync(string key, string value) => _settingsRepository.SavePreferenceAsync(key, value, true);
 
         private Task<string> GetUserInSettingsSettingAsync(string key, string defaultValue = "") => _settingsRepository.GetPreferenceAsync(key, defaultValue, true);
+
+        private void EraseUserSettingsAsync(string key) => _settingsRepository.RemovePreference(key, true);
     }
 
     public interface IIdentityRepository
@@ -132,5 +152,10 @@ namespace CriThink.Client.Core.Repositories
         /// <param name="tokenExpiration">User jwt token expiration</param>
         /// <returns></returns>
         Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration);
+
+        /// <summary>
+        /// Delete user info
+        /// </summary>
+        void EraseUserInfo();
     }
 }
