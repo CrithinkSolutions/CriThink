@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -66,8 +66,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] NewsSourceNotificationForUnknownDomainRequest request)
         {
-            await _unknownNewsSourceService.RequestNotificationForUnknownSourceAsync(request).ConfigureAwait(false);
-            throw new NotImplementedException();
+            await _unknownNewsSourceService.RequestNotificationForUnknownNewsSourceAsync(request).ConfigureAwait(false);
+
+            return NoContent();
         }
     }
 }

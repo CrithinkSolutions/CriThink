@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
 
 namespace CriThink.Server.Core.Interfaces
 {
@@ -11,6 +11,13 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task RequestNotificationForUnknownSourceAsync(NewsSourceNotificationForUnknownDomainRequest request);
+        Task RequestNotificationForUnknownNewsSourceAsync(NewsSourceNotificationForUnknownDomainRequest request);
+
+        /// <summary>
+        /// Trigger an update in order to send an email to each subscribed user for the specified unknown news source
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task TriggerUpdateForUnknownNewsSourceAsync(TriggerUpdateForUnknownNewsSourceRequest request);
     }
 }

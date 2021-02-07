@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace CriThink.Server.Core.Commands
+namespace CriThink.Server.Core.Queries
 {
     public class GetUnknownNewsSourceIdCommand : IRequest<Guid>
     {
