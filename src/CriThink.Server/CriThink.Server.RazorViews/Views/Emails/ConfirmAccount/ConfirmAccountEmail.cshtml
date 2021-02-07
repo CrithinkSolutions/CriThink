@@ -1,50 +1,78 @@
 ﻿@using CriThink.Server.RazorViews.Views.Emails.ConfirmAccount
 @model ConfirmAccountEmailViewModel
 
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crithink - Confirm Account</title>
     <style type="text/css">
-        table {
-            border-collapse: separate;
-        }
-
-        a, a:link, a:visited {
-            text-decoration: none;
-            color: #3f3fcb;
-        }
-
-            a:hover {
-                text-decoration: underline;
+        @@media only screen and (min-device-width: 601px) {
+            .content {
+                width: 600px !important;
             }
-
-        h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited, h4, h5, h6, .t_cht {
-            color: #000 !important;
         }
 
-        .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td {
-            line-height: 100%;
+        @@media screen {
+            @@font-face {
+                font-family: 'Urbanist';
+                src: url('@Model.HostnameUrl/fonts/Urbanist-Regular.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
         }
 
-        .ExternalClass {
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 100% !important;
+            text-align: center;
+            color: #3d3dca;
+        }
+
+        .content {
             width: 100%;
+            max-width: 600px;
+            font-family: 'Urbanist';
         }
     </style>
 </head>
-<body style="text-align: center;">
-    <table style="margin: 0px auto;">
-        <p style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 22pt;  vertical-align:baseline; color: #ff9600;">CriThink</p>
-    </table>
-    <table style="max-width:600px; height:500px; border-top: 12px solid #ff9600; text-align: center; margin: 0px auto;" width="100%" border="0" cellspacing="0" cellpadding="0" allign="center">
-        <tr style="box-shadow: 0px 0px 10px #888888;">
-            <td align="center" valign="middle" style="vertical-align:middle; font-family: 'Roboto', sans-serif;">
-                <span style="font-size: 70pt;">📨</span>
-                <p style="font-size: 25pt;">Verify your email</p>
-                <p>Your email has been registered <a href="@Model.ConfirmEmailUrl" target="_blank">click here to continue</a></p>
+
+<body yahoo>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <table class="content" border="0" align="center" cellpadding="0" cellspacing="0"
+                    style="border: 10px solid #fa9700; padding: 40px">
+                    <tr>
+                        <td class="imgHeader">
+                            <img src="@Model.HostnameUrl/svg/w_com.svg" width="200">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text">
+                            <h1>Hi @Model.UserName</h1>
+                            <p>You have sucessfully created a <span style="color: #fa9700;">Crithink</span> account.</p>
+                            <p><a href="@Model.ConfirmEmailUrl"
+                                    style="background-color: #fa9700; color:white; border: none; border-radius:10px; padding:10px 20px; cursor: pointer; font-size: 14pt; text-decoration: none;">Verify
+                                    your email</a></p>
+                            <p>Didn't create a Crithink account? It's likely someone just typed in your email address by
+                                accidente. Feel free to ignore this email</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="imgFooter">
+                            <br />
+                            <img src="@Model.HostnameUrl/logo.svg" width="100">
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
 </body>
+
 </html>
