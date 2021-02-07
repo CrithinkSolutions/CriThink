@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
@@ -87,6 +88,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
+        [Route(EndpointConstants.MvcForgotPassword)]
         [HttpGet]
         public IActionResult ForgotPasswordAsync()
         {
@@ -98,6 +100,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
+        [Route(EndpointConstants.MvcForgotPassword)]
         [HttpPost]
         public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel viewModel)
         {
