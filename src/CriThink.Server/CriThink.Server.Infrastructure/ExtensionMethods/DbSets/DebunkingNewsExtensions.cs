@@ -36,13 +36,18 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                 .ToListAsync(cancellationToken);
         }
 
-        internal static ValueTask<DebunkingNews> GetDebunkingNewsAsync(
+        internal static Task<DebunkingNews> GetDebunkingNewsAsync(
             this DbSet<DebunkingNews> dbSet,
             Guid id,
             CancellationToken cancellationToken = default)
         {
+            // TODO: improve query getting only the needed fields
+
             return dbSet
-                .FindAsync(cancellationToken: cancellationToken, keyValues: new object[] { id });
+                .Include(dn => dn.Publisher)
+                .Include(dn => dn.Publisher.Language)
+                .Include(dn => dn.Publisher.Country)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         }
     }
 }

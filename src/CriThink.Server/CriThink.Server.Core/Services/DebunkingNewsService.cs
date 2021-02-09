@@ -45,7 +45,10 @@ namespace CriThink.Server.Core.Services
 
             var keywords = await GetNewsKeywordsAsync(scrapedNews).ConfigureAwait(false);
 
-            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request.Title, request.Caption, request.ImageLink, request.Keywords);
+            var publisherQuery = new GetDebunkingNewsPublisherByIdQuery(request.PublisherId);
+            var publisher = await _mediator.Send(publisherQuery).ConfigureAwait(false);
+
+            var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, publisher, request.Title, request.Caption, request.ImageLink, request.Keywords);
 
             var command = new CreateDebunkingNewsCommand(new[] { entity });
             _ = await _mediator.Send(command).ConfigureAwait(false);
@@ -75,19 +78,32 @@ namespace CriThink.Server.Core.Services
 
             try
             {
-                var query = new GetLastDebunkinNewsFetchTimeQuery();
-                var lastDateTask = _mediator.Send(query);
-                var debunkinNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
+                var lastFetchTimeQuery = new GetLastDebunkinNewsFetchTimeQuery();
+                var lastDateTask = _mediator.Send(lastFetchTimeQuery);
+                var debunkingNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
 
-                await Task.WhenAll(lastDateTask, debunkinNewsTask).ConfigureAwait(false);
+                await Task.WhenAll(lastDateTask, debunkingNewsTask).ConfigureAwait(false);
 
                 var lastSuccessfullFetchDate = lastDateTask.Result;
-                var debunkingNewsCollection = debunkinNewsTask.Result;
+                var debunkingNewsCollection = debunkingNewsTask.Result;
 
-                var debunkedNewsCollection = await ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate).ConfigureAwait(false);
+                if (!debunkingNewsCollection.Any())
+                    return;
+
+                var publisherQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
+                var publisherTask = _mediator.Send(publisherQuery);
+
+                var scrapeTask = ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate);
+
+                await Task.WhenAll(publisherTask, scrapeTask).ConfigureAwait(false);
+
+                var debunkedNewsCollection = scrapeTask.Result;
 
                 if (!debunkedNewsCollection.Any())
                     return;
+
+                foreach (var dNews in debunkedNewsCollection)
+                    dNews.Publisher = publisherTask.Result;
 
                 var addNewsCommand = new CreateDebunkingNewsCommand(debunkedNewsCollection);
                 _ = await _mediator.Send(addNewsCommand).ConfigureAwait(false);
@@ -193,7 +209,8 @@ namespace CriThink.Server.Core.Services
             _newsScraperManager.GetKeywordsFromNewsAsync(scrapedNews);
 
         private static DebunkingNews BuildDebunkingNewsEntity(NewsScraperProviderResponse scrapedNews, IReadOnlyList<string> keywords,
-            string customTitle = null, string customCaption = null, string imageLink = null, IReadOnlyCollection<string> customKeywords = null)
+            DebunkingNewsPublisher publisher = null, string customTitle = null, string customCaption = null, string imageLink = null,
+            IReadOnlyCollection<string> customKeywords = null)
         {
             var allKeywords = customKeywords != null && customKeywords.Any() ?
                 keywords.Union(customKeywords).ToList().AsReadOnly() :
@@ -204,13 +221,15 @@ namespace CriThink.Server.Core.Services
                 Keywords = string.Join(',', allKeywords),
                 Link = scrapedNews.RequestedUri.AbsoluteUri,
                 NewsCaption = customCaption ?? scrapedNews.GetCaption(),
-                PublisherName = scrapedNews.WebSiteName,
                 Title = customTitle ?? scrapedNews.Title,
                 ImageLink = imageLink
             };
 
             if (scrapedNews.Date.HasValue)
                 entity.PublishingDate = scrapedNews.Date.Value;
+
+            if (publisher is not null)
+                entity.Publisher = publisher;
 
             return entity;
         }
