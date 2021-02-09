@@ -70,6 +70,11 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
         }
 
+        public Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl)
+        {
+            throw new NotImplementedException();
+        }
+
         private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)
         {
             var fromAddress = _emailSettings.FromAddress;

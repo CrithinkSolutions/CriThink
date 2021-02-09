@@ -1,6 +1,6 @@
 ﻿namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests
 {
-    public class TriggerUpdateForUnknownNewsSourceRequest
+    public class TriggerUpdateForIdentifiedNewsSourceRequest
     {
         public string Uri { get; set; }
     }

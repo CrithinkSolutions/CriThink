@@ -18,6 +18,6 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task TriggerUpdateForUnknownNewsSourceAsync(TriggerUpdateForUnknownNewsSourceRequest request);
+        Task TriggerUpdateForIdentifiedNewsSourceAsync(TriggerUpdateForIdentifiedNewsSourceRequest request);
     }
 }

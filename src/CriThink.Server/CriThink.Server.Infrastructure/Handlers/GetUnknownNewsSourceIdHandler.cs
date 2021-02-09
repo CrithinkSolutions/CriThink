@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Commands;
-using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Core.Queries;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
+using CriThink.Server.Infrastructure.Projections;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
@@ -28,12 +28,10 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var newsSource = await _dbContext.UnknownSources.SingleOrDefaultAsync(us => us.Uri == request.Uri, cancellationToken).ConfigureAwait(false);
-
-                if (newsSource is null)
-                    throw new ResourceNotFoundException($"Cannot find '{request.Uri}' in unknown news sources.");
-
-                return newsSource.Id;
+                var newsSourceId = await _dbContext.UnknownNewsSources
+                                                   .GetUnknownSourceByUri(request.Uri, UnknownNewsSourceProjection.GetId, cancellationToken)
+                                                   .ConfigureAwait(false);
+                return newsSourceId;
             }
             catch (Exception ex)
             {

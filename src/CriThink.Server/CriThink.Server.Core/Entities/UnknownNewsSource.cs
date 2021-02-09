@@ -5,7 +5,7 @@ using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownSource : ICriThinkIdentity
+    public class UnknownNewsSource : ICriThinkIdentity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

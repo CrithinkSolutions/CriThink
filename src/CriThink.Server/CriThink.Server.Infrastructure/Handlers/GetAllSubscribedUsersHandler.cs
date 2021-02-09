@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
+using CriThink.Server.Infrastructure.Projections;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class GetAllSubscribedUsersHandler : IRequestHandler<GetAllSubscribedUsersCommand, IList<GetAllSubscribedUsersResponse>>
+    public class GetAllSubscribedUsersHandler : IRequestHandler<GetAllSubscribedUsersQuery, IList<GetAllSubscribedUsersResponse>>
     {
         private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<GetAllSubscribedUsersHandler> _logger;
@@ -22,17 +23,28 @@ namespace CriThink.Server.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public Task<IList<GetAllSubscribedUsersResponse>> Handle(GetAllSubscribedUsersCommand request, CancellationToken cancellationToken)
+        public async Task<IList<GetAllSubscribedUsersResponse>> Handle(GetAllSubscribedUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _dbContext.UnknownSourceNotificationRequests.Where(usnr => usnr.UnknownNewsSourceId == request.UnknownNewsSourceId);
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
 
-            var x = users.Select(u => new GetAllSubscribedUsersResponse
+            try
             {
-                Email = u.Email,
-                Id = u.Id,
-            });
+                var users = await _dbContext.UnknownNewsSourceNotificationRequests
+                                                .GetAllSubscribedUsersForUnknownNewsSourceId(
+                                                    request.UnknownNewsSourceId,
+                                                    request.PageSize,
+                                                    request.PageIndex,
+                                                    UnknownSourceNotificationRequestProjection.GetAll, cancellationToken)
+                                                .ConfigureAwait(false);
 
-            return x;
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }

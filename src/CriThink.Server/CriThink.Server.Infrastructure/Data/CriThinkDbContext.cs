@@ -35,9 +35,9 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<DebunkingNewsTriggerLog> DebunkingNewsTriggerLogs { get; set; }
 
-        public DbSet<UnknownSource> UnknownSources { get; set; }
+        public DbSet<UnknownNewsSource> UnknownNewsSources { get; set; }
 
-        public DbSet<UnknownSourceNotificationRequest> UnknownSourceNotificationRequests { get; set; }
+        public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Injected")]
         protected override void OnModelCreating(ModelBuilder builder)
@@ -142,14 +142,14 @@ namespace CriThink.Server.Infrastructure.Data
                 .HasIndex(dn => dn.Link)
                 .IsUnique();
 
-            builder.Entity<UnknownSource>()
+            builder.Entity<UnknownNewsSource>()
                 .Property(us => us.Authenticity)
                 .HasConversion(
                     enumValue => enumValue.ToString(),
                     stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
                 );
 
-            builder.Entity<UnknownSource>()
+            builder.Entity<UnknownNewsSource>()
                 .HasIndex(us => us.Uri)
                 .IsUnique();
         }
