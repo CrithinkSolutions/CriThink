@@ -223,6 +223,19 @@ namespace CriThink.Client.Core.Services
                 return null;
             }
         }
+
+        public void PerformLogout()
+        {
+            try
+            {
+                _identityRepository.EraseUserInfo();
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("An error occurred when logging out", ex);
+                throw;
+            }
+        }
     }
 
     public interface IIdentityService
@@ -286,5 +299,10 @@ namespace CriThink.Client.Core.Services
         /// <param name="code">Code contained into the email</param>
         /// <returns>UserInfo and the token</returns>
         Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code);
+
+        /// <summary>
+        /// Perform logout and erase all user information
+        /// </summary>
+        void PerformLogout();
     }
 }

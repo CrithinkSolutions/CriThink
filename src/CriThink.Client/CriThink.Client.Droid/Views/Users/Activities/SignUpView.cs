@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
@@ -54,6 +55,19 @@ namespace CriThink.Client.Droid.Views.Users
         private void BtnGoogle_Click(object sender, EventArgs e) => LoginUsingGoogle();
 
         private void BtnFacebook_Click(object sender, EventArgs e) => LoginUsingFacebook();
+
+        public override void OnBackPressed()
+        {
+            Minimise();
+        }
+
+        private void Minimise()
+        {
+            var minimiseIntent = new Intent(Intent.ActionMain);
+            minimiseIntent.AddCategory(Intent.CategoryHome);
+            minimiseIntent.SetFlags(ActivityFlags.NewTask);
+            StartActivity(minimiseIntent);
+        }
 
         #region IDispose
 

@@ -271,6 +271,7 @@ namespace CriThink.Server.Core.Identity
 
             var allUsers = await _userManager.Users
                 .AsQueryable()
+                .OrderBy(u => u.UserName)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize + 1)
                 .ToListAsync()

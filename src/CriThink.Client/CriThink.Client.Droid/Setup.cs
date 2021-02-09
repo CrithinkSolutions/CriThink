@@ -20,6 +20,7 @@ using Serilog;
 using Serilog.Events;
 #endif
 #if (LOGFILE)
+using System.IO;
 using Xamarin.Essentials;
 #endif
 
