@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CriThink.Server.Core.Commands
 {
-    class RemoveNotifiedUserCommand : IRequest
+    public class RemoveNotifiedUserCommand : IRequest
     {
         public RemoveNotifiedUserCommand(Guid id)
         {

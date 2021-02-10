@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Interfaces;
@@ -14,11 +15,13 @@ namespace CriThink.Server.Core.Services
     {
         private readonly IMediator _mediator;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly IMapper _mapper;
 
-        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService)
+        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task RequestNotificationForUnknownNewsSourceAsync(NewsSourceNotificationForUnknownDomainRequest request)
@@ -57,10 +60,12 @@ namespace CriThink.Server.Core.Services
                 }
 
                 if (subscribedUsers.Count <= pageSize) break;
+            }
+            while (true);
 
-            } while (true);
+            var authenticity = _mapper.Map<NewsSourceAuthenticity>(request.Classification);
 
-            var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId);
+            var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId, authenticity);
             await _mediator.Send(updateIdentifiedNewsSourceCommand).ConfigureAwait(false);
         }
     }

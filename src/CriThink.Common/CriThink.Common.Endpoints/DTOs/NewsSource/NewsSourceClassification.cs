@@ -22,6 +22,6 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
         /// <summary>
         /// Represents a fake news source
         /// </summary>
-        FakeNews
+        FakeNews,
     }
 }

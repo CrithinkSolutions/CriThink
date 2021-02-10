@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 
@@ -11,10 +12,12 @@ namespace CriThink.Server.Web.Facades
     public class NewsSourceFacade : INewsSourceFacade
     {
         private readonly INewsSourceService _newsSourceService;
+        private readonly IUnknownNewsSourceService _unknownNewsSourceService;
 
-        public NewsSourceFacade(INewsSourceService newsSourceService)
+        public NewsSourceFacade(INewsSourceService newsSourceService, IUnknownNewsSourceService unknownNewsSourceService)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _unknownNewsSourceService = unknownNewsSourceService ?? throw new ArgumentNullException(nameof(unknownNewsSourceService));
         }
 
         public async Task<IndexViewModel> GetAllNewsSourcesAsync()
@@ -69,6 +72,20 @@ namespace CriThink.Server.Web.Facades
                 Uri = response.Description,
                 Classification = ToViewModelEnum(response.Classification),
             };
+        }
+
+        public async Task TriggerIdentifiedNewsSourceAsync(TriggerIdentifiedNewsSourceViewModel viewModel)
+        {
+            if (viewModel is null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new TriggerUpdateForIdentifiedNewsSourceRequest
+            {
+                Uri = viewModel.Uri,
+                Classification = ToRequestEnum(viewModel.Classification),
+            };
+
+            await _unknownNewsSourceService.TriggerUpdateForIdentifiedNewsSourceAsync(request).ConfigureAwait(false);
         }
 
         private static NewsSource ToNewsSource(NewsSourceGetAllResponse newsSource) => new NewsSource

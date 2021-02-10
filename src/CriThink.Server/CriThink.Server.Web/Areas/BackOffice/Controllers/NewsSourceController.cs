@@ -67,5 +67,21 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
+        [HttpGet]
+        public IActionResult TriggerIdentifiedNewsSourceAsync(Guid unknownNewsId)
+        {
+            return View(unknownNewsId);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
+        [HttpPost]
+        public async Task<IActionResult> TriggerIdentifiedNewsSourceAsync()
+        {
+            return NoContent();
+        }
     }
 }

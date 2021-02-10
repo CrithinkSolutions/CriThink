@@ -92,6 +92,7 @@
         public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
         public const string NewsSourceSearch = "search";
         public const string NewsSourceRegisterForNotification = "register-for-notification";
+        public const string NewsSourceTriggerIdentifiedSource = "idenitify";
 
         #endregion
 
