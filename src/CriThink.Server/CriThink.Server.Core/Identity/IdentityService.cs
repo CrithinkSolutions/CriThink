@@ -270,7 +270,6 @@ namespace CriThink.Server.Core.Identity
             var pageSize = request.PageSize;
 
             var allUsers = await _userManager.Users
-                .AsQueryable()
                 .OrderBy(u => u.UserName)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize + 1)
@@ -299,7 +298,7 @@ namespace CriThink.Server.Core.Identity
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             var userDto = _mapper.Map<User, UserGetDetailsResponse>(user);
@@ -376,6 +375,8 @@ namespace CriThink.Server.Core.Identity
             var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
@@ -401,8 +402,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(password));
 
             var user = await FindUserAsync(emailOrUsername).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"EmailOrUsername: '{emailOrUsername}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, false).ConfigureAwait(false);
             ProcessPasswordVerificationResult(result);
@@ -420,8 +423,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(confirmationCode));
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ConfirmEmailAsync(user, confirmationCode).ConfigureAwait(false);
             if (!result.Succeeded)
@@ -454,8 +459,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(newPassword));
 
             var user = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword)
                 .ConfigureAwait(false);
@@ -477,6 +484,8 @@ namespace CriThink.Server.Core.Identity
             var user = await FindUserAsync(email ?? username).ConfigureAwait(false);
             if (user == null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}' - username: '{username}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
 
@@ -496,8 +505,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(newPassword));
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword).ConfigureAwait(false);
 

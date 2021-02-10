@@ -62,7 +62,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return Redirect(viewModel.ReturnUrl ?? "/");
             }
-            catch (ResourceNotFoundException)
+            catch (Exception)
             {
                 ModelState.AddModelError(nameof(viewModel.EmailOrUsername), "Login Failed: Invalid Email or password");
                 return BadRequest();
