@@ -190,7 +190,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("question_answers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownSource", b =>
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -220,16 +220,16 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("uri");
 
                     b.HasKey("Id")
-                        .HasName("pk_unknown_sources");
+                        .HasName("pk_unknown_news_sources");
 
                     b.HasIndex("Uri")
                         .IsUnique()
-                        .HasDatabaseName("ix_unknown_sources_uri");
+                        .HasDatabaseName("ix_unknown_news_sources_uri");
 
-                    b.ToTable("unknown_sources");
+                    b.ToTable("unknown_news_sources");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownSourceNotificationRequest", b =>
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -250,9 +250,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("unknown_news_source_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_unknown_source_notification_requests");
+                        .HasName("pk_unknown_news_source_notification_requests");
 
-                    b.ToTable("unknown_source_notification_requests");
+                    b.ToTable("unknown_news_source_notification_requests");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
@@ -336,7 +336,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd57f1bc-a1d3-4a40-97f5-03def2bcc800",
+                            ConcurrencyStamp = "9ad64c83-504c-43ed-8b72-bc85bb851e7d",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -384,7 +384,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
-                            ConcurrencyStamp = "4ff401ad-41f0-4ff3-ac9a-642e9cd76a38",
+                            ConcurrencyStamp = "19682149-72c5-4587-923e-380d5c11d05d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
