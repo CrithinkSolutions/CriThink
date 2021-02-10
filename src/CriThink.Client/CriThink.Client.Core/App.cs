@@ -49,6 +49,8 @@ namespace CriThink.Client.Core
             Mvx.IoCProvider.RegisterType<IIdentityRepository, IdentityRepository>();
 
             // Services
+            Mvx.IoCProvider.RegisterType<IGeolocationService, CacheGeolocationService>();
+            Mvx.IoCProvider.RegisterType<GeolocationService>();
             Mvx.IoCProvider.RegisterType<IDebunkingNewsService, CacheDebunkingNewsService>();
             Mvx.IoCProvider.RegisterType<DebunkingNewsService>();
             Mvx.IoCProvider.RegisterType<IApplicationService, ApplicationService>();

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Helpers;
@@ -17,20 +18,28 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private const int PageSize = 15;
 
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IUserDialogs _userDialogs;
         private readonly IIdentityService _identityService;
         private readonly IMvxLog _log;
 
+        private bool _isInitialized;
         private int _pageIndex;
         private bool _hasMorePages;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public NewsCheckerViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IDebunkingNewsService debunkingNewsService)
+        public NewsCheckerViewModel(
+            IMvxLogProvider logProvider,
+            IMvxNavigationService navigationService,
+            IIdentityService identityService,
+            IDebunkingNewsService debunkingNewsService,
+            IUserDialogs userDialogs)
             : base(logProvider, navigationService)
         {
             TabId = "news_checker";
 
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
@@ -91,6 +100,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             base.Prepare();
 
+            if (_isInitialized)
+                return;
+
             var currentDate = DateTime.Now;
 
             var currentHour = currentDate.Hour;
@@ -110,6 +122,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
 
+            if (_isInitialized)
+                return;
+
 #pragma warning disable 4014
             GetDebunkingNewsAsync();
 #pragma warning restore 4014
@@ -119,6 +134,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 return;
 
             Username = user.UserName;
+
+            _isInitialized = true;
         }
 
         #region Privates
@@ -134,7 +151,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             {
                 _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 var debunkinNewsCollection = await _debunkingNewsService
-                    .GetRecentDebunkingNewsAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
+                    .GetRecentDebunkingNewsOfCurrentCountryAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
                     .ConfigureAwait(false);
 
                 if (debunkinNewsCollection.DebunkingNewsCollection != null)
