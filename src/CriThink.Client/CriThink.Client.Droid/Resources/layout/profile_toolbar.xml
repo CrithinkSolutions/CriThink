@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    app:contentInsetStart="0dp"
+    app:contentInsetStartWithNavigation="0dp"
+    android:background="@android:color/transparent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+             <FFImageLoading.Cross.MvxCachedImageView
+                android:layout_width="@dimen/imgSize_medium"
+                android:layout_height="@dimen/imgSize_medium"
+                android:id="@+id/imgProfile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+             <androidx.appcompat.widget.AppCompatTextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:gravity="left"
+                 android:id="@+id/txtUsername"
+                 android:textSize="@dimen/text_caption"
+                 app:layout_constraintStart_toEndOf="@id/imgProfile"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:layout_marginStart="@dimen/margin_medium"/>
+
+             <androidx.appcompat.widget.AppCompatButton
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/btnViewProfile"
+                 app:layout_constraintStart_toStartOf="@id/txtUsername"
+                 app:layout_constraintTop_toBottomOf="@id/txtUsername"
+                 android:background="@null"
+                 android:minWidth="0dp"
+                 android:minHeight="0dp"
+                 android:textAllCaps="false" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</com.google.android.material.appbar.MaterialToolbar>

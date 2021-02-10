@@ -43,6 +43,9 @@ namespace CriThink.Server.Infrastructure.Handlers
                 if (request.Keywords != null && request.Keywords.Any())
                     debunkingNews.Keywords = string.Join(',', request.Keywords);
 
+                if (!string.IsNullOrWhiteSpace(request.ImageLink))
+                    debunkingNews.ImageLink = request.ImageLink;
+
                 _dbContext.DebunkingNews.Update(debunkingNews);
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

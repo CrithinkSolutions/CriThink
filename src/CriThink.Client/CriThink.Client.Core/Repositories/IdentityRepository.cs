@@ -18,36 +18,52 @@ namespace CriThink.Client.Core.Repositories
         private const string UserTokenExpiration = "user_token_expiration";
 
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IMvxLog _logger;
+        private readonly IMvxLog _log;
 
-        public IdentityRepository(ISettingsRepository settingsRepository, IMvxLog logger)
+        public IdentityRepository(ISettingsRepository settingsRepository, IMvxLogProvider logProvider)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
-            _logger = logger;
+            _log = logProvider?.GetLogFor<IdentityRepository>();
         }
 
         public async Task<User> GetUserInfoAsync()
         {
             try
             {
-                var userIdTask = GetUserInSettingsSettingAsync(UserId);
-                var userUsernameTask = GetUserInSettingsSettingAsync(UserUsername);
-                var userEmailTask = GetUserInSettingsSettingAsync(UserEmail);
-                var userPasswordToken = GetUserInSettingsSettingAsync(UserPassword);
-                var userTokenTask = GetUserInSettingsSettingAsync(UserToken);
-                var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration);
+                var userIdTask = GetUserInSettingsSettingAsync(UserId, null);
+                var usernameTask = GetUserInSettingsSettingAsync(UserUsername, null);
+                var userEmailTask = GetUserInSettingsSettingAsync(UserEmail, null);
+                var userPasswordTask = GetUserInSettingsSettingAsync(UserPassword, null);
+                var userTokenTask = GetUserInSettingsSettingAsync(UserToken, null);
+                var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration, null);
 
-                await Task.WhenAll(userIdTask, userUsernameTask, userEmailTask, userPasswordToken, userTokenTask, userTokenExpirationTask).ConfigureAwait(false);
+                await Task.WhenAll(userIdTask, usernameTask, userEmailTask, userPasswordTask, userTokenTask, userTokenExpirationTask)
+                    .ConfigureAwait(false);
 
-                return new User(userIdTask.Result, userEmailTask.Result, userUsernameTask.Result, userPasswordToken.Result, new JwtTokenResponse
+                var userId = userIdTask.Result;
+                var email = userEmailTask.Result;
+                var username = usernameTask.Result;
+                var userPassword = userPasswordTask.Result;
+                var userToken = userTokenTask.Result;
+                var userTokenExpiration = userTokenExpirationTask.Result;
+
+                if (userId is null ||
+                    email is null ||
+                    username is null ||
+                    userPassword is null ||
+                    userToken is null ||
+                    userTokenExpiration is null)
+                    return null;
+
+                return new User(userId, email, username, userPassword, new JwtTokenResponse
                 {
-                    Token = userTokenTask.Result,
-                    ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpirationTask.Result)
+                    Token = userToken,
+                    ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpiration),
                 });
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error getting user info", ex);
+                _log?.FatalException("Error getting user info", ex);
                 throw;
             }
         }
@@ -61,7 +77,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error getting user token", ex);
+                _log?.FatalException("Error getting user token", ex);
                 throw;
             }
         }
@@ -81,7 +97,25 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error saving user info", ex, userId);
+                _log.ErrorException("Error saving user info", ex, userId);
+                throw;
+            }
+        }
+
+        public void EraseUserInfo()
+        {
+            try
+            {
+                EraseUserSettingsAsync(UserId);
+                EraseUserSettingsAsync(UserUsername);
+                EraseUserSettingsAsync(UserEmail);
+                EraseUserSettingsAsync(UserPassword);
+                EraseUserSettingsAsync(UserToken);
+                EraseUserSettingsAsync(UserTokenExpiration);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error deleting user info", ex);
                 throw;
             }
         }
@@ -89,6 +123,8 @@ namespace CriThink.Client.Core.Repositories
         private Task UpdateUserInSettingsAsync(string key, string value) => _settingsRepository.SavePreferenceAsync(key, value, true);
 
         private Task<string> GetUserInSettingsSettingAsync(string key, string defaultValue = "") => _settingsRepository.GetPreferenceAsync(key, defaultValue, true);
+
+        private void EraseUserSettingsAsync(string key) => _settingsRepository.RemovePreference(key, true);
     }
 
     public interface IIdentityRepository
@@ -116,5 +152,10 @@ namespace CriThink.Client.Core.Repositories
         /// <param name="tokenExpiration">User jwt token expiration</param>
         /// <returns></returns>
         Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration);
+
+        /// <summary>
+        /// Delete user info
+        /// </summary>
+        void EraseUserInfo();
     }
 }

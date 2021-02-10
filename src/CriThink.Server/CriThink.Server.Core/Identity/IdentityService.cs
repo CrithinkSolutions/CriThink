@@ -74,7 +74,7 @@ namespace CriThink.Server.Core.Identity
 
             var encodedCode = Base64Helper.ToBase64(confirmationCode);
 
-            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), encodedCode)
+            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), encodedCode, user.UserName)
                 .ConfigureAwait(false);
 
             return new UserSignUpResponse
@@ -271,7 +271,8 @@ namespace CriThink.Server.Core.Identity
 
             var allUsers = await _userManager.Users
                 .AsQueryable()
-                .Skip((pageIndex - 1) * pageSize)
+                .OrderBy(u => u.UserName)
+                .Skip(pageSize * pageIndex)
                 .Take(pageSize + 1)
                 .ToListAsync()
                 .ConfigureAwait(false);
@@ -480,7 +481,7 @@ namespace CriThink.Server.Core.Identity
             var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
 
             var encodedCode = Base64Helper.ToBase64(token);
-            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode).ConfigureAwait(false);
+            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, username).ConfigureAwait(false);
         }
 
         public async Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword)

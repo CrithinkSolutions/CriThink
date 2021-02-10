@@ -4,6 +4,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels
     {
         public int PageSize { get; set; } = 20;
 
-        public int PageIndex { get; set; } = 1;
+        public int PageIndex { get; set; }
     }
 }

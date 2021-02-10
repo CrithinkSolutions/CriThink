@@ -4,12 +4,18 @@ using MediatR;
 
 namespace CriThink.Server.Core.Queries
 {
-    public class GetAllNewsSourceQuery : IRequest<IEnumerable<GetAllNewsSourceQueryResponse>>
+    public class GetAllNewsSourceQuery : IRequest<IList<GetAllNewsSourceQueryResponse>>
     {
-        public GetAllNewsSourceQuery(GetAllNewsSourceFilter filter)
+        public GetAllNewsSourceQuery(int size, int index, GetAllNewsSourceFilter filter)
         {
+            Size = size;
+            Index = index;
             Filter = filter;
         }
+
+        public int Size { get; }
+
+        public int Index { get; }
 
         public GetAllNewsSourceFilter Filter { get; }
     }

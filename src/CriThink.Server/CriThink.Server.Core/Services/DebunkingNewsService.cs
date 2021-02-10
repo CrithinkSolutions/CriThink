@@ -48,7 +48,7 @@ namespace CriThink.Server.Core.Services
             var entity = BuildDebunkingNewsEntity(scrapedNews, keywords, request.Title, request.Caption, request.ImageLink, request.Keywords);
 
             var command = new CreateDebunkingNewsCommand(new[] { entity });
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task DeleteDebunkingNewsAsync(SimpleDebunkingNewsRequest request)
@@ -57,7 +57,7 @@ namespace CriThink.Server.Core.Services
                 throw new ArgumentNullException(nameof(request));
 
             var command = new DeleteDebunkingNewsCommand(request.Id);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task UpdateDebunkingNewsAsync(DebunkingNewsUpdateRequest request)
@@ -65,8 +65,8 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var command = new UpdateDebunkingNewsCommand(request.Id, request.Title, request.Caption, request.Link, request.Keywords);
-            var _ = await _mediator.Send(command).ConfigureAwait(false);
+            var command = new UpdateDebunkingNewsCommand(request.Id, request.Title, request.Caption, request.Link, request.ImageLink, request.Keywords);
+            _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task UpdateRepositoryAsync()
@@ -109,7 +109,7 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllDebunkingNewsQuery(request.PageSize + 1, request.PageIndex);
+            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
             var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
 
             var dtos = new List<DebunkingNewsGetResponse>();
@@ -140,7 +140,7 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllTriggerLogsQuery(request.PageSize + 1, request.PageIndex);
+            var query = new GetAllTriggerLogsQuery(request.PageSize, request.PageIndex);
             var triggerLogs = await _mediator.Send(query).ConfigureAwait(false);
             var dtos = new List<TriggerLogGetResponse>();
             foreach (var log in triggerLogs.Take(request.PageSize))

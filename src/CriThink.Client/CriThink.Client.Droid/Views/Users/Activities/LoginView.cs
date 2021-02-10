@@ -26,9 +26,11 @@ namespace CriThink.Client.Droid.Views.Users
 
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
-            var emailOrUsername = FindViewById<TextInputEditText>(Resource.Id.txtEdit_emailOrUsername);
-            var password = FindViewById<TextInputEditText>(Resource.Id.txtEdit_password);
+            var emailOrUsername = FindViewById<BindableEditText>(Resource.Id.txtEdit_emailOrUsername);
+            var password = FindViewById<BindableEditText>(Resource.Id.txtEdit_password);
+            var txtInputPassword = FindViewById<TextInputLayout>(Resource.Id.txtInput_password);
             var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
+            var txtInputEmail = FindViewById<TextInputLayout>(Resource.Id.txtInput_email);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
@@ -38,17 +40,21 @@ namespace CriThink.Client.Droid.Views.Users
             if (_btnGoogle != null)
                 _btnGoogle.Click += BtnGoogle_Click;
 
-            var btnJump = FindViewById<AppCompatButton>(Resource.Id.btnJump);
-
             var set = CreateBindingSet();
 
             set.Bind(emailOrUsername).To(vm => vm.EmailOrUsername);
+            set.Bind(emailOrUsername).For(v => v.KeyCommand).To(vm => vm.LoginCommand);
             set.Bind(password).To(vm => vm.Password);
+            set.Bind(password).For(v => v.KeyCommand).To(vm => vm.LoginCommand);
 
+            set.Bind(txtInputPassword).For(v => v.Hint).ToLocalizationId("PasswordHint");
+            set.Bind(txtInputEmail).For(v => v.Hint).ToLocalizationId("EmailHint");
+            set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
+            set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
+            set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
             set.Bind(btnLogin).To(vm => vm.LoginCommand);
+            set.Bind(btnForgotPassword).For(v => v.Text).ToLocalizationId("ForgotPassword");
             set.Bind(btnForgotPassword).To(vm => vm.NavigateToForgotPasswordCommand);
-            set.Bind(btnJump).For(v => v.Text).ToLocalizationId("Jump");
-            set.Bind(btnJump).To(vm => vm.NavigateToHomeCommand);
             set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
 
             set.Apply();

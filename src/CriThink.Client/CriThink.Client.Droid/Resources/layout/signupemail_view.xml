@@ -47,14 +47,12 @@
           android:id="@+id/txtEditEmail"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:hint="@string/signupemail_email"
           android:layout_marginTop="@dimen/margin_mini"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtInput_email"
-            android:fontFamily="@font/urbanist"
             android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,14 +64,12 @@
           app:layout_constraintTop_toBottomOf="@id/txtEditEmail"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:hint="@string/signupemail_username"
           android:layout_marginTop="@dimen/margin_mini"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtInput_username"
-            android:fontFamily="@font/urbanist"
             android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +81,6 @@
           app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:hint="@string/signupemail_password"
           app:passwordToggleEnabled="true"
           android:layout_marginTop="@dimen/margin_mini"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -93,7 +88,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtInput_password"
-            android:fontFamily="@font/urbanist"
             android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +99,6 @@
           app:layout_constraintTop_toBottomOf="@id/txtEditPassword"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:hint="@string/signupemail_repeatPassword"
           app:passwordToggleEnabled="true"
           android:layout_marginTop="@dimen/margin_mini"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -113,7 +106,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtInput_repeatPassword"
-            android:fontFamily="@font/urbanist"
             android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,10 +116,8 @@
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintTop_toBottomOf="@id/txtEditRepeatPassword"
           android:id="@+id/btn_signUp"
-          android:text="@string/signupemail_signUp"
           android:elevation="@dimen/btn_elevation"
-          android:layout_marginTop="@dimen/margin_big"
-          android:fontFamily="@font/urbanist"/>
+          android:layout_marginTop="@dimen/margin_big"/>
 
         <CriThink.LoaderView
           android:layout_width="@dimen/imgSize_loader"

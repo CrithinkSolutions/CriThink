@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
@@ -25,14 +27,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            var news = await _newsSourceFacade.GetAllNewsSourcesAsync().ConfigureAwait(false);
+            var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Add)]  // news-source/add
+        [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpGet]
         public IActionResult AddSource()
         {
@@ -40,32 +42,103 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.Add)]  // news-source/add
+        [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
-            await _newsSourceFacade.AddNewsSourceAsync(viewModel).ConfigureAwait(false);
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var newsSource = new NewsSourceViewModel
+            {
+                Classification = viewModel.Classification,
+                Uri = viewModel.Uri,
+            };
+
+            try
+            {
+                await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+                viewModel.Message = $"Source {newsSource.Uri} successfully added";
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceRemoveNewsSource)] // news-source/blacklist
+        [HttpDelete]
+        public async Task<IActionResult> RemoveNewsSourceAsync(RemoveBlacklistViewModel viewModel)
+        {
+            var uri = new Uri(viewModel.Uri);
+            await _newsSourceFacade.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
             return NoContent();
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveWhiteNewsSource)] // news-source/whitelist
-        [HttpDelete]
-        public async Task<IActionResult> RemoveGoodNewsSourceAsync(RemoveWhitelistViewModel viewModel)
+        [Route(EndpointConstants.MvcEdit)] // news-source/edit
+        [HttpGet]
+        public async Task<IActionResult> Edit(string newsSourceLink)
         {
-            var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveWhitelistNewsSourceAsync(uri).ConfigureAwait(false);
-            return NoContent();
+            if (string.IsNullOrEmpty(newsSourceLink))
+                return RedirectToAction(nameof(Index));
+
+            if (!Uri.TryCreate($"https://{newsSourceLink}", UriKind.Absolute, out Uri uri))
+                return RedirectToAction(nameof(Index));
+
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+
+            if (searchResult is null)
+                return RedirectToAction(nameof(Index));
+
+            var viewModel = new EditNewsSourceViewModel
+            {
+                OldLink = searchResult.Uri,
+
+                NewLink = searchResult.Uri,
+                Classification = searchResult.Classification,
+            };
+
+            return View(viewModel);
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
-        [Route(EndpointConstants.NewsSourceRemoveBlackNewsSource)] // news-source/blacklist
-        [HttpDelete]
-        public async Task<IActionResult> RemoveBadNewsSourceAsync(RemoveBlacklistViewModel viewModel)
+        [Route(EndpointConstants.MvcEdit)] // news-source/edit
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditNewsSourceViewModel viewModel)
         {
-            var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveBlacklistNewsSourceAsync(uri).ConfigureAwait(false);
-            return NoContent();
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            if (!Uri.TryCreate(viewModel.OldLink, UriKind.Absolute, out Uri oldLink))
+                return RedirectToAction(nameof(Index));
+
+            if (!Uri.TryCreate(viewModel.NewLink, UriKind.Absolute, out Uri newLink))
+                return RedirectToAction(nameof(Index));
+
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(oldLink).ConfigureAwait(false);
+
+            if (searchResult is null)
+                return RedirectToAction(nameof(Index));
+
+            await _newsSourceFacade.RemoveNewsSourceAsync(oldLink).ConfigureAwait(false);
+
+            var newsSource = new NewsSourceViewModel
+            {
+                Classification = viewModel.Classification,
+                Uri = viewModel.NewLink,
+            };
+
+            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]

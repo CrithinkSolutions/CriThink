@@ -14,25 +14,41 @@ namespace CriThink.Client.Core.Services
     {
         private readonly IRestRepository _restRepository;
         private readonly IIdentityRepository _identityRepository;
-        private readonly IMvxLog _logger;
+        private readonly IMvxLog _log;
 
         public IdentityService(IRestRepository restRepository, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
-            _logger = logProvider?.GetLogFor<IdentityService>();
+            _log = logProvider?.GetLogFor<IdentityService>();
         }
 
         public async Task<User> GetLoggedUserAsync()
         {
-            var user = await _identityRepository.GetUserInfoAsync().ConfigureAwait(false);
-            return user;
+            try
+            {
+                var user = await _identityRepository.GetUserInfoAsync().ConfigureAwait(false);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                _log?.FatalException("Can't get user info", ex);
+                return null;
+            }
         }
 
         public async Task<string> GetUserTokenAsync()
         {
-            var userToken = await _identityRepository.GetUserTokenAsync().ConfigureAwait(false);
-            return userToken;
+            try
+            {
+                var userToken = await _identityRepository.GetUserTokenAsync().ConfigureAwait(false);
+                return userToken;
+            }
+            catch (Exception ex)
+            {
+                _log?.FatalException("Error getting user token", ex);
+                return string.Empty;
+            }
         }
 
         public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
@@ -52,7 +68,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the login", ex, request);
+                _log?.FatalException("Error occurred during the login", ex);
                 return null;
             }
 
@@ -69,7 +85,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "An error occurred when saving login data", ex, request);
+                _log?.ErrorException("An error occurred when saving login data", ex);
             }
 
             return loginResponse;
@@ -80,21 +96,37 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
-                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
-                    HttpRestVerb.Post,
-                    request,
-                    cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            UserLoginResponse loginResponse;
+            try
+            {
+                loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
+                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
+                        HttpRestVerb.Post,
+                        request,
+                        cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log?.FatalException("Error occurred during the social login", ex);
+                return null;
+            }
 
-            await _identityRepository.SetUserInfoAsync(
-                    loginResponse.UserId,
-                    loginResponse.UserEmail,
-                    loginResponse.UserName,
-                    request.UserToken,
-                    loginResponse.JwtToken.Token,
-                    loginResponse.JwtToken.ExpirationDate)
-                .ConfigureAwait(false);
+            try
+            {
+                await _identityRepository.SetUserInfoAsync(
+                        loginResponse.UserId,
+                        loginResponse.UserEmail,
+                        loginResponse.UserName,
+                        request.UserToken,
+                        loginResponse.JwtToken.Token,
+                        loginResponse.JwtToken.ExpirationDate)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error occurred when saving social login data", ex);
+            }
 
             return loginResponse;
         }
@@ -115,7 +147,8 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger.Log(MvxLogLevel.Error, () => "Error requesting temporary token", ex);
+                _log?.FatalException("Error requesting temporary token", ex);
+                throw;
             }
         }
 
@@ -124,14 +157,22 @@ namespace CriThink.Client.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var resetPasswordResponse = await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
-                    $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
-                    HttpRestVerb.Post,
-                    request,
-                    cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                var resetPasswordResponse = await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
+                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
+                        HttpRestVerb.Post,
+                        request,
+                        cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
 
-            return resetPasswordResponse;
+                return resetPasswordResponse;
+            }
+            catch (Exception ex)
+            {
+                _log?.FatalException("Error resseting user password", ex);
+                return null;
+            }
         }
 
         public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
@@ -150,7 +191,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the sign in", ex, request);
+                _log?.FatalException("An error occurred during the sign up", ex);
                 return null;
             }
         }
@@ -178,8 +219,21 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "An error occurred during the email confirmation", ex, userId);
+                _log?.FatalException("An error occurred during the email confirmation", ex, userId);
                 return null;
+            }
+        }
+
+        public void PerformLogout()
+        {
+            try
+            {
+                _identityRepository.EraseUserInfo();
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("An error occurred when logging out", ex);
+                throw;
             }
         }
     }
@@ -245,5 +299,10 @@ namespace CriThink.Client.Core.Services
         /// <param name="code">Code contained into the email</param>
         /// <returns>UserInfo and the token</returns>
         Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code);
+
+        /// <summary>
+        /// Perform logout and erase all user information
+        /// </summary>
+        void PerformLogout();
     }
 }

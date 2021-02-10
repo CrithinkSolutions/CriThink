@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.Localization;
+using MvvmCross.Logging;
 using MvvmCross.Plugin.ResxLocalization;
 using MvvmCross.ViewModels;
 using Polly;
@@ -41,6 +42,7 @@ namespace CriThink.Client.Core
             Mvx.IoCProvider.RegisterSingleton<IMvxTextProvider>(new MvxResxTextProvider(AppResources.ResourceManager));
 
             // Repo
+            Mvx.IoCProvider.RegisterType<ISQLiteRepository, SQLiteRepository>();
             Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
             Mvx.IoCProvider.RegisterType<ISettingsRepository, SettingsRepository>();
@@ -82,9 +84,22 @@ namespace CriThink.Client.Core
 
         private static void ConfigureServices(IServiceCollection serviceCollection, IConfigurationRoot configurationRoot)
         {
+            IMvxLog logger = null;
+
+            if (Mvx.IoCProvider.CanResolve<IMvxLogProvider>())
+            {
+                logger = Mvx.IoCProvider.Resolve<IMvxLogProvider>().GetLogFor<App>();
+            }
+
             var baseApiUri = configurationRoot["BaseApiUri"];
+            logger?.Info($"Starting app with uri: {baseApiUri}");
+
             if (string.IsNullOrWhiteSpace(baseApiUri))
-                throw new ArgumentException("The base uri is null");
+            {
+                var argumentException = new ArgumentException("The base uri is null");
+                logger?.FatalException("Api Uri not found", argumentException);
+                throw argumentException;
+            }
 
             serviceCollection.AddTransient<CriThinkApiHandler>();
             serviceCollection

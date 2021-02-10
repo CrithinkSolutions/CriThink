@@ -1,21 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/welcomeBackground">
+  android:fitsSystemWindows="true">
 
-  <androidx.viewpager.widget.ViewPager
-    android:id="@+id/pager"
+  <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"/>
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:id="@+id/scrollViewer"
+    android:fillViewport="true"
+    android:overScrollMode="always">
 
-  <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
-    android:id="@+id/indicator"
-    android:padding="10dip"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-  />
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:orientation="vertical">
+
+      <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+      <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dip"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+  </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

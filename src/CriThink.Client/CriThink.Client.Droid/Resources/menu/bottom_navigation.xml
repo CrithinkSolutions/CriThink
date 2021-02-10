@@ -10,22 +10,22 @@
   <item
     android:id="@+id/page_2"
     android:enabled="true"
-    android:icon="@drawable/ic_debunkingnews"
-    android:titleCondensed="debunking_news"
-    app:showAsAction="always"
-    android:title="@string/menu_debunkingnews"/>
-  <item
-    android:id="@+id/page_3"
-    android:enabled="true"
     android:icon="@drawable/ic_spotfakenews"
     android:titleCondensed="spot_fakenews"
     app:showAsAction="always"
     android:title="@string/menu_spotfakenews"/>
   <item
-    android:id="@+id/page_4"
+    android:id="@+id/page_3"
     android:enabled="true"
     android:icon="@drawable/ic_games"
     android:titleCondensed="play_games"
     app:showAsAction="always"
     android:title="@string/menu_playgames"/>
+  <item
+      android:id="@+id/page_4"
+      android:enabled="true"
+      android:icon="@drawable/ic_profile"
+      android:titleCondensed="profile"
+      app:showAsAction="always"
+      android:title="@string/menu_profile"/>
 </menu>

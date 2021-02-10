@@ -36,9 +36,6 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         {
             return dbSet
                     .FindAsync(new object[] { demoNewsId }, cancellationToken);
-            //.Where(q => q.Id == demoNewsId)
-            //.Select(projection)
-            //.FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

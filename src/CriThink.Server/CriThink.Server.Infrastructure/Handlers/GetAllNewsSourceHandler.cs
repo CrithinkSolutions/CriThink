@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
@@ -7,45 +8,82 @@ using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 using CriThink.Server.Infrastructure.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
     // ReSharper disable once UnusedMember.Global
-    internal class GetAllNewsSourceHandler : IRequestHandler<GetAllNewsSourceQuery, IEnumerable<GetAllNewsSourceQueryResponse>>
+    internal class GetAllNewsSourceHandler : IRequestHandler<GetAllNewsSourceQuery, IList<GetAllNewsSourceQueryResponse>>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
-        public GetAllNewsSourceHandler(INewsSourceRepository newsSourceRepository)
+        private readonly ILogger<GetAllNewsSourceHandler> _logger;
+
+        public GetAllNewsSourceHandler(INewsSourceRepository newsSourceRepository, ILogger<GetAllNewsSourceHandler> logger)
         {
             _newsSourceRepository = newsSourceRepository ?? throw new ArgumentNullException(nameof(newsSourceRepository));
+            _logger = logger;
         }
 
-        public async Task<IEnumerable<GetAllNewsSourceQueryResponse>> Handle(GetAllNewsSourceQuery request, CancellationToken cancellationToken)
+        public Task<IList<GetAllNewsSourceQueryResponse>> Handle(GetAllNewsSourceQuery request, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
-            var redisValues = request.Filter switch
+
+            try
             {
-                GetAllNewsSourceFilter.All => await _newsSourceRepository.GetAllSearchNewsSourcesAsync().ConfigureAwait(false),
-                GetAllNewsSourceFilter.Whitelist => _newsSourceRepository.GetAllGoodNewsSources(),
-                GetAllNewsSourceFilter.Blacklist => _newsSourceRepository.GetAllBadNewsSources(),
-                _ => throw new NotImplementedException(),
-            };
+                var size = request.Size;
+                var index = request.Index;
+                var filter = request.Filter;
 
-            var responses = new List<GetAllNewsSourceQueryResponse>();
+                var redisValues = _newsSourceRepository.GetAllSearchNewsSources();
 
-            foreach (var (redisKey, redisValue) in redisValues)
-            {
-                var uri = new Uri(redisKey.ToString(), UriKind.Absolute);
+                IList<GetAllNewsSourceQueryResponse> responses = new List<GetAllNewsSourceQueryResponse>();
 
-                var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthenticity authenticity);
-                if (!isValid)
-                    continue;
+                foreach (var (redisKey, redisValue) in ApplyQueryFilter(redisValues, size, index, filter))
+                {
+                    var uri = new Uri(redisKey.ToString(), UriKind.Absolute);
 
-                var response = new GetAllNewsSourceQueryResponse(uri, authenticity);
-                responses.Add(response);
+                    var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthenticity authenticity);
+                    if (!isValid)
+                        continue;
+
+                    var response = new GetAllNewsSourceQueryResponse(uri, authenticity);
+                    responses.Add(response);
+                }
+
+                return Task.FromResult(responses);
             }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error getting all news source", request);
+                throw;
+            }
+        }
 
-            return responses;
+        private static IEnumerable<Tuple<RedisKey, RedisValue>> ApplyQueryFilter(
+            IEnumerable<Tuple<RedisKey, RedisValue>> query,
+            int size, int index,
+            GetAllNewsSourceFilter filter)
+        {
+            return query
+                .Skip(size * index)
+                .Take(size + 1)
+                .Where(k =>
+                    Enum.TryParse(k.Item2.ToString(), true, out NewsSourceAuthenticity authenticity) &&
+                    IsSameCategory(filter, authenticity));
+        }
+
+        private static bool IsSameCategory(GetAllNewsSourceFilter filter, NewsSourceAuthenticity authenticity)
+        {
+            return filter switch
+            {
+                GetAllNewsSourceFilter.Blacklist => authenticity == NewsSourceAuthenticity.Conspiracist ||
+                                                    authenticity == NewsSourceAuthenticity.FakeNews,
+                GetAllNewsSourceFilter.Whitelist => authenticity == NewsSourceAuthenticity.Reliable ||
+                                                    authenticity == NewsSourceAuthenticity.Satirical,
+                _ => true
+            };
         }
     }
 }

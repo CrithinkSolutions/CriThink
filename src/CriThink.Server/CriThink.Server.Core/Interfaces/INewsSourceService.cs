@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.NewsSource.Requests;
 
 namespace CriThink.Server.Core.Interfaces
 {
@@ -20,14 +18,7 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns>A task</returns>
-        Task RemoveBadSourceAsync(Uri uri);
-
-        /// <summary>
-        /// Remove a source from the whitelist
-        /// </summary>
-        /// <param name="uri"><see cref="Uri"/> to analyze</param>
-        /// <returns>A task</returns>
-        Task RemoveGoodNewsSourceAsync(Uri uri);
+        Task RemoveNewsSourceAsync(Uri uri);
 
         /// <summary>
         /// Search the given source in the black and whitelist
@@ -46,8 +37,8 @@ namespace CriThink.Server.Core.Interfaces
         /// <summary>
         /// Get all the news sources stored. Result can be filtered
         /// </summary>
-        /// <param name="request">Optional filter</param>
+        /// <param name="request">Pagination and filter</param>
         /// <returns>All the news sources</returns>
-        Task<IList<NewsSourceGetAllResponse>> GetAllNewsSourcesAsync(NewsSourceGetAllFilterRequest request);
+        Task<NewsSourceGetAllResponse> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request);
     }
 }

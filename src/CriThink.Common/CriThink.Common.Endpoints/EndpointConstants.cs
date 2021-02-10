@@ -88,8 +88,7 @@
 
         public const string NewsSourceBase = "news-source/";
 
-        public const string NewsSourceRemoveBlackNewsSource = "blacklist";
-        public const string NewsSourceRemoveWhiteNewsSource = "whitelist";
+        public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
         public const string NewsSourceRegisterForNotification = "register-for-notification";
         public const string NewsSourceTriggerIdentifiedSource = "idenitify";
@@ -102,6 +101,24 @@
 
         public const string DebunkNewsTriggerUpdate = "trigger-update";
         public const string DebunkingNewsGetAll = "all";
+        public const string DebunkingNewsAddNews = "add-news";
+        public const string DebunkingNewsRemoveNews = "remove-news";
+        public const string DebunkingNewsInfoNews = "info-news";
+        public const string DebunkingNewsEditNews = "edit-news";
+
+        #endregion
+
+        #region UserManagement
+
+        public const string UserManagementBase = "user-management/";
+        public const string UserManagementRoles = "roles";
+        public const string UserManagementAddUser = "add-user";
+        public const string UserManagementAddAdmin = "add-admin";
+        public const string UserManagementRemoveUser = "remove-admin";
+        public const string UserManagementSoftRemoveUser = "softremove-admin";
+        public const string UserManagementInfoUser = "info-user";
+        public const string UserManagementEditUser = "edit-user";
+        public const string UserManagementEditRoleUser = "edit-roleuser";
 
         #endregion
 
@@ -115,7 +132,10 @@
         #endregion
 
         #region MVC
-        public const string Add = "add";
+
+        public const string MvcAdd = "add";
+        public const string MvcEdit = "edit";
+
         #endregion
     }
 }

@@ -27,14 +27,14 @@ namespace CriThink.Server.Providers.EmailSender.Services
             _emailSenderProvider = emailSenderProvider ?? throw new ArgumentNullException(nameof(emailSenderProvider));
         }
 
-        public async Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode)
+        public async Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode, string userName)
         {
             var hostname = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
             var subject = _emailSettings.ConfirmationEmailSubject;
 
             var callbackUrl = string.Format(CultureInfo.InvariantCulture, _emailSettings.ConfirmationEmailLink, hostname, userId, encodedCode);
-            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl);
+            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname, userName);
 
             // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
@@ -42,14 +42,14 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
         }
 
-        public async Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode)
+        public async Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode, string userName)
         {
             var hostname = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
             var subject = _emailSettings.ForgotPasswordSubject;
 
             var callbackUrl = string.Format(CultureInfo.InvariantCulture, _emailSettings.ForgotPasswordLink, hostname, userId, encodedCode);
-            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl);
+            var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname, userName);
 
             // TODO: custom email for this scope
             // TODO: Use nameof() for path composition

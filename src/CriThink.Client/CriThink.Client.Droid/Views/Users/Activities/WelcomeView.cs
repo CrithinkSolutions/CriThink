@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Graphics;
 using Android.OS;
+using AndroidX.Core.Content;
 using AndroidX.ViewPager.Widget;
 using CriThink.Client.Core.ViewModels;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
@@ -38,7 +39,6 @@ namespace CriThink.Client.Droid.Views.Users
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
-                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeLoginSignInView), "", typeof(WelcomeLoginSignInView), new MvxViewModelInstanceRequest(ViewModel.WelcomeLoginSignInViewModel)),
             };
 
@@ -52,7 +52,8 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 circleIndicator.SetViewPager(_pager);
                 circleIndicator.Snap = true;
-                circleIndicator.StrokeColor = Color.ParseColor("#3F3FCB");
+                circleIndicator.PageColor = new Color(ContextCompat.GetColor(this, Resource.Color.welcomeBackground));
+                circleIndicator.StrokeColor = new Color(ContextCompat.GetColor(this, Resource.Color.colorBlue));
             }
         }
     }

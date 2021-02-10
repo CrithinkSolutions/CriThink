@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
@@ -19,8 +18,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IIdentityService _identityService;
+        private readonly IMvxLog _log;
 
-        private int _pageIndex = 1;
+        private int _pageIndex;
         private bool _hasMorePages;
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -31,6 +31,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
             _hasMorePages = true;
@@ -136,7 +137,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     .GetRecentDebunkingNewsAsync(_pageIndex, PageSize, _cancellationTokenSource.Token)
                     .ConfigureAwait(false);
 
-                Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                if (debunkinNewsCollection.DebunkingNewsCollection != null)
+                    Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+
                 _hasMorePages = debunkinNewsCollection.HasNextPage;
 
                 _pageIndex++;
@@ -147,10 +150,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        private Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)
+        private async Task DoNavigateNewsCheckerCommand(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //return NavigationService.Navigate<NewsCheckerSearchView>(cancellationToken: cancellationToken);
+            await NavigationService.Navigate<CheckNewsViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
         }
 
         private async Task DoCheckNewsCommand(CancellationToken cancellationToken)
@@ -165,7 +167,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            await NavigationService.Navigate<DebunkingNewsDetailsViewModel, string>(selectedResponse.Id, cancellationToken: cancellationToken).ConfigureAwait(true);
+            await _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink).ConfigureAwait(false);
+            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
         }
 
         private void DoFetchDebunkingNewsCommand()

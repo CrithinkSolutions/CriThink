@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
 using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
+    [Route(EndpointConstants.UserManagementBase)]
     public class UserManagementController : Controller
     {
         private readonly IUserManagementServiceFacade _userManagementServiceFacade;
@@ -29,7 +32,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management")]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var users = await _userManagementServiceFacade.GetAllUserAsync(viewModel).ConfigureAwait(false);
@@ -41,7 +43,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/roles")]
+        [Route(EndpointConstants.UserManagementRoles)]
         public async Task<IActionResult> GetRole()
         {
             var roles = await _userManagementServiceFacade.GetAllRolesAsync().ConfigureAwait(false);
@@ -53,7 +55,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/add-user")]
+        [Route(EndpointConstants.UserManagementAddUser)]
         public IActionResult AddUserView()
         {
             return View("AddUserView");
@@ -65,7 +67,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/add-user")]
+        [Route(EndpointConstants.UserManagementAddUser)]
         public async Task<IActionResult> AddUserAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
@@ -93,7 +95,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("user-management/add-admin")]
+        [Route(EndpointConstants.UserManagementAddAdmin)]
         public IActionResult AddAdminView()
         {
             return View("AddAdminView");
@@ -105,7 +107,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/add-admin")]
+        [Route(EndpointConstants.UserManagementAddAdmin)]
         public async Task<IActionResult> AddAdminAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
@@ -134,7 +136,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/remove-user")]
+        [Route(EndpointConstants.UserManagementRemoveUser)]
         public async Task<IActionResult> DeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
@@ -161,7 +163,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("user-management/softremove-user")]
+        [Route(EndpointConstants.UserManagementSoftRemoveUser)]
         public async Task<IActionResult> SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
@@ -181,5 +183,83 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Get info by id for a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(EndpointConstants.UserManagementInfoUser)]
+        public async Task<IActionResult> GetUserByIdAsync(SimpleUserManagementViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                var info = await _userManagementServiceFacade.GetUserByIdAsync(viewModel).ConfigureAwait(false);
+                return Ok(new ApiOkResponse(info));
+            }
+            catch (Exception ex)
+            {
+                return (IActionResult)ex;
+            }
+        }
+
+        /// <summary>
+        /// Update property a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(EndpointConstants.UserManagementEditUser)]
+        public async Task<IActionResult> UpdateUserAsync(UserUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _userManagementServiceFacade.UpdateUserAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Update role for a user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(EndpointConstants.UserManagementEditRoleUser)]
+        public async Task<IActionResult> UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+                
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _userManagementServiceFacade.UpdateUserRoleAsync(viewModel).ConfigureAwait(false);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (ResourceNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

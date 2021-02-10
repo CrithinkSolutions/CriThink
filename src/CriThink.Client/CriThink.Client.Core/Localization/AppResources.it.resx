@@ -117,11 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DebunkingNewsCollectionViewModel.DebunkingNewsTitle" xml:space="preserve">
-    <value>Ultime Debunking News</value>
+  <data name="ForgotPasswordViewModel.InsertEmail" xml:space="preserve">
+    <value>Inserisci la tua email</value>
   </data>
-  <data name="LoginViewModel.Jump" xml:space="preserve">
-    <value>Salta (DEBUG)</value>
+  <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
+    <value>Ultime ricerche</value>
+  </data>
+  <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
+    <value>Quale news vuoi controllare?</value>
+  </data>
+  <data name="ForgotPasswordViewModel.Send" xml:space="preserve">
+    <value>Invia</value>
+  </data>
+  <data name="LoginViewModel.EmailHint" xml:space="preserve">
+    <value>Email o username</value>
+  </data>
+  <data name="LoginViewModel.Facebook" xml:space="preserve">
+    <value>Continua con Facebook</value>
+  </data>
+  <data name="LoginViewModel.ForgotPassword" xml:space="preserve">
+    <value>Password dimenticata?</value>
+  </data>
+  <data name="LoginViewModel.Google" xml:space="preserve">
+    <value>Continua con Google</value>
+  </data>
+  <data name="LoginViewModel.Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginViewModel.PasswordHint" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="NewsCheckerViewModel.DebunkingNewsTitle" xml:space="preserve">
+    <value>Ultime Debunking News</value>
   </data>
   <data name="NewsCheckerViewModel.GoodAfternoon" xml:space="preserve">
     <value>Buon pomeriggio</value>
@@ -140,5 +167,146 @@
   </data>
   <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
     <value>Quale news vuoi controllare?</value>
+  </data>
+  <data name="ResetPasswordViewModel.InsertPassword" xml:space="preserve">
+    <value>Inserisci una nuova password</value>
+  </data>
+  <data name="ResetPasswordViewModel.RepeatPassword" xml:space="preserve">
+    <value>Ripeti la nuova password</value>
+  </data>
+  <data name="ResetPasswordViewModel.Send" xml:space="preserve">
+    <value>Invia</value>
+  </data>
+  <data name="SignUpEmailViewModel.EmailHint" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="SignUpEmailViewModel.PasswordHint" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SignUpEmailViewModel.RepeatPasswordHint" xml:space="preserve">
+    <value>Ripeti Password</value>
+  </data>
+  <data name="SignUpEmailViewModel.SignUp" xml:space="preserve">
+    <value>Unisciti!</value>
+  </data>
+  <data name="SignUpEmailViewModel.UsernameHint" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="SignUpViewModel.AlreadyAccount" xml:space="preserve">
+    <value>Hai già un account?</value>
+  </data>
+  <data name="SignUpViewModel.Facebook" xml:space="preserve">
+    <value>Registrati con Facebook</value>
+  </data>
+  <data name="SignUpViewModel.Google" xml:space="preserve">
+    <value>Registrati con Google</value>
+  </data>
+  <data name="SignUpViewModel.Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="SignUpViewModel.SignUpCaption" xml:space="preserve">
+    <value>E' facile</value>
+  </data>
+  <data name="SignUpViewModel.SignUpEmail" xml:space="preserve">
+    <value>Registrati con la tua email</value>
+  </data>
+  <data name="SignUpViewModel.SignUpTitle" xml:space="preserve">
+    <value>Unisciti</value>
+  </data>
+  <data name="WelcomeLoginSignInViewModel.Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="WelcomeLoginSignInViewModel.Motto" xml:space="preserve">
+    <value>Use the HEAD!</value>
+  </data>
+  <data name="WelcomeLoginSignInViewModel.SignIn" xml:space="preserve">
+    <value>Registrati</value>
+  </data>
+  <data name="ResetPasswordViewModel.ConfirmPasswordReset" xml:space="preserve">
+    <value>Hey {0}, hai resettato la tua password</value>
+  </data>
+  <data name="ResetPasswordViewModel.ErrorPasswordReset" xml:space="preserve">
+    <value>Ci dispiace, ma non siamo riusciti a resettare la tua password</value>
+  </data>
+  <data name="SignUpEmailViewModel.ErrorMessage" xml:space="preserve">
+    <value>Ci dispiace, ma non puoi completare la registrazione ora</value>
+  </data>
+  <data name="SignUpEmailViewModel.WelcomeMessage" xml:space="preserve">
+    <value>Grazie per esserti unito a noi! Ti abbiamo inviato una email per confermare il tuo account.</value>
+  </data>
+  <data name="SignUpEmailViewModel.ConfirmErrorMessage" xml:space="preserve">
+    <value>Ci dispiace ma non possiamo confermare la tua email ora</value>
+  </data>
+  <data name="SignUpEmailViewModel.ConfirmWelcomeMessage" xml:space="preserve">
+    <value>Ciao {0}! Ora puoi effettuare il login</value>
+  </data>
+  <data name="ForgotPasswordViewModel.RecoverPassword" xml:space="preserve">
+    <value>Recupera la password</value>
+  </data>
+  <data name="ResetPasswordViewModel.ResetPassword" xml:space="preserve">
+    <value>Inserisci una nuova password</value>
+  </data>
+  <data name="AboutViewModel.ViewProfile" xml:space="preserve">
+    <value>Vedi profilo</value>
+  </data>
+  <data name="AboutViewModel.AccountSettings" xml:space="preserve">
+    <value>Impostazioni account</value>
+  </data>
+  <data name="AboutViewModel.GetHelp" xml:space="preserve">
+    <value>Chiedi aiuto</value>
+  </data>
+  <data name="AboutViewModel.GiveFeedback" xml:space="preserve">
+    <value>Dicci cosa pensi di noi</value>
+  </data>
+  <data name="AboutViewModel.HowWorks" xml:space="preserve">
+    <value>Come funziona CriThink</value>
+  </data>
+  <data name="AboutViewModel.InviteFriends" xml:space="preserve">
+    <value>Invita amici</value>
+  </data>
+  <data name="AboutViewModel.Legal" xml:space="preserve">
+    <value>Legale</value>
+  </data>
+  <data name="AboutViewModel.Logout" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="AboutViewModel.Notifications" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
+  <data name="AboutViewModel.PersonalInfo" xml:space="preserve">
+    <value>Informazioni personali</value>
+  </data>
+  <data name="AboutViewModel.PrivacySettings" xml:space="preserve">
+    <value>Impostazioni privacy</value>
+  </data>
+  <data name="AboutViewModel.Referrals" xml:space="preserve">
+    <value>Referral</value>
+  </data>
+  <data name="AboutViewModel.Support" xml:space="preserve">
+    <value>Supporto</value>
+  </data>
+  <data name="AboutViewModel.ToS" xml:space="preserve">
+    <value>Termini di Servizio</value>
+  </data>
+  <data name="AboutViewModel.Version" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="ProfileViewModel.Hello" xml:space="preserve">
+    <value>Ciao, sono {0}</value>
+  </data>
+  <data name="AboutViewModel.LogoutCancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="AboutViewModel.LogoutMessage" xml:space="preserve">
+    <value>Confermi di voler uscire?</value>
+  </data>
+  <data name="AboutViewModel.LogoutOk" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="AbouteViewModel.LogoutErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
+    <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
 </root>

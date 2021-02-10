@@ -20,8 +20,8 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
             if (PageSize < 1)
                 yield return new ValidationResult("PageSize can't be less than 1");
 
-            if (PageIndex < 1)
-                yield return new ValidationResult("PageIndex can't be less than 1");
+            if (PageIndex < 0)
+                yield return new ValidationResult("PageIndex can't be negative");
         }
 
         public string ToQueryString() => $"{nameof(PageSize)}={PageSize}&{nameof(PageIndex)}={PageIndex}";
