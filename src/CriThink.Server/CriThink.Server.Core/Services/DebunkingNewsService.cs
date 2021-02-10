@@ -125,15 +125,15 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex);
+            var filter = _mapper.Map<DebunkingNewsGetAllLanguageFilterRequests, GetAllDebunkingNewsLanguageFilters>(request.LanguageFilters);
+
+            var query = new GetAllDebunkingNewsQuery(request.PageSize, request.PageIndex, filter);
             var debunkingNewsCollection = await _mediator.Send(query).ConfigureAwait(false);
 
-            var dtos = new List<DebunkingNewsGetResponse>();
-            foreach (var debunkingNews in debunkingNewsCollection.Take(request.PageSize))
-            {
-                var dto = _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetResponse>(debunkingNews);
-                dtos.Add(dto);
-            }
+            var dtos = debunkingNewsCollection
+                .Take(request.PageSize)
+                .Select(debunkingNews => _mapper.Map<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetResponse>(debunkingNews))
+                .ToList();
 
             var response = new DebunkingNewsGetAllResponse(dtos, debunkingNewsCollection.Count > request.PageSize);
             return response;

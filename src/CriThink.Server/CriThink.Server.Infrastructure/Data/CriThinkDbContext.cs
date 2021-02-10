@@ -170,13 +170,13 @@ namespace CriThink.Server.Infrastructure.Data
             var languageItalian = new DebunkingNewsLanguage
             {
                 Id = Guid.Parse("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
-                Code = "it",
+                Code = EntityConstants.LanguageCodeIt,
                 Name = "Italian",
             };
             var languageEnglish = new DebunkingNewsLanguage
             {
                 Id = Guid.Parse("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
-                Code = "en",
+                Code = EntityConstants.LanguageCodeEn,
                 Name = "English",
             };
             builder.Entity<DebunkingNewsLanguage>(typeBuilder =>

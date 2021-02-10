@@ -15,6 +15,9 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         [JsonPropertyName("pageIndex")]
         public int PageIndex { get; set; }
 
+        [JsonPropertyName("languageFilter")]
+        public DebunkingNewsGetAllLanguageFilterRequests LanguageFilters { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (PageSize < 1)
@@ -24,6 +27,6 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
                 yield return new ValidationResult("PageIndex can't be negative");
         }
 
-        public string ToQueryString() => $"{nameof(PageSize)}={PageSize}&{nameof(PageIndex)}={PageIndex}";
+        public string ToQueryString() => $"{nameof(PageSize)}={PageSize}&{nameof(PageIndex)}={PageIndex}&{nameof(LanguageFilters)}={LanguageFilters}";
     }
 }

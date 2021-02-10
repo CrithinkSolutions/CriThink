@@ -2,6 +2,13 @@
 {
     public static class EntityConstants
     {
+        #region Languages
+
+        public const string LanguageCodeIt = "it";
+        public const string LanguageCodeEn = "en";
+
+        #endregion
+
         #region OpenOnline
 
         public const string OpenOnline = "Open";
