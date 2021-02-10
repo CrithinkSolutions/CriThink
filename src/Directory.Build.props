@@ -1,6 +1,9 @@
 <Project>
   <PropertyGroup>   
-   <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>   
+   <CodeAnalysisRuleSet>..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
+   <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+   <EnableNETAnalyzer>True</EnableNETAnalyzer>
+   <AnalysisLevel>latest</AnalysisLevel> 
   </PropertyGroup>
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
