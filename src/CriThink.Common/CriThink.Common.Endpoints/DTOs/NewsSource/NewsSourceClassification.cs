@@ -23,5 +23,10 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
         /// Represents a fake news source
         /// </summary>
         FakeNews,
+
+        /// <summary>
+        /// Represents a site that isn't already identified
+        /// </summary>
+        Unknown,
     }
 }

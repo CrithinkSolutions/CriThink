@@ -144,17 +144,27 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpGet]
-        public IActionResult TriggerIdentifiedNewsSourceAsync(Guid unknownNewsId)
+        public async Task<IActionResult> Identify(Guid id)
         {
-            return View(unknownNewsId);
+            var viewModel = await _newsSourceFacade.GetUnknownNewsSourceAsync(id).ConfigureAwait(false);
+
+            return View(viewModel);
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpPost]
-        public async Task<IActionResult> TriggerIdentifiedNewsSourceAsync()
+        public async Task<IActionResult> Identify(UnknownNewsSourceViewModel viewModel)
         {
-            return NoContent();
+            if (viewModel.Classification == Classification.Unknown)
+                ModelState.AddModelError(nameof(UnknownNewsSourceViewModel.Classification), "You must identify the source");
+
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            await _newsSourceFacade.TriggerIdentifiedNewsSourceAsync(viewModel.Uri, viewModel.Classification).ConfigureAwait(false);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

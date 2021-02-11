@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

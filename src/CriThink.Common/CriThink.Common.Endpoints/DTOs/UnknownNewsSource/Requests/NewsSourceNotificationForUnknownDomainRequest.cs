@@ -1,4 +1,4 @@
-﻿namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests
+﻿namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource
 {
     public class NewsSourceNotificationForUnknownDomainRequest
     {

@@ -28,14 +28,14 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var sqlQuery = "INSERT INTO unknown_sources\n" +
+                var sqlQuery = "INSERT INTO unknown_news_sources\n" +
                            "(id, uri, first_requested_at, request_count, authenticity)\n" +
                            "VALUES\n" +
                            "({0}, {1}, {2}, {3}, {4})\n" +
                            "ON CONFLICT (uri)\n" +
                            "DO UPDATE\n" +
                            "SET\n" +
-                           "request_count = (unknown_sources.request_count + 1);";
+                           "request_count = (unknown_news_sources.request_count + 1);";
 
                 var id = new NpgsqlParameter("id", Guid.NewGuid());
                 var uri = new NpgsqlParameter("uri", request.Uri.ToString());

@@ -62,6 +62,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
         {
             var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(unknownDomainUrl);
 
+            // TODO: Use real template
             // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
 
@@ -70,9 +71,17 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
         }
 
-        public Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl)
+        public async Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl, string classification)
         {
-            throw new NotImplementedException();
+            var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(identifiedDomainUrl);
+
+            // TODO: Use real template
+            // TODO: Use nameof() for path composition
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
+
+            var subject = $"[{classification}] - We identified the domain";
+
+            await Execute(new[] { userEmail }, subject, htmlBody);
         }
 
         private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)

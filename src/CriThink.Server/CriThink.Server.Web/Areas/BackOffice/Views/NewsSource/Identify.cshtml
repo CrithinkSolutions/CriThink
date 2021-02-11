@@ -1,0 +1,18 @@
+﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
+@using CriThink.Common.Endpoints;
+@model UnknownNewsSourceViewModel;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Identify News Source";
+}
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <input asp-for="Id" />
+
+    <input asp-for="Uri" />
+
+    <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+
+    <button type="submit">Save</button>
+}

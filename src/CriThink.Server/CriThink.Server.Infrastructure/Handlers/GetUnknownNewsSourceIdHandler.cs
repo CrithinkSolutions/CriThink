@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class GetUnknownNewsSourceIdHandler : IRequestHandler<GetUnknownNewsSourceIdCommand, Guid>
+    public class GetUnknownNewsSourceIdHandler : IRequestHandler<GetUnknownNewsSourceIdQuery, Guid>
     {
         private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<GetUnknownNewsSourceIdHandler> _logger;
@@ -21,7 +21,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public async Task<Guid> Handle(GetUnknownNewsSourceIdCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(GetUnknownNewsSourceIdQuery request, CancellationToken cancellationToken)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
@@ -29,7 +29,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var newsSourceId = await _dbContext.UnknownNewsSources
-                                                   .GetUnknownSourceByUri(request.Uri, UnknownNewsSourceProjection.GetId, cancellationToken)
+                                                   .GetUnknownSourceIdByUriAsync(request.Uri, UnknownNewsSourceProjection.GetId, cancellationToken)
                                                    .ConfigureAwait(false);
                 return newsSourceId;
             }

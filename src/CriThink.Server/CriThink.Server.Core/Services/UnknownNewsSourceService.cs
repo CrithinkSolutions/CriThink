@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
@@ -29,7 +30,7 @@ namespace CriThink.Server.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var getIdCommand = new GetUnknownNewsSourceIdCommand(request.Uri);
+            var getIdCommand = new GetUnknownNewsSourceIdQuery(request.Uri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
             var createCommand = new CreateUnknownSourceNotificationRequestCommand(unknownNewsId, request.Email);
@@ -41,19 +42,19 @@ namespace CriThink.Server.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var getIdCommand = new GetUnknownNewsSourceIdCommand(request.Uri);
+            var getIdCommand = new GetUnknownNewsSourceIdQuery(request.Uri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
             int pageSize = 20, pageIndex = 0;
 
             do
             {
-                var getSubscribedUsersCommand = new GetAllSubscribedUsersQuery(unknownNewsId, pageSize + 1, pageIndex++);
-                var subscribedUsers = await _mediator.Send(getSubscribedUsersCommand).ConfigureAwait(false);
+                var subscribedUsersQuery = new GetAllSubscribedUsersQuery(unknownNewsId, pageSize + 1, pageIndex++);
+                var subscribedUsers = await _mediator.Send(subscribedUsersQuery).ConfigureAwait(false);
 
                 foreach (var user in subscribedUsers.Take(pageSize))
                 {
-                    await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(user.Email, request.Uri).ConfigureAwait(false);
+                    await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(user.Email, request.Uri, request.Classification.ToString()).ConfigureAwait(false);
 
                     var notifyUserCommand = new RemoveNotifiedUserCommand(user.Id);
                     _ = _mediator.Send(notifyUserCommand);
@@ -67,6 +68,28 @@ namespace CriThink.Server.Core.Services
 
             var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId, authenticity);
             await _mediator.Send(updateIdentifiedNewsSourceCommand).ConfigureAwait(false);
+
+            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(request.Uri), ToNewsSourceAuthenticityEnum(request.Classification));
+            await _mediator.Send(createNewsSourceCommand).ConfigureAwait(false);
         }
+
+        public async Task<UnknownNewsSourceResponse> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId)
+        {
+            var query = new GetUnknownNewsSourceQuery(unknownNewsSourceId);
+
+            var unknownNewsSource = await _mediator.Send(query).ConfigureAwait(false);
+
+            return unknownNewsSource;
+        }
+
+        private static NewsSourceAuthenticity ToNewsSourceAuthenticityEnum(NewsSourceClassification newsSourceClassification)
+            => newsSourceClassification switch
+            {
+                NewsSourceClassification.Reliable => NewsSourceAuthenticity.Reliable,
+                NewsSourceClassification.Satirical => NewsSourceAuthenticity.Satirical,
+                NewsSourceClassification.Conspiracist => NewsSourceAuthenticity.Conspiracist,
+                NewsSourceClassification.FakeNews => NewsSourceAuthenticity.FakeNews,
+                _ => throw new NotImplementedException(nameof(ToNewsSourceAuthenticityEnum)),
+            };
     }
 }

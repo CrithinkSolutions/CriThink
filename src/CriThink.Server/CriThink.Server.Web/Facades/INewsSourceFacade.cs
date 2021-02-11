@@ -15,6 +15,8 @@ namespace CriThink.Server.Web.Facades
 
         Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri);
 
-        Task TriggerIdentifiedNewsSourceAsync(TriggerIdentifiedNewsSourceViewModel viewModel);
+        Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification);
+
+        Task<UnknownNewsSourceViewModel> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId);
     }
 }

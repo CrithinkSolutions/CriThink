@@ -14,8 +14,8 @@ namespace CriThink.Server.Core.Queries
             PageIndex = pageIndex;
         }
 
-        public Guid UnknownNewsSourceId { get; set; }
-        public int PageSize { get; set; }
-        public int PageIndex { get; set; }
+        public Guid UnknownNewsSourceId { get; }
+        public int PageSize { get; }
+        public int PageIndex { get; }
     }
 }

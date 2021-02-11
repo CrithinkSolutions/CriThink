@@ -91,7 +91,7 @@
         public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
         public const string NewsSourceRegisterForNotification = "register-for-notification";
-        public const string NewsSourceTriggerIdentifiedSource = "idenitify";
+        public const string NewsSourceTriggerIdentifiedSource = "identify";
 
         #endregion
 

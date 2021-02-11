@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource.Requests;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
@@ -86,18 +86,27 @@ namespace CriThink.Server.Web.Facades
             }
         }
 
-        public async Task TriggerIdentifiedNewsSourceAsync(TriggerIdentifiedNewsSourceViewModel viewModel)
+        public async Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification)
         {
-            if (viewModel is null)
-                throw new ArgumentNullException(nameof(viewModel));
-
             var request = new TriggerUpdateForIdentifiedNewsSourceRequest
             {
-                Uri = viewModel.Uri,
-                Classification = ToRequestEnum(viewModel.Classification),
+                Uri = uri,
+                Classification = ToRequestEnum(classification),
             };
 
             await _unknownNewsSourceService.TriggerUpdateForIdentifiedNewsSourceAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task<UnknownNewsSourceViewModel> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId)
+        {
+            var result = await _unknownNewsSourceService.GetUnknownNewsSourceAsync(unknownNewsSourceId).ConfigureAwait(false);
+
+            return new UnknownNewsSourceViewModel
+            {
+                Id = result.Id,
+                Classification = ToViewModelEnum(result.Classification),
+                Uri = result.Uri,
+            };
         }
 
         private static NewsSource ToNewsSource(NewsSourceGetResponse newsSource) => new NewsSource
@@ -113,6 +122,7 @@ namespace CriThink.Server.Web.Facades
                 NewsSourceClassification.Satirical => Classification.Satirical,
                 NewsSourceClassification.Conspiracist => Classification.Conspiracist,
                 NewsSourceClassification.FakeNews => Classification.FakeNews,
+                NewsSourceClassification.Unknown => Classification.Unknown,
                 _ => throw new NotImplementedException(nameof(ToViewModelEnum)),
             };
 
