@@ -12,6 +12,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
     public static class DebunkingNewsFetcherBootstrapper
     {
         public const string OpenOnlineHttpClientName = "OpenOnlineFeed";
+        public const string Channel4HttpClientName = "Channel4";
         public const string UrlResolverHttpClientName = "UrlResolver";
 
         /// <summary>
@@ -25,6 +26,8 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
                 client.DefaultRequestHeaders.Add("api-version", "1.0");
             });
 
+            serviceCollection.AddHttpClient(Channel4HttpClientName);
+
             serviceCollection.AddHttpClient(UrlResolverHttpClientName)
                              .ConfigurePrimaryHttpMessageHandler(()
                               => new HttpClientHandler
@@ -33,6 +36,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
                               });
 
             serviceCollection.AddTransient<OpenOnlineFetcher>();
+            serviceCollection.AddTransient<Channel4Fetcher>();
             serviceCollection.AddTransient<DebunkingNewsFetcherBuilder>();
 
             serviceCollection.AddTransient<IDebunkNewsProvider, DebunkingNewsProvider>();

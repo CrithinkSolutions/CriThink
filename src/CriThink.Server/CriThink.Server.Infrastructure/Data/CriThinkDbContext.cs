@@ -221,6 +221,19 @@ namespace CriThink.Server.Infrastructure.Data
                         TwitterProfile = EntityConstants.OpenOnlineTwitter,
                         CountryId = countryItaly.Id,
                         LanguageId = languageItalian.Id,
+                    },
+                    new
+                    {
+                        Id = Guid.Parse("3181faf4-45e2-4a91-8340-8ed9598513c8"),
+                        Name = EntityConstants.Channel4,
+                        Link = EntityConstants.Channel4Link,
+                        Description = EntityConstants.Channel4Description,
+                        Opinion = EntityConstants.Channel4Opinion,
+                        FacebookPage = EntityConstants.Channel4Facebook,
+                        InstagramProfile = EntityConstants.Channel4Instagram,
+                        TwitterProfile = EntityConstants.Channel4Twitter,
+                        CountryId = countryUk.Id,
+                        LanguageId = languageEnglish.Id,
                     }
                 });
             });

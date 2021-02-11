@@ -80,7 +80,7 @@ namespace CriThink.Server.Core.Services
             {
                 var lastFetchTimeQuery = new GetLastDebunkinNewsFetchTimeQuery();
                 var lastDateTask = _mediator.Send(lastFetchTimeQuery);
-                var debunkingNewsTask = _debunkNewsFetcherFacade.FetchOpenOnlineDebunkNewsAsync();
+                var debunkingNewsTask = _debunkNewsFetcherFacade.FetchDebunkingNewsAsync();
 
                 await Task.WhenAll(lastDateTask, debunkingNewsTask).ConfigureAwait(false);
 
@@ -90,12 +90,21 @@ namespace CriThink.Server.Core.Services
                 if (!debunkingNewsCollection.Any())
                     return;
 
-                var publisherQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
-                var publisherTask = _mediator.Send(publisherQuery);
+                DebunkingNewsPublisher publisherOpen = null;
+                DebunkingNewsPublisher publisherChannel4 = null;
+
+                var publishersTask = Task.Run(async () =>
+                {
+                    var publisherOpenQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
+                    var publisherChannel4Query = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.Channel4);
+
+                    publisherOpen = await _mediator.Send(publisherChannel4Query).ConfigureAwait(false);
+                    publisherChannel4 = await _mediator.Send(publisherOpenQuery).ConfigureAwait(false);
+                });
 
                 var scrapeTask = ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate);
 
-                await Task.WhenAll(publisherTask, scrapeTask).ConfigureAwait(false);
+                await Task.WhenAll(publishersTask, scrapeTask).ConfigureAwait(false);
 
                 var debunkedNewsCollection = scrapeTask.Result;
 
@@ -103,7 +112,12 @@ namespace CriThink.Server.Core.Services
                     return;
 
                 foreach (var dNews in debunkedNewsCollection)
-                    dNews.Publisher = publisherTask.Result;
+                {
+                    if (dNews.Link.Contains(EntityConstants.OpenOnlineLink, StringComparison.InvariantCultureIgnoreCase))
+                        dNews.Publisher = publisherOpen;
+                    else if (dNews.Link.Contains(EntityConstants.Channel4Link, StringComparison.InvariantCultureIgnoreCase))
+                        dNews.Publisher = publisherChannel4;
+                }
 
                 var addNewsCommand = new CreateDebunkingNewsCommand(debunkedNewsCollection);
                 _ = await _mediator.Send(addNewsCommand).ConfigureAwait(false);
