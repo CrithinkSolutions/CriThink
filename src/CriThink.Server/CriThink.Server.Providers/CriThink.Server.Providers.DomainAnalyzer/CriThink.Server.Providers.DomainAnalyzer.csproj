@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>CriThink.Server.Providers.DomainAnalyzer</AssemblyName>
     <RootNamespace>CriThink.Server.Providers.DomainAnalyzer</RootNamespace>
   </PropertyGroup>
