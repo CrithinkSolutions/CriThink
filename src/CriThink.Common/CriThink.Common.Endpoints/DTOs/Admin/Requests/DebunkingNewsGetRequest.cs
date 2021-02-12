@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
 {
