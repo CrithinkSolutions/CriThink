@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-#pragma warning disable CA1062 // Validate arguments of public methods
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 namespace CriThink.Server.Infrastructure.Migrations
 {
     public partial class InitialMigration : Migration

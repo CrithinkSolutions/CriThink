@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CriThink.Server", "CriThink
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BBF39149-EF50-473D-80EB-705B2B038BB0}"
 	ProjectSection(SolutionItems) = preProject
-		code-analysis.ruleset = code-analysis.ruleset
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CriThink.Client", "CriThink.Client", "{D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}"

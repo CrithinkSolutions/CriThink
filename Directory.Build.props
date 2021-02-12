@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-   <NoWarn>$(NoWarn);1591;CA1031;CA1812;</NoWarn>   
    <Company>CriThink Solutions</Company>
    <Authors>CriThink Dev Team</Authors>
    <Copyright>© Copyright CriThink Solutions</Copyright>
