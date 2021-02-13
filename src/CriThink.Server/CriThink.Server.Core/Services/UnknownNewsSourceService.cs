@@ -5,6 +5,7 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Providers.EmailSender.Services;
@@ -80,10 +81,11 @@ namespace CriThink.Server.Core.Services
         public async Task<UnknownNewsSourceResponse> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId)
         {
             var query = new GetUnknownNewsSourceQuery(unknownNewsSourceId);
-
             var unknownNewsSource = await _mediator.Send(query).ConfigureAwait(false);
 
-            return unknownNewsSource;
+            var response = _mapper.Map<UnknownNewsSource, UnknownNewsSourceResponse>(unknownNewsSource);
+
+            return response;
         }
     }
 }

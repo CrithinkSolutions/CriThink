@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,10 +21,10 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                         .SingleOrDefaultAsync(cancellationToken);
         }
 
-        internal static Task<UnknownNewsSourceResponse> GetUnknownNewsSourceByIdAsync(
+        internal static Task<UnknownNewsSource> GetUnknownNewsSourceByIdAsync(
             this DbSet<UnknownNewsSource> dbSet,
             Guid unknownNewsSourceId,
-            Expression<Func<UnknownNewsSource, UnknownNewsSourceResponse>> projection,
+            Expression<Func<UnknownNewsSource, UnknownNewsSource>> projection,
             CancellationToken cancellationToken)
         {
             return dbSet.Where(us => us.Id == unknownNewsSourceId)

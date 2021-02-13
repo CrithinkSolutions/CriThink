@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
-    public class GetUnknownNewsSourceHandler : IRequestHandler<GetUnknownNewsSourceQuery, UnknownNewsSourceResponse>
+    public class GetUnknownNewsSourceHandler : IRequestHandler<GetUnknownNewsSourceQuery, UnknownNewsSource>
     {
         private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<GetUnknownNewsSourceHandler> _logger;
@@ -22,18 +22,16 @@ namespace CriThink.Server.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public async Task<UnknownNewsSourceResponse> Handle(GetUnknownNewsSourceQuery request, CancellationToken cancellationToken)
+        public async Task<UnknownNewsSource> Handle(GetUnknownNewsSourceQuery request, CancellationToken cancellationToken)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             try
             {
-                var response = await _dbContext.UnknownNewsSources
-                                               .GetUnknownNewsSourceByIdAsync(request.UnknownNewsSourceId,
-                                                                              UnknownNewsSourceProjection.GetUnknownNewsSource,
-                                                                              cancellationToken)
-                                               .ConfigureAwait(false);
+                var response = await _dbContext.UnknownNewsSources.GetUnknownNewsSourceByIdAsync(
+                        request.UnknownNewsSourceId, UnknownNewsSourceProjection.GetUnknownNewsSource, cancellationToken)
+                    .ConfigureAwait(false);
 
                 return response;
             }
