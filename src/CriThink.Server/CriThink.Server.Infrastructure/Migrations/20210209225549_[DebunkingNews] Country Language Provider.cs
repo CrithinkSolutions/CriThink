@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Server.Infrastructure.Migrations
 {
     public partial class DebunkingNewsCountryLanguageProvider : Migration
