@@ -31,10 +31,7 @@ namespace CriThink.Server.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var getIdCommand = new GetUnknownNewsSourceIdQuery(request.Uri);
-            var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
-
-            var createCommand = new CreateUnknownSourceNotificationRequestCommand(unknownNewsId, request.Email);
+            var createCommand = new CreateUnknownSourceNotificationRequestCommand(request.Uri, request.Email);
             await _mediator.Send(createCommand).ConfigureAwait(false);
         }
 

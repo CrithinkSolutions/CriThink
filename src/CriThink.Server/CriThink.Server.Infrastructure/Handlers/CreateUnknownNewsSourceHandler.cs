@@ -44,13 +44,13 @@ namespace CriThink.Server.Infrastructure.Handlers
                 var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
 
                 await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
-                    id,
-                    uri,
-                    firstRequestedAt,
-                    requestCount,
-                    authenticity)
+                        id,
+                        uri,
+                        firstRequestedAt,
+                        requestCount,
+                        authenticity)
                     .ConfigureAwait(false);
-
+                
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
                 return Unit.Value;

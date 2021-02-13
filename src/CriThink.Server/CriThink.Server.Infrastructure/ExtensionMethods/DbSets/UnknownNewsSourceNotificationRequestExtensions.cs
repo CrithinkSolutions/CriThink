@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
 {
-    internal static class UnknownNewsSourceNotificationRequestExtenisons
+    internal static class UnknownNewsSourceNotificationRequestExtensions
     {
         internal static Task<List<GetAllSubscribedUsersResponse>> GetAllSubscribedUsersForUnknownNewsSourceId(
             this DbSet<UnknownNewsSourceNotificationRequest> source,
@@ -20,7 +20,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersResponse>> projection,
             CancellationToken cancellationToken)
         {
-            return source.Where(unsnr => unsnr.UnknownNewsSourceId == unknownNewsSourceId)
+            return source.Where(unsnr => unsnr.UnknownNewsSource.Id == unknownNewsSourceId)
                          .OrderBy(unsnr => unsnr.RequestedAt)
                          .Skip(pageIndex * pageSize)
                          .Take(pageSize)

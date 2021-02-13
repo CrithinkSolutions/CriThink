@@ -15,6 +15,6 @@ namespace CriThink.Server.Core.Entities
         public DateTime RequestedAt { get; set; }
 
         [Required]
-        public Guid UnknownNewsSourceId { get; set; }
+        public UnknownNewsSource UnknownNewsSource { get; set; }
     }
 }

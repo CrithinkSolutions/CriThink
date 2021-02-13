@@ -150,6 +150,10 @@ namespace CriThink.Server.Infrastructure.Data
                         stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue));
 
                 typeBuilder.HasIndex(us => us.Uri).IsUnique();
+
+                typeBuilder
+                    .HasMany(r => r.NotificationQueue)
+                    .WithOne(r => r.UnknownNewsSource);
             });
         }
 

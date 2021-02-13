@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CriThink.Server.Core.Commands;
 
+#pragma warning disable CA2227 // Collection properties should be read only
 namespace CriThink.Server.Core.Entities
 {
     public class UnknownNewsSource : ICriThinkIdentity
@@ -20,5 +22,7 @@ namespace CriThink.Server.Core.Entities
         public int RequestCount { get; set; }
 
         public NewsSourceAuthenticity Authenticity { get; set; }
+
+        public ICollection<UnknownNewsSourceNotificationRequest> NotificationQueue { get; set; }
     }
 }

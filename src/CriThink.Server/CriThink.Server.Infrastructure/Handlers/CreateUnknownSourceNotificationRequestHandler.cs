@@ -3,8 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Infrastructure.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
@@ -27,16 +29,21 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
+                var unknownNewsSource = await GetUnknownNewsSourceByUriAsync(request.Url, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (unknownNewsSource is null)
+                    throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.Url}'");
+
                 var unknownSourcesNotificationRequest = new UnknownNewsSourceNotificationRequest
                 {
                     Email = request.Email,
-                    UnknownNewsSourceId = request.NewsSourceId,
+                    UnknownNewsSource = unknownNewsSource,
                     RequestedAt = DateTime.Now,
                 };
 
-                await _dbContext.UnknownNewsSourceNotificationRequests.AddAsync(unknownSourcesNotificationRequest, cancellationToken).ConfigureAwait(false);
-
-                await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                await AddNotificationRequestAsync(unknownSourcesNotificationRequest, cancellationToken)
+                    .ConfigureAwait(false);
 
                 return Unit.Value;
             }
@@ -45,6 +52,19 @@ namespace CriThink.Server.Infrastructure.Handlers
                 _logger?.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        private Task<UnknownNewsSource> GetUnknownNewsSourceByUriAsync(string url, CancellationToken cancellationToken) =>
+            _dbContext.UnknownNewsSources
+                .SingleOrDefaultAsync(uns => uns.Uri == url, cancellationToken);
+
+        private async Task AddNotificationRequestAsync(UnknownNewsSourceNotificationRequest entity, CancellationToken cancellationToken)
+        {
+            await _dbContext.UnknownNewsSourceNotificationRequests.AddAsync(entity, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _dbContext.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }
