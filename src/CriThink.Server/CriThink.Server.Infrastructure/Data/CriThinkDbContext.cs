@@ -41,7 +41,6 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<DebunkingNewsPublisher> DebunkingNewsPublishers { get; set; }
 
-
         public DbSet<UnknownNewsSource> UnknownNewsSources { get; set; }
 
         public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
