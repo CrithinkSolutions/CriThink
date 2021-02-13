@@ -20,7 +20,7 @@ namespace CriThink.Server.Core.Facades
         public async Task<DebunkingNewsProviderResult[]> FetchDebunkingNewsAsync()
         {
             var builder = _builder
-                .EnableOpenOnline(false)
+                .EnableOpenOnline(true)
                 .EnableChannel4(true);
 
             var response = await FetchDebunkNewsAsync(builder).ConfigureAwait(false);
