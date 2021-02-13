@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    [Migration("20210117003358_[DebunkingNews] Add ImageLink")]
-    partial class DebunkingNewsAddImageLink
+    [Migration("20210213020651_[UnknownSources]+[UnknownSourceNotificationRequests] Creates Tables")]
+    partial class UnknownSourcesUnknownSourceNotificationRequestsCreatesTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,10 @@ namespace CriThink.Server.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_debunking_news");
+
+                    b.HasIndex("Link")
+                        .IsUnique()
+                        .HasDatabaseName("ix_debunking_news_link");
 
                     b.ToTable("debunking_news");
                 });
@@ -188,6 +192,74 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("question_answers");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Authenticity")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("authenticity");
+
+                    b.Property<DateTime>("FirstRequestedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("first_requested_at");
+
+                    b.Property<DateTime?>("IdentifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("identified_at");
+
+                    b.Property<int>("RequestCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_count");
+
+                    b.Property<string>("Uri")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("uri");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unknown_news_sources");
+
+                    b.HasIndex("Uri")
+                        .IsUnique()
+                        .HasDatabaseName("ix_unknown_news_sources_uri");
+
+                    b.ToTable("unknown_news_sources");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("requested_at");
+
+                    b.Property<Guid>("UnknownNewsSourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unknown_news_source_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unknown_news_source_notification_requests");
+
+                    b.HasIndex("UnknownNewsSourceId")
+                        .HasDatabaseName("ix_unknown_news_source_notification_requests_unknown_news_sour");
+
+                    b.ToTable("unknown_news_source_notification_requests");
+                });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -269,7 +341,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30b63915-ed37-418d-8982-22e80354b267",
+                            ConcurrencyStamp = "e33be67f-e762-4cc5-b8a3-316d5681dbc8",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -317,7 +389,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
-                            ConcurrencyStamp = "3855861b-a901-450e-978c-482ee7659a83",
+                            ConcurrencyStamp = "43ec0e6f-4239-4e39-892f-4110060d16fa",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -505,6 +577,18 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.UnknownNewsSource", "UnknownNewsSource")
+                        .WithMany("NotificationQueue")
+                        .HasForeignKey("UnknownNewsSourceId")
+                        .HasConstraintName("fk_unknown_news_source_notification_requests_unknown_news_sour")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UnknownNewsSource");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
@@ -560,6 +644,11 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasConstraintName("fk_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+                {
+                    b.Navigation("NotificationQueue");
                 });
 #pragma warning restore 612, 618
         }

@@ -31,16 +31,16 @@ namespace CriThink.Server.Core.Queries
         /// <summary>
         /// All languages
         /// </summary>
-        All,
+        All = 0,
 
         /// <summary>
         /// English language
         /// </summary>
-        English,
+        English = 1,
 
         /// <summary>
         /// Italian language
         /// </summary>
-        Italian,
+        Italian = 2,
     }
 }

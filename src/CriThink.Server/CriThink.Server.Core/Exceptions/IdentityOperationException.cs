@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 
-#pragma warning disable CA1032 // Implement standard exception constructors
 namespace CriThink.Server.Core.Exceptions
 {
     /// <summary>
