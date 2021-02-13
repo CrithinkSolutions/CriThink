@@ -98,8 +98,8 @@ namespace CriThink.Server.Core.Services
                     var publisherOpenQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
                     var publisherChannel4Query = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.Channel4);
 
-                    publisherOpen = await _mediator.Send(publisherChannel4Query).ConfigureAwait(false);
-                    publisherChannel4 = await _mediator.Send(publisherOpenQuery).ConfigureAwait(false);
+                    publisherOpen = await _mediator.Send(publisherOpenQuery).ConfigureAwait(false);
+                    publisherChannel4 = await _mediator.Send(publisherChannel4Query).ConfigureAwait(false);
                 });
 
                 var scrapeTask = ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate);
