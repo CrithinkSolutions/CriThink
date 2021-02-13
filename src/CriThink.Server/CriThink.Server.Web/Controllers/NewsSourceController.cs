@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,10 +25,12 @@ namespace CriThink.Server.Web.Controllers
     public class NewsSourceController : Controller
     {
         private readonly INewsSourceService _newsSourceService;
+        private readonly IUnknownNewsSourceService _unknownNewsSourceService;
 
-        public NewsSourceController(INewsSourceService newsSourceService)
+        public NewsSourceController(INewsSourceService newsSourceService, IUnknownNewsSourceService unknownNewsSourceService)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _unknownNewsSourceService = unknownNewsSourceService ?? throw new ArgumentNullException(nameof(unknownNewsSourceService));
         }
 
         /// <summary>
@@ -35,9 +38,7 @@ namespace CriThink.Server.Web.Controllers
         /// </summary>
         /// <param name="request">Source to search</param>
         /// <returns>Returns the list where the source is contained</returns>
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("application/json")]
         [Route(EndpointConstants.NewsSourceSearch)] // api/news-source/search
@@ -45,8 +46,29 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
         {
             var uri = new Uri(request.Uri);
-            var searchResponse = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+            var searchResponse = await _newsSourceService.SearchNewsSourceWithAlertAsync(uri).ConfigureAwait(false);
+
+            if (searchResponse is null)
+                return NotFound();
+
             return Ok(searchResponse);
+        }
+
+        /// <summary>
+        /// Register the user for being notified if a news source is analyzed
+        /// </summary>
+        /// <param name="request">User info</param>
+        /// <returns>Returns the list where the source is contained</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [Route(EndpointConstants.NewsSourceRegisterForNotification)] // api/news-source/register-for-notification
+        [HttpPost]
+        public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] NewsSourceNotificationForUnknownDomainRequest request)
+        {
+            await _unknownNewsSourceService.RequestNotificationForUnknownNewsSourceAsync(request).ConfigureAwait(false);
+
+            return NoContent();
         }
     }
 }

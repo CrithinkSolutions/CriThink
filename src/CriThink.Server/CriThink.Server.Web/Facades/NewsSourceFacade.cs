@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
@@ -12,10 +14,14 @@ namespace CriThink.Server.Web.Facades
     public class NewsSourceFacade : INewsSourceFacade
     {
         private readonly INewsSourceService _newsSourceService;
+        private readonly IUnknownNewsSourceService _unknownNewsSourceService;
+        private readonly IMapper _mapper;
 
-        public NewsSourceFacade(INewsSourceService newsSourceService)
+        public NewsSourceFacade(INewsSourceService newsSourceService, IUnknownNewsSourceService unknownNewsSourceService, IMapper mapper)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _unknownNewsSourceService = unknownNewsSourceService ?? throw new ArgumentNullException(nameof(unknownNewsSourceService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IndexViewModel> GetAllNewsSourcesAsync(SimplePaginationViewModel viewModel)
@@ -32,6 +38,8 @@ namespace CriThink.Server.Web.Facades
 
             var response = await _newsSourceService.GetAllNewsSourcesAsync(request).ConfigureAwait(false);
 
+
+
             return new IndexViewModel
             {
                 NewsSources = response.NewsSourcesCollection.Select(ToNewsSource),
@@ -44,10 +52,12 @@ namespace CriThink.Server.Web.Facades
             if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));
 
+            var newsSourceClassification = _mapper.Map<Classification, NewsSourceClassification>(viewModel.Classification);
+
             var request = new NewsSourceAddRequest
             {
                 Uri = viewModel.Uri,
-                Classification = ToRequestEnum(viewModel.Classification),
+                Classification = newsSourceClassification,
             };
 
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
@@ -70,11 +80,13 @@ namespace CriThink.Server.Web.Facades
             {
                 var response = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
 
+                var classification = _mapper.Map<NewsSourceClassification, Classification>(response.Classification);
+
                 return new NewsSourceViewModel
                 {
                     Uri = uri.ToString(),
                     Description = response.Description,
-                    Classification = ToViewModelEnum(response.Classification),
+                    Classification = classification,
                 };
             }
             catch (ResourceNotFoundException)
@@ -83,31 +95,43 @@ namespace CriThink.Server.Web.Facades
             }
         }
 
-        private static NewsSource ToNewsSource(NewsSourceGetResponse newsSource) =>
-            new NewsSource
+        public async Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification)
+        {
+            var newsSourceClassification = _mapper.Map<Classification, NewsSourceClassification>(classification);
+
+            var request = new TriggerUpdateForIdentifiedNewsSourceRequest
+            {
+                Uri = uri,
+                Classification = newsSourceClassification,
+            };
+
+            await _unknownNewsSourceService.TriggerUpdateForIdentifiedNewsSourceAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task<UnknownNewsSourceViewModel> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId)
+        {
+            var result = await _unknownNewsSourceService.GetUnknownNewsSourceAsync(unknownNewsSourceId).ConfigureAwait(false);
+            if (result is null)
+                throw new ResourceNotFoundException($"Can't find a resource with id {unknownNewsSourceId}");
+
+            var classification = _mapper.Map<NewsSourceClassification, Classification>(result.Classification);
+
+            return new UnknownNewsSourceViewModel
+            {
+                Id = result.Id,
+                Classification = classification,
+                Uri = result.Uri,
+            };
+        }
+
+        private NewsSource ToNewsSource(NewsSourceGetResponse newsSource)
+        {
+            var classification = _mapper.Map<NewsSourceClassification, Classification>(newsSource.NewsSourceClassification);
+            return new NewsSource
             {
                 Uri = newsSource.Uri,
-                Classification = ToViewModelEnum(newsSource.NewsSourceClassification),
+                Classification = classification,
             };
-
-        private static Classification ToViewModelEnum(NewsSourceClassification newsSourceClassification)
-            => newsSourceClassification switch
-            {
-                NewsSourceClassification.Reliable => Classification.Reliable,
-                NewsSourceClassification.Satirical => Classification.Satirical,
-                NewsSourceClassification.Conspiracist => Classification.Conspiracist,
-                NewsSourceClassification.FakeNews => Classification.FakeNews,
-                _ => throw new NotImplementedException(nameof(ToViewModelEnum)),
-            };
-
-        private static NewsSourceClassification ToRequestEnum(Classification classification)
-            => classification switch
-            {
-                Classification.Reliable => NewsSourceClassification.Reliable,
-                Classification.Satirical => NewsSourceClassification.Satirical,
-                Classification.Conspiracist => NewsSourceClassification.Conspiracist,
-                Classification.FakeNews => NewsSourceClassification.FakeNews,
-                _ => throw new NotImplementedException(nameof(ToRequestEnum)),
-            };
+        }
     }
 }

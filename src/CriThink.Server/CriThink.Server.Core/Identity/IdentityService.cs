@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
@@ -21,7 +22,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using IMapper = AutoMapper.IMapper;
 
 namespace CriThink.Server.Core.Identity
 {
@@ -52,7 +52,7 @@ namespace CriThink.Server.Core.Identity
 
         public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var user = new User
@@ -87,7 +87,7 @@ namespace CriThink.Server.Core.Identity
 
         public async Task<AdminSignUpResponse> CreateNewAdminAsync(AdminSignUpRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var adminUser = new User
@@ -164,7 +164,7 @@ namespace CriThink.Server.Core.Identity
 
         public async Task CreateNewRoleAsync(SimpleRoleNameRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var role = new UserRole(request.Name);
@@ -180,11 +180,11 @@ namespace CriThink.Server.Core.Identity
 
         public async Task DeleteNewRoleAsync(SimpleRoleNameRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var role = await FindRoleAsync(request.Name).ConfigureAwait(false);
-            if (role == null)
+            if (role is null)
                 throw new ResourceNotFoundException("The role doesn't exists", $"Name: '{request.Name}'");
 
             var roleDeletionResult = await _roleManager.DeleteAsync(role).ConfigureAwait(false);
@@ -198,11 +198,11 @@ namespace CriThink.Server.Core.Identity
 
         public async Task UpdateRoleNameAsync(RoleUpdateNameRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var role = await FindRoleAsync(request.OldName).ConfigureAwait(false);
-            if (role == null)
+            if (role is null)
                 throw new ResourceNotFoundException("The role doesn't exists", $"Name: '{request.OldName}'");
 
             role.Name = request.NewName;
@@ -218,7 +218,7 @@ namespace CriThink.Server.Core.Identity
 
         public async Task UpdateUserRoleAsync(UserRoleUpdateRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
@@ -228,7 +228,7 @@ namespace CriThink.Server.Core.Identity
                 throw new ResourceNotFoundException("User not found", userId);
 
             var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
-            if (role == null)
+            if (role is null)
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
             var currentUserRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
@@ -243,17 +243,17 @@ namespace CriThink.Server.Core.Identity
 
         public async Task RemoveRoleFromUserAsync(UserRoleUpdateRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             var role = await FindRoleAsync(request.Role).ConfigureAwait(false);
-            if (role == null)
+            if (role is null)
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
             var areRoleRemoved = await _userManager.RemoveFromRoleAsync(user, role.Name).ConfigureAwait(false);
@@ -263,14 +263,13 @@ namespace CriThink.Server.Core.Identity
 
         public async Task<UserGetAllResponse> GetAllUsersAsync(UserGetAllRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var pageIndex = request.PageIndex;
             var pageSize = request.PageSize;
 
             var allUsers = await _userManager.Users
-                .AsQueryable()
                 .OrderBy(u => u.UserName)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize + 1)
@@ -293,13 +292,13 @@ namespace CriThink.Server.Core.Identity
 
         public async Task<UserGetDetailsResponse> GetUserByIdAsync(UserGetRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             var userDto = _mapper.Map<User, UserGetDetailsResponse>(user);
@@ -311,13 +310,13 @@ namespace CriThink.Server.Core.Identity
 
         public async Task UpdateUserAsync(UserUpdateRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             if (!string.IsNullOrWhiteSpace(request.UserName))
@@ -340,13 +339,13 @@ namespace CriThink.Server.Core.Identity
 
         public async Task SoftDeleteUserAsync(UserGetRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             user.IsDeleted = true;
@@ -356,13 +355,13 @@ namespace CriThink.Server.Core.Identity
 
         public async Task DeleteUserAsync(UserGetRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var userId = request.UserId.ToString();
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
             await _userManager.DeleteAsync(user).ConfigureAwait(false);
@@ -370,12 +369,14 @@ namespace CriThink.Server.Core.Identity
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
@@ -401,8 +402,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(password));
 
             var user = await FindUserAsync(emailOrUsername).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"EmailOrUsername: '{emailOrUsername}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, false).ConfigureAwait(false);
             ProcessPasswordVerificationResult(result);
@@ -420,8 +423,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(confirmationCode));
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ConfirmEmailAsync(user, confirmationCode).ConfigureAwait(false);
             if (!result.Succeeded)
@@ -454,8 +459,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(newPassword));
 
             var user = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword)
                 .ConfigureAwait(false);
@@ -475,8 +482,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException($"At least one between {email} and {username} must be provided");
 
             var user = await FindUserAsync(email ?? username).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}' - username: '{username}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
 
@@ -496,8 +505,10 @@ namespace CriThink.Server.Core.Identity
                 throw new ArgumentNullException(nameof(newPassword));
 
             var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+            if (user.IsDeleted)
+                throw new InvalidOperationException("The user is disabled");
 
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword).ConfigureAwait(false);
 
@@ -547,13 +558,13 @@ namespace CriThink.Server.Core.Identity
         public async Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(
             UsernameAvailabilityRequest request)
         {
-            if (request == null)
+            if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
             var user = await FindUserAsync(request.Username).ConfigureAwait(false);
             return new UsernameAvailabilityResponse
             {
-                IsAvailable = user == null
+                IsAvailable = user is null
             };
         }
 

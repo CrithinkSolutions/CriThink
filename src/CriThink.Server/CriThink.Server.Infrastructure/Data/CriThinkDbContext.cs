@@ -42,6 +42,10 @@ namespace CriThink.Server.Infrastructure.Data
         public DbSet<DebunkingNewsPublisher> DebunkingNewsPublishers { get; set; }
 
 
+        public DbSet<UnknownNewsSource> UnknownNewsSources { get; set; }
+
+        public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
+
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Injected")]
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -138,8 +142,7 @@ namespace CriThink.Server.Infrastructure.Data
                 .Property(nsc => nsc.Authenticity)
                 .HasConversion(
                     enumValue => enumValue.ToString(),
-                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
-                );
+                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue));
 
             #region DebunkingNews
 
@@ -231,6 +234,24 @@ namespace CriThink.Server.Infrastructure.Data
             });
 
             #endregion
+            builder.Entity<DebunkingNews>(typeBuilder =>
+            {
+                typeBuilder.HasIndex(dn => dn.Link).IsUnique();
+            });
+
+            builder.Entity<UnknownNewsSource>(typeBuilder =>
+            {
+                typeBuilder.Property(us => us.Authenticity)
+                    .HasConversion(
+                        enumValue => enumValue.ToString(),
+                        stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue));
+
+                typeBuilder.HasIndex(us => us.Uri).IsUnique();
+
+                typeBuilder
+                    .HasMany(r => r.NotificationQueue)
+                    .WithOne(r => r.UnknownNewsSource);
+            });
         }
 
         private static TEnum GetEnumValue<TEnum>(string value)
