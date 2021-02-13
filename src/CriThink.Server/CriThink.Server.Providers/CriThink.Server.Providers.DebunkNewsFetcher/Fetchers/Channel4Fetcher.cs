@@ -22,7 +22,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
         private readonly HttpClient _httpClient;
         private readonly ILogger<Channel4Fetcher> _logger;
 
-        public Channel4Fetcher(IHttpClientFactory httpClientFactory, IOptions<WebSiteSettings> options, ILogger<Channel4Fetcher> logger)
+        public Channel4Fetcher(IHttpClientFactory httpClientFactory, IOptions<Channel4Settings> options, ILogger<Channel4Fetcher> logger)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
