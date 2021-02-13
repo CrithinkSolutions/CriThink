@@ -39,16 +39,17 @@ namespace CriThink.Server.Infrastructure.Handlers
 
                 var id = new NpgsqlParameter("id", Guid.NewGuid());
                 var uri = new NpgsqlParameter("uri", request.Uri.ToString());
-                var first_requested_at = new NpgsqlParameter("first_requested_at", DateTime.Now);
-                var request_count = new NpgsqlParameter("request_count", 1);
+                var firstRequestedAt = new NpgsqlParameter("first_requested_at", DateTime.Now);
+                var requestCount = new NpgsqlParameter("request_count", 1);
                 var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
 
-                _dbContext.Database.ExecuteSqlRaw(sqlQuery,
+                await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
                     id,
                     uri,
-                    first_requested_at,
-                    request_count,
-                    authenticity);
+                    firstRequestedAt,
+                    requestCount,
+                    authenticity)
+                    .ConfigureAwait(false);
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
