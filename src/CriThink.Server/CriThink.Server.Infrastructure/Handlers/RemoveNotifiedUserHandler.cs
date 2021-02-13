@@ -28,10 +28,13 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var itemToRemove = await _dbContext.UnknownNewsSourceNotificationRequests
-                                                   .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
-                                                   .ConfigureAwait(false);
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+                    .ConfigureAwait(false);
 
                 _dbContext.UnknownNewsSourceNotificationRequests.Remove(itemToRemove);
+
+                await _dbContext.SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
 
                 return Unit.Value;
             }
