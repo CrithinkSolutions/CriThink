@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CriThink.Server.Providers.EmailSender.Providers;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.RazorViews.Services;
+using CriThink.Server.RazorViews.Views.Emails.AlertNotification;
 using CriThink.Server.RazorViews.Views.Emails.ConfirmAccount;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -35,6 +36,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var callbackUrl = string.Format(CultureInfo.InvariantCulture, _emailSettings.ConfirmationEmailLink, hostname, userId, encodedCode);
             var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname, userName);
 
+            // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
 
             await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
@@ -50,9 +52,36 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname, userName);
 
             // TODO: custom email for this scope
+            // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
 
             await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
+        }
+
+        public async Task SendUnknownDomainAlertEmailAsync(string unknownDomainUrl)
+        {
+            var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(unknownDomainUrl);
+
+            // TODO: Use real template
+            // TODO: Use nameof() for path composition
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
+
+            var subject = $"[ALERT] - New unknown domain received";
+
+            await Execute(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
+        }
+
+        public async Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl, string classification)
+        {
+            var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(identifiedDomainUrl);
+
+            // TODO: Use real template
+            // TODO: Use nameof() for path composition
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
+
+            var subject = $"[{classification}] - We identified the domain";
+
+            await Execute(new[] { userEmail }, subject, htmlBody);
         }
 
         private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)

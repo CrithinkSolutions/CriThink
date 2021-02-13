@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.Handlers
 {
@@ -11,10 +12,12 @@ namespace CriThink.Server.Infrastructure.Handlers
     internal class CreateNewsSourceHandler : IRequestHandler<CreateNewsSourceCommand>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
+        private readonly ILogger<CreateNewsSourceHandler> _logger;
 
-        public CreateNewsSourceHandler(INewsSourceRepository newsSourceRepository)
+        public CreateNewsSourceHandler(INewsSourceRepository newsSourceRepository, ILogger<CreateNewsSourceHandler> logger)
         {
             _newsSourceRepository = newsSourceRepository ?? throw new ArgumentNullException(nameof(newsSourceRepository));
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(CreateNewsSourceCommand request, CancellationToken cancellationToken)
@@ -22,8 +25,18 @@ namespace CriThink.Server.Infrastructure.Handlers
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            await _newsSourceRepository.AddNewsSourceAsync(request.Uri, request.Authencity).ConfigureAwait(false);
-            return Unit.Value;
+            try
+            {
+                await _newsSourceRepository.AddNewsSourceAsync(request.Uri, request.Authencity)
+                    .ConfigureAwait(false);
+
+                return Unit.Value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding a news source", request.Uri, request.Authencity);
+                throw;
+            }
         }
     }
 }

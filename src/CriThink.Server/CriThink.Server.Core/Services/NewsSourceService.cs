@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Core.Commands;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
+using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 
 namespace CriThink.Server.Core.Services
@@ -17,11 +17,13 @@ namespace CriThink.Server.Core.Services
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IEmailSenderService _emailSenderService;
 
-        public NewsSourceService(IMediator mediator, IMapper mapper)
+        public NewsSourceService(IMediator mediator, IMapper mapper, IEmailSenderService emailSenderService)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
         }
 
         public async Task AddSourceAsync(NewsSourceAddRequest request)
@@ -53,13 +55,25 @@ namespace CriThink.Server.Core.Services
             var query = new SearchNewsSourceQuery(uri);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (queryResponse != null)
+            if (queryResponse is null)
+                return null;
+
+            var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(queryResponse);
+            return response;
+        }
+
+        public async Task<NewsSourceSearchResponse> SearchNewsSourceWithAlertAsync(Uri uri)
+        {
+            var searchResponse = await SearchNewsSourceAsync(uri).ConfigureAwait(false);
+
+            if (searchResponse is null)
             {
-                var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(queryResponse);
-                return response;
+                await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString()).ConfigureAwait(false);
+                var command = new CreateUnknownNewsSourceCommand(uri);
+                await _mediator.Send(command).ConfigureAwait(false);
             }
 
-            throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
+            return searchResponse;
         }
 
         public async Task<NewsSourceGetAllResponse> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request)
