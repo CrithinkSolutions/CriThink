@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 #pragma warning disable CA1054 // URI-like parameters should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
@@ -20,9 +20,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityService _identityService;
-        public AccountController(IIdentityService identityService)
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(IIdentityService identityService, ILogger<AccountController> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _logger = logger;
         }
 
         /// <summary>
@@ -62,8 +65,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return Redirect(viewModel.ReturnUrl ?? "/");
             }
-            catch (ResourceNotFoundException)
+            catch (Exception ex)
             {
+                _logger?.LogError(ex, "Error performing login on backoffice");
                 ModelState.AddModelError(nameof(viewModel.EmailOrUsername), "Login Failed: Invalid Email or password");
                 return BadRequest();
             }
