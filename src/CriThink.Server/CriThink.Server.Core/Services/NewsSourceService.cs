@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Core.Commands;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
@@ -56,17 +55,11 @@ namespace CriThink.Server.Core.Services
             var query = new SearchNewsSourceQuery(uri);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
-            if (queryResponse != null)
-            {
-                var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(queryResponse);
-                return response;
-            }
-            else if (queryResponse is null)
-            {
+            if (queryResponse is null)
                 return null;
-            }
 
-            throw new ResourceNotFoundException($"The given source {uri} doesn't exist");
+            var response = _mapper.Map<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>(queryResponse);
+            return response;
         }
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceWithAlertAsync(Uri uri)
