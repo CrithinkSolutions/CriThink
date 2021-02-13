@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    [Migration("20210117003358_[DebunkingNews] Add ImageLink")]
-    partial class DebunkingNewsAddImageLink
+    [Migration("20210213184807_[DebunkingNewsPublisher] Adds Channel4")]
+    partial class DebunkingNewsPublisherAddsChannel4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,7 @@ namespace CriThink.Server.Infrastructure.Migrations
             modelBuilder
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.3");
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
@@ -45,9 +45,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("news_caption");
 
-                    b.Property<string>("PublisherName")
-                        .HasColumnType("text")
-                        .HasColumnName("publisher_name");
+                    b.Property<Guid>("PublisherId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("publisher_id");
 
                     b.Property<DateTime>("PublishingDate")
                         .HasColumnType("timestamp without time zone")
@@ -60,7 +60,191 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_debunking_news");
 
+                    b.HasIndex("Link")
+                        .IsUnique()
+                        .HasDatabaseName("ix_debunking_news_link");
+
+                    b.HasIndex("PublisherId")
+                        .HasDatabaseName("ix_debunking_news_publisher_id");
+
                     b.ToTable("debunking_news");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_debunking_news_countries");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_debunking_news_countries_code");
+
+                    b.ToTable("debunking_news_countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("575003e3-991c-4ac5-9ce4-3399553f64a7"),
+                            Code = "it",
+                            Name = "Italy"
+                        },
+                        new
+                        {
+                            Id = new Guid("3bd76fc5-5463-4194-b4f9-df111f7c294f"),
+                            Code = "us",
+                            Name = "United States of America"
+                        },
+                        new
+                        {
+                            Id = new Guid("812361b1-d1c3-4315-b601-4e060364a1d6"),
+                            Code = "uk",
+                            Name = "United Kingdom"
+                        });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_debunking_news_languages");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_debunking_news_languages_code");
+
+                    b.ToTable("debunking_news_languages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
+                            Code = "it",
+                            Name = "Italian"
+                        },
+                        new
+                        {
+                            Id = new Guid("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
+                            Code = "en",
+                            Name = "English"
+                        });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("FacebookPage")
+                        .HasColumnType("text")
+                        .HasColumnName("facebook_page");
+
+                    b.Property<string>("InstagramProfile")
+                        .HasColumnType("text")
+                        .HasColumnName("instagram_profile");
+
+                    b.Property<Guid>("LanguageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("language_id");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("link");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Opinion")
+                        .HasColumnType("text")
+                        .HasColumnName("opinion");
+
+                    b.Property<string>("TwitterProfile")
+                        .HasColumnType("text")
+                        .HasColumnName("twitter_profile");
+
+                    b.HasKey("Id")
+                        .HasName("pk_debunking_news_publishers");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_debunking_news_publishers_country_id");
+
+                    b.HasIndex("LanguageId")
+                        .HasDatabaseName("ix_debunking_news_publishers_language_id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_debunking_news_publishers_name");
+
+                    b.ToTable("debunking_news_publishers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ec22b726-c503-4bfc-ae33-eb6729b22bef"),
+                            CountryId = new Guid("575003e3-991c-4ac5-9ce4-3399553f64a7"),
+                            Description = "",
+                            FacebookPage = "https://www.facebook.com/Opengiornaleonline/",
+                            InstagramProfile = "https://www.instagram.com/open_giornaleonline/",
+                            LanguageId = new Guid("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
+                            Link = "https://www.open.online/",
+                            Name = "Open",
+                            Opinion = "",
+                            TwitterProfile = "https://twitter.com/open_gol"
+                        },
+                        new
+                        {
+                            Id = new Guid("3181faf4-45e2-4a91-8340-8ed9598513c8"),
+                            CountryId = new Guid("812361b1-d1c3-4315-b601-4e060364a1d6"),
+                            Description = "",
+                            FacebookPage = "https://www.facebook.com/Channel4News",
+                            InstagramProfile = "https://www.instagram.com/channel4news/",
+                            LanguageId = new Guid("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
+                            Link = "https://www.channel4.com/",
+                            Name = "Channel4",
+                            Opinion = "",
+                            TwitterProfile = "https://twitter.com/Channel4News"
+                        });
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>
@@ -188,6 +372,74 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("question_answers");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Authenticity")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("authenticity");
+
+                    b.Property<DateTime>("FirstRequestedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("first_requested_at");
+
+                    b.Property<DateTime?>("IdentifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("identified_at");
+
+                    b.Property<int>("RequestCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_count");
+
+                    b.Property<string>("Uri")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("uri");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unknown_news_sources");
+
+                    b.HasIndex("Uri")
+                        .IsUnique()
+                        .HasDatabaseName("ix_unknown_news_sources_uri");
+
+                    b.ToTable("unknown_news_sources");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("requested_at");
+
+                    b.Property<Guid>("UnknownNewsSourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unknown_news_source_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unknown_news_source_notification_requests");
+
+                    b.HasIndex("UnknownNewsSourceId")
+                        .HasDatabaseName("ix_unknown_news_source_notification_requests_unknown_news_sour");
+
+                    b.ToTable("unknown_news_source_notification_requests");
+                });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -269,7 +521,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30b63915-ed37-418d-8982-22e80354b267",
+                            ConcurrencyStamp = "c31844c9-d81b-4c66-991c-a60b0ba36f76",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -317,7 +569,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ec1405d9-5e55-401a-b469-37a44ecd211f"),
-                            ConcurrencyStamp = "3855861b-a901-450e-978c-482ee7659a83",
+                            ConcurrencyStamp = "15b1b12c-4dff-413e-81d5-7c9423f25c35",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -488,6 +740,39 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("aspnet_user_tokens");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsPublisher", "Publisher")
+                        .WithMany("DebunkingNews")
+                        .HasForeignKey("PublisherId")
+                        .HasConstraintName("fk_debunking_news_debunking_news_publishers_publisher_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsCountry", "Country")
+                        .WithMany("Publishers")
+                        .HasForeignKey("CountryId")
+                        .HasConstraintName("fk_debunking_news_publishers_debunking_news_countries_country_")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsLanguage", "Language")
+                        .WithMany("Publishers")
+                        .HasForeignKey("LanguageId")
+                        .HasConstraintName("fk_debunking_news_publishers_debunking_news_languages_language")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Language");
+                });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.QuestionAnswer", b =>
                 {
                     b.HasOne("CriThink.Server.Core.Entities.DemoNews", "DemoNews")
@@ -503,6 +788,18 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("DemoNews");
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.UnknownNewsSource", "UnknownNewsSource")
+                        .WithMany("NotificationQueue")
+                        .HasForeignKey("UnknownNewsSourceId")
+                        .HasConstraintName("fk_unknown_news_source_notification_requests_unknown_news_sour")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UnknownNewsSource");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -560,6 +857,26 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasConstraintName("fk_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+                {
+                    b.Navigation("Publishers");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+                {
+                    b.Navigation("Publishers");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+                {
+                    b.Navigation("DebunkingNews");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+                {
+                    b.Navigation("NotificationQueue");
                 });
 #pragma warning restore 612, 618
         }

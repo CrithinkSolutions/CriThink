@@ -15,31 +15,23 @@ using Microsoft.Extensions.Options;
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 {
-    internal class OpenOnlineFetcher : BaseFetcher
+    internal class Channel4Fetcher : BaseFetcher
     {
-        private const string ImagePattern = "(http|https):\\/\\/www.open.online\\/wp-content\\/uploads\\/\\d{4}\\/\\d{2}\\/(.+)\\.(\\w{2,4})";
+        private const string ImagePattern = "(?:<meta property=\"og:image\" content=\")(.+)(?:\"\\/>)";
 
-        private readonly ILogger<OpenOnlineFetcher> _logger;
         private readonly HttpClient _httpClient;
-        private readonly HttpClient _urlResolver;
+        private readonly ILogger<Channel4Fetcher> _logger;
 
-        public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<OpenOnlineSettings> options, ILogger<OpenOnlineFetcher> logger)
+        public Channel4Fetcher(IHttpClientFactory httpClientFactory, IOptions<Channel4Settings> options, ILogger<Channel4Fetcher> logger)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
 
-            if (options?.Value == null)
-                throw new ArgumentNullException(nameof(options));
-
-            _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName);
-            _urlResolver = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.UrlResolverHttpClientName);
+            _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.Channel4HttpClientName);
             _logger = logger;
 
-            FeedCategories = new List<string>(options.Value.Categories);
             WebSiteUri = options.Value.Uri;
         }
-
-        internal static IReadOnlyList<string> FeedCategories { get; private set; }
 
         internal static Uri WebSiteUri { get; private set; }
 
@@ -47,7 +39,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
         {
             var analysisTask = Task.Run(async () =>
             {
-                Debug.WriteLine("Get in LanguageAnalyzer");
+                Debug.WriteLine("Get in Channel4 fetcher");
                 return await RunFetcherAsync().ConfigureAwait(false);
             });
 
@@ -96,16 +88,18 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
 
             foreach (var item in feed.Items)
             {
-                foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
+                try
                 {
-                    if (!FeedCategories.Contains(categoryName)) continue;
+                    var link = GetLink(item);
+                    var imageUri = await GetNewsImageAsync(link).ConfigureAwait(false);
 
-                    var imageUri = GetNewsImageFromFeed(item);
-
-                    var link = await GetOpenLinkAsync(item).ConfigureAwait(false);
-
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
-                    break;
+                    list.Add(new DebunkingNewsResponse(item.Title.Text, link,
+                        imageUri,
+                        item.PublishDate));
+                }
+                catch (LinkUnavailableException ex)
+                {
+                    _logger?.LogError(ex, $"Can't get link of Channel4 news {item.Title.Text}", item.Id);
                 }
             }
 
@@ -113,16 +107,17 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
             if (!list.Any())
             {
                 list.Add(new DebunkingNewsResponse(
-                    "Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission",
-                    "https://www.open.online/2020/09/10/fondi-lega-arrestati-commercialisti-inchiesta-lombardia-film-commission/",
-                    "https://www.open.online/wp-content/uploads/2020/02/guardia-di-finanza.jpg",
+                    "Hancock suggests ‘no evidence’ UK variant is more severe",
+                    "https://www.channel4.com/news/factcheck/factcheck-hancock-suggests-no-evidence-uk-variant-is-more-severe",
+                    "https://fournews-assets-prod-s3-ew1-nmprod.s3.amazonaws.com/media/2021/02/shutterstock_editorial_11661756o-1920x1080.jpg",
                     DateTime.Now));
             }
 #endif
+
             return list;
         }
 
-        private async Task<string> GetOpenLinkAsync(SyndicationItem item)
+        private static string GetLink(SyndicationItem item)
         {
             var syndicationLink = item.Links.FirstOrDefault();
 
@@ -136,34 +131,19 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
                 }
             }
 
-            // Solve Redirect from "permalink"
-            var result = await _urlResolver.GetAsync(new Uri(item.Id)).ConfigureAwait(false);
-
-            if (result.StatusCode == System.Net.HttpStatusCode.Moved)
-            {
-                if (result.Headers.Location is not null)
-                {
-                    return result.Headers.Location.ToString();
-                }
-            }
-
-            throw new LinkUnavailableException(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName, item.Id);
+            throw new LinkUnavailableException(DebunkingNewsFetcherBootstrapper.Channel4HttpClientName, item.Id);
         }
 
-        private string GetNewsImageFromFeed(SyndicationItem item)
+        private async Task<string> GetNewsImageAsync(string link)
         {
-            var htmlSnippet = item.Summary.Text;
-            if (string.IsNullOrWhiteSpace(htmlSnippet))
-            {
-                _logger?.LogWarning($"Can't get image of the following item: {item.Id}");
-                return string.Empty;
-            }
+            var html = await _httpClient.GetStringAsync(link).ConfigureAwait(false);
 
-            var match = Regex.Match(htmlSnippet, ImagePattern);
-            if (string.IsNullOrWhiteSpace(match.Value))
-                _logger?.LogWarning($"Can't get image url of the following item: {item.Id}; {htmlSnippet}");
+            var match = Regex.Match(html, ImagePattern);
+            if (match.Groups.Count > 1 && match.Groups[1].Success)
+                return match.Groups[1].Value;
 
-            return match.Value;
+            _logger?.LogWarning($"Can't get image url of the following item: {link}; {html}");
+            return string.Empty;
         }
     }
 }

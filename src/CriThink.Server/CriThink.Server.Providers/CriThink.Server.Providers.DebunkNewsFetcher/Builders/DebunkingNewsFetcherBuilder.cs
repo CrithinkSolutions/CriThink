@@ -13,6 +13,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
         private readonly ConcurrentQueue<Task<DebunkingNewsProviderResult>> _queue;
 
         private bool _isOpenOnlineEnabled;
+        private bool _isChannel4Enabled;
         private IAnalyzer<DebunkingNewsProviderResult> _analyzer;
 
         public DebunkingNewsFetcherBuilder(IServiceProvider serviceProvider)
@@ -27,6 +28,12 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
             return this;
         }
 
+        public DebunkingNewsFetcherBuilder EnableChannel4(bool enabled = true)
+        {
+            _isChannel4Enabled = enabled;
+            return this;
+        }
+
         internal IAnalyzer<DebunkingNewsProviderResult> BuildFetchers()
         {
             _queue.Clear();
@@ -35,6 +42,12 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
             {
                 var openOnlineFetcher = GetFetcher<OpenOnlineFetcher>();
                 AddFetcher(openOnlineFetcher);
+            }
+
+            if (_isChannel4Enabled)
+            {
+                var channel4Fetcher = GetFetcher<Channel4Fetcher>();
+                AddFetcher(channel4Fetcher);
             }
 
             return _analyzer;

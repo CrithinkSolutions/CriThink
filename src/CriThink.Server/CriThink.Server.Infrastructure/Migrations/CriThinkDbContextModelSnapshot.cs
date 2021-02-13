@@ -229,6 +229,19 @@ namespace CriThink.Server.Infrastructure.Migrations
                             Name = "Open",
                             Opinion = "",
                             TwitterProfile = "https://twitter.com/open_gol"
+                        },
+                        new
+                        {
+                            Id = new Guid("3181faf4-45e2-4a91-8340-8ed9598513c8"),
+                            CountryId = new Guid("812361b1-d1c3-4315-b601-4e060364a1d6"),
+                            Description = "",
+                            FacebookPage = "https://www.facebook.com/Channel4News",
+                            InstagramProfile = "https://www.instagram.com/channel4news/",
+                            LanguageId = new Guid("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
+                            Link = "https://www.channel4.com/",
+                            Name = "Channel4",
+                            Opinion = "",
+                            TwitterProfile = "https://twitter.com/Channel4News"
                         });
                 });
 

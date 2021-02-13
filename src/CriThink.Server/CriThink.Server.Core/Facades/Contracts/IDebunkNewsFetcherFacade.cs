@@ -6,6 +6,6 @@ namespace CriThink.Server.Core.Facades
 {
     public interface IDebunkNewsFetcherFacade
     {
-        Task<DebunkingNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync();
+        Task<DebunkingNewsProviderResult[]> FetchDebunkingNewsAsync();
     }
 }

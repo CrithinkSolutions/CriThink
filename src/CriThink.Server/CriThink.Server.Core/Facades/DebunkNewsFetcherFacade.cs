@@ -17,10 +17,11 @@ namespace CriThink.Server.Core.Facades
             _debunkNewsProvider = debunkNewsProvider ?? throw new ArgumentNullException(nameof(debunkNewsProvider));
         }
 
-        public async Task<DebunkingNewsProviderResult[]> FetchOpenOnlineDebunkNewsAsync()
+        public async Task<DebunkingNewsProviderResult[]> FetchDebunkingNewsAsync()
         {
             var builder = _builder
-                .EnableOpenOnline(true);
+                .EnableOpenOnline(true)
+                .EnableChannel4(true);
 
             var response = await FetchDebunkNewsAsync(builder).ConfigureAwait(false);
             return response;
