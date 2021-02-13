@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.Extensions.EnumMapping;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 
 namespace CriThink.Server.Core.MapperProfiles
@@ -12,6 +14,12 @@ namespace CriThink.Server.Core.MapperProfiles
     {
         public DebunkingNewsProfile()
         {
+            CreateMap<DebunkingNewsGetAllLanguageFilterRequests, GetAllDebunkingNewsLanguageFilters>()
+                .ConvertUsingEnumMapping(opt => opt
+                    .MapValue(DebunkingNewsGetAllLanguageFilterRequests.None, GetAllDebunkingNewsLanguageFilters.All)
+                    .MapValue(DebunkingNewsGetAllLanguageFilterRequests.English, GetAllDebunkingNewsLanguageFilters.English)
+                    .MapValue(DebunkingNewsGetAllLanguageFilterRequests.Italian, GetAllDebunkingNewsLanguageFilters.Italian));
+
             CreateMap<GetAllDebunkingNewsQueryResponse, DebunkingNewsGetResponse>()
                 .ForMember(dest =>
                     dest.Title, opt => opt.MapFrom(src => src.Title))

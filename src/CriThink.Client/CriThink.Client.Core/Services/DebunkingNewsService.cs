@@ -13,24 +13,42 @@ namespace CriThink.Client.Core.Services
     {
         private readonly IRestRepository _restRepository;
         private readonly IIdentityService _identityService;
+        private readonly IGeolocationService _geoService;
         private readonly IMvxLog _log;
 
-        public DebunkingNewsService(IRestRepository restRepository, IIdentityService identityService, IMvxLogProvider logProvider)
+        public DebunkingNewsService(IRestRepository restRepository, IIdentityService identityService, IGeolocationService geoService, IMvxLogProvider logProvider)
         {
             _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
             _log = logProvider?.GetLogFor<DebunkingNewsService>();
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             var request = new DebunkingNewsGetAllRequest
             {
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
             };
 
             var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
+            var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(currentArea))
+            {
+                switch (currentArea)
+                {
+                    case "it":
+                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.Italian;
+                        break;
+                    case "gb":
+                    case "us":
+                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.English;
+                        break;
+                }
+            }
 
             try
             {
@@ -100,7 +118,7 @@ namespace CriThink.Client.Core.Services
         /// <param name="pageSize">Number of debunking news per page</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
 
         /// <summary>
         /// Returns details of the given debunking news id
