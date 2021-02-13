@@ -19,19 +19,14 @@ namespace CriThink.Common.Endpoints.Converters
 
             var value = reader.GetString();
 
-            switch (value)
+            return value switch
             {
-                case "Conspiracist":
-                    return NewsSourceClassification.Conspiracist;
-                case "Fake News":
-                    return NewsSourceClassification.FakeNews;
-                case "Reliable":
-                    return NewsSourceClassification.Reliable;
-                case "Satirical":
-                    return NewsSourceClassification.Satirical;
-                default:
-                    throw new Exception();
-            }
+                "Conspiracist" => NewsSourceClassification.Conspiracist,
+                "Fake News" => NewsSourceClassification.FakeNews,
+                "Reliable" => NewsSourceClassification.Reliable,
+                "Satirical" => NewsSourceClassification.Satirical,
+                _ => throw new Exception(),
+            };
         }
 
         public override void Write(Utf8JsonWriter writer, NewsSourceClassification value, JsonSerializerOptions options)
