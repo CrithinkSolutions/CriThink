@@ -135,29 +135,28 @@ namespace CriThink.Server.Infrastructure.Data
                 .Property(nsc => nsc.Authenticity)
                 .HasConversion(
                     enumValue => enumValue.ToString(),
-                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
-                );
+                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue));
 
-            builder.Entity<DebunkingNews>()
-                .HasIndex(dn => dn.Link)
-                .IsUnique();
+            builder.Entity<DebunkingNews>(typeBuilder =>
+            {
+                typeBuilder.HasIndex(dn => dn.Link).IsUnique();
+            });
 
-            builder.Entity<UnknownNewsSource>()
-                .Property(us => us.Authenticity)
-                .HasConversion(
-                    enumValue => enumValue.ToString(),
-                    stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue)
-                );
+            builder.Entity<UnknownNewsSource>(typeBuilder =>
+            {
+                typeBuilder.Property(us => us.Authenticity)
+                    .HasConversion(
+                        enumValue => enumValue.ToString(),
+                        stringValue => GetEnumValue<NewsSourceAuthenticity>(stringValue));
 
-            builder.Entity<UnknownNewsSource>()
-                .HasIndex(us => us.Uri)
-                .IsUnique();
+                typeBuilder.HasIndex(us => us.Uri).IsUnique();
+            });
         }
 
         private static TEnum GetEnumValue<TEnum>(string value)
             where TEnum : Enum
         {
-            return (TEnum)Enum.Parse(typeof(TEnum), value);
+            return (TEnum) Enum.Parse(typeof(TEnum), value);
         }
     }
 }
