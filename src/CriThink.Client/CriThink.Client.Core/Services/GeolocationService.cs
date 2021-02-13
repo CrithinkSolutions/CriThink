@@ -26,6 +26,7 @@ namespace CriThink.Client.Core.Services
                     var placemark = placemarks.FirstOrDefault();
                     if (placemark != null)
                     {
+                        _log?.Info($"User country: {placemark.CountryCode}");
                         return placemark.CountryCode.ToLowerInvariant();
                     }
                 }
@@ -39,6 +40,7 @@ namespace CriThink.Client.Core.Services
                 _log?.ErrorException("Can't get country code", ex);
             }
 
+            _log?.Info("Can't get user country");
             return string.Empty;
         }
     }

@@ -50,6 +50,8 @@ namespace CriThink.Client.Core.Services
                 }
             }
 
+            _log?.Info($"Querying {request.LanguageFilters} debunking news");
+
             try
             {
                 var debunkingNewsCollection = await _restRepository.MakeRequestAsync<DebunkingNewsGetAllResponse>(
