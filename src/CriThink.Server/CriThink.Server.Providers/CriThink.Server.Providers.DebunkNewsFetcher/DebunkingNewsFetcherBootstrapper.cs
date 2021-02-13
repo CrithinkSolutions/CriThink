@@ -21,10 +21,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
         /// <param name="serviceCollection">The IoC container</param>
         public static void AddDebunkNewsFetcherProvider(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddHttpClient(OpenOnlineHttpClientName, client =>
-            {
-                client.DefaultRequestHeaders.Add("api-version", "1.0");
-            });
+            serviceCollection.AddHttpClient(OpenOnlineHttpClientName);
 
             serviceCollection.AddHttpClient(Channel4HttpClientName);
 
