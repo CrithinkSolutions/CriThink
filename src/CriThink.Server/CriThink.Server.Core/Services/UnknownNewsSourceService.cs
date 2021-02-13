@@ -42,6 +42,9 @@ namespace CriThink.Server.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
+            if (request.Classification == NewsSourceClassification.Unknown)
+                throw new InvalidOperationException("You can't notify a user with an unknown source");
+
             var getIdCommand = new GetUnknownNewsSourceIdQuery(request.Uri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
@@ -54,7 +57,8 @@ namespace CriThink.Server.Core.Services
 
                 foreach (var user in subscribedUsers.Take(pageSize))
                 {
-                    await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(user.Email, request.Uri, request.Classification.ToString()).ConfigureAwait(false);
+                    await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(user.Email, request.Uri, request.Classification.ToString())
+                        .ConfigureAwait(false);
 
                     var notifyUserCommand = new RemoveNotifiedUserCommand(user.Id);
                     _ = _mediator.Send(notifyUserCommand);
@@ -64,12 +68,12 @@ namespace CriThink.Server.Core.Services
             }
             while (true);
 
-            var authenticity = _mapper.Map<NewsSourceAuthenticity>(request.Classification);
+            var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
 
             var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId, authenticity);
             await _mediator.Send(updateIdentifiedNewsSourceCommand).ConfigureAwait(false);
 
-            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(request.Uri), ToNewsSourceAuthenticityEnum(request.Classification));
+            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(request.Uri), authenticity);
             await _mediator.Send(createNewsSourceCommand).ConfigureAwait(false);
         }
 
@@ -81,15 +85,5 @@ namespace CriThink.Server.Core.Services
 
             return unknownNewsSource;
         }
-
-        private static NewsSourceAuthenticity ToNewsSourceAuthenticityEnum(NewsSourceClassification newsSourceClassification)
-            => newsSourceClassification switch
-            {
-                NewsSourceClassification.Reliable => NewsSourceAuthenticity.Reliable,
-                NewsSourceClassification.Satirical => NewsSourceAuthenticity.Satirical,
-                NewsSourceClassification.Conspiracist => NewsSourceAuthenticity.Conspiracist,
-                NewsSourceClassification.FakeNews => NewsSourceAuthenticity.FakeNews,
-                _ => throw new NotImplementedException(nameof(ToNewsSourceAuthenticityEnum)),
-            };
     }
 }

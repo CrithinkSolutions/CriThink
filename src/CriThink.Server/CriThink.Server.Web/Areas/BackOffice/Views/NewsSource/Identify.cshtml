@@ -1,5 +1,4 @@
 ﻿@using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
-@using CriThink.Common.Endpoints;
 @model UnknownNewsSourceViewModel;
 @{
     Layout = "_Layout";
@@ -12,7 +11,8 @@
 
     <input asp-for="Uri" />
 
-    <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+    <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()
+        .Where(i => i.Value != Classification.Unknown.ToString())"></select>
 
     <button type="submit">Save</button>
 }
