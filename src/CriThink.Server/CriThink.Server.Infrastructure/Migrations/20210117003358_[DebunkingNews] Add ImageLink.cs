@@ -1,18 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Server.Infrastructure.Migrations
 {
     public partial class DebunkingNewsAddImageLink : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "image_link",
-                table: "debunking_news",
-                type: "text",
-                nullable: true);
-
             migrationBuilder.UpdateData(
                 table: "user_roles",
                 keyColumn: "id",
@@ -30,10 +25,6 @@ namespace CriThink.Server.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "image_link",
-                table: "debunking_news");
-
             migrationBuilder.UpdateData(
                 table: "user_roles",
                 keyColumn: "id",

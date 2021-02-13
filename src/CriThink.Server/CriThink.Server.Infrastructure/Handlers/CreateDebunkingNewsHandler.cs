@@ -32,7 +32,7 @@ namespace CriThink.Server.Infrastructure.Handlers
                 foreach (var news in request.DebunkingNewsCollection)
                 {
                     var sqlQuery = "INSERT INTO debunking_news\n" +
-                        "(id, title, publishing_date, link, news_caption, publisher_name, keywords, image_link)\n" +
+                        "(id, title, publishing_date, link, news_caption, publisher_id, keywords, image_link)\n" +
                         "VALUES\n" +
                         "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})\n" +
                         "ON CONFLICT (link)\n" +
@@ -48,19 +48,19 @@ namespace CriThink.Server.Infrastructure.Handlers
                     var publishingDate = new NpgsqlParameter("publishing_date", news.PublishingDate);
                     var link = new NpgsqlParameter("link", news.Link);
                     var newsCaption = new NpgsqlParameter("news_caption", news.NewsCaption);
-                    var publisherName = new NpgsqlParameter("publisher_name", news.PublisherName);
+                    var publisherName = new NpgsqlParameter("publisher_id", news.Publisher.Id);
                     var keywords = new NpgsqlParameter("keywords", news.Keywords);
                     var imageLink = new NpgsqlParameter("image_link", news.ImageLink);
 
-                    _dbContext.Database.ExecuteSqlRaw(sqlQuery,
-                         id,
-                         title,
-                         publishingDate,
-                         link,
-                         newsCaption,
-                         publisherName,
-                         keywords,
-                         imageLink);
+                    await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
+                        id,
+                        title,
+                        publishingDate,
+                        link,
+                        newsCaption,
+                        publisherName,
+                        keywords,
+                        imageLink).ConfigureAwait(false);
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

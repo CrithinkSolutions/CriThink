@@ -3,15 +3,17 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210209225549_[DebunkingNews] Country Language Provider")]
+    partial class DebunkingNewsCountryLanguageProvider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -355,74 +357,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasDatabaseName("ix_question_answers_question_id");
 
                     b.ToTable("question_answers");
-                });
-
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Authenticity")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("authenticity");
-
-                    b.Property<DateTime>("FirstRequestedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("first_requested_at");
-
-                    b.Property<DateTime?>("IdentifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("identified_at");
-
-                    b.Property<int>("RequestCount")
-                        .HasColumnType("integer")
-                        .HasColumnName("request_count");
-
-                    b.Property<string>("Uri")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("uri");
-
-                    b.HasKey("Id")
-                        .HasName("pk_unknown_news_sources");
-
-                    b.HasIndex("Uri")
-                        .IsUnique()
-                        .HasDatabaseName("ix_unknown_news_sources_uri");
-
-                    b.ToTable("unknown_news_sources");
-                });
-
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("requested_at");
-
-                    b.Property<Guid>("UnknownNewsSourceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("unknown_news_source_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_unknown_news_source_notification_requests");
-
-                    b.HasIndex("UnknownNewsSourceId")
-                        .HasDatabaseName("ix_unknown_news_source_notification_requests_unknown_news_sour");
-
-                    b.ToTable("unknown_news_source_notification_requests");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
@@ -775,18 +709,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
-                {
-                    b.HasOne("CriThink.Server.Core.Entities.UnknownNewsSource", "UnknownNewsSource")
-                        .WithMany("NotificationQueue")
-                        .HasForeignKey("UnknownNewsSourceId")
-                        .HasConstraintName("fk_unknown_news_source_notification_requests_unknown_news_sour")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UnknownNewsSource");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
@@ -857,11 +779,6 @@ namespace CriThink.Server.Infrastructure.Migrations
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
                 {
                     b.Navigation("DebunkingNews");
-                });
-
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
-                {
-                    b.Navigation("NotificationQueue");
                 });
 #pragma warning restore 612, 618
         }

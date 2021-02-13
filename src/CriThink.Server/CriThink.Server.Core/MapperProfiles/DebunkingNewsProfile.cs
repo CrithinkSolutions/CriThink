@@ -20,6 +20,10 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Publisher, opt => opt.MapFrom(src => src.Publisher))
                 .ForMember(dest =>
+                    dest.PublisherCountry, opt => opt.MapFrom(src => src.PublisherCountry))
+                .ForMember(dest =>
+                    dest.PublisherLanguage, opt => opt.MapFrom(src => src.PublisherLanguage))
+                .ForMember(dest =>
                     dest.NewsLink, opt => opt.MapFrom(src => src.NewsLink))
                 .ForMember(dest =>
                     dest.NewsImageLink, opt => opt.MapFrom(src => src.NewsImageLink));
@@ -32,7 +36,11 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.Link, opt => opt.MapFrom(src => src.Link))
                 .ForMember(dest =>
-                    dest.Publisher, opt => opt.MapFrom(src => src.PublisherName))
+                    dest.Publisher, opt => opt.MapFrom(src => src.Publisher.Name))
+                .ForMember(dest =>
+                    dest.PublisherCountry, opt => opt.MapFrom(src => src.Publisher.Country.Name))
+                .ForMember(dest =>
+                    dest.PublisherLanguage, opt => opt.MapFrom(src => src.Publisher.Language.Name))
                 .ForMember(dest =>
                     dest.PublishingDate, opt => opt.MapFrom(src => src.PublishingDate.ToShortDateString()))
                 .ForMember(dest =>
