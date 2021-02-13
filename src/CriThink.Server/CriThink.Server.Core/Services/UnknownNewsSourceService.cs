@@ -10,6 +10,7 @@ using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Core.Services
 {
@@ -18,12 +19,14 @@ namespace CriThink.Server.Core.Services
         private readonly IMediator _mediator;
         private readonly IEmailSenderService _emailSenderService;
         private readonly IMapper _mapper;
+        private readonly ILogger<UnknownNewsSourceService> _logger;
 
-        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper)
+        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper, ILogger<UnknownNewsSourceService> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger;
         }
 
         public async Task RequestNotificationForUnknownNewsSourceAsync(NewsSourceNotificationForUnknownDomainRequest request)
@@ -43,35 +46,20 @@ namespace CriThink.Server.Core.Services
             if (request.Classification == NewsSourceClassification.Unknown)
                 throw new InvalidOperationException("You can't notify a user with an unknown source");
 
-            var getIdCommand = new GetUnknownNewsSourceIdQuery(request.Uri);
+            var requestedUri = request.Uri;
+
+            var getIdCommand = new GetUnknownNewsSourceIdQuery(requestedUri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
-            int pageSize = 20, pageIndex = 0;
-
-            do
-            {
-                var subscribedUsersQuery = new GetAllSubscribedUsersQuery(unknownNewsId, pageSize + 1, pageIndex++);
-                var subscribedUsers = await _mediator.Send(subscribedUsersQuery).ConfigureAwait(false);
-
-                foreach (var user in subscribedUsers.Take(pageSize))
-                {
-                    await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(user.Email, request.Uri, request.Classification.ToString())
-                        .ConfigureAwait(false);
-
-                    var notifyUserCommand = new RemoveNotifiedUserCommand(user.Id);
-                    _ = _mediator.Send(notifyUserCommand);
-                }
-
-                if (subscribedUsers.Count <= pageSize) break;
-            }
-            while (true);
+            await NotifyUsersAsync(unknownNewsId, requestedUri, request.Classification.ToString())
+                .ConfigureAwait(false);
 
             var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
 
             var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId, authenticity);
             await _mediator.Send(updateIdentifiedNewsSourceCommand).ConfigureAwait(false);
 
-            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(request.Uri), authenticity);
+            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(requestedUri), authenticity);
             await _mediator.Send(createNewsSourceCommand).ConfigureAwait(false);
         }
 
@@ -83,6 +71,45 @@ namespace CriThink.Server.Core.Services
             var response = _mapper.Map<UnknownNewsSource, UnknownNewsSourceResponse>(unknownNewsSource);
 
             return response;
+        }
+
+        private async Task NotifyUsersAsync(Guid unknownNewsId, string requestedUri, string classification)
+        {
+            const int pageSize = 20;
+            var pageIndex = 0;
+
+            do
+            {
+                var subscribedUsersQuery = new GetAllSubscribedUsersQuery(unknownNewsId, pageSize + 1, pageIndex++);
+                var subscribedUsers = await _mediator.Send(subscribedUsersQuery).ConfigureAwait(false);
+
+                foreach (var user in subscribedUsers.Take(pageSize))
+                {
+                    await NotifyUserAsync(user.Id, user.Email, requestedUri, classification)
+                        .ConfigureAwait(false);
+                }
+
+                if (subscribedUsers.Count <= pageSize) break;
+            }
+            while (true);
+        }
+
+        private async Task NotifyUserAsync(Guid userId, string userEmail, string uri, string classification)
+        {
+            try
+            {
+                await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(userEmail, uri, classification)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, $"Can't send an email to user '{userEmail}' for uri '{uri}'");
+                return;
+            }
+
+            var notifyUserCommand = new RemoveNotifiedUserCommand(userId);
+            await _mediator.Send(notifyUserCommand)
+                .ConfigureAwait(false);
         }
     }
 }
