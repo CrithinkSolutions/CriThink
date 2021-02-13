@@ -234,10 +234,6 @@ namespace CriThink.Server.Infrastructure.Data
             });
 
             #endregion
-            builder.Entity<DebunkingNews>(typeBuilder =>
-            {
-                typeBuilder.HasIndex(dn => dn.Link).IsUnique();
-            });
 
             builder.Entity<UnknownNewsSource>(typeBuilder =>
             {
