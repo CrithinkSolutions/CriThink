@@ -6,6 +6,7 @@ using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Providers.EmailSender.Services;
@@ -67,6 +68,9 @@ namespace CriThink.Server.Core.Services
         {
             var query = new GetUnknownNewsSourceQuery(unknownNewsSourceId);
             var unknownNewsSource = await _mediator.Send(query).ConfigureAwait(false);
+
+            if (unknownNewsSource is null)
+                throw new ResourceNotFoundException($"Can't find a resource with id {unknownNewsSourceId}");
 
             var response = _mapper.Map<UnknownNewsSource, UnknownNewsSourceResponse>(unknownNewsSource);
 
