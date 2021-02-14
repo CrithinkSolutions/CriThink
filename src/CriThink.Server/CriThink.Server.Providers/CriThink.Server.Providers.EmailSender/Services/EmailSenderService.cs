@@ -59,7 +59,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
         public async Task SendUnknownDomainAlertEmailAsync(string unknownDomainUrl, string resquetedByEmail)
         {
-            var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(unknownDomainUrl, resquetedByEmail);
+            var unknownDomainAlertViewModel = new UnknownDomainAdminAlertViewModel(unknownDomainUrl, resquetedByEmail);
 
             // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertAdminEmail.cshtml", unknownDomainAlertViewModel);
@@ -69,17 +69,16 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
         }
 
-        public async Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl, string classification)
+        public async Task SendIdentifiedNewsSourceEmailAsync(string recipient, string identifiedDomainUrl, string classification)
         {
-            var unknownDomainAlertViewModel = new UnknownDomainAlertViewModel(identifiedDomainUrl, "");
+            var unknownDomainAlertViewModel = new UnknownDomainAdminUserAlertViewModel(identifiedDomainUrl, classification);
 
-            // TODO: Use real template
             // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertUserEmail.cshtml", unknownDomainAlertViewModel);
 
             var subject = $"[{classification}] - We identified the domain";
 
-            await Execute(new[] { userEmail }, subject, htmlBody);
+            await Execute(new[] { recipient }, subject, htmlBody);
         }
 
         private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)

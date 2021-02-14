@@ -1,8 +1,8 @@
 ﻿namespace CriThink.Server.RazorViews.Views.Emails.AlertNotification
 {
-    public class UnknownDomainAlertViewModel
+    public class UnknownDomainAdminAlertViewModel
     {
-        public UnknownDomainAlertViewModel(string unknownDomainUrl, string userEmail)
+        public UnknownDomainAdminAlertViewModel(string unknownDomainUrl, string userEmail)
         {
             UnknownDomainUrl = unknownDomainUrl;
             UserEmail = userEmail;
