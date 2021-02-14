@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 
@@ -14,6 +15,8 @@ namespace CriThink.Server.Web.Facades
         Task RemoveNewsSourceAsync(Uri uri);
 
         Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri);
+
+        Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(SimplePaginationViewModel viewModel);
 
         Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification);
 

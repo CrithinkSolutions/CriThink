@@ -142,6 +142,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourcesGetAllNotifications)] // news-source/notification-requests
+        [HttpGet]
+        public async Task<IActionResult> GetNotificationRequestsAsync(SimplePaginationViewModel viewModel)
+        {
+            var response = await _newsSourceFacade.GetPendingNotificationRequestsAsync(viewModel).ConfigureAwait(false);
+            return View("NotificationRequests", response);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpGet]
         public async Task<IActionResult> Identify(Guid id)
