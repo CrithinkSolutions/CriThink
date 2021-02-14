@@ -24,6 +24,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             _log = logProvider?.GetLogFor<NewsCheckerResultViewModel>();
         }
 
+        #region Properties
+
         private string _description;
         public string Description
         {
@@ -47,6 +49,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             set => SetProperty(ref _title, value);
         }
 
+        #endregion
+
         public override void Prepare(Uri parameter)
         {
             if (parameter == null)
@@ -66,9 +70,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             Title = _uri.Host;
 
-            IsLoading = true;
-
             await Task.Delay(300).ConfigureAwait(true);
+
+            IsLoading = true;
 
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 
@@ -78,6 +82,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     .ConfigureAwait(true);
                 if (result is null)
                     return;
+
+                await Task.Delay(500).ConfigureAwait(true);
 
                 var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
 
@@ -91,7 +97,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
             finally
             {
-                await Task.Delay(300).ConfigureAwait(true);
+
                 IsLoading = false;
             }
         }
