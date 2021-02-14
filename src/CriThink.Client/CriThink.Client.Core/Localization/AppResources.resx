@@ -210,6 +210,15 @@
   <data name="LoginViewModel.PasswordHint" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
+    <value>We think this website is {0}</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
+    <value>Unfortunately we didn't know this website yet.</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.UnknownDescription" xml:space="preserve">
+    <value>We are going to investigate this website and we will send you back an email with the result as soon as possible! Thank you!</value>
+  </data>
   <data name="NewsCheckerViewModel.DebunkingNewsTitle" xml:space="preserve">
     <value>Latest Debunking News</value>
   </data>

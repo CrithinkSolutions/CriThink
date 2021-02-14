@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
@@ -37,6 +39,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             set => SetProperty(ref _classification, value);
         }
 
+        private string _title;
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+
         public override void Prepare(Uri parameter)
         {
             if (parameter == null)
@@ -54,14 +64,48 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
 
-            _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var result = await _newsSourceService.SearchNewsSourceAsync(_uri, _cancellationTokenSource.Token).ConfigureAwait(false);
-            if (result is null)
-                return;
+            Title = _uri.Host;
 
-            Description = result.Description;
-            Classification = result.Classification.ToString();
+            IsLoading = true;
+
+            await Task.Delay(300).ConfigureAwait(true);
+
+            _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(45));
+
+            try
+            {
+                var result = await _newsSourceService.SearchNewsSourceAsync(_uri, _cancellationTokenSource.Token)
+                    .ConfigureAwait(true);
+                if (result is null)
+                    return;
+
+                var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
+
+                Description = result.Description;
+                Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText,
+                    result.Classification.ToString());
+            }
+            catch (HttpRequestException)
+            {
+                await HandleUnknownResultAsync().ConfigureAwait(true);
+            }
+            finally
+            {
+                await Task.Delay(300).ConfigureAwait(true);
+                IsLoading = false;
+            }
         }
+
+        private async Task HandleUnknownResultAsync()
+        {
+            await _newsSourceService.RegisterForNotificationAsync(_uri, _cancellationTokenSource.Token)
+                .ConfigureAwait(true);
+
+            Classification = LocalizedTextSource.GetText("UnknownClassificationHeader");
+            Description = LocalizedTextSource.GetText("UnknownDescription");
+        }
+
+        #region IDisposable
 
         public void Dispose()
         {
@@ -81,5 +125,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             _disposed = true;
         }
+
+        #endregion
     }
 }

@@ -55,6 +55,9 @@ namespace CriThink.Client.Core.Services
         public Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck) =>
             _newsSourceService.AddLatestNewsCheck(newsCheck);
 
+        public Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken) =>
+            _newsSourceService.RegisterForNotificationAsync(uri, cancellationToken);
+
         private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
         {
             if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
