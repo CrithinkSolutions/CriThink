@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Messenger;
@@ -10,6 +11,7 @@ using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Common.HttpRepository;
 using MvvmCross.Logging;
 using MvvmCross.Plugin.Messenger;
@@ -48,13 +50,17 @@ namespace CriThink.Client.Core.Services
             try
             {
                 var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchResponse>(
-                        $"{EndpointConstants.NewsSourceBase}?{request.ToQueryString()}",
+                        $"{EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceSearch}?{request.ToQueryString()}",
                         HttpRestVerb.Get,
                         token,
                         cancellationToken)
                     .ConfigureAwait(false);
 
                 return loginResponse;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -99,6 +105,37 @@ namespace CriThink.Client.Core.Services
             ClearRecentNewsChecksCache();
         }
 
+        public async Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken)
+        {
+            if (uri is null)
+                throw new ArgumentNullException(nameof(uri));
+
+            var currentUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            var userEmail = currentUser.UserEmail;
+
+            var request = new NewsSourceNotificationForUnknownDomainRequest
+            {
+                Uri = uri.ToString(),
+                Email = userEmail,
+            };
+
+            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
+
+            try
+            {
+                await _restRepository.MakeRequestAsync(
+                    $"{EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceRegisterForNotification}",
+                    HttpRestVerb.Post,
+                    request,
+                    token,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error registering for notification", ex, uri);
+            }
+        }
+
         private void ClearRecentNewsChecksCache()
         {
             var message = new ClearRecentNewsSourceCacheMessage(this);
@@ -113,5 +150,7 @@ namespace CriThink.Client.Core.Services
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks();
 
         Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck);
+
+        Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken);
     }
 }

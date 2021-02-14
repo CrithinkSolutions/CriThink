@@ -241,6 +241,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The link you inserted is not valid..
+        /// </summary>
+        internal static string CheckNewsViewModel_FormatErrorMessage {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.FormatErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string CheckNewsViewModel_FormatErrorOk {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.FormatErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Which news do you want to check?.
         /// </summary>
         internal static string CheckNewsViewModel_NewsLinkHint {
@@ -336,6 +354,33 @@ namespace CriThink.Client.Core.Localization {
         internal static string LoginViewModel_PasswordHint {
             get {
                 return ResourceManager.GetString("LoginViewModel.PasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We think this website is {0}.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_ClassificationHeader {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.ClassificationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately we didn&apos;t know this website yet..
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_UnknownClassificationHeader {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.UnknownClassificationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are going to investigate this website and we will send you back an email with the result as soon as possible! Thank you!.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_UnknownDescription {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.UnknownDescription", resourceCulture);
             }
         }
         

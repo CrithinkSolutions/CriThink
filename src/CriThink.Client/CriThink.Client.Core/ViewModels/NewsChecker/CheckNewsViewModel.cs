@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
 using MvvmCross.Commands;
@@ -14,11 +15,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly INewsSourceService _newsSourceService;
+        private readonly IUserDialogs _userDialogs;
 
-        public CheckNewsViewModel(IMvxNavigationService navigationService, INewsSourceService newsSourceService)
+        public CheckNewsViewModel(IMvxNavigationService navigationService, INewsSourceService newsSourceService, IUserDialogs userDialogs)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
+            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
 
             RecentNewsChecksCollection = new ObservableCollection<RecentNewsChecksModel>();
         }
@@ -58,14 +61,25 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             if (string.IsNullOrWhiteSpace(NewsUri))
                 return;
 
-            // TODO: do in the next view after results with real data
-            await _newsSourceService.AddLatestNewsCheck(
-                new RecentNewsChecksModel
-                {
-                    NewsLink = NewsUri,
-                    Classification = "satirical",
-                    SearchDateTime = DateTime.Now
-                }).ConfigureAwait(false);
+            if (!Uri.IsWellFormedUriString(NewsUri, UriKind.Absolute))
+            {
+                await ShowFormatMessageErrorAsync(cancellationToken).ConfigureAwait(true);
+                return;
+            }
+
+            var uri = new Uri(NewsUri, UriKind.Absolute);
+
+            await _navigationService
+                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .ConfigureAwait(true);
+        }
+
+        private Task ShowFormatMessageErrorAsync(CancellationToken cancellationToken)
+        {
+            var message = LocalizedTextSource.GetText("FormatErrorMessage");
+            var ok = LocalizedTextSource.GetText("FormatErrorOk");
+
+            return _userDialogs.AlertAsync(message, okText: ok, cancelToken: cancellationToken);
         }
     }
 }

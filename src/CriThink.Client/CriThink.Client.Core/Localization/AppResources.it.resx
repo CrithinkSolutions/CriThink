@@ -309,4 +309,19 @@
   <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
     <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
+  <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
+    <value>Pensiamo che questo sito sia {0}</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
+    <value>Purtroppo non conosciamo ancora questo sito web</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.UnknownDescription" xml:space="preserve">
+    <value>Investigheremo e ti invieremo una email con il risultato della nostra analisi il prima possibile! Grazie!</value>
+  </data>
+  <data name="CheckNewsViewModel.FormatErrorMessage" xml:space="preserve">
+    <value>Il link che hai inserito non è valido.</value>
+  </data>
+  <data name="CheckNewsViewModel.FormatErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>
