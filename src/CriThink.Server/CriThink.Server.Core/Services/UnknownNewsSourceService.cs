@@ -25,7 +25,7 @@ namespace CriThink.Server.Core.Services
         private readonly IMapper _mapper;
         private readonly ILogger<UnknownNewsSourceService> _logger;
 
-        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper, ILogger<UnknownNewsSourceService> logger)
+        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper, IIdentityService identityService, ILogger<UnknownNewsSourceService> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));

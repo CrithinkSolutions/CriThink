@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
@@ -10,6 +11,7 @@ using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace CriThink.Server.Core.Services
 {
@@ -18,12 +20,14 @@ namespace CriThink.Server.Core.Services
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public NewsSourceService(IMediator mediator, IMapper mapper, IEmailSenderService emailSenderService)
+        public NewsSourceService(IMediator mediator, IMapper mapper, IEmailSenderService emailSenderService, IHttpContextAccessor httpContext)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
+            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
         }
 
         public async Task AddSourceAsync(NewsSourceAddRequest request)
@@ -68,7 +72,9 @@ namespace CriThink.Server.Core.Services
 
             if (searchResponse is null)
             {
-                await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString()).ConfigureAwait(false);
+                var email = _httpContext.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+
+                await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString(), email).ConfigureAwait(false);
                 var command = new CreateUnknownNewsSourceCommand(uri);
                 await _mediator.Send(command).ConfigureAwait(false);
             }

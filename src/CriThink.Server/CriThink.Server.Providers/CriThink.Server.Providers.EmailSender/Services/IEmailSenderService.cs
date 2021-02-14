@@ -7,7 +7,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
         Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode, string userName);
         Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode, string userName);
 
-        Task SendUnknownDomainAlertEmailAsync(string unkownDomainUrl);
-        Task SendIdentifiedNewsSourceEmailAsync(string userEmail, string identifiedDomainUrl, string classification);
+        Task SendUnknownDomainAlertEmailAsync(string unkownDomainUrl, string resquetedByEmail);
+        Task SendIdentifiedNewsSourceEmailAsync(string recipient, string identifiedDomainUrl, string classification);
     }
 }
