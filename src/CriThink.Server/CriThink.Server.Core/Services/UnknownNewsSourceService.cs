@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Commands;
@@ -9,9 +10,11 @@ using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
+using CriThink.Server.Core.Responses;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using UnknownNewsSourceResponse = CriThink.Common.Endpoints.DTOs.UnknownNewsSource.UnknownNewsSourceResponse;
 
 namespace CriThink.Server.Core.Services
 {
@@ -37,6 +40,23 @@ namespace CriThink.Server.Core.Services
 
             var createCommand = new CreateUnknownSourceNotificationRequestCommand(request.Uri, request.Email);
             await _mediator.Send(createCommand).ConfigureAwait(false);
+        }
+
+        public async Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(NewsSourceNotificationGetAllRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            var query = new GetAllNotificationRequestsQuery(request.PageSize, request.PageIndex);
+            var notificationCollection = await _mediator.Send(query).ConfigureAwait(false);
+
+            var dtos = notificationCollection
+                .Take(request.PageSize)
+                .Select(notification => _mapper.Map<GetAllSubscribedUsersWithSourceResponse, NotificationRequestGetResponse>(notification))
+                .ToList();
+
+            var response = new NotificationRequestGetAllResponse(dtos, notificationCollection.Count > request.PageSize);
+            return response;
         }
 
         public async Task TriggerUpdateForIdentifiedNewsSourceAsync(TriggerUpdateForIdentifiedNewsSourceRequest request)
