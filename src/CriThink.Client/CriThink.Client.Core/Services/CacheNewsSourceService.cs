@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Services
 
         public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
         {
-            return await _memoryCache.GetOrCreateAsync(NewsSourceCacheKey, async entry =>
+            return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{uri}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 return await _newsSourceService.SearchNewsSourceAsync(uri, cancellationToken).ConfigureAwait(false);
