@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -112,7 +111,6 @@ namespace CriThink.Server.Web
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Called by framework")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -360,7 +358,8 @@ namespace CriThink.Server.Web
             services.Configure<User>(Configuration.GetSection("ServiceUser"));
             services.Configure<UserRole>(Configuration.GetSection("AdminRole"));
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
-            services.Configure<WebSiteSettings>(Configuration.GetSection("DebunkedNewsSources:OpenOnline"));
+            services.Configure<OpenOnlineSettings>(Configuration.GetSection("DebunkingNewsProviders:OpenOnline"));
+            services.Configure<Channel4Settings>(Configuration.GetSection("DebunkingNewsProviders:Channel4"));
         }
 
         private static void SetupMediatR(IServiceCollection services)

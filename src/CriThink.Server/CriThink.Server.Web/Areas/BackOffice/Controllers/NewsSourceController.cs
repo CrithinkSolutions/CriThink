@@ -140,5 +140,31 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
+        [HttpGet]
+        public async Task<IActionResult> Identify(Guid id)
+        {
+            var viewModel = await _newsSourceFacade.GetUnknownNewsSourceAsync(id).ConfigureAwait(false);
+
+            return View(viewModel);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
+        [HttpPost]
+        public async Task<IActionResult> Identify(UnknownNewsSourceViewModel viewModel)
+        {
+            if (viewModel.Classification == Classification.Unknown)
+                ModelState.AddModelError(nameof(UnknownNewsSourceViewModel.Classification), "You must identify the source");
+
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            await _newsSourceFacade.TriggerIdentifiedNewsSourceAsync(viewModel.Uri, viewModel.Classification).ConfigureAwait(false);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

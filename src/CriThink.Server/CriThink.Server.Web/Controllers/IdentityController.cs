@@ -70,8 +70,9 @@ namespace CriThink.Server.Web.Controllers
                 var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Core.Exceptions.ResourceNotFoundException)
+            catch (Exception ex)
             {
+                _logger?.LogError(ex, "User or password incorrect while login");
                 throw new Core.Exceptions.ResourceNotFoundException("The user or the password are incorrect");
             }
         }
@@ -186,15 +187,15 @@ namespace CriThink.Server.Web.Controllers
                     .ChangeUserPasswordAsync(userEmail, dto.CurrentPassword, dto.NewPassword)
                     .ConfigureAwait(false);
 
-                if (result)
-                    return Ok();
+                return result ?
+                    Ok() :
+                    BadRequest();
             }
-            catch (Core.Exceptions.ResourceNotFoundException)
+            catch (Exception ex)
             {
-                throw new Core.Exceptions.ResourceNotFoundException("The provided passwords for the given user are incorrect");
+                _logger?.LogError(ex, "Error changing user password");
+                return BadRequest();
             }
-
-            return BadRequest();
         }
 
         /// <summary>
@@ -260,9 +261,10 @@ namespace CriThink.Server.Web.Controllers
                     .ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Core.Exceptions.ResourceNotFoundException)
+            catch (Exception ex)
             {
-                throw new ResourceNotFoundException("The provided user, token or the password are incorrect");
+                _logger?.LogError(ex, "Error resetting user password");
+                return BadRequest();
             }
         }
 

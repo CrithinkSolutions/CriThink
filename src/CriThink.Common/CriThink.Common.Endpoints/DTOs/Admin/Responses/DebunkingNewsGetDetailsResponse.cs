@@ -15,6 +15,12 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         [JsonPropertyName("publisher")]
         public string Publisher { get; set; }
 
+        [JsonPropertyName("publisherLanguage")]
+        public string PublisherLanguage { get; set; }
+
+        [JsonPropertyName("publisherCountry")]
+        public string PublisherCountry { get; set; }
+
         [JsonPropertyName("publishingDate")]
         public string PublishingDate { get; set; }
 

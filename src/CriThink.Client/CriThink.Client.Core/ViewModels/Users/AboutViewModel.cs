@@ -23,6 +23,8 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
 
+        private bool _isInitialized;
+
         public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
             : base(logProvider, navigationService)
         {
@@ -87,16 +89,20 @@ namespace CriThink.Client.Core.ViewModels.Users
         {
             base.Prepare();
             _log?.Info("User navigates to about view");
-            VersionTracking.Track();
+
+            if (!_isInitialized)
+            {
+                VersionTracking.Track();
+            }
         }
 
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
 
-            var version = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Version"), VersionTracking.CurrentVersion);
-            MenuCollection.Add(new VersionModel(version));
+            ReadAppVersion();
 
+            _isInitialized = true;
             var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
             if (user != null)
             {
@@ -135,6 +141,15 @@ namespace CriThink.Client.Core.ViewModels.Users
                 var errorLogoutMessage = LocalizedTextSource.GetText("LogoutErrorMessage");
                 await _userDialogs.AlertAsync(errorLogoutMessage, null, errorLogoutOk, cancelToken: cancellationToken).ConfigureAwait(false);
             }
+        }
+
+        private void ReadAppVersion()
+        {
+            if (_isInitialized)
+                return;
+
+            var version = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Version"), VersionTracking.CurrentVersion);
+            MenuCollection.Add(new VersionModel(version));
         }
     }
 }

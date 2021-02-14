@@ -2,20 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\..\code-analysis.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>CriThink.Server.Providers.NewsAnalyzer</AssemblyName>
     <RootNamespace>CriThink.Server.Providers.NewsAnalyzer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.AI.TextAnalytics" Version="5.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="SmartReader" Version="0.7.2" />
+    <PackageReference Include="SmartReader" Version="0.7.5" />
   </ItemGroup>
 
   <ItemGroup>
