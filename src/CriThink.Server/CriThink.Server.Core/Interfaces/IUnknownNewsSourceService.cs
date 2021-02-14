@@ -22,7 +22,7 @@ namespace CriThink.Server.Core.Interfaces
         /// <summary>
         /// Get the unknown news source with the given id
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="unknownNewsSourceId"></param>
         /// <returns>The unknown news source</returns>
         Task<UnknownNewsSourceResponse> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId);
     }
