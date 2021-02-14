@@ -64,7 +64,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             // TODO: Use real template
             // TODO: Use nameof() for path composition
-            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertAdminEmail.cshtml", unknownDomainAlertViewModel);
 
             var subject = $"[ALERT] - New unknown domain received";
 
@@ -77,7 +77,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             // TODO: Use real template
             // TODO: Use nameof() for path composition
-            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertEmail.cshtml", unknownDomainAlertViewModel);
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertAdminEmail.cshtml", unknownDomainAlertViewModel);
 
             var subject = $"[{classification}] - We identified the domain";
 
