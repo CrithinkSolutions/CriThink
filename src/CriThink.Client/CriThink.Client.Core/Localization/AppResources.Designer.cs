@@ -241,6 +241,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The link you inserted is not valid..
+        /// </summary>
+        internal static string CheckNewsViewModel_FormatErrorMessage {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.FormatErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string CheckNewsViewModel_FormatErrorOk {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.FormatErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Which news do you want to check?.
         /// </summary>
         internal static string CheckNewsViewModel_NewsLinkHint {

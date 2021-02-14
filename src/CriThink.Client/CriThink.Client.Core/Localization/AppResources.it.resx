@@ -318,4 +318,10 @@
   <data name="NewsCheckerResultViewModel.UnknownDescription" xml:space="preserve">
     <value>Investigheremo e ti invieremo una email con il risultato della nostra analisi il prima possibile! Grazie!</value>
   </data>
+  <data name="CheckNewsViewModel.FormatErrorMessage" xml:space="preserve">
+    <value>Il link che hai inserito non è valido.</value>
+  </data>
+  <data name="CheckNewsViewModel.FormatErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>

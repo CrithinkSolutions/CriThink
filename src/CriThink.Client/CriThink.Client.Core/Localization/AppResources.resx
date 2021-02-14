@@ -177,6 +177,12 @@
   <data name="AboutViewModel.ViewProfile" xml:space="preserve">
     <value>Show profile</value>
   </data>
+  <data name="CheckNewsViewModel.FormatErrorMessage" xml:space="preserve">
+    <value>The link you inserted is not valid.</value>
+  </data>
+  <data name="CheckNewsViewModel.FormatErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
     <value>Which news do you want to check?</value>
   </data>
