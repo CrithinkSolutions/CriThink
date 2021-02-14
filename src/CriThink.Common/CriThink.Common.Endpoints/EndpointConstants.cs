@@ -91,6 +91,7 @@
         public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
         public const string NewsSourceRegisterForNotification = "register-for-notification";
+        public const string NewsSourcesGetAllNotifications = "notification-requests";
         public const string NewsSourceTriggerIdentifiedSource = "identify";
 
         #endregion
@@ -135,6 +136,7 @@
 
         public const string MvcAdd = "add";
         public const string MvcEdit = "edit";
+        public const string MvcForgotPassword = "forgot-password";
 
         #endregion
     }

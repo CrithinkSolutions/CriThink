@@ -1,4 +1,5 @@
-﻿namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource
+﻿// ReSharper disable once CheckNamespace
+namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource
 {
     public class NewsSourceNotificationForUnknownDomainRequest
     {

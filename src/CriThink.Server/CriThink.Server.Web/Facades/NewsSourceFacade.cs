@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Exceptions;
@@ -93,6 +94,21 @@ namespace CriThink.Server.Web.Facades
             {
                 return null;
             }
+        }
+
+        public async Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(SimplePaginationViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new NewsSourceNotificationGetAllRequest
+            {
+                PageIndex = viewModel.PageIndex,
+                PageSize = viewModel.PageSize
+            };
+
+            return await _unknownNewsSourceService.GetPendingNotificationRequestsAsync(request)
+                .ConfigureAwait(false);
         }
 
         public async Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification)

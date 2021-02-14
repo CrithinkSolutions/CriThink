@@ -27,5 +27,20 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                          .Select(projection)
                          .ToListAsync(cancellationToken);
         }
+
+        internal static Task<List<GetAllSubscribedUsersWithSourceResponse>> GetAllNotificationRequestsAsync(
+            this DbSet<UnknownNewsSourceNotificationRequest> dbSet,
+            int pageSize,
+            int pageIndex,
+            Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersWithSourceResponse>> projection,
+            CancellationToken cancellationToken)
+        {
+            return dbSet
+                .OrderBy(r => r.RequestedAt)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize + 1)
+                .Select(projection)
+                .ToListAsync(cancellationToken);
+        }
     }
 }
