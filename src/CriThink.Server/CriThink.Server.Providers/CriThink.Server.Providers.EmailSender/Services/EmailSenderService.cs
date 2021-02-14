@@ -52,8 +52,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var confirmAccountModel = new ConfirmAccountEmailViewModel(callbackUrl, hostname, userName);
 
             // TODO: custom email for this scope
-            // TODO: Use nameof() for path composition
-            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ForgotPassword/ForgotPasswordEmail.cshtml", confirmAccountModel);
 
             await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
         }

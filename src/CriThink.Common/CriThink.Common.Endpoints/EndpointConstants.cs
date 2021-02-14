@@ -136,6 +136,7 @@
 
         public const string MvcAdd = "add";
         public const string MvcEdit = "edit";
+        public const string MvcForgotPassword = "forgot-password";
 
         #endregion
     }

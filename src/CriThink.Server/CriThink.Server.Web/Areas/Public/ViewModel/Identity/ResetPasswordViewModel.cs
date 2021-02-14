@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Server.Web.Areas.Publics.ViewModel.Identity
 {
     public class ResetPasswordViewModel : IValidatableObject
@@ -24,7 +25,7 @@ namespace CriThink.Server.Web.Areas.Publics.ViewModel.Identity
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Password != ConfirmPassword)
-                yield return new ValidationResult("Password must essere la stessa", new[] { nameof(Password), nameof(ConfirmPassword) });
+                yield return new ValidationResult("Password are not the same", new[] { nameof(Password), nameof(ConfirmPassword) });
         }
     }
 }
