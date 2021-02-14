@@ -24,12 +24,12 @@ namespace CriThink.Client.Core.Services
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{pageIndex}_{pageSize}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
-                return await _debunkingNewsService.GetRecentDebunkingNewsAsync(pageIndex, pageSize, cancellationToken).ConfigureAwait(false);
+                return await _debunkingNewsService.GetRecentDebunkingNewsOfCurrentCountryAsync(pageIndex, pageSize, cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 

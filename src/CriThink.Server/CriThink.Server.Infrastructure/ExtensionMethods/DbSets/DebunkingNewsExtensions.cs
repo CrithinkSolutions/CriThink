@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,31 +19,59 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
+        /// <param name="languageFilters">Language filters</param>
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
-        /// <returns></returns>
+        /// <returns>Awaitable task</returns>
         internal static Task<List<GetAllDebunkingNewsQueryResponse>> GetAllDebunkingNewsAsync(
             this DbSet<DebunkingNews> dbSet,
             int pageSize,
             int pageIndex,
+            GetAllDebunkingNewsLanguageFilters languageFilters,
             Expression<Func<DebunkingNews, GetAllDebunkingNewsQueryResponse>> projection,
             CancellationToken cancellationToken = default)
         {
-            return dbSet
+            var query = dbSet
                 .OrderByDescending(dn => dn.PublishingDate)
-                .Skip(pageSize * pageIndex)
+                .AsQueryable();
+
+            IList<string> languageCodes = null;
+
+            if (languageFilters.HasFlag(GetAllDebunkingNewsLanguageFilters.English))
+            {
+                languageCodes ??= new List<string>();
+                languageCodes.Add(EntityConstants.LanguageCodeEn);
+            }
+
+            if (languageFilters.HasFlag(GetAllDebunkingNewsLanguageFilters.Italian))
+            {
+                languageCodes ??= new List<string>();
+                languageCodes.Add(EntityConstants.LanguageCodeIt);
+            }
+
+            if (languageCodes != null && languageCodes.Any())
+            {
+                query = query.Where(dn => languageCodes.Contains(dn.Publisher.Language.Code));
+            }
+
+            return query.Skip(pageSize * pageIndex)
                 .Take(pageSize + 1)
                 .Select(projection)
                 .ToListAsync(cancellationToken);
         }
 
-        internal static ValueTask<DebunkingNews> GetDebunkingNewsAsync(
+        internal static Task<DebunkingNews> GetDebunkingNewsAsync(
             this DbSet<DebunkingNews> dbSet,
             Guid id,
             CancellationToken cancellationToken = default)
         {
+            // TODO: improve query getting only the needed fields
+
             return dbSet
-                .FindAsync(cancellationToken: cancellationToken, keyValues: new object[] { id });
+                .Include(dn => dn.Publisher)
+                .Include(dn => dn.Publisher.Language)
+                .Include(dn => dn.Publisher.Country)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         }
     }
 }

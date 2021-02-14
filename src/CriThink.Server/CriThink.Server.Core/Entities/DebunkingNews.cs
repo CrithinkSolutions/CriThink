@@ -20,8 +20,9 @@ namespace CriThink.Server.Core.Entities
         [MaxLength(500)]
         public string NewsCaption { get; set; }
 
-        public string PublisherName { get; set; }
-
         public string Keywords { get; set; }
+
+        [Required]
+        public DebunkingNewsPublisher Publisher { get; set; }
     }
 }

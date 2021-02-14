@@ -11,10 +11,12 @@ namespace CriThink.Server.Infrastructure.Projections
             debunkingNews => new GetAllDebunkingNewsQueryResponse
             {
                 Id = debunkingNews.Id,
-                Publisher = debunkingNews.PublisherName,
+                Publisher = debunkingNews.Publisher.Name,
+                PublisherCountry = debunkingNews.Publisher.Country.Name,
+                PublisherLanguage = debunkingNews.Publisher.Language.Name,
                 Title = debunkingNews.Title,
                 NewsImageLink = debunkingNews.ImageLink,
-                NewsLink = debunkingNews.Link
+                NewsLink = debunkingNews.Link,
             };
     }
 }

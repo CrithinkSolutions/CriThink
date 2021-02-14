@@ -32,7 +32,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var allDebunkingNews = await _dbContext.DebunkingNews
-                    .GetAllDebunkingNewsAsync(request.Size, request.Index, DebunkingNewsProjection.GetAll, cancellationToken)
+                    .GetAllDebunkingNewsAsync(request.Size, request.Index, request.LanguageFilters, DebunkingNewsProjection.GetAll, cancellationToken)
                     .ConfigureAwait(false);
 
                 return allDebunkingNews;

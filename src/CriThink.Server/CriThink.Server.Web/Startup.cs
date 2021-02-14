@@ -358,7 +358,8 @@ namespace CriThink.Server.Web
             services.Configure<User>(Configuration.GetSection("ServiceUser"));
             services.Configure<UserRole>(Configuration.GetSection("AdminRole"));
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
-            services.Configure<WebSiteSettings>(Configuration.GetSection("DebunkedNewsSources:OpenOnline"));
+            services.Configure<OpenOnlineSettings>(Configuration.GetSection("DebunkingNewsProviders:OpenOnline"));
+            services.Configure<Channel4Settings>(Configuration.GetSection("DebunkingNewsProviders:Channel4"));
         }
 
         private static void SetupMediatR(IServiceCollection services)

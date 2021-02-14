@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,10 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
         [Url]
         [JsonPropertyName("imageLink")]
         public string ImageLink { get; set; }
+
+        [Required]
+        [JsonPropertyName("publisherId")]
+        public Guid PublisherId { get; set; }
 
         [Required]
         [JsonPropertyName("keywords")]

@@ -23,7 +23,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
         private readonly HttpClient _httpClient;
         private readonly HttpClient _urlResolver;
 
-        public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<WebSiteSettings> options, ILogger<OpenOnlineFetcher> logger)
+        public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<OpenOnlineSettings> options, ILogger<OpenOnlineFetcher> logger)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
