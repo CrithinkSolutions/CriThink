@@ -77,7 +77,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             // TODO: Use real template
             // TODO: Use nameof() for path composition
-            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertAdminEmail.cshtml", unknownDomainAlertViewModel);
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertUserEmail.cshtml", unknownDomainAlertViewModel);
 
             var subject = $"[{classification}] - We identified the domain";
 
