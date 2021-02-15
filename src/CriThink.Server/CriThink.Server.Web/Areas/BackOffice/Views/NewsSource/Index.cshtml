@@ -7,86 +7,97 @@
     ViewData["Title"] = "News Source";
 }
 
-<div class="p-4 text-center m-4 w-100">
-    <div id="toolbox" class="border p-2 mb-2">
-        <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="AddSource" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Uri</th>
-                <th>Classification</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        @foreach (var news in Model.NewsSources)
-        {
-            <tr>
-                <td>@news.Uri</td>
-                <td>@news.Classification</td>
-                <td style="width:8%">
-                    <div class="btn-group">
-                        <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Edit" asp-route-newsSourceLink="@news.Uri" ><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
-                        <button class="btn btn-outline-danger mDelete" data-toggle="modal" data-target="#modalDelete" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </td>
-            </tr>
-        }
-    </table>
-
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
-    {
-      @Html.AntiForgeryToken()
-    }
-
-    <nav>
-      <ul class="pagination justify-content-center">
-        <li id="prevPage" class="page-item">
-          <a class="page-link pointer" aria-label="Previous">
-            <span>Previous</span>
-          </a>
-        </li>
-        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-        <li id="nextPage" class="page-item">
-          <a class="page-link pointer" aria-label="Next">
-            <span>Next</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <small>News for page</small>
-    <nav>
-        <ul id="pageSizenav" class="pagination justify-content-center">
-            <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a></li>
-            <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a></li>
-            <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a></li>
-        </ul>
-    </nav>
-
-    <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Remove this source</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure to delete the source <span class="font-weight-bold nameSource"></span>?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
-          </div>
+@section hasSidebar
+{
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <a asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">News Source</a>
+            <a asp-action="GetNotificationRequests" class="list-group-item list-group-item-action bg-light">User Notifications</a>
         </div>
-      </div>
     </div>
 
-    <div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
+    <div class="p-4 text-center m-4 w-100">
+        <div id="toolbox" class="border p-2 mb-2">
+            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="AddSource" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Uri</th>
+                    <th>Classification</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            @foreach (var news in Model.NewsSources)
+            {
+                <tr>
+                    <td>@news.Uri</td>
+                    <td>@news.Classification</td>
+                    <td style="width:8%">
+                        <div class="btn-group">
+                            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Edit" asp-route-newsSourceLink="@news.Uri"><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
+                            <button class="btn btn-outline-danger mDelete" data-toggle="modal" data-target="#modalDelete" data-uri="@news.Uri" data-classification="@news.Classification"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
 
-</div>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li id="prevPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Previous">
+                        <span>Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+                <li id="nextPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Next">
+                        <span>Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <small>News for page</small>
+        <nav>
+            <ul id="pageSizenav" class="pagination justify-content-center">
+                <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="0" class="page-link">20</a></li>
+                <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="0" class="page-link">50</a></li>
+                <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="0" class="page-link">100</a></li>
+            </ul>
+        </nav>
+
+        <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove this source</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete the source <span class="font-weight-bold nameSource"></span>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="sureDelete" type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
+
+    </div>
+
+}
 
 @section Scripts
 {
