@@ -18,6 +18,8 @@ namespace CriThink.Server.Web.Facades
 
         Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(SimplePaginationViewModel viewModel);
 
+        Task<UnknownNewsSourceGetAllResponse> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel);
+
         Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification);
 
         Task<UnknownNewsSourceViewModel> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId);

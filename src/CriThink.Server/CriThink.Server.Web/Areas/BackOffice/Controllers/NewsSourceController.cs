@@ -151,6 +151,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Route(EndpointConstants.NewsSourcesGetAllUnknownNewsSources)] // news-source/get-all-unknown
+        [HttpGet]
+        public async Task<IActionResult> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel)
+        {
+            var response = await _newsSourceFacade.GetUnknownNewsSourcesAsync(viewModel).ConfigureAwait(false);
+            return View("Unknown", response);
+        }
+
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpGet]
         public async Task<IActionResult> Identify(Guid id)
