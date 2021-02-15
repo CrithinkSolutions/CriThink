@@ -21,6 +21,13 @@ namespace CriThink.Server.Core.Interfaces
         Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(NewsSourceNotificationGetAllRequest request);
 
         /// <summary>
+        /// Get all unknown news sources with pagination support
+        /// </summary>
+        /// <param name="request">Request with pagination</param>
+        /// <returns></returns>
+        Task<UnknownNewsSourceGetAllResponse> GetUnknownNewsSourcesAsync(NewsSourceUnknownGetAllRequest request);
+
+        /// <summary>
         /// Trigger an update in order to send an email to each subscribed user for the specified unknown news source
         /// </summary>
         /// <param name="request"></param>

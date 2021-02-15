@@ -111,6 +111,21 @@ namespace CriThink.Server.Web.Facades
                 .ConfigureAwait(false);
         }
 
+        public async Task<UnknownNewsSourceGetAllResponse> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var request = new NewsSourceUnknownGetAllRequest
+            {
+                PageIndex = viewModel.PageIndex,
+                PageSize = viewModel.PageSize
+            };
+
+            return await _unknownNewsSourceService.GetUnknownNewsSourcesAsync(request)
+                .ConfigureAwait(false);
+        }
+
         public async Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification)
         {
             var newsSourceClassification = _mapper.Map<Classification, NewsSourceClassification>(classification);

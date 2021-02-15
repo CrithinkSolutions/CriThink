@@ -92,6 +92,7 @@
         public const string NewsSourceSearch = "search";
         public const string NewsSourceRegisterForNotification = "register-for-notification";
         public const string NewsSourcesGetAllNotifications = "notification-requests";
+        public const string NewsSourcesGetAllUnknownNewsSources = "get-all-unknown";
         public const string NewsSourceTriggerIdentifiedSource = "identify";
 
         #endregion

@@ -59,6 +59,23 @@ namespace CriThink.Server.Core.Services
             return response;
         }
 
+        public async Task<UnknownNewsSourceGetAllResponse> GetUnknownNewsSourcesAsync(NewsSourceUnknownGetAllRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            var query = new GetAllUnknownSourceQuery(request.PageSize, request.PageIndex);
+            var unknownNewsSourceCollection = await _mediator.Send(query).ConfigureAwait(false);
+
+            var dtos = unknownNewsSourceCollection
+                .Take(request.PageSize)
+                .Select(notification => _mapper.Map<GetAllUnknownSources, UnknownNewsSourceGetResponse>(notification))
+                .ToList();
+
+            var response = new UnknownNewsSourceGetAllResponse(dtos, unknownNewsSourceCollection.Count > request.PageSize);
+            return response;
+        }
+
         public async Task TriggerUpdateForIdentifiedNewsSourceAsync(TriggerUpdateForIdentifiedNewsSourceRequest request)
         {
             if (request is null)

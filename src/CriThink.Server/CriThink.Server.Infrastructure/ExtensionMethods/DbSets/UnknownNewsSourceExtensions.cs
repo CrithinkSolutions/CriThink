@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
@@ -30,6 +32,21 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             return dbSet.Where(us => us.Id == unknownNewsSourceId)
                         .Select(projection)
                         .SingleOrDefaultAsync(cancellationToken);
+        }
+
+        internal static Task<List<GetAllUnknownSources>> GetAllUnknownSourceAsync(
+            this DbSet<UnknownNewsSource> dbSet,
+            int pageSize,
+            int pageIndex,
+            Expression<Func<UnknownNewsSource, GetAllUnknownSources>> projection,
+            CancellationToken cancellationToken)
+        {
+            return dbSet
+                .OrderByDescending(r => r.FirstRequestedAt)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize + 1)
+                .Select(projection)
+                .ToListAsync(cancellationToken);
         }
     }
 }
