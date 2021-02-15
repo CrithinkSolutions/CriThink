@@ -9,7 +9,7 @@
 
 @section hasSidebar
 {
-  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="list-group list-group-flush">
             <a asp-action="Index" class="list-group-item list-group-item-action bg-light ">News Source</a>
             <a asp-action="GetNotificationRequests" class="list-group-item list-group-item-action bg-light font-weight-bold">User Notifications</a>
@@ -22,7 +22,7 @@
                 <tr>
                     <th>Email</th>
                     <th>Link</th>
-                    <th>When</th>
+                    <th>Requested At</th>
                     <th>Count</th>
                 </tr>
             </thead>
@@ -61,11 +61,14 @@
         <small>User for page</small>
         <nav>
             <ul id="pageSizenav" class="pagination justify-content-center">
-                <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="1" class="page-link">20</a>
+                <li class="page-item pointer">
+                    <a asp-route-PageSize="20" asp-route-PageIndex="0" class="page-link">20</a>
                 </li>
-                <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="1" class="page-link">50</a>
+                <li class="page-item pointer">
+                    <a asp-route-PageSize="50" asp-route-PageIndex="0" class="page-link">50</a>
                 </li>
-                <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="1" class="page-link">100</a>
+                <li class="page-item pointer">
+                    <a asp-route-PageSize="100" asp-route-PageIndex="0" class="page-link">100</a>
                 </li>
             </ul>
         </nav>
