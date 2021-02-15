@@ -49,8 +49,10 @@ Insert the following keys and the desired values in the secret files created abo
     * `"ServiceUser:Email": "<email>"`
     * `"ServiceUser:NormalizedUserName": "<username>"`
     * `"ServiceUser:Id": "<id>"`
+    * `"ServiceUser:ConcurrencyStamp": "<guid>"`
     * `"AdminRole:Name": "<name>"`
     * `"AdminRole:NormalizedName": "<name>"`
+    * `"AdminRole:ConcurrencyStamp": "<guid>"`
 * Headers:
     * `"CrossService:Header": "<header>"`
     * `"CrossService:Value": "<value>"`
