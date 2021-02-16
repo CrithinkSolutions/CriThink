@@ -107,12 +107,7 @@
         public const string DebunkingNewsRemoveNews = "remove-news";
         public const string DebunkingNewsInfoNews = "info-news";
         public const string DebunkingNewsEditNews = "edit-news";
-
-        #endregion
-
-        #region TriggerLog
-
-        public const string TriggerLogBase = "trigger-log/";
+        public const string DebunkingNewsTriggerLog = "trigger-log";
 
         #endregion
 

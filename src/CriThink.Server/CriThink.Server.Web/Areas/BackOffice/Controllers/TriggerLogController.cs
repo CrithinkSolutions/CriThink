@@ -15,6 +15,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Route(EndpointConstants.DebunkNewsBase)]
     public class TriggerLogController : Controller
     {
         private readonly ITriggerLogServiceFacade _triggerLogServiceFacade;
@@ -29,7 +30,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route(EndpointConstants.TriggerLogBase)]
+        [Route(EndpointConstants.DebunkingNewsTriggerLog)]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var log = await _triggerLogServiceFacade.GetAllTriggerLogAsync(viewModel).ConfigureAwait(false);
