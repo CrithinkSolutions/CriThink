@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,6 +15,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Route(EndpointConstants.TriggerLogBase)]
     public class TriggerLogController : Controller
     {
         private readonly ITriggerLogServiceFacade _triggerLogServiceFacade;
@@ -28,7 +30,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("trigger-log")]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var log = await _triggerLogServiceFacade.GetAllTriggerLogAsync(viewModel).ConfigureAwait(false);
