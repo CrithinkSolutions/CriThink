@@ -110,6 +110,12 @@
 
         #endregion
 
+        #region TriggerLog
+
+        public const string TriggerLogBase = "trigger-log/";
+
+        #endregion
+
         #region UserManagement
 
         public const string UserManagementBase = "user-management/";

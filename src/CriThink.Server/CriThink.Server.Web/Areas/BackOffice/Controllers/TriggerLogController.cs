@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Facades;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -28,7 +29,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("trigger-log")]
+        [Route(EndpointConstants.TriggerLogBase)]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var log = await _triggerLogServiceFacade.GetAllTriggerLogAsync(viewModel).ConfigureAwait(false);
