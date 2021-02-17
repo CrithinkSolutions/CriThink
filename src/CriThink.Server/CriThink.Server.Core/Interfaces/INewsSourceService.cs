@@ -28,11 +28,12 @@ namespace CriThink.Server.Core.Interfaces
         Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri);
 
         /// <summary>
-        /// Search the given source in the black and whitelist and send an alert if the source is unknown
+        /// Search the given source and send an alert if the source is unknown.
+        /// It returns the related debunking news too
         /// </summary>
         /// <param name="uri"><see cref="Uri"/> to analyze</param>
         /// <returns></returns>
-        Task<NewsSourceSearchResponse> SearchNewsSourceWithAlertAsync(Uri uri);
+        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceWithAlertAsync(Uri uri);
 
         /// <summary>
         /// Get all the news sources stored. Result can be filtered
