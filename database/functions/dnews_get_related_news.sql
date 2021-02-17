@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION public.dnews_get_related_news(
     db_news_keywords text,
     user_news_keywords text []
-) RETURNS integer LANGUAGE plpgsql AS $ function $ DECLARE n_common_keywords INTEGER;
+) RETURNS integer LANGUAGE plpgsql AS $$ DECLARE n_common_keywords INTEGER;
 
 BEGIN
 SELECT
@@ -24,4 +24,4 @@ END if;
 
 END;
 
-$ function $
+$$
