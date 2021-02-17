@@ -46,30 +46,26 @@
                 android:layout_marginStart="@dimen/padding_page"
                 android:layout_marginEnd="@dimen/padding_page">
 
-                <!-- Layout for a specific result -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/layoutResult">
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/pager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/txtClassification"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_big"
-                        app:layout_constraintTop_toBottomOf="@id/txtClassification"
+                    <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        android:padding="10dip"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/txtDescription"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

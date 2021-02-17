@@ -5819,7 +5819,6 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
 			global::MvvmCross.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
 			global::MvvmCross.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
-			global::MvvmCross.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
 			global::MvvmCross.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
 			global::MvvmCross.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
 			global::MvvmCross.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
@@ -8703,7 +8702,6 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.DroidX.Material.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
 			global::MvvmCross.DroidX.Material.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
 			global::MvvmCross.DroidX.Material.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
-			global::MvvmCross.DroidX.Material.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
 			global::MvvmCross.DroidX.Material.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
 			global::MvvmCross.DroidX.Material.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
 			global::MvvmCross.DroidX.Material.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
@@ -11590,7 +11588,6 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
-			global::MvvmCross.DroidX.RecyclerView.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
 			global::MvvmCross.DroidX.RecyclerView.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
@@ -14476,7 +14473,6 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
-			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
 			global::MvvmCross.DroidX.SwipeRefreshLayout.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
@@ -17360,7 +17356,6 @@ namespace CriThink.Client.Droid
 			global::MvvmCross.Plugin.Visibility.Resource.Id.up = global::CriThink.Client.Droid.Resource.Id.up;
 			global::MvvmCross.Plugin.Visibility.Resource.Id.useLogo = global::CriThink.Client.Droid.Resource.Id.useLogo;
 			global::MvvmCross.Plugin.Visibility.Resource.Id.view_offset_helper = global::CriThink.Client.Droid.Resource.Id.view_offset_helper;
-			global::MvvmCross.Plugin.Visibility.Resource.Id.view_tree_saved_state_registry_owner = global::CriThink.Client.Droid.Resource.Id.view_tree_saved_state_registry_owner;
 			global::MvvmCross.Plugin.Visibility.Resource.Id.visible = global::CriThink.Client.Droid.Resource.Id.visible;
 			global::MvvmCross.Plugin.Visibility.Resource.Id.visible_removing_fragment_view_tag = global::CriThink.Client.Droid.Resource.Id.visible_removing_fragment_view_tag;
 			global::MvvmCross.Plugin.Visibility.Resource.Id.withText = global::CriThink.Client.Droid.Resource.Id.withText;
@@ -26427,73 +26422,67 @@ namespace CriThink.Client.Droid
 			public const int txtTitle = 2131296737;
 			
 			// aapt resource value: 0x7F0901E2
-			public const int txtToolbarTitle = 2131296738;
+			public const int txtUsername = 2131296738;
 			
 			// aapt resource value: 0x7F0901E3
-			public const int txtUsername = 2131296739;
+			public const int txtVersion = 2131296739;
 			
 			// aapt resource value: 0x7F0901E4
-			public const int txtVersion = 2131296740;
+			public const int txtWelcome = 2131296740;
 			
 			// aapt resource value: 0x7F0901E5
-			public const int txtWelcome = 2131296741;
+			public const int @unchecked = 2131296741;
 			
 			// aapt resource value: 0x7F0901E6
-			public const int @unchecked = 2131296742;
+			public const int underline = 2131296742;
 			
 			// aapt resource value: 0x7F0901E7
-			public const int underline = 2131296743;
+			public const int uniform = 2131296743;
 			
 			// aapt resource value: 0x7F0901E8
-			public const int uniform = 2131296744;
+			public const int unknown = 2131296744;
 			
 			// aapt resource value: 0x7F0901E9
-			public const int unknown = 2131296745;
+			public const int unlabeled = 2131296745;
 			
 			// aapt resource value: 0x7F0901EA
-			public const int unlabeled = 2131296746;
+			public const int up = 2131296746;
 			
 			// aapt resource value: 0x7F0901EB
-			public const int up = 2131296747;
+			public const int useLogo = 2131296747;
 			
 			// aapt resource value: 0x7F0901EC
-			public const int useLogo = 2131296748;
+			public const int viewInnerLayout = 2131296748;
 			
 			// aapt resource value: 0x7F0901ED
-			public const int viewInnerLayout = 2131296749;
+			public const int viewLogin = 2131296749;
 			
 			// aapt resource value: 0x7F0901EE
-			public const int viewLogin = 2131296750;
+			public const int view_offset_helper = 2131296750;
 			
 			// aapt resource value: 0x7F0901EF
-			public const int view_offset_helper = 2131296751;
+			public const int visible = 2131296751;
 			
 			// aapt resource value: 0x7F0901F0
-			public const int view_tree_saved_state_registry_owner = 2131296752;
+			public const int visible_removing_fragment_view_tag = 2131296752;
 			
 			// aapt resource value: 0x7F0901F1
-			public const int visible = 2131296753;
-			
-			// aapt resource value: 0x7F0901F2
-			public const int visible_removing_fragment_view_tag = 2131296754;
+			public const int wide = 2131296753;
 			
 			// aapt resource value: 0x7F0901F3
-			public const int wide = 2131296755;
+			public const int withinBounds = 2131296755;
 			
-			// aapt resource value: 0x7F0901F5
-			public const int withinBounds = 2131296757;
+			// aapt resource value: 0x7F0901F2
+			public const int withText = 2131296754;
 			
 			// aapt resource value: 0x7F0901F4
-			public const int withText = 2131296756;
+			public const int wrap = 2131296756;
+			
+			// aapt resource value: 0x7F0901F5
+			public const int wrap_content = 2131296757;
 			
 			// aapt resource value: 0x7F0901F6
-			public const int wrap = 2131296758;
-			
-			// aapt resource value: 0x7F0901F7
-			public const int wrap_content = 2131296759;
-			
-			// aapt resource value: 0x7F0901F8
-			public const int zero_corner_chip = 2131296760;
+			public const int zero_corner_chip = 2131296758;
 			
 			static Id()
 			{
@@ -26939,188 +26928,194 @@ namespace CriThink.Client.Droid
 			// aapt resource value: 0x7F0C0060
 			public const int mtrl_picker_text_input_date_range = 2131492960;
 			
+			// aapt resource value: 0x7F0C0063
+			public const int newscheckerresultdetail_view = 2131492963;
+			
 			// aapt resource value: 0x7F0C0062
 			public const int newscheckerresult_view = 2131492962;
 			
 			// aapt resource value: 0x7F0C0061
 			public const int newschecker_view = 2131492961;
 			
-			// aapt resource value: 0x7F0C0063
-			public const int notification_action = 2131492963;
-			
 			// aapt resource value: 0x7F0C0064
-			public const int notification_action_tombstone = 2131492964;
+			public const int notification_action = 2131492964;
 			
 			// aapt resource value: 0x7F0C0065
-			public const int notification_media_action = 2131492965;
+			public const int notification_action_tombstone = 2131492965;
 			
 			// aapt resource value: 0x7F0C0066
-			public const int notification_media_cancel_action = 2131492966;
+			public const int notification_media_action = 2131492966;
 			
 			// aapt resource value: 0x7F0C0067
-			public const int notification_template_big_media = 2131492967;
+			public const int notification_media_cancel_action = 2131492967;
 			
 			// aapt resource value: 0x7F0C0068
-			public const int notification_template_big_media_custom = 2131492968;
+			public const int notification_template_big_media = 2131492968;
 			
 			// aapt resource value: 0x7F0C0069
-			public const int notification_template_big_media_narrow = 2131492969;
+			public const int notification_template_big_media_custom = 2131492969;
 			
 			// aapt resource value: 0x7F0C006A
-			public const int notification_template_big_media_narrow_custom = 2131492970;
+			public const int notification_template_big_media_narrow = 2131492970;
 			
 			// aapt resource value: 0x7F0C006B
-			public const int notification_template_custom_big = 2131492971;
+			public const int notification_template_big_media_narrow_custom = 2131492971;
 			
 			// aapt resource value: 0x7F0C006C
-			public const int notification_template_icon_group = 2131492972;
+			public const int notification_template_custom_big = 2131492972;
 			
 			// aapt resource value: 0x7F0C006D
-			public const int notification_template_lines_media = 2131492973;
+			public const int notification_template_icon_group = 2131492973;
 			
 			// aapt resource value: 0x7F0C006E
-			public const int notification_template_media = 2131492974;
+			public const int notification_template_lines_media = 2131492974;
 			
 			// aapt resource value: 0x7F0C006F
-			public const int notification_template_media_custom = 2131492975;
+			public const int notification_template_media = 2131492975;
 			
 			// aapt resource value: 0x7F0C0070
-			public const int notification_template_part_chronometer = 2131492976;
+			public const int notification_template_media_custom = 2131492976;
 			
 			// aapt resource value: 0x7F0C0071
-			public const int notification_template_part_time = 2131492977;
+			public const int notification_template_part_chronometer = 2131492977;
 			
 			// aapt resource value: 0x7F0C0072
-			public const int preference = 2131492978;
+			public const int notification_template_part_time = 2131492978;
 			
 			// aapt resource value: 0x7F0C0073
-			public const int preference_category = 2131492979;
+			public const int preference = 2131492979;
 			
 			// aapt resource value: 0x7F0C0074
-			public const int preference_category_material = 2131492980;
+			public const int preference_category = 2131492980;
 			
 			// aapt resource value: 0x7F0C0075
-			public const int preference_dialog_edittext = 2131492981;
+			public const int preference_category_material = 2131492981;
 			
 			// aapt resource value: 0x7F0C0076
-			public const int preference_dropdown = 2131492982;
+			public const int preference_dialog_edittext = 2131492982;
 			
 			// aapt resource value: 0x7F0C0077
-			public const int preference_dropdown_material = 2131492983;
+			public const int preference_dropdown = 2131492983;
 			
 			// aapt resource value: 0x7F0C0078
-			public const int preference_information = 2131492984;
+			public const int preference_dropdown_material = 2131492984;
 			
 			// aapt resource value: 0x7F0C0079
-			public const int preference_information_material = 2131492985;
+			public const int preference_information = 2131492985;
 			
 			// aapt resource value: 0x7F0C007A
-			public const int preference_list_fragment = 2131492986;
+			public const int preference_information_material = 2131492986;
 			
 			// aapt resource value: 0x7F0C007B
-			public const int preference_material = 2131492987;
+			public const int preference_list_fragment = 2131492987;
 			
 			// aapt resource value: 0x7F0C007C
-			public const int preference_recyclerview = 2131492988;
+			public const int preference_material = 2131492988;
 			
 			// aapt resource value: 0x7F0C007D
-			public const int preference_widget_checkbox = 2131492989;
+			public const int preference_recyclerview = 2131492989;
 			
 			// aapt resource value: 0x7F0C007E
-			public const int preference_widget_seekbar = 2131492990;
+			public const int preference_widget_checkbox = 2131492990;
 			
 			// aapt resource value: 0x7F0C007F
-			public const int preference_widget_seekbar_material = 2131492991;
+			public const int preference_widget_seekbar = 2131492991;
 			
 			// aapt resource value: 0x7F0C0080
-			public const int preference_widget_switch = 2131492992;
+			public const int preference_widget_seekbar_material = 2131492992;
 			
 			// aapt resource value: 0x7F0C0081
-			public const int preference_widget_switch_compat = 2131492993;
+			public const int preference_widget_switch = 2131492993;
 			
 			// aapt resource value: 0x7F0C0082
-			public const int profile_toolbar = 2131492994;
+			public const int preference_widget_switch_compat = 2131492994;
 			
 			// aapt resource value: 0x7F0C0083
-			public const int profile_view = 2131492995;
+			public const int profile_toolbar = 2131492995;
 			
 			// aapt resource value: 0x7F0C0084
-			public const int resetpassword_view = 2131492996;
+			public const int profile_view = 2131492996;
 			
 			// aapt resource value: 0x7F0C0085
-			public const int search_toolbar = 2131492997;
+			public const int relateddebunkingnews_view = 2131492997;
 			
 			// aapt resource value: 0x7F0C0086
-			public const int select_dialog_item_material = 2131492998;
+			public const int resetpassword_view = 2131492998;
 			
 			// aapt resource value: 0x7F0C0087
-			public const int select_dialog_multichoice_material = 2131492999;
+			public const int search_toolbar = 2131492999;
 			
 			// aapt resource value: 0x7F0C0088
-			public const int select_dialog_singlechoice_material = 2131493000;
-			
-			// aapt resource value: 0x7F0C008A
-			public const int signupemail_view = 2131493002;
+			public const int select_dialog_item_material = 2131493000;
 			
 			// aapt resource value: 0x7F0C0089
-			public const int signup_view = 2131493001;
+			public const int select_dialog_multichoice_material = 2131493001;
 			
-			// aapt resource value: 0x7F0C008B
-			public const int spotfakenewshome_view = 2131493003;
+			// aapt resource value: 0x7F0C008A
+			public const int select_dialog_singlechoice_material = 2131493002;
 			
 			// aapt resource value: 0x7F0C008C
-			public const int support_simple_spinner_dropdown_item = 2131493004;
+			public const int signupemail_view = 2131493004;
+			
+			// aapt resource value: 0x7F0C008B
+			public const int signup_view = 2131493003;
 			
 			// aapt resource value: 0x7F0C008D
-			public const int test_action_chip = 2131493005;
+			public const int spotfakenewshome_view = 2131493005;
 			
 			// aapt resource value: 0x7F0C008E
-			public const int test_chip_zero_corner_radius = 2131493006;
+			public const int support_simple_spinner_dropdown_item = 2131493006;
 			
 			// aapt resource value: 0x7F0C008F
-			public const int test_design_checkbox = 2131493007;
+			public const int test_action_chip = 2131493007;
 			
 			// aapt resource value: 0x7F0C0090
-			public const int test_design_radiobutton = 2131493008;
+			public const int test_chip_zero_corner_radius = 2131493008;
 			
 			// aapt resource value: 0x7F0C0091
-			public const int test_reflow_chipgroup = 2131493009;
+			public const int test_design_checkbox = 2131493009;
 			
 			// aapt resource value: 0x7F0C0092
-			public const int test_toolbar = 2131493010;
+			public const int test_design_radiobutton = 2131493010;
 			
 			// aapt resource value: 0x7F0C0093
-			public const int test_toolbar_custom_background = 2131493011;
+			public const int test_reflow_chipgroup = 2131493011;
 			
 			// aapt resource value: 0x7F0C0094
-			public const int test_toolbar_elevation = 2131493012;
+			public const int test_toolbar = 2131493012;
 			
 			// aapt resource value: 0x7F0C0095
-			public const int test_toolbar_surface = 2131493013;
-			
-			// aapt resource value: 0x7F0C009A
-			public const int text_view_without_line_height = 2131493018;
+			public const int test_toolbar_custom_background = 2131493013;
 			
 			// aapt resource value: 0x7F0C0096
-			public const int text_view_with_line_height_from_appearance = 2131493014;
+			public const int test_toolbar_elevation = 2131493014;
 			
 			// aapt resource value: 0x7F0C0097
-			public const int text_view_with_line_height_from_layout = 2131493015;
-			
-			// aapt resource value: 0x7F0C0098
-			public const int text_view_with_line_height_from_style = 2131493016;
-			
-			// aapt resource value: 0x7F0C0099
-			public const int text_view_with_theme_line_height = 2131493017;
-			
-			// aapt resource value: 0x7F0C009B
-			public const int toolbar = 2131493019;
-			
-			// aapt resource value: 0x7F0C009D
-			public const int welcomeloginsignin_view = 2131493021;
+			public const int test_toolbar_surface = 2131493015;
 			
 			// aapt resource value: 0x7F0C009C
-			public const int welcome_view = 2131493020;
+			public const int text_view_without_line_height = 2131493020;
+			
+			// aapt resource value: 0x7F0C0098
+			public const int text_view_with_line_height_from_appearance = 2131493016;
+			
+			// aapt resource value: 0x7F0C0099
+			public const int text_view_with_line_height_from_layout = 2131493017;
+			
+			// aapt resource value: 0x7F0C009A
+			public const int text_view_with_line_height_from_style = 2131493018;
+			
+			// aapt resource value: 0x7F0C009B
+			public const int text_view_with_theme_line_height = 2131493019;
+			
+			// aapt resource value: 0x7F0C009D
+			public const int toolbar = 2131493021;
+			
+			// aapt resource value: 0x7F0C009F
+			public const int welcomeloginsignin_view = 2131493023;
+			
+			// aapt resource value: 0x7F0C009E
+			public const int welcome_view = 2131493022;
 			
 			static Layout()
 			{
