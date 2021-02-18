@@ -358,6 +358,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You may also like...
+        /// </summary>
+        internal static string NewsCheckerResultDetailViewModel_RelatedDNews {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultDetailViewModel.RelatedDNews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We think this website is {0}.
         /// </summary>
         internal static string NewsCheckerResultViewModel_ClassificationHeader {
@@ -453,6 +462,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string ProfileViewModel_Hello {
             get {
                 return ResourceManager.GetString("ProfileViewModel.Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read the news.
+        /// </summary>
+        internal static string RelatedDebunkingNewsViewModel_OpenNews {
+            get {
+                return ResourceManager.GetString("RelatedDebunkingNewsViewModel.OpenNews", resourceCulture);
             }
         }
         

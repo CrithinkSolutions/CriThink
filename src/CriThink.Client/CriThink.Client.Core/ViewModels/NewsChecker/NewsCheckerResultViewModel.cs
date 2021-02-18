@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 
@@ -36,6 +38,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         public RelatedDebunkingNewsViewModel SecondRelatedDebunkingNews { get; private set; }
 
+        public RelatedDebunkingNewsViewModel ThirdRelatedDebunkingNews { get; private set; }
+
+        public RelatedDebunkingNewsViewModel FourthRelatedDebunkingNews { get; private set; }
+
+        public RelatedDebunkingNewsViewModel FifthRelatedDebunkingNews { get; private set; }
+
         private string _title;
 
         public string Title
@@ -56,6 +64,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
 
             _uri = parameter;
+            Title = _uri.Host;
+
             _log?.Info("User checks news source", _uri);
         }
 
@@ -63,29 +73,38 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
 
-            IsLoading = true;
+            // TODO: Fix this
+            IsLoading = false;
 
             InitializeChildrenViewModels();
 
-            Title = _uri.Host;
+            await SearchNewsSourceAsync().ConfigureAwait(true);
+        }
 
-            await Task.Delay(500).ConfigureAwait(true);
+        private void InitializeChildrenViewModels()
+        {
+            ResultDetailViewModel = LoadChildViewModel<NewsCheckerResultDetailViewModel>(_mvxViewModelLoader);
+            FirstRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+            SecondRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+            ThirdRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+            FourthRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+            FifthRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+        }
 
+        private async Task SearchNewsSourceAsync()
+        {
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 
             try
             {
-                var result = await _newsSourceService.SearchNewsSourceAsync(_uri, _cancellationTokenSource.Token)
+                var response = await _newsSourceService.SearchNewsSourceAsync(_uri, _cancellationTokenSource.Token)
                     .ConfigureAwait(true);
 
-                if (result is null)
+                if (response is null)
                     return;
 
-                var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
-
-                ResultDetailViewModel.Description = result.Description;
-                ResultDetailViewModel.Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText,
-                    result.Classification.ToString());
+                SetSearchResult(response);
+                SetRelatedDebunkingNews(response);
             }
             catch (HttpRequestException)
             {
@@ -97,11 +116,25 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        private void InitializeChildrenViewModels()
+        private void SetSearchResult(NewsSourceSearchWithDebunkingNewsResponse response)
         {
-            ResultDetailViewModel = LoadChildViewModel<NewsCheckerResultDetailViewModel>(_mvxViewModelLoader);
-            FirstRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
-            SecondRelatedDebunkingNews = LoadChildViewModel<RelatedDebunkingNewsViewModel>(_mvxViewModelLoader);
+            var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
+
+            ResultDetailViewModel.Description = response.Description;
+            ResultDetailViewModel.Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText,
+                response.Classification.ToString());
+        }
+
+        private void SetRelatedDebunkingNews(NewsSourceSearchWithDebunkingNewsResponse response)
+        {
+            if (!response.RelatedDebunkingNews.Any())
+                return;
+
+            FirstRelatedDebunkingNews.DebunkingNews = response.RelatedDebunkingNews.ElementAtOrDefault(0);
+            SecondRelatedDebunkingNews.DebunkingNews = response.RelatedDebunkingNews.ElementAtOrDefault(1);
+            ThirdRelatedDebunkingNews.DebunkingNews = response.RelatedDebunkingNews.ElementAtOrDefault(2);
+            FourthRelatedDebunkingNews.DebunkingNews = response.RelatedDebunkingNews.ElementAtOrDefault(3);
+            FifthRelatedDebunkingNews.DebunkingNews = response.RelatedDebunkingNews.ElementAtOrDefault(4);
         }
 
         private async Task HandleUnknownResultAsync()

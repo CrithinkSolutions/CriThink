@@ -89,6 +89,24 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                     "",
                     typeof(RelatedDebunkingNewsView),
                     new MvxViewModelInstanceRequest(ViewModel.SecondRelatedDebunkingNews)),
+
+                new MvxViewPagerFragmentInfo(
+                    nameof(RelatedDebunkingNewsView),
+                    "",
+                    typeof(RelatedDebunkingNewsView),
+                    new MvxViewModelInstanceRequest(ViewModel.ThirdRelatedDebunkingNews)),
+
+                new MvxViewPagerFragmentInfo(
+                    nameof(RelatedDebunkingNewsView),
+                    "",
+                    typeof(RelatedDebunkingNewsView),
+                    new MvxViewModelInstanceRequest(ViewModel.FourthRelatedDebunkingNews)),
+
+                new MvxViewPagerFragmentInfo(
+                    nameof(RelatedDebunkingNewsView),
+                    "",
+                    typeof(RelatedDebunkingNewsView),
+                    new MvxViewModelInstanceRequest(ViewModel.FifthRelatedDebunkingNews)),
             };
 
             _adapter = new WelcomeViewFragmentAdapter(this, SupportFragmentManager, fragments);
