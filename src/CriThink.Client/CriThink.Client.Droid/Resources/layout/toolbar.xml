@@ -5,31 +5,14 @@
     android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
     app:contentInsetStart="0dp"
-    app:contentInsetStartWithNavigation="0dp"
-    android:background="@android:color/transparent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:contentInsetStartWithNavigation="0dp">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin">
-
-        <!--<androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">-->
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtToolbarTitle"
-                android:gravity="center_horizontal"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.appcompat.widget.Toolbar>
 

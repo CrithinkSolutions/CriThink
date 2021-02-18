@@ -90,11 +90,13 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\DebunkingNews\Activities\DebunkingNewsDetailsView.cs" />
     <Compile Include="Views\DebunkingNews\Adapters\DebunkingNewsAdapter.cs" />
+    <Compile Include="Views\DebunkingNews\Fragments\RelatedDebunkingNewsView.cs" />
     <Compile Include="Views\Games\Fragments\HomeGameView.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
     <Compile Include="Views\NewsChecker\Adapters\RecentNewsChecksAdapter.cs" />
     <Compile Include="Views\NewsChecker\Dialogs\CheckNewsView.cs" />
+    <Compile Include="Views\NewsChecker\Fragments\NewsCheckerResultDetailView.cs" />
     <Compile Include="Views\NewsChecker\Fragments\NewsCheckerView.cs" />
     <Compile Include="Views\SpotFakeNews\Fragments\SpotFakeNewsHomeView.cs" />
     <Compile Include="Views\Users\Activities\BaseSocialLoginActivity.cs" />
@@ -169,7 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.1.0.470</Version>
+      <Version>7.1.0.475</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>4.1.0</Version>
@@ -223,10 +225,10 @@
       <Version>2.0.4.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Fragment">
-      <Version>1.2.5.4</Version>
+      <Version>1.2.5.5</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.6.0</Version>
+      <Version>1.6.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Facebook.Login.Android">
       <Version>7.1.0</Version>
@@ -575,6 +577,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\toolbar.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\newscheckerresultdetail_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\relateddebunkingnews_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\debunkingnews_image_gradient.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

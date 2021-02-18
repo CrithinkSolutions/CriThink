@@ -23,6 +23,7 @@
   <dimen name="btn_radius">20dp</dimen>
 
   <!-- Image View -->
+  <dimen name="imgSize_publisherSmall">30dp</dimen>
   <dimen name="imgSize_loader">56dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
   <dimen name="imgSize_medium">60dp</dimen>

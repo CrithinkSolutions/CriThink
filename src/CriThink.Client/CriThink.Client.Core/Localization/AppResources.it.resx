@@ -324,4 +324,10 @@
   <data name="CheckNewsViewModel.FormatErrorOk" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="NewsCheckerResultDetailViewModel.RelatedDNews" xml:space="preserve">
+    <value>Puoi essere interessato anche a..</value>
+  </data>
+  <data name="RelatedDebunkingNewsViewModel.OpenNews" xml:space="preserve">
+    <value>Leggi la notizia</value>
+  </data>
 </root>

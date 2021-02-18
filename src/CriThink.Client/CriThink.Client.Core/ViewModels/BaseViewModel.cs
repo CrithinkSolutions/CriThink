@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MvvmCross.Localization;
 using MvvmCross.ViewModels;
 
@@ -14,6 +15,15 @@ namespace CriThink.Client.Core.ViewModels
         {
             get => _isLoading;
             set => SetProperty(ref _isLoading, value);
+        }
+
+        protected T LoadChildViewModel<T>(IMvxViewModelLoader mvxViewModelLoader) where T : IMvxViewModel
+        {
+            if (mvxViewModelLoader is null)
+                throw new ArgumentNullException(nameof(mvxViewModelLoader));
+
+            return (T) mvxViewModelLoader.LoadViewModel(
+                new MvxViewModelRequest<T>(null, null), null);
         }
     }
 

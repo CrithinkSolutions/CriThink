@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Services
             _log = logProvider?.GetLogFor<NewsSourceService>();
         }
 
-        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));
@@ -49,7 +49,7 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchResponse>(
+                var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchWithDebunkingNewsResponse>(
                         $"{EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceSearch}?{request.ToQueryString()}",
                         HttpRestVerb.Get,
                         token,
@@ -58,7 +58,7 @@ namespace CriThink.Client.Core.Services
 
                 return loginResponse;
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 throw;
             }
@@ -145,7 +145,7 @@ namespace CriThink.Client.Core.Services
 
     public interface INewsSourceService
     {
-        Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken);
+        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken);
 
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks();
 

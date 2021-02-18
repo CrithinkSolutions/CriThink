@@ -33,7 +33,7 @@ namespace CriThink.Client.Core.Services
             _token = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ?? throw new ArgumentNullException(nameof(messenger));
         }
 
-        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{uri}", async entry =>
             {
