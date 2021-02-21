@@ -33,6 +33,15 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
+        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken)
+        {
+            return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.ToQueryString()}", async entry =>
+            {
+                entry.SlidingExpiration = CacheDuration;
+                return await _debunkingNewsService.GetDebunkingNewsAsync(request, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+        }
+
         public async Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{DebunkingNewsCacheKey}_{id}", async entry =>

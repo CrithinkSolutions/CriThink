@@ -27,6 +27,26 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
         {
             var itemBindingContext = new MvxAndroidBindingContext(parent.Context, BindingContext.LayoutInflaterHolder);
             var view = InflateViewForHolder(parent, Resource.Layout.cell_debunkingnews_feed, itemBindingContext);
+
+            return new DebunkingNewsViewHolder(view, itemBindingContext);
+        }
+    }
+
+    public class DebunkingNewsHorizontalAdapter : MvxRecyclerAdapter
+    {
+        public DebunkingNewsHorizontalAdapter(IMvxAndroidBindingContext bindingContext)
+            : base(bindingContext)
+        { }
+
+        [Preserve(Conditional = true)]
+        protected DebunkingNewsHorizontalAdapter(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
+        { }
+
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var itemBindingContext = new MvxAndroidBindingContext(parent.Context, BindingContext.LayoutInflaterHolder);
+            var view = InflateViewForHolder(parent, Resource.Layout.cell_debunkingnews_feed, itemBindingContext);
             view.LayoutParameters.Width = (int) (parent.Width * 0.7);
 
             return new DebunkingNewsViewHolder(view, itemBindingContext);
