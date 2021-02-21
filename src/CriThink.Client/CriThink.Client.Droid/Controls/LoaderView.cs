@@ -3,12 +3,12 @@ using Android.Content;
 using Android.Runtime;
 using Android.Util;
 using Android.Views.Animations;
-using CriThink.Client.Droid.Helpers;
-using Felipecsl.GifImageViewLibrary;
+using FFImageLoading;
+using FFImageLoading.Cross;
 
 namespace CriThink.Client.Droid.Controls
 {
-    public class LoaderView : GifImageView
+    public class LoaderView : MvxCachedImageView
     {
         protected LoaderView(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
@@ -30,22 +30,28 @@ namespace CriThink.Client.Droid.Controls
 
         private void Initialize()
         {
+            base.Initialize();
+
             if (Context == null)
                 return;
 
-            var input = Resources?.OpenRawResource(Resource.Drawable.loader_indicator);
+            ImageService.Instance.LoadCompiledResource("loader_indicator")
+                .Into(this);
 
-            byte[] bytes = BytesHelper.ConvertByteArray(input);
-
-            SetBytes(bytes);
             ApplyRotation();
 
-            StartAnimation();
+            StartAnimation(Animation);
         }
 
         private void ApplyRotation()
         {
-            var rotation = new RotateAnimation(0, 360, Dimension.RelativeToSelf, 0.5f, Dimension.RelativeToSelf, 0.5f)
+            var rotation = new RotateAnimation(
+                0,
+                360,
+                Dimension.RelativeToSelf,
+                0.5f,
+                Dimension.RelativeToSelf,
+                0.5f)
             {
                 Duration = 1200,
                 Interpolator = new DecelerateInterpolator(1.25f),
