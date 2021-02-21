@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:id="@+id/txtHello"
-                    android:textSize="@dimen/text_caption"
+                    android:textSize="@dimen/textSize_caption"
                     app:layout_constraintEnd_toStartOf="@id/imgProfile"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginEnd="@dimen/margin_medium"/>

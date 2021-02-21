@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:fontFamily="@font/urbanist_extrabold"
-        android:textSize="@dimen/text_caption" />
+        android:textSize="@dimen/textSize_caption" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

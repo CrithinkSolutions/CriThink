@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="ciao andrea"
             android:id="@+id/txtTitle"
-            android:textSize="@dimen/text_caption"
+            android:textSize="@dimen/textSize_caption"
             android:gravity="center"
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintStart_toStartOf="parent"
