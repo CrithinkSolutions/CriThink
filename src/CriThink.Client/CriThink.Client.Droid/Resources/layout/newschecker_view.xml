@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtWelcome"
-                    android:textSize="@dimen/text_caption"
+                    android:textSize="@dimen/textSize_caption"
                     android:fontFamily="@font/urbanist_light"
                     android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/txtName"
                     app:textAllCaps="true"
-                    android:textSize="@dimen/text_title"
+                    android:textSize="@dimen/textSize_title"
                     app:layout_constraintStart_toStartOf="@id/txtWelcome"
                     app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
 
@@ -54,7 +54,7 @@
                     app:layout_constraintStart_toStartOf="@id/txtWelcome"
                     app:layout_constraintTop_toBottomOf="@id/txtName"
                     app:textAllCaps="true"
-                    android:textSize="@dimen/text_small"
+                    android:textSize="@dimen/textSize_small"
                     android:layout_marginTop="@dimen/margin_big"
                     android:fontFamily="@font/urbanist_light"/>
 
@@ -65,7 +65,7 @@
                     app:layout_constraintStart_toEndOf="@id/txtMotto"
                     app:layout_constraintBottom_toBottomOf="@id/txtMotto"
                     app:textAllCaps="true"
-                    android:textSize="@dimen/text_small"
+                    android:textSize="@dimen/textSize_small"
                     android:layout_marginStart="@dimen/margin_medium"/>
                 
                 <androidx.appcompat.widget.AppCompatButton
@@ -81,13 +81,22 @@
                     android:background="@drawable/edittext_rounded"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtSectionTitle"
-                    android:textSize="@dimen/text_caption"
+                    android:textSize="@dimen/textSize_subheader"
                     app:layout_constraintTop_toBottomOf="@id/btnNews"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="@dimen/margin_veryBig"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtSeeAll"
+                    android:textColor="@color/welcomeBackground"
+                    android:fontFamily="@font/urbanist_extrabold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtSectionTitle"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

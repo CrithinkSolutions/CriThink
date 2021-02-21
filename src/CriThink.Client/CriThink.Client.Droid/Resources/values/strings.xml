@@ -11,7 +11,7 @@
   <!-- Home View -->
   <string name="menu_newschecker">Check</string>
   <string name="menu_debunkingnews">Debunk</string>
-  <string name="menu_spotfakenews">Spot</string>
+  <string name="menu_spotfakenews">Head</string>
   <string name="menu_playgames">Play</string>
   <string name="menu_profile">Profile</string>
 </resources>

@@ -277,6 +277,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Debunking News.
+        /// </summary>
+        internal static string DebunkingNewsListViewModel_Title {
+            get {
+                return ResourceManager.GetString("DebunkingNewsListViewModel.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert your email.
         /// </summary>
         internal static string ForgotPasswordViewModel_InsertEmail {
@@ -453,6 +462,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerViewModel_NewsLinkHint {
             get {
                 return ResourceManager.GetString("NewsCheckerViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all.
+        /// </summary>
+        internal static string NewsCheckerViewModel_SeeAll {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.SeeAll", resourceCulture);
             }
         }
         

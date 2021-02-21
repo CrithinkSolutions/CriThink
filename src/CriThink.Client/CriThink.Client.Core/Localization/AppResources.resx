@@ -330,4 +330,10 @@
   <data name="RelatedDebunkingNewsViewModel.OpenNews" xml:space="preserve">
     <value>Read the news</value>
   </data>
+  <data name="NewsCheckerViewModel.SeeAll" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="DebunkingNewsListViewModel.Title" xml:space="preserve">
+    <value>Debunking News</value>
+  </data>
 </root>

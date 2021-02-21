@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtRelatedDNews"
-        android:textSize="@dimen/text_caption"
+        android:textSize="@dimen/textSize_caption"
         app:layout_constraintTop_toBottomOf="@id/guidelineHeader"
         android:gravity="center"/>
 
