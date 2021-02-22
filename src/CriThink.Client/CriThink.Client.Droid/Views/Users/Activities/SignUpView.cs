@@ -68,20 +68,5 @@ namespace CriThink.Client.Droid.Views.Users
             minimiseIntent.SetFlags(ActivityFlags.NewTask);
             StartActivity(minimiseIntent);
         }
-
-        #region IDispose
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (_btnFb != null)
-                _btnFb.Click -= BtnFacebook_Click;
-
-            if (_btnGoogle != null)
-                _btnGoogle.Click -= BtnGoogle_Click;
-        }
-
-        #endregion
     }
 }
