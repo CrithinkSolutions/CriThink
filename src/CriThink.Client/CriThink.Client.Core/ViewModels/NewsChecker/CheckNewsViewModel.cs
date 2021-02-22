@@ -46,6 +46,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private IMvxAsyncCommand _submitUriCommand;
         public IMvxAsyncCommand SubmitUriCommand => _submitUriCommand ??= new MvxAsyncCommand(DoSubmitUriCommand);
 
+        private IMvxAsyncCommand<RecentNewsChecksModel> _repeatSearchCommand;
+
+        public IMvxAsyncCommand<RecentNewsChecksModel> RepeatSearchCommand => _repeatSearchCommand ??=
+            new MvxAsyncCommand<RecentNewsChecksModel>(DoRepeatSearchCommand);
+
         #endregion
 
         public override async Task Initialize()
@@ -66,6 +71,17 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
 
             var uri = new Uri(NewsUri, UriKind.Absolute);
+
+            await _navigationService
+                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .ConfigureAwait(true);
+
+            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
+        }
+
+        private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
+        {
+            var uri = new Uri(model.NewsLink, UriKind.RelativeOrAbsolute);
 
             await _navigationService
                 .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
