@@ -11,6 +11,10 @@ using Xamarin.Facebook;
 
 namespace CriThink.Client.Droid.Views
 {
+    [IntentFilter(
+        actions: new[] { Intent.ActionSend },
+        Categories = new[] { Intent.CategoryDefault },
+        DataMimeType = "text/plain")]
     [MvxActivityPresentation]
     [Activity]
     public class HomeView : MvxActivity<HomeViewModel>
@@ -32,6 +36,15 @@ namespace CriThink.Client.Droid.Views
             set.Apply();
 
             ViewModel.BottomNavigationItemSelectedCommand.Execute(ViewModel.BottomViewTabs[0].TabId);
+
+            var action = Intent?.Action;
+            var type = Intent?.Type;
+
+            if (action is Intent.ActionSend && type is "text/plain")
+            {
+                var text = Intent.GetStringExtra(Intent.ExtraText);
+                ViewModel.NavigateToNewsCheckResultViewModel.Execute(text);
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
