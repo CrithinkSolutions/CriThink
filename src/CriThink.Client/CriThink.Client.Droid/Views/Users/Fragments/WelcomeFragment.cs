@@ -2,15 +2,18 @@
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
-using AndroidX.ConstraintLayout.Widget;
-using AndroidX.Fragment.App;
+using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.Platforms.Android.Views.Fragments;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
 {
+    [MvxFragmentPresentation(typeof(WelcomeFragment), "pager")]
     [Register(ViewConstants.Namespace + ".users." + nameof(WelcomeFragment))]
-    public class WelcomeFragment : Fragment
+    public class WelcomeFragment : MvxFragment<WelcomeImageViewModel>
     {
         private const string KeyContent = "WelcomeFragment:Content";
 
@@ -18,29 +21,15 @@ namespace CriThink.Client.Droid.Views.Users
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var image = new AppCompatImageView(Activity) { Id = ImageId + 123 };
+            base.OnCreateView(inflater, container, savedInstanceState);
 
-            var drawable = Context.GetDrawable(ImageId);
-            image.SetImageDrawable(drawable);
+            var view = this.BindingInflate(Resource.Layout.welcomeimage_view, null);
 
-            var layout = new ConstraintLayout(Activity)
-            {
-                LayoutParameters =
-                    new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MatchParent,
-                        ViewGroup.LayoutParams.MatchParent)
-            };
+            var image = view.FindViewById<AppCompatImageView>(Resource.Id.img);
 
-            layout.AddView(image);
+            image.SetImageResource(ImageId);
 
-            var constraintSet = new ConstraintSet();
-            constraintSet.Connect(image.Id, ConstraintSet.Left, ConstraintSet.ParentId, ConstraintSet.Left, 0);
-            constraintSet.Connect(image.Id, ConstraintSet.Right, ConstraintSet.ParentId, ConstraintSet.Right, 0);
-            constraintSet.Connect(image.Id, ConstraintSet.Top, ConstraintSet.ParentId, ConstraintSet.Top, 0);
-            constraintSet.Connect(image.Id, ConstraintSet.Bottom, ConstraintSet.ParentId, ConstraintSet.Bottom, 0);
-            constraintSet.ApplyTo(layout);
-
-            return layout;
+            return view;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
