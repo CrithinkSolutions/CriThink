@@ -86,7 +86,7 @@ namespace CriThink.Client.Core.Services
             }
         }
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks()
+        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
         {
             var entities = await _sqlRepo.GetLatestNewsChecks().ConfigureAwait(false);
 
@@ -163,7 +163,7 @@ namespace CriThink.Client.Core.Services
     {
         Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken);
 
-        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks();
+        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync();
 
         Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken);
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -50,10 +51,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
-
-            var modelCollection = await _newsSourceService.GetLatestNewsChecks().ConfigureAwait(false);
-            foreach (var model in modelCollection)
-                RecentNewsChecksCollection.Add(model);
+            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
         private async Task DoSubmitUriCommand(CancellationToken cancellationToken)
@@ -72,6 +70,18 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             await _navigationService
                 .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
+
+            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
+        }
+
+        private async Task UpdateLatestNewsChecksAsync()
+        {
+            var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
+            if (modelCollection != null && modelCollection.Any())
+                RecentNewsChecksCollection.Clear();
+
+            foreach (var model in modelCollection)
+                RecentNewsChecksCollection.Add(model);
         }
 
         private Task ShowFormatMessageErrorAsync(CancellationToken cancellationToken)
