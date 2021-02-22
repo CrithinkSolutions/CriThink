@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
@@ -43,6 +44,10 @@ namespace CriThink.Client.Core.ViewModels
         private IMvxCommand<string> _bottomNavigationItemSelectedCommand;
         public IMvxCommand<string> BottomNavigationItemSelectedCommand => _bottomNavigationItemSelectedCommand ??= new MvxCommand<string>(DoBottomNavigationItemSelectedCommand);
 
+        private IMvxAsyncCommand<string> _navigateToNewsCheckResultViewModel;
+        public IMvxAsyncCommand<string> NavigateToNewsCheckResultViewModel => _navigateToNewsCheckResultViewModel ??=
+            new MvxAsyncCommand<string>(DoNavigateToNewsCheckResultViewModel);
+
         #endregion
 
         public override async Task Initialize()
@@ -67,6 +72,18 @@ namespace CriThink.Client.Core.ViewModels
                 _navigationService.Navigate(item);
                 break;
             }
+        }
+
+        private async Task DoNavigateToNewsCheckResultViewModel(string input, CancellationToken cancellationToken)
+        {
+            if (!Uri.IsWellFormedUriString(input, UriKind.Absolute))
+                return;
+
+            var uri = new Uri(input, UriKind.Absolute);
+
+            await _navigationService
+                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .ConfigureAwait(true);
         }
     }
 }
