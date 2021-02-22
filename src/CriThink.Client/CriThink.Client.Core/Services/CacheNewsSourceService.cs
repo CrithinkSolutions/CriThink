@@ -52,9 +52,6 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck) =>
-            _newsSourceService.AddLatestNewsCheck(newsCheck);
-
         public Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken) =>
             _newsSourceService.RegisterForNotificationAsync(uri, cancellationToken);
 
