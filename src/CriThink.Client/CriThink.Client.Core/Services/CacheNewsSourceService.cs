@@ -38,22 +38,20 @@ namespace CriThink.Client.Core.Services
             return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{uri}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
+                _resetCacheToken.Cancel();
                 return await _newsSourceService.SearchNewsSourceAsync(uri, cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks()
+        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
         {
             return await _memoryCache.GetOrCreateAsync(RecentNewsSourceCacheKey, async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
-                return await _newsSourceService.GetLatestNewsChecks().ConfigureAwait(false);
+                return await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
-
-        public Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck) =>
-            _newsSourceService.AddLatestNewsCheck(newsCheck);
 
         public Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken) =>
             _newsSourceService.RegisterForNotificationAsync(uri, cancellationToken);

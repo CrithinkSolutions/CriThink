@@ -47,16 +47,33 @@ namespace CriThink.Client.Core.Services
 
             var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
 
+            NewsSourceSearchWithDebunkingNewsResponse searchResponse = null;
+
             try
             {
-                var loginResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchWithDebunkingNewsResponse>(
-                        $"{EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceSearch}?{request.ToQueryString()}",
-                        HttpRestVerb.Get,
-                        token,
-                        cancellationToken)
-                    .ConfigureAwait(false);
+                searchResponse = await _restRepository.MakeRequestAsync<NewsSourceSearchWithDebunkingNewsResponse>(
+                         $"{EndpointConstants.NewsSourceBase}{EndpointConstants.NewsSourceSearch}?{request.ToQueryString()}",
+                         HttpRestVerb.Get,
+                         token,
+                         cancellationToken)
+                     .ConfigureAwait(false);
 
-                return loginResponse;
+                if (searchResponse.Classification != NewsSourceClassification.Unknown)
+                {
+                    var recentSearchRequest = new RecentNewsChecksModel
+                    {
+                        // TODO: Replce with real image
+                        NewsImageLink = "res:ic_text_logo",
+                        Classification = searchResponse.Classification.ToString(),
+                        NewsLink = request.Uri,
+                        SearchDateTime = DateTime.Now,
+                    };
+
+                    await AddLatestNewsCheckAsync(recentSearchRequest).ConfigureAwait(false);
+                }
+
+                return searchResponse
+;
             }
             catch (HttpRequestException)
             {
@@ -65,11 +82,11 @@ namespace CriThink.Client.Core.Services
             catch (Exception ex)
             {
                 _log?.ErrorException("Error searching a news source", ex, request.Uri);
-                return null;
+                return searchResponse;
             }
         }
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks()
+        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
         {
             var entities = await _sqlRepo.GetLatestNewsChecks().ConfigureAwait(false);
 
@@ -84,25 +101,6 @@ namespace CriThink.Client.Core.Services
                 }).ToList();
 
             return models;
-        }
-
-        public async Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck)
-        {
-            if (newsCheck == null)
-                throw new ArgumentNullException(nameof(newsCheck));
-
-            // TODO: Replce with real data
-            var entity = new LatestNewsCheck
-            {
-                Classification = newsCheck.Classification,
-                NewsLink = newsCheck.NewsLink,
-                SearchDateTime = newsCheck.SearchDateTime,
-                NewsImageLink = "https://www.open.online/wp-content/uploads/2021/01/GOLF_20210127183930444_1e59b1e069ede758cacf0e791794eb13-1152x768.jpg"
-            };
-
-            await _sqlRepo.AddLatestNewsCheck(entity).ConfigureAwait(false);
-
-            ClearRecentNewsChecksCache();
         }
 
         public async Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken)
@@ -136,6 +134,24 @@ namespace CriThink.Client.Core.Services
             }
         }
 
+        private async Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck)
+        {
+            if (newsCheck == null)
+                throw new ArgumentNullException(nameof(newsCheck));
+
+            var entity = new LatestNewsCheck
+            {
+                Classification = newsCheck.Classification,
+                NewsLink = newsCheck.NewsLink,
+                SearchDateTime = newsCheck.SearchDateTime,
+                NewsImageLink = newsCheck.NewsImageLink,
+            };
+
+            await _sqlRepo.AddLatestNewsCheck(entity).ConfigureAwait(false);
+
+            ClearRecentNewsChecksCache();
+        }
+
         private void ClearRecentNewsChecksCache()
         {
             var message = new ClearRecentNewsSourceCacheMessage(this);
@@ -147,9 +163,7 @@ namespace CriThink.Client.Core.Services
     {
         Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken);
 
-        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecks();
-
-        Task AddLatestNewsCheck(RecentNewsChecksModel newsCheck);
+        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync();
 
         Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken);
     }

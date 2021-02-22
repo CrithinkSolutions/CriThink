@@ -88,6 +88,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(editTextSearch).To(vm => vm.NewsUri);
             set.Bind(editTextSearch).For(v => v.KeyCommand).To(vm => vm.SubmitUriCommand);
             set.Bind(recyclerRecentSearch).For(v => v.ItemsSource).To(vm => vm.RecentNewsChecksCollection);
+            set.Bind(recyclerRecentSearch).For(v => v.ItemClick).To(vm => vm.RepeatSearchCommand);
 
             set.Apply();
 
