@@ -1,29 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.MaterialToolbar
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/appBarLayout"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  app:contentInsetStart="0dp"
-  app:contentInsetStartWithNavigation="0dp"
-  android:background="@android:color/transparent"
-  app:layout_constraintTop_toTopOf="parent">
-
-  <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    app:layout_collapseMode="pin">
+    android:layout_height="wrap_content"
+    app:contentInsetStart="0dp"    
+    app:contentInsetStartWithNavigation="0dp"
+    android:background="@android:color/transparent"
+    app:elevation="0dp"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <CriThink.BindableEditText
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextSearch"
-        android:background="@null"
-        android:inputType="textUri"
-        android:hint="What you want to check?"/>
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin">
 
-  </androidx.appcompat.widget.Toolbar>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/padding_page">
+            
+            <CriThink.BindableEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imgCancel"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/editTextSearch"
+                android:background="@null"
+                android:inputType="textUri"
+                android:layout_marginEnd="@dimen/margin_big"/>
 
-</com.google.android.material.appbar.MaterialToolbar>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgCancel"
+                app:srcCompat="@drawable/ic_cancel_text"
+                android:tint="@color/welcomeBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</com.google.android.material.appbar.AppBarLayout>

@@ -184,7 +184,7 @@
     <value>Ok</value>
   </data>
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
-    <value>Which news do you want to check?</value>
+    <value>Search here</value>
   </data>
   <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
     <value>Recent search</value>

@@ -259,7 +259,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Which news do you want to check?.
+        ///   Looks up a localized string similar to Search here.
         /// </summary>
         internal static string CheckNewsViewModel_NewsLinkHint {
             get {

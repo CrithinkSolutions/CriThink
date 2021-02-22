@@ -124,7 +124,7 @@
     <value>Ultime ricerche</value>
   </data>
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
-    <value>Quale news vuoi controllare?</value>
+    <value>Cerca qui</value>
   </data>
   <data name="ForgotPasswordViewModel.Send" xml:space="preserve">
     <value>Invia</value>

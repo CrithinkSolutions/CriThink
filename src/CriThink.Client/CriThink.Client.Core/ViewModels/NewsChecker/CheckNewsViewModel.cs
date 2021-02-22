@@ -51,6 +51,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public IMvxAsyncCommand<RecentNewsChecksModel> RepeatSearchCommand => _repeatSearchCommand ??=
             new MvxAsyncCommand<RecentNewsChecksModel>(DoRepeatSearchCommand);
 
+        private IMvxCommand _clearTextCommand;
+        public IMvxCommand ClearTextCommand => _clearTextCommand ??= new MvxCommand(DoClearTextCommand);
+
         #endregion
 
         public override async Task Initialize()
@@ -89,6 +92,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
+
+        private void DoClearTextCommand() => NewsUri = string.Empty;
 
         private async Task UpdateLatestNewsChecksAsync()
         {
