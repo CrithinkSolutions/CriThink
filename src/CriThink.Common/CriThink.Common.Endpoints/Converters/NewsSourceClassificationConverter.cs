@@ -25,15 +25,26 @@ namespace CriThink.Common.Endpoints.Converters
                 "Fake News" => NewsSourceClassification.FakeNews,
                 "Reliable" => NewsSourceClassification.Reliable,
                 "Satirical" => NewsSourceClassification.Satirical,
+                "Suspicious" => NewsSourceClassification.Suspicious,
+                "Social Media" => NewsSourceClassification.SocialMedia,
                 _ => throw new Exception(),
             };
         }
 
         public override void Write(Utf8JsonWriter writer, NewsSourceClassification value, JsonSerializerOptions options)
         {
-            if (value == NewsSourceClassification.FakeNews) writer.WriteStringValue("Fake News");
-
-            else writer.WriteStringValue(value.ToString());
+            switch (value)
+            {
+                case NewsSourceClassification.FakeNews:
+                    writer.WriteStringValue("Fake News");
+                    break;
+                case NewsSourceClassification.SocialMedia:
+                    writer.WriteStringValue("Social Media");
+                    break;
+                default:
+                    writer.WriteStringValue(value.ToString());
+                    break;
+            }
         }
     }
 }

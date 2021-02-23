@@ -9,6 +9,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
         Conspiracist,
         [Display(Name = "Fake News")]
         FakeNews,
+        Suspicious,
+        [Display(Name = "Social Media")]
+        SocialMedia,
         Unknown,
     }
 }

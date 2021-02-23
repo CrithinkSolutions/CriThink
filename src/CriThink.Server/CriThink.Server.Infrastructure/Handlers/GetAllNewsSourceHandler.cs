@@ -79,9 +79,11 @@ namespace CriThink.Server.Infrastructure.Handlers
             return filter switch
             {
                 GetAllNewsSourceFilter.Blacklist => authenticity == NewsSourceAuthenticity.Conspiracist ||
-                                                    authenticity == NewsSourceAuthenticity.FakeNews,
+                                                    authenticity == NewsSourceAuthenticity.FakeNews ||
+                                                    authenticity == NewsSourceAuthenticity.Suspicious,
                 GetAllNewsSourceFilter.Whitelist => authenticity == NewsSourceAuthenticity.Reliable ||
-                                                    authenticity == NewsSourceAuthenticity.Satirical,
+                                                    authenticity == NewsSourceAuthenticity.Satirical ||
+                                                    authenticity == NewsSourceAuthenticity.SocialMedia,
                 _ => true
             };
         }

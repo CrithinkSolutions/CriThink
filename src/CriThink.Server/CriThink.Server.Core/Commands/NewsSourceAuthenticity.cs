@@ -13,6 +13,10 @@
         Conspiracist = 10,
         FakeNews = 11,
 
+        // So and so
+        Suspicious = 12,
+        SocialMedia = 13,
+
         // Not yet analized sources
         Unknown = 9999,
     }
