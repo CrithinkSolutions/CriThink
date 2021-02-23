@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using FFImageLoading.Transformations;
+using FFImageLoading.Work;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
@@ -36,11 +39,21 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
+
+            LogoImageTransformations = new List<ITransformation>
+            {
+                new CircleTransformation()
+            };
         }
 
         #region Properties
 
         public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
+
+        public List<ITransformation> LogoImageTransformations { get; }
+
+        // TODO: real pic
+        public string ProfileImagePath => "res:ic_text_logo";
 
         private string _welcomeText;
         public string WelcomeText
