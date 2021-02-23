@@ -26,9 +26,10 @@ namespace CriThink.Client.Core.Repositories
                 var db = OpenSqLiteConnection();
                 await db.CreateTableAsync<LatestNewsCheck>().ConfigureAwait(false);
 
-                var query = $@"select * 
-                            from {nameof(LatestNewsCheck)}
-                            limit 5;";
+                var query = $@"SELECT * 
+                            FROM {nameof(LatestNewsCheck)}
+                            ORDER BY {nameof(LatestNewsCheck.SearchDateTime)} DESC
+                            LIMIT 5;";
 
                 return await db.QueryAsync<LatestNewsCheck>(query)
                     .ConfigureAwait(false);

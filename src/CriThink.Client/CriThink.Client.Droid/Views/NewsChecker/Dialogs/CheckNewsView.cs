@@ -72,10 +72,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var recyclerRecentSearch = view.FindViewById<MvxRecyclerView>(Resource.Id.recyclerRecentSearch);
             var toolbar = view.FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             var editTextSearch = view.FindViewById<BindableEditText>(Resource.Id.editTextSearch);
+            var imgCancel = view.FindViewById<AppCompatImageView>(Resource.Id.imgCancel);
 
             HasOptionsMenu = true;
             BaseActivity.SetSupportActionBar(toolbar);
             BaseActivity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            BaseActivity.SupportActionBar.SetDisplayShowTitleEnabled(false);
 
             var layoutManager = new LinearLayoutManager(Activity);
             recyclerRecentSearch.SetLayoutManager(layoutManager);
@@ -88,6 +90,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(editTextSearch).To(vm => vm.NewsUri);
             set.Bind(editTextSearch).For(v => v.KeyCommand).To(vm => vm.SubmitUriCommand);
             set.Bind(recyclerRecentSearch).For(v => v.ItemsSource).To(vm => vm.RecentNewsChecksCollection);
+            set.Bind(recyclerRecentSearch).For(v => v.ItemClick).To(vm => vm.RepeatSearchCommand);
+            set.Bind(imgCancel).For("Click").To(vm => vm.ClearTextCommand);
 
             set.Apply();
 

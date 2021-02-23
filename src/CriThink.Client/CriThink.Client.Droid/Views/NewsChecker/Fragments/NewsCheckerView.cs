@@ -5,8 +5,8 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
-using CriThink.Client.Droid.Extensions;
 using CriThink.Client.Droid.Views.DebunkingNews;
+using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -31,9 +31,11 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtMotto = view.FindViewById<AppCompatTextView>(Resource.Id.txtMotto);
             var txtDate = view.FindViewById<AppCompatTextView>(Resource.Id.txtDate);
             var btnNews = view.FindViewById<AppCompatButton>(Resource.Id.btnNews);
+            var txtSeeAll = view.FindViewById<AppCompatTextView>(Resource.Id.txtSeeAll);
+            var imgLogo = view.FindViewById<MvxCachedImageView>(Resource.Id.imgLogo);
 
-            var txtSectionTitle = view?.FindViewById<AppCompatTextView>(Resource.Id.txtSectionTitle);
-            var listDebunkingNews = view?.FindViewById<MvxRecyclerView>(Resource.Id.list_debunkingNews);
+            var txtSectionTitle = view.FindViewById<AppCompatTextView>(Resource.Id.txtSectionTitle);
+            var listDebunkingNews = view.FindViewById<MvxRecyclerView>(Resource.Id.list_debunkingNews);
 
             var layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             listDebunkingNews.SetLayoutManager(layoutManager);
@@ -41,13 +43,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             // Seems to be a recycler view bug: https://stackoverflow.com/a/58540280/3415073
             listDebunkingNews.SetItemAnimator(null);
 
-            var adapter = new DebunkingNewsAdapter((IMvxAndroidBindingContext) BindingContext);
+            var adapter = new DebunkingNewsHorizontalAdapter((IMvxAndroidBindingContext) BindingContext);
             listDebunkingNews.Adapter = adapter;
-
-            listDebunkingNews.AddOnScrollFetchItemsListener(
-                layoutManager,
-                () => ViewModel.FetchDebunkingNewsTask,
-                () => ViewModel.FetchDebunkingNewsCommand);
 
             var set = CreateBindingSet();
 
@@ -59,6 +56,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(btnNews).To(vm => vm.NavigateNewsCheckerCommand);
             set.Bind(adapter).For(v => v.ItemsSource).To(vm => vm.Feed);
             set.Bind(listDebunkingNews).For(v => v.ItemClick).To(vm => vm.DebunkingNewsSelectedCommand);
+            set.Bind(txtSeeAll).ToLocalizationId("SeeAll");
+            set.Bind(txtSeeAll).For("Click").To(vm => vm.NavigateToAllDebunkingNewsCommand);
+            set.Bind(imgLogo).For(v => v.Transformations).To(vm => vm.LogoImageTransformations);
+            set.Bind(imgLogo).For(v => v.ImagePath).To(vm => vm.ProfileImagePath);
 
             set.Bind(txtSectionTitle).ToLocalizationId("DebunkingNewsTitle");
 

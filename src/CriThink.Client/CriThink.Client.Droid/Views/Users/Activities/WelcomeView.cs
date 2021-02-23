@@ -5,6 +5,7 @@ using Android.OS;
 using AndroidX.Core.Content;
 using AndroidX.ViewPager.Widget;
 using CriThink.Client.Core.ViewModels;
+using CriThink.Client.Core.ViewModels.Users;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -35,10 +36,10 @@ namespace CriThink.Client.Droid.Views.Users
         {
             var fragments = new List<MvxViewPagerFragmentInfo>
             {
-                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
-                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
-                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
-                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelRequest()),
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeLoginSignInView), "", typeof(WelcomeLoginSignInView), new MvxViewModelInstanceRequest(ViewModel.WelcomeLoginSignInViewModel)),
             };
 

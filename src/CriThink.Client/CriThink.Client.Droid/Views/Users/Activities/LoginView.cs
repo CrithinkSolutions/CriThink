@@ -63,20 +63,5 @@ namespace CriThink.Client.Droid.Views.Users
         private void BtnGoogle_Click(object sender, EventArgs e) => LoginUsingGoogle();
 
         private void BtnFacebook_Click(object sender, EventArgs e) => LoginUsingFacebook();
-
-        #region IDispose
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (_btnFb != null)
-                _btnFb.Click -= BtnFacebook_Click;
-
-            if (_btnGoogle != null)
-                _btnGoogle.Click -= BtnGoogle_Click;
-        }
-
-        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿using Android.App;
+﻿using System;
+using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.ViewModels.Users;
@@ -29,15 +31,20 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 if (requestCode == RequestCode)
                 {
-                    var account = GoogleSignIn.GetSignedInAccountFromIntent(data).Result;
+                    try
+                    {
+                        var account = GoogleSignIn.GetSignedInAccountFromIntent(data).Result;
 
-                    if (!(account is GoogleSignInAccount googleAccount)) return;
+                        if (!(account is GoogleSignInAccount googleAccount)) return;
 
-                    var token = googleAccount.IdToken;
+                        var token = googleAccount.IdToken;
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    ViewModel.PerformLoginSignInAsync(token, ExternalLoginProvider.Google);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        PerformLogin(token, ExternalLoginProvider.Google);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowErrorMessage(ex, "An error occurred while logging with Google");
+                    }
                 }
             }
             else if (_externalLoginProvider == ExternalLoginProvider.Facebook)
@@ -55,13 +62,12 @@ namespace CriThink.Client.Droid.Views.Users
             if (_callbackManager == null)
                 InitFacebookCallbacks();
 
-            if (AccessToken.CurrentAccessToken != null)
-                LoginManager.Instance.LogOut();
-            else
+            if (AccessToken.CurrentAccessToken == null)
                 LoginManager.Instance.LogInWithReadPermissions(this, new[] { "email", "public_profile" });
+            else
+                LoginManager.Instance.LogOut();
         }
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         private void InitFacebookCallbacks()
         {
             _callbackManager = CallbackManagerFactory.Create();
@@ -70,7 +76,7 @@ namespace CriThink.Client.Droid.Views.Users
             {
                 HandleSuccess = loginResult =>
                 {
-                    ViewModel.PerformLoginSignInAsync(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
+                    PerformLogin(AccessToken.CurrentAccessToken.Token, ExternalLoginProvider.Facebook);
                 },
                 HandleCancel = () =>
                 {
@@ -78,13 +84,12 @@ namespace CriThink.Client.Droid.Views.Users
                 },
                 HandleError = loginError =>
                 {
-                    ViewModel.ShowErrorMessage("An error occurred when logging with Facebook");
+                    ShowErrorMessage("An error occurred when logging with Facebook");
                 }
             };
 
             LoginManager.Instance.RegisterCallback(_callbackManager, loginCallback);
         }
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         #endregion
 
@@ -98,10 +103,14 @@ namespace CriThink.Client.Droid.Views.Users
                 InitGoogleSignIn();
 
             var lastUser = GoogleSignIn.GetLastSignedInAccount(this);
-            if (lastUser == null)
+            if (lastUser is null)
             {
                 var intent = _signInClient.SignInIntent;
                 StartActivityForResult(intent, RequestCode);
+            }
+            else
+            {
+                PerformLogin(lastUser.IdToken, ExternalLoginProvider.Google);
             }
         }
 
@@ -118,5 +127,29 @@ namespace CriThink.Client.Droid.Views.Users
         }
 
         #endregion
+
+        private void PerformLogin(string token, ExternalLoginProvider externalLoginProvider)
+        {
+            Task.Run(async () =>
+            {
+                await ViewModel.PerformLoginSignInAsync(token, externalLoginProvider);
+            });
+        }
+
+        private void ShowErrorMessage(Exception ex, string message)
+        {
+            Task.Run(async () =>
+            {
+                await ViewModel.ShowErrorMessage(ex, message);
+            });
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            Task.Run(async () =>
+            {
+                await ViewModel.ShowErrorMessage(message);
+            });
+        }
     }
 }

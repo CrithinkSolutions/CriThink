@@ -33,7 +33,6 @@ namespace CriThink.Client.Core.Services
                 LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
             };
 
-            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
             var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrWhiteSpace(currentArea))
@@ -50,7 +49,17 @@ namespace CriThink.Client.Core.Services
                 }
             }
 
+            return await GetDebunkingNewsAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
             _log?.Info($"Querying {request.LanguageFilters} debunking news");
+
+            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
 
             try
             {
@@ -114,13 +123,21 @@ namespace CriThink.Client.Core.Services
     public interface IDebunkingNewsService
     {
         /// <summary>
-        /// Retrieve latest debunking news
+        /// Retrieve latest debunking news of the current country
         /// </summary>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Number of debunking news per page</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve all the debunking news
+        /// </summary>
+        /// <param name="request">Pagination settings and filters</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns></returns>
+        Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken);
 
         /// <summary>
         /// Returns details of the given debunking news id

@@ -19,7 +19,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IMvxNavigationService _navigationService;
 
         public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
-            : base(identityService, userDialogs, logProvider)
+            : base(identityService, userDialogs, navigationService, logProvider)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }

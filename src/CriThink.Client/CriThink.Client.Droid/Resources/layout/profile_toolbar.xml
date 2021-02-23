@@ -34,7 +34,7 @@
                  android:layout_height="wrap_content"
                  android:gravity="left"
                  android:id="@+id/txtUsername"
-                 android:textSize="@dimen/text_caption"
+                 android:textSize="@dimen/textSize_caption"
                  app:layout_constraintStart_toEndOf="@id/imgProfile"
                  app:layout_constraintEnd_toEndOf="parent"
                  android:layout_marginStart="@dimen/margin_medium"/>

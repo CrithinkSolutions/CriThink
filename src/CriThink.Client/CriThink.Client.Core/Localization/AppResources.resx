@@ -184,7 +184,7 @@
     <value>Ok</value>
   </data>
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
-    <value>Which news do you want to check?</value>
+    <value>Search here</value>
   </data>
   <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
     <value>Recent search</value>
@@ -329,5 +329,11 @@
   </data>
   <data name="RelatedDebunkingNewsViewModel.OpenNews" xml:space="preserve">
     <value>Read the news</value>
+  </data>
+  <data name="NewsCheckerViewModel.SeeAll" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="DebunkingNewsListViewModel.Title" xml:space="preserve">
+    <value>Debunking News</value>
   </data>
 </root>

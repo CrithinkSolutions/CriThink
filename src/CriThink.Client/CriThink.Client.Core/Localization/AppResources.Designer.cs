@@ -259,7 +259,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Which news do you want to check?.
+        ///   Looks up a localized string similar to Search here.
         /// </summary>
         internal static string CheckNewsViewModel_NewsLinkHint {
             get {
@@ -273,6 +273,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string CheckNewsViewModel_RecentSearch {
             get {
                 return ResourceManager.GetString("CheckNewsViewModel.RecentSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debunking News.
+        /// </summary>
+        internal static string DebunkingNewsListViewModel_Title {
+            get {
+                return ResourceManager.GetString("DebunkingNewsListViewModel.Title", resourceCulture);
             }
         }
         
@@ -453,6 +462,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerViewModel_NewsLinkHint {
             get {
                 return ResourceManager.GetString("NewsCheckerViewModel.NewsLinkHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all.
+        /// </summary>
+        internal static string NewsCheckerViewModel_SeeAll {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.SeeAll", resourceCulture);
             }
         }
         
