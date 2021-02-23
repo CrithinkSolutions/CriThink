@@ -37,22 +37,22 @@ namespace CriThink.Client.Core
         {
             try
             {
-                var isFirstStart = _applicationService.IsFirstStart();
-                if (isFirstStart)
-                {
+                //var isFirstStart = _applicationService.IsFirstStart();
+                //if (isFirstStart)
+                //{
                     await PerformFirstNavigationAsync().ConfigureAwait(true);
-                    return;
-                }
+                //    return;
+                //}
 
-                var loggedUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
-                if (loggedUser is null)
-                {
-                    await NavigateToSignUpViewAsync().ConfigureAwait(true);
-                }
-                else
-                {
-                    await PerformLoginAndNavigationToHomeAsync(loggedUser).ConfigureAwait(true);
-                }
+                //var loggedUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+                //if (loggedUser is null)
+                //{
+                //    await NavigateToSignUpViewAsync().ConfigureAwait(true);
+                //}
+                //else
+                //{
+                //    await PerformLoginAndNavigationToHomeAsync(loggedUser).ConfigureAwait(true);
+                //}
             }
             catch (Exception ex)
             {

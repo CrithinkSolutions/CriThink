@@ -40,6 +40,7 @@ namespace CriThink.Client.Droid.Views.Users
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeLoginSignInView), "", typeof(WelcomeLoginSignInView), new MvxViewModelInstanceRequest(ViewModel.WelcomeLoginSignInViewModel)),
             };
 
