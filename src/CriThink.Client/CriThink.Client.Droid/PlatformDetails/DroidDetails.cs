@@ -2,6 +2,8 @@
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.Platform;
+using Xamarin.Facebook;
+using Xamarin.Facebook.Login;
 
 namespace CriThink.Client.Droid.PlatformDetails
 {
@@ -52,6 +54,11 @@ namespace CriThink.Client.Droid.PlatformDetails
         {
             var signInClient = InitGoogleSignIn();
             signInClient.SignOut();
+
+            if (AccessToken.CurrentAccessToken != null)
+            {
+                LoginManager.Instance.LogOut();
+            }
         }
 
         private static GoogleSignInClient InitGoogleSignIn()

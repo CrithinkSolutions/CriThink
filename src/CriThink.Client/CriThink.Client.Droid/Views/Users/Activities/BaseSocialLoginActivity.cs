@@ -62,10 +62,8 @@ namespace CriThink.Client.Droid.Views.Users
             if (_callbackManager == null)
                 InitFacebookCallbacks();
 
-            if (AccessToken.CurrentAccessToken == null)
-                LoginManager.Instance.LogInWithReadPermissions(this, new[] { "email", "public_profile" });
-            else
-                LoginManager.Instance.LogOut();
+
+            LoginManager.Instance.LogInWithReadPermissions(this, new[] { "email", "public_profile" });
         }
 
         private void InitFacebookCallbacks()
