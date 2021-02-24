@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AbouteViewModel.LogoutErrorOk" xml:space="preserve">
+  <data name="AboutViewModel.LogoutErrorOk" xml:space="preserve">
     <value>Ok</value>
   </data>
   <data name="AboutViewModel.AccountSettings" xml:space="preserve">
@@ -335,5 +335,17 @@
   </data>
   <data name="DebunkingNewsListViewModel.Title" xml:space="preserve">
     <value>Debunking News</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.ADescription" xml:space="preserve">
+    <value>ccuracy: is the text of the article accurate? Sometimes grammatical errors might mean the information is not accurate.</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.DDescription" xml:space="preserve">
+    <value>eceiving artefacts: does the article contain any image or video? Check for the originality of such artefacts as they can be manipulated or show an unrelated event or place.</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.EDescription" xml:space="preserve">
+    <value>vidence: does the author of the article present Evidence to support that particular point of view?</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.HDescription" xml:space="preserve">
+    <value>eadlines do not contain the full story. Have you read the entire article?</value>
   </data>
 </root>

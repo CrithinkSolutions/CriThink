@@ -336,4 +336,16 @@
   <data name="DebunkingNewsListViewModel.Title" xml:space="preserve">
     <value>Debunking News</value>
   </data>
+  <data name="SpotFakeNewsHomeViewModel.ADescription" xml:space="preserve">
+    <value>ccuracy: il testo dell'articolo è accurato? A volte gli errori grammaticali possono significare che le informazioni non sono accurate.</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.DDescription" xml:space="preserve">
+    <value>eceiving artefacts: l'articolo contiene immagini o video? Controlla l'originalità di tali artefatti, poiché possono essere manipolati o mostrare un evento o un luogo non correlato.</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.EDescription" xml:space="preserve">
+    <value>vidence: l'autore dell'articolo presenta prove a sostegno di quel particolare punto di vista?</value>
+  </data>
+  <data name="SpotFakeNewsHomeViewModel.HDescription" xml:space="preserve">
+    <value>eadlines: non contengono la storia completa. Avete letto l'intero articolo?</value>
+  </data>
 </root>
