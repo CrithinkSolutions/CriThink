@@ -16,7 +16,7 @@
     android:fillViewport="true"
     android:overScrollMode="always">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -29,15 +29,29 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/indicator"/>
 
       <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
-        android:padding="10dip"
+        android:padding="12dip"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/padding_page"/>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+      <ffimageloading.cross.MvxCachedImageView
+          android:layout_width="@dimen/imgSize_small"
+          android:layout_height="@dimen/imgSize_small"
+          android:id="@+id/imgArrow"
+          android:src="@drawable/ic_right_arrow"
+          android:tint="@color/welcomeBackground"
+          app:layout_constraintBottom_toBottomOf="@id/indicator"
+          app:layout_constraintEnd_toEndOf="parent"
+          android:layout_marginTop="6dp"
+          android:layout_marginEnd="@dimen/padding_page"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
   </androidx.core.widget.NestedScrollView>
 
