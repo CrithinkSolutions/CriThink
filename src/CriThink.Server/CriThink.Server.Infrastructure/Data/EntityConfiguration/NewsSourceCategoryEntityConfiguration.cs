@@ -20,7 +20,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             var fakeNews = new NewsSourceCategory
             {
                 Id = Guid.Parse("ec5eb3b0-1a32-4698-88e2-9ae81ec87176"),
-                Description = "Sources in this category show extreme bias, poor or no sourcing to credible information, a complete lack of transparency and/or publish fake news. Fake News is the deliberate attempt to publish hoaxes and/or disinformation for profit or ideologically influence the audience. These sources may be very untrustworthy and should be fact checked.",
+                Description = "Sources in this category show extreme bias, poor or no sourcing to credible information, a complete lack of transparency and/or publish fake news for profit or ideologically influence the audience. These sources may be very untrustworthy and should be fact checked.",
                 Authenticity = NewsSourceAuthenticity.FakeNews,
             };
             var satirical = new NewsSourceCategory
@@ -38,11 +38,23 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             var conspiracist = new NewsSourceCategory
             {
                 Id = Guid.Parse("28e0a6fc-4937-4ed3-949a-75bec8f8d2e1"),
-                Description = "Sources in the Conspiracy category may publish unverifiable information that is not always supported by evidence. Actually, they usually publish Conspiracy theories consisting in explanations for an event or situation that invoke a conspiracy by sinister and powerful groups, often political in motivation. These sources may be untrustworthy for credible/verifiable information, therefore fact checking and further investigation is recommended when obtaining information from these sources.",
+                Description = "Sources in the Conspiracy category may publish unverifiable information that is not always supported by evidence. Actually, they usually publish Conspiracy theories consisting in explanations for an event or situation that invoke a conspiracy by sinister and powerful groups, often political in motivation. These sources may be untrustworthy for credible/verifiable information, therefore fact checking and further investigation is recommended.",
                 Authenticity = NewsSourceAuthenticity.Conspiracist,
             };
+            var suspicious = new NewsSourceCategory
+            {
+                Id = Guid.Parse("3cc36977-5115-45ea-88e9-7c86f19b6cd6"),
+                Description = "These sources may publish a mix of non-factual and factual information which is misrepresented and/or reported with bias (e.g. political leaning bias). Therefore, information coming from these sources should be double-checked considering reliable sources of news.",
+                Authenticity = NewsSourceAuthenticity.Suspicious
+            };
+            var socialMedia = new NewsSourceCategory
+            {
+                Id = Guid.Parse("d66bf55d-d30d-448f-be69-d2e0cebdd26a"),
+                Description = "Social media platforms (such as Facebook, Twitter, Reddit and so on) cannot be classified strictly as sources of information. Rather these platforms are just mediums through which information can be shared. In these cases, verifying the reliability of the user/page sharing the information is recommended.",
+                Authenticity = NewsSourceAuthenticity.SocialMedia
+            };
 
-            builder.HasData(fakeNews, satirical, reliable, conspiracist);
+            builder.HasData(fakeNews, satirical, reliable, conspiracist, suspicious, socialMedia);
         }
     }
 }

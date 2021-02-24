@@ -85,7 +85,8 @@ namespace CriThink.Server.Core.Services
             }
 
             if (searchResponse.Classification == NewsSourceClassification.Conspiracist ||
-                searchResponse.Classification == NewsSourceClassification.FakeNews)
+                searchResponse.Classification == NewsSourceClassification.FakeNews ||
+                searchResponse.Classification == NewsSourceClassification.Suspicious)
             {
                 try
                 {

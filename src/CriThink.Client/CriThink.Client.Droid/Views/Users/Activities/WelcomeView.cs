@@ -2,11 +2,13 @@
 using Android.App;
 using Android.Graphics;
 using Android.OS;
+using Android.Views;
 using AndroidX.Core.Content;
 using AndroidX.ViewPager.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
+using FFImageLoading.Cross;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.Platforms.Android.Views.ViewPager;
@@ -19,6 +21,7 @@ namespace CriThink.Client.Droid.Views.Users
     [Activity(Label = "CriThink.WelcomeView")]
     public class WelcomeView : MvxActivity<WelcomeViewModel>
     {
+        private MvxCachedImageView _imgArrow;
         private WelcomeViewFragmentAdapter _adapter;
         private ViewPager _pager;
         private IPageIndicator _indicator;
@@ -28,6 +31,7 @@ namespace CriThink.Client.Droid.Views.Users
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.welcome_view);
+            _imgArrow = FindViewById<MvxCachedImageView>(Resource.Id.imgArrow);
 
             BuildViewPager();
         }
@@ -36,6 +40,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             var fragments = new List<MvxViewPagerFragmentInfo>
             {
+                new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
                 new MvxViewPagerFragmentInfo(nameof(WelcomeFragment), "", typeof(WelcomeFragment), new MvxViewModelInstanceRequest(typeof(WelcomeImageViewModel))),
@@ -54,8 +59,17 @@ namespace CriThink.Client.Droid.Views.Users
                 circleIndicator.SetViewPager(_pager);
                 circleIndicator.Snap = true;
                 circleIndicator.PageColor = new Color(ContextCompat.GetColor(this, Resource.Color.welcomeBackground));
-                circleIndicator.StrokeColor = new Color(ContextCompat.GetColor(this, Resource.Color.colorBlue));
+                circleIndicator.FillColor = Color.LightGray;
+
             }
+            _pager.PageSelected += PagerOnPageSelected;
+        }
+
+        private void PagerOnPageSelected(object sender, ViewPager.PageSelectedEventArgs e)
+        {
+            _imgArrow.Visibility = e.Position == _adapter.Count - 1 ?
+                ViewStates.Gone :
+                ViewStates.Visible;
         }
     }
 }
