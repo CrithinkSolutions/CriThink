@@ -1,8 +1,10 @@
 ﻿using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.SpotFakeNews;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -19,6 +21,21 @@ namespace CriThink.Client.Droid.Views.SpotFakeNews
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = this.BindingInflate(Resource.Layout.spotfakenewshome_view, null);
+
+            var txtHDescription = view.FindViewById<AppCompatTextView>(Resource.Id.txtHDescription);
+            var txtEDescription = view.FindViewById<AppCompatTextView>(Resource.Id.txtEDescription);
+            var txtADescription = view.FindViewById<AppCompatTextView>(Resource.Id.txtADescription);
+            var txtDDescription = view.FindViewById<AppCompatTextView>(Resource.Id.txtDDescription);
+
+            var binder = this as IMvxBindingContextOwner;
+            var set = binder.CreateBindingSet<IMvxBindingContextOwner, SpotFakeNewsHomeViewModel>();
+
+            set.Bind(txtHDescription).For(v => v.Hint).ToLocalizationId("HDescription");
+            set.Bind(txtEDescription).For(v => v.Hint).ToLocalizationId("EDescription");
+            set.Bind(txtADescription).For(v => v.Hint).ToLocalizationId("ADescription");
+            set.Bind(txtDDescription).For(v => v.Hint).ToLocalizationId("DDescription");
+
+            set.Apply();
 
             return view;
         }

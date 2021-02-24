@@ -35,8 +35,7 @@
             android:layout_marginStart="@dimen/margin_mini"
             app:layout_constraintTop_toTopOf="@id/imgH"
             app:layout_constraintStart_toEndOf="@id/imgH"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="eadlines do not contain the full story. Have you read the entire article?"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -60,8 +59,7 @@
             android:layout_marginStart="@dimen/margin_mini"
             app:layout_constraintTop_toTopOf="@id/imgE"
             app:layout_constraintStart_toEndOf="@id/imgE"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="vidence: does the author of the article present Evidence to support that particular point of view?"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,8 +83,7 @@
             android:layout_marginStart="@dimen/margin_mini"
             app:layout_constraintTop_toTopOf="@id/imgA"
             app:layout_constraintStart_toEndOf="@id/imgA"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="ccuracy: is the text of the article accurate? Sometimes grammatical errors might mean the information is not accurate."/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,8 +107,7 @@
             android:layout_marginStart="@dimen/margin_mini"
             app:layout_constraintTop_toTopOf="@id/imgD"
             app:layout_constraintStart_toEndOf="@id/imgD"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="eceiving artefacts: does the article contain any image or video? Check for the originality of such artefacts as they can be manipulated or show an unrelated event or place."/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
