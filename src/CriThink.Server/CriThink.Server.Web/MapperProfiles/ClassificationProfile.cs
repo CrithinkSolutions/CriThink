@@ -16,7 +16,9 @@ namespace CriThink.Server.Web.MapperProfiles
                     .MapValue(NewsSourceClassification.Conspiracist, Classification.Conspiracist)
                     .MapValue(NewsSourceClassification.FakeNews, Classification.FakeNews)
                     .MapValue(NewsSourceClassification.Reliable, Classification.Reliable)
-                    .MapValue(NewsSourceClassification.Satirical, Classification.Satirical));
+                    .MapValue(NewsSourceClassification.Satirical, Classification.Satirical)
+                    .MapValue(NewsSourceClassification.Suspicious, Classification.Suspicious)
+                    .MapValue(NewsSourceClassification.SocialMedia, Classification.SocialMedia));
         }
     }
 }
