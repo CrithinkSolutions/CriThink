@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Models.Menu;
+using CriThink.Client.Core.Platform;
 using CriThink.Client.Core.Services;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
@@ -20,15 +21,17 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class AboutViewModel : BaseBottomViewViewModel
     {
         private readonly IIdentityService _identityService;
+        private readonly IPlatformDetails _platformDetails;
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
 
         private bool _isInitialized;
 
-        public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
+        public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IPlatformDetails platformDetails, IUserDialogs userDialogs)
             : base(logProvider, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = LogProvider?.GetLogFor<AboutViewModel>();
 
@@ -126,6 +129,7 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             try
             {
+                _platformDetails.LogoutSocialLogin();
                 _identityService.PerformLogout();
 
                 await NavigationService.Navigate<SignUpViewModel>(
