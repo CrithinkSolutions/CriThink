@@ -4,117 +4,115 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:paddingStart="@dimen/padding_page"
+    android:paddingEnd="@dimen/padding_page">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/guidelineHorizontal"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:id="@+id/layoutH"
+        android:padding="@dimen/padding_page"
+        app:layout_constraintBottom_toTopOf="@id/layoutE">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <FFImageLoading.Cross.MvxCachedImageView
+            android:layout_width="@dimen/imgSize_medium"
+            android:layout_height="@dimen/imgSize_medium"
+            android:id="@+id/imgH" 
+            android:src="@drawable/ic_H"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/H_head">
-    
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="description"
-                android:id="@+id/head_image" 
-                android:src="@drawable/ic_H"/>
+            android:id="@+id/txtHDescription"
+            android:layout_marginStart="@dimen/margin_mini"
+            app:layout_constraintTop_toTopOf="@id/imgH"
+            app:layout_constraintStart_toEndOf="@id/imgH"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="eadlines do not contain the full story. Have you read the entire article?"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/head_image"
-                android:text="Prova"
-                android:textSize="@dimen/text_caption"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/E_head"
-            app:layout_constraintTop_toBottomOf="@id/H_head">
-    
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="description"
-                android:id="@+id/head_image" 
-                android:src="@drawable/ic_E"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/head_image"
-                android:text="Prova"
-                android:textSize="@dimen/text_caption"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/A_head"
-            app:layout_constraintTop_toBottomOf="@id/E_head">
-    
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="description"
-                android:id="@+id/head_image" 
-                android:src="@drawable/ic_a"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/head_image"
-                android:text="Prova"
-                android:textSize="@dimen/text_caption"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/D_head"
-            app:layout_constraintTop_toBottomOf="@id/A_head">
-    
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="description"
-                android:id="@+id/head_image" 
-                android:src="@drawable/ic_D"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/head_image"
-                android:text="Prova"
-                android:textSize="@dimen/text_caption"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutE"
+        android:padding="@dimen/padding_page"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal">
+
+        <FFImageLoading.Cross.MvxCachedImageView
+            android:layout_width="@dimen/imgSize_medium"
+            android:layout_height="@dimen/imgSize_medium"
+            android:id="@+id/imgE" 
+            android:src="@drawable/ic_E"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEDescription"
+            android:layout_marginStart="@dimen/margin_mini"
+            app:layout_constraintTop_toTopOf="@id/imgE"
+            app:layout_constraintStart_toEndOf="@id/imgE"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="vidence: does the author of the article present Evidence to support that particular point of view?"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutA"
+        android:padding="@dimen/padding_page"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal">
+
+        <FFImageLoading.Cross.MvxCachedImageView
+            android:layout_width="@dimen/imgSize_medium"
+            android:layout_height="@dimen/imgSize_medium"
+            android:id="@+id/imgA" 
+            android:src="@drawable/ic_a"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtADescription"
+            android:layout_marginStart="@dimen/margin_mini"
+            app:layout_constraintTop_toTopOf="@id/imgA"
+            app:layout_constraintStart_toEndOf="@id/imgA"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="ccuracy: is the text of the article accurate? Sometimes grammatical errors might mean the information is not accurate."/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutD"
+        android:padding="@dimen/padding_page"
+        app:layout_constraintTop_toBottomOf="@id/layoutA">
+
+        <FFImageLoading.Cross.MvxCachedImageView
+            android:layout_width="@dimen/imgSize_medium"
+            android:layout_height="@dimen/imgSize_medium"
+            android:id="@+id/imgD" 
+            android:src="@drawable/ic_D"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDDescription"
+            android:layout_marginStart="@dimen/margin_mini"
+            app:layout_constraintTop_toTopOf="@id/imgD"
+            app:layout_constraintStart_toEndOf="@id/imgD"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="eceiving artefacts: does the article contain any image or video? Check for the originality of such artefacts as they can be manipulated or show an unrelated event or place."/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
