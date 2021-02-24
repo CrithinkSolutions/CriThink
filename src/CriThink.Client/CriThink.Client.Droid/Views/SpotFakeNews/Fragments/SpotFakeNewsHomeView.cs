@@ -30,10 +30,10 @@ namespace CriThink.Client.Droid.Views.SpotFakeNews
             var binder = this as IMvxBindingContextOwner;
             var set = binder.CreateBindingSet<IMvxBindingContextOwner, SpotFakeNewsHomeViewModel>();
 
-            set.Bind(txtHDescription).For(v => v.Hint).ToLocalizationId("HDescription");
-            set.Bind(txtEDescription).For(v => v.Hint).ToLocalizationId("EDescription");
-            set.Bind(txtADescription).For(v => v.Hint).ToLocalizationId("ADescription");
-            set.Bind(txtDDescription).For(v => v.Hint).ToLocalizationId("DDescription");
+            set.Bind(txtHDescription).ToLocalizationId("HDescription");
+            set.Bind(txtEDescription).ToLocalizationId("EDescription");
+            set.Bind(txtADescription).ToLocalizationId("ADescription");
+            set.Bind(txtDDescription).ToLocalizationId("DDescription");
 
             set.Apply();
 
