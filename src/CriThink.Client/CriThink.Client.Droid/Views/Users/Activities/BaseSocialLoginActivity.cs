@@ -43,7 +43,7 @@ namespace CriThink.Client.Droid.Views.Users
                     }
                     catch (Exception ex)
                     {
-                        ShowErrorMessage(ex, "An error occurred while logging with Google");
+                        ShowErrorMessage(ex, "Login cancelled or an error occurred while logging with Google");
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace CriThink.Client.Droid.Views.Users
 
         #region Google
 
-        public void LoginUsingGoogle()
+        public async Task LoginUsingGoogle()
         {
             _externalLoginProvider = ExternalLoginProvider.Google;
 
@@ -110,7 +110,10 @@ namespace CriThink.Client.Droid.Views.Users
             }
             else
             {
-                PerformLogin(lastUser.IdToken, ExternalLoginProvider.Google);
+                var googleAccount = await _signInClient.SilentSignInAsync();
+                var token = googleAccount.IdToken;
+
+                PerformLogin(token, ExternalLoginProvider.Google);
             }
         }
 

@@ -28,5 +28,10 @@
         /// </summary>
         /// <param name="profileId">(Optional) Id of the profile to open</param>
         public void OpenLinkedInProfile(string profileId = null);
+
+        /// <summary>
+        /// Perform logout from social
+        /// </summary>
+        public void LogoutSocialLogin();
     }
 }

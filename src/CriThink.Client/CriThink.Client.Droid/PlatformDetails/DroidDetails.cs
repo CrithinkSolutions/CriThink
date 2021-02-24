@@ -1,4 +1,6 @@
-﻿using Android.Content;
+﻿using System;
+using Android.Content;
+using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.Platform;
 
 namespace CriThink.Client.Droid.PlatformDetails
@@ -43,6 +45,29 @@ namespace CriThink.Client.Droid.PlatformDetails
         {
             var linkedInUri = $"https://www.linkedin.com/{profileId}";
             LaunchIntent(linkedInUri);
+        }
+
+
+        public void LogoutSocialLogin()
+        {
+            var signInClient = InitGoogleSignIn();
+            signInClient.SignOut();
+        }
+
+        private static GoogleSignInClient InitGoogleSignIn()
+        {
+            var context = Android.App.Application.Context;
+            if (context is null)
+                throw new InvalidOperationException("Android context is null");
+
+            var token = context.GetString(Resource.String.google_signin);
+
+            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestIdToken(token)
+                .RequestEmail()
+                .Build();
+
+            return GoogleSignIn.GetClient(context, gso);
         }
 
         private static Intent GetIntentOfTheGivenPackage(string package) =>
