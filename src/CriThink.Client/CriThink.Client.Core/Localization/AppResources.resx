@@ -219,7 +219,7 @@
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
     <value>We think this website is {0}</value>
   </data>
-  <data name="NewsCheckerResultDetailViewModel.RelatedDNews" xml:space="preserve">
+  <data name="NewsCheckerResultViewModel.RelatedDNews" xml:space="preserve">
     <value>You may also like..</value>
   </data>
   <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
@@ -326,9 +326,6 @@
   </data>
   <data name="WelcomeLoginSignInViewModel.SignIn" xml:space="preserve">
     <value>Sign In</value>
-  </data>
-  <data name="RelatedDebunkingNewsViewModel.OpenNews" xml:space="preserve">
-    <value>Read the news</value>
   </data>
   <data name="NewsCheckerViewModel.SeeAll" xml:space="preserve">
     <value>View all</value>
