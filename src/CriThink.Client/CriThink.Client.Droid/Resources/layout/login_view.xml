@@ -23,32 +23,63 @@
             android:paddingRight="@dimen/padding_page"
             android:id="@+id/viewInnerLayout">
 
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/imgSize_bigLogo"
-                android:id="@+id/imgTopImg"
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/appBarLayout"
+                layout="@layout/toolbar"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guidelineAllHorizontal"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTitle"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:src="@drawable/ic_text_logo" />
-            
-            <CriThink.LoaderView
+                android:layout_marginTop="@dimen/margin_littleBig"
+                android:textStyle="bold"
+                android:textSize="@dimen/textSize_title"
+                android:gravity="center" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtCaption"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTitle"
+                android:textSize="@dimen/textSize_subheader"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"/>
+
+            <LoaderView
                 android:layout_width="@dimen/imgSize_loader"
                 android:layout_height="@dimen/imgSize_loader"
-                android:id="@+id/layoutLoader"
-                android:layout_marginTop="@dimen/margin_littleBig"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imgTopImg"/>
+                android:id="@+id/loader"
+                app:layout_constraintTop_toBottomOf="@id/txtCaption"
+                app:layout_constraintBottom_toTopOf="@id/layoutCredentials"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
             
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:id="@+id/layoutCredentials"
                 android:focusableInTouchMode="true"
-                app:layout_constraintTop_toBottomOf="@id/layoutLoader">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"                
+                app:layout_constraintTop_toBottomOf="@id/guidelineAllHorizontal"
+                app:layout_constraintBottom_toTopOf="@id/btnFb">
                 
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout

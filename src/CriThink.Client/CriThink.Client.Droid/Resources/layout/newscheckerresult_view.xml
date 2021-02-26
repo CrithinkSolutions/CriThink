@@ -102,10 +102,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Loader -->
-            <CriThink.LoaderView
+            <LoaderView
                 android:layout_width="@dimen/imgSize_loader"
                 android:layout_height="@dimen/imgSize_loader"
-                android:id="@+id/layoutLoader"
+                android:id="@+id/loader"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

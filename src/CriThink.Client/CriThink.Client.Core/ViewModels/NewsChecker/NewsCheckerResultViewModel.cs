@@ -94,15 +94,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
-
-            // TODO: Fix this
-            IsLoading = false;
-
             await SearchNewsSourceAsync().ConfigureAwait(true);
         }
 
         private async Task SearchNewsSourceAsync()
         {
+            IsLoading = true;
+
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 
             try

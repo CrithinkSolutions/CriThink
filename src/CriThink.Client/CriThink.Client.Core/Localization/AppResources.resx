@@ -345,4 +345,25 @@
   <data name="SpotFakeNewsHomeViewModel.HDescription" xml:space="preserve">
     <value>eadlines do not contain the full story. Have you read the entire article?</value>
   </data>
+  <data name="LoginViewModel.SocialLoginErrorMessage" xml:space="preserve">
+    <value>An error occurred when logging in with {0}</value>
+  </data>
+  <data name="SignUpViewModel.LoginErrorMessage" xml:space="preserve">
+    <value>An error occurred with {0}</value>
+  </data>
+  <data name="LoginViewModel.LoginErrorMessage" xml:space="preserve">
+    <value>Incorrect email address or password. Please check and try again</value>
+  </data>
+  <data name="LoginViewModel.Pleasure" xml:space="preserve">
+    <value>It's a pleasure to see you again</value>
+  </data>
+  <data name="LoginViewModel.WelcomeBack" xml:space="preserve">
+    <value>Welcome Back</value>
+  </data>
+  <data name="SignUpEmailViewModel.SignUpEmailCaption" xml:space="preserve">
+    <value>You will like it.</value>
+  </data>
+  <data name="SignUpEmailViewModel.SignUpEmailTitle" xml:space="preserve">
+    <value>Welcome to the community</value>
+  </data>
 </root>

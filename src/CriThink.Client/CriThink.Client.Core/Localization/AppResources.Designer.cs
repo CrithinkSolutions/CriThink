@@ -358,11 +358,47 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect email address or password. Please check and try again.
+        /// </summary>
+        internal static string LoginViewModel_LoginErrorMessage {
+            get {
+                return ResourceManager.GetString("LoginViewModel.LoginErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string LoginViewModel_PasswordHint {
             get {
                 return ResourceManager.GetString("LoginViewModel.PasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It&apos;s a pleasure to see you again.
+        /// </summary>
+        internal static string LoginViewModel_Pleasure {
+            get {
+                return ResourceManager.GetString("LoginViewModel.Pleasure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when logging in with {0}.
+        /// </summary>
+        internal static string LoginViewModel_SocialLoginErrorMessage {
+            get {
+                return ResourceManager.GetString("LoginViewModel.SocialLoginErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome Back.
+        /// </summary>
+        internal static string LoginViewModel_WelcomeBack {
+            get {
+                return ResourceManager.GetString("LoginViewModel.WelcomeBack", resourceCulture);
             }
         }
         
@@ -601,6 +637,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You will like it..
+        /// </summary>
+        internal static string SignUpEmailViewModel_SignUpEmailCaption {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.SignUpEmailCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the community.
+        /// </summary>
+        internal static string SignUpEmailViewModel_SignUpEmailTitle {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.SignUpEmailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         internal static string SignUpEmailViewModel_UsernameHint {
@@ -651,6 +705,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string SignUpViewModel_Login {
             get {
                 return ResourceManager.GetString("SignUpViewModel.Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred with {0}.
+        /// </summary>
+        internal static string SignUpViewModel_LoginErrorMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.LoginErrorMessage", resourceCulture);
             }
         }
         

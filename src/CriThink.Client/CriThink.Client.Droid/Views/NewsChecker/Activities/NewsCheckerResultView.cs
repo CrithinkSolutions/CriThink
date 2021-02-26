@@ -11,6 +11,7 @@ using CriThink.Client.Droid.Views.DebunkingNews;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -34,7 +35,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             BuildTitleText();
 
-            var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
+            var loader = FindViewById<LoaderView>(Resource.Id.loader);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var imgHeader = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgHeader);
             var imgArrow = FindViewById<MvxCachedImageView>(Resource.Id.imgArrow);
@@ -68,7 +69,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             set.Bind(recyclerRelatedDNews).For(v => v.ItemClick).To(vm => vm.DebunkingNewsSelectedCommand);
 
-            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
             set.Bind(txtRelatedDNews).For(v => v.Visibility).To(vm => vm.HasRelatedDebunkingNews).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(imgArrow).For(v => v.Visibility).To(vm => vm.HasRelatedDebunkingNews).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(recyclerRelatedDNews).For(v => v.Visibility).To(vm => vm.HasRelatedDebunkingNews).WithConversion<MvxVisibilityValueConverter>();
