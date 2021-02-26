@@ -34,44 +34,78 @@
                 android:id="@+id/appBarLayout"
                 layout="@layout/toolbar"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <ffimageloading.cross.MvxSvgCachedImageView
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/layoutResults"
+                android:id="@+id/imgHeader"
+                android:scaleType="centerCrop"
                 app:layout_constraintTop_toBottomOf="@id/appBarLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintDimensionRatio="H,1:1"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_page"
+                android:paddingEnd="@dimen/padding_page"
+                android:layout_marginBottom="@dimen/padding_page"
+                android:layout_marginTop="@dimen/margin_big"
+                app:layout_constraintTop_toBottomOf="@id/imgHeader">
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="@dimen/textSize_caption"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/layoutResult">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/txtClassification"/>
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_big"
+                    app:layout_constraintTop_toBottomOf="@id/txtClassification"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/txtDescription"/>
 
-                    <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
-                        android:id="@+id/indicator"
-                        android:padding="10dip"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtRelatedDNews"
+                    android:textSize="@dimen/textSize_caption"
+                    android:layout_marginTop="@dimen/margin_veryBig"
+                    app:layout_constraintTop_toBottomOf="@id/txtDescription"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <ffimageloading.cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_small"
+                    android:layout_height="@dimen/imgSize_small"
+                    android:id="@+id/imgArrow"
+                    android:src="@drawable/ic_arrow_down"
+                    android:tint="@color/welcomeBackground"
+                    app:layout_constraintTop_toTopOf="@id/txtRelatedDNews"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerRelatedDNews"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/txtRelatedDNews"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Loader -->
-            <CriThink.LoaderView
+            <LoaderView
                 android:layout_width="@dimen/imgSize_loader"
                 android:layout_height="@dimen/imgSize_loader"
-                android:id="@+id/layoutLoader"
+                android:id="@+id/loader"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

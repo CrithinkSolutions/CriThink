@@ -10,6 +10,7 @@ using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
 using MvvmCross;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
@@ -45,12 +46,20 @@ namespace CriThink.Client.Droid.Views.Users
                 }
             }
 
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
+
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtInputPassword = FindViewById<TextInputLayout>(Resource.Id.txtInputPassword);
             var txtInputRepeatPassword = FindViewById<TextInputLayout>(Resource.Id.txtInputRepeatPassword);
             var txtPassword = FindViewById<BindableEditText>(Resource.Id.txtEditPassword);
             var txtRepeatPassword = FindViewById<BindableEditText>(Resource.Id.txtEditRepeatPassword);
             var btnSend = FindViewById<AppCompatButton>(Resource.Id.btnSend);
+            var loader = FindViewById<LoaderView>(Resource.Id.loader);
 
             var set = CreateBindingSet();
 
@@ -65,7 +74,15 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnSend).For(v => v.Text).ToLocalizationId("Send");
             set.Bind(btnSend).To(vm => vm.SendRequestCommand);
 
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
+
             set.Apply();
+        }
+
+        public override bool OnSupportNavigateUp()
+        {
+            Finish();
+            return false;
         }
 
         private void RestartViewModelWithQueryData()

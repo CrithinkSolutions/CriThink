@@ -53,10 +53,16 @@ namespace CriThink.Client.Core.ViewModels.Users
         #region Commands
 
         private IMvxAsyncCommand _loginCommand;
-        public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand, () => !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(EmailOrUsername));
+        public IMvxAsyncCommand LoginCommand => _loginCommand ??= new MvxAsyncCommand(DoLoginCommand,
+            () =>
+            !IsLoading &&
+            !string.IsNullOrWhiteSpace(Password) &&
+            !string.IsNullOrWhiteSpace(EmailOrUsername) && !IsLoading);
 
         private IMvxAsyncCommand _navigateToForgotPasswordCommand;
-        public IMvxAsyncCommand NavigateToForgotPasswordCommand => _navigateToForgotPasswordCommand ??= new MvxAsyncCommand(DoNavigateToForgotPasswordCommand);
+        public IMvxAsyncCommand NavigateToForgotPasswordCommand => _navigateToForgotPasswordCommand ??= new MvxAsyncCommand(DoNavigateToForgotPasswordCommand,
+            () =>
+            !IsLoading);
 
         #endregion
 
@@ -68,21 +74,30 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoLoginCommand(CancellationToken cancellationToken)
         {
-            var request = new UserLoginRequest
+            IsLoading = true;
+
+            UserLoginResponse userInfo;
+            try
             {
-                Password = Password
-            };
+                var request = new UserLoginRequest { Password = Password };
 
-            var isEmail = EmailHelper.IsEmail(EmailOrUsername);
-            if (isEmail)
-                request.Email = EmailOrUsername.ToUpperInvariant();
-            else
-                request.UserName = EmailOrUsername.ToUpperInvariant();
+                if (EmailHelper.IsEmail(EmailOrUsername))
+                    request.Email = EmailOrUsername.ToUpperInvariant();
+                else
+                    request.UserName = EmailOrUsername.ToUpperInvariant();
 
-            var userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
+                userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+
             if (userInfo is null)
             {
-                await ShowErrorMessage("Incorrect email address or password. Please check and try again").ConfigureAwait(false);
+                var localizedText = LocalizedTextSource.GetText("LoginErrorMessage");
+                await ShowErrorMessage(localizedText).ConfigureAwait(false);
             }
             else
             {

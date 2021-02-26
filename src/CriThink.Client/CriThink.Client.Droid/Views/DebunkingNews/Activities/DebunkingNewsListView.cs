@@ -10,6 +10,7 @@ using CriThink.Client.Droid.Controls;
 using CriThink.Client.Droid.Extensions;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -61,11 +62,11 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
 
             set.Bind(adapter).For(v => v.ItemsSource).To(vm => vm.Feed);
             set.Bind(listDebunkingNews).For(v => v.ItemClick).To(vm => vm.DebunkingNewsSelectedCommand);
-            set.Bind(listDebunkingNews).For("Visibility").To(vm => vm.IsLoading)
+            set.Bind(listDebunkingNews).For(v => v.Visibility).To(vm => vm.IsLoading)
                 .WithConversion<MvxInvertedVisibilityValueConverter>();
             set.Bind(_txtTitle).ToLocalizationId("Title");
-            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading)
-                .WithConversion<MvxVisibilityValueConverter>();
+
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
 
             set.Apply();
         }

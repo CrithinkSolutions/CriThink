@@ -5,10 +5,12 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
+using CriThink.Client.Droid.Controls;
 using CriThink.Client.Droid.Views.DebunkingNews;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -26,6 +28,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var view = this.BindingInflate(Resource.Layout.newschecker_view, null);
 
+            var loader = view.FindViewById<LoaderView>(Resource.Id.loader);
             var txtWelcome = view.FindViewById<AppCompatTextView>(Resource.Id.txtWelcome);
             var txtName = view.FindViewById<AppCompatTextView>(Resource.Id.txtName);
             var txtMotto = view.FindViewById<AppCompatTextView>(Resource.Id.txtMotto);
@@ -60,6 +63,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(txtSeeAll).For("Click").To(vm => vm.NavigateToAllDebunkingNewsCommand);
             set.Bind(imgLogo).For(v => v.Transformations).To(vm => vm.LogoImageTransformations);
             set.Bind(imgLogo).For(v => v.ImagePath).To(vm => vm.ProfileImagePath);
+
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
 
             set.Bind(txtSectionTitle).ToLocalizationId("DebunkingNewsTitle");
 

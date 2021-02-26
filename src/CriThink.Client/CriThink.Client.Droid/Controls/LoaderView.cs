@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Runtime;
 using Android.Util;
+using Android.Views;
 using Android.Views.Animations;
 using FFImageLoading;
 using FFImageLoading.Cross;
@@ -10,42 +11,49 @@ namespace CriThink.Client.Droid.Controls
 {
     public class LoaderView : MvxCachedImageView
     {
+        private Animation _animation;
+
         protected LoaderView(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
-        {
-            Initialize();
-        }
+        { }
 
         public LoaderView(Context context)
             : base(context)
-        {
-            Initialize();
-        }
+        { }
 
         public LoaderView(Context context, IAttributeSet attrs)
             : base(context, attrs)
+        { }
+
+        protected override void OnVisibilityChanged(View changedView, ViewStates visibility)
         {
-            Initialize();
+            base.OnVisibilityChanged(changedView, visibility);
+
+            if (visibility == ViewStates.Visible)
+                StartAnimation(_animation);
+            else
+                ClearAnimation();
         }
 
-        private void Initialize()
+        protected override void OnAttachedToWindow()
         {
-            base.Initialize();
+            base.OnAttachedToWindow();
+            Create();
+        }
 
+        private void Create()
+        {
             if (Context == null)
                 return;
 
             ImageService.Instance.LoadCompiledResource("loader_indicator")
                 .Into(this);
 
-            ApplyRotation();
-
-            StartAnimation(Animation);
+            _animation = ApplyRotation();
         }
 
-        private void ApplyRotation()
-        {
-            var rotation = new RotateAnimation(
+        private static RotateAnimation ApplyRotation() =>
+            new RotateAnimation(
                 0,
                 360,
                 Dimension.RelativeToSelf,
@@ -58,7 +66,5 @@ namespace CriThink.Client.Droid.Controls
                 RepeatCount = Animation.Infinite
             };
 
-            Animation = rotation;
-        }
     }
 }

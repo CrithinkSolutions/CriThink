@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
@@ -52,7 +53,9 @@ namespace CriThink.Client.Core.ViewModels.Users
             catch (Exception ex)
             {
                 Log?.FatalException("Error while loggin using social login", ex, string.IsNullOrWhiteSpace(token), loginProvider);
-                await ShowErrorMessage(ex, $"An error occurred when logging in with {loginProvider}").ConfigureAwait(true);
+
+                var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
+                await ShowErrorMessage(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
             }
             finally
             {

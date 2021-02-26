@@ -7,9 +7,9 @@ using CriThink.Client.Droid.Constants;
 using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
-using MvvmCross.Plugin.Visibility;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -30,12 +30,21 @@ namespace CriThink.Client.Droid.Views.Users
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signupemail_view);
 
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
+
+            var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
+            var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var email = FindViewById<TextInputEditText>(Resource.Id.txtInput_email);
             var username = FindViewById<TextInputEditText>(Resource.Id.txtInput_username);
             var password = FindViewById<TextInputEditText>(Resource.Id.txtInput_password);
             var repeatPassword = FindViewById<TextInputEditText>(Resource.Id.txtInput_repeatPassword);
-            var btnSignUp = FindViewById<AppCompatButton>(Resource.Id.btn_signUp);
-            var loader = FindViewById<LoaderView>(Resource.Id.layoutLoader);
+            var btnSignUp = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
+            var loader = FindViewById<LoaderView>(Resource.Id.loader);
             var txtEditEmail = FindViewById<TextInputLayout>(Resource.Id.txtEditEmail);
             var txtEditUsername = FindViewById<TextInputLayout>(Resource.Id.txtEditUsername);
             var txtEditPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditPassword);
@@ -47,17 +56,26 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(username).To(vm => vm.Username);
             set.Bind(password).To(vm => vm.Password);
             set.Bind(repeatPassword).To(vm => vm.RepeatPassword);
-            set.Bind(btnSignUp).To(vm => vm.SignUpCommand);
+            set.Bind(btnSignUp).For(v => v.BindClick()).To(vm => vm.SignUpCommand);
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
+
             set.Bind(btnSignUp).For(v => v.Text).ToLocalizationId("SignUp");
-            set.Bind(loader).For(v => v.Visibility).To(vm => vm.IsLoading).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(txtEditEmail).For(v => v.Hint).ToLocalizationId("EmailHint");
             set.Bind(txtEditUsername).For(v => v.Hint).ToLocalizationId("UsernameHint");
             set.Bind(txtEditPassword).For(v => v.Hint).ToLocalizationId("PasswordHint");
             set.Bind(txtEditRepeatPassword).For(v => v.Hint).ToLocalizationId("RepeatPasswordHint");
+            set.Bind(txtTitle).ToLocalizationId("SignUpEmailTitle");
+            set.Bind(txtCaption).ToLocalizationId("SignUpEmailCaption");
 
             set.Apply();
 
             ReadIntentData();
+        }
+
+        public override bool OnSupportNavigateUp()
+        {
+            Finish();
+            return false;
         }
 
         private void ReadIntentData()

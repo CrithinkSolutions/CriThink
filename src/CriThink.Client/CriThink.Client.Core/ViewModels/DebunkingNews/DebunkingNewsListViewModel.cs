@@ -99,8 +99,6 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                     .GetDebunkingNewsAsync(request, _cancellationTokenSource.Token)
                     .ConfigureAwait(false);
 
-                await Task.Delay(3000);
-
                 if (debunkinNewsCollection.DebunkingNewsCollection != null)
                     Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
 

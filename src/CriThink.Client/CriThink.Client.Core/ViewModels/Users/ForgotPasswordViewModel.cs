@@ -34,7 +34,9 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _sendRequestCommand;
 
         public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= _sendRequestCommand = new MvxAsyncCommand(DoSendRequestCommand,
-            () => !string.IsNullOrWhiteSpace(EmailOrUsername));
+            () =>
+                !IsLoading &&
+                !string.IsNullOrWhiteSpace(EmailOrUsername));
 
         public override void Prepare()
         {
@@ -44,6 +46,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(EmailOrUsername))
+                return;
+
             var request = new ForgotPasswordRequest();
 
             var isEmail = EmailHelper.IsEmail(EmailOrUsername);
@@ -59,6 +64,10 @@ namespace CriThink.Client.Core.ViewModels.Users
             catch (Exception)
             {
                 await ShowErrorMessage("An error occurred requesting a temporary token").ConfigureAwait(true);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 

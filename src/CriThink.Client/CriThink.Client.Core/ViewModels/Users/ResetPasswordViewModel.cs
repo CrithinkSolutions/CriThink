@@ -69,8 +69,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _sendRequestCommand;
 
-        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= new MvxAsyncCommand(DoSendRequestCommand, () =>
-            !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(RepeatPassword) && !string.IsNullOrWhiteSpace(UserId));
+        public IMvxAsyncCommand SendRequestCommand => _sendRequestCommand ??= new MvxAsyncCommand(DoSendRequestCommand,
+            () =>
+                !IsLoading &&
+                !string.IsNullOrWhiteSpace(Password) &&
+                string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture) &&
+                !string.IsNullOrWhiteSpace(UserId));
 
         #endregion
 
@@ -91,17 +95,18 @@ namespace CriThink.Client.Core.ViewModels.Users
                 UserId = UserId
             };
 
-            var response = await _identityService.ResetPasswordAsync(request, cancellationToken).ConfigureAwait(false);
-            if (response is null)
-            {
-                await ShowErrorMessage().ConfigureAwait(true);
-                return;
-            }
-
-            await ShowWelcomeMessage(response).ConfigureAwait(true);
-
             try
             {
+                var response = await _identityService.ResetPasswordAsync(request, cancellationToken).ConfigureAwait(false);
+                if (response is null)
+                {
+                    await ShowErrorMessage().ConfigureAwait(true);
+                    return;
+                }
+
+                await ShowWelcomeMessage(response).ConfigureAwait(true);
+
+
                 await _navigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken, presentationBundle: new MvxBundle(new Dictionary<string, string>
                 {
                     {MvxBundleConstaints.ClearBackStack, ""}

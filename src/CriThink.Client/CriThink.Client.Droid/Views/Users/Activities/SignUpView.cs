@@ -4,7 +4,9 @@ using Android.Content;
 using Android.OS;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
+using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 // ReSharper disable once CheckNamespace
@@ -36,6 +38,7 @@ namespace CriThink.Client.Droid.Views.Users
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var alreadyAccount = FindViewById<AppCompatTextView>(Resource.Id.alreadyAccount);
+            var loader = FindViewById<MvxCachedImageView>(Resource.Id.loader);
 
             var set = CreateBindingSet();
 
@@ -48,6 +51,8 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
             set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(alreadyAccount).ToLocalizationId("AlreadyAccount");
+
+            set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
 
             set.Apply();
         }

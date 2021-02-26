@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginTop="@dimen/cardview_marginTopList"
+  android:layout_marginStart="@dimen/cardview_marginSidesList"
+  android:layout_marginEnd="@dimen/cardview_marginSidesList"
+  android:background="@android:color/white"
+  app:cardElevation="@dimen/cardview_elevation"
+  app:cardCornerRadius="@dimen/cardview_corners_radius">
+  
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/layoutHeader"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:paddingTop="@dimen/padding_page"
+      android:paddingStart="@dimen/padding_page"
+      android:paddingEnd="@dimen/padding_page">
+      
+      <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtPublisher"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/urbanist_extrabold"
+        android:textSize="@dimen/textSize_caption" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FFImageLoading.Cross.MvxCachedImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/imgSize_debunkingCollection"
+      android:id="@+id/imgNews"
+      android:scaleType="centerCrop"
+      android:layout_marginTop="@dimen/margin_medium"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/layoutTitle"
+      app:layout_constraintTop_toBottomOf="@id/imgNews"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginTop="@dimen/margin_medium"
+      android:paddingBottom="@dimen/padding_page"
+      android:paddingStart="@dimen/padding_page"
+      android:paddingEnd="@dimen/padding_page">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPublishingDate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtPublishingDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/txtTitle"
+            android:textSize="@dimen/textSize_subheader"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/txtCaption"
+            android:textSize="@dimen/textSize_small"/>
+      
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

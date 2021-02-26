@@ -90,8 +90,14 @@ namespace CriThink.Client.Core
 
             try
             {
-                await _identityService.PerformLoginAsync(request, cancellationToken.Token)
+                var response = await _identityService.PerformLoginAsync(request, cancellationToken.Token)
                     .ConfigureAwait(false);
+                if (response is null)
+                {
+                    _identityService.PerformLogout();
+                    await NavigateToSignUpViewAsync().ConfigureAwait(true);
+                    return;
+                }
 
                 await NavigationService.Navigate<HomeViewModel>(cancellationToken: cancellationToken.Token)
                     .ConfigureAwait(true);

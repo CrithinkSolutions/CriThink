@@ -77,7 +77,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _signUpCommand;
         public IMvxAsyncCommand SignUpCommand => _signUpCommand ??= new MvxAsyncCommand(DoSignUpCommand, () =>
-            EmailHelper.IsEmail(Email) &&
+            !IsLoading &&
+            !string.IsNullOrWhiteSpace(Email) && EmailHelper.IsEmail(Email) &&
             !string.IsNullOrWhiteSpace(Username) &&
             !string.IsNullOrWhiteSpace(Password) &&
             string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture));
