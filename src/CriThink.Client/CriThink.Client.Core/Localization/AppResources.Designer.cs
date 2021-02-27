@@ -313,6 +313,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Work in progress...
+        /// </summary>
+        internal static string HomeGameViewModel_Wip {
+            get {
+                return ResourceManager.GetString("HomeGameViewModel.Wip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email or username.
         /// </summary>
         internal static string LoginViewModel_EmailHint {

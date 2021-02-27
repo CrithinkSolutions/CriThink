@@ -366,4 +366,7 @@
   <data name="SignUpEmailViewModel.SignUpEmailTitle" xml:space="preserve">
     <value>Welcome to the community</value>
   </data>
+  <data name="HomeGameViewModel.Wip" xml:space="preserve">
+    <value>Work in progress..</value>
+  </data>
 </root>
