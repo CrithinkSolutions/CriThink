@@ -1,8 +1,10 @@
 ﻿using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Games;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -19,6 +21,14 @@ namespace CriThink.Client.Droid.Views.Games
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = this.BindingInflate(Resource.Layout.homegame_view, null);
+
+            var txtWip = view.FindViewById<AppCompatTextView>(Resource.Id.txtWip);
+
+            var set = CreateBindingSet();
+
+            set.Bind(txtWip).ToLocalizationId("Wip");
+
+            set.Apply();
 
             return view;
         }

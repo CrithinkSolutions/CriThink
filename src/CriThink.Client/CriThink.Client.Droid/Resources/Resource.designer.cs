@@ -26938,67 +26938,70 @@ namespace CriThink.Client.Droid
 			public const int txtWelcome = 2131296804;
 			
 			// aapt resource value: 0x7F090225
-			public const int @unchecked = 2131296805;
+			public const int txtWip = 2131296805;
 			
 			// aapt resource value: 0x7F090226
-			public const int underline = 2131296806;
+			public const int @unchecked = 2131296806;
 			
 			// aapt resource value: 0x7F090227
-			public const int uniform = 2131296807;
+			public const int underline = 2131296807;
 			
 			// aapt resource value: 0x7F090228
-			public const int unknown = 2131296808;
+			public const int uniform = 2131296808;
 			
 			// aapt resource value: 0x7F090229
-			public const int unlabeled = 2131296809;
+			public const int unknown = 2131296809;
 			
 			// aapt resource value: 0x7F09022A
-			public const int up = 2131296810;
+			public const int unlabeled = 2131296810;
 			
 			// aapt resource value: 0x7F09022B
-			public const int useLogo = 2131296811;
+			public const int up = 2131296811;
 			
 			// aapt resource value: 0x7F09022C
-			public const int viewInnerLayout = 2131296812;
+			public const int useLogo = 2131296812;
 			
 			// aapt resource value: 0x7F09022D
-			public const int viewLogin = 2131296813;
+			public const int viewInnerLayout = 2131296813;
 			
 			// aapt resource value: 0x7F09022E
-			public const int view_offset_helper = 2131296814;
+			public const int viewLogin = 2131296814;
 			
 			// aapt resource value: 0x7F09022F
-			public const int view_tree_lifecycle_owner = 2131296815;
+			public const int view_offset_helper = 2131296815;
 			
 			// aapt resource value: 0x7F090230
-			public const int view_tree_saved_state_registry_owner = 2131296816;
+			public const int view_tree_lifecycle_owner = 2131296816;
 			
 			// aapt resource value: 0x7F090231
-			public const int view_tree_view_model_store_owner = 2131296817;
+			public const int view_tree_saved_state_registry_owner = 2131296817;
 			
 			// aapt resource value: 0x7F090232
-			public const int visible = 2131296818;
+			public const int view_tree_view_model_store_owner = 2131296818;
 			
 			// aapt resource value: 0x7F090233
-			public const int visible_removing_fragment_view_tag = 2131296819;
+			public const int visible = 2131296819;
 			
 			// aapt resource value: 0x7F090234
-			public const int wide = 2131296820;
-			
-			// aapt resource value: 0x7F090236
-			public const int withinBounds = 2131296822;
+			public const int visible_removing_fragment_view_tag = 2131296820;
 			
 			// aapt resource value: 0x7F090235
-			public const int withText = 2131296821;
+			public const int wide = 2131296821;
 			
 			// aapt resource value: 0x7F090237
-			public const int wrap = 2131296823;
+			public const int withinBounds = 2131296823;
+			
+			// aapt resource value: 0x7F090236
+			public const int withText = 2131296822;
 			
 			// aapt resource value: 0x7F090238
-			public const int wrap_content = 2131296824;
+			public const int wrap = 2131296824;
 			
 			// aapt resource value: 0x7F090239
-			public const int zero_corner_chip = 2131296825;
+			public const int wrap_content = 2131296825;
+			
+			// aapt resource value: 0x7F09023A
+			public const int zero_corner_chip = 2131296826;
 			
 			static Id()
 			{
