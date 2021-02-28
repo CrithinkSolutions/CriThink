@@ -23,6 +23,7 @@
                     <th>Request Count</th>
                     <th>Requested At</th>
                     <th>Authenticity</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             @foreach (var uNews in Model.UnknownNewsSourceCollection)
@@ -32,6 +33,11 @@
                     <td>@uNews.RequestCount</td>
                     <td>@uNews.RequestedAt</td>
                     <td>@uNews.Authenticity</td>
+                    <td style="width:8%">
+                        <div>
+                            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Identify" asp-route-id="@uNews.Id"><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
+                        </div>
+                    </td>
                 </tr>
             }
         </table>
