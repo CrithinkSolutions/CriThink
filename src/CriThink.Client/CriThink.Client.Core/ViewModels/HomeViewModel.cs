@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Games;
@@ -20,8 +21,9 @@ namespace CriThink.Client.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
+        private readonly IUserDialogs _userDialogs;
 
-        public HomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService)
+        public HomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
         {
             var tabs = new List<BaseBottomViewViewModel>
             {
@@ -35,6 +37,7 @@ namespace CriThink.Client.Core.ViewModels
 
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
         }
 
         #region Properties
@@ -76,12 +79,23 @@ namespace CriThink.Client.Core.ViewModels
 
         private async Task DoNavigateToNewsCheckResultViewModel(string input, CancellationToken cancellationToken)
         {
-            if (!Uri.IsWellFormedUriString(input, UriKind.Absolute))
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                await ShowFormatMessageErrorAsync(cancellationToken).ConfigureAwait(true);
                 return;
+            }
 
             await _navigationService
                 .Navigate<NewsCheckerResultViewModel, string>(input, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
+        }
+
+        private Task ShowFormatMessageErrorAsync(CancellationToken cancellationToken)
+        {
+            var message = LocalizedTextSource.GetText("FormatErrorMessage");
+            var ok = LocalizedTextSource.GetText("FormatErrorOk");
+
+            return _userDialogs.AlertAsync(message, okText: ok, cancelToken: cancellationToken);
         }
     }
 }

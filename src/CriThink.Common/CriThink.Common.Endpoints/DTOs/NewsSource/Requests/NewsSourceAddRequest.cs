@@ -9,7 +9,7 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
     {
         [MinLength(2)]
         [Required]
-        [JsonPropertyName("uri")]
+        [JsonPropertyName("newsLink")]
         public string NewsLink { get; set; }
 
         [Required]

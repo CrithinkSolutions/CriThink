@@ -322,6 +322,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The link you inserted is not valid..
+        /// </summary>
+        internal static string HomeViewModel_FormatErrorMessage {
+            get {
+                return ResourceManager.GetString("HomeViewModel.FormatErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string HomeViewModel_FormatErrorOk {
+            get {
+                return ResourceManager.GetString("HomeViewModel.FormatErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email or username.
         /// </summary>
         internal static string LoginViewModel_EmailHint {
