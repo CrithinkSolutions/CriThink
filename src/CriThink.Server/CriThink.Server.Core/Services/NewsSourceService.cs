@@ -104,11 +104,16 @@ namespace CriThink.Server.Core.Services
 
                     foreach (var relatedDNews in relatedDebunkingNewsCollection)
                     {
-                        var response = _mapper.Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
+                        var response = _mapper
+                            .Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
                         relatedDebunkingNewsResponse.Add(response);
                     }
                 }
                 catch (InvalidOperationException) { }
+                catch (UriFormatException ex)
+                {
+                    _logger?.LogError(ex, $"The given url has the wrong format: '{newsLink}'");
+                }
             }
 
             return new NewsSourceSearchWithDebunkingNewsResponse
@@ -172,7 +177,7 @@ namespace CriThink.Server.Core.Services
             }
             catch (InvalidOperationException ex)
             {
-                _logger?.LogWarning(ex, "The given URL is not readable");
+                _logger?.LogWarning(ex, "The given URL is not readable", uri.ToString());
                 throw;
             }
         }
