@@ -27,10 +27,10 @@
                 <span class="input-group-text">Type</span>
             </div>
             <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()
-            .Where(i => i.Value != Classification.Unknown.ToString())"></select>
+            .Where(i => i.Value != ((int)Classification.Unknown).ToString())"></select>
         </div>
 
-        @if(!Html.ViewData.ModelState.IsValid) 
+        @if (!Html.ViewData.ModelState.IsValid)
         {
             @Html.ValidationSummary(null, new { @class = "alert alert-danger" })
         }
