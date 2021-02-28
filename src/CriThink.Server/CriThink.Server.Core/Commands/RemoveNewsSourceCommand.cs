@@ -1,15 +1,14 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
 namespace CriThink.Server.Core.Commands
 {
     public class RemoveNewsSourceCommand : IRequest
     {
-        public RemoveNewsSourceCommand(Uri uri)
+        public RemoveNewsSourceCommand(string newsLink)
         {
-            Uri = uri;
+            NewsLink = newsLink;
         }
 
-        public Uri Uri { get; }
+        public string NewsLink { get; }
     }
 }

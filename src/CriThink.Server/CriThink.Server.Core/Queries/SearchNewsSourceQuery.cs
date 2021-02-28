@@ -1,16 +1,15 @@
-﻿using System;
-using CriThink.Server.Core.Responses;
+﻿using CriThink.Server.Core.Responses;
 using MediatR;
 
 namespace CriThink.Server.Core.Queries
 {
     public class SearchNewsSourceQuery : IRequest<SearchNewsSourceQueryResponse>
     {
-        public SearchNewsSourceQuery(Uri uri)
+        public SearchNewsSourceQuery(string newsLink)
         {
-            Uri = uri ?? throw new ArgumentNullException(nameof(uri));
+            NewsLink = newsLink;
         }
 
-        public Uri Uri { get; }
+        public string NewsLink { get; }
     }
 }

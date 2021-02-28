@@ -9,7 +9,6 @@ using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Endpoints.DTOs.Common;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Common.HttpRepository;
@@ -35,14 +34,14 @@ namespace CriThink.Client.Core.Services
             _log = logProvider?.GetLogFor<NewsSourceService>();
         }
 
-        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
-            var request = new SimpleUriRequest
+            var request = new NewsSourceSearchRequest
             {
-                Uri = uri.ToString()
+                NewsLink = newsLink
             };
 
             var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
@@ -65,7 +64,7 @@ namespace CriThink.Client.Core.Services
                         // TODO: Replce with real image
                         NewsImageLink = "res:ic_text_logo",
                         Classification = searchResponse.Classification.ToString(),
-                        NewsLink = request.Uri,
+                        NewsLink = newsLink,
                         SearchDateTime = DateTime.Now,
                     };
 
@@ -81,7 +80,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error searching a news source", ex, request.Uri);
+                _log?.ErrorException("Error searching a news source", ex, newsLink);
                 return searchResponse;
             }
         }
@@ -103,17 +102,17 @@ namespace CriThink.Client.Core.Services
             return models;
         }
 
-        public async Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken)
         {
-            if (uri is null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
             var currentUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
             var userEmail = currentUser.UserEmail;
 
             var request = new NewsSourceNotificationForUnknownDomainRequest
             {
-                Uri = uri.ToString(),
+                Uri = newsLink,
                 Email = userEmail,
             };
 
@@ -130,7 +129,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error registering for notification", ex, uri);
+                _log?.ErrorException("Error registering for notification", ex, newsLink);
             }
         }
 
@@ -161,10 +160,10 @@ namespace CriThink.Client.Core.Services
 
     public interface INewsSourceService
     {
-        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken);
+        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken);
 
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync();
 
-        Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken);
+        Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
     }
 }

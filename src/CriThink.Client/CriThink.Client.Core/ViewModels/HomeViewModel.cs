@@ -79,10 +79,8 @@ namespace CriThink.Client.Core.ViewModels
             if (!Uri.IsWellFormedUriString(input, UriKind.Absolute))
                 return;
 
-            var uri = new Uri(input, UriKind.Absolute);
-
             await _navigationService
-                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .Navigate<NewsCheckerResultViewModel, string>(input, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
         }
     }

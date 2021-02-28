@@ -12,13 +12,13 @@ using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
-    public class NewsCheckerResultViewModel : BaseViewModel<Uri>
+    public class NewsCheckerResultViewModel : BaseViewModel<string>
     {
         private readonly INewsSourceService _newsSourceService;
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IMvxLog _log;
 
-        private Uri _uri;
+        private string _uri;
         private CancellationTokenSource _cancellationTokenSource;
 
         public NewsCheckerResultViewModel(INewsSourceService newsSourceService, IMvxLogProvider logProvider, IDebunkingNewsService debunkingNewsService)
@@ -70,7 +70,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         #endregion
 
-        public override void Prepare(Uri parameter)
+        public override void Prepare(string parameter)
         {
             if (parameter == null)
             {
@@ -80,7 +80,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
 
             _uri = parameter;
-            Title = _uri.Host;
+            Title = _uri.Length > 25 ? $"{_uri.Substring(0, 20)}.." : _uri;
 
             _log?.Info("User checks news source", _uri);
         }

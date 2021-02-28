@@ -1,15 +1,14 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
 namespace CriThink.Server.Core.Commands
 {
     public class CreateUnknownNewsSourceCommand : IRequest
     {
-        public CreateUnknownNewsSourceCommand(Uri uri)
+        public CreateUnknownNewsSourceCommand(string newsLink)
         {
-            Uri = uri;
+            NewsLink = newsLink;
         }
 
-        public Uri Uri { get; }
+        public string NewsLink { get; }
     }
 }

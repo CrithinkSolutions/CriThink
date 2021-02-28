@@ -27,14 +27,14 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                await _newsSourceRepository.AddNewsSourceAsync(request.Uri, request.Authencity)
+                await _newsSourceRepository.AddNewsSourceAsync(request.NewsLink, request.Authencity)
                     .ConfigureAwait(false);
 
                 return Unit.Value;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error adding a news source", request.Uri, request.Authencity);
+                _logger.LogError(ex, "Error adding a news source", request.NewsLink, request.Authencity);
                 throw;
             }
         }

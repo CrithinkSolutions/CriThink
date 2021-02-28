@@ -38,7 +38,7 @@ namespace CriThink.Server.Infrastructure.Handlers
                            "request_count = (unknown_news_sources.request_count + 1);";
 
                 var id = new NpgsqlParameter("id", Guid.NewGuid());
-                var uri = new NpgsqlParameter("uri", request.Uri.ToString());
+                var uri = new NpgsqlParameter("uri", request.NewsLink);
                 var firstRequestedAt = new NpgsqlParameter("first_requested_at", DateTime.Now);
                 var requestCount = new NpgsqlParameter("request_count", 1);
                 var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
@@ -50,7 +50,7 @@ namespace CriThink.Server.Infrastructure.Handlers
                         requestCount,
                         authenticity)
                     .ConfigureAwait(false);
-                
+
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
                 return Unit.Value;

@@ -12,9 +12,9 @@ namespace CriThink.Server.Web.Facades
 
         Task AddNewsSourceAsync(NewsSourceViewModel viewModel);
 
-        Task RemoveNewsSourceAsync(Uri uri);
+        Task RemoveNewsSourceAsync(string newsLink);
 
-        Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri);
+        Task<NewsSourceViewModel> SearchNewsSourceAsync(string newsLink);
 
         Task<NotificationRequestGetAllResponse> GetPendingNotificationRequestsAsync(SimplePaginationViewModel viewModel);
 

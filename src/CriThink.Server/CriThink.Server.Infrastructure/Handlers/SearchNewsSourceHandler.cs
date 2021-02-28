@@ -34,7 +34,7 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var redisValue = await _newsSourceRepository.SearchNewsSourceAsync(request.Uri).ConfigureAwait(false);
+                var redisValue = await _newsSourceRepository.SearchNewsSourceAsync(request.NewsLink).ConfigureAwait(false);
 
                 if (redisValue.IsNullOrEmpty)
                     return null;

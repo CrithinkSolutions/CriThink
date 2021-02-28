@@ -65,18 +65,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private async Task DoSubmitUriCommand(CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(NewsUri))
-                return;
-
-            if (!Uri.IsWellFormedUriString(NewsUri, UriKind.Absolute))
             {
                 await ShowFormatMessageErrorAsync(cancellationToken).ConfigureAwait(true);
                 return;
             }
 
-            var uri = new Uri(NewsUri, UriKind.Absolute);
-
             await _navigationService
-                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .Navigate<NewsCheckerResultViewModel, string>(NewsUri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
@@ -84,10 +79,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
         {
-            var uri = new Uri(model.NewsLink, UriKind.RelativeOrAbsolute);
-
             await _navigationService
-                .Navigate<NewsCheckerResultViewModel, Uri>(uri, cancellationToken: cancellationToken)
+                .Navigate<NewsCheckerResultViewModel, string>(model.NewsLink, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);

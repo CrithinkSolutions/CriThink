@@ -33,13 +33,13 @@ namespace CriThink.Client.Core.Services
             _token = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ?? throw new ArgumentNullException(nameof(messenger));
         }
 
-        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken)
         {
-            return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{uri}", async entry =>
+            return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{newsLink}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 _resetCacheToken.Cancel();
-                return await _newsSourceService.SearchNewsSourceAsync(uri, cancellationToken).ConfigureAwait(false);
+                return await _newsSourceService.SearchNewsSourceAsync(newsLink, cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 
@@ -53,8 +53,8 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public Task RegisterForNotificationAsync(Uri uri, CancellationToken cancellationToken) =>
-            _newsSourceService.RegisterForNotificationAsync(uri, cancellationToken);
+        public Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
+            _newsSourceService.RegisterForNotificationAsync(newsLink, cancellationToken);
 
         private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
         {
