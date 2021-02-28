@@ -77,8 +77,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpDelete]
         public async Task<IActionResult> RemoveNewsSourceAsync(RemoveBlacklistViewModel viewModel)
         {
-            var uri = new Uri(viewModel.Uri);
-            await _newsSourceFacade.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
+            await _newsSourceFacade.RemoveNewsSourceAsync(viewModel.Uri).ConfigureAwait(false);
             return NoContent();
         }
 
@@ -90,10 +89,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (string.IsNullOrEmpty(newsSourceLink))
                 return RedirectToAction(nameof(Index));
 
-            if (!Uri.TryCreate($"https://{newsSourceLink}", UriKind.Absolute, out Uri uri))
-                return RedirectToAction(nameof(Index));
-
-            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(newsSourceLink).ConfigureAwait(false);
 
             if (searchResult is null)
                 return RedirectToAction(nameof(Index));
@@ -117,18 +113,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            if (!Uri.TryCreate(viewModel.OldLink, UriKind.Absolute, out Uri oldLink))
-                return RedirectToAction(nameof(Index));
-
-            if (!Uri.TryCreate(viewModel.NewLink, UriKind.Absolute, out Uri newLink))
-                return RedirectToAction(nameof(Index));
-
-            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(oldLink).ConfigureAwait(false);
+            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(viewModel.OldLink).ConfigureAwait(false);
 
             if (searchResult is null)
                 return RedirectToAction(nameof(Index));
 
-            await _newsSourceFacade.RemoveNewsSourceAsync(oldLink).ConfigureAwait(false);
+            await _newsSourceFacade.RemoveNewsSourceAsync(viewModel.OldLink).ConfigureAwait(false);
 
             var newsSource = new NewsSourceViewModel
             {

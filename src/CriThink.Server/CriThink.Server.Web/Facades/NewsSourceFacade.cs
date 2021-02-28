@@ -57,35 +57,35 @@ namespace CriThink.Server.Web.Facades
 
             var request = new NewsSourceAddRequest
             {
-                Uri = viewModel.Uri,
+                NewsLink = viewModel.Uri,
                 Classification = newsSourceClassification,
             };
 
             await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
         }
 
-        public async Task RemoveNewsSourceAsync(Uri uri)
+        public async Task RemoveNewsSourceAsync(string newsLink)
         {
-            if (uri is null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
-            await _newsSourceService.RemoveNewsSourceAsync(uri).ConfigureAwait(false);
+            await _newsSourceService.RemoveNewsSourceAsync(newsLink).ConfigureAwait(false);
         }
 
-        public async Task<NewsSourceViewModel> SearchNewsSourceAsync(Uri uri)
+        public async Task<NewsSourceViewModel> SearchNewsSourceAsync(string newsLink)
         {
-            if (uri is null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
             try
             {
-                var response = await _newsSourceService.SearchNewsSourceAsync(uri).ConfigureAwait(false);
+                var response = await _newsSourceService.SearchNewsSourceAsync(newsLink).ConfigureAwait(false);
 
                 var classification = _mapper.Map<NewsSourceClassification, Classification>(response.Classification);
 
                 return new NewsSourceViewModel
                 {
-                    Uri = uri.ToString(),
+                    Uri = newsLink,
                     Description = response.Description,
                     Classification = classification,
                 };

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Helpers;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Responses;
 
@@ -13,7 +12,7 @@ namespace CriThink.Server.Core.MapperProfiles
         {
             CreateMap<GetAllNewsSourceQueryResponse, NewsSourceGetResponse>()
                 .ForMember(dest => dest.Uri,
-                    opt => opt.MapFrom(src => UriHelper.GetHostNameFromUri(src.Uri)))
+                    opt => opt.MapFrom(src => src.NewsLink.ToLowerInvariant()))
                 .ForMember(dest => dest.NewsSourceClassification,
                     opt => opt.MapFrom(src => src.SourceAuthencity));
 

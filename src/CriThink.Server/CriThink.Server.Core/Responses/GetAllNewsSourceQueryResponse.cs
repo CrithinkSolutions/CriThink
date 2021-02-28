@@ -1,17 +1,16 @@
-﻿using System;
-using CriThink.Server.Core.Commands;
+﻿using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Responses
 {
     public class GetAllNewsSourceQueryResponse
     {
-        public GetAllNewsSourceQueryResponse(Uri uri, NewsSourceAuthenticity sourceAuthencity)
+        public GetAllNewsSourceQueryResponse(string newsLink, NewsSourceAuthenticity sourceAuthencity)
         {
-            Uri = uri ?? throw new ArgumentNullException(nameof(uri));
+            NewsLink = newsLink;
             SourceAuthencity = sourceAuthencity;
         }
 
-        public Uri Uri { get; }
+        public string NewsLink { get; }
 
         public NewsSourceAuthenticity SourceAuthencity { get; }
     }

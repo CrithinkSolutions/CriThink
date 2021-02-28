@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 
 namespace CriThink.Server.Core.Interfaces
@@ -16,24 +15,24 @@ namespace CriThink.Server.Core.Interfaces
         /// <summary>
         /// Remove a source from the blacklist
         /// </summary>
-        /// <param name="uri"><see cref="Uri"/> to analyze</param>
+        /// <param name="newsLink">Link to remove</param>
         /// <returns>A task</returns>
-        Task RemoveNewsSourceAsync(Uri uri);
+        Task RemoveNewsSourceAsync(string newsLink);
 
         /// <summary>
         /// Search the given source in the black and whitelist
         /// </summary>
-        /// <param name="uri"><see cref="Uri"/> to analyze</param>
+        /// <param name="newsLink">Link to search and analyze</param>
         /// <returns></returns>
-        Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri);
+        Task<NewsSourceSearchResponse> SearchNewsSourceAsync(string newsLink);
 
         /// <summary>
         /// Search the given source and send an alert if the source is unknown.
         /// It returns the related debunking news too
         /// </summary>
-        /// <param name="uri"><see cref="Uri"/> to analyze</param>
+        /// <param name="newsLink">Link to search and analyze</param>
         /// <returns></returns>
-        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceWithAlertAsync(Uri uri);
+        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceWithAlertAsync(string newsLink);
 
         /// <summary>
         /// Get all the news sources stored. Result can be filtered

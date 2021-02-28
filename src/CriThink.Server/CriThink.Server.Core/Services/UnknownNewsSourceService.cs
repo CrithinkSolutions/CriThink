@@ -11,6 +11,7 @@ using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
+using CriThink.Server.Core.Validators;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,7 @@ namespace CriThink.Server.Core.Services
         private readonly IMapper _mapper;
         private readonly ILogger<UnknownNewsSourceService> _logger;
 
-        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper, IIdentityService identityService, ILogger<UnknownNewsSourceService> logger)
+        public UnknownNewsSourceService(IMediator mediator, IEmailSenderService emailSenderService, IMapper mapper, ILogger<UnknownNewsSourceService> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
@@ -38,7 +39,10 @@ namespace CriThink.Server.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var createCommand = new CreateUnknownSourceNotificationRequestCommand(request.Uri, request.Email);
+            var validator = new DomainValidator();
+            var validated = validator.ValidateDomain(request.Uri);
+
+            var createCommand = new CreateUnknownSourceNotificationRequestCommand(validated, request.Email);
             await _mediator.Send(createCommand).ConfigureAwait(false);
         }
 
@@ -84,12 +88,13 @@ namespace CriThink.Server.Core.Services
             if (request.Classification == NewsSourceClassification.Unknown)
                 throw new InvalidOperationException("You can't notify a user with an unknown source");
 
-            var requestedUri = request.Uri;
+            var validator = new DomainValidator();
+            var requestedUri = validator.ValidateDomain(request.Uri);
 
             var getIdCommand = new GetUnknownNewsSourceIdQuery(requestedUri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
-            await NotifyUsersAsync(unknownNewsId, requestedUri, request.Classification.ToString())
+            await NotifyUsersAsync(unknownNewsId, request.Uri, request.Classification.ToString())
                 .ConfigureAwait(false);
 
             var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
@@ -97,7 +102,7 @@ namespace CriThink.Server.Core.Services
             var updateIdentifiedNewsSourceCommand = new UpdateIdentifiedNewsSourceCommand(unknownNewsId, authenticity);
             await _mediator.Send(updateIdentifiedNewsSourceCommand).ConfigureAwait(false);
 
-            var createNewsSourceCommand = new CreateNewsSourceCommand(new Uri(requestedUri), authenticity);
+            var createNewsSourceCommand = new CreateNewsSourceCommand(requestedUri, authenticity);
             await _mediator.Send(createNewsSourceCommand).ConfigureAwait(false);
         }
 

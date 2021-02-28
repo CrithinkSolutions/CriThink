@@ -369,4 +369,10 @@
   <data name="HomeGameViewModel.Wip" xml:space="preserve">
     <value>In completamento..</value>
   </data>
+  <data name="HomeViewModel.FormatErrorMessage" xml:space="preserve">
+    <value>Il link che hai inserito non è valido.</value>
+  </data>
+  <data name="HomeViewModel.FormatErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>

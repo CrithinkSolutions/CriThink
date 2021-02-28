@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Endpoints.DTOs.Common;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
@@ -43,10 +43,9 @@ namespace CriThink.Server.Web.Controllers
         [Produces("application/json")]
         [Route(EndpointConstants.NewsSourceSearch)] // api/news-source/search
         [HttpGet]
-        public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] SimpleUriRequest request)
+        public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] NewsSourceSearchRequest request)
         {
-            var uri = new Uri(request.Uri);
-            var searchResponse = await _newsSourceService.SearchNewsSourceWithAlertAsync(uri).ConfigureAwait(false);
+            var searchResponse = await _newsSourceService.SearchNewsSourceWithAlertAsync(request.NewsLink).ConfigureAwait(false);
 
             if (searchResponse is null)
                 return NotFound();

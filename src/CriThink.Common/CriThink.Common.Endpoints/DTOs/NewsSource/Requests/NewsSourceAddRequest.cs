@@ -7,10 +7,10 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
 {
     public class NewsSourceAddRequest
     {
-        [Url]
+        [MinLength(2)]
         [Required]
-        [JsonPropertyName("uri")]
-        public string Uri { get; set; }
+        [JsonPropertyName("newsLink")]
+        public string NewsLink { get; set; }
 
         [Required]
         [JsonPropertyName("classification")]

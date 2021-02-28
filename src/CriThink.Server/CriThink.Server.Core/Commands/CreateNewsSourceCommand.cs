@@ -1,17 +1,16 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
 namespace CriThink.Server.Core.Commands
 {
     public class CreateNewsSourceCommand : IRequest
     {
-        public CreateNewsSourceCommand(Uri uri, NewsSourceAuthenticity authencity)
+        public CreateNewsSourceCommand(string newsLink, NewsSourceAuthenticity authencity)
         {
-            Uri = uri ?? throw new ArgumentNullException(nameof(uri));
+            NewsLink = newsLink;
             Authencity = authencity;
         }
 
-        public Uri Uri { get; }
+        public string NewsLink { get; }
 
         public NewsSourceAuthenticity Authencity { get; }
     }

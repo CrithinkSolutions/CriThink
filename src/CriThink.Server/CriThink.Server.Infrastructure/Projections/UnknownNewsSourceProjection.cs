@@ -28,6 +28,7 @@ namespace CriThink.Server.Infrastructure.Projections
                 IdentifiedAt = unknownNewsSource.IdentifiedAt.HasValue ?
                     unknownNewsSource.IdentifiedAt.Value.ToString("u") :
                     null,
+                NewsSourceAuthenticity = unknownNewsSource.Authenticity
             };
     }
 }

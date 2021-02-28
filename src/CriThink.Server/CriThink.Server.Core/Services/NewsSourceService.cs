@@ -9,6 +9,7 @@ using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
+using CriThink.Server.Core.Validators;
 using CriThink.Server.Providers.EmailSender.Services;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using MediatR;
@@ -41,28 +42,33 @@ namespace CriThink.Server.Core.Services
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var uri = new Uri(request.Uri, UriKind.Absolute);
+            var validatedNewsLink = ValidateNewsLink(request.NewsLink);
+
             var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);
 
-            var command = new CreateNewsSourceCommand(uri, authenticity);
+            var command = new CreateNewsSourceCommand(validatedNewsLink, authenticity);
             _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task RemoveNewsSourceAsync(Uri uri)
+        public async Task RemoveNewsSourceAsync(string newsLink)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
-            var command = new RemoveNewsSourceCommand(uri);
+            var validatedNewsLink = ValidateNewsLink(newsLink);
+
+            var command = new RemoveNewsSourceCommand(validatedNewsLink);
             _ = await _mediator.Send(command).ConfigureAwait(false);
         }
 
-        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(Uri uri)
+        public async Task<NewsSourceSearchResponse> SearchNewsSourceAsync(string newsLink)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
-            var query = new SearchNewsSourceQuery(uri);
+            var validatedNewsLink = ValidateNewsLink(newsLink);
+
+            var query = new SearchNewsSourceQuery(validatedNewsLink);
             var queryResponse = await _mediator.Send(query).ConfigureAwait(false);
 
             if (queryResponse is null)
@@ -72,15 +78,17 @@ namespace CriThink.Server.Core.Services
             return response;
         }
 
-        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceWithAlertAsync(Uri uri)
+        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceWithAlertAsync(string newsLink)
         {
+            var validatedNewsLink = ValidateNewsLink(newsLink);
+
             var relatedDebunkingNewsResponse = new List<NewsSourceRelatedDebunkingNewsResponse>();
 
-            var searchResponse = await SearchNewsSourceAsync(uri).ConfigureAwait(false);
+            var searchResponse = await SearchNewsSourceAsync(validatedNewsLink).ConfigureAwait(false);
 
             if (searchResponse is null)
             {
-                await SendUnknownDomainAlertEmailAsync(uri).ConfigureAwait(false);
+                await SendUnknownDomainAlertEmailAsync(validatedNewsLink).ConfigureAwait(false);
                 return null;
             }
 
@@ -90,16 +98,22 @@ namespace CriThink.Server.Core.Services
             {
                 try
                 {
+                    var uri = new Uri(newsLink, UriKind.Absolute);
                     var relatedDebunkingNewsCollection = await GetRelatedDebunkingNewsAsync(uri)
                         .ConfigureAwait(false);
 
                     foreach (var relatedDNews in relatedDebunkingNewsCollection)
                     {
-                        var response = _mapper.Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
+                        var response = _mapper
+                            .Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
                         relatedDebunkingNewsResponse.Add(response);
                     }
                 }
                 catch (InvalidOperationException) { }
+                catch (UriFormatException ex)
+                {
+                    _logger?.LogError(ex, $"The given url has the wrong format: '{newsLink}'");
+                }
             }
 
             return new NewsSourceSearchWithDebunkingNewsResponse
@@ -131,13 +145,21 @@ namespace CriThink.Server.Core.Services
             return response;
         }
 
-        private async Task SendUnknownDomainAlertEmailAsync(Uri uri)
+        private async Task SendUnknownDomainAlertEmailAsync(string newsLink)
         {
-            var email = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var userEmail = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await _emailSenderService.SendUnknownDomainAlertEmailAsync(uri.ToString(), email).ConfigureAwait(false);
-            var command = new CreateUnknownNewsSourceCommand(uri);
-            await _mediator.Send(command).ConfigureAwait(false);
+            try
+            {
+
+                await _emailSenderService.SendUnknownDomainAlertEmailAsync(newsLink, userEmail).ConfigureAwait(false);
+                var command = new CreateUnknownNewsSourceCommand(newsLink);
+                await _mediator.Send(command).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogCritical(ex, "Can't send email", newsLink, userEmail);
+            }
         }
 
         private async Task<IList<GetAllDebunkingNewsByKeywordsQueryResponse>> GetRelatedDebunkingNewsAsync(Uri uri)
@@ -155,9 +177,15 @@ namespace CriThink.Server.Core.Services
             }
             catch (InvalidOperationException ex)
             {
-                _logger?.LogWarning(ex, "The given URL is not readable");
+                _logger?.LogWarning(ex, "The given URL is not readable", uri.ToString());
                 throw;
             }
+        }
+
+        private static string ValidateNewsLink(string newsLink)
+        {
+            var resolver = new DomainValidator();
+            return resolver.ValidateDomain(newsLink);
         }
     }
 }

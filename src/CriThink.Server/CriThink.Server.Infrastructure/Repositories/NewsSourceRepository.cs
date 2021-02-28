@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Common.Helpers;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.Data;
 using StackExchange.Redis;
@@ -20,33 +19,31 @@ namespace CriThink.Server.Infrastructure.Repositories
             _multiplexer = multiplexer ?? throw new ArgumentNullException(nameof(multiplexer));
         }
 
-        public Task<bool> AddNewsSourceAsync(Uri uri, NewsSourceAuthenticity authenticity)
+        public Task<bool> AddNewsSourceAsync(string newsLink, NewsSourceAuthenticity authenticity)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
-            return db.StringSetAsync(GetHostName(uri), authenticity.ToString());
+            return db.StringSetAsync(newsLink, authenticity.ToString());
         }
 
-        public Task RemoveNewsSourceAsync(Uri uri)
+        public Task RemoveNewsSourceAsync(string newsLink)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
-            return RemoveNewsSource(db, uri);
+            return RemoveNewsSource(db, newsLink);
         }
 
-        public async Task<RedisValue> SearchNewsSourceAsync(Uri uri)
+        public async Task<RedisValue> SearchNewsSourceAsync(string newsLink)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
-
-            var hostName = GetHostName(uri);
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
 
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
-            var whitelistValue = await db.StringGetAsync(hostName).ConfigureAwait(false);
+            var whitelistValue = await db.StringGetAsync(newsLink).ConfigureAwait(false);
             return whitelistValue;
         }
 
@@ -71,16 +68,14 @@ namespace CriThink.Server.Infrastructure.Repositories
         private static Tuple<RedisKey, RedisValue> ReadValue(RedisKey key, IDatabase database)
         {
             var redisValue = database.StringGet(key);
-            var tuple = new Tuple<RedisKey, RedisValue>($"https://{key}", redisValue);
+            var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
             return tuple;
         }
 
-        private static Task RemoveNewsSource(IDatabase database, Uri uri)
+        private static Task RemoveNewsSource(IDatabase database, string newsLink)
         {
-            return database.KeyDeleteAsync(GetHostName(uri));
+            return database.KeyDeleteAsync(newsLink);
         }
-
-        private static string GetHostName(Uri uri) => UriHelper.GetHostNameFromUri(uri);
 
         #endregion
     }

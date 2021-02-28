@@ -22,7 +22,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            await _newsSourceRepository.RemoveNewsSourceAsync(request.Uri).ConfigureAwait(false);
+            await _newsSourceRepository.RemoveNewsSourceAsync(request.NewsLink).ConfigureAwait(false);
             return Unit.Value;
         }
     }

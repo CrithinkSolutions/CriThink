@@ -42,13 +42,13 @@ namespace CriThink.Server.Infrastructure.Handlers
 
                 foreach (var (redisKey, redisValue) in ApplyQueryFilter(redisValues, size, index, filter))
                 {
-                    var uri = new Uri(redisKey.ToString(), UriKind.Absolute);
+                    var newsLink = redisKey.ToString();
 
                     var isValid = Enum.TryParse(redisValue.ToString(), true, out NewsSourceAuthenticity authenticity);
                     if (!isValid)
                         continue;
 
-                    var response = new GetAllNewsSourceQueryResponse(uri, authenticity);
+                    var response = new GetAllNewsSourceQueryResponse(newsLink, authenticity);
                     responses.Add(response);
                 }
 

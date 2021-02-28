@@ -4,12 +4,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
 {
     public class EditNewsSourceViewModel
     {
-        [Url]
         [Required]
+        [MinLength(2)]
         public string OldLink { get; set; }
 
-        [Url]
         [Required]
+        [MinLength(2)]
         public string NewLink { get; set; }
 
         [Required]
