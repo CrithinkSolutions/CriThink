@@ -30,6 +30,7 @@
   <dimen name="imgSize_medium">60dp</dimen>
   <dimen name="imgSize_debunkingCollection">180dp</dimen>
   <dimen name="imgSize_bigLogo">80dp</dimen>
+  <dimen name="imgSize_veryBigLogo">160dp</dimen>
   <dimen name="img_corners_radius">25dp</dimen>
   
   <!-- Edit Text -->

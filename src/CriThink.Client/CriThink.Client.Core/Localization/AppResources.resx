@@ -375,4 +375,16 @@
   <data name="HomeViewModel.FormatErrorOk" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="ForgotPasswordViewModel.RequestErrorMessage" xml:space="preserve">
+    <value>An error occurred while trying to reset your password. Please try again later</value>
+  </data>
+  <data name="ForgotPasswordViewModel.RequestErrorOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ForgotPasswordViewModel.RequestMessage" xml:space="preserve">
+    <value>We sent you an email with some instructions to follow to reset your password</value>
+  </data>
+  <data name="ForgotPasswordViewModel.RequestOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>

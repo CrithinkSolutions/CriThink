@@ -7,6 +7,7 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
+using MvvmCross.Navigation;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -14,21 +15,26 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IIdentityService _identityService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IMvxNavigationService _navigationService;
         private readonly IMvxLog _log;
 
-        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
+        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider, IMvxNavigationService navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _log = logProvider?.GetLogFor<ForgotPasswordViewModel>();
         }
 
         private string _emailOrUsername;
-
         public string EmailOrUsername
         {
             get => _emailOrUsername;
-            set => SetProperty(ref _emailOrUsername, value);
+            set
+            {
+                SetProperty(ref _emailOrUsername, value);
+                RaisePropertyChanged(() => SendRequestCommand);
+            }
         }
 
         private IMvxAsyncCommand _sendRequestCommand;
@@ -49,6 +55,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (string.IsNullOrWhiteSpace(EmailOrUsername))
                 return;
 
+            IsLoading = true;
+
             var request = new ForgotPasswordRequest();
 
             var isEmail = EmailHelper.IsEmail(EmailOrUsername);
@@ -57,25 +65,39 @@ namespace CriThink.Client.Core.ViewModels.Users
             else
                 request.UserName = EmailOrUsername.ToUpperInvariant();
 
+            string localizedSuccessfulMessage;
+            string localizedSuccessfulOk;
+
             try
             {
                 await _identityService.RequestTemporaryTokenAsync(request, cancellationToken).ConfigureAwait(false);
+
+                localizedSuccessfulMessage = LocalizedTextSource.GetText("RequestMessage");
+                localizedSuccessfulOk = LocalizedTextSource.GetText("RequestOk");
+
+                await ShowMessage(localizedSuccessfulMessage, localizedSuccessfulOk).ConfigureAwait(true);
+
+                await _navigationService.Close(this, cancellationToken).ConfigureAwait(true);
             }
             catch (Exception)
             {
-                await ShowErrorMessage("An error occurred requesting a temporary token").ConfigureAwait(true);
+                localizedSuccessfulMessage = LocalizedTextSource.GetText("RequestErrorMessage");
+                localizedSuccessfulOk = LocalizedTextSource.GetText("RequestErrorOk");
+
+                await ShowMessage(localizedSuccessfulMessage, localizedSuccessfulOk).ConfigureAwait(true);
             }
             finally
             {
                 IsLoading = false;
+                await RaisePropertyChanged(() => SendRequestCommand);
             }
         }
 
-        private async Task ShowErrorMessage(string message)
+        private async Task ShowMessage(string message, string okText)
         {
             await _userDialogs.AlertAsync(
                 message,
-                okText: "Ok").ConfigureAwait(true);
+                okText: okText).ConfigureAwait(true);
         }
     }
 }
