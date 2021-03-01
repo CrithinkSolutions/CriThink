@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Models.Identity;
@@ -188,6 +189,10 @@ namespace CriThink.Client.Core.Services
                         request,
                         cancellationToken: cancellationToken)
                     .ConfigureAwait(false);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

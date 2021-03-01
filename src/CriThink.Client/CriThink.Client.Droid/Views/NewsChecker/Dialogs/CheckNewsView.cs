@@ -12,6 +12,7 @@ using Google.Android.Material.BottomSheet;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.Material;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
@@ -73,6 +74,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var toolbar = view.FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             var editTextSearch = view.FindViewById<BindableEditText>(Resource.Id.editTextSearch);
             var imgCancel = view.FindViewById<AppCompatImageView>(Resource.Id.imgCancel);
+            var btnSearch = view.FindViewById<AppCompatButton>(Resource.Id.btnSearch);
 
             HasOptionsMenu = true;
             BaseActivity.SetSupportActionBar(toolbar);
@@ -87,11 +89,14 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             set.Bind(txtRecentSearch).ToLocalizationId("RecentSearch");
             set.Bind(editTextSearch).For(v => v.Hint).ToLocalizationId("NewsLinkHint");
+            set.Bind(btnSearch).For(v => v.Text).ToLocalizationId("NewsSearch");
+
             set.Bind(editTextSearch).To(vm => vm.NewsUri);
             set.Bind(editTextSearch).For(v => v.KeyCommand).To(vm => vm.SubmitUriCommand);
+            set.Bind(btnSearch).To(vm => vm.SubmitUriCommand);
             set.Bind(recyclerRecentSearch).For(v => v.ItemsSource).To(vm => vm.RecentNewsChecksCollection);
             set.Bind(recyclerRecentSearch).For(v => v.ItemClick).To(vm => vm.RepeatSearchCommand);
-            set.Bind(imgCancel).For("Click").To(vm => vm.ClearTextCommand);
+            set.Bind(imgCancel).For(v => v.BindClick()).To(vm => vm.ClearTextCommand);
 
             set.Apply();
 

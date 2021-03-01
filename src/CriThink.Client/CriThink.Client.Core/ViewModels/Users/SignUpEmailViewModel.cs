@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -117,6 +118,10 @@ namespace CriThink.Client.Core.ViewModels.Users
                     await _navigationService.Navigate<LoginViewModel>(cancellationToken: cancellationToken)
                         .ConfigureAwait(true);
                 }
+            }
+            catch (HttpRequestException ex)
+            {
+                await ShowMessage(ex.Message);
             }
             catch (Exception ex)
             {

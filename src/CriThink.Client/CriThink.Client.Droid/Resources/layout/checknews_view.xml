@@ -25,35 +25,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/search_toolbar"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSearch"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/padding_page"
+        android:layout_marginEnd="@dimen/padding_page"
+        android:padding="@dimen/edittext_padding"
+        android:background="@drawable/edittext_rounded"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/appBar"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="@dimen/margin_big"
-    android:layout_marginStart="@dimen/padding_page"
-    android:layout_marginEnd="@dimen/padding_page">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginStart="@dimen/padding_page"
+        android:layout_marginEnd="@dimen/padding_page">
 
-    <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtRecentSearch"
-      app:layout_constraintTop_toBottomOf="@id/appBar"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:textSize="@dimen/textSize_caption"
-      android:fontFamily="@font/urbanist"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRecentSearch"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/textSize_caption"
+            android:fontFamily="@font/urbanist"/>
+        
+        <MvvmCross.DroidX.RecyclerView.MvxRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerRecentSearch"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@id/txtRecentSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <MvvmCross.DroidX.RecyclerView.MvxRecyclerView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/recyclerRecentSearch"
-      android:layout_marginTop="@dimen/margin_small"
-      app:layout_constraintTop_toBottomOf="@id/txtRecentSearch"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

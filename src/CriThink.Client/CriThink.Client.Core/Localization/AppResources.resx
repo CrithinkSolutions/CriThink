@@ -387,4 +387,7 @@
   <data name="ForgotPasswordViewModel.RequestOk" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="CheckNewsViewModel.NewsSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>
