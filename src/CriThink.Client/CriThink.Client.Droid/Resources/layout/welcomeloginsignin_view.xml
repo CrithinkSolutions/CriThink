@@ -46,23 +46,29 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:id="@+id/btnSignIn"
-              android:textColor="@android:color/white"
-              android:elevation="@dimen/btn_elevation"
-              android:layout_marginBottom="@dimen/margin_small"
+              android:background="@android:color/white"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
+              android:layout_marginBottom="@dimen/margin_big"
               android:backgroundTint="@color/colorBlue"
-              android:radius="@dimen/btn_radius"/>
+              android:radius="@dimen/btn_radius"
+              android:textColor="@android:color/white"
+              android:elevation="@dimen/btn_elevation"/>
 
           <androidx.appcompat.widget.AppCompatButton
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:id="@+id/btnLogin"
-              android:textColor="@android:color/white"
-              android:elevation="@dimen/btn_elevation"
-              android:layout_marginTop="@dimen/margin_small"
+              android:background="@android:color/white"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
+              android:layout_marginBottom="@dimen/margin_big"
               android:backgroundTint="@color/colorBlue"
-              android:radius="@dimen/btn_radius"/>
+              android:radius="@dimen/btn_radius"
+              android:textColor="@android:color/white"
+              android:elevation="@dimen/btn_elevation"/>
 
           <androidx.constraintlayout.widget.Guideline
               android:layout_width="wrap_content"
