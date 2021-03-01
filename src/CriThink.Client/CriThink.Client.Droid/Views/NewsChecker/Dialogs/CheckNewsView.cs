@@ -83,6 +83,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var layoutManager = new LinearLayoutManager(Activity);
             recyclerRecentSearch.SetLayoutManager(layoutManager);
+            recyclerRecentSearch.SetItemAnimator(null);
             recyclerRecentSearch.Adapter = new RecentNewsChecksAdapter(BindingContext as IMvxAndroidBindingContext);
 
             var set = CreateBindingSet();
