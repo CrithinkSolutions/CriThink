@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 #pragma warning disable CA1056 // URI-like properties should not be strings
 namespace CriThink.Client.Core.ViewModels.NewsChecker
@@ -24,19 +24,22 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
 
-            RecentNewsChecksCollection = new ObservableCollection<RecentNewsChecksModel>();
+            RecentNewsChecksCollection = new MvxObservableCollection<RecentNewsChecksModel>();
         }
 
         #region Properties
 
-        public ObservableCollection<RecentNewsChecksModel> RecentNewsChecksCollection { get; }
+        public MvxObservableCollection<RecentNewsChecksModel> RecentNewsChecksCollection { get; }
 
         private string _newsUri;
-
         public string NewsUri
         {
             get => _newsUri;
-            set => SetProperty(ref _newsUri, value);
+            set
+            {
+                SetProperty(ref _newsUri, value);
+                RaisePropertyChanged(() => SubmitUriCommand);
+            }
         }
 
         #endregion
@@ -44,7 +47,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         #region Commands
 
         private IMvxAsyncCommand _submitUriCommand;
-        public IMvxAsyncCommand SubmitUriCommand => _submitUriCommand ??= new MvxAsyncCommand(DoSubmitUriCommand);
+        public IMvxAsyncCommand SubmitUriCommand => _submitUriCommand ??= new MvxAsyncCommand(DoSubmitUriCommand, () =>
+            !string.IsNullOrWhiteSpace(NewsUri));
 
         private IMvxAsyncCommand<RecentNewsChecksModel> _repeatSearchCommand;
 
@@ -92,10 +96,10 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
             if (modelCollection != null && modelCollection.Any())
+            {
                 RecentNewsChecksCollection.Clear();
-
-            foreach (var model in modelCollection)
-                RecentNewsChecksCollection.Add(model);
+                RecentNewsChecksCollection.AddRange(modelCollection);
+            }
         }
 
         private Task ShowFormatMessageErrorAsync(CancellationToken cancellationToken)
