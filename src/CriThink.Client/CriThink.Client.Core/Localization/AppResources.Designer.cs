@@ -304,6 +304,42 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while trying to reset your password. Please try again later.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RequestErrorMessage {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RequestErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RequestErrorOk {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RequestErrorOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We sent you an email with some instructions to follow to reset your password.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RequestMessage {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RequestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string ForgotPasswordViewModel_RequestOk {
+            get {
+                return ResourceManager.GetString("ForgotPasswordViewModel.RequestOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         internal static string ForgotPasswordViewModel_Send {
