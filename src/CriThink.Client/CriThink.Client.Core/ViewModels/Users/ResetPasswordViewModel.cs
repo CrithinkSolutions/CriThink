@@ -21,6 +21,9 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
 
+        private string _token;
+        private string _userId;
+
         public ResetPasswordViewModel(IIdentityService identityService, IMvxNavigationService navigationService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
@@ -37,10 +40,10 @@ namespace CriThink.Client.Core.ViewModels.Users
                 throw new ArgumentNullException(nameof(parameters));
 
             if (parameters.Data.ContainsKey("code"))
-                Token = parameters.Data["code"];
+                _token = parameters.Data["code"];
 
             if (parameters.Data.ContainsKey("userId"))
-                UserId = parameters.Data["userId"];
+                _userId = parameters.Data["userId"];
         }
 
         #region Properties
@@ -49,19 +52,23 @@ namespace CriThink.Client.Core.ViewModels.Users
         public string Password
         {
             get => _password;
-            set => SetProperty(ref _password, value);
+            set
+            {
+                SetProperty(ref _password, value);
+                RaisePropertyChanged(() => SendRequestCommand);
+            }
         }
 
         private string _repeatPassword;
         public string RepeatPassword
         {
             get => _repeatPassword;
-            set => SetProperty(ref _repeatPassword, value);
+            set
+            {
+                SetProperty(ref _repeatPassword, value);
+                RaisePropertyChanged(() => SendRequestCommand);
+            }
         }
-
-        public string Token { get; private set; }
-
-        public string UserId { get; private set; }
 
         #endregion
 
@@ -74,7 +81,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 !IsLoading &&
                 !string.IsNullOrWhiteSpace(Password) &&
                 string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture) &&
-                !string.IsNullOrWhiteSpace(UserId));
+                !string.IsNullOrWhiteSpace(_userId));
 
         #endregion
 
@@ -91,8 +98,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             var request = new ResetPasswordRequest
             {
                 NewPassword = Password,
-                Token = Token,
-                UserId = UserId
+                Token = _token,
+                UserId = _userId
             };
 
             try
@@ -119,6 +126,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             finally
             {
                 IsLoading = false;
+                await RaisePropertyChanged(() => SendRequestCommand);
             }
         }
 

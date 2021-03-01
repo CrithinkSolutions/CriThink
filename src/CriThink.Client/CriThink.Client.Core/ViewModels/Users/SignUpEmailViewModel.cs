@@ -125,6 +125,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             finally
             {
                 IsLoading = false;
+                await RaisePropertyChanged(() => SignUpCommand);
             }
         }
 

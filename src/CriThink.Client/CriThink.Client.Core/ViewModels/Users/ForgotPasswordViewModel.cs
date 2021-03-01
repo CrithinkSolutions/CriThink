@@ -24,11 +24,14 @@ namespace CriThink.Client.Core.ViewModels.Users
         }
 
         private string _emailOrUsername;
-
         public string EmailOrUsername
         {
             get => _emailOrUsername;
-            set => SetProperty(ref _emailOrUsername, value);
+            set
+            {
+                SetProperty(ref _emailOrUsername, value);
+                RaisePropertyChanged(() => SendRequestCommand);
+            }
         }
 
         private IMvxAsyncCommand _sendRequestCommand;
@@ -49,6 +52,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (string.IsNullOrWhiteSpace(EmailOrUsername))
                 return;
 
+            IsLoading = true;
+
             var request = new ForgotPasswordRequest();
 
             var isEmail = EmailHelper.IsEmail(EmailOrUsername);
@@ -68,6 +73,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             finally
             {
                 IsLoading = false;
+                await RaisePropertyChanged(() => SendRequestCommand);
             }
         }
 
