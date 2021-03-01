@@ -15,7 +15,7 @@
 
       <FFImageLoading.Cross.MvxCachedImageView
           android:layout_width="0dp"
-          android:layout_height="@dimen/imgSize_bigLogo"
+          android:layout_height="@dimen/imgSize_veryBigLogo"
           android:id="@+id/imgTopImg"
           app:layout_constraintTop_toTopOf="parent"
           app:layout_constraintLeft_toLeftOf="parent"
