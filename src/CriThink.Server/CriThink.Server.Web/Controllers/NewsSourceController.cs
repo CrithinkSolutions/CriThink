@@ -69,5 +69,22 @@ namespace CriThink.Server.Web.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Add a new news source
+        /// </summary>
+        /// <param name="request">News Info</param>
+        /// <returns>Add a news source</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [Route(EndpointConstants.MvcAdd)] // api/news-source/add
+        [HttpPost]
+        public async Task<IActionResult> AddNewsSourceAsync([FromBody] NewsSourceAddRequest request)
+        {
+            await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
+
+            return NoContent();
+        }
     }
 }
