@@ -3,10 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Models.Identity;
+using CriThink.Client.Core.Platform;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using MvvmCross;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
@@ -19,15 +21,22 @@ namespace CriThink.Client.Core
     {
         private readonly IIdentityService _identityService;
         private readonly IApplicationService _applicationService;
+        private readonly IPlatformDetails _platformDetails;
         private readonly IMvxLog _log;
 
         private bool _isDisposed;
 
-        public AppStart(IMvxApplication application, IMvxNavigationService navigationService, IIdentityService identityService, IApplicationService applicationService, IMvxLogProvider logProvider)
+        public AppStart(IMvxApplication application,
+            IMvxNavigationService navigationService,
+            IIdentityService identityService,
+            IApplicationService applicationService,
+            IPlatformDetails platformDetails,
+            IMvxLogProvider logProvider)
             : base(application, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
+            _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
             _log = logProvider?.GetLogFor<AppStart>();
 
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
@@ -81,21 +90,24 @@ namespace CriThink.Client.Core
 
             using var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 
-            var request = new UserLoginRequest
-            {
-                UserName = loggedUser.UserName,
-                Email = loggedUser.UserEmail,
-                Password = loggedUser.Password
-            };
-
             try
             {
-                var response = await _identityService.PerformLoginAsync(request, cancellationToken.Token)
-                    .ConfigureAwait(false);
+                UserLoginResponse response;
+                if (loggedUser.Provider == ExternalLoginProvider.None)
+                {
+                    response = await RefreshExistingLoginAsync(loggedUser, cancellationToken.Token)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    response = await RefreshExistingExternalLoginAsync(loggedUser.Provider, cancellationToken.Token)
+                        .ConfigureAwait(false);
+                }
+
                 if (response is null)
                 {
                     _identityService.PerformLogout();
-                    await NavigateToSignUpViewAsync().ConfigureAwait(true);
+                    await NavigateToLoginViewAsync(cancellationToken.Token).ConfigureAwait(true);
                     return;
                 }
 
@@ -104,13 +116,46 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _log.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex, loggedUser.UserName);
+                _log?.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex, loggedUser.UserName);
+                _identityService.PerformLogout();
                 await NavigateToLoginViewAsync(cancellationToken.Token).ConfigureAwait(true);
             }
         }
 
         private Task NavigateToLoginViewAsync(CancellationToken cancellationToken) =>
             NavigationService.Navigate<LoginViewModel>(cancellationToken: cancellationToken);
+
+        private Task<UserLoginResponse> RefreshExistingLoginAsync(User loggedUser, CancellationToken cancellationToken)
+        {
+            var request = new UserLoginRequest
+            {
+                UserName = loggedUser.UserName,
+                Email = loggedUser.UserEmail,
+                Password = loggedUser.Password
+            };
+
+            return _identityService.PerformLoginAsync(request, cancellationToken);
+        }
+
+        private async Task<UserLoginResponse> RefreshExistingExternalLoginAsync(ExternalLoginProvider provider,
+            CancellationToken cancellationToken)
+        {
+            string refreshedExternalToken = provider switch
+            {
+                ExternalLoginProvider.Facebook => _platformDetails.RefreshFacebookToken(),
+                ExternalLoginProvider.Google => await _platformDetails.RefreshGoogleToken().ConfigureAwait(false),
+                _ => throw new NotImplementedException("Only Facebook and Google are supported")
+            };
+
+            var externalRequest = new ExternalLoginProviderRequest
+            {
+                SocialProvider = provider,
+                UserToken = Base64Helper.ToBase64(refreshedExternalToken)
+            };
+
+            return await _identityService.PerformSocialLoginSignInAsync(externalRequest, cancellationToken)
+                .ConfigureAwait(false);
+        }
 
         private static void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {

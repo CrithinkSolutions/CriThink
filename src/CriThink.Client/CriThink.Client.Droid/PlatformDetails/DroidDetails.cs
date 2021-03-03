@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.Platform;
@@ -49,7 +50,6 @@ namespace CriThink.Client.Droid.PlatformDetails
             LaunchIntent(linkedInUri);
         }
 
-
         public void LogoutSocialLogin()
         {
             var signInClient = InitGoogleSignIn();
@@ -59,6 +59,22 @@ namespace CriThink.Client.Droid.PlatformDetails
             {
                 LoginManager.Instance.LogOut();
             }
+        }
+
+        public async Task<string> RefreshGoogleToken()
+        {
+            var signInClient = InitGoogleSignIn();
+            var googleAccount = await signInClient.SilentSignInAsync();
+            return googleAccount.IdToken;
+        }
+
+        public string RefreshFacebookToken()
+        {
+            AccessToken.RefreshCurrentAccessTokenAsync();
+            if (AccessToken.IsCurrentAccessTokenActive)
+                return AccessToken.CurrentAccessToken.Token;
+
+            throw new InvalidOperationException();
         }
 
         private static GoogleSignInClient InitGoogleSignIn()

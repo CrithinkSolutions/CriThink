@@ -46,10 +46,9 @@ namespace CriThink.Client.Droid
                 MvxBottomNavigationItemChangedBinding.BindingKey, view => new MvxBottomNavigationItemChangedBinding(view));
         }
 
-        protected override void InitializeLastChance()
+        protected override void InitializeFirstChance()
         {
-            base.InitializeLastChance();
-
+            base.InitializeFirstChance();
             Mvx.IoCProvider.RegisterSingleton<IPlatformDetails>(new DroidDetails());
         }
 
