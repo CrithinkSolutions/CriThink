@@ -34,7 +34,7 @@ namespace CriThink.Client.Core.Platform
         /// <summary>
         /// Perform logout from social
         /// </summary>
-        public void LogoutSocialLogin();
+        public Task LogoutSocialLoginAsync();
 
         /// <summary>
         /// Silently refresh Google token login

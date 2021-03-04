@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Android.Content;
-using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.Platform;
-using Xamarin.Facebook;
-using Xamarin.Facebook.Login;
+using CriThink.Client.Droid.Singletons;
 
 namespace CriThink.Client.Droid.PlatformDetails
 {
@@ -50,48 +47,17 @@ namespace CriThink.Client.Droid.PlatformDetails
             LaunchIntent(linkedInUri);
         }
 
-        public void LogoutSocialLogin()
+        public async Task LogoutSocialLoginAsync()
         {
-            var signInClient = InitGoogleSignIn();
-            signInClient.SignOut();
-
-            if (AccessToken.CurrentAccessToken != null)
-            {
-                LoginManager.Instance.LogOut();
-            }
+            await GoogleSingleton.LogoutAsync();
+            FacebookSingleton.Logout();
         }
 
-        public async Task<string> RefreshGoogleToken()
-        {
-            var signInClient = InitGoogleSignIn();
-            var googleAccount = await signInClient.SilentSignInAsync();
-            return googleAccount.IdToken;
-        }
+        public Task<string> RefreshGoogleToken() =>
+            GoogleSingleton.RefreshTokenAsync();
 
-        public string RefreshFacebookToken()
-        {
-            AccessToken.RefreshCurrentAccessTokenAsync();
-            if (AccessToken.IsCurrentAccessTokenActive)
-                return AccessToken.CurrentAccessToken.Token;
-
-            throw new InvalidOperationException();
-        }
-
-        private static GoogleSignInClient InitGoogleSignIn()
-        {
-            var context = Android.App.Application.Context;
-            if (context is null)
-                throw new InvalidOperationException("Android context is null");
-
-            var token = context.GetString(Resource.String.google_signin);
-
-            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestIdToken(token)
-                .RequestEmail()
-                .Build();
-
-            return GoogleSignIn.GetClient(context, gso);
-        }
+        public string RefreshFacebookToken() =>
+            FacebookSingleton.RefreshFacebookToken();
 
         private static Intent GetIntentOfTheGivenPackage(string package) =>
             Android.App.Application.Context.PackageManager?.GetLaunchIntentForPackage(package);
