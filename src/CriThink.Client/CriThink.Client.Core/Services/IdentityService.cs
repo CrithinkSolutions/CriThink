@@ -81,7 +81,8 @@ namespace CriThink.Client.Core.Services
                         loginResponse.UserName,
                         request.Password,
                         loginResponse.JwtToken.Token,
-                        loginResponse.JwtToken.ExpirationDate)
+                        loginResponse.JwtToken.ExpirationDate,
+                        ExternalLoginProvider.None)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -121,7 +122,8 @@ namespace CriThink.Client.Core.Services
                         loginResponse.UserName,
                         request.UserToken,
                         loginResponse.JwtToken.Token,
-                        loginResponse.JwtToken.ExpirationDate)
+                        loginResponse.JwtToken.ExpirationDate,
+                        request.SocialProvider)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
