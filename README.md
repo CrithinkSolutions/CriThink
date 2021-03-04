@@ -55,7 +55,9 @@ Insert the following keys and the desired values in the secret files created abo
     * `"AdminRole:ConcurrencyStamp": "<guid>"`
 * Headers:
     * `"CrossService:Header": "<header>"`
-    * `"CrossService:Value": "<value>"`
+    * `"CrossService:DNews:Value": "<value>"`
+    * `"CrossService:Scraper:Value": "<value>"`
+    
 ##### User Secret for ReactJS
 * Inside the `.Demo` project go into `ClientApp` folder and add a file called `.env.local`
 * Write inside the file:
