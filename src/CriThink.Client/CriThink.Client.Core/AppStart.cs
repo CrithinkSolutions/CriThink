@@ -143,7 +143,7 @@ namespace CriThink.Client.Core
             string refreshedExternalToken = provider switch
             {
                 ExternalLoginProvider.Facebook => _platformDetails.RefreshFacebookToken(),
-                ExternalLoginProvider.Google => await _platformDetails.RefreshGoogleToken().ConfigureAwait(false),
+                ExternalLoginProvider.Google => await _platformDetails.RefreshGoogleTokenAsync().ConfigureAwait(false),
                 _ => throw new NotImplementedException("Only Facebook and Google are supported")
             };
 

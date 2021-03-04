@@ -53,7 +53,7 @@ namespace CriThink.Client.Droid.PlatformDetails
             FacebookSingleton.Logout();
         }
 
-        public Task<string> RefreshGoogleToken() =>
+        public Task<string> RefreshGoogleTokenAsync() =>
             GoogleSingleton.RefreshTokenAsync();
 
         public string RefreshFacebookToken() =>
