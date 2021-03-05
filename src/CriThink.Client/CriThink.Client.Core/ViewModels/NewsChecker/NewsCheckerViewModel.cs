@@ -153,6 +153,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
             finally
             {
+                await Task.Delay(300);
                 IsLoading = false;
             }
         }
