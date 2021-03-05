@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
@@ -29,11 +30,13 @@ namespace CriThink.Server.Web.Controllers
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AdminController> _logger;
+        private readonly INewsSourceService _newsSourceService;
 
-        public AdminController(IIdentityService identityService, IDebunkingNewsService debunkingNewsService, IConfiguration configuration, ILogger<AdminController> logger)
+        public AdminController(IIdentityService identityService, IDebunkingNewsService debunkingNewsService, INewsSourceService newsSourceService, IConfiguration configuration, ILogger<AdminController> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger;
         }
@@ -376,6 +379,26 @@ namespace CriThink.Server.Web.Controllers
         {
             var logs = await _debunkingNewsService.GetAllTriggerLogsAsync(request).ConfigureAwait(false);
             return Ok(new ApiOkResponse(logs));
+        }
+
+        /// <summary>
+        /// Add a new news source
+        /// </summary>
+        /// <param name="request">News Info</param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [Route(EndpointConstants.AdminNewsSourceAdd)] // api/admin/news-source-add
+        [HttpPost]
+        public async Task<IActionResult> AddNewsSourceAsync([FromBody] NewsSourceAddRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            await _newsSourceService.AddSourceAsync(request).ConfigureAwait(false);
+
+            return NoContent();
         }
     }
 }
