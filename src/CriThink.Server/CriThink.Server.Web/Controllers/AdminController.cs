@@ -385,6 +385,8 @@ namespace CriThink.Server.Web.Controllers
         /// Add a new news source
         /// </summary>
         /// <param name="request">News Info</param>
+        [AllowAnonymous]
+        [ServiceFilter(typeof(ScraperAuthenticationFilter), Order = int.MinValue)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
