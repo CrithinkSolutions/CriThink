@@ -127,7 +127,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             GetDebunkingNewsAsync();
 #pragma warning restore 4014
 
-            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(true);
             if (user is null)
                 return;
 
@@ -146,13 +146,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             {
                 var debunkinNewsCollection = await _debunkingNewsService
                     .GetRecentDebunkingNewsOfCurrentCountryAsync(0, PageSize, default)
-                    .ConfigureAwait(false);
+                    .ConfigureAwait(true);
 
                 if (debunkinNewsCollection.DebunkingNewsCollection != null)
                     Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
             }
             finally
             {
+                await Task.Delay(300);
                 IsLoading = false;
             }
         }

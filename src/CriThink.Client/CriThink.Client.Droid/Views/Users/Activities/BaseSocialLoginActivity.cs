@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
 using CriThink.Client.Core.ViewModels.Users;
+using CriThink.Client.Droid.Singletons;
 using CriThink.Client.Droid.SocialLogins;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using MvvmCross.Platforms.Android.Views;
@@ -16,12 +17,7 @@ namespace CriThink.Client.Droid.Views.Users
 {
     public abstract class BaseSocialLoginActivity<TViewModel> : MvxActivity<TViewModel> where TViewModel : BaseSocialLoginViewModel, IMvxViewModel
     {
-        private const int RequestCode = 1;
-
         private ExternalLoginProvider _externalLoginProvider;
-        private GoogleSignInClient _signInClient;
-        private GoogleSignInOptions _gso;
-        private ICallbackManager _callbackManager;
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -29,7 +25,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             if (_externalLoginProvider == ExternalLoginProvider.Google)
             {
-                if (requestCode == RequestCode)
+                if (requestCode == GoogleSingleton.ActivityResultCode)
                 {
                     try
                     {
@@ -49,26 +45,13 @@ namespace CriThink.Client.Droid.Views.Users
             }
             else if (_externalLoginProvider == ExternalLoginProvider.Facebook)
             {
-                _callbackManager.OnActivityResult(requestCode, (int) resultCode, data);
+                FacebookSingleton.OnActivityResult(requestCode, resultCode, data);
             }
         }
-
-        #region Facebook
 
         public void LoginUsingFacebook()
         {
             _externalLoginProvider = ExternalLoginProvider.Facebook;
-
-            if (_callbackManager == null)
-                InitFacebookCallbacks();
-
-
-            LoginManager.Instance.LogInWithReadPermissions(this, new[] { "email", "public_profile" });
-        }
-
-        private void InitFacebookCallbacks()
-        {
-            _callbackManager = CallbackManagerFactory.Create();
 
             var loginCallback = new FacebookCallback<LoginResult>
             {
@@ -86,48 +69,16 @@ namespace CriThink.Client.Droid.Views.Users
                 }
             };
 
-            LoginManager.Instance.RegisterCallback(_callbackManager, loginCallback);
+            FacebookSingleton.Login(this, loginCallback);
         }
 
-        #endregion
-
-        #region Google
-
-        public async Task LoginUsingGoogle()
+        public void LoginUsingGoogle()
         {
             _externalLoginProvider = ExternalLoginProvider.Google;
 
-            if (_gso == null || _signInClient == null)
-                InitGoogleSignIn();
-
-            var lastUser = GoogleSignIn.GetLastSignedInAccount(this);
-            if (lastUser is null)
-            {
-                var intent = _signInClient.SignInIntent;
-                StartActivityForResult(intent, RequestCode);
-            }
-            else
-            {
-                var googleAccount = await _signInClient.SilentSignInAsync();
-                var token = googleAccount.IdToken;
-
-                PerformLogin(token, ExternalLoginProvider.Google);
-            }
+            var intent = GoogleSingleton.GetLoginIntent();
+            StartActivityForResult(intent, GoogleSingleton.ActivityResultCode);
         }
-
-        private void InitGoogleSignIn()
-        {
-            var token = Resources.GetString(Resource.String.google_signin);
-
-            _gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestIdToken(token)
-                .RequestEmail()
-                .Build();
-
-            _signInClient = GoogleSignIn.GetClient(this, _gso);
-        }
-
-        #endregion
 
         private void PerformLogin(string token, ExternalLoginProvider externalLoginProvider)
         {

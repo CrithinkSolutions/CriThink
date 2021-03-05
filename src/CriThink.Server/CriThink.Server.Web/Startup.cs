@@ -387,7 +387,8 @@ namespace CriThink.Server.Web
 
         private static void SetupErrorHandling(IServiceCollection services)
         {
-            services.AddScoped<CrossServiceAuthenticationFilter>();
+            services.AddScoped<ScraperAuthenticationFilter>();
+            services.AddScoped<DebunkingNewsTriggerAuthenticationFilter>();
             services.AddScoped<ApiValidationFilterAttribute>();
 
             services.Configure<ApiBehaviorOptions>(options =>

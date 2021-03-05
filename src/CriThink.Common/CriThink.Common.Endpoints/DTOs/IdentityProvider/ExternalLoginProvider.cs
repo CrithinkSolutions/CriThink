@@ -6,6 +6,6 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
         Google = 1,
         Apple = 2,
 
-        Other = 99,
+        None = 99,
     };
 }

@@ -8,17 +8,17 @@ using Microsoft.Extensions.Logging;
 #pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Server.Web.ActionFilters
 {
-    public class CrossServiceAuthenticationFilter : ActionFilterAttribute
+    public abstract class BaseCrossServiceAuthenticationFilter : ActionFilterAttribute
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        protected void ValidateCredentials(ActionExecutingContext context, string key, string value)
         {
             var requestedServices = context.HttpContext.RequestServices;
 
-            var logger = ResolveService<ILogger<CrossServiceAuthenticationFilter>>(requestedServices);
+            var logger = ResolveService<ILogger<BaseCrossServiceAuthenticationFilter>>(requestedServices);
 
             var configuration = ResolveService<IConfiguration>(requestedServices);
-            var headerKey = configuration?["CrossService:Header"];
-            var headerValue = configuration?["CrossService:Value"];
+            var headerKey = configuration?[key];
+            var headerValue = configuration?[value];
             if (configuration == null ||
                 string.IsNullOrWhiteSpace(headerKey) ||
                 string.IsNullOrWhiteSpace(headerValue))
@@ -43,6 +43,6 @@ namespace CriThink.Server.Web.ActionFilters
             serviceProvider.GetService(typeof(TType)) as TType;
 
         private static StatusCodeResult Get401StatusCode() =>
-            new StatusCodeResult(StatusCodes.Status401Unauthorized);
+            new(StatusCodes.Status401Unauthorized);
     }
 }

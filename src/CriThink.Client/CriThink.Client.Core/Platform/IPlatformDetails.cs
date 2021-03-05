@@ -1,4 +1,6 @@
-﻿namespace CriThink.Client.Core.Platform
+﻿using System.Threading.Tasks;
+
+namespace CriThink.Client.Core.Platform
 {
     /// <summary>
     /// Information about the current platform
@@ -32,6 +34,18 @@
         /// <summary>
         /// Perform logout from social
         /// </summary>
-        public void LogoutSocialLogin();
+        Task LogoutSocialLoginAsync();
+
+        /// <summary>
+        /// Silently refresh Google token login
+        /// </summary>
+        /// <returns>The token</returns>
+        Task<string> RefreshGoogleTokenAsync();
+
+        /// <summary>
+        /// Silently refresh the Facebook token login
+        /// </summary>
+        /// <returns>The token</returns>
+        string RefreshFacebookToken();
     }
 }
