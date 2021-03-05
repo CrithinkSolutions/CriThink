@@ -65,6 +65,7 @@
         public const string AdminDebunkingNews = "debunking-news";
         public const string AdminDebunkingNewsGetAll = "debunking-news/all";
         public const string AdminTriggerLogs = "trigger-logs/all";
+        public const string AdminNewsSourceAdd = "news-source-add";
 
         #endregion
 
