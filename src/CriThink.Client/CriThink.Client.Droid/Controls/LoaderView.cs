@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -25,6 +26,25 @@ namespace CriThink.Client.Droid.Controls
             : base(context, attrs)
         { }
 
+        protected override IParcelable OnSaveInstanceState()
+        {
+            Bundle bundle = new Bundle();
+            bundle.PutParcelable("superState", base.OnSaveInstanceState());
+            bundle.PutInt("visibility", (int) this.Visibility);
+            return bundle;
+        }
+
+        protected override void OnRestoreInstanceState(IParcelable state)
+        {
+            if (state is Bundle bundle)
+            {
+                Visibility = (ViewStates) bundle.GetInt("visibility");
+                state = (IParcelable) bundle.GetParcelable("superState");
+            }
+
+            base.OnRestoreInstanceState(state);
+        }
+
         protected override void OnVisibilityChanged(View changedView, ViewStates visibility)
         {
             base.OnVisibilityChanged(changedView, visibility);
@@ -39,6 +59,13 @@ namespace CriThink.Client.Droid.Controls
         {
             base.OnAttachedToWindow();
             Create();
+        }
+
+        public override void OnVisibilityAggregated(bool isVisible)
+        {
+            Visibility = isVisible ?
+                ViewStates.Visible
+                : ViewStates.Gone;
         }
 
         private void Create()
@@ -65,6 +92,5 @@ namespace CriThink.Client.Droid.Controls
                 Interpolator = new DecelerateInterpolator(1.25f),
                 RepeatCount = Animation.Infinite
             };
-
     }
 }
