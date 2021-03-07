@@ -29,6 +29,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PageIndex = 0;
+            }
+
             var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
@@ -136,6 +141,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNotificationRequestsAsync(SimplePaginationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PageIndex = 0;
+            }
+
             var response = await _newsSourceFacade.GetPendingNotificationRequestsAsync(viewModel).ConfigureAwait(false);
             return View("NotificationRequests", response);
         }
@@ -145,6 +155,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PageIndex = 0;
+            }
+
             var response = await _newsSourceFacade.GetUnknownNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View("Unknown", response);
         }

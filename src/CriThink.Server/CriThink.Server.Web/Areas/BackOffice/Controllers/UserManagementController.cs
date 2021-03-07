@@ -34,6 +34,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PageIndex = 0;
+            }
+
             var users = await _userManagementServiceFacade.GetAllUserAsync(viewModel).ConfigureAwait(false);
             return View(users);
         }
@@ -49,7 +54,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             var roles = await _userManagementServiceFacade.GetAllRolesAsync().ConfigureAwait(false);
             return View("RoleView", roles);
         }
-        
+
         /// <summary>
         /// Returns the add user view
         /// </summary>
@@ -84,9 +89,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "User Added!";
                 return View("AddUserView", viewModel);
             }
-            catch(ResourceNotFoundException)
+            catch (ResourceNotFoundException)
             {
-               return NotFound();
+                return NotFound();
             }
         }
 
@@ -124,9 +129,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "Admin Added!";
                 return View("AddUserView", viewModel);
             }
-            catch(ResourceNotFoundException)
+            catch (ResourceNotFoundException)
             {
-               return NotFound();
+                return NotFound();
             }
         }
 
@@ -141,7 +146,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 if (ModelState.IsValid)
@@ -168,7 +173,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 if (ModelState.IsValid)
@@ -195,7 +200,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 var info = await _userManagementServiceFacade.GetUserByIdAsync(viewModel).ConfigureAwait(false);
@@ -203,7 +208,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (Exception ex)
             {
-                return (IActionResult)ex;
+                return (IActionResult) ex;
             }
         }
 
@@ -218,7 +223,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 if (ModelState.IsValid)
@@ -245,7 +250,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-                
+
             try
             {
                 if (ModelState.IsValid)

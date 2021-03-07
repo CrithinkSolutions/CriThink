@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CriThink.Server.Web.Areas.BackOffice.ViewModels
 {
-    public class SimplePaginationViewModel
+    public class SimplePaginationViewModel : IValidatableObject
     {
         public int PageSize { get; set; } = 20;
 
