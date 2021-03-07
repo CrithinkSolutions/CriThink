@@ -2,10 +2,9 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Core.Exceptions;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
-using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -119,20 +118,13 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                if (viewModel.EmailOrUsername.Contains("@"))
-                {
-                    var email = viewModel.EmailOrUsername;
-                    await _identityService.GenerateUserPasswordTokenAsync(email, null).ConfigureAwait(false);
-                    viewModel.Message = "Email sent!";
-                    return View(viewModel);
-                }
+                if (EmailHelper.IsEmail(viewModel.EmailOrUsername))
+                    await _identityService.GenerateUserPasswordTokenAsync(viewModel.EmailOrUsername, null).ConfigureAwait(false);
                 else
-                {
-                    var username = viewModel.EmailOrUsername;
-                    await _identityService.GenerateUserPasswordTokenAsync(null, username).ConfigureAwait(false);
-                    viewModel.Message = "Email sent!";
-                    return View(viewModel);
-                }
+                    await _identityService.GenerateUserPasswordTokenAsync(null, viewModel.EmailOrUsername).ConfigureAwait(false);
+
+                viewModel.Message = "Email sent!";
+                return View(viewModel);
             }
             catch (Exception)
             {
