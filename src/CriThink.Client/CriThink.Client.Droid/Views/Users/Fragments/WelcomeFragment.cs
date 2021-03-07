@@ -4,6 +4,8 @@ using Android.Views;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
+using FFImageLoading;
+using FFImageLoading.Svg.Platform;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -17,7 +19,7 @@ namespace CriThink.Client.Droid.Views.Users
     {
         private const string KeyContent = "WelcomeFragment:Content";
 
-        public int ImageId { get; set; }
+        public string ImageName { get; set; }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -27,7 +29,10 @@ namespace CriThink.Client.Droid.Views.Users
 
             var image = view.FindViewById<AppCompatImageView>(Resource.Id.img);
 
-            image.SetImageResource(ImageId);
+            ImageService.Instance
+                .LoadCompiledResource(ImageName)
+                .WithCustomDataResolver(new SvgDataResolver())
+                .Into(image);
 
             return view;
         }
@@ -37,13 +42,13 @@ namespace CriThink.Client.Droid.Views.Users
             base.OnCreate(savedInstanceState);
 
             if (savedInstanceState != null && savedInstanceState.ContainsKey(KeyContent))
-                ImageId = savedInstanceState.GetInt(KeyContent);
+                ImageName = savedInstanceState.GetString(KeyContent);
         }
 
         public override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            outState.PutInt(KeyContent, ImageId);
+            outState.PutString(KeyContent, ImageName);
         }
     }
 }
