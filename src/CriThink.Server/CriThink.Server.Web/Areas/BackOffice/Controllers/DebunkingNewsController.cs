@@ -35,6 +35,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
+            }
+
             var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
