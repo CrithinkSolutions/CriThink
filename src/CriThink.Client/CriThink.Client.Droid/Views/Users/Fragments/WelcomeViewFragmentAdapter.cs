@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Android.Content;
 using AndroidX.Fragment.App;
@@ -49,26 +50,21 @@ namespace CriThink.Client.Droid.Views.Users
 
         private static void GetImageForWelcomeFragment(WelcomeFragment welcomeFragment, int position)
         {
-            switch (position)
+            var culture = CultureInfo.CurrentUICulture;
+            welcomeFragment.ImageName = GetLocalizedImage(position, culture.TwoLetterISOLanguageName);
+        }
+
+        private static string GetLocalizedImage(int position, string iso)
+        {
+            return position switch
             {
-                case 0:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_use_the_head;
-                    break;
-                case 1:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_1;
-                    break;
-                case 2:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_2;
-                    break;
-                case 3:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_3;
-                    break;
-                case 4:
-                    welcomeFragment.ImageId = Resource.Drawable.ic_welcome_4;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+                0 => "ic_use_the_head",
+                1 => iso == "it" ? "ic_welcome_1_it" : "ic_welcome_1_en",
+                2 => iso == "it" ? "ic_welcome_2_it" : "ic_welcome_2_en",
+                3 => iso == "it" ? "ic_welcome_3_it" : "ic_welcome_3_en",
+                4 => iso == "it" ? "ic_welcome_4_it" : "ic_welcome_4_en",
+                _ => throw new NotImplementedException("Unknown localized fragment position"),
+            };
         }
 
         private static void SetViewModelForMvxFragment(MvxFragment mvxFragment, MvxViewPagerFragmentInfo mvxViewPagerFragmentInfo)
