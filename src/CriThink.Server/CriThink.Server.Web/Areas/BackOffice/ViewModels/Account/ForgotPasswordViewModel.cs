@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-#pragma warning disable CA1056 // URI-like properties should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.Account
 {
     public class ForgotPasswordViewModel
     {
+        [MinLength(2)]
         [Required]
         public string EmailOrUsername { get; set; }
 
