@@ -35,6 +35,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
             }
 
             var log = await _triggerLogServiceFacade.GetAllTriggerLogAsync(viewModel).ConfigureAwait(false);

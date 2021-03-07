@@ -37,6 +37,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
             }
 
             var users = await _userManagementServiceFacade.GetAllUserAsync(viewModel).ConfigureAwait(false);

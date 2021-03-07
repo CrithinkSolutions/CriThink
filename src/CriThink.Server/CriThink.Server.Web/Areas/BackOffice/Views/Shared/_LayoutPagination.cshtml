@@ -155,7 +155,7 @@
             let pageSize = parseInt(GetParameterValues('PageSize'));
             let pageIndex = parseInt(GetParameterValues('PageIndex'));
 
-            if (isNaN(pageSize) || isNaN(pageIndex) || pageIndex < 0) {
+            if (isNaN(pageSize) || isNaN(pageIndex) || pageIndex < 0 || pageSize < 1) {
                 pageSize = 20;
                 pageIndex = 0;
             }

@@ -32,6 +32,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
             }
 
             var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
@@ -144,6 +145,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
             }
 
             var response = await _newsSourceFacade.GetPendingNotificationRequestsAsync(viewModel).ConfigureAwait(false);
@@ -158,6 +160,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.PageIndex = 0;
+                viewModel.PageSize = 20;
             }
 
             var response = await _newsSourceFacade.GetUnknownNewsSourcesAsync(viewModel).ConfigureAwait(false);
