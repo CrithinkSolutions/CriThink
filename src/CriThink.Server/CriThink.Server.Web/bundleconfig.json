@@ -2,8 +2,13 @@
     {
         "outputFileName": "wwwroot/bundles/site.min.css",
         "inputFiles": [
-            "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
             "wwwroot/css/site.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/bundles/darkmode.min.css",
+        "inputFiles": [
+            "wwwroot/css/darkmode.css"
         ]
     }
 ]
