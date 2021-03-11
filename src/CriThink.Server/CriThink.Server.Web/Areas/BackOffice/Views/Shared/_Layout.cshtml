@@ -12,10 +12,10 @@
         if (AppService.CurrentEnvironment == "Development")
         {
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-            <link type="text/css" rel="stylesheet" href="~/lib/datatables/datatables.css" />
+            <link type="text/css" rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
         }
 
-        if (AppService.CurrentEnvironment == "Production" || AppService.CurrentEnvironment == "Staging")
+        else
         {
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                 crossorigin="anonymous">
@@ -30,7 +30,7 @@
         }
     }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
@@ -114,10 +114,10 @@
         {
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript" src="~/lib/datatables/datatables.js"></script>
+            <script type="text/javascript" src="~/lib/datatables/datatables.min.js"></script>
         }
 
-        if (AppService.CurrentEnvironment == "Production" || AppService.CurrentEnvironment == "Staging")
+        else
         {
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
