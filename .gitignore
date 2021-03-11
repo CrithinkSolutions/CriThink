@@ -371,10 +371,10 @@ ops/*.retry
 *.js.map
 
 # testing
-scr/GreenCow.Web/ClientApp/coverage
+scr/CriThink.Demo/ClientApp/coverage
 
 # production
-scr/GreenCow.Web/ClientApp/build
+scr/CriThink.Demo/ClientApp/build
 
 # misc
 .DS_Store
