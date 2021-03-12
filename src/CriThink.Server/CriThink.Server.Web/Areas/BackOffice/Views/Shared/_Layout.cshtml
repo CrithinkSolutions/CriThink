@@ -97,14 +97,20 @@
         </nav>
     </header>
 
-    <div class="d-flex" id="wrapper">
-        @RenderSection("hasSidebar", required: false)
-    </div>
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <div class="d-flex" id="wrapper">
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            @RenderSection("sidebarLeft", required: false)
+        </div>
+        <div class="p-4 text-center m-4 w-100">
+            @RenderSection("sidebarRight", required: false)
+            @RenderSection("pagination", required: false)
+        </div>
     </div>
 
     <footer class="border-top footer text-muted text-center">
@@ -151,6 +157,7 @@
         })
 
     </script>
+    @await RenderSectionAsync("paginationScript", required: false)
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
