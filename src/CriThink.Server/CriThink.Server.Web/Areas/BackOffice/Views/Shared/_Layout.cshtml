@@ -24,7 +24,13 @@
     @{
         if (Context.Request.Cookies["isDarkMode"] == "true")
         {
-            <link rel="stylesheet" href="~/css/darkmode.min.css" />
+            <environment include="Development">
+                <link rel="stylesheet" href="~/css/darkmode.css" />
+            </environment>
+
+            <environment exclude="Development">
+                <link rel="stylesheet" href="~/bundles/darkmode.min.css" />
+            </environment>
         }
     }
 
@@ -121,16 +127,25 @@
 
     <script type="text/javascript">
 
+        const env = '@AppService.CurrentEnvironment';
+
+        if (env == "Development") {
+            darkmodeEnv = '/css/darkmode.css';
+        }
+        else {
+            darkmodeEnv = '/bundles/darkmode.min.css';
+        }
+
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear() + 1);
 
         $('#darkModeSwitch').on('click', () => {
             if ($('#darkModeSwitch').prop('checked')) {
-                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/css/darkmode.css'));
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', darkmodeEnv));
                 document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
             }
             else {
-                $("LINK[href*='/css/darkmode.css']").remove();
+                $("LINK[href*='" + darkmodeEnv + "']").remove();
                 document.cookie = 'isDarkMode=false;expires=';
             }
         })
