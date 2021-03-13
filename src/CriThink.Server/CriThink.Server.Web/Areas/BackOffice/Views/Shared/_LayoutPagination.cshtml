@@ -70,10 +70,12 @@
             $('#currentPage').html(pageIndex + 1);
 
             if (pageIndex == 0) {
+                $('#prevPage').children().removeAttr('href');
                 $('#prevPage').toggleClass('disabled');
             }
 
             if ($('#hasNextPage').text() == 'False') {
+                $('#nextPage').children().removeAttr('href');
                 $('#nextPage').toggleClass('disabled');
             }
 
