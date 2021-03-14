@@ -1,191 +1,68 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
-@inject IAppVersionService AppService
 
-<!DOCTYPE html>
-<html lang="en">
+@{
+    Layout = "_Layout";
+}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CriThink</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-    <link type="text/css" rel="stylesheet" href="~/lib/datatables/datatables.css" />
-    @{
-        if (Context.Request.Cookies["isDarkMode"] == "true")
-        {
-            <link rel="stylesheet" href="~/css/darkmode.css" />
-        }
-    }
-</head>
+@section sidebarLeft
+{
+    @RenderSection("sidebarLeft", false)
+}
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="BackOffice" asp-controller="Home" asp-action="Index">CriThink</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                @if (User?.Identity?.IsAuthenticated == true)
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="DebunkingNews"
-                                    asp-action="Index">Debunking News</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="UserManagement"
-                                    asp-action="Index">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsSource"
-                                    asp-action="Index">News Sources</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsAnalyzer"
-                                    asp-action="Index">News Analyzer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="Health"
-                                    asp-action="Index">Health</a>
-                            </li>
-                        </ul>
-                        <div class="custom-control custom-switch mr-3">
+@section sidebarRight
+{
+    @RenderSection("sidebarRight", false)
+}
 
-                            @{
-                                if (Context.Request.Cookies["isDarkMode"] == "true")
-                                {
-                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch" checked>
-                                }
-                                else
-                                {
-                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
-                                }
-                            }
+@RenderBody()
 
-                            <label class="custom-control-label" for="darkModeSwitch">Dark Mode</label>
-                        </div>
-                        <span class="mr-3">@User?.Identity?.Name</span>
-                        <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
-                            <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button>
-                        </form>
-                    </div>
-                }
-            </div>
+@section pagination 
+{
+    <div id="pagination">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li id="prevPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Previous">
+                        <span>Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
+                <li id="nextPage" class="page-item">
+                    <a class="page-link pointer" aria-label="Next">
+                        <span>Next</span>
+                    </a>
+                </li>
+            </ul>
         </nav>
-    </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <nav>
+            <ul id="pageSizenav" class="pagination justify-content-center">
+                <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="0"
+                        class="page-link">20</a>
+                </li>
+                <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="0"
+                        class="page-link">50</a>
+                </li>
+                <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="0"
+                        class="page-link">100</a>
+                </li>
+            </ul>
+        </nav>
     </div>
+}
 
-    <div class="d-flex" id="wrapper">
-        <div class="bg-light border-right" id="sidebar-wrapper">
-            @RenderSection("sidebarLeft", required: false)
-        </div>
-        <div class="p-4 text-center m-4 w-100">
-            @RenderSection("sidebarRight", required: false)
-            <div id="pagination">
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <li id="prevPage" class="page-item">
-                            <a class="page-link pointer" aria-label="Previous">
-                                <span>Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a id="currentPage" class="page-link"></a></li>
-                        <li id="nextPage" class="page-item">
-                            <a class="page-link pointer" aria-label="Next">
-                                <span>Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+@section paginationScript 
+{
+    <environment include="Development">
+        <script src="~/js/pagination.js"></script>
+    </environment>
 
-                <nav>
-                    <ul id="pageSizenav" class="pagination justify-content-center">
-                        <li class="page-item pointer"><a asp-route-PageSize="20" asp-route-PageIndex="0"
-                                class="page-link">20</a>
-                        </li>
-                        <li class="page-item pointer"><a asp-route-PageSize="50" asp-route-PageIndex="0"
-                                class="page-link">50</a>
-                        </li>
-                        <li class="page-item pointer"><a asp-route-PageSize="100" asp-route-PageIndex="0"
-                                class="page-link">100</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <environment exclude="Development">
+        <script src="~/bundles/pagination.min.js"></script>
+    </environment>
+}
 
-    <footer class="border-top footer text-muted text-center">
-        <div class="container">
-            @AppService.CurrentEnvironment - @AppService.Version - @AppService.Copyright
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/lib/datatables/datatables.js"></script>
-    <script type="text/javascript">
-
-        var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
-
-        $('#darkModeSwitch').on('click', () => {
-            if ($('#darkModeSwitch').prop('checked')) {
-                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/css/darkmode.css'));
-                document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
-            }
-            else {
-                $("LINK[href*='/css/darkmode.css']").remove();
-                document.cookie = 'isDarkMode=false;expires=';
-            }
-        })
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            let pageSize = parseInt(GetParameterValues('PageSize'));
-            let pageIndex = parseInt(GetParameterValues('PageIndex'));
-
-            if (isNaN(pageSize) || isNaN(pageIndex) || pageIndex < 0 || pageSize < 1) {
-                pageSize = 20;
-                pageIndex = 0;
-            }
-
-            let url = window.location.pathname.concat('?PageSize=' + pageSize + '&PageIndex=');
-            $('#nextPage').children().attr('href', url + (pageIndex + 1));
-            $('#prevPage').children().attr('href', url + (pageIndex - 1));
-
-            $('#currentPage').html(pageIndex + 1);
-
-            if (pageIndex == 0) {
-                $('#prevPage').toggleClass('disabled');
-            }
-
-            if ($('#hasNextPage').text() == 'False') {
-                $('#nextPage').toggleClass('disabled');
-            }
-
-            function GetParameterValues(param) {
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < url.length; i++) {
-                    var urlparam = url[i].split('=');
-                    if (urlparam[0] == param) {
-                        return urlparam[1];
-                    }
-                }
-            };
-        });
-    </script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-
-</html>
+@section Scripts 
+{
+    @RenderSection("Scripts", false)
+}

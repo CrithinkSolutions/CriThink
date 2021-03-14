@@ -3,81 +3,114 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CriThink</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
-    <link type="text/css" rel="stylesheet" href="~/lib/datatables/datatables.css" />
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet"
+            href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    </environment>
+
     @{
         if (Context.Request.Cookies["isDarkMode"] == "true")
         {
-            <link rel="stylesheet" href="~/css/darkmode.css" />
+            <environment include="Development">
+                <link rel="stylesheet" href="~/css/darkmode.css" />
+            </environment>
+
+            <environment exclude="Development">
+                <link rel="stylesheet" href="~/bundles/darkmode.min.css" />
+            </environment>
         }
     }
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/bundles/site.min.css" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="BackOffice" asp-controller="Home" asp-action="Index">CriThink</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 @if (User?.Identity?.IsAuthenticated == true)
                 {
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index">Debunking News</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="BackOffice" asp-controller="NewsSource" asp-action="Index">News Sources</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="BackOffice" asp-controller="NewsAnalyzer" asp-action="Index">News Analyzer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="BackOffice" asp-controller="Health" asp-action="Index">Health</a>
-                        </li>
-                    </ul>
-                    <div class="custom-control custom-switch mr-3">
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="BackOffice" asp-controller="DebunkingNews"
+                                    asp-action="Index">Debunking News</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="BackOffice" asp-controller="UserManagement"
+                                    asp-action="Index">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsSource"
+                                    asp-action="Index">News Sources</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsAnalyzer"
+                                    asp-action="Index">News Analyzer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="BackOffice" asp-controller="Health"
+                                    asp-action="Index">Health</a>
+                            </li>
+                        </ul>
+                        <div class="custom-control custom-switch mr-3">
 
-                        @{
-                            if(Context.Request.Cookies["isDarkMode"] == "true") 
-                            {
-                                <input type="checkbox" class="custom-control-input" id="darkModeSwitch" checked>
+                            @{
+                                if (Context.Request.Cookies["isDarkMode"] == "true")
+                                {
+                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch" checked>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
+                                }
                             }
-                            else 
-                            {
-                                <input type="checkbox" class="custom-control-input" id="darkModeSwitch"> 
-                            }
-                        }
-                        
-                        <label class="custom-control-label" for="darkModeSwitch">Dark Mode</label>
+
+                            <label class="custom-control-label" for="darkModeSwitch">Dark Mode</label>
+                        </div>
+                        <span class="mr-3">@User?.Identity?.Name</span>
+                        <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button>
+                        </form>
                     </div>
-                    <span class="mr-3">@User?.Identity?.Name</span>
-                    <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button>
-                    </form>
-                </div>
                 }
             </div>
         </nav>
     </header>
-    <div class="d-flex" id="wrapper">
-        @RenderSection("hasSidebar", required: false)
-    </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <div class="d-flex" id="wrapper">
+        <div class="bg-light" id="sidebar-wrapper">
+            @RenderSection("sidebarLeft", required: false)
+        </div>
+        <div class="p-4 text-center m-4 w-100">
+            @RenderSection("sidebarRight", required: false)
+            @RenderSection("pagination", required: false)
+        </div>
     </div>
 
     <footer class="border-top footer text-muted text-center">
@@ -85,27 +118,47 @@
             @AppService.CurrentEnvironment - @AppService.Version - @AppService.Copyright
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/lib/datatables/datatables.js"></script>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="~/lib/datatables/datatables.min.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    </environment>
+
     <script type="text/javascript">
 
+        const env = '@AppService.CurrentEnvironment';
+
+        if (env == "Development") {
+            darkmodeEnv = '/css/darkmode.css';
+        }
+        else {
+            darkmodeEnv = '/bundles/darkmode.min.css';
+        }
+
         var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear() +1);
+        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
 
         $('#darkModeSwitch').on('click', () => {
-            if($('#darkModeSwitch').prop('checked')){
-                $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', '/css/darkmode.css') );
+            if ($('#darkModeSwitch').prop('checked')) {
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', darkmodeEnv));
                 document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
             }
             else {
-                $("LINK[href*='/css/darkmode.css']").remove();
+                $("LINK[href*='" + darkmodeEnv + "']").remove();
                 document.cookie = 'isDarkMode=false;expires=';
             }
         })
-        
+
     </script>
+    @await RenderSectionAsync("paginationScript", required: false)
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

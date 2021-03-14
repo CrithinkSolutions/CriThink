@@ -1,0 +1,25 @@
+[
+    {
+        "outputFileName": "wwwroot/bundles/site.min.css",
+        "inputFiles": [
+            "wwwroot/css/site.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/bundles/darkmode.min.css",
+        "inputFiles": [
+            "wwwroot/css/darkmode.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/bundles/pagination.min.js",
+        "inputFiles": [
+            "wwwroot/js/pagination.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    }
+]
