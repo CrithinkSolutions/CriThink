@@ -25226,46 +25226,52 @@ namespace CriThink.Client.Droid
 			public const int result_satirical = 2131165411;
 			
 			// aapt resource value: 0x7F0700E4
-			public const int roundedbg = 2131165412;
+			public const int result_socialmedia = 2131165412;
 			
 			// aapt resource value: 0x7F0700E5
-			public const int roundedbgdark = 2131165413;
+			public const int result_suspicious = 2131165413;
 			
 			// aapt resource value: 0x7F0700E6
-			public const int splash_background = 2131165414;
+			public const int roundedbg = 2131165414;
 			
 			// aapt resource value: 0x7F0700E7
-			public const int tab_color = 2131165415;
+			public const int roundedbgdark = 2131165415;
 			
 			// aapt resource value: 0x7F0700E8
-			public const int test_custom_background = 2131165416;
+			public const int splash_background = 2131165416;
 			
 			// aapt resource value: 0x7F0700E9
-			public const int tooltip_frame_dark = 2131165417;
+			public const int tab_color = 2131165417;
 			
 			// aapt resource value: 0x7F0700EA
-			public const int tooltip_frame_light = 2131165418;
+			public const int test_custom_background = 2131165418;
 			
 			// aapt resource value: 0x7F0700EB
-			public const int vpi__tab_indicator = 2131165419;
+			public const int tooltip_frame_dark = 2131165419;
 			
 			// aapt resource value: 0x7F0700EC
-			public const int vpi__tab_selected_focused_holo = 2131165420;
+			public const int tooltip_frame_light = 2131165420;
 			
 			// aapt resource value: 0x7F0700ED
-			public const int vpi__tab_selected_holo = 2131165421;
+			public const int vpi__tab_indicator = 2131165421;
 			
 			// aapt resource value: 0x7F0700EE
-			public const int vpi__tab_selected_pressed_holo = 2131165422;
+			public const int vpi__tab_selected_focused_holo = 2131165422;
 			
 			// aapt resource value: 0x7F0700EF
-			public const int vpi__tab_unselected_focused_holo = 2131165423;
+			public const int vpi__tab_selected_holo = 2131165423;
 			
 			// aapt resource value: 0x7F0700F0
-			public const int vpi__tab_unselected_holo = 2131165424;
+			public const int vpi__tab_selected_pressed_holo = 2131165424;
 			
 			// aapt resource value: 0x7F0700F1
-			public const int vpi__tab_unselected_pressed_holo = 2131165425;
+			public const int vpi__tab_unselected_focused_holo = 2131165425;
+			
+			// aapt resource value: 0x7F0700F2
+			public const int vpi__tab_unselected_holo = 2131165426;
+			
+			// aapt resource value: 0x7F0700F3
+			public const int vpi__tab_unselected_pressed_holo = 2131165427;
 			
 			static Drawable()
 			{
