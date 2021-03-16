@@ -137,9 +137,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 NewsSourceClassification.FakeNews => "result_fakenews.svg",
                 NewsSourceClassification.Reliable => "result_reliable.svg",
                 NewsSourceClassification.Satirical => "result_satirical.svg",
-                NewsSourceClassification.SocialMedia => "result_conspiracy.svg", // TODO: Change
-                NewsSourceClassification.Suspicious => "result_conspiracy.svg", // TODO: change
-                _ => "result_conspiracy.svg"
+                NewsSourceClassification.SocialMedia => "result_socialmedia.svg",
+                NewsSourceClassification.Suspicious => "result_suspicious.svg",
+                _ => "result_suspicious.svg"
             };
         }
 
