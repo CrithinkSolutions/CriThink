@@ -40,61 +40,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="BackOffice" asp-controller="Home" asp-action="Index">CriThink</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                @if (User?.Identity?.IsAuthenticated == true)
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="DebunkingNews"
-                                    asp-action="Index">Debunking News</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="UserManagement"
-                                    asp-action="Index">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsSource"
-                                    asp-action="Index">News Sources</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="NewsAnalyzer"
-                                    asp-action="Index">News Analyzer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="BackOffice" asp-controller="Health"
-                                    asp-action="Index">Health</a>
-                            </li>
-                        </ul>
-                        <div class="custom-control custom-switch mr-3">
-
-                            @{
-                                if (Context.Request.Cookies["isDarkMode"] == "true")
-                                {
-                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch" checked>
-                                }
-                                else
-                                {
-                                    <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
-                                }
-                            }
-
-                            <label class="custom-control-label" for="darkModeSwitch">Dark Mode</label>
-                        </div>
-                        <span class="mr-3">@User?.Identity?.Name</span>
-                        <form asp-area="BackOffice" asp-controller="Account" asp-action="Logout" method="post">
-                            <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button>
-                        </form>
-                    </div>
-                }
-            </div>
-        </nav>
+        <partial name="_LayoutNavbar" />
     </header>
 
     <div class="container">
@@ -104,9 +50,12 @@
     </div>
 
     <div class="d-flex" id="wrapper">
-        <div class="bg-light" id="sidebar-wrapper">
-            @RenderSection("sidebarLeft", required: false)
-        </div>
+        @if (IsSectionDefined("sidebarLeft"))
+        {
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                @RenderSection("sidebarLeft", required: false)
+            </div>
+        }
         <div class="p-4 text-center m-4 w-100">
             @RenderSection("sidebarRight", required: false)
             @RenderSection("pagination", required: false)
