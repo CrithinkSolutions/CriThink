@@ -124,6 +124,7 @@ namespace CriThink.Server.Web
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
                     options.InjectStylesheet("/swagger-custom/swaggerstyle.css");
+                    options.InjectJavascript("/swagger-custom/swaggerstyle.js");
                     options.DisplayRequestDuration();
                 });
             }
