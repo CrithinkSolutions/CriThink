@@ -5,56 +5,52 @@
 
 <div class="row">
     <div class="col-sm">
-		<button class="btn btn-purple btn-block" onclick="log()">Log</button>
-		<div class="mt-2" id="log"></div>
+        <button class="btn btn-purple btn-block" onclick="log()">Log</button>
+        <div class="mt-2" id="log"></div>
     </div>
     <div class="col-sm">
-    	<table class="table text-center">
-		  <thead>
-		    <tr>
-		      <th scope="col">Redis</th>
-		      <th scope="col">PostgreSQL</th>
-		      <th scope="col">DBContext</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <td id="redis"></td>
-		      <td id="postgresql"></td>
-		      <td id="dbcontext"></td>
-		    </tr>
-		  </tbody>
-		</table>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Redis</th>
+                    <th scope="col">PostgreSQL</th>
+                    <th scope="col">DBContext</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="redis"><i class="fas fa-circle-notch fa-spin"></i></td>
+                    <td id="postgresql"><i class="fas fa-circle-notch fa-spin"></i></td>
+                    <td id="dbcontext"><i class="fas fa-circle-notch fa-spin"></i></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
- </div>
+</div>
 
 
-@section Scripts 
+@section Scripts
 {
-	<script>
-		$.get('/health/redis', function(data){
-			$('#redis').html(data);
-		}) 
+    <script>
+        function healthCheck(url, htmlId) {
+            $.ajax({
+                url,
+                type: 'GET',
+                success: () => $(htmlId).html('<span style="color: green !important;"><i class="fas fa-check-circle"></i></span>'),
+                error: () => $(htmlId).html('<span style="color: red !important;"><i class="fas fa-times-circle"></i></span>'),
+            });
+        }
 
-		$.get('/health/postgresql', function(data){
-			$('#postgresql').html(data);
-		})
+        function checkServiceHealth(serviceName) {
+            healthCheck(`/health/${serviceName}`, `#${serviceName}`);
+        }
 
-		$.get('/health/dbcontext', function(data){
-			$('#dbcontext').html(data);
-		})
+        checkServiceHealth('redis');
+        checkServiceHealth('postgresql');
+        checkServiceHealth('dbcontext');
 
-		function log() {
-			$.ajax({
-				url : '/api/service/logging-health',
-				type : 'HEAD',
-				success : function(){
-				   $('#log').html("Success");           
-				},
-				error : function(){
-				   $('#log').html("Error");           
-				}
-			});
-		}
-	</script>
+        function log() {
+            healthCheck('/api/service/logging-health', '#log');
+        }
+    </script>
 }
