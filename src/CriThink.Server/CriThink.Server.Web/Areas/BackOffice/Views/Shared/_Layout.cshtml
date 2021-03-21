@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
+@using Microsoft.Extensions.Hosting;
 @inject IAppVersionService AppService
+@inject IHostEnvironment _env
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,7 +85,7 @@
     @{
         var darkModeEnv = "";
 
-        if (AppService.CurrentEnvironment == "Development")
+        if (_env.IsDevelopment())
         {
             darkModeEnv = "/css/darkmode.css";
         }
