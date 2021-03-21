@@ -11,6 +11,5 @@
 }
 
 .swagger-ui img {
-    content: url("../logo.svg");
     height: 60px;
 }
