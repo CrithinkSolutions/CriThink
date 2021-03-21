@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Hosting;
+@using Microsoft.Extensions.Hosting;
 @inject IAppVersionService AppService
-
+@inject IHostEnvironment _env
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,9 +17,9 @@
 
     <environment exclude="Development">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-            crossorigin="anonymous">
+              crossorigin="anonymous">
         <link type="text/css" rel="stylesheet"
-            href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+              href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
     </environment>
 
     @{
@@ -75,37 +76,42 @@
     </environment>
 
     <environment exclude="Development">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     </environment>
 
+
+    @{
+        var darkModeEnv = "";
+
+        if (_env.IsDevelopment())
+        {
+            darkModeEnv = "/css/darkmode.css";
+        }
+        else
+        {
+            darkModeEnv = "/bundles/darkmode.min.css";
+        }
+    }
+
     <script type="text/javascript">
-
-        const env = '@AppService.CurrentEnvironment';
-
-        if (env == "Development") {
-            darkmodeEnv = '/css/darkmode.css';
-        }
-        else {
-            darkmodeEnv = '/bundles/darkmode.min.css';
-        }
-
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear() + 1);
 
         $('#darkModeSwitch').on('click', () => {
             if ($('#darkModeSwitch').prop('checked')) {
-                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', darkmodeEnv));
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '@darkModeEnv'));
                 document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
             }
             else {
-                $("LINK[href*='" + darkmodeEnv + "']").remove();
+                $("LINK[href*='@darkModeEnv']").remove();
                 document.cookie = 'isDarkMode=false;expires=';
             }
-        })
-
+        });
     </script>
+
+
     @await RenderSectionAsync("paginationScript", required: false)
     @await RenderSectionAsync("Scripts", required: false)
 </body>
