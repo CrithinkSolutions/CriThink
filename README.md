@@ -2,10 +2,13 @@
 CriThink is a platform able to identity trusted news sources.
 Developed by CriThink Solutions.
 
-![CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/workflows/staging_server_publish/badge.svg)
-![CriThink](https://github.com/CrithinkSolutions/CriThink/workflows/production_server_publish/badge.svg?branch=production)
-[![Build status](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/develop/badge)](https://appcenter.ms)
-[![Build status](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/production/badge)](https://appcenter.ms)
+## Build Status
+Environment | Backend | Android App | iOS App | Demo
+--- | --- | --- | --- | ---
+Develop | [![CriThinkDemo](https://github.com/CrithinkSolutions/CriThink/actions/workflows/staging_server_publish.yml/badge.svg?branch=develop)](https://github.com/CrithinkSolutions/CriThink/actions/workflows/staging_server_publish.yml) | [![CriThink Android Beta](https://build.appcenter.ms/v0.1/apps/39416911-b2c3-47cf-a2af-37242e473532/branches/develop/badge)](https://appcenter.ms) | - | -
+Main | [![CriThinkApp](https://github.com/CrithinkSolutions/CriThink/actions/workflows/main_server_publish.yml/badge.svg)](https://github.com/CrithinkSolutions/CriThink/actions/workflows/main_server_publish.yml) | - | - | -
+
+<br>
 
 # Getting Started
 ## Server
