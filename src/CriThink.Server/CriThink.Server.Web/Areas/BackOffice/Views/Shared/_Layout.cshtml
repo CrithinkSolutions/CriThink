@@ -94,21 +94,19 @@
     }
 
     <script type="text/javascript">
-
         var CookieDate = new Date;
-        Cook    ieDate.setFullYear(CookieDate.getFullYear() + 1);
+        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
 
-        $('#dark      ModeSwitch').on('click', () => {
-        if ($('#darkModeSwitch').prop('checked')) {
-        $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '@darkModeEnv'));
-        document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
-        }
-        else {
-        $("LINK[href*='@darkModeEnv']").remove();
-        document.cookie = 'isDarkMode=false;expires=';
-        }
-        })
-
+        $('#darkModeSwitch').on('click', () => {
+            if ($('#darkModeSwitch').prop('checked')) {
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '@darkModeEnv'));
+                document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
+            }
+            else {
+                $("LINK[href*='@darkModeEnv']").remove();
+                document.cookie = 'isDarkMode=false;expires=';
+            }
+        });
     </script>
 
 
