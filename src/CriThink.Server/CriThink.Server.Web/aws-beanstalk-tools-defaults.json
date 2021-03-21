@@ -2,7 +2,7 @@
 {
     "region" : "eu-central-1",
     "configuration" : "Release",
-    "framework"     : "netcoreapp3.1",
+    "framework"     : "net5.0",
     "self-contained" : false,
     "application"    : "CriThink",
     "environment"    : "Production",
