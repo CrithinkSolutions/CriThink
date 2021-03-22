@@ -52,23 +52,6 @@
 
         #endregion
 
-        #region Admin
-
-        public const string AdminBase = "admin/";
-
-        public const string AdminSignUp = "sign-up";
-        public const string AdminRole = "role";
-
-        public const string AdminUserRole = "user/role";
-        public const string AdminUserGetAll = "user/all";
-        public const string AdminUser = "user";
-        public const string AdminDebunkingNews = "debunking-news";
-        public const string AdminDebunkingNewsGetAll = "debunking-news/all";
-        public const string AdminTriggerLogs = "trigger-logs/all";
-        public const string AdminNewsSourceAdd = "news-source-add";
-
-        #endregion
-
         #region NewsAnalyzer
 
         public const string NewsAnalyzerBase = "news-analyzer/";
