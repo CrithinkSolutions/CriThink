@@ -19,7 +19,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)] //api/debunking-news
+    [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)]
     public class DebunkingNewsController : Controller
     {
         private readonly IDebunkingNewsService _debunkingNewsService;
@@ -32,12 +32,23 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Trigger the update of internal debunking news repository
         /// </summary>
-        /// <returns>HTTP status code</returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST: /api/debunking-news/trigger-update
+        /// 
+        /// </remarks>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
         [ServiceFilter(typeof(DebunkingNewsTriggerAuthenticationFilter), Order = int.MinValue)]
-        [Route(EndpointConstants.DebunkNewsTriggerUpdate)] // api/debunking-news/trigger-update
+        [Route(EndpointConstants.DebunkNewsTriggerUpdate)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> TriggerRepositoryUpdateAsync()
@@ -49,11 +60,22 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Get all the debunking news
         /// </summary>
-        /// <param name="request">Page index and Debunking news per page</param>
-        /// <returns></returns>
-        [Route(EndpointConstants.DebunkingNewsGetAll)] // api/debunking-news/all
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET: /api/debunking-news/all?{pageSize}{pageIndex}
+        /// 
+        /// </remarks>
+        /// <param name="request">Page index and number of debunking news per page</param>
+        /// <response code="200">Returns the list of debunking news</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.DebunkingNewsGetAll)]
+        [ProducesResponseType(typeof(DebunkingNewsGetAllResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
@@ -65,14 +87,27 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Get the specified debunking news
         /// </summary>
-        /// <param name="request">Debunking news guid</param>
-        /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET: /api/debunking-news?{id}
+        /// 
+        /// </remarks>
+        /// <param name="request">Debunking news id</param>
+        /// <response code="200">Returns the requested debunking news</response>
+        /// <response code="400">If the request query string is invalid</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="404">If the given id is not found</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [ProducesResponseType(typeof(DebunkingNewsGetDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
-        [HttpGet] //api/debunking-news/
+        [HttpGet]
         public async Task<IActionResult> GetDebunkingNewsAsync([FromQuery] DebunkingNewsGetRequest request)
         {
             var debunkingNews = await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
