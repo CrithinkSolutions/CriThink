@@ -12,24 +12,21 @@
       "commandName": "IISExpress",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ENABLE_SIGNUP": "true"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "IIS Express (Staging)": {
       "commandName": "IISExpress",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging",
-        "ENABLE_SIGNUP": "true"
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       }
     },
     "IIS Express (Production)": {
       "commandName": "IISExpress",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production",
-        "ENABLE_SIGNUP": "false"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
     "Kestrel (Development)": {
