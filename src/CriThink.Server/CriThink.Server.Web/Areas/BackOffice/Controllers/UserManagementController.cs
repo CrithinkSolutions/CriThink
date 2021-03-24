@@ -17,6 +17,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
     [Area("BackOffice")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route(EndpointConstants.UserManagementBase)]
     public class UserManagementController : Controller
     {

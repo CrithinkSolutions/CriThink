@@ -23,7 +23,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)] //api/identity
+    [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
@@ -36,14 +36,29 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Register a new user and send an email with confirmation code
+        /// Register a new user and send their an email with confirmation code
         /// </summary>
-        /// <returns>If successfull, returns the JWT token</returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST: /api/identity/sign-up
+        ///     {
+        ///         "username": "username",
+        ///         "password": "password",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Request body with email/username and password</param>
+        /// <response code="200">Returns the user confirmation code and id</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentitySignUp)] // api/identity/sign-up
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.IdentitySignUp)]
+        [ProducesResponseType(typeof(UserSignUpResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> SignUpUserAsync([FromBody] UserSignUpRequest request)
@@ -55,12 +70,27 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Perform the user login
         /// </summary>
-        /// <returns>If successfull, returns user info and JWT token</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/login
+        ///     {
+        ///         "email": "email",
+        ///         "password": "password",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Request body with email/username and password</param>
+        /// <response code="200">If successfull, returns user info and JWT token</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityLogin)] // api/identity/login
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.IdentityLogin)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> LoginUserAsync([FromBody] UserLoginRequest request)
@@ -73,7 +103,7 @@ namespace CriThink.Server.Web.Controllers
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "User or password incorrect while login");
-                throw new Core.Exceptions.ResourceNotFoundException("The user or the password are incorrect");
+                throw new ResourceNotFoundException("The user or the password are incorrect");
             }
         }
 
@@ -81,11 +111,22 @@ namespace CriThink.Server.Web.Controllers
         /// Confirm the user email, enabling the account. Generally called when
         /// user click on the email link
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET: /api/identity/confirm-email?{userId}{code}
+        /// 
+        /// </remarks>
         /// <param name="userId">The user id</param>
         /// <param name="code">The code generated during the registration</param>
-        /// <returns>Returns the confirmation of success</returns>
+        /// <response code="200">Returns the view</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityConfirmEmail)] // api/identity/confirm-email?{userId}&{code}
+        [Route(EndpointConstants.IdentityConfirmEmail)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpGet]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
         {
@@ -119,15 +160,35 @@ namespace CriThink.Server.Web.Controllers
             return View("EmailConfirmation", result);
         }
 
+        /// <summary>
+        /// Confirm the user email from mobile, enabling the account. Generally called
+        /// when the user clicks on the email link after the sign up using the app
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/mobile/confirm-email
+        ///     {
+        ///         "userId": "userId",
+        ///         "code": "code",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="dto">User id and the code</param>
+        /// <response code="200">Returns the user info with the jwt token</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.Mobile + EndpointConstants.IdentityConfirmEmail)] // api/identity/mobile/confirm-email
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.Mobile + EndpointConstants.IdentityConfirmEmail)]
+        [ProducesResponseType(typeof(VerifyUserEmailResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpPost]
         public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
         {
-            if (dto == null)
+            if (dto is null)
                 throw new ArgumentNullException(nameof(dto));
 
             if (string.IsNullOrWhiteSpace(dto.Code))
@@ -163,13 +224,28 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Request for a new password
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/change-password
+        ///     {
+        ///         "currentPassword": "currentPassword",
+        ///         "newPassword": "newPassword",
+        ///     }
+        /// 
+        /// </remarks>
         /// <param name="dto">Request with old and new password</param>
-        /// <returns>Returns HTTP status code</returns>
-        [Authorize]
-        [Route(EndpointConstants.IdentityChangePassword)] // api/identity/change-password
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.IdentityChangePassword)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
@@ -188,7 +264,7 @@ namespace CriThink.Server.Web.Controllers
                     .ConfigureAwait(false);
 
                 return result ?
-                    Ok() :
+                    NoContent() :
                     BadRequest();
             }
             catch (Exception ex)
@@ -199,29 +275,43 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Request a temporary token to reset the forgot password
+        /// Request a temporary token to reset the forgot password, sent via email
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/forgot-password
+        ///     {
+        ///         "email": "email",
+        ///         "username": "username",
+        ///     }
+        /// 
+        /// </remarks>
         /// <param name="dto">Email or the username of the account owner</param>
-        /// <returns>Send an email with the temporary code</returns>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityForgotPassword)] // api/identity/forgot-password
+        [Route(EndpointConstants.IdentityForgotPassword)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> RequestTemporaryTokenAsync([FromBody] ForgotPasswordRequest dto)
         {
-            if (dto == null)
+            if (dto is null)
                 throw new ArgumentNullException(nameof(dto));
 
             try
             {
                 await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
             }
-            catch (Core.Exceptions.ResourceNotFoundException)
+            catch (ResourceNotFoundException)
             {
-                throw new Core.Exceptions.ResourceNotFoundException("The provided email or username are incorrect");
+                throw new ResourceNotFoundException("The provided email or username are incorrect");
             }
 
             return NoContent();
@@ -230,18 +320,33 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Reset the user password, replacing it with a new one
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/reset-password
+        ///     {
+        ///         "userId": "userId",
+        ///         "token": "token",
+        ///         "newPassword": "newPassword",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="dto">The user id with the token received via email and the new password</param>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityResetPassword)] // api/identity/reset-password
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.IdentityResetPassword)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
-            if (dto == null)
+            if (dto is null)
                 throw new ArgumentNullException(nameof(dto));
 
             string decodedCode;
@@ -269,15 +374,29 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Log the user via an external provider
+        /// Log the user via an external provider (Facebook or Google)
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/external-login
+        ///     {
+        ///         "socialProvider": "socialProvider",
+        ///         "userToken": "userToken",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="dto">Social provider and its token</param>
+        /// <response code="200">Returns the user info with the JWT token</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityExternalLogin)] // api/identity/external-login
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.IdentityExternalLogin)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
@@ -286,11 +405,29 @@ namespace CriThink.Server.Web.Controllers
             return Ok(new ApiOkResponse(response));
         }
 
+        /// <summary>
+        /// Checks if the given username is been already taken by another user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/username-availability
+        ///     {
+        ///         "username": "username",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="dto">The username to search</param>
+        /// <response code="200">Returns a flag that is true if the username is not used yet</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityUsernameAvailability)] // api/identity/username-availability
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route(EndpointConstants.IdentityUsernameAvailability)]
+        [ProducesResponseType(typeof(UsernameAvailabilityResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
