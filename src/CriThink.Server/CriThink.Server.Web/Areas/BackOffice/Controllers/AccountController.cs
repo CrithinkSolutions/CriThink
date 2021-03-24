@@ -18,6 +18,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// Controller to handle the backoffice account operations
     /// </summary>
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Area("BackOffice")]
     public class AccountController : Controller
     {

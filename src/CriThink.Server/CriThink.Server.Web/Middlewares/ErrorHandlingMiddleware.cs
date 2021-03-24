@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Npgsql;
@@ -59,27 +59,22 @@ namespace CriThink.Server.Web.Middlewares
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
-            object parameter;
+            ApiResponse parameter;
 
             switch (ex)
             {
-                case AggregateException aggregate:
-                    code = HttpStatusCode.BadRequest;
-                    parameter = new { error = aggregate.InnerExceptions.Select(e => e.Message) };
-                    _logger.LogError(aggregate, "Aggregate exception");
-                    break;
                 case PostgresException postgresException:
                     code = HttpStatusCode.ServiceUnavailable;
                     _logger.LogCritical(postgresException, "PostgreSQL connection not available");
-                    parameter = new { error = "Service currently unvailable" };
+                    parameter = new ApiResponse((int) code);
                     break;
                 case Core.Exceptions.ResourceNotFoundException resourceNotFoundException:
                     code = HttpStatusCode.NotFound;
                     _logger.LogWarning(resourceNotFoundException, "An asked resource has not been found");
-                    parameter = new { error = ex.Message };
+                    parameter = new ApiResponse((int) code, ex.Message);
                     break;
                 default:
-                    parameter = new { error = ex.Message };
+                    parameter = new ApiResponse((int) code, ex.Message);
                     _logger.LogError(ex, "Generic exception");
                     break;
             }

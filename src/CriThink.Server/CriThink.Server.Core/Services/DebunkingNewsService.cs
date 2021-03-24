@@ -6,6 +6,7 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Facades;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
@@ -160,6 +161,8 @@ namespace CriThink.Server.Core.Services
 
             var query = new GetDebunkingNewsQuery(request.Id);
             var debunkingNews = await _mediator.Send(query).ConfigureAwait(false);
+            if (debunkingNews is null)
+                throw new ResourceNotFoundException($"Can't find a debunking news with id '{request.Id}'");
 
             var dto = _mapper.Map<DebunkingNews, DebunkingNewsGetDetailsResponse>(debunkingNews);
             return dto;

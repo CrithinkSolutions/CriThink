@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using CriThink.Common.Endpoints.Converters;
 
+// ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.NewsSource
 {
     public class NewsSourceSearchWithDebunkingNewsResponse
