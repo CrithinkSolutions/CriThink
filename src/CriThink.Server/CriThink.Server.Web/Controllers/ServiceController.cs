@@ -1,6 +1,7 @@
 ﻿using System;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.Models.DTOs;
 using CriThink.Server.Web.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [ApiValidationFilter]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route(EndpointConstants.ApiBase + EndpointConstants.ServiceBase)] //api/service
+    [Route(EndpointConstants.ApiBase + EndpointConstants.ServiceBase)]
     public class ServiceController : Controller
     {
         private readonly IAppVersionService _appService;
@@ -32,12 +33,19 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Returns the current environment name
         /// </summary>
-        /// <returns>Environment name</returns>
+        /// <remarks> 
+        /// Sample request:
+        /// 
+        ///     GET: /api/service/environment
+        /// 
+        /// </remarks>
+        /// <response code="200">Returns enivronment name</response>
+        /// <response code="500">If the server can't process the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.ServiceEnvironment)] // api/service/environment
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Produces("application/json")]
+        [Route(EndpointConstants.ServiceEnvironment)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [Produces("text/plain")]
         [HttpGet]
         public IActionResult GetEnvironment()
         {
@@ -48,9 +56,18 @@ namespace CriThink.Server.Web.Controllers
         /// <summary>
         /// Log sample entries at Information, Critical, Error and Warning levels
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     HEAD: /api/service/logging-health
+        /// 
+        /// </remarks>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="500">If the server can't process the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.ServiceLoggingHealth)] // api/service/logging-health
+        [Route(EndpointConstants.ServiceLoggingHealth)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [HttpHead]
         public IActionResult LogSampleEntry()
         {
@@ -60,20 +77,6 @@ namespace CriThink.Server.Web.Controllers
             _logger?.LogWarning("Test log as warning");
 
             return NoContent();
-        }
-
-        [AllowAnonymous]
-        [Route(EndpointConstants.ServiceEnableSignup)] // api/service/signup-enabled
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet]
-        public IActionResult GetSignupActivation()
-        {
-            var enableSignup = Environment.GetEnvironmentVariable("ENABLE_SIGNUP");
-            if (enableSignup == null)
-                return Ok(false);
-
-            var isEnabled = bool.Parse(enableSignup);
-            return Ok(isEnabled);
         }
     }
 }
