@@ -24,7 +24,6 @@
         public const string ServiceBase = "service/";
         public const string ServiceEnvironment = "environment";
         public const string ServiceLoggingHealth = "logging-health";
-        public const string ServiceEnableSignup = "signup-enabled";
 
         #endregion
 
@@ -52,22 +51,6 @@
 
         #endregion
 
-        #region NewsAnalyzer
-
-        public const string NewsAnalyzerBase = "news-analyzer/";
-
-        public const string NewsAnalyzerHttpsSupport = "https-support";
-        public const string NewsAnalyzerDomainLookup = "domain-lookup";
-        public const string NewsAnalyzerPerformCompleteAnalysis = "perform-complete-anlysis";
-        public const string NewsAnalyzerScrapeNews = "scrape-news";
-        public const string NewsAnalyzerTextSentimentAnalysis = "sentiment-analysis";
-        public const string NewsAnalyzerQuestionAdd = "question";
-        public const string NewsAnalyzerQuestionGetAll = "question";
-        public const string NewsAnalyzerQuestionAnswer = "answer-question";
-        public const string NewsAnalyzerQuestionAnswerAdd = "answer-question/create";
-
-        #endregion
-
         #region NewsSource
 
         public const string NewsSourceBase = "news-source/";
@@ -90,7 +73,6 @@
         public const string DebunkingNewsAddNews = "add-news";
         public const string DebunkingNewsRemoveNews = "remove-news";
         public const string DebunkingNewsInfoNews = "info-news";
-        public const string DebunkingNewsEditNews = "edit-news";
 
         #endregion
 
@@ -111,15 +93,6 @@
         public const string UserManagementInfoUser = "info-user";
         public const string UserManagementEditUser = "edit-user";
         public const string UserManagementEditRoleUser = "edit-roleuser";
-
-        #endregion
-
-        #region Demo
-
-        public const string DemoBase = "demo/";
-
-        public const string DemoNewsGetAll = "demo-news";
-        public const string DemoNewsAdd = "demo-news";
 
         #endregion
 
