@@ -63,10 +63,6 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> SearchNewsSourceAsync([FromQuery] NewsSourceSearchRequest request)
         {
             var searchResponse = await _newsSourceService.SearchNewsSourceWithAlertAsync(request.NewsLink).ConfigureAwait(false);
-
-            if (searchResponse is null)
-                return NotFound();
-
             return Ok(new ApiOkResponse(searchResponse));
         }
 
@@ -85,12 +81,14 @@ namespace CriThink.Server.Web.Controllers
         /// </remarks>
         /// <param name="request">Email and the unknown uri</param>
         /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request body is invalid</response>
         /// <response code="401">If the user is not authorized</response>
         /// <response code="404">If the given domain is not found</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
@@ -100,7 +98,6 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> RequestNotificationForUnknownSourceAsync([FromBody] NewsSourceNotificationForUnknownDomainRequest request)
         {
             await _unknownNewsSourceService.RequestNotificationForUnknownNewsSourceAsync(request).ConfigureAwait(false);
-
             return NoContent();
         }
     }

@@ -68,11 +68,13 @@ namespace CriThink.Server.Web.Controllers
         /// </remarks>
         /// <param name="request">Page index and number of debunking news per page</param>
         /// <response code="200">Returns the list of debunking news</response>
+        /// <response code="400">If the request query string is invalid</response>
         /// <response code="401">If the user is not authorized</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [Route(EndpointConstants.DebunkingNewsGetAll)]
         [ProducesResponseType(typeof(DebunkingNewsGetAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]

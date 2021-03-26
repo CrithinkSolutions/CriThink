@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 
@@ -60,13 +63,25 @@ namespace CriThink.Server.Web.Middlewares
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
             ApiResponse parameter;
+            string result = null;
 
             switch (ex)
             {
-                case PostgresException postgresException:
+                case PostgresException:
+                case RetryLimitExceededException:
+                case SmtpException:
                     code = HttpStatusCode.ServiceUnavailable;
-                    _logger.LogCritical(postgresException, "PostgreSQL connection not available");
-                    parameter = new ApiResponse((int) code);
+                    _logger.LogCritical(ex, "An infrastructure component is not available");
+                    parameter = new ApiResponse((int) code, "Can't process the request right now");
+                    break;
+                case Core.Exceptions.IdentityOperationException identityOperationException:
+                    code = HttpStatusCode.BadRequest;
+                    _logger.LogWarning(identityOperationException, "An identity related operation failed");
+                    parameter = new ApiBadRequestResponse(
+                        identityOperationException.Resource,
+                        identityOperationException.IdentityResult.Errors.Select(e => e.Description));
+
+                    result = JsonSerializer.Serialize((ApiBadRequestResponse) parameter);
                     break;
                 case Core.Exceptions.ResourceNotFoundException resourceNotFoundException:
                     code = HttpStatusCode.NotFound;
@@ -74,12 +89,13 @@ namespace CriThink.Server.Web.Middlewares
                     parameter = new ApiResponse((int) code, ex.Message);
                     break;
                 default:
-                    parameter = new ApiResponse((int) code, ex.Message);
+                    parameter = new ApiResponse((int) code, "Can't process the request right now");
                     _logger.LogError(ex, "Generic exception");
                     break;
             }
 
-            var result = JsonSerializer.Serialize(parameter);
+            result ??= JsonSerializer.Serialize(parameter);
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) code;
             return context.Response.WriteAsync(result);

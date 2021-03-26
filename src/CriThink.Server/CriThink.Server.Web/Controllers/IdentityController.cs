@@ -100,11 +100,16 @@ namespace CriThink.Server.Web.Controllers
                 var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(response));
             }
-            catch (Exception ex)
+            catch (ResourceNotFoundException ex)
             {
                 _logger?.LogError(ex, "User or password incorrect while login");
-                throw new ResourceNotFoundException("The user or the password are incorrect");
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger?.LogError(ex, "User or password incorrect while login");
+            }
+
+            throw new ResourceNotFoundException("The user does not exist or the password is incorrect");
         }
 
         /// <summary>
@@ -117,8 +122,8 @@ namespace CriThink.Server.Web.Controllers
         ///     GET: /api/identity/confirm-email?{userId}{code}
         /// 
         /// </remarks>
-        /// <param name="userId">The user id</param>
-        /// <param name="code">The code generated during the registration</param>
+        /// <param name="request">The user id and the code generated during the
+        /// registration</param>
         /// <response code="200">Returns the view</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
@@ -128,28 +133,15 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
+        public async Task<IActionResult> ConfirmEmailAsync([FromQuery] EmailConfirmationRequest request)
         {
-            if (string.IsNullOrWhiteSpace(userId))
-                return BadRequest("User Id can't be null");
-            if (string.IsNullOrWhiteSpace(code))
-                return BadRequest("Code can't be null");
-
-            string decodedCode;
-            try
-            {
-                decodedCode = Base64Helper.FromBase64(code);
-            }
-            catch (FormatException)
-            {
-                return BadRequest("The given code is not valid");
-            }
+            string decodedCode = Base64Helper.FromBase64(request.Code);
 
             var result = true;
 
             try
             {
-                await _identityService.VerifyAccountEmailAsync(userId, decodedCode).ConfigureAwait(false);
+                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), decodedCode).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -188,37 +180,18 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
         {
-            if (dto is null)
-                throw new ArgumentNullException(nameof(dto));
-
-            if (string.IsNullOrWhiteSpace(dto.Code))
-                return BadRequest("Code can't be null");
-
-            string decodedCode;
-            try
-            {
-                decodedCode = Base64Helper.FromBase64(dto.Code);
-            }
-            catch (FormatException)
-            {
-                return BadRequest("The given code is not valid");
-            }
+            string decodedCode = Base64Helper.FromBase64(dto.Code);
 
             try
             {
                 var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), decodedCode).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(userInfo));
             }
-            catch (IdentityOperationException ex)
-            {
-                _logger?.LogError(ex, "Error confirming email from mobile");
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error confirming email from mobile");
-                return BadRequest();
-            }
+            catch (ResourceNotFoundException) { }
+            catch (InvalidOperationException) { }
+            catch (IdentityOperationException) { }
+
+            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
         }
 
         /// <summary>
@@ -250,28 +223,23 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
             var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrWhiteSpace(userEmail))
-                return Forbid();
+                return Unauthorized();
 
             try
             {
-                var result = await _identityService
+
+                await _identityService
                     .ChangeUserPasswordAsync(userEmail, dto.CurrentPassword, dto.NewPassword)
                     .ConfigureAwait(false);
 
-                return result ?
-                    NoContent() :
-                    BadRequest();
+                return NoContent();
             }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error changing user password");
-                return BadRequest();
-            }
+            catch (ResourceNotFoundException) { }
+            catch (InvalidOperationException) { }
+
+            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
         }
 
         /// <summary>
@@ -302,19 +270,15 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RequestTemporaryTokenAsync([FromBody] ForgotPasswordRequest dto)
         {
-            if (dto is null)
-                throw new ArgumentNullException(nameof(dto));
-
             try
             {
                 await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
+                return NoContent();
             }
-            catch (ResourceNotFoundException)
-            {
-                throw new ResourceNotFoundException("The provided email or username are incorrect");
-            }
+            catch (ResourceNotFoundException) { }
+            catch (InvalidOperationException) { }
 
-            return NoContent();
+            throw new ResourceNotFoundException("The user does not exist");
         }
 
         /// <summary>
@@ -346,31 +310,19 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
-            if (dto is null)
-                throw new ArgumentNullException(nameof(dto));
-
-            string decodedCode;
+            string decodedCode = Base64Helper.FromBase64(dto.Token);
 
             try
             {
-                decodedCode = Base64Helper.FromBase64(dto.Token);
-            }
-            catch (FormatException)
-            {
-                return BadRequest(new ApiBadRequestResponse(nameof(dto.Token), new[] { "The given code is not valid" }));
-            }
-
-            try
-            {
-                var response = await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword)
+                await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword)
                     .ConfigureAwait(false);
-                return Ok(new ApiOkResponse(response));
+
+                return NoContent();
             }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error resetting user password");
-                return BadRequest();
-            }
+            catch (ResourceNotFoundException) { }
+            catch (InvalidOperationException) { }
+
+            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
         }
 
         /// <summary>

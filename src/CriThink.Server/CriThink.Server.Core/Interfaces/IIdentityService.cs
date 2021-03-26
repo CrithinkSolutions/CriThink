@@ -129,11 +129,11 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="currentPassword">Current password</param>
         /// <param name="newPassword">New password</param>
         /// <returns>Returns true if the password is changed, otherwise false</returns>
-        Task<bool> ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
+        Task ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
 
         Task GenerateUserPasswordTokenAsync(string email, string username);
 
-        Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword);
+        Task ResetUserPasswordAsync(string userId, string token, string newPassword);
 
         Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request);
 

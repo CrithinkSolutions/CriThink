@@ -64,7 +64,7 @@ namespace CriThink.Server.Core.Identity
             var userCreationResult = await _userManager.CreateAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
             {
-                var ex = new IdentityOperationException(userCreationResult);
+                var ex = new IdentityOperationException(userCreationResult, "CreateNewUser");
                 _logger?.LogError(ex, "Error creating a new user", user);
                 throw ex;
             }
@@ -447,7 +447,7 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
-        public async Task<bool> ChangeUserPasswordAsync(string email, string currentPassword, string newPassword)
+        public async Task ChangeUserPasswordAsync(string email, string currentPassword, string newPassword)
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentNullException(nameof(email));
@@ -467,12 +467,12 @@ namespace CriThink.Server.Core.Identity
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword)
                 .ConfigureAwait(false);
 
-            if (result.Succeeded)
-                return true;
-
-            var ex = new IdentityOperationException(result);
-            _logger?.LogError(ex, "Error changing user password", user);
-            throw ex;
+            if (!result.Succeeded)
+            {
+                var ex = new IdentityOperationException(result);
+                _logger?.LogError(ex, "Error changing user password", user);
+                throw ex;
+            }
         }
 
         public async Task GenerateUserPasswordTokenAsync(string email, string username)
@@ -493,7 +493,7 @@ namespace CriThink.Server.Core.Identity
             await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, username).ConfigureAwait(false);
         }
 
-        public async Task<bool> ResetUserPasswordAsync(string userId, string token, string newPassword)
+        public async Task ResetUserPasswordAsync(string userId, string token, string newPassword)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentNullException(nameof(userId));
@@ -518,7 +518,12 @@ namespace CriThink.Server.Core.Identity
                 _logger?.LogError(ex, "Error resetting user password", user, token);
             }
 
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                var ex = new IdentityOperationException(result);
+                _logger?.LogError(ex, "Error resetting user password", user);
+                throw ex;
+            }
         }
 
         public async Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request)
@@ -555,8 +560,7 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
-        public async Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(
-            UsernameAvailabilityRequest request)
+        public async Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
