@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
@@ -89,7 +90,7 @@ namespace CriThink.Server.Core.Services
             if (searchResponse is null)
             {
                 await SendUnknownDomainAlertEmailAsync(validatedNewsLink).ConfigureAwait(false);
-                return null;
+                throw new ResourceNotFoundException("The given news link does not exist");
             }
 
             if (searchResponse.Classification == NewsSourceClassification.Conspiracist ||

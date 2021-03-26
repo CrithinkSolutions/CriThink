@@ -61,23 +61,24 @@ namespace CriThink.Server.Web.Areas.Publics.Controllers
 
             var decodedCode = Base64Helper.FromBase64(viewModel.Code);
 
-            var result = await _identityService.ResetUserPasswordAsync(viewModel.UserId, decodedCode, viewModel.Password).ConfigureAwait(false);
-
-            if (result)
+            try
             {
-                var messageViewModel = new MessageViewModel
-                {
-                    Title = "Password changed",
-                    Message = "Password changed correctly, please log in again.",
-                };
-                return View("Message", messageViewModel);
+                await _identityService.ResetUserPasswordAsync(viewModel.UserId, decodedCode, viewModel.Password)
+                    .ConfigureAwait(false);
             }
-            else
+            catch (Exception)
             {
                 ModelState.AddModelError("Password", "Please be sure to enter a password that follows the requirements.");
                 return View("ResetPassword", viewModel);
             }
 
+            var messageViewModel = new MessageViewModel
+            {
+                Title = "Password changed",
+                Message = "Password changed correctly, please log in again.",
+            };
+
+            return View("Message", messageViewModel);
         }
     }
 }

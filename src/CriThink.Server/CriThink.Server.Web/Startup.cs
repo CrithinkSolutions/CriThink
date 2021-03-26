@@ -187,8 +187,8 @@ namespace CriThink.Server.Web
                 options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(15),
                         errorCodesToAdd: null);
                 })
                 .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
