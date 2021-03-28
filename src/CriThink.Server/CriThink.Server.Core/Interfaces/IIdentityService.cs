@@ -92,13 +92,6 @@ namespace CriThink.Server.Core.Interfaces
         Task SoftDeleteUserAsync(UserGetRequest request);
 
         /// <summary>
-        /// Delete a user
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task DeleteUserAsync(UserGetRequest request);
-
-        /// <summary>
         /// Login the given user
         /// </summary>
         /// <param name="request">DTO with user information</param>
@@ -131,10 +124,28 @@ namespace CriThink.Server.Core.Interfaces
         /// <returns>Returns true if the password is changed, otherwise false</returns>
         Task ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         Task GenerateUserPasswordTokenAsync(string email, string username);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         Task ResetUserPasswordAsync(string userId, string token, string newPassword);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request);
 
         /// <summary>

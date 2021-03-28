@@ -138,33 +138,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         }
 
         /// <summary>
-        /// Delete a user
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route(EndpointConstants.UserManagementRemoveUser)]
-        public async Task<IActionResult> DeleteUserAsync(SimpleUserManagementViewModel viewModel)
-        {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    await _userManagementServiceFacade.DeleteUserAsync(viewModel).ConfigureAwait(false);
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch (ResourceNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-
-        /// <summary>
         /// Softremove a user
         /// </summary>
         /// <returns></returns>

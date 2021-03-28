@@ -1,5 +1,5 @@
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
@@ -15,8 +15,6 @@ namespace CriThink.Server.Web.Facades
         Task CreateNewUserAsync(AddUserViewModel viewModel);
 
         Task CreateNewAdminAsync(AddUserViewModel viewModel);
-
-        Task DeleteUserAsync(SimpleUserManagementViewModel viewModel);
 
         Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel);
 

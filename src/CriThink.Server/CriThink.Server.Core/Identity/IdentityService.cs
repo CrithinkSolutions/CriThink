@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
@@ -18,36 +16,36 @@ using CriThink.Server.Core.Models.LoginProviders;
 using CriThink.Server.Providers.EmailSender.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CriThink.Server.Core.Identity
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<UserRole> _roleManager;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IJwtManager _jwtManager;
         private readonly IEmailSenderService _emailSender;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
-        private readonly JwtSecurityTokenHandler _jwtTokenHandler;
         private readonly ILogger<IdentityService> _logger;
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
-        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IEmailSenderService emailSender, IConfiguration configuration, ILogger<IdentityService> logger, ExternalLoginProviderResolver externalLoginProviderResolver, SignInManager<User> signInManager)
+        public IdentityService(
+            IRoleRepository roleRepository,
+            IUserRepository userRepository,
+            IJwtManager jwtManager,
+            IMapper mapper,
+            IEmailSenderService emailSender,
+            ILogger<IdentityService> logger,
+            ExternalLoginProviderResolver externalLoginProviderResolver)
         {
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _jwtManager = jwtManager ?? throw new ArgumentNullException(nameof(jwtManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _logger = logger;
-            _jwtTokenHandler = new JwtSecurityTokenHandler();
             _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
-            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+            _logger = logger;
         }
 
         public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
@@ -61,7 +59,7 @@ namespace CriThink.Server.Core.Identity
                 Email = request.Email
             };
 
-            var userCreationResult = await _userManager.CreateAsync(user, request.Password).ConfigureAwait(false);
+            var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
             {
                 var ex = new IdentityOperationException(userCreationResult, "CreateNewUser");
@@ -69,12 +67,10 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user)
+            var confirmationCode = await _userRepository.GetEmailConfirmationTokenAsync(user)
                 .ConfigureAwait(false);
 
-            var encodedCode = Base64Helper.ToBase64(confirmationCode);
-
-            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), encodedCode, user.UserName)
+            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), confirmationCode, user.UserName)
                 .ConfigureAwait(false);
 
             return new UserSignUpResponse
@@ -96,7 +92,7 @@ namespace CriThink.Server.Core.Identity
                 Email = request.Email
             };
 
-            var userCreationResult = await _userManager.CreateAsync(adminUser, request.Password).ConfigureAwait(false);
+            var userCreationResult = await _userRepository.CreateUserAsync(adminUser, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
             {
                 var ex = new IdentityOperationException(userCreationResult);
@@ -104,9 +100,10 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(adminUser)
+            var confirmationCode = await _userRepository.GetEmailConfirmationTokenAsync(adminUser)
                 .ConfigureAwait(false);
-            var emailConfirmationResult = await _userManager.ConfirmEmailAsync(adminUser, confirmationCode).ConfigureAwait(false);
+
+            var emailConfirmationResult = await _userRepository.ConfirmUserEmailAsync(adminUser, confirmationCode).ConfigureAwait(false);
             if (!emailConfirmationResult.Succeeded)
             {
                 var ex = new IdentityOperationException(emailConfirmationResult);
@@ -114,7 +111,7 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(adminUser, "Admin").ConfigureAwait(false);
+            var roleResult = await _userRepository.AddUserToRoleAsync(adminUser, "Admin").ConfigureAwait(false);
             if (!roleResult.Succeeded)
             {
                 var ex = new IdentityOperationException(emailConfirmationResult);
@@ -124,13 +121,13 @@ namespace CriThink.Server.Core.Identity
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, adminUser.Id.ToString()),
-                new Claim(ClaimTypes.Email, adminUser.Email),
-                new Claim(ClaimTypes.Name, adminUser.UserName),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new (ClaimTypes.NameIdentifier, adminUser.Id.ToString()),
+                new (ClaimTypes.Email, adminUser.Email),
+                new (ClaimTypes.Name, adminUser.UserName),
+                new (ClaimTypes.Role, "Admin"),
             };
 
-            var claimsResult = await _userManager.AddClaimsAsync(adminUser, claims).ConfigureAwait(false);
+            var claimsResult = await _userRepository.AddClaimsToUserAsync(adminUser, claims).ConfigureAwait(false);
             if (!claimsResult.Succeeded)
             {
                 var ex = new IdentityOperationException(emailConfirmationResult);
@@ -138,7 +135,7 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var jwtToken = await GenerateTokenAsync(adminUser).ConfigureAwait(false);
+            var jwtToken = await _jwtManager.GenerateUserTokenAsync(adminUser).ConfigureAwait(false);
 
             return new AdminSignUpResponse
             {
@@ -148,18 +145,9 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
-        public async Task<IList<RoleGetResponse>> GetRolesAsync()
+        public Task<IList<RoleGetResponse>> GetRolesAsync()
         {
-            var allRoles = await _roleManager.Roles
-                .Select(r => new RoleGetResponse
-                {
-                    Name = r.Name,
-                    Id = r.Id.ToString()
-                })
-                .ToListAsync()
-                .ConfigureAwait(false);
-
-            return allRoles;
+            return _roleRepository.GetAllRolesAsync();
         }
 
         public async Task CreateNewRoleAsync(SimpleRoleNameRequest request)
@@ -169,7 +157,7 @@ namespace CriThink.Server.Core.Identity
 
             var role = new UserRole(request.Name);
 
-            var roleCreationResult = await _roleManager.CreateAsync(role).ConfigureAwait(false);
+            var roleCreationResult = await _roleRepository.CreateNewRoleAsync(role).ConfigureAwait(false);
             if (!roleCreationResult.Succeeded)
             {
                 var ex = new IdentityOperationException(roleCreationResult);
@@ -187,7 +175,7 @@ namespace CriThink.Server.Core.Identity
             if (role is null)
                 throw new ResourceNotFoundException("The role doesn't exists", $"Name: '{request.Name}'");
 
-            var roleDeletionResult = await _roleManager.DeleteAsync(role).ConfigureAwait(false);
+            var roleDeletionResult = await _roleRepository.DeleteRoleAsync(role).ConfigureAwait(false);
             if (!roleDeletionResult.Succeeded)
             {
                 var ex = new IdentityOperationException(roleDeletionResult);
@@ -207,7 +195,7 @@ namespace CriThink.Server.Core.Identity
 
             role.Name = request.NewName;
 
-            var roleRenamingResult = await _roleManager.UpdateAsync(role).ConfigureAwait(false);
+            var roleRenamingResult = await _roleRepository.UpdateRoleAsync(role).ConfigureAwait(false);
             if (!roleRenamingResult.Succeeded)
             {
                 var ex = new IdentityOperationException(roleRenamingResult);
@@ -231,12 +219,12 @@ namespace CriThink.Server.Core.Identity
             if (role is null)
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
-            var currentUserRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            var areRoleRemoved = await _userManager.RemoveFromRolesAsync(user, currentUserRoles).ConfigureAwait(false);
+            var currentUserRoles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
+            var areRoleRemoved = await _userRepository.RemoveRolesFromUserAsync(user, currentUserRoles).ConfigureAwait(false);
             if (!areRoleRemoved.Succeeded)
                 throw new IdentityOperationException(areRoleRemoved);
 
-            var isRoleAdded = await _userManager.AddToRoleAsync(user, role.Name).ConfigureAwait(false);
+            var isRoleAdded = await _userRepository.AddUserToRoleAsync(user, role.Name).ConfigureAwait(false);
             if (!isRoleAdded.Succeeded)
                 throw new IdentityOperationException(isRoleAdded);
         }
@@ -256,7 +244,7 @@ namespace CriThink.Server.Core.Identity
             if (role is null)
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
-            var areRoleRemoved = await _userManager.RemoveFromRoleAsync(user, role.Name).ConfigureAwait(false);
+            var areRoleRemoved = await _userRepository.RemoveRoleFromUserAsync(user, role.Name).ConfigureAwait(false);
             if (!areRoleRemoved.Succeeded)
                 throw new IdentityOperationException(areRoleRemoved);
         }
@@ -269,19 +257,14 @@ namespace CriThink.Server.Core.Identity
             var pageIndex = request.PageIndex;
             var pageSize = request.PageSize;
 
-            var allUsers = await _userManager.Users
-                .OrderBy(u => u.UserName)
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize + 1)
-                .ToListAsync()
-                .ConfigureAwait(false);
+            var allUsers = await _userRepository.GetAllUsersAsync(pageSize, pageIndex).ConfigureAwait(false);
 
             var userDtos = new List<UserGetResponse>();
 
             foreach (var user in allUsers.Take(pageSize))
             {
                 var userDto = _mapper.Map<User, UserGetResponse>(user);
-                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                var roles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
                 userDto.Roles = roles.ToList().AsReadOnly();
                 userDtos.Add(userDto);
             }
@@ -302,7 +285,7 @@ namespace CriThink.Server.Core.Identity
                 throw new ResourceNotFoundException("User not found", userId);
 
             var userDto = _mapper.Map<User, UserGetDetailsResponse>(user);
-            var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            var roles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
             userDto.Roles = roles.ToList().AsReadOnly();
 
             return userDto;
@@ -334,7 +317,7 @@ namespace CriThink.Server.Core.Identity
             if (request.LockoutEnd != null)
                 user.LockoutEnd = request.LockoutEnd;
 
-            await _userManager.UpdateAsync(user).ConfigureAwait(false);
+            await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
         }
 
         public async Task SoftDeleteUserAsync(UserGetRequest request)
@@ -350,21 +333,7 @@ namespace CriThink.Server.Core.Identity
 
             user.IsDeleted = true;
 
-            await _userManager.UpdateAsync(user).ConfigureAwait(false);
-        }
-
-        public async Task DeleteUserAsync(UserGetRequest request)
-        {
-            if (request is null)
-                throw new ArgumentNullException(nameof(request));
-
-            var userId = request.UserId.ToString();
-
-            var user = await FindUserAsync(userId).ConfigureAwait(false);
-            if (user is null)
-                throw new ResourceNotFoundException("User not found", userId);
-
-            await _userManager.DeleteAsync(user).ConfigureAwait(false);
+            await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
@@ -378,10 +347,10 @@ namespace CriThink.Server.Core.Identity
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            var verificationResult = _userRepository.VerifyUserPassword(user, request.Password);
             await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
 
-            var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
+            var jwtToken = await _jwtManager.GenerateUserTokenAsync(user).ConfigureAwait(false);
             var response = new UserLoginResponse
             {
                 UserId = user.Id.ToString(),
@@ -407,10 +376,10 @@ namespace CriThink.Server.Core.Identity
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, false).ConfigureAwait(false);
+            var result = await _userRepository.PasswordSignInAsync(user, password, rememberMe, false).ConfigureAwait(false);
             ProcessPasswordVerificationResult(result);
 
-            var userClaims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
+            var userClaims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
             return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
@@ -428,7 +397,7 @@ namespace CriThink.Server.Core.Identity
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var result = await _userManager.ConfirmEmailAsync(user, confirmationCode).ConfigureAwait(false);
+            var result = await _userRepository.ConfirmUserEmailAsync(user, confirmationCode).ConfigureAwait(false);
             if (!result.Succeeded)
             {
                 var ex = new IdentityOperationException(result);
@@ -436,7 +405,7 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var jwtToken = await GenerateTokenAsync(user).ConfigureAwait(false);
+            var jwtToken = await _jwtManager.GenerateUserTokenAsync(user).ConfigureAwait(false);
 
             return new VerifyUserEmailResponse
             {
@@ -458,13 +427,13 @@ namespace CriThink.Server.Core.Identity
             if (string.IsNullOrWhiteSpace(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            var user = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            var user = await FindUserAsync(email).ConfigureAwait(false);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User email: '{email}'");
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword)
+            var result = await _userRepository.ChangeUserPasswordAsync(user, currentPassword, newPassword)
                 .ConfigureAwait(false);
 
             if (!result.Succeeded)
@@ -487,7 +456,7 @@ namespace CriThink.Server.Core.Identity
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
+            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user).ConfigureAwait(false);
 
             var encodedCode = Base64Helper.ToBase64(token);
             await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, username).ConfigureAwait(false);
@@ -510,7 +479,7 @@ namespace CriThink.Server.Core.Identity
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword).ConfigureAwait(false);
+            var result = await _userRepository.ResetUserPasswordAsync(user, token, newPassword).ConfigureAwait(false);
 
             if (!result.Succeeded)
             {
@@ -542,14 +511,13 @@ namespace CriThink.Server.Core.Identity
 
             var provider = request.SocialProvider.ToString().ToUpperInvariant();
 
-            var currentUser = await _userManager.FindByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
-
+            var currentUser = await _userRepository.FindUserByLoginAsync(provider, userAccessInfo.UserId).ConfigureAwait(false);
             if (currentUser is null)
             {
-                currentUser = await CreateExternalProviderLoginUser(userAccessInfo, provider).ConfigureAwait(false);
+                currentUser = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider).ConfigureAwait(false);
             }
 
-            var jwtToken = await GenerateTokenAsync(currentUser).ConfigureAwait(false);
+            var jwtToken = await _jwtManager.GenerateUserTokenAsync(currentUser).ConfigureAwait(false);
 
             return new UserLoginResponse
             {
@@ -574,70 +542,14 @@ namespace CriThink.Server.Core.Identity
 
         #region Privates
 
-        private async Task<User> FindUserAsync(string value)
+        private Task<User> FindUserAsync(string value)
         {
-            if (EmailHelper.IsEmail(value))
-            {
-                return await _userManager.FindByEmailAsync(value).ConfigureAwait(false);
-            }
-
-            if (Guid.TryParse(value, out _))
-            {
-                return await _userManager.FindByIdAsync(value).ConfigureAwait(false);
-            }
-
-            return await _userManager.FindByNameAsync(value).ConfigureAwait(false);
+            return _userRepository.FindUserAsync(value);
         }
 
-        private async Task<UserRole> FindRoleAsync(string roleName = "", string roleId = "")
+        private Task<UserRole> FindRoleAsync(string roleName)
         {
-            if (!string.IsNullOrWhiteSpace(roleName))
-                return await _roleManager.FindByNameAsync(roleName).ConfigureAwait(false);
-
-            if (!string.IsNullOrWhiteSpace(roleId))
-                return await _roleManager.FindByIdAsync(roleId).ConfigureAwait(false);
-
-            return null;
-        }
-
-        private async Task<JwtTokenResponse> GenerateTokenAsync(User user)
-        {
-            var secretKey = _configuration["Jwt-SecretKey"];
-            var audience = _configuration["Jwt-Audience"];
-            var issuer = _configuration["Jwt-Issuer"];
-            var expirationFromNow = _configuration["Jwt-ExpirationInHours"];
-
-            var hasExpiration = double.TryParse(expirationFromNow, out var expirationInHours);
-            if (!hasExpiration)
-            {
-                expirationInHours = 0.5;
-                _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(IdentityService)), "Used default token duration.");
-            }
-
-            // Get user claims
-            var claims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
-
-            // Get user role's claims
-            var userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            foreach (var userRole in userRoles)
-                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole));
-
-            var token = new JwtBuilder()
-                .AddAudience(audience)
-                .AddClaims(claims)
-                .AddIssuer(issuer)
-                .AddSecurityKey(signingKey)
-                .AddExpireDate(expirationInHours)
-                .AddSubject(user.Email)
-                .Build();
-
-            var tokenString = _jwtTokenHandler.WriteToken(token);
-            return new JwtTokenResponse
-            {
-                ExpirationDate = token.ValidTo,
-                Token = tokenString
-            };
+            return _roleRepository.FindRoleByNameAsync(roleName);
         }
 
         private async Task ProcessPasswordVerificationResultAsync(User user, PasswordVerificationResult verificationResult)
@@ -664,7 +576,7 @@ namespace CriThink.Server.Core.Identity
 
         private async Task UpdateUserPasswordHashAsync(User user)
         {
-            var result = await _userManager.HasPasswordAsync(user).ConfigureAwait(false);
+            var result = await _userRepository.HasUserPasswordAsync(user).ConfigureAwait(false);
             if (!result)
             {
                 var ex = new InvalidOperationException("Error hashing again user password");
@@ -672,7 +584,7 @@ namespace CriThink.Server.Core.Identity
             }
         }
 
-        private async Task<User> CreateExternalProviderLoginUser(ExternalProviderUserInfo userAccessInfo, string providerName)
+        private async Task<User> CreateExternalProviderLoginUserAsync(ExternalProviderUserInfo userAccessInfo, string providerName)
         {
             var user = new User
             {
@@ -682,30 +594,27 @@ namespace CriThink.Server.Core.Identity
 
             var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
 
-            var userCreated = await _userManager.CreateAsync(user).ConfigureAwait(false);
-            if (userCreated.Succeeded)
-            {
-                var loginAssociated = await _userManager.AddLoginAsync(user, userLoginInfo).ConfigureAwait(false);
-
-                if (loginAssociated.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
-                }
-                else
-                {
-                    var ex = new IdentityOperationException(loginAssociated);
-                    _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
-                    throw ex;
-                }
-            }
-            else
+            var userCreated = await _userRepository.CreateUserAsync(user).ConfigureAwait(false);
+            if (!userCreated.Succeeded)
             {
                 var ex = new IdentityOperationException(userCreated);
                 _logger?.LogError(ex, "Error creating user.", providerName, user);
                 throw ex;
             }
 
-            return await _userManager.FindByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
+            var loginAssociated = await _userRepository.AddUserLoginAsync(user, userLoginInfo)
+                .ConfigureAwait(false);
+
+            if (!loginAssociated.Succeeded)
+            {
+                var ex = new IdentityOperationException(loginAssociated);
+                _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
+                throw ex;
+            }
+
+            await _userRepository.SignInAsync(user, false).ConfigureAwait(false);
+
+            return await _userRepository.FindUserByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
         }
 
         #endregion

@@ -135,13 +135,11 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmailAsync([FromQuery] EmailConfirmationRequest request)
         {
-            string decodedCode = Base64Helper.FromBase64(request.Code);
-
             var result = true;
 
             try
             {
-                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), decodedCode).ConfigureAwait(false);
+                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), request.Code).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -180,11 +178,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
         {
-            string decodedCode = Base64Helper.FromBase64(dto.Code);
-
             try
             {
-                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), decodedCode).ConfigureAwait(false);
+                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), dto.Code).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(userInfo));
             }
             catch (ResourceNotFoundException) { }
