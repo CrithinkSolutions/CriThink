@@ -102,7 +102,8 @@ namespace CriThink.Server.Infrastructure.Identity
 
         public Task<IdentityResult> ResetUserPasswordAsync(User user, string resetToken, string password)
         {
-            return _userManager.ResetPasswordAsync(user, resetToken, password);
+            var decodedToken = Base64Helper.FromBase64(resetToken);
+            return _userManager.ResetPasswordAsync(user, decodedToken, password);
         }
 
         public async Task<User> FindUserAsync(string value)

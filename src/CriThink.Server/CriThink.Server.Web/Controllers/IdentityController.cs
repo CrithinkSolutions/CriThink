@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.Helpers;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
@@ -306,11 +305,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
-            string decodedCode = Base64Helper.FromBase64(dto.Token);
-
             try
             {
-                await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword)
+                await _identityService.ResetUserPasswordAsync(dto.UserId, dto.Token, dto.NewPassword)
                     .ConfigureAwait(false);
 
                 return NoContent();
