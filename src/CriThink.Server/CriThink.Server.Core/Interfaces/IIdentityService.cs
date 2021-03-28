@@ -125,27 +125,28 @@ namespace CriThink.Server.Core.Interfaces
         Task ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
 
         /// <summary>
-        /// 
+        /// Generates a temporary token for the user, in order to reset its
+        /// password
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="username"></param>
-        /// <returns></returns>
+        /// <param name="email">(Optional) The user email</param>
+        /// <param name="username">(Optional) The username</param>
+        /// <returns>A <see cref="Task"/></returns>
         Task GenerateUserPasswordTokenAsync(string email, string username);
 
         /// <summary>
-        /// 
+        /// Reset the user password using the temporary token
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="token"></param>
-        /// <param name="newPassword"></param>
+        /// <param name="userId">The user id</param>
+        /// <param name="token">The user temporary token (encoded)</param>
+        /// <param name="newPassword">The new password</param>
         /// <returns></returns>
         Task ResetUserPasswordAsync(string userId, string token, string newPassword);
 
         /// <summary>
-        /// 
+        /// Login using an external provider
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">Login information</param>
+        /// <returns>An <see cref="UserLoginResponse"/></returns>
         Task<UserLoginResponse> ExternalProviderLoginAsync(ExternalLoginProviderRequest request);
 
         /// <summary>
