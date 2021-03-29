@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Server.Providers.DebunkNewsFetcher;
-using CriThink.Server.Providers.DebunkNewsFetcher.Builders;
-using CriThink.Server.Providers.DebunkNewsFetcher.Providers;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Builders;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Providers;
+using CriThink.Server.Providers.DebunkingNewsFetcher;
 
 namespace CriThink.Server.Core.Facades
 {
     public class DebunkNewsFetcherFacade : IDebunkNewsFetcherFacade
     {
         private readonly DebunkingNewsFetcherBuilder _builder;
-        private readonly IDebunkNewsProvider _debunkNewsProvider;
+        private readonly IDebunkingNewsProvider _debunkingNewsProvider;
 
-        public DebunkNewsFetcherFacade(IDebunkNewsProvider debunkNewsProvider, DebunkingNewsFetcherBuilder builder)
+        public DebunkNewsFetcherFacade(IDebunkingNewsProvider debunkingNewsProvider, DebunkingNewsFetcherBuilder builder)
         {
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
-            _debunkNewsProvider = debunkNewsProvider ?? throw new ArgumentNullException(nameof(debunkNewsProvider));
+            _debunkingNewsProvider = debunkingNewsProvider ?? throw new ArgumentNullException(nameof(debunkingNewsProvider));
         }
 
         public async Task<DebunkingNewsProviderResult[]> FetchDebunkingNewsAsync()
@@ -29,7 +29,7 @@ namespace CriThink.Server.Core.Facades
 
         private Task<DebunkingNewsProviderResult[]> FetchDebunkNewsAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
-            var analyzerTasks = _debunkNewsProvider.StartFetcherAsync(fetcherBuilder);
+            var analyzerTasks = _debunkingNewsProvider.StartFetcherAsync(fetcherBuilder);
             return Task.WhenAll(analyzerTasks);
         }
     }

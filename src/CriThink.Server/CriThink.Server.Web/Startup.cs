@@ -14,7 +14,7 @@ using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.SocialProviders;
-using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Facades;

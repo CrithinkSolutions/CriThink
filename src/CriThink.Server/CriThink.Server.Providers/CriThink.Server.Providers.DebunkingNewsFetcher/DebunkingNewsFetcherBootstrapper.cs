@@ -1,10 +1,10 @@
 ﻿using System.Net.Http;
-using CriThink.Server.Providers.DebunkNewsFetcher.Builders;
-using CriThink.Server.Providers.DebunkNewsFetcher.Fetchers;
-using CriThink.Server.Providers.DebunkNewsFetcher.Providers;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Builders;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CriThink.Server.Providers.DebunkNewsFetcher
+namespace CriThink.Server.Providers.DebunkingNewsFetcher
 {
     /// <summary>
     /// Bootstrapper to handle library initialization
@@ -36,7 +36,7 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher
             serviceCollection.AddTransient<Channel4Fetcher>();
             serviceCollection.AddTransient<DebunkingNewsFetcherBuilder>();
 
-            serviceCollection.AddTransient<IDebunkNewsProvider, DebunkingNewsProvider>();
+            serviceCollection.AddTransient<IDebunkingNewsProvider, DebunkingNewsProvider>();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CriThink.Server.Providers.Common;
 
 // ReSharper disable once CheckNamespace
-namespace CriThink.Server.Providers.DebunkNewsFetcher
+namespace CriThink.Server.Providers.DebunkingNewsFetcher
 {
     public class DebunkingNewsProviderResult : IProviderResult
     {

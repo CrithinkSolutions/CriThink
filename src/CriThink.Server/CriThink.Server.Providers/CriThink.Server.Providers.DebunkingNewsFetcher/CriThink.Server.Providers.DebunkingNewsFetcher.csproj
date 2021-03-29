@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>CriThink.Server.Providers.DebunkNewsFetcher</AssemblyName>
-    <RootNamespace>CriThink.Server.Providers.DebunkNewsFetcher</RootNamespace>
+    <AssemblyName>CriThink.Server.Providers.DebunkingNewsFetcher</AssemblyName>
+    <RootNamespace>CriThink.Server.Providers.DebunkingNewsFetcher</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

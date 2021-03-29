@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace CriThink.Server.Providers.DebunkNewsFetcher.Exceptions
+namespace CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions
 {
     public class LinkUnavailableException : Exception
     {

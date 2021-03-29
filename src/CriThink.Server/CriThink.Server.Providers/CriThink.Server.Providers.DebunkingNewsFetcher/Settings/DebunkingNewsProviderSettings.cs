@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CriThink.Server.Providers.DebunkNewsFetcher.Settings
+namespace CriThink.Server.Providers.DebunkingNewsFetcher.Settings
 {
 #pragma warning disable CA2227 // Collection properties should be read only
 
