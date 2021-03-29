@@ -8,7 +8,6 @@ using CriThink.Client.Core.Handlers;
 using CriThink.Client.Core.Localization;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Services;
-using CriThink.Common.HttpRepository;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,7 +43,6 @@ namespace CriThink.Client.Core
 
             // Repo
             Mvx.IoCProvider.RegisterType<ISQLiteRepository, SQLiteRepository>();
-            Mvx.IoCProvider.RegisterType<IRestRepository, RestRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
             Mvx.IoCProvider.RegisterType<ISettingsRepository, SettingsRepository>();
             Mvx.IoCProvider.RegisterType<IIdentityRepository, IdentityRepository>();
