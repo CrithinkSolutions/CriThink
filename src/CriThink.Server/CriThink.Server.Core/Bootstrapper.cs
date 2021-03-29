@@ -12,12 +12,10 @@ namespace CriThink.Server.Core
         {
             // Facades
             serviceCollection.AddTransient<IDebunkNewsFetcherFacade, DebunkNewsFetcherFacade>();
-            serviceCollection.AddTransient<IDomainAnalyzerFacade, DomainAnalyzerFacade>();
             serviceCollection.AddTransient<INewsAnalyzerFacade, NewsAnalyzerFacade>();
 
             // Services
             serviceCollection.AddTransient<IIdentityService, IdentityService>();
-            serviceCollection.AddTransient<INewsAnalyzerService, NewsAnalyzerService>();
             serviceCollection.AddTransient<IDebunkingNewsService, DebunkingNewsService>();
             serviceCollection.AddTransient<INewsSourceService, NewsSourceService>();
             serviceCollection.AddTransient<IUnknownNewsSourceService, UnknownNewsSourceService>();

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
-using CriThink.Server.Core.Identity;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Infrastructure.Builders;
 using Microsoft.Extensions.Configuration;
@@ -41,7 +40,7 @@ namespace CriThink.Server.Infrastructure.Managers
             if (!hasExpiration)
             {
                 expirationInHours = 0.5;
-                _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(IdentityService)), "Used default token duration.");
+                _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(JwtManager)), "Used default token duration.");
             }
 
             // Get user claims

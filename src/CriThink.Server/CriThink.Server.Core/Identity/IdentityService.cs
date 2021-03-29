@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Core.Identity
 {
-    public class IdentityService : IIdentityService
+    internal class IdentityService : IIdentityService
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
