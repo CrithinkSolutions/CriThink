@@ -44,7 +44,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Polly;
 using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
@@ -503,64 +502,21 @@ namespace CriThink.Server.Web
             AllowCachingResponses = false,
         };
 
-        private void SetupExternalLoginProviders(IServiceCollection services)
+        private static void SetupExternalLoginProviders(IServiceCollection services)
         {
-            var baseFacebookURL = Configuration["FacebookApiUrl"];
-
-            services.AddHttpClient("Facebook", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(baseFacebookURL);
-            })
-            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-            {
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(10),
-            }));
-
-            var baseGoogleURL = Configuration["GoogleApiUrl"];
-
-            services.AddHttpClient("Google", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(baseGoogleURL);
-            })
-            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-            {
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(10),
-            }));
-
-            var baseAppleURL = Configuration["AppleApiUrl"];
-
-            services.AddHttpClient("Apple", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(baseAppleURL);
-            })
-            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-            {
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(10),
-            }));
-
             services.AddTransient<FacebookProvider>();
             services.AddTransient<GoogleProvider>();
             services.AddTransient<AppleProvider>();
 
             services.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
             {
-                switch (externalProvider)
+                return externalProvider switch
                 {
-                    case ExternalLoginProvider.Facebook:
-                        return serviceProvider.GetService<FacebookProvider>();
-                    case ExternalLoginProvider.Google:
-                        return serviceProvider.GetService<GoogleProvider>();
-                    case ExternalLoginProvider.Apple:
-                        return serviceProvider.GetService<AppleProvider>();
-                    default:
-                        throw new NotSupportedException();
-                }
+                    ExternalLoginProvider.Facebook => serviceProvider.GetService<FacebookProvider>(),
+                    ExternalLoginProvider.Google => serviceProvider.GetService<GoogleProvider>(),
+                    ExternalLoginProvider.Apple => serviceProvider.GetService<AppleProvider>(),
+                    _ => throw new NotSupportedException()
+                };
             });
         }
     }
