@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Acr.UserDialogs;
+using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Handlers;
 using CriThink.Client.Core.Localization;
@@ -17,7 +18,7 @@ using MvvmCross.Localization;
 using MvvmCross.Logging;
 using MvvmCross.Plugin.ResxLocalization;
 using MvvmCross.ViewModels;
-using Polly;
+using Refit;
 
 namespace CriThink.Client.Core
 {
@@ -103,19 +104,35 @@ namespace CriThink.Client.Core
                 throw argumentException;
             }
 
+            var debunkingNewsApiUri = configurationRoot["DebunkingNewsApiUri"];
+            var identityApiUri = configurationRoot["IdentityApiUri"];
+            var newsSourceApiUri = configurationRoot["NewsSourceApiUri"];
+
             serviceCollection.AddTransient<CriThinkApiHandler>();
-            serviceCollection
-                .AddHttpClient("", httpClient =>
+            serviceCollection.AddTransient<AuthHeaderHandler>();
+
+            serviceCollection.AddRefitClient<IIdentityApi>()
+                .ConfigureHttpClient(httpClient =>
                 {
-                    httpClient.BaseAddress = new Uri(baseApiUri);
+                    httpClient.BaseAddress = new Uri(baseApiUri + identityApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
+
+            serviceCollection.AddRefitClient<IDebunkingNewsApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + debunkingNewsApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
-                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+                .AddHttpMessageHandler<AuthHeaderHandler>();
+
+            serviceCollection.AddRefitClient<INewsSourceApi>()
+                .ConfigureHttpClient(httpClient =>
                 {
-                    TimeSpan.FromSeconds(1),
-                    TimeSpan.FromSeconds(5),
-                    TimeSpan.FromSeconds(10),
-                }));
+                    httpClient.BaseAddress = new Uri(baseApiUri + newsSourceApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)

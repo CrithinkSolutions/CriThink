@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints;
+using CriThink.Client.Core.Api;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using CriThink.Common.HttpRepository;
 using MvvmCross.Logging;
 using Xamarin.Essentials;
 
@@ -11,15 +10,13 @@ namespace CriThink.Client.Core.Services
 {
     public class DebunkingNewsService : IDebunkingNewsService
     {
-        private readonly IRestRepository _restRepository;
-        private readonly IIdentityService _identityService;
+        private readonly IDebunkingNewsApi _debunkingNewsApi;
         private readonly IGeolocationService _geoService;
         private readonly IMvxLog _log;
 
-        public DebunkingNewsService(IRestRepository restRepository, IIdentityService identityService, IGeolocationService geoService, IMvxLogProvider logProvider)
+        public DebunkingNewsService(IDebunkingNewsApi debunkingNewsApi, IGeolocationService geoService, IMvxLogProvider logProvider)
         {
-            _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _debunkingNewsApi = debunkingNewsApi ?? throw new ArgumentNullException(nameof(debunkingNewsApi));
             _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
             _log = logProvider?.GetLogFor<DebunkingNewsService>();
         }
@@ -59,15 +56,9 @@ namespace CriThink.Client.Core.Services
 
             _log?.Info($"Querying {request.LanguageFilters} debunking news");
 
-            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
-
             try
             {
-                var debunkingNewsCollection = await _restRepository.MakeRequestAsync<DebunkingNewsGetAllResponse>(
-                        $"{EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsGetAll}?{request.ToQueryString()}",
-                        HttpRestVerb.Get,
-                        token,
-                        cancellationToken)
+                DebunkingNewsGetAllResponse debunkingNewsCollection = await _debunkingNewsApi.GetAllDebunkingNewsAsync(request, cancellationToken)
                     .ConfigureAwait(false);
 
                 return debunkingNewsCollection;
@@ -86,15 +77,9 @@ namespace CriThink.Client.Core.Services
                 Id = Guid.Parse(id)
             };
 
-            var token = await _identityService.GetUserTokenAsync().ConfigureAwait(false);
-
             try
             {
-                var debunkingNewsDetails = await _restRepository.MakeRequestAsync<DebunkingNewsGetDetailsResponse>(
-                        $"{EndpointConstants.DebunkNewsBase}?{request.ToQueryString()}",
-                        HttpRestVerb.Get,
-                        token,
-                        cancellationToken)
+                DebunkingNewsGetDetailsResponse debunkingNewsDetails = await _debunkingNewsApi.GetDebunkingNewsAsync(request, cancellationToken)
                     .ConfigureAwait(false);
 
                 return debunkingNewsDetails;

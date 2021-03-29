@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
 
-#pragma warning disable CA1062 // Validate arguments of public methods
 namespace CriThink.Client.Core.Handlers
 {
     public class CriThinkApiHandler : HttpClientHandler
@@ -19,10 +19,17 @@ namespace CriThink.Client.Core.Handlers
             }
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            request.Version = new Version(1, 0);
-            return base.SendAsync(request, cancellationToken);
-        }
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            Policy.Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(x => !x.IsSuccessStatusCode)
+                .WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(15),
+                })
+                .ExecuteAsync(() =>
+                {
+                    request.Headers.TryAddWithoutValidation("api-version", "1.0");
+                    return base.SendAsync(request, cancellationToken);
+                });
     }
 }

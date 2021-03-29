@@ -8,6 +8,7 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
     {
         [Required]
         [JsonPropertyName("socialProvider")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ExternalLoginProvider SocialProvider { get; set; }
 
         [Required]
