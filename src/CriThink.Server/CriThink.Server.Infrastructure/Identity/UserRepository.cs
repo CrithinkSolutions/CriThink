@@ -24,7 +24,9 @@ namespace CriThink.Server.Infrastructure.Identity
 
         public Task<IdentityResult> CreateUserAsync(User user, string plainPassword = null)
         {
-            return _userManager.CreateAsync(user, plainPassword);
+            return string.IsNullOrWhiteSpace(plainPassword) ?
+                _userManager.CreateAsync(user) :
+                _userManager.CreateAsync(user, plainPassword);
         }
 
         public async Task<string> GetEmailConfirmationTokenAsync(User user)
