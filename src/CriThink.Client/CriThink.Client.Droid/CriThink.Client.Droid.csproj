@@ -76,6 +76,7 @@
     <Compile Include="Constants\DeepLinkConstants.cs" />
     <Compile Include="Constants\ViewConstants.cs" />
     <Compile Include="Controls\BindableEditText.cs" />
+    <Compile Include="Controls\BindableWebView.cs" />
     <Compile Include="Controls\LoaderView.cs" />
     <Compile Include="Controls\RecyclerViewOnScrollListener.cs" />
     <Compile Include="Extensions\MvxRecyclerViewExtensions.cs" />

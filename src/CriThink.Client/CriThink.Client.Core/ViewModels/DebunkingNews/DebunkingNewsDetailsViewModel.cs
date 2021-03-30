@@ -1,38 +1,41 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
-    public class DebunkingNewsDetailsViewModel : BaseViewModel<string>, IDisposable
+    public class DebunkingNewsDetailsViewModel : BaseViewModel<DebunkingNewsGetResponse>
     {
-        private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IMvxLog _log;
 
-        private string _debunkingNewsId;
-        private CancellationTokenSource _cancellationTokenSource;
+        private DebunkingNewsGetResponse _debunkingNewsId;
 
-        private bool _disposed;
-
-        public DebunkingNewsDetailsViewModel(IDebunkingNewsService debunkngNewsService, IMvxLogProvider logProvider)
+        public DebunkingNewsDetailsViewModel(IMvxLogProvider logProvider)
         {
-            _debunkingNewsService = debunkngNewsService ?? throw new ArgumentNullException(nameof(debunkngNewsService));
             _log = logProvider?.GetLogFor<DebunkingNewsDetailsViewModel>();
         }
 
-        private DebunkingNewsGetDetailsResponse _debunkingNews;
-        public DebunkingNewsGetDetailsResponse DebunkingNews
+        #region Properties
+
+        private string _title;
+        public string Title
         {
-            get => _debunkingNews;
-            set => SetProperty(ref _debunkingNews, value);
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
-        public override void Prepare(string parameter)
+        private Uri _uri;
+        public Uri Uri
         {
-            if (string.IsNullOrWhiteSpace(parameter))
+            get => _uri;
+            set => SetProperty(ref _uri, value);
+        }
+
+        #endregion
+
+        public override void Prepare(DebunkingNewsGetResponse parameter)
+        {
+            if (parameter is null)
             {
                 var argumentNullException = new ArgumentNullException(nameof(parameter));
                 _log?.ErrorException("The given debunking news id is null", argumentNullException);
@@ -40,40 +43,9 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             }
 
             _debunkingNewsId = parameter;
+            Uri = new Uri(parameter.NewsLink);
+            Title = parameter.Title;
             _log?.Info("Visit debunking news details", _debunkingNewsId);
         }
-
-        public override async Task Initialize()
-        {
-            await base.Initialize().ConfigureAwait(false);
-
-            _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var debunkingNews = await _debunkingNewsService.GetDebunkingNewsByIdAsync(_debunkingNewsId, _cancellationTokenSource.Token).ConfigureAwait(true);
-            if (debunkingNews != null)
-                DebunkingNews = debunkingNews;
-        }
-
-        #region Disposable
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                _cancellationTokenSource?.Dispose();
-            }
-
-            _disposed = true;
-        }
-
-        #endregion
     }
 }
