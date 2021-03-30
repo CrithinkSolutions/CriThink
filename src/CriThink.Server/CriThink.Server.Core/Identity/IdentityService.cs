@@ -220,7 +220,7 @@ namespace CriThink.Server.Core.Identity
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
             var currentUserRoles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
-            var areRoleRemoved = await _userRepository.RemoveRolesFromUserAsync(user, currentUserRoles).ConfigureAwait(false);
+            var areRoleRemoved = await _userRepository.RemoveUserFromRolesAsync(user, currentUserRoles).ConfigureAwait(false);
             if (!areRoleRemoved.Succeeded)
                 throw new IdentityOperationException(areRoleRemoved);
 
@@ -244,7 +244,7 @@ namespace CriThink.Server.Core.Identity
             if (role is null)
                 throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
-            var areRoleRemoved = await _userRepository.RemoveRoleFromUserAsync(user, role.Name).ConfigureAwait(false);
+            var areRoleRemoved = await _userRepository.RemoveUserFromRoleAsync(user, role.Name).ConfigureAwait(false);
             if (!areRoleRemoved.Succeeded)
                 throw new IdentityOperationException(areRoleRemoved);
         }
