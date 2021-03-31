@@ -27010,22 +27010,25 @@ namespace CriThink.Client.Droid
 			public const int visible_removing_fragment_view_tag = 2131296821;
 			
 			// aapt resource value: 0x7F090236
-			public const int wide = 2131296822;
-			
-			// aapt resource value: 0x7F090238
-			public const int withinBounds = 2131296824;
+			public const int webView = 2131296822;
 			
 			// aapt resource value: 0x7F090237
-			public const int withText = 2131296823;
+			public const int wide = 2131296823;
 			
 			// aapt resource value: 0x7F090239
-			public const int wrap = 2131296825;
+			public const int withinBounds = 2131296825;
+			
+			// aapt resource value: 0x7F090238
+			public const int withText = 2131296824;
 			
 			// aapt resource value: 0x7F09023A
-			public const int wrap_content = 2131296826;
+			public const int wrap = 2131296826;
 			
 			// aapt resource value: 0x7F09023B
-			public const int zero_corner_chip = 2131296827;
+			public const int wrap_content = 2131296827;
+			
+			// aapt resource value: 0x7F09023C
+			public const int zero_corner_chip = 2131296828;
 			
 			static Id()
 			{

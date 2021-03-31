@@ -14,6 +14,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
     {
         private const int PageSize = 20;
 
+        private readonly IMvxNavigationService _navigationService;
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IMvxLog _log;
 
@@ -25,9 +26,9 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         public DebunkingNewsListViewModel(
             IMvxLogProvider logProvider,
             IMvxNavigationService navigationService,
-            IDebunkingNewsService debunkingNewsService
-            )
+            IDebunkingNewsService debunkingNewsService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
             _log = logProvider?.GetLogFor<DebunkingNewsListViewModel>();
 
@@ -114,8 +115,10 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            await _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink).ConfigureAwait(false);
             _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+
+            await _navigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(selectedResponse, cancellationToken: cancellationToken)
+                .ConfigureAwait(true);
         }
 
         private void DoFetchDebunkingNewsCommand()

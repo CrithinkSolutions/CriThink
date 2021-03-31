@@ -51,9 +51,6 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public Task OpenDebunkingNewsInBrowser(string link) =>
-            _debunkingNewsService.OpenDebunkingNewsInBrowser(link);
-
         #region IDisposable
 
         public void Dispose()

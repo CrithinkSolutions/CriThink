@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using MvvmCross.Logging;
-using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
 {
@@ -90,19 +89,6 @@ namespace CriThink.Client.Core.Services
                 return null;
             }
         }
-
-        public async Task OpenDebunkingNewsInBrowser(string link)
-        {
-            try
-            {
-                var uri = new Uri(link, UriKind.Absolute);
-                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred).ConfigureAwait(true);
-            }
-            catch (Exception ex)
-            {
-                _log?.ErrorException("Error launching the browser with debunking news", ex, link);
-            }
-        }
     }
 
     public interface IDebunkingNewsService
@@ -131,7 +117,5 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken);
-
-        Task OpenDebunkingNewsInBrowser(string link);
     }
 }

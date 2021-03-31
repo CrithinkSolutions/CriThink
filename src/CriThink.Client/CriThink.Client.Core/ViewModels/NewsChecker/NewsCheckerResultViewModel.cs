@@ -5,9 +5,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
@@ -16,15 +19,17 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
     {
         private readonly INewsSourceService _newsSourceService;
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IMvxNavigationService _navigationService;
         private readonly IMvxLog _log;
 
         private string _uri;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public NewsCheckerResultViewModel(INewsSourceService newsSourceService, IMvxLogProvider logProvider, IDebunkingNewsService debunkingNewsService)
+        public NewsCheckerResultViewModel(INewsSourceService newsSourceService, IMvxLogProvider logProvider, IDebunkingNewsService debunkingNewsService, IMvxNavigationService navigationService)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _log = logProvider?.GetLogFor<NewsCheckerResultViewModel>();
 
             Feed = new MvxObservableCollection<NewsSourceRelatedDebunkingNewsResponse>();
@@ -163,8 +168,19 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(NewsSourceRelatedDebunkingNewsResponse selectedResponse, CancellationToken cancellationToken)
         {
-            await _debunkingNewsService.OpenDebunkingNewsInBrowser(selectedResponse.NewsLink).ConfigureAwait(false);
             _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+
+            var response = new DebunkingNewsGetResponse
+            {
+                Title = selectedResponse.Title,
+                NewsLink = selectedResponse.NewsLink,
+                Id = selectedResponse.Id,
+                NewsImageLink = selectedResponse.NewsImageLink,
+                Publisher = selectedResponse.Publisher,
+            };
+
+            await _navigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(response, cancellationToken: cancellationToken)
+                .ConfigureAwait(true);
         }
     }
 }
