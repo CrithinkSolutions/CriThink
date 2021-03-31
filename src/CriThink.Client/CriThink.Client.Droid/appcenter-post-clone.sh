@@ -10,3 +10,8 @@ cd $PROJECT_DIR
 find $API_URL_FILENAME -type f -exec sed -i '' -e 's/'"$LOCAL_API_URL"'/'"$API_URL"'/' {} \;
 
 find MainApplication.cs -type f -exec sed -i '' -e 's/<APPCENTER_API_KEY>/'"$APPCENTER_API_KEY"'/' {} \;
+
+cd Constants/
+
+find DeepLinkConstants.cs -type f -exec sed -i '' -e 's/crithinkdemo.com/'"$SCHEMA_HOST"'/' {} \;
+
