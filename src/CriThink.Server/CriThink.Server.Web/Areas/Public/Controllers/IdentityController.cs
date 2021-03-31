@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Helpers;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.Areas.Publics.ViewModel;
 using CriThink.Server.Web.Areas.Publics.ViewModel.Identity;
@@ -59,11 +58,9 @@ namespace CriThink.Server.Web.Areas.Publics.Controllers
                 return View("ResetPassword", viewModel);
             }
 
-            var decodedCode = Base64Helper.FromBase64(viewModel.Code);
-
             try
             {
-                await _identityService.ResetUserPasswordAsync(viewModel.UserId, decodedCode, viewModel.Password)
+                await _identityService.ResetUserPasswordAsync(viewModel.UserId, viewModel.Code, viewModel.Password)
                     .ConfigureAwait(false);
             }
             catch (Exception)

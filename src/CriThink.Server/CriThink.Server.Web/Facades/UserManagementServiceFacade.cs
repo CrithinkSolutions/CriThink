@@ -37,7 +37,7 @@ namespace CriThink.Server.Web.Facades
             return await _identityService.GetRolesAsync().ConfigureAwait(false);
         }
 
-        public async Task CreateNewUserAsync(AddUserViewModel viewModel) 
+        public async Task CreateNewUserAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -48,11 +48,11 @@ namespace CriThink.Server.Web.Facades
                 Email = viewModel.Email,
                 Password = viewModel.Password
             };
-            
+
             await _identityService.CreateNewUserAsync(request).ConfigureAwait(false);
         }
 
-        public async Task CreateNewAdminAsync(AddUserViewModel viewModel) 
+        public async Task CreateNewAdminAsync(AddUserViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -63,28 +63,15 @@ namespace CriThink.Server.Web.Facades
                 Email = viewModel.Email,
                 Password = viewModel.Password
             };
-            
+
             await _identityService.CreateNewAdminAsync(request).ConfigureAwait(false);
-        }
-
-        public async Task DeleteUserAsync(SimpleUserManagementViewModel viewModel)
-        {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-            
-            var request = new UserGetRequest
-            {
-                UserId = viewModel.Id
-            };
-
-            await _identityService.DeleteUserAsync(request).ConfigureAwait(false);
         }
 
         public async Task SoftDeleteUserAsync(SimpleUserManagementViewModel viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
-            
+
             var request = new UserGetRequest
             {
                 UserId = viewModel.Id

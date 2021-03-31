@@ -1,5 +1,9 @@
 ﻿using CriThink.Common.HttpRepository;
+using CriThink.Server.Core.Identity;
+using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Identity;
+using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DebunkNewsFetcher;
 using CriThink.Server.Providers.DomainAnalyzer;
@@ -25,8 +29,13 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddEmailSenderProvider();
             serviceCollection.AddDomainAnalyzerProvider();
 
+            // Managers
+            serviceCollection.AddTransient<IJwtManager, JwtManager>();
+
             // Repositories
             serviceCollection.AddTransient<INewsSourceRepository, NewsSourceRepository>();
+            serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }

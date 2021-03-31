@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.Helpers;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Web.ActionFilters;
@@ -135,13 +134,11 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmailAsync([FromQuery] EmailConfirmationRequest request)
         {
-            string decodedCode = Base64Helper.FromBase64(request.Code);
-
             var result = true;
 
             try
             {
-                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), decodedCode).ConfigureAwait(false);
+                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), request.Code).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -180,11 +177,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
         {
-            string decodedCode = Base64Helper.FromBase64(dto.Code);
-
             try
             {
-                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), decodedCode).ConfigureAwait(false);
+                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), dto.Code).ConfigureAwait(false);
                 return Ok(new ApiOkResponse(userInfo));
             }
             catch (ResourceNotFoundException) { }
@@ -310,11 +305,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
-            string decodedCode = Base64Helper.FromBase64(dto.Token);
-
             try
             {
-                await _identityService.ResetUserPasswordAsync(dto.UserId, decodedCode, dto.NewPassword)
+                await _identityService.ResetUserPasswordAsync(dto.UserId, dto.Token, dto.NewPassword)
                     .ConfigureAwait(false);
 
                 return NoContent();

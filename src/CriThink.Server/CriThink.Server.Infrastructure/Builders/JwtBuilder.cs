@@ -6,12 +6,9 @@ using System.Security.Claims;
 using CriThink.Common.Helpers;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CriThink.Server.Core.Identity
+namespace CriThink.Server.Infrastructure.Builders
 {
-    /// <summary>
-    /// Builder class to generate a JWT token
-    /// </summary>
-    public class JwtBuilder
+    internal class JwtBuilder
     {
         private string _issuer;
         private string _audience;
