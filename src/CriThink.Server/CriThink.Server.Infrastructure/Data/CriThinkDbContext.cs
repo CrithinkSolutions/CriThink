@@ -19,12 +19,6 @@ namespace CriThink.Server.Infrastructure.Data
             _roleOptions = roleOptions ?? throw new ArgumentNullException(nameof(roleOptions));
         }
 
-        public DbSet<DemoNews> DemoNews { get; set; }
-
-        public DbSet<Question> Questions { get; set; }
-
-        public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
 
         public DbSet<DebunkingNews> DebunkingNews { get; set; }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CriThink.Server.Providers.DebunkNewsFetcher.Builders;
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
@@ -8,13 +6,6 @@ namespace CriThink.Server.Providers.DebunkNewsFetcher.Providers
 {
     internal class DebunkingNewsProvider : IDebunkNewsProvider
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public DebunkingNewsProvider(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        }
-
         public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
         {
             return fetcherBuilder

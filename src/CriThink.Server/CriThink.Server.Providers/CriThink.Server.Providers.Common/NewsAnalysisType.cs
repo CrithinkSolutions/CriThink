@@ -19,15 +19,5 @@
         /// News title and content keywords
         /// </summary>
         Keywords,
-
-        /// <summary>
-        /// Check if the given Uri has HTTPS support
-        /// </summary>
-        HTTPS,
-
-        /// <summary>
-        /// Check domain information
-        /// </summary>
-        WhoIs
     }
 }

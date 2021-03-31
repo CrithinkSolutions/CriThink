@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.MapperProfiles
@@ -13,9 +12,6 @@ namespace CriThink.Server.Core.MapperProfiles
     {
         public UserProfile()
         {
-            CreateMap<UserSignUpRequest, UserCompleteSignUpRequest>()
-                .ForMember(dest => dest.UserId, opt => opt.Ignore());
-
             CreateMap<User, UserGetDetailsResponse>()
                 .ForMember(dest =>
                     dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))

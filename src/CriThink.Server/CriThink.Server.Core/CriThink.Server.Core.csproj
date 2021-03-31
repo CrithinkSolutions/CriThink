@@ -16,7 +16,6 @@
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Endpoints\CriThink.Common.Endpoints.csproj" />
     <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DebunkNewsFetcher\CriThink.Server.Providers.DebunkNewsFetcher.csproj" />
-    <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.DomainAnalyzer\CriThink.Server.Providers.DomainAnalyzer.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.EmailSender\CriThink.Server.Providers.EmailSender.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
   </ItemGroup>
