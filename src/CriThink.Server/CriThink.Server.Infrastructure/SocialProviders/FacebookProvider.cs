@@ -1,38 +1,35 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.DTOs.Facebook;
 using CriThink.Server.Core.Models.LoginProviders;
+using CriThink.Server.Infrastructure.Api;
 using Microsoft.Extensions.Configuration;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
     public class FacebookProvider : IExternalLoginProvider
     {
-        private readonly IRestRepository _restRepository;
         private readonly IConfiguration _configuration;
+        private readonly IFacebookApi _facebookApi;
 
-        public FacebookProvider(IRestRepository restRepository, IConfiguration configuration)
+        public FacebookProvider(IConfiguration configuration, IFacebookApi facebookApi)
         {
-            _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _facebookApi = facebookApi ?? throw new ArgumentNullException(nameof(facebookApi));
         }
 
         public async Task<ExternalProviderUserInfo> GetUserAccessInfo(string userToken)
         {
             var accessToken = _configuration["FacebookApiKey"];
 
-            var tokenInfoPath = $"debug_token?input_token={userToken}&access_token={accessToken}";
-
-            var debugTokenResponse = await _restRepository.MakeRequestAsync<FacebookTokenResponse>(tokenInfoPath, HttpRestVerb.Get, httpClientName: "Facebook").ConfigureAwait(false);
+            FacebookTokenResponse debugTokenResponse = await _facebookApi.ValidateTokenAsync(userToken, accessToken)
+                .ConfigureAwait(false);
 
             if (!debugTokenResponse.Data.IsValid)
                 throw new InvalidOperationException("The given token is wrong or expired");
 
-            var userInfoPath = $"{debugTokenResponse.Data.UserId}?fields=id,first_name,last_name,picture,email&access_token={userToken}";
-
-            var userInfoDetail = await _restRepository.MakeRequestAsync<FacebookUserInfoDetail>(userInfoPath, HttpRestVerb.Get, httpClientName: "Facebook").ConfigureAwait(false);
+            FacebookUserInfoDetail userInfoDetail = await _facebookApi.GetUserDetailsAsync(debugTokenResponse.Data.UserId, accessToken);
 
             return new ExternalProviderUserInfo
             {

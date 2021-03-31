@@ -1,14 +1,17 @@
-﻿using CriThink.Common.HttpRepository;
+﻿using System;
 using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Identity;
 using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Providers.DebunkingNewsFetcher;
-using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.NewsAnalyzer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Refit;
 
 namespace CriThink.Server.Infrastructure
 {
@@ -19,8 +22,8 @@ namespace CriThink.Server.Infrastructure
             // Data
             serviceCollection.AddSingleton<CriThinkRedisMultiplexer>();
 
-            // HttpRepository
-            serviceCollection.AddHttpRepository();
+            // HttpClient
+            SetupHttpClient(serviceCollection);
 
             // Providers
             serviceCollection.AddNewsAnalyzerProvider();
@@ -34,6 +37,28 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddTransient<INewsSourceRepository, NewsSourceRepository>();
             serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+        }
+
+        private static void SetupHttpClient(IServiceCollection serviceCollection)
+        {
+            SetupExternalProvider<IFacebookApi>(serviceCollection, "FacebookApiUrl");
+            SetupExternalProvider<IGoogleApi>(serviceCollection, "GoogleApiUrl");
+        }
+
+        private static void SetupExternalProvider<T>(IServiceCollection serviceCollection, string configKey)
+            where T : class
+        {
+            serviceCollection.AddRefitClient<T>()
+                .ConfigureHttpClient((sp, c) =>
+                {
+                    var config = sp.GetRequiredService<IConfiguration>();
+                    c.BaseAddress = new Uri(config[configKey]);
+                })
+                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(8),
+                }));
         }
     }
 }

@@ -2,24 +2,23 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Repositories;
-using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.HttpRepository;
 using MvvmCross.Logging;
 
 namespace CriThink.Client.Core.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly IRestRepository _restRepository;
+        private readonly IIdentityApi _identityApi;
         private readonly IIdentityRepository _identityRepository;
         private readonly IMvxLog _log;
 
-        public IdentityService(IRestRepository restRepository, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
+        public IdentityService(IIdentityApi identityApi, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
         {
-            _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
+            _identityApi = identityApi ?? throw new ArgumentNullException(nameof(identityApi));
             _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
             _log = logProvider?.GetLogFor<IdentityService>();
         }
@@ -60,11 +59,7 @@ namespace CriThink.Client.Core.Services
             UserLoginResponse loginResponse;
             try
             {
-                loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
-                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityLogin}",
-                        HttpRestVerb.Post,
-                        request,
-                        cancellationToken: cancellationToken)
+                loginResponse = await _identityApi.LoginAsync(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -101,11 +96,7 @@ namespace CriThink.Client.Core.Services
             UserLoginResponse loginResponse;
             try
             {
-                loginResponse = await _restRepository.MakeRequestAsync<UserLoginResponse>(
-                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityExternalLogin}",
-                        HttpRestVerb.Post,
-                        request,
-                        cancellationToken: cancellationToken)
+                loginResponse = await _identityApi.SocialLoginAsync(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -141,11 +132,7 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                await _restRepository.MakeRequestAsync(
-                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityForgotPassword}",
-                        HttpRestVerb.Post,
-                        request,
-                        cancellationToken: cancellationToken)
+                await _identityApi.RequestTemporaryTokenAsync(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -162,11 +149,7 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var resetPasswordResponse = await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
-                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentityResetPassword}",
-                        HttpRestVerb.Post,
-                        request,
-                        cancellationToken: cancellationToken)
+                VerifyUserEmailResponse resetPasswordResponse = await _identityApi.ResetPasswordAsync(request, cancellationToken)
                     .ConfigureAwait(false);
 
                 return resetPasswordResponse;
@@ -185,12 +168,10 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                return await _restRepository.MakeRequestAsync<UserSignUpResponse>(
-                        $"{EndpointConstants.IdentityBase}{EndpointConstants.IdentitySignUp}",
-                        HttpRestVerb.Post,
-                        request,
-                        cancellationToken: cancellationToken)
+                UserSignUpResponse response = await _identityApi.SignUpAsync(request, cancellationToken)
                     .ConfigureAwait(false);
+
+                return response;
             }
             catch (HttpRequestException)
             {
@@ -219,10 +200,8 @@ namespace CriThink.Client.Core.Services
                     UserId = Guid.Parse(userId)
                 };
 
-                return await _restRepository.MakeRequestAsync<VerifyUserEmailResponse>(
-                    $"{EndpointConstants.IdentityBase}{EndpointConstants.Mobile}{EndpointConstants.IdentityConfirmEmail}",
-                    HttpRestVerb.Post,
-                    request).ConfigureAwait(false);
+                return await _identityApi.ConfirmEmailAsync(request)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {

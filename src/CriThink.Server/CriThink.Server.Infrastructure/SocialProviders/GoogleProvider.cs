@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Common.HttpRepository;
 using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.DTOs.Google;
 using CriThink.Server.Core.Models.LoginProviders;
+using CriThink.Server.Infrastructure.Api;
 using Microsoft.Extensions.Configuration;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
     public class GoogleProvider : IExternalLoginProvider
     {
-        private readonly IRestRepository _restRepository;
         private readonly IConfiguration _configuration;
+        private readonly IGoogleApi _googleApi;
 
-        public GoogleProvider(IRestRepository restRepository, IConfiguration configuration)
+        public GoogleProvider(IConfiguration configuration, IGoogleApi googleApi)
         {
-            _restRepository = restRepository ?? throw new ArgumentNullException(nameof(restRepository));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _googleApi = googleApi;
         }
 
         public async Task<ExternalProviderUserInfo> GetUserAccessInfo(string userToken)
         {
-            var path = $"tokeninfo?id_token={userToken}";
-
             var appSecret = _configuration["GoogleApiKey"];
 
-            var result = await _restRepository.MakeRequestAsync<GoogleTokenInfo>(path, HttpRestVerb.Get, httpClientName: "Google").ConfigureAwait(false);
+            GoogleTokenInfo result = await _googleApi.GetUserDetailsAsync(userToken)
+                .ConfigureAwait(false);
 
             if (result.ApplicationId != appSecret)
                 throw new Exception();
