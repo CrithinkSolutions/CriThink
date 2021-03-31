@@ -24,7 +24,9 @@ namespace CriThink.Server.Infrastructure.Identity
 
         public Task<IdentityResult> CreateUserAsync(User user, string plainPassword = null)
         {
-            return _userManager.CreateAsync(user, plainPassword);
+            return string.IsNullOrWhiteSpace(plainPassword) ?
+                _userManager.CreateAsync(user) :
+                _userManager.CreateAsync(user, plainPassword);
         }
 
         public async Task<string> GetEmailConfirmationTokenAsync(User user)
@@ -61,12 +63,12 @@ namespace CriThink.Server.Infrastructure.Identity
             return _userManager.GetRolesAsync(user);
         }
 
-        public Task<IdentityResult> RemoveRolesFromUserAsync(User user, IList<string> roles)
+        public Task<IdentityResult> RemoveUserFromRolesAsync(User user, IList<string> roles)
         {
             return _userManager.RemoveFromRolesAsync(user, roles);
         }
 
-        public Task<IdentityResult> RemoveRoleFromUserAsync(User user, string role)
+        public Task<IdentityResult> RemoveUserFromRoleAsync(User user, string role)
         {
             return _userManager.RemoveFromRoleAsync(user, role);
         }
