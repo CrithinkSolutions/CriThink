@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.NewsAnalyzer", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj", "{B245DA8A-5411-4973-A7C0-51D7CFD61981}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.DebunkNewsFetcher", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DebunkNewsFetcher\CriThink.Server.Providers.DebunkNewsFetcher.csproj", "{00FA7783-F385-497B-BB6E-82C283E9046C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.DebunkingNewsFetcher", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DebunkingNewsFetcher\CriThink.Server.Providers.DebunkingNewsFetcher.csproj", "{00FA7783-F385-497B-BB6E-82C283E9046C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Demo", "CriThink.Server\CriThink.Server.Demo\CriThink.Server.Demo.csproj", "{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}"
 EndProject

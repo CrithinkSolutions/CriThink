@@ -2,10 +2,10 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using CriThink.Server.Providers.Common;
-using CriThink.Server.Providers.DebunkNewsFetcher.Fetchers;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CriThink.Server.Providers.DebunkNewsFetcher.Builders
+namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
 {
     public class DebunkingNewsFetcherBuilder
     {

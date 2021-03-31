@@ -1,7 +1,7 @@
 ﻿using System;
 
 // ReSharper disable once CheckNamespace
-namespace CriThink.Server.Providers.DebunkNewsFetcher
+namespace CriThink.Server.Providers.DebunkingNewsFetcher
 {
     public class DebunkingNewsResponse
     {

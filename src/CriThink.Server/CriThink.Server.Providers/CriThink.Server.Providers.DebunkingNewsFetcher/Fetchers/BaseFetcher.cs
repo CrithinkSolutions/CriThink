@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Server.Providers.Common;
 
-namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
+namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 {
     internal abstract class BaseFetcher : IAnalyzer<DebunkingNewsProviderResult>
     {

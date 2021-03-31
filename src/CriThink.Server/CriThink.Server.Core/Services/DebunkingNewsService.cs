@@ -11,7 +11,7 @@ using CriThink.Server.Core.Facades;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Queries;
 using CriThink.Server.Core.Responses;
-using CriThink.Server.Providers.DebunkNewsFetcher;
+using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Managers;
 using MediatR;

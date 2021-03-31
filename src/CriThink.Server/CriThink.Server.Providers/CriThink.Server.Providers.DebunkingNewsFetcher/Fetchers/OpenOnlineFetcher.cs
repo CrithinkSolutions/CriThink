@@ -7,13 +7,13 @@ using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using CriThink.Server.Providers.DebunkNewsFetcher.Exceptions;
-using CriThink.Server.Providers.DebunkNewsFetcher.Settings;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
+using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
-namespace CriThink.Server.Providers.DebunkNewsFetcher.Fetchers
+namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 {
     internal class OpenOnlineFetcher : BaseFetcher
     {
