@@ -68,7 +68,7 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="user">User from where remove roles</param>
         /// <param name="roles">Roles to remove</param>
         /// <returns>An <see cref="IdentityResult"/></returns>
-        Task<IdentityResult> RemoveRolesFromUserAsync(User user, IList<string> roles);
+        Task<IdentityResult> RemoveUserFromRolesAsync(User user, IList<string> roles);
 
         /// <summary>
         /// Revoke the given role to the given user
@@ -76,7 +76,7 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="user">User from where remove roles</param>
         /// <param name="role">Role to remove</param>
         /// <returns>An <see cref="IdentityResult"/></returns>
-        Task<IdentityResult> RemoveRoleFromUserAsync(User user, string role);
+        Task<IdentityResult> RemoveUserFromRoleAsync(User user, string role);
 
         /// <summary>
         /// Get all users with pagination support
