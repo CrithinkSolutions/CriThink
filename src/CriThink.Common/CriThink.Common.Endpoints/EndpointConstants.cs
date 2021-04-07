@@ -48,6 +48,7 @@
         public const string IdentityResetPassword = "reset-password";
         public const string IdentityExternalLogin = "external-login";
         public const string IdentityUsernameAvailability = "username-availability";
+        public const string IdentityUploadAvatar = "upload-avatar";
 
         #endregion
 

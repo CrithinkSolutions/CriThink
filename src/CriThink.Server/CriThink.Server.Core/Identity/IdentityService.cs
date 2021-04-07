@@ -15,6 +15,7 @@ using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.LoginProviders;
 using CriThink.Server.Providers.EmailSender.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -26,6 +27,8 @@ namespace CriThink.Server.Core.Identity
         private readonly IUserRepository _userRepository;
         private readonly IJwtManager _jwtManager;
         private readonly IEmailSenderService _emailSender;
+        private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityService> _logger;
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
@@ -36,6 +39,8 @@ namespace CriThink.Server.Core.Identity
             IJwtManager jwtManager,
             IMapper mapper,
             IEmailSenderService emailSender,
+            IFileService fileService,
+            IHttpContextAccessor httpContext,
             ILogger<IdentityService> logger,
             ExternalLoginProviderResolver externalLoginProviderResolver)
         {
@@ -44,6 +49,8 @@ namespace CriThink.Server.Core.Identity
             _jwtManager = jwtManager ?? throw new ArgumentNullException(nameof(jwtManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
             _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
             _logger = logger;
         }
@@ -538,6 +545,18 @@ namespace CriThink.Server.Core.Identity
             {
                 IsAvailable = user is null
             };
+        }
+
+        public async Task UpdateUserAvatarAsync(IFormFile formFile)
+        {
+            if (formFile is null)
+                throw new ArgumentNullException(nameof(formFile));
+
+            var userEmail = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userEmail))
+                throw new InvalidOperationException();
+
+            await _fileService.SaveUserAvatarAsync(formFile, $"{userEmail}/avatar/");
         }
 
         #region Privates

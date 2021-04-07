@@ -5,11 +5,14 @@ using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Identity;
 using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
+using CriThink.Server.Infrastructure.Services;
 using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.NewsAnalyzer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Polly;
 using Refit;
 
@@ -37,6 +40,16 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddTransient<INewsSourceRepository, NewsSourceRepository>();
             serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+
+            // Services
+            serviceCollection.AddScoped<IFileService>(sp =>
+            {
+                var environment = sp.GetRequiredService<IHostEnvironment>();
+                if (environment.IsDevelopment())
+                    return new FileService(sp.GetRequiredService<IWebHostEnvironment>());
+
+                return new S3Service();
+            });
         }
 
         private static void SetupHttpClient(IServiceCollection serviceCollection)

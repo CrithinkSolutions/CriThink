@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
@@ -379,6 +380,38 @@ namespace CriThink.Server.Web.Controllers
         {
             var response = await _identityService.GetUsernameAvailabilityAsync(dto).ConfigureAwait(false);
             return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
+        /// Updates the user avatar. File size must be between 5kb and 2mb
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT: /api/identity/upload-avatar
+        ///  
+        /// </remarks>
+        /// <param name="formFile">Image to use as avatar</param>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.IdentityUploadAvatar)]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPut]
+        public async Task<IActionResult> UploadAvatarAsync(
+            [FileSize(5 * 1024, 3 * 1024 * 1024)]
+            [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
+            [Required]
+            IFormFile formFile)
+        {
+            await _identityService.UpdateUserAvatarAsync(formFile).ConfigureAwait(false);
+            return NoContent();
         }
     }
 }

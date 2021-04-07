@@ -60,9 +60,7 @@ namespace CriThink.Server.Infrastructure.Builders
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, _subject),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeExtensions.SerializeDateTime(now), ClaimValueTypes.Integer64)
+                new (JwtRegisteredClaimNames.Iat, DateTimeExtensions.SerializeDateTime(now), ClaimValueTypes.Integer64)
             }.Union(_claims);
 
             return new JwtSecurityToken(
