@@ -34,12 +34,4 @@ namespace CriThink.Server.Infrastructure.Services
             await formFile.CopyToAsync(fileStream);
         }
     }
-
-    internal class S3Service : IFileService
-    {
-        public async Task SaveUserAvatarAsync(IFormFile formFile, string subfolder, bool replaceIfExist = true)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

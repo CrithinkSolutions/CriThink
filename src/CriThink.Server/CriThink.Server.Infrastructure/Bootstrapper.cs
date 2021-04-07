@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Polly;
 using Refit;
 
@@ -48,7 +49,9 @@ namespace CriThink.Server.Infrastructure
                 if (environment.IsDevelopment())
                     return new FileService(sp.GetRequiredService<IWebHostEnvironment>());
 
-                return new S3Service();
+                return new S3Service(
+                    sp.GetRequiredService<IConfiguration>(),
+                    sp.GetService<ILogger<S3Service>>());
             });
         }
 

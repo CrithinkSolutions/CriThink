@@ -571,7 +571,7 @@ namespace CriThink.Server.Core.Identity
             if (string.IsNullOrWhiteSpace(userEmail))
                 throw new InvalidOperationException();
 
-            await _fileService.SaveUserAvatarAsync(formFile, $"{userEmail}/avatar/");
+            await _fileService.SaveUserAvatarAsync(formFile, $"{userEmail}/profile/");
         }
 
         #region Privates
