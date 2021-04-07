@@ -7,6 +7,7 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Constants;
 using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
@@ -55,7 +56,7 @@ namespace CriThink.Server.Core.Identity
             _logger = logger;
         }
 
-        public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
+        public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request, IFormFile formFile = null)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
@@ -63,8 +64,12 @@ namespace CriThink.Server.Core.Identity
             var user = new User
             {
                 UserName = request.UserName,
-                Email = request.Email
+                Email = request.Email,
+                Id = Guid.NewGuid(),
             };
+
+            if (formFile is not null)
+                user.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
 
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
@@ -84,7 +89,7 @@ namespace CriThink.Server.Core.Identity
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
-                ConfirmationCode = confirmationCode
+                AvatarPath = user.AvatarPath,
             };
         }
 
@@ -363,7 +368,8 @@ namespace CriThink.Server.Core.Identity
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
                 UserName = user.UserName,
-                JwtToken = jwtToken
+                JwtToken = jwtToken,
+                AvatarPath = user.AvatarPath,
             };
 
             return response;
@@ -567,11 +573,11 @@ namespace CriThink.Server.Core.Identity
             if (formFile is null)
                 throw new ArgumentNullException(nameof(formFile));
 
-            var userEmail = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrWhiteSpace(userEmail))
+            var userId = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userId))
                 throw new InvalidOperationException();
 
-            await _fileService.SaveUserAvatarAsync(formFile, $"{userEmail}/profile/");
+            await _fileService.SaveUserAvatarAsync(formFile, $"{userId}/{AssetsConstants.ProfileFolder}");
         }
 
         #region Privates

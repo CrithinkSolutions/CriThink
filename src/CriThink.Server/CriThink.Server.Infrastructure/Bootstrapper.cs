@@ -10,6 +10,7 @@ using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.EmailSender;
 using CriThink.Server.Providers.NewsAnalyzer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,7 +48,9 @@ namespace CriThink.Server.Infrastructure
             {
                 var environment = sp.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
-                    return new FileService(sp.GetRequiredService<IWebHostEnvironment>());
+                    return new FileService(
+                        sp.GetRequiredService<IWebHostEnvironment>(),
+                        sp.GetRequiredService<IHttpContextAccessor>());
 
                 return new S3Service(
                     sp.GetRequiredService<IConfiguration>(),

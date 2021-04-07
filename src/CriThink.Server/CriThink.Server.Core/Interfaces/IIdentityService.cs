@@ -13,8 +13,9 @@ namespace CriThink.Server.Core.Interfaces
         /// Create a new user
         /// </summary>
         /// <param name="request">DTO with user information</param>
+        /// <param name="formFile">Avatar image</param>
         /// <returns>The operation result</returns>
-        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request);
+        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request, IFormFile formFile = null);
 
         /// <summary>
         /// Create a new admin

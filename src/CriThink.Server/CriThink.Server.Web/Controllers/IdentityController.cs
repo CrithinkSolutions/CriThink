@@ -36,7 +36,8 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Register a new user and send their an email with confirmation code
+        /// Register a new user and send their an email with confirmation code.
+        /// An avatar image is optional.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -49,22 +50,29 @@ namespace CriThink.Server.Web.Controllers
         /// 
         /// </remarks>
         /// <param name="request">Request body with email/username and password</param>
+        /// <param name="formFile">(Optional) Image to use as avatar. Between 5kb and 3mb.
+        /// Only jpg and jpeg allowed</param>
         /// <response code="200">Returns the user confirmation code and id</response>
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
         [Route(EndpointConstants.IdentitySignUp)]
+        [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(UserSignUpResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> SignUpUserAsync([FromBody] UserSignUpRequest request)
+        public async Task<IActionResult> SignUpUserAsync(
+            [FromForm] UserSignUpRequest request,
+            [FileSize(5 * 1024, 3 * 1024 * 1024)]
+            [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
+            IFormFile formFile)
         {
-            var creationResponse = await _identityService.CreateNewUserAsync(request).ConfigureAwait(false);
-            return Ok(new ApiOkResponse(new { userId = creationResponse.UserId, userEmail = creationResponse.UserEmail }));
+            var creationResponse = await _identityService.CreateNewUserAsync(request, formFile).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(creationResponse));
         }
 
         /// <summary>
@@ -388,10 +396,11 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT: /api/identity/upload-avatar
+        ///     PATCH: /api/identity/upload-avatar
         ///  
         /// </remarks>
-        /// <param name="formFile">Image to use as avatar</param>
+        /// <param name="formFile">Image to use as avatar. Between 5kb and 3mb. Only
+        /// jpg and jpeg allowed</param>
         /// <response code="204">Returns when operation succeeds</response>
         /// <response code="400">If the request is invalid</response>
         /// <response code="500">If the server can't process the request</response>
@@ -403,7 +412,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
-        [HttpPut]
+        [HttpPatch]
         public async Task<IActionResult> UploadAvatarAsync(
             [FileSize(5 * 1024, 3 * 1024 * 1024)]
             [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
