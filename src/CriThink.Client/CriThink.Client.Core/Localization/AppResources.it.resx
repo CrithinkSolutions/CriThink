@@ -390,4 +390,7 @@
   <data name="CheckNewsViewModel.NewsSearch" xml:space="preserve">
     <value>Cerca</value>
   </data>
+  <data name="SignUpEmailViewModel.SelectAvatar" xml:space="preserve">
+    <value>Seleziona il tuo avatar</value>
+  </data>
 </root>

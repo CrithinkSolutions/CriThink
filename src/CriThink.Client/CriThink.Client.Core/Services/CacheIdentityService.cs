@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using Microsoft.Extensions.Caching.Memory;
+using Refit;
 
 namespace CriThink.Client.Core.Services
 {
@@ -68,9 +69,9 @@ namespace CriThink.Client.Core.Services
             return response;
         }
 
-        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
+        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, StreamPart stream, CancellationToken cancellationToken)
         {
-            var response = await _identityService.PerformSignUpAsync(request, cancellationToken).ConfigureAwait(false);
+            var response = await _identityService.PerformSignUpAsync(request, stream, cancellationToken).ConfigureAwait(false);
             ClearUserInfoFromCache();
             return response;
         }

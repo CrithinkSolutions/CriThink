@@ -700,6 +700,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select your avatar.
+        /// </summary>
+        internal static string SignUpEmailViewModel_SelectAvatar {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.SelectAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join Us!.
         /// </summary>
         internal static string SignUpEmailViewModel_SignUp {

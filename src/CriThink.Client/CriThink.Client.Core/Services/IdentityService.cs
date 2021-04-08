@@ -7,6 +7,7 @@ using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using MvvmCross.Logging;
+using Refit;
 
 namespace CriThink.Client.Core.Services
 {
@@ -70,6 +71,8 @@ namespace CriThink.Client.Core.Services
 
             try
             {
+                var avatarPath = GetAvatarPath(loginResponse);
+
                 await _identityRepository.SetUserInfoAsync(
                         loginResponse.UserId,
                         loginResponse.UserEmail,
@@ -77,6 +80,7 @@ namespace CriThink.Client.Core.Services
                         request.Password,
                         loginResponse.JwtToken.Token,
                         loginResponse.JwtToken.ExpirationDate,
+                        avatarPath,
                         ExternalLoginProvider.None)
                     .ConfigureAwait(false);
             }
@@ -107,6 +111,8 @@ namespace CriThink.Client.Core.Services
 
             try
             {
+                var avatarPath = GetAvatarPath(loginResponse);
+
                 await _identityRepository.SetUserInfoAsync(
                         loginResponse.UserId,
                         loginResponse.UserEmail,
@@ -114,6 +120,7 @@ namespace CriThink.Client.Core.Services
                         request.UserToken,
                         loginResponse.JwtToken.Token,
                         loginResponse.JwtToken.ExpirationDate,
+                        avatarPath,
                         request.SocialProvider)
                     .ConfigureAwait(false);
             }
@@ -161,14 +168,14 @@ namespace CriThink.Client.Core.Services
             }
         }
 
-        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken)
+        public async Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, StreamPart streamPart, CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
             try
             {
-                UserSignUpResponse response = await _identityApi.SignUpAsync(request, cancellationToken)
+                UserSignUpResponse response = await _identityApi.SignUpAsync(request.UserName, request.Email, request.Password, streamPart, cancellationToken)
                     .ConfigureAwait(false);
 
                 return response;
@@ -222,6 +229,9 @@ namespace CriThink.Client.Core.Services
                 throw;
             }
         }
+
+        private static string GetAvatarPath(UserLoginResponse loginResponse) =>
+            string.IsNullOrWhiteSpace(loginResponse.AvatarPath) ? "ic_logo.svg" : loginResponse.AvatarPath;
     }
 
     public interface IIdentityService
@@ -276,7 +286,7 @@ namespace CriThink.Client.Core.Services
         /// <param name="request">User data</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Registration response data</returns>
-        Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, CancellationToken cancellationToken);
+        Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, StreamPart streamPart, CancellationToken cancellationToken);
 
         /// <summary>
         /// Verify user email

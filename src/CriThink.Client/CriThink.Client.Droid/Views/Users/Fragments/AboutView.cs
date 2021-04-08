@@ -26,7 +26,7 @@ namespace CriThink.Client.Droid.Views.Users
             var view = this.BindingInflate(Resource.Layout.about_view, null);
 
             var txtUsername = view.FindViewById<AppCompatTextView>(Resource.Id.txtUsername);
-            var imgProfile = view.FindViewById<MvxCachedImageView>(Resource.Id.imgProfile);
+            var imgProfile = view.FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);
             var btnViewProfile = view.FindViewById<AppCompatButton>(Resource.Id.btnViewProfile);
             var recyclerOptions = view.FindViewById<MvxRecyclerView>(Resource.Id.recyclerOptions);
 
@@ -40,7 +40,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             set.Bind(txtUsername).To(vm => vm.Username);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
-            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.ProfileImagePath);
+            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
             set.Bind(btnViewProfile).For(v => v.Text).ToLocalizationId("ViewProfile");
             set.Bind(btnViewProfile).To(vm => vm.NavigateToProfileCommand);
             set.Bind(recyclerOptions).For(v => v.ItemsSource).To(vm => vm.MenuCollection);

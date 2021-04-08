@@ -52,8 +52,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         public List<ITransformation> LogoImageTransformations { get; }
 
-        // TODO: real pic
-        public string ProfileImagePath => "res:ic_text_logo";
+        private string _avatarImagePath;
+        public string AvatarImagePath
+        {
+            get => _avatarImagePath;
+            set => SetProperty(ref _avatarImagePath, value);
+        }
 
         private string _welcomeText;
         public string WelcomeText
@@ -132,6 +136,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 return;
 
             Username = user.UserName;
+            AvatarImagePath = user.AvatarPath;
 
             _isInitialized = true;
         }

@@ -65,8 +65,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #region Properties
 
-        // TODO: real pic
-        public string ProfileImagePath => "res:ic_text_logo";
+        private string _avatarImagePath;
+        public string AvatarImagePath
+        {
+            get => _avatarImagePath;
+            set => SetProperty(ref _avatarImagePath, value);
+        }
 
         public MvxObservableCollection<BaseMenuItem> MenuCollection { get; }
 
@@ -110,6 +114,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (user != null)
             {
                 Username = user.UserName;
+                AvatarImagePath = user.AvatarPath;
             }
         }
 
