@@ -553,6 +553,7 @@ namespace CriThink.Server.Core.Identity
                 UserEmail = currentUser.Email,
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
+                AvatarPath = currentUser.AvatarPath,
             };
         }
 
@@ -630,7 +631,21 @@ namespace CriThink.Server.Core.Identity
             {
                 Email = userAccessInfo.Email,
                 UserName = userAccessInfo.Username,
+                Id = Guid.NewGuid(),
             };
+
+            if (userAccessInfo.ProfileAvatarBytes != null)
+            {
+                try
+                {
+                    var avatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
+                    user.AvatarPath = avatarPath;
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Error saving user social avatar");
+                }
+            }
 
             var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
 

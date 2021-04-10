@@ -58,7 +58,6 @@ namespace CriThink.Server.Web.Controllers
         /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
         [Route(EndpointConstants.IdentitySignUp)]
-        [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(UserSignUpResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]

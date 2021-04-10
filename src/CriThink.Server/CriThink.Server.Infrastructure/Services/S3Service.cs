@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
@@ -28,14 +29,11 @@ namespace CriThink.Server.Infrastructure.Services
         {
             try
             {
-                var s3Client = new AmazonS3Client(Region);
-
-                var fileTransferUtility = new TransferUtility(s3Client);
-
-                var destinationPath = $"{AssetsConstants.RootFolder}{subfolder}{AssetsConstants.AvatarFileName}";
+                var fileTransferUtility = PrepareTransferUtility();
+                var destinationPath = GetAvatarDestinationPath(subfolder);
 
                 await using var fileToUpload = formFile.OpenReadStream();
-                await fileTransferUtility.UploadAsync(fileToUpload, _bucketName, destinationPath);
+                await fileTransferUtility.UploadAsync(fileToUpload, _bucketName, destinationPath).ConfigureAwait(false);
 
                 return $"{GetHostname()}{destinationPath}";
             }
@@ -46,9 +44,35 @@ namespace CriThink.Server.Infrastructure.Services
             }
         }
 
-        private string GetHostname()
+        public async Task<string> SaveUserAvatarAsync(byte[] bytes, string subfolder, bool replaceIfExist = true)
         {
-            return $"https://{_bucketName}.s3.{Region.SystemName}.{Region.PartitionDnsSuffix}/";
+            try
+            {
+                var fileTransferUtility = PrepareTransferUtility();
+                var destinationPath = GetAvatarDestinationPath(subfolder);
+
+                await using var ms = new MemoryStream(bytes);
+                await fileTransferUtility.UploadAsync(ms, _bucketName, destinationPath).ConfigureAwait(false);
+
+                return $"{GetHostname()}{destinationPath}";
+            }
+            catch (AmazonS3Exception ex)
+            {
+                _logger?.LogError(ex, "Error uploading avatar on S3 bucket");
+                return null;
+            }
         }
+
+        private static TransferUtility PrepareTransferUtility()
+        {
+            var s3Client = new AmazonS3Client(Region);
+            return new TransferUtility(s3Client);
+        }
+
+        private static string GetAvatarDestinationPath(string subfolder) =>
+            $"{AssetsConstants.RootFolder}{subfolder}{AssetsConstants.AvatarFileName}";
+
+        private string GetHostname() =>
+            $"https://{_bucketName}.s3.{Region.SystemName}.{Region.PartitionDnsSuffix}/";
     }
 }

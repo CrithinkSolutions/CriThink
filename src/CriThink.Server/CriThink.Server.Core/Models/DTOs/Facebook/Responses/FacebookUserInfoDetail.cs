@@ -20,6 +20,9 @@ namespace CriThink.Server.Core.Models.DTOs.Facebook
 
         [JsonPropertyName("email")]
         public string Email { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
     }
 
     public class Picture

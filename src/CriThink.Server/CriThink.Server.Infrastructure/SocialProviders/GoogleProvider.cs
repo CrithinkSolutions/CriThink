@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.DTOs.Google;
 using CriThink.Server.Core.Models.LoginProviders;
 using CriThink.Server.Infrastructure.Api;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
@@ -12,11 +15,15 @@ namespace CriThink.Server.Infrastructure.SocialProviders
     {
         private readonly IConfiguration _configuration;
         private readonly IGoogleApi _googleApi;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly ILogger<GoogleProvider> _logger;
 
-        public GoogleProvider(IConfiguration configuration, IGoogleApi googleApi)
+        public GoogleProvider(IConfiguration configuration, IGoogleApi googleApi, IHttpClientFactory clientFactory, ILogger<GoogleProvider> logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _googleApi = googleApi;
+            _googleApi = googleApi ?? throw new ArgumentNullException(nameof(googleApi));
+            _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+            _logger = logger;
         }
 
         public async Task<ExternalProviderUserInfo> GetUserAccessInfo(string userToken)
@@ -35,14 +42,29 @@ namespace CriThink.Server.Infrastructure.SocialProviders
             if (DateTime.UtcNow > result.ExpiresAtUtc)
                 throw new Exception();
 
-            return new ExternalProviderUserInfo
+            var userInfo = new ExternalProviderUserInfo
             {
                 FirstName = result.FirstName,
                 LastName = result.LastName,
                 Email = result.Email,
                 UserId = result.UserId,
-                Username = result.Email,
+                Username = result.Name?.RemoveWhitespaces(),
             };
+
+            if (!string.IsNullOrWhiteSpace(result.Picture))
+            {
+                try
+                {
+                    var client = _clientFactory.CreateClient();
+                    userInfo.ProfileAvatarBytes = await client.GetByteArrayAsync(result.Picture);
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Error getting Google user profile");
+                }
+            }
+
+            return userInfo;
         }
     }
 }
