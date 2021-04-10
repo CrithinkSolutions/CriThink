@@ -32,8 +32,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #region Properties
 
-        // TODO: real pic
-        public string ProfileImagePath => "res:ic_text_logo";
+        private string _avatarImagePath;
+        public string AvatarImagePath
+        {
+            get => _avatarImagePath;
+            set => SetProperty(ref _avatarImagePath, value);
+        }
 
         public List<ITransformation> ProfileImageTransformations { get; }
 
@@ -63,6 +67,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (user != null)
             {
                 HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), user.UserName);
+                AvatarImagePath = user.AvatarPath;
             }
         }
 

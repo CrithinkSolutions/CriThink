@@ -5,6 +5,9 @@ using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using CriThink.Client.Droid.Controls;
+using FFImageLoading;
+using FFImageLoading.Cross;
+using FFImageLoading.Svg.Platform;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding;
@@ -49,6 +52,14 @@ namespace CriThink.Client.Droid.Views.Users
             var txtEditUsername = FindViewById<TextInputLayout>(Resource.Id.txtEditUsername);
             var txtEditPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditPassword);
             var txtEditRepeatPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditRepeatPassword);
+            var imgAvatar = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgAvatar);
+            var imgEditAvatar = FindViewById<MvxCachedImageView>(Resource.Id.imgEditAvatar);
+
+            ImageService.Instance
+                .LoadCompiledResource("ic_logo.svg")
+                .WithCustomDataResolver(new SvgDataResolver())
+                .Transform(ViewModel.AvatarImageTransformations)
+                .Into(imgAvatar);
 
             var set = CreateBindingSet();
 
@@ -58,6 +69,11 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(repeatPassword).To(vm => vm.RepeatPassword);
             set.Bind(btnSignUp).For(v => v.BindClick()).To(vm => vm.SignUpCommand);
             set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
+            set.Bind(imgAvatar).For(v => v.BindClick()).To(vm => vm.PickUpImageCommand);
+            set.Bind(imgEditAvatar).For(v => v.BindClick()).To(vm => vm.PickUpImageCommand);
+
+            set.Bind(imgAvatar).For(v => v.Transformations).To(vm => vm.AvatarImageTransformations);
+            set.Bind(imgAvatar).For(v => v.ImagePath).To(vm => vm.CustomImagePath);
 
             set.Bind(btnSignUp).For(v => v.Text).ToLocalizationId("SignUp");
             set.Bind(txtEditEmail).For(v => v.Hint).ToLocalizationId("EmailHint");

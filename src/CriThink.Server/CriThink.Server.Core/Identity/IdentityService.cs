@@ -7,6 +7,7 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Constants;
 using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
@@ -15,6 +16,7 @@ using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.LoginProviders;
 using CriThink.Server.Providers.EmailSender.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -26,6 +28,8 @@ namespace CriThink.Server.Core.Identity
         private readonly IUserRepository _userRepository;
         private readonly IJwtManager _jwtManager;
         private readonly IEmailSenderService _emailSender;
+        private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityService> _logger;
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
@@ -36,6 +40,8 @@ namespace CriThink.Server.Core.Identity
             IJwtManager jwtManager,
             IMapper mapper,
             IEmailSenderService emailSender,
+            IFileService fileService,
+            IHttpContextAccessor httpContext,
             ILogger<IdentityService> logger,
             ExternalLoginProviderResolver externalLoginProviderResolver)
         {
@@ -44,11 +50,13 @@ namespace CriThink.Server.Core.Identity
             _jwtManager = jwtManager ?? throw new ArgumentNullException(nameof(jwtManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
             _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
             _logger = logger;
         }
 
-        public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request)
+        public async Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request, IFormFile formFile = null)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
@@ -56,8 +64,12 @@ namespace CriThink.Server.Core.Identity
             var user = new User
             {
                 UserName = request.UserName,
-                Email = request.Email
+                Email = request.Email,
+                Id = Guid.NewGuid(),
             };
+
+            if (formFile is not null)
+                user.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
 
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
@@ -77,7 +89,7 @@ namespace CriThink.Server.Core.Identity
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
-                ConfirmationCode = confirmationCode
+                AvatarPath = user.AvatarPath,
             };
         }
 
@@ -356,7 +368,8 @@ namespace CriThink.Server.Core.Identity
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
                 UserName = user.UserName,
-                JwtToken = jwtToken
+                JwtToken = jwtToken,
+                AvatarPath = user.AvatarPath,
             };
 
             return response;
@@ -402,6 +415,21 @@ namespace CriThink.Server.Core.Identity
             {
                 var ex = new IdentityOperationException(result);
                 _logger?.LogError(ex, "Error verifying user email", user, confirmationCode);
+                throw ex;
+            }
+
+            var claims = new List<Claim>
+            {
+                new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new (ClaimTypes.Email, user.Email),
+                new (ClaimTypes.Name, user.UserName),
+            };
+
+            var claimsResult = await _userRepository.AddClaimsToUserAsync(user, claims).ConfigureAwait(false);
+            if (!claimsResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(result);
+                _logger?.LogError(ex, "Error adding claims to user", user, confirmationCode);
                 throw ex;
             }
 
@@ -525,6 +553,7 @@ namespace CriThink.Server.Core.Identity
                 UserEmail = currentUser.Email,
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
+                AvatarPath = currentUser.AvatarPath,
             };
         }
 
@@ -538,6 +567,18 @@ namespace CriThink.Server.Core.Identity
             {
                 IsAvailable = user is null
             };
+        }
+
+        public async Task UpdateUserAvatarAsync(IFormFile formFile)
+        {
+            if (formFile is null)
+                throw new ArgumentNullException(nameof(formFile));
+
+            var userId = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new InvalidOperationException();
+
+            await _fileService.SaveUserAvatarAsync(formFile, $"{userId}/{AssetsConstants.ProfileFolder}");
         }
 
         #region Privates
@@ -590,7 +631,21 @@ namespace CriThink.Server.Core.Identity
             {
                 Email = userAccessInfo.Email,
                 UserName = userAccessInfo.Username,
+                Id = Guid.NewGuid(),
             };
+
+            if (userAccessInfo.ProfileAvatarBytes != null)
+            {
+                try
+                {
+                    var avatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
+                    user.AvatarPath = avatarPath;
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Error saving user social avatar");
+                }
+            }
 
             var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
 

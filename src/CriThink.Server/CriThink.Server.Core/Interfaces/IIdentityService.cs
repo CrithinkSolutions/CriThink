@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using Microsoft.AspNetCore.Http;
 
 namespace CriThink.Server.Core.Interfaces
 {
@@ -12,8 +13,9 @@ namespace CriThink.Server.Core.Interfaces
         /// Create a new user
         /// </summary>
         /// <param name="request">DTO with user information</param>
+        /// <param name="formFile">Avatar image</param>
         /// <returns>The operation result</returns>
-        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request);
+        Task<UserSignUpResponse> CreateNewUserAsync(UserSignUpRequest request, IFormFile formFile = null);
 
         /// <summary>
         /// Create a new admin
@@ -121,7 +123,7 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="email">User email</param>
         /// <param name="currentPassword">Current password</param>
         /// <param name="newPassword">New password</param>
-        /// <returns>Returns true if the password is changed, otherwise false</returns>
+        /// <returns></returns>
         Task ChangeUserPasswordAsync(string email, string currentPassword, string newPassword);
 
         /// <summary>
@@ -156,5 +158,12 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="request">Username</param>
         /// <returns>Returns true if the username if available, false if not</returns>
         Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request);
+
+        /// <summary>
+        /// Updates the user avatar
+        /// </summary>
+        /// <param name="formFile">File uploaded by the user</param>
+        /// <returns></returns>
+        Task UpdateUserAvatarAsync(IFormFile formFile);
     }
 }

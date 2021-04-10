@@ -17,6 +17,7 @@ namespace CriThink.Client.Core.Repositories
         private const string UserToken = "user_token";
         private const string UserTokenExpiration = "user_token_expiration";
         private const string UserLoginProvider = "user_provider";
+        private const string UserAvatar = "user_avatar";
 
         private readonly ISettingsRepository _settingsRepository;
         private readonly IMvxLog _log;
@@ -38,6 +39,7 @@ namespace CriThink.Client.Core.Repositories
                 var userTokenTask = GetUserInSettingsSettingAsync(UserToken, null);
                 var userTokenExpirationTask = GetUserInSettingsSettingAsync(UserTokenExpiration, null);
                 var userProviderTask = GetUserInSettingsSettingAsync(UserLoginProvider, null);
+                var userAvatarTask = GetUserInSettingsSettingAsync(UserAvatar, null);
 
                 await Task.WhenAll(
                         userIdTask,
@@ -46,7 +48,8 @@ namespace CriThink.Client.Core.Repositories
                         userPasswordTask,
                         userTokenTask,
                         userTokenExpirationTask,
-                        userProviderTask)
+                        userProviderTask,
+                        userAvatarTask)
                     .ConfigureAwait(false);
 
                 var userId = userIdTask.Result;
@@ -56,6 +59,7 @@ namespace CriThink.Client.Core.Repositories
                 var userToken = userTokenTask.Result;
                 var userTokenExpiration = userTokenExpirationTask.Result;
                 var userProvider = userProviderTask.Result;
+                var userAvatar = userAvatarTask.Result;
 
                 if (userId is null ||
                     email is null ||
@@ -73,7 +77,7 @@ namespace CriThink.Client.Core.Repositories
                 else
                     _log?.Fatal("Local login provider is not valid. Forced to 'None'");
 
-                return new User(userId, email, username, userPassword, new JwtTokenResponse
+                return new User(userId, email, username, userPassword, userAvatar, new JwtTokenResponse
                 {
                     Token = userToken,
                     ExpirationDate = DateTimeExtensions.DeserializeDateTime(userTokenExpiration),
@@ -100,7 +104,8 @@ namespace CriThink.Client.Core.Repositories
             }
         }
 
-        public Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration, ExternalLoginProvider loginProvider)
+        public Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken,
+            DateTime tokenExpiration, string loginResponseAvatarPath, ExternalLoginProvider loginProvider)
         {
             try
             {
@@ -111,7 +116,8 @@ namespace CriThink.Client.Core.Repositories
                     UpdateUserInSettingsAsync(UserPassword, password),
                     UpdateUserInSettingsAsync(UserToken, jwtToken),
                     UpdateUserInSettingsAsync(UserTokenExpiration, DateTimeExtensions.SerializeDateTime(tokenExpiration)),
-                    UpdateUserInSettingsAsync(UserLoginProvider, loginProvider.ToString())
+                    UpdateUserInSettingsAsync(UserLoginProvider, loginProvider.ToString()),
+                    UpdateUserInSettingsAsync(UserAvatar, loginResponseAvatarPath)
                 );
             }
             catch (Exception ex)
@@ -132,6 +138,7 @@ namespace CriThink.Client.Core.Repositories
                 EraseUserSettingsAsync(UserToken);
                 EraseUserSettingsAsync(UserTokenExpiration);
                 EraseUserSettingsAsync(UserLoginProvider);
+                EraseUserSettingsAsync(UserAvatar);
             }
             catch (Exception ex)
             {
@@ -170,9 +177,11 @@ namespace CriThink.Client.Core.Repositories
         /// <param name="password"></param>
         /// <param name="jwtToken">User jwt token for authentication</param>
         /// <param name="tokenExpiration">User jwt token expiration</param>
+        /// <param name="loginResponseAvatarPath">User avatar path</param>
         /// <param name="loginProvider">Login provider used by the user</param>
         /// <returns></returns>
-        Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken, DateTime tokenExpiration, ExternalLoginProvider loginProvider);
+        Task SetUserInfoAsync(string userId, string userEmail, string username, string password, string jwtToken,
+            DateTime tokenExpiration, string loginResponseAvatarPath, ExternalLoginProvider loginProvider);
 
         /// <summary>
         /// Delete user info

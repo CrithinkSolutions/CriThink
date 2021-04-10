@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/guidelineAllHorizontal"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.4" />
+                app:layout_constraintGuide_percent="0.30" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@id/appBarLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="@dimen/margin_littleBig"
+                android:layout_marginTop="@dimen/margin_small"
                 android:textStyle="bold"
                 android:textSize="@dimen/textSize_title"
                 android:gravity="center" />
@@ -78,14 +78,36 @@
                 android:id="@+id/layoutCredentials"
                 android:focusableInTouchMode="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"                
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guidelineAllHorizontal">
+
+                <FFImageLoading.Cross.MvxSvgCachedImageView
+                    android:layout_width="@dimen/imgSize_bigLogo"
+                    android:layout_height="@dimen/imgSize_bigLogo"
+                    android:id="@+id/imgAvatar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_publisherSmall"
+                    android:layout_height="@dimen/imgSize_publisherSmall"
+                    android:id="@+id/imgEditAvatar"
+                    android:src="@drawable/ic_edit"
+                    android:background="@drawable/ic_btnborder"
+                    android:tint="@color/welcomeBackground"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_huge"
+                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
+                    app:layout_constraintEnd_toEndOf="@id/imgAvatar"
+                    app:layout_constraintBottom_toBottomOf="@id/imgAvatar"/>
 
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditEmail"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@id/imgAvatar"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">

@@ -46,7 +46,7 @@
                 android:layout_marginStart="@dimen/padding_page"
                 android:layout_marginEnd="@dimen/padding_page">
 
-                <FFImageLoading.Cross.MvxCachedImageView
+                <FFImageLoading.Cross.MvxSvgCachedImageView
                     android:layout_width="@dimen/imgSize_medium"
                     android:layout_height="@dimen/imgSize_medium"
                     android:id="@+id/imgProfile"

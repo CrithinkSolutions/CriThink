@@ -35,7 +35,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtDate = view.FindViewById<AppCompatTextView>(Resource.Id.txtDate);
             var btnNews = view.FindViewById<AppCompatButton>(Resource.Id.btnNews);
             var txtSeeAll = view.FindViewById<AppCompatTextView>(Resource.Id.txtSeeAll);
-            var imgLogo = view.FindViewById<MvxCachedImageView>(Resource.Id.imgLogo);
+            var imgLogo = view.FindViewById<MvxSvgCachedImageView>(Resource.Id.imgLogo);
 
             var txtSectionTitle = view.FindViewById<AppCompatTextView>(Resource.Id.txtSectionTitle);
             var listDebunkingNews = view.FindViewById<MvxRecyclerView>(Resource.Id.list_debunkingNews);
@@ -62,7 +62,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(txtSeeAll).ToLocalizationId("SeeAll");
             set.Bind(txtSeeAll).For("Click").To(vm => vm.NavigateToAllDebunkingNewsCommand);
             set.Bind(imgLogo).For(v => v.Transformations).To(vm => vm.LogoImageTransformations);
-            set.Bind(imgLogo).For(v => v.ImagePath).To(vm => vm.ProfileImagePath);
+            set.Bind(imgLogo).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
 
             set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
 

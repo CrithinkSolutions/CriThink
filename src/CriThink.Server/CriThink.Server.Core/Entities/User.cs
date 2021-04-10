@@ -11,5 +11,7 @@ namespace CriThink.Server.Core.Entities
     {
         [Required]
         public bool IsDeleted { get; set; } = false;
+
+        public string AvatarPath { get; set; }
     }
 }

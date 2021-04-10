@@ -389,3 +389,6 @@ yarn-error.log*
 
 # Minified bundled
 **/wwwroot/bundles
+
+# Uploads
+**/wwwroot/uploads

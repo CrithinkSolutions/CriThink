@@ -20,7 +20,7 @@ namespace CriThink.Client.Droid.Views.Users
             SetContentView(Resource.Layout.profile_view);
 
             var txtHello = FindViewById<AppCompatTextView>(Resource.Id.txtHello);
-            var imgProfile = FindViewById<MvxCachedImageView>(Resource.Id.imgProfile);
+            var imgProfile = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 
             SetSupportActionBar(toolbar);
@@ -31,7 +31,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             set.Bind(txtHello).To(vm => vm.HeaderText);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
-            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.ProfileImagePath);
+            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
 
             set.Apply();
         }

@@ -49,7 +49,7 @@
                     app:layout_constraintEnd_toStartOf="@id/imgLogo"
                     app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
 
-                <ffimageloading.cross.MvxCachedImageView
+                <ffimageloading.cross.MvxSvgCachedImageView
                     android:layout_width="@dimen/imgSize_medium"
                     android:layout_height="@dimen/imgSize_medium"
                     android:id="@+id/imgLogo"
