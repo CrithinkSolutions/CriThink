@@ -30,7 +30,7 @@ namespace CriThink.Server.Web
                     {
                         if (hostingContext.HostingEnvironment.IsDevelopment()) return;
 
-                        SetupAwsSecretManager(configBuilder);
+                        //SetupAwsSecretManager(configBuilder);
                     });
 
                     webBuilder.UseStartup<Startup>();

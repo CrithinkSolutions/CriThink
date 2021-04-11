@@ -7,6 +7,7 @@ env:
   AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
 
 on:
+  # pull_request:
   push:
     # paths: src/CriThink.Server/**
     branches: [ feature/pipeline-migrations ]
