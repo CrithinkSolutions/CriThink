@@ -13,7 +13,7 @@
     <PackageReference Include="AWS.Logger.AspNetCore" Version="2.2.0" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Kralizek.Extensions.Configuration.AWSSecretsManager" Version="1.4.1" />
+    <PackageReference Include="Kralizek.Extensions.Configuration.AWSSecretsManager" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.5" />
