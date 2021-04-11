@@ -16,44 +16,44 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public IdentityUserClaimEntityConfiguration(IOptions<User> configuration, IOptions<UserRole> userRole)
         {
-            _serviceUser = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _adminRole = userRole ?? throw new ArgumentNullException(nameof(userRole));
+            //_serviceUser = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            //_adminRole = userRole ?? throw new ArgumentNullException(nameof(userRole));
         }
 
         public void Configure(EntityTypeBuilder<IdentityUserClaim<Guid>> builder)
         {
-            var serviceUser = _serviceUser.Value;
-            var adminRole = _adminRole.Value;
+            //var serviceUser = _serviceUser.Value;
+            //var adminRole = _adminRole.Value;
 
             builder.ToTable("aspnet_user_claims");
             builder.HasData(new List<IdentityUserClaim<Guid>>
             {
                 new IdentityUserClaim<Guid>
                 {
-                    UserId = serviceUser.Id,
+                    UserId = Guid.Parse("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                     ClaimType = ClaimTypes.NameIdentifier,
-                    ClaimValue = serviceUser.Id.ToString(),
+                    ClaimValue = "f62fc754-e296-4aca-0a3f-08d88b1daff7",
                     Id = 1
                 },
                 new IdentityUserClaim<Guid>
                 {
-                    UserId = serviceUser.Id,
+                    UserId = Guid.Parse("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                     ClaimType = ClaimTypes.Email,
-                    ClaimValue = serviceUser.Email,
+                    ClaimValue = "service@crithink.com",
                     Id = 2
                 },
                 new IdentityUserClaim<Guid>
                 {
-                    UserId = serviceUser.Id,
+                    UserId = Guid.Parse("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                     ClaimType = ClaimTypes.Name,
-                    ClaimValue = serviceUser.UserName,
+                    ClaimValue = "service",
                     Id = 3
                 },
                 new IdentityUserClaim<Guid>
                 {
-                    UserId = serviceUser.Id,
+                    UserId = Guid.Parse("f62fc754-e296-4aca-0a3f-08d88b1daff7"),
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = adminRole.Name,
+                    ClaimValue = "Admin",
                     Id = 4
                 }
             });

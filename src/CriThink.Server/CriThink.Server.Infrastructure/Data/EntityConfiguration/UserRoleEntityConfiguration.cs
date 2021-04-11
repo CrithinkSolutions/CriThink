@@ -1,5 +1,4 @@
-﻿using System;
-using CriThink.Server.Core.Entities;
+﻿using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
@@ -12,15 +11,15 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public UserRoleEntityConfiguration(IOptions<UserRole> userRole)
         {
-            _adminRole = userRole ?? throw new ArgumentNullException(nameof(userRole));
+            //_adminRole = userRole ?? throw new ArgumentNullException(nameof(userRole));
         }
 
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.ToTable("user_roles");
 
-            var adminRole = _adminRole.Value;
-            builder.HasData(adminRole);
+            //var adminRole = _adminRole.Value;
+            //builder.HasData(adminRole);
         }
     }
 }

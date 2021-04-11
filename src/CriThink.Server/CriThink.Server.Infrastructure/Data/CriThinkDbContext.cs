@@ -12,11 +12,11 @@ namespace CriThink.Server.Infrastructure.Data
         private readonly IOptions<User> _userOptions;
         private readonly IOptions<UserRole> _roleOptions;
 
-        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> context/*, IOptions<User> userOptions, IOptions<UserRole> roleOptions*/)
+        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> context, IOptions<User> userOptions, IOptions<UserRole> roleOptions)
             : base(context)
         {
-            //_userOptions = userOptions ?? throw new ArgumentNullException(nameof(userOptions));
-            //_roleOptions = roleOptions ?? throw new ArgumentNullException(nameof(roleOptions));
+            _userOptions = userOptions /*?? throw new ArgumentNullException(nameof(userOptions))*/;
+            _roleOptions = roleOptions /*?? throw new ArgumentNullException(nameof(roleOptions))*/;
         }
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
@@ -54,4 +54,17 @@ namespace CriThink.Server.Infrastructure.Data
             builder.ApplyConfiguration(new UserRoleEntityConfiguration(_roleOptions));
         }
     }
+
+    //public class CriThinkDbContextFactory : IDesignTimeDbContextFactory<CriThinkDbContext>
+    //{
+    //    public CriThinkDbContext CreateDbContext(string[] args)
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<CriThinkDbContext>();
+    //        //var cs = args[0];
+    //        //Console.WriteLine($"------------------- {cs} -------------------");
+    //        optionsBuilder.UseNpgsql("Host=crithink-development-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com;Port=5432;Username=crithink_admin;Password=9dAgj5YAQ3eHtr;Database=CrithinkDevelopmentDb");
+
+    //        return new CriThinkDbContext(optionsBuilder.Options, null, null);
+    //    }
+    //}
 }

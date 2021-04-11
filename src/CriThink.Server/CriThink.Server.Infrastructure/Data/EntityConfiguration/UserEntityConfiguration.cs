@@ -1,5 +1,4 @@
-﻿using System;
-using CriThink.Server.Core.Entities;
+﻿using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
@@ -12,7 +11,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public UserEntityConfiguration(IOptions<User> configuration)
         {
-            _serviceUser = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            //_serviceUser = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public void Configure(EntityTypeBuilder<User> builder)
@@ -21,8 +20,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Ignore(property => property.TwoFactorEnabled);
             builder.Ignore(property => property.PhoneNumberConfirmed);
 
-            var serviceUser = _serviceUser.Value;
-            builder.HasData(serviceUser);
+            //var serviceUser = _serviceUser.Value;
+            //builder.HasData(serviceUser);
         }
     }
 }
