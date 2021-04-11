@@ -12,11 +12,11 @@ namespace CriThink.Server.Infrastructure.Data
         private readonly IOptions<User> _userOptions;
         private readonly IOptions<UserRole> _roleOptions;
 
-        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> context, IOptions<User> userOptions, IOptions<UserRole> roleOptions)
+        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> context/*, IOptions<User> userOptions, IOptions<UserRole> roleOptions*/)
             : base(context)
         {
-            _userOptions = userOptions ?? throw new ArgumentNullException(nameof(userOptions));
-            _roleOptions = roleOptions ?? throw new ArgumentNullException(nameof(roleOptions));
+            //_userOptions = userOptions ?? throw new ArgumentNullException(nameof(userOptions));
+            //_roleOptions = roleOptions ?? throw new ArgumentNullException(nameof(roleOptions));
         }
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
