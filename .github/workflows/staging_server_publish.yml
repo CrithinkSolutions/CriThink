@@ -19,6 +19,16 @@ jobs:
       with:
         dotnet-version: 5.0.101
     
+    steps:
+    - name: Read secrets from AWS Secrets Manager
+      uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        secrets: staging/CriThink/Server
+        parse-json: true
+    
     - name: dotnet Clean
       run: dotnet clean ${{env.projectPath}}
       
@@ -66,5 +76,16 @@ jobs:
         deployment_package: staging-server-deploy-package.zip
 
     - name: Deployed successfully!
-      run: echo Staging App deployed to ELB      
+      run: echo Staging App deployed to ELB
+    
+    - name: Installing EF tools
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
+
+    - name: Running EF migrations
+      run: dotnet ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --connection $STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION --configuration Release -- --environment Staging
+
+    - name: Database Updated
+      run: echo Database successfully updated
     
