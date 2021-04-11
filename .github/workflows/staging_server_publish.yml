@@ -98,7 +98,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --no-build -v --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
+      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} -v -r linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
 
     - name: Database Updated
       run: echo Database successfully updated
