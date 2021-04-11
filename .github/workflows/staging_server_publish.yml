@@ -38,6 +38,9 @@ jobs:
         to-port: '5432'
         protocol: 'tcp'
         description: 'GitHub'
+
+    - name: Check if env variable is set after fetching secrets
+      run: if [ -z ${STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION} ]; then echo "MY_SECRET_1 is unset"; else echo "MY_SECRET_1 is set to '$STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION'"; fi
     
     - name: dotnet Clean
       run: dotnet clean ${{env.projectPath}}
@@ -94,7 +97,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations
-      run: dotnet ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
+      run: dotnet ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --connection ${env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION} --configuration Release -- --environment Staging
 
     - name: Database Updated
       run: echo Database successfully updated
