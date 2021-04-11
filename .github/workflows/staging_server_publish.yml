@@ -3,6 +3,7 @@ name: staging_server_publish
 env:
   projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   migrationPath: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
+  ASPNETCORE_ENVIRONMENT: Staging
 
 on:
   push:
@@ -97,7 +98,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations
-      run: dotnet ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --no-build -v --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
+      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --no-build -v --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
 
     - name: Database Updated
       run: echo Database successfully updated
