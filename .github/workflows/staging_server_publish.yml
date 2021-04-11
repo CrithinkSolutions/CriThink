@@ -49,7 +49,7 @@ jobs:
       run: dotnet restore ${{env.PROJECT_WEB}}
 
     - name: dotnet Build
-      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore -r linux-x64
+      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
 
     - name: dotnet Publish
       run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
@@ -96,7 +96,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations      
-      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --no-build --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
+      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
 
     - name: Database Updated
       run: echo Database successfully updated
