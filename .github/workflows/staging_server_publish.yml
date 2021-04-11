@@ -2,6 +2,7 @@ name: staging_server_publish
 
 env:
   projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
+  migrationPath: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
 
 on:
   push:
