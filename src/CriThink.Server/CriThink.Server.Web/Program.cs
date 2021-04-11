@@ -47,7 +47,7 @@ namespace CriThink.Server.Web
 #if DEBUG
             var chain = new Amazon.Runtime.CredentialManagement.CredentialProfileStoreChain();
 
-            var awsUser = Environment.GetEnvironmentVariable("AWS_PROFILE");
+            var awsUser = Environment.GetEnvironm entVariable("AWS_PROFILE");
 
             if (chain.TryGetAWSCredentials(awsUser, out var credentials))
             {

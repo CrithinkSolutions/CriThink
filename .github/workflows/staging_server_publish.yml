@@ -87,16 +87,16 @@ jobs:
     #     version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
     #     deployment_package: staging-server-deploy-package.zip
 
-    - name: Deployed successfully!
-      run: echo Staging App deployed to ELB
+    # - name: Deployed successfully!
+    #   run: echo Staging App deployed to ELB
     
     - name: Installing EF tools
       run: |
         dotnet tool install --global dotnet-ef
         dotnet tool restore
 
-    - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release
+    - name: Running EF migrations      
+      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
 
     - name: Database Updated
       run: echo Database successfully updated
