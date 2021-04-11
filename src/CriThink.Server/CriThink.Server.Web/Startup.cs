@@ -181,7 +181,7 @@ namespace CriThink.Server.Web
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection") ?? "";
                 options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
