@@ -91,7 +91,7 @@ jobs:
     
     - name: Installing EF tools
       run: |
-        dotnet tool install --global dotnet-ef
+        dotnet tool install --global dotnet-ef 
         dotnet tool restore
 
     - name: Running EF migrations      
