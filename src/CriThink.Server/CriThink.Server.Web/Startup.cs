@@ -5,7 +5,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
@@ -224,6 +223,8 @@ namespace CriThink.Server.Web
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
+            if (string.IsNullOrWhiteSpace(key))
+                return;
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
             services
