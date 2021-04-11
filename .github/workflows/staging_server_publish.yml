@@ -3,7 +3,8 @@ name: staging_server_publish
 env:
   projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   migrationPath: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
-  ASPNETCORE_ENVIRONMENT: Staging
+  ASPNETCORE_ENVIRONMENT: Staging,
+  AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
 
 on:
   push:
@@ -39,9 +40,6 @@ jobs:
         to-port: '5432'
         protocol: 'tcp'
         description: 'GitHub'
-
-    - name: Check if env variable is set after fetching secrets
-      run: if [ -z ${STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION} ]; then echo "MY_SECRET_1 is unset"; else echo "MY_SECRET_1 is set to '$STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION'"; fi
     
     - name: dotnet Clean
       run: dotnet clean ${{env.projectPath}}
