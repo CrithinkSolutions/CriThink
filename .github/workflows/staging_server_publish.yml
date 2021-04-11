@@ -3,7 +3,7 @@ name: staging_server_publish
 env:
   projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   migrationPath: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
-  ASPNETCORE_ENVIRONMENT: Staging,
+  ASPNETCORE_ENVIRONMENT: Staging
   AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
 
 on:
@@ -96,7 +96,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release -- --environment Staging
+      run: dotnet-ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} --configuration Release
 
     - name: Database Updated
       run: echo Database successfully updated
