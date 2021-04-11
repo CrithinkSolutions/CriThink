@@ -26,6 +26,17 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
         secrets: staging/CriThink/Server
         parse-json: true
+    - name: Add AWS security group exception
+      uses: sohelamin/aws-security-group-add-ip-action@master
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-security-group-id: ${{ secrets.AWS_STAGING_SECURITY_GROUP_ID }}
+        port: '5432'
+        to-port: '5432'
+        protocol: 'tcp'
+        description: 'GitHub'
     
     - name: dotnet Clean
       run: dotnet clean ${{env.projectPath}}
