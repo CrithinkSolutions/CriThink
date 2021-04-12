@@ -74,7 +74,7 @@ namespace CriThink.Server.Infrastructure.Data
                 Console.WriteLine($"------------------- {env} -------------------");
             }
 
-            optionsBuilder.UseNpgsql(env);
+            optionsBuilder.UseNpgsql(env).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture); ;
 
             return new CriThinkDbContext(optionsBuilder.Options, null, null);
         }
