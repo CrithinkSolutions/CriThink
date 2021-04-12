@@ -66,14 +66,14 @@ namespace CriThink.Server.Infrastructure.Data
             {
                 var cs = args[0];
                 Console.WriteLine($"------------------- cs: {cs} -------------------");
-                optionsBuilder.UseNpgsql(cs).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
+                optionsBuilder.UseNpgsql(cs.Replace("\'", string.Empty)).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             var env = Environment.GetEnvironmentVariable("STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION");
             if (!string.IsNullOrWhiteSpace(env))
             {
                 Console.WriteLine($"------------------- env: {env} -------------------");
-                optionsBuilder.UseNpgsql(env).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
+                //optionsBuilder.UseNpgsql(env).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //optionsBuilder.UseNpgsql(env).UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture); ;
