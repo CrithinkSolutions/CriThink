@@ -181,7 +181,7 @@ namespace CriThink.Server.Web
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");/* ?? "Host=localhost;Port=5432;Username=postgres;Password=Password1!;Database=crithink";*/
+                var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
                 options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
@@ -223,8 +223,6 @@ namespace CriThink.Server.Web
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
-            if (string.IsNullOrWhiteSpace(key))
-                return;
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
             services
