@@ -74,7 +74,7 @@ namespace CriThink.Server.Infrastructure.Data
                 Console.WriteLine($"------------------- {env} -------------------");
             }
 
-            optionsBuilder.UseNpgsql("Host=crithink-development-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com;Port=5432;Username=crithink_admin;Password=9dAgj5YAQ3eHtr;Database=CrithinkDevelopmentDb");
+            optionsBuilder.UseNpgsql(env);
 
             return new CriThinkDbContext(optionsBuilder.Options, null, null);
         }
