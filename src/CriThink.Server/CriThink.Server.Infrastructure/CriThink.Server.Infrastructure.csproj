@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>CriThink.Server.Infrastructure</AssemblyName>
     <RootNamespace>CriThink.Server.Infrastructure</RootNamespace>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <!--<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>-->
   </PropertyGroup>
 
   <ItemGroup>
