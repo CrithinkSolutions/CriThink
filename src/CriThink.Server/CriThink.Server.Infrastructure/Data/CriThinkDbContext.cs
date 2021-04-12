@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure.Data.EntityConfiguration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Infrastructure.Data
@@ -55,16 +57,26 @@ namespace CriThink.Server.Infrastructure.Data
         }
     }
 
-    //public class CriThinkDbContextFactory : IDesignTimeDbContextFactory<CriThinkDbContext>
-    //{
-    //    public CriThinkDbContext CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = new DbContextOptionsBuilder<CriThinkDbContext>();
-    //        var cs = args[0];
-    //        Console.WriteLine($"------------------- {cs} -------------------");
-    //        optionsBuilder.UseNpgsql("Host=crithink-development-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com;Port=5432;Username=crithink_admin;Password=9dAgj5YAQ3eHtr;Database=CrithinkDevelopmentDb");
+    public class CriThinkDbContextFactory : IDesignTimeDbContextFactory<CriThinkDbContext>
+    {
+        public CriThinkDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<CriThinkDbContext>();
+            if (args?.Any() == true)
+            {
+                var cs = args[0];
+                Console.WriteLine($"------------------- {cs} -------------------");
+            }
 
-    //        return new CriThinkDbContext(optionsBuilder.Options, null, null);
-    //    }
-    //}
+            var env = Environment.GetEnvironmentVariable("STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION");
+            if (!string.IsNullOrWhiteSpace(env))
+            {
+                Console.WriteLine($"------------------- {env} -------------------");
+            }
+
+            optionsBuilder.UseNpgsql("Host=crithink-development-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com;Port=5432;Username=crithink_admin;Password=9dAgj5YAQ3eHtr;Database=CrithinkDevelopmentDb");
+
+            return new CriThinkDbContext(optionsBuilder.Options, null, null);
+        }
+    }
 }
