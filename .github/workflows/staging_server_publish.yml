@@ -71,18 +71,18 @@ jobs:
         dotnet tool install --global dotnet-ef 
         dotnet tool restore
 
-    - name: deploy entity framework core migrations
-      uses: benday-inc/deploy-ef-core-migration@v1.0
-      with:
-        path_to_directory: '${{ github.workspace }}/develop_crithink_server'
-        migrations_dll: 'CriThink.Server.Infrastructure.dll'
-        migrations_namespace: 'CriThink.Server.Infrastructure.Migrations'
-        startup_dll: 'CriThink.Server.Web.dll'
-        dbcontext_class_name: 'CriThinkDbContext'
+    # - name: deploy entity framework core migrations
+    #   uses: benday-inc/deploy-ef-core-migration@v1.0
+    #   with:
+    #     path_to_directory: '${{ github.workspace }}/develop_crithink_server'
+    #     migrations_dll: 'CriThink.Server.Infrastructure.dll'
+    #     migrations_namespace: 'CriThink.Server.Infrastructure.Migrations'
+    #     startup_dll: 'CriThink.Server.Web.dll'
+    #     dbcontext_class_name: 'CriThinkDbContext'
       
-    # - name: Running EF migrations
-    #   run: |
-    #     dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
+    - name: Running EF migrations
+      run: |
+        dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64
 
     # - name: Generates EF migration script
     #   run: dotnet-ef migrations script --output "script.sql" -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} -v -i
