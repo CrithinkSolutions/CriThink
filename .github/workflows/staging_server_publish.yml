@@ -16,6 +16,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgis/postgis:12-2.5
+        env:
+          # must specify password for PG Docker container image, see: https://registry.hub.docker.com/_/postgres?tab=description&page=1&name=10
+          POSTGRES_PASSWORD: password
+          #POSTGRES_DB: your_test_db_name
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -49,46 +61,7 @@ jobs:
       run: dotnet restore ${{env.PROJECT_WEB}}
 
     - name: dotnet Build
-      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
-
-    - name: dotnet Publish
-      run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
-        
-    - name: Build deployment package
-      run: cd staging_crithink_server && zip -r staging-server-deploy-package.zip * && cd .
-      
-    - name: Copy deployment package
-      uses: canastro/copy-file-action@master
-      with:
-        source: "staging_crithink_server/staging-server-deploy-package.zip"
-        target: "staging-server-deploy-package.zip"
-    
-    - name: Get timestamp
-      uses: gerred/actions/current-time@master
-      id: current-time
-    
-    - name: Run string replace
-      uses: frabert/replace-string-action@master
-      id: format-time
-      with:
-        pattern: '[:\.]+'
-        string: "${{ steps.current-time.outputs.time }}"
-        replace-with: '-'
-        flags: 'g'
-
-    # - name: Deploy to AWS Beanstalk
-    #   uses: einaregilsson/beanstalk-deploy@v10
-    #   with:
-    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     region: ${{ secrets.AWS_REGION }}
-    #     application_name: CriThink
-    #     environment_name: Staging
-    #     version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
-    #     deployment_package: staging-server-deploy-package.zip
-
-    # - name: Deployed successfully!
-    #   run: echo Staging App deployed to ELB
+      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore   
     
     - name: Installing EF tools
       run: |
@@ -98,15 +71,9 @@ jobs:
     - name: Running EF migrations
       run: |
         dotnet-ef migrations script --output "script.sql" -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} -v -i
-        dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -- -c ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
-      #   psql -h ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -f "script.sql
+        psql host=crithink-staging-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com port=5432 dbname=CrithinkStagingDb user=crithink_admin password=6TTD49ZtAKVmQ2sRIT1S -f script.sql
+      
+      #psql -h crithink-staging-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com -U crithink_admin -p 5432 -W 6TTD49ZtAKVmQ2sRIT1S -d CrithinkStagingDb -f script.sql
 
-    # -name: Setup Postgres CLI
-    #   uses: m4nu56/postgresql-action@1.0
-    #   with:
-    #     postgresql version: 12.5
-    #     commands: psql -h ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -f "script.sql
-
-    
-    - name: Database Updated
-      run: echo Database successfully updated
+      # psql postgresql://${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -f script.sql
+      # dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -- -c ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
