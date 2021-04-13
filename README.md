@@ -45,17 +45,6 @@ Insert the following keys and the desired values in the secret files created abo
 * Social networks:
     * `"FacebookApiKey": "<apiKey>"`
     * `"GoogleApiKey": "<apiKey>"`
-* Users seed:
-    * `"ServiceUser:SecurityStamp": "<stamp>"`
-    * `"ServiceUser:PasswordHash": "<hash>"`
-    * `"ServiceUser:EmailConfirmed": "<boolean>"`
-    * `"ServiceUser:Email": "<email>"`
-    * `"ServiceUser:NormalizedUserName": "<username>"`
-    * `"ServiceUser:Id": "<id>"`
-    * `"ServiceUser:ConcurrencyStamp": "<guid>"`
-    * `"AdminRole:Name": "<name>"`
-    * `"AdminRole:NormalizedName": "<name>"`
-    * `"AdminRole:ConcurrencyStamp": "<guid>"`
 * Headers:
     * `"CrossService:Header": "<header>"`
     * `"CrossService:DNews:Value": "<value>"`
