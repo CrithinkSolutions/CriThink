@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.101
+        dotnet-version: 5.0.202
 
     - name: Read secrets from AWS Secrets Manager
       uses: abhilash1in/aws-secrets-manager-action@v1.0.1
@@ -30,7 +30,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
         secrets: staging/CriThink/Server
         parse-json: true
-        
+
     - name: Add AWS security group exception
       uses: sohelamin/aws-security-group-add-ip-action@master
       with:
