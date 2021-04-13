@@ -1,8 +1,10 @@
 name: staging_server_publish
 
 env:
-  projectPath: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
-  migrationPath: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
+  PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
+  PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
+  ASPNETCORE_ENVIRONMENT: Staging
+  AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
 
 on:
   push:
@@ -18,7 +20,8 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.101
+        dotnet-version: 5.0.202
+
     - name: Read secrets from AWS Secrets Manager
       uses: abhilash1in/aws-secrets-manager-action@v1.0.1
       with:
@@ -27,6 +30,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
         secrets: staging/CriThink/Server
         parse-json: true
+
     - name: Add AWS security group exception
       uses: sohelamin/aws-security-group-add-ip-action@master
       with:
@@ -40,17 +44,16 @@ jobs:
         description: 'GitHub'
     
     - name: dotnet Clean
-      run: dotnet clean ${{env.projectPath}}
+      run: dotnet clean ${{env.PROJECT_WEB}}
       
     - name: dotnet Restore dependencies
-      run: dotnet restore ${{env.projectPath}}
+      run: dotnet restore ${{env.PROJECT_WEB}}
 
     - name: dotnet Build
-      run: dotnet build ${{env.projectPath}} -c Release --no-restore
+      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
 
     - name: dotnet Publish
-      run: |
-        dotnet publish ${{env.projectPath}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
+      run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
         
     - name: Build deployment package
       run: cd staging_crithink_server && zip -r staging-server-deploy-package.zip * && cd .
@@ -94,7 +97,7 @@ jobs:
         dotnet tool restore
 
     - name: Running EF migrations
-      run: dotnet ef database update -s ${{env.projectPath}} -p ${{env.migrationPath}} --connection $STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION --configuration Release -- --environment Staging
+      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'
 
     - name: Database Updated
       run: echo Database successfully updated
