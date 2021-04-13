@@ -1,25 +1,23 @@
-﻿using CriThink.Server.Core.Entities;
+﻿using System;
+using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
     internal class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRole>
     {
-        private readonly IOptions<UserRole> _adminRole;
-
-        public UserRoleEntityConfiguration(IOptions<UserRole> userRole)
-        {
-            //_adminRole = userRole ?? throw new ArgumentNullException(nameof(userRole));
-        }
-
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.ToTable("user_roles");
 
-            //var adminRole = _adminRole.Value;
-            //builder.HasData(adminRole);
+            builder.HasData(new UserRole
+            {
+                Id = Guid.Parse("ec1405d9-5e55-401a-b469-37a44ecd211f"),
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "43ec0e6f-4239-4e39-892f-4110060d16fa",
+            });
         }
     }
 }

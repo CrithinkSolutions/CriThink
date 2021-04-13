@@ -16,18 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgis/postgis:12-2.5
-        env:
-          # must specify password for PG Docker container image, see: https://registry.hub.docker.com/_/postgres?tab=description&page=1&name=10
-          POSTGRES_PASSWORD: password
-          #POSTGRES_DB: your_test_db_name
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -70,8 +58,6 @@ jobs:
       run: |
         dotnet tool install --global dotnet-ef 
         dotnet tool restore
-
-    
       
     - name: Running EF migrations
       run: |
@@ -82,8 +68,3 @@ jobs:
 
     # - name: deploy EF script
     #   run: psql host=crithink-staging-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com port=5432 dbname=CrithinkStagingDb user=crithink_admin password=6TTD49ZtAKVmQ2sRIT1S -f script.sql
-      
-      #psql -h crithink-staging-postgresql.creu7xphbkbp.eu-central-1.rds.amazonaws.com -U crithink_admin -p 5432 -W 6TTD49ZtAKVmQ2sRIT1S -d CrithinkStagingDb -f script.sql
-
-      # psql postgresql://${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -f script.sql
-      # dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release -v --runtime linux-x64 --connection ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}} -- -c ${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}
