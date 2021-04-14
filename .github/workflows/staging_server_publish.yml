@@ -101,4 +101,3 @@ jobs:
 
     - name: Database Updated
       run: echo Database successfully updated
-    
