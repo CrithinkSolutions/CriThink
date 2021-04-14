@@ -78,5 +78,34 @@ namespace CriThink.Server.Web.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Returns a flag indicating whatever the mobile app should work or not
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     HEAD: /api/service/app-enabled
+        /// 
+        /// </remarks>
+        /// <response code="204">Returns when the app should work</response>
+        /// <response code="403">Returns when the app should not work</response>
+        /// <response code="500">If the server can't process the request</response>
+        [AllowAnonymous]
+        [Route(EndpointConstants.ServiceAppEnabled)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [HttpHead]
+        public IActionResult IsAppEnabled()
+        {
+            var isParsed = bool.TryParse(Environment.GetEnvironmentVariable("IS_APP_ENABLED"), out var isEnabled);
+            if (isParsed)
+                return isEnabled ?
+                    NoContent() :
+                    StatusCode(403);
+
+            return StatusCode(500);
+        }
     }
 }

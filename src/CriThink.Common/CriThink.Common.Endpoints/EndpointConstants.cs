@@ -24,6 +24,7 @@
         public const string ServiceBase = "service/";
         public const string ServiceEnvironment = "environment";
         public const string ServiceLoggingHealth = "logging-health";
+        public const string ServiceAppEnabled = "app-enabled";
 
         #endregion
 
