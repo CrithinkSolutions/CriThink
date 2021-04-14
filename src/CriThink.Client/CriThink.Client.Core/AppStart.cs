@@ -46,6 +46,13 @@ namespace CriThink.Client.Core
         {
             try
             {
+                var canAppStart = await _applicationService.CanAppStartAsync().ConfigureAwait(false);
+                if (!canAppStart)
+                {
+                    Thread.CurrentThread.Abort();
+                    return;
+                }
+
                 var isFirstStart = _applicationService.IsFirstStart();
                 if (isFirstStart)
                 {
