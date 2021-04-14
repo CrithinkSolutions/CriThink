@@ -105,6 +105,7 @@ namespace CriThink.Client.Core
             var debunkingNewsApiUri = configurationRoot["DebunkingNewsApiUri"];
             var identityApiUri = configurationRoot["IdentityApiUri"];
             var newsSourceApiUri = configurationRoot["NewsSourceApiUri"];
+            var serviceApiUri = configurationRoot["ServiceApiUri"];
 
             serviceCollection.AddTransient<CriThinkApiHandler>();
             serviceCollection.AddTransient<AuthHeaderHandler>();
@@ -131,6 +132,13 @@ namespace CriThink.Client.Core
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
                 .AddHttpMessageHandler<AuthHeaderHandler>();
+
+            serviceCollection.AddRefitClient<IServiceApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + serviceApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)
