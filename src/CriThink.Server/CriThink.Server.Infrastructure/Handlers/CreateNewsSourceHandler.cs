@@ -27,6 +27,8 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
+                await ValidateRequestAsync(request);
+
                 await _newsSourceRepository.AddNewsSourceAsync(request.NewsLink, request.Authencity)
                     .ConfigureAwait(false);
 
@@ -37,6 +39,31 @@ namespace CriThink.Server.Infrastructure.Handlers
                 _logger.LogError(ex, "Error adding a news source", request.NewsLink, request.Authencity);
                 throw;
             }
+        }
+
+        private async Task ValidateRequestAsync(CreateNewsSourceCommand request)
+        {
+            if (request.Authencity != NewsSourceAuthenticity.Suspicious)
+                return;
+
+            var existingSource = await _newsSourceRepository.SearchNewsSourceAsync(request.NewsLink)
+                    .ConfigureAwait(false);
+
+            if (existingSource.IsNullOrEmpty)
+                return;
+
+            var isExistingValid = TryGetExistingNewsSource(existingSource.ToString(), out var existingAuthenticity);
+            if (isExistingValid &&
+                existingAuthenticity == NewsSourceAuthenticity.Conspiracist ||
+                existingAuthenticity == NewsSourceAuthenticity.FakeNews)
+            {
+                throw new InvalidOperationException($"There is already an existing news source '{request.NewsLink}' marked as '{existingAuthenticity}'");
+            }
+        }
+
+        private static bool TryGetExistingNewsSource(string newsSource, out NewsSourceAuthenticity existingAuthenticity)
+        {
+            return Enum.TryParse(newsSource, true, out existingAuthenticity);
         }
     }
 }

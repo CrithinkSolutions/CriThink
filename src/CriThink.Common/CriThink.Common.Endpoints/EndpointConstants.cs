@@ -62,6 +62,7 @@
         public const string NewsSourcesGetAllNotifications = "notification-requests";
         public const string NewsSourcesGetAllUnknownNewsSources = "get-all-unknown";
         public const string NewsSourceTriggerIdentifiedSource = "identify";
+        public const string NewsSourceAddBatch = "add/batch";
 
         #endregion
 
