@@ -45,7 +45,7 @@ namespace CriThink.Server.Infrastructure.Managers
 
             // Get user claims
             var claims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             // Get user role's claims
             var userRoles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
