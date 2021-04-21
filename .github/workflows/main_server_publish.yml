@@ -43,6 +43,11 @@ jobs:
         protocol: 'tcp'
         description: 'GitHub'
     
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
     - name: dotnet Clean
       run: dotnet clean ${{env.PROJECT_WEB}}
       
@@ -101,3 +106,25 @@ jobs:
 
     - name: Database Updated
       run: echo Database successfully updated
+    
+    - name: Run ARM deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./azure/crithink-deploy.json
+        parameters:
+          environment=${{ env.ASPNETCORE_ENVIRONMENT }}
+          storageAccountName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_STORAGEACCOUNTNAME }}
+          endpoint=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_ENDPOINT }}
+          cognitiveServiceName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_COGNITIVESERVICENAME }}
+          logicAppName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_LOGICAPPNAME }}
+          triggerRecurrenceHours=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_TRIGGERRECURRENCEHOURS }}
+          X-CriThink-Cross-Service=${{ env.PRODUCTION_CRITHINK_SERVER_CROSSSERVICE_DNEWS_VALUE }}
+          emailRecipient=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_EMAILRECIPIENT }}
+          connections_outlook_externalid=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_CONNECTIONSOUTLOOKEXTERNALID }}
+          publicVnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETNAME }}
+          publicVnetSubnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETSUBNETNAME }}
+    
+    - name: ARM Successfully deployed
+      run: echo ARM templates successfully deployed
