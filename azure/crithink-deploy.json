@@ -57,7 +57,7 @@
             }
         },
         "connections_outlook_externalid": {
-            "defaultValue": "/subscriptions/b903af29-f057-4345-bed5-eead84dec865/resourceGroups/StagingCriThink/providers/Microsoft.Web/connections/outlook",
+            "defaultValue": "/subscriptions/b903af29-f057-4345-bed5-eead84dec865/resourceGroups/CriThink/providers/Microsoft.Web/connections/outlook",
             "type": "String"
         },
         "publicVnetName": {
@@ -83,7 +83,7 @@
             "location": "westeurope",
             "tags": {
                 "AppName": "CriThink",
-                "Environment": "Staging"
+                "Environment": "[parameters('environment')]"
             },
             "properties": {
                 "addressSpace": {
@@ -232,9 +232,9 @@
                                                 "type": "ApiConnection",
                                                 "inputs": {
                                                     "body": {
-                                                        "Body": "<p>Hi,<br>\nThe CriThink Staging failed to fetch debunking news<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
+                                                        "Body": "[concat('<p>Hi,<br>\nThe CriThink ', parameters('environment'), ' failed to fetch debunking news<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>')]",
                                                         "Importance": "High",
-                                                        "Subject": "[CriThink-Staging] Trigger fail",
+                                                        "Subject": "[concat('[CriThink-', parameters('environment'), '] Trigger fail')]",
                                                         "To": "[parameters('emailRecipient')]"
                                                     },
                                                     "host": {
@@ -285,9 +285,9 @@
                                         "type": "ApiConnection",
                                         "inputs": {
                                             "body": {
-                                                "Body": "<p>Hi,<br>\nThe CriThink Staging app seems to be unavailable.<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>",
+                                                "Body": "[concat('<p>Hi,<br>\nThe CriThink ', parameters('environment'), 'Staging app seems to be unavailable.<br>\nPlease investigate.<br>\n<br>\nA log has been added to the database.</p>')]",
                                                 "Importance": "High",
-                                                "Subject": "[CriThink-Staging] Server unvailable",
+                                                "Subject": "[concat('[CriThink-', parameters('environment'), '] Server unvailable')]",
                                                 "To": "[parameters('emailRecipient')]"
                                             },
                                             "host": {
