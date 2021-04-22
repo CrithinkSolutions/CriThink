@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -261,21 +260,6 @@ namespace CriThink.Server.Web
                         ValidateLifetime = true,
                         RequireExpirationTime = true,
                         ClockSkew = TimeSpan.Zero,
-                    };
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            // TODO: log
-                            Debug.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
-                            return Task.CompletedTask;
-                        },
-                        OnTokenValidated = context =>
-                        {
-                            // TODO: log
-                            Debug.WriteLine("OnTokenValidated: " + context.SecurityToken);
-                            return Task.CompletedTask;
-                        }
                     };
                 });
 
