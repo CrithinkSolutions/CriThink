@@ -147,7 +147,7 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var jwtToken = await _jwtManager.GenerateUserTokenAsync(adminUser).ConfigureAwait(false);
+            var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(adminUser).ConfigureAwait(false);
 
             return new AdminSignUpResponse
             {
@@ -362,13 +362,22 @@ namespace CriThink.Server.Core.Identity
             var verificationResult = _userRepository.VerifyUserPassword(user, request.Password);
             await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
 
-            var jwtToken = await _jwtManager.GenerateUserTokenAsync(user).ConfigureAwait(false);
+            var refreshToken = _jwtManager.GenerateToken();
+            var refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, user);
+            if (!refreshTokenResult.Succeeded)
+            {
+                throw new InvalidOperationException("Error assigning the refresh token to user");
+            }
+
+            var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
+
             var response = new UserLoginResponse
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
                 UserName = user.UserName,
                 JwtToken = jwtToken,
+                RefreshToken = refreshToken,
                 AvatarPath = user.AvatarPath,
             };
 
@@ -433,12 +442,20 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
-            var jwtToken = await _jwtManager.GenerateUserTokenAsync(user).ConfigureAwait(false);
+            var refreshToken = _jwtManager.GenerateToken();
+            var refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, user);
+            if (!refreshTokenResult.Succeeded)
+            {
+                throw new InvalidOperationException("Error assigning the refresh token to user");
+            }
+
+            var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
 
             return new VerifyUserEmailResponse
             {
                 UserId = userId,
                 JwtToken = jwtToken,
+                RefreshToken = refreshToken,
                 UserEmail = user.Email,
                 Username = user.UserName
             };
@@ -545,11 +562,19 @@ namespace CriThink.Server.Core.Identity
                 currentUser = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider).ConfigureAwait(false);
             }
 
-            var jwtToken = await _jwtManager.GenerateUserTokenAsync(currentUser).ConfigureAwait(false);
+            var refreshToken = _jwtManager.GenerateToken();
+            var refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, currentUser);
+            if (!refreshTokenResult.Succeeded)
+            {
+                throw new InvalidOperationException("Error assigning the refresh token to user");
+            }
+
+            var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(currentUser).ConfigureAwait(false);
 
             return new UserLoginResponse
             {
                 JwtToken = jwtToken,
+                RefreshToken = refreshToken,
                 UserEmail = currentUser.Email,
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
@@ -607,6 +632,12 @@ namespace CriThink.Server.Core.Identity
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private Task<IdentityResult> AddRefreshTokenToUserAsync(string refreshToken, User user)
+        {
+            user.AddRefreshToken(refreshToken, _httpContext.HttpContext?.Connection.RemoteIpAddress?.ToString());
+            return _userRepository.UpdateUserAsync(user);
         }
 
         private static void ProcessPasswordVerificationResult(SignInResult signInResult)

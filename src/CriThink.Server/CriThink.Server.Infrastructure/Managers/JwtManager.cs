@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
@@ -29,7 +30,15 @@ namespace CriThink.Server.Infrastructure.Managers
             _logger = logger;
         }
 
-        public async Task<JwtTokenResponse> GenerateUserTokenAsync(User user)
+        public string GenerateToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
+        public async Task<JwtTokenResponse> GenerateUserJwtTokenAsync(User user)
         {
             var secretKey = _configuration["Jwt-SecretKey"];
             var audience = _configuration["Jwt-Audience"];

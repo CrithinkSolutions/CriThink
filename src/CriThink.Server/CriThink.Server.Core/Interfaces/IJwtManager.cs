@@ -11,6 +11,12 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="user">User to associate the token</param>
         /// <returns>The JWT token with details</returns>
-        Task<JwtTokenResponse> GenerateUserTokenAsync(User user);
+        Task<JwtTokenResponse> GenerateUserJwtTokenAsync(User user);
+
+        /// <summary>
+        /// Generate a random string to be used as refresh token by a specific user
+        /// </summary>
+        /// <returns>A random string</returns>
+        string GenerateToken();
     }
 }
