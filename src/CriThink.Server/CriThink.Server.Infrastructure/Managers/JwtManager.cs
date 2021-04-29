@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Infrastructure.Builders;
 using Microsoft.Extensions.Configuration;
@@ -66,16 +65,8 @@ namespace CriThink.Server.Infrastructure.Managers
             var secretKey = GetSecretKey();
             var audience = GetAudience();
             var issuer = GetIssuer();
-            var expirationFromNow = _configuration["Jwt-ExpirationInHours"];
+            var expirationFromNow = _configuration.GetValue<TimeSpan>("Jwt-ExpirationFromNow");
 
-            var hasExpiration = double.TryParse(expirationFromNow, out var expirationInHours);
-            if (!hasExpiration)
-            {
-                expirationInHours = 0.5;
-                _logger?.LogCritical(new SecretNotFoundException("Token duration.", nameof(JwtManager)), "Used default token duration.");
-            }
-
-            // Get user claims
             var claims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
@@ -84,7 +75,7 @@ namespace CriThink.Server.Infrastructure.Managers
                 .AddClaims(claims)
                 .AddIssuer(issuer)
                 .AddSecurityKey(signingKey)
-                .AddExpireDate(expirationInHours)
+                .AddExpireDateFromNow(expirationFromNow)
                 .Build();
 
             var tokenString = _jwtTokenHandler.WriteToken(token);
