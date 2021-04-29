@@ -18,7 +18,7 @@ namespace CriThink.Server.Core.Entities
             _refreshTokens = new List<RefreshToken>();
         }
 
-        public ICollection<RefreshToken> RefreshTokens => _refreshTokens;
+        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
 
         [Required]
         public bool IsDeleted { get; set; } = false;

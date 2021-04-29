@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -132,8 +133,11 @@ namespace CriThink.Server.Core.Interfaces
         /// Find a user through the username or the email
         /// </summary>
         /// <param name="value">USername or email</param>
+        /// <param name="includeForeignKeys">A flag indicating if the foreign keys
+        /// must be included in query</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns>An <see cref="IdentityResult"/></returns>
-        Task<User> FindUserAsync(string value);
+        Task<User> FindUserAsync(string value, bool includeForeignKeys, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns a flag whether the given user has a password

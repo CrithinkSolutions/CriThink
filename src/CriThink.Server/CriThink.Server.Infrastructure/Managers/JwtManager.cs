@@ -38,11 +38,34 @@ namespace CriThink.Server.Infrastructure.Managers
             return Convert.ToBase64String(randomNumber);
         }
 
+        public ClaimsPrincipal GetPrincipalFromToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
+            var secretKey = GetSecretKey();
+            var audience = GetAudience();
+            var issuer = GetIssuer();
+
+            var principals = _jwtTokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidAudience = audience,
+                ValidIssuer = issuer,
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                ValidateLifetime = false // we check expired tokens here
+            }, out _);
+
+            return principals;
+        }
+
         public async Task<JwtTokenResponse> GenerateUserJwtTokenAsync(User user)
         {
-            var secretKey = _configuration["Jwt-SecretKey"];
-            var audience = _configuration["Jwt-Audience"];
-            var issuer = _configuration["Jwt-Issuer"];
+            var secretKey = GetSecretKey();
+            var audience = GetAudience();
+            var issuer = GetIssuer();
             var expirationFromNow = _configuration["Jwt-ExpirationInHours"];
 
             var hasExpiration = double.TryParse(expirationFromNow, out var expirationInHours);
@@ -56,18 +79,12 @@ namespace CriThink.Server.Infrastructure.Managers
             var claims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
-            // Get user role's claims
-            var userRoles = await _userRepository.GetUserRolesAsync(user).ConfigureAwait(false);
-            foreach (var userRole in userRoles)
-                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole));
-
             var token = new JwtBuilder()
                 .AddAudience(audience)
                 .AddClaims(claims)
                 .AddIssuer(issuer)
                 .AddSecurityKey(signingKey)
                 .AddExpireDate(expirationInHours)
-                .AddSubject(user.Email)
                 .Build();
 
             var tokenString = _jwtTokenHandler.WriteToken(token);
@@ -77,5 +94,14 @@ namespace CriThink.Server.Infrastructure.Managers
                 Token = tokenString
             };
         }
+
+        private string GetSecretKey() =>
+            _configuration["Jwt-SecretKey"];
+
+        private string GetAudience() =>
+            _configuration["Jwt-Audience"];
+
+        private string GetIssuer() =>
+            _configuration["Jwt-Issuer"];
     }
 }

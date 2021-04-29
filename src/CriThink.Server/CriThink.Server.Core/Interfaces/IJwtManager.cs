@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
 
@@ -18,5 +19,13 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <returns>A random string</returns>
         string GenerateToken();
+
+        /// <summary>
+        /// Get claims principal from a JWT token. Token is
+        /// validated before being read.
+        /// </summary>
+        /// <param name="token">The token to read</param>
+        /// <returns>The claim principals</returns>
+        ClaimsPrincipal GetPrincipalFromToken(string token);
     }
 }

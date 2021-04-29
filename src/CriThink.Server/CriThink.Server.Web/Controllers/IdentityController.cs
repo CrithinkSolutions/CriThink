@@ -120,6 +120,38 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
+        /// Refresh the user token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST: /api/identity/refresh-token
+        ///     {
+        ///         "accessToken": "accessToken",
+        ///         "refreshToken": "refreshToken",
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Request body with current access and refresh token</param>
+        /// <response code="200">If successfull, returns a new access and refresh token</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityRefreshToken)]
+        [ProducesResponseType(typeof(UserRefreshTokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPost]
+        public async Task<IActionResult> RefreshUserTokenAsync([FromBody] UserRefreshTokenRequest request)
+        {
+            var response = await _identityService.ExchangeRefreshTokenAsync(request).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
         /// Confirm the user email, enabling the account. Generally called when
         /// user click on the email link
         /// </summary>

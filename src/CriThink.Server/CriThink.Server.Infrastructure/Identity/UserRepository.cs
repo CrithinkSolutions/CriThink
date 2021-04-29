@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
@@ -108,19 +110,34 @@ namespace CriThink.Server.Infrastructure.Identity
             return _userManager.ResetPasswordAsync(user, decodedToken, password);
         }
 
-        public async Task<User> FindUserAsync(string value)
+        public async Task<User> FindUserAsync(string value, bool includeForeignKeys, CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            IQueryable<User> query = _userManager.Users;
+
+            if (includeForeignKeys)
+                query = query.Include(u => u.RefreshTokens);
+
+            Expression<Func<User, bool>> whereClause;
+
             if (EmailHelper.IsEmail(value))
             {
-                return await _userManager.FindByEmailAsync(value).ConfigureAwait(false);
+                whereClause = (u) => u.NormalizedEmail == value.ToUpperInvariant();
             }
-
-            if (Guid.TryParse(value, out _))
+            else if (Guid.TryParse(value, out var guid))
             {
-                return await _userManager.FindByIdAsync(value).ConfigureAwait(false);
+                whereClause = (u) => u.Id.Equals(guid);
+            }
+            else
+            {
+                whereClause = (u) => u.NormalizedUserName == value.ToUpperInvariant();
             }
 
-            return await _userManager.FindByNameAsync(value).ConfigureAwait(false);
+            return await query
+                .SingleOrDefaultAsync(whereClause, cancellationToken)
+                .ConfigureAwait(false);
         }
 
         public Task<bool> HasUserPasswordAsync(User user)

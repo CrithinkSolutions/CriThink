@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
@@ -405,6 +406,41 @@ namespace CriThink.Server.Core.Identity
             return new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
+        public async Task<UserRefreshTokenResponse> ExchangeRefreshTokenAsync(UserRefreshTokenRequest request)
+        {
+            var oldRefreshToken = request.RefreshToken;
+
+            var userIdClaim = _jwtManager.GetPrincipalFromToken(request.AccessToken)
+                ?.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+                ?.Value ?? throw new InvalidOperationException("The given JWT token is not valid");
+
+            var user = await FindUserAsync(userIdClaim, true).ConfigureAwait(false);
+            if (user?.HasValidRefreshToken(oldRefreshToken) != true)
+                throw new InvalidOperationException("The given JWT token is not valid");
+
+            var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
+            var refreshToken = _jwtManager.GenerateToken();
+
+            var refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, user);
+            if (!refreshTokenResult.Succeeded)
+            {
+                throw new InvalidOperationException("Error assigning the refresh token to user");
+            }
+
+            refreshTokenResult = await RemoveRefreshTokenFromUserAsync(oldRefreshToken, user);
+            if (!refreshTokenResult.Succeeded)
+            {
+                _logger?.LogCritical("Can't remove refresh token from user", oldRefreshToken, user);
+            }
+
+            return new UserRefreshTokenResponse
+            {
+                JwtToken = jwtToken,
+                RefreshToken = refreshToken,
+            };
+        }
+
         public async Task<VerifyUserEmailResponse> VerifyAccountEmailAsync(string userId, string confirmationCode)
         {
             if (string.IsNullOrWhiteSpace(userId))
@@ -608,9 +644,9 @@ namespace CriThink.Server.Core.Identity
 
         #region Privates
 
-        private Task<User> FindUserAsync(string value)
+        private Task<User> FindUserAsync(string value, bool includeForeignKeys = false, CancellationToken cancellationToken = default)
         {
-            return _userRepository.FindUserAsync(value);
+            return _userRepository.FindUserAsync(value, includeForeignKeys, cancellationToken);
         }
 
         private Task<UserRole> FindRoleAsync(string roleName)
@@ -637,6 +673,12 @@ namespace CriThink.Server.Core.Identity
         private Task<IdentityResult> AddRefreshTokenToUserAsync(string refreshToken, User user)
         {
             user.AddRefreshToken(refreshToken, _httpContext.HttpContext?.Connection.RemoteIpAddress?.ToString());
+            return _userRepository.UpdateUserAsync(user);
+        }
+
+        private Task<IdentityResult> RemoveRefreshTokenFromUserAsync(string refreshToken, User user)
+        {
+            user.RemoveRefreshToken(refreshToken);
             return _userRepository.UpdateUserAsync(user);
         }
 

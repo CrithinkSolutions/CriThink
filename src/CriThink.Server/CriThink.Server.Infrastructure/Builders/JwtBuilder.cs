@@ -13,7 +13,6 @@ namespace CriThink.Server.Infrastructure.Builders
         private string _issuer;
         private string _audience;
         private SymmetricSecurityKey _securityKey;
-        private string _subject;
         private double _expirationHours;
 
         private IList<Claim> _claims;
@@ -33,12 +32,6 @@ namespace CriThink.Server.Infrastructure.Builders
         public JwtBuilder AddSecurityKey(SymmetricSecurityKey key)
         {
             _securityKey = key;
-            return this;
-        }
-
-        public JwtBuilder AddSubject(string subject)
-        {
-            _subject = subject;
             return this;
         }
 
