@@ -39,6 +39,7 @@ Insert the following keys and the desired values in the secret files created abo
     * `"Jwt-Issuer": "<issuer>"`
     * `"Jwt-SecretKey": "<secretkey>"`
     * `"Jwt-ExpirationFromNow": "<timespan>"`
+    * `"Refresh-ExpirationFromNow": "<timespan>"`
 * Azure Cognitive Service:
     * `"Azure-Cognitive-KeyCredentials": "<credentials>"`
     * `"Azure-Cognitive-Endpoint": "<endpoint>"`
