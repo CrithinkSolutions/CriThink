@@ -672,7 +672,8 @@ namespace CriThink.Server.Core.Identity
 
         private Task<IdentityResult> AddRefreshTokenToUserAsync(string refreshToken, User user)
         {
-            user.AddRefreshToken(refreshToken, _httpContext.HttpContext?.Connection.RemoteIpAddress?.ToString());
+            var lifetimeFromNow = _jwtManager.GetDefaultJwtTokenLifetime();
+            user.AddRefreshToken(refreshToken, _httpContext.HttpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
             return _userRepository.UpdateUserAsync(user);
         }
 

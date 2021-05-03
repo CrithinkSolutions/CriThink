@@ -46,18 +46,26 @@ namespace CriThink.Server.Infrastructure.Managers
             var audience = GetAudience();
             var issuer = GetIssuer();
 
-            var principals = _jwtTokenHandler.ValidateToken(token, new TokenValidationParameters
+            try
             {
-                ValidAudience = audience,
-                ValidIssuer = issuer,
-                ValidateAudience = true,
-                ValidateIssuer = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                ValidateLifetime = false // we check expired tokens here
-            }, out _);
+                var principals = _jwtTokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidAudience = audience,
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    ValidateLifetime = false // we check expired tokens here
+                }, out _);
 
-            return principals;
+                return principals;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogWarning(ex, "The given JWT token is invalid");
+                return null;
+            }
         }
 
         public async Task<JwtTokenResponse> GenerateUserJwtTokenAsync(User user)
@@ -65,7 +73,7 @@ namespace CriThink.Server.Infrastructure.Managers
             var secretKey = GetSecretKey();
             var audience = GetAudience();
             var issuer = GetIssuer();
-            var expirationFromNow = _configuration.GetValue<TimeSpan>("Jwt-ExpirationFromNow");
+            var expirationFromNow = GetExpiration();
 
             var claims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -75,7 +83,7 @@ namespace CriThink.Server.Infrastructure.Managers
                 .AddClaims(claims)
                 .AddIssuer(issuer)
                 .AddSecurityKey(signingKey)
-                .AddExpireDateFromNow(expirationFromNow)
+                .AddExpireDateFromNowUtc(expirationFromNow)
                 .Build();
 
             var tokenString = _jwtTokenHandler.WriteToken(token);
@@ -86,6 +94,9 @@ namespace CriThink.Server.Infrastructure.Managers
             };
         }
 
+        public TimeSpan GetDefaultJwtTokenLifetime() =>
+            GetExpiration();
+
         private string GetSecretKey() =>
             _configuration["Jwt-SecretKey"];
 
@@ -94,5 +105,8 @@ namespace CriThink.Server.Infrastructure.Managers
 
         private string GetIssuer() =>
             _configuration["Jwt-Issuer"];
+
+        private TimeSpan GetExpiration() =>
+            _configuration.GetValue<TimeSpan>("Jwt-ExpirationFromNow");
     }
 }

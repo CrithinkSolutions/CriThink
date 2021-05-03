@@ -41,7 +41,7 @@ namespace CriThink.Server.Infrastructure.Builders
             return this;
         }
 
-        public JwtBuilder AddExpireDateFromNow(TimeSpan hoursFromNow)
+        public JwtBuilder AddExpireDateFromNowUtc(TimeSpan hoursFromNow)
         {
             _expirationFromNow = hoursFromNow;
             return this;

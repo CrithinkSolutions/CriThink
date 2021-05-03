@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
@@ -27,5 +28,12 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="token">The token to read</param>
         /// <returns>The claim principals</returns>
         ClaimsPrincipal GetPrincipalFromToken(string token);
+
+        /// <summary>
+        /// Get the JWT token lifetime set in application
+        /// settings
+        /// </summary>
+        /// <returns>Lifetime as <see cref="TimeSpan"/></returns>
+        TimeSpan GetDefaultJwtTokenLifetime();
     }
 }

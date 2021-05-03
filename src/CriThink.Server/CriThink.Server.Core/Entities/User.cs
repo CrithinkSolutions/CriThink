@@ -30,9 +30,9 @@ namespace CriThink.Server.Core.Entities
             return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
         }
 
-        public void AddRefreshToken(string token, string remoteIpAddress, double daysToExpire = 5)
+        public void AddRefreshToken(string token, string remoteIpAddress, TimeSpan timeFromNow)
         {
-            _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.AddDays(daysToExpire), this, remoteIpAddress));
+            _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.Add(timeFromNow), this, remoteIpAddress));
         }
 
         public void RemoveRefreshToken(string refreshToken)
