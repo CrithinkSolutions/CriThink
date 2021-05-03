@@ -73,7 +73,7 @@ namespace CriThink.Server.Infrastructure.Managers
             var secretKey = GetSecretKey();
             var audience = GetAudience();
             var issuer = GetIssuer();
-            var expirationFromNow = GetExpiration();
+            var expirationFromNow = GetJwtExpiration();
 
             var claims = await _userRepository.GetUserClaimsAsync(user).ConfigureAwait(false);
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -94,8 +94,8 @@ namespace CriThink.Server.Infrastructure.Managers
             };
         }
 
-        public TimeSpan GetDefaultJwtTokenLifetime() =>
-            GetExpiration();
+        public TimeSpan GetDefaultRefreshTokenLifetime() =>
+            GetRefreshExpiration();
 
         private string GetSecretKey() =>
             _configuration["Jwt-SecretKey"];
@@ -106,7 +106,10 @@ namespace CriThink.Server.Infrastructure.Managers
         private string GetIssuer() =>
             _configuration["Jwt-Issuer"];
 
-        private TimeSpan GetExpiration() =>
+        private TimeSpan GetJwtExpiration() =>
             _configuration.GetValue<TimeSpan>("Jwt-ExpirationFromNow");
+
+        private TimeSpan GetRefreshExpiration() =>
+            _configuration.GetValue<TimeSpan>("Refresh-ExpirationFromNow");
     }
 }

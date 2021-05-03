@@ -417,21 +417,23 @@ namespace CriThink.Server.Core.Identity
 
             var user = await FindUserAsync(userIdClaim, true).ConfigureAwait(false);
             if (user?.HasValidRefreshToken(oldRefreshToken) != true)
-                throw new InvalidOperationException("The given JWT token is not valid");
+                throw new RefreshTokenExpiredException();
 
             var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
             var refreshToken = _jwtManager.GenerateToken();
 
-            var refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, user);
-            if (!refreshTokenResult.Succeeded)
-            {
-                throw new InvalidOperationException("Error assigning the refresh token to user");
-            }
-
-            refreshTokenResult = await RemoveRefreshTokenFromUserAsync(oldRefreshToken, user);
+            var refreshTokenResult = await RemoveRefreshTokenFromUserAsync(oldRefreshToken, user);
             if (!refreshTokenResult.Succeeded)
             {
                 _logger?.LogCritical("Can't remove refresh token from user", oldRefreshToken, user);
+                throw new InvalidOperationException("Error assigning the refresh token to user");
+            }
+
+            refreshTokenResult = await AddRefreshTokenToUserAsync(refreshToken, user);
+            if (!refreshTokenResult.Succeeded)
+            {
+                _logger?.LogCritical("Can't add refresh token to user", refreshToken, user);
+                throw new InvalidOperationException("Error assigning the refresh token to user");
             }
 
             return new UserRefreshTokenResponse
@@ -672,15 +674,22 @@ namespace CriThink.Server.Core.Identity
 
         private Task<IdentityResult> AddRefreshTokenToUserAsync(string refreshToken, User user)
         {
-            var lifetimeFromNow = _jwtManager.GetDefaultJwtTokenLifetime();
+            var lifetimeFromNow = _jwtManager.GetDefaultRefreshTokenLifetime();
             user.AddRefreshToken(refreshToken, _httpContext.HttpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
             return _userRepository.UpdateUserAsync(user);
         }
 
         private Task<IdentityResult> RemoveRefreshTokenFromUserAsync(string refreshToken, User user)
         {
-            user.RemoveRefreshToken(refreshToken);
-            return _userRepository.UpdateUserAsync(user);
+            try
+            {
+                user.RemoveRefreshToken(refreshToken);
+                return _userRepository.UpdateUserAsync(user);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new RefreshTokenExpiredException();
+            }
         }
 
         private static void ProcessPasswordVerificationResult(SignInResult signInResult)

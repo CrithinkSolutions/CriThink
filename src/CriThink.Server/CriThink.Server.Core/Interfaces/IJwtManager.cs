@@ -34,6 +34,6 @@ namespace CriThink.Server.Core.Interfaces
         /// settings
         /// </summary>
         /// <returns>Lifetime as <see cref="TimeSpan"/></returns>
-        TimeSpan GetDefaultJwtTokenLifetime();
+        TimeSpan GetDefaultRefreshTokenLifetime();
     }
 }

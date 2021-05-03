@@ -135,12 +135,14 @@ namespace CriThink.Server.Web.Controllers
         /// <param name="request">Request body with current access and refresh token</param>
         /// <response code="200">If successfull, returns a new access and refresh token</response>
         /// <response code="400">If the request body is invalid</response>
+        /// <response code="403">If the givne refresh token is invalid or expired</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
         [Route(EndpointConstants.IdentityRefreshToken)]
         [ProducesResponseType(typeof(UserRefreshTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [Produces("application/json")]
