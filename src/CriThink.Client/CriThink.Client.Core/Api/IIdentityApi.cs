@@ -11,6 +11,9 @@ namespace CriThink.Client.Core.Api
         [Post("/" + EndpointConstants.IdentityLogin)]
         Task<UserLoginResponse> LoginAsync([Body] UserLoginRequest request, CancellationToken cancellationToken = default);
 
+        [Post("/" + EndpointConstants.IdentityRefreshToken)]
+        Task<UserRefreshTokenResponse> ExchangeTokensAsync([Body] UserRefreshTokenRequest request, CancellationToken cancellationToken = default);
+
         [Post("/" + EndpointConstants.IdentityExternalLogin)]
         Task<UserLoginResponse> SocialLoginAsync([Body] ExternalLoginProviderRequest request, CancellationToken cancellationToken = default);
 

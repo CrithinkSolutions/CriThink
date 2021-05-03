@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using MvvmCross.Logging;
 
@@ -57,10 +58,15 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                DebunkingNewsGetAllResponse debunkingNewsCollection = await _debunkingNewsApi.GetAllDebunkingNewsAsync(request, cancellationToken)
+                DebunkingNewsGetAllResponse debunkingNewsCollection = await _debunkingNewsApi
+                    .GetAllDebunkingNewsAsync(request, cancellationToken)
                     .ConfigureAwait(false);
 
                 return debunkingNewsCollection;
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -82,6 +88,10 @@ namespace CriThink.Client.Core.Services
                     .ConfigureAwait(false);
 
                 return debunkingNewsDetails;
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

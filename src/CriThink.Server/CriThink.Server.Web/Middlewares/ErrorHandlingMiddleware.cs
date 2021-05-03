@@ -4,10 +4,12 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Npgsql;
 
 namespace CriThink.Server.Web.Middlewares
@@ -87,6 +89,11 @@ namespace CriThink.Server.Web.Middlewares
                     code = HttpStatusCode.NotFound;
                     _logger.LogWarning(resourceNotFoundException, "An asked resource has not been found");
                     parameter = new ApiResponse((int) code, ex.Message);
+                    break;
+                case Core.Exceptions.RefreshTokenExpiredException _:
+                    code = HttpStatusCode.Forbidden;
+                    parameter = new ApiResponse((int) code, "The given refresh token is invalid or expired");
+                    context.Response.Headers.Add(HeadersConstants.RefreshTokenExpired, new StringValues("true"));
                     break;
                 default:
                     parameter = new ApiResponse((int) code, "Can't process the request right now");

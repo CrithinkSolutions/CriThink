@@ -13,8 +13,7 @@ namespace CriThink.Server.Infrastructure.Builders
         private string _issuer;
         private string _audience;
         private SymmetricSecurityKey _securityKey;
-        private string _subject;
-        private double _expirationHours;
+        private TimeSpan _expirationFromNow;
 
         private IList<Claim> _claims;
 
@@ -36,21 +35,15 @@ namespace CriThink.Server.Infrastructure.Builders
             return this;
         }
 
-        public JwtBuilder AddSubject(string subject)
-        {
-            _subject = subject;
-            return this;
-        }
-
         public JwtBuilder AddClaims(IList<Claim> claims)
         {
             _claims = claims;
             return this;
         }
 
-        public JwtBuilder AddExpireDate(double hoursFromNow)
+        public JwtBuilder AddExpireDateFromNowUtc(TimeSpan hoursFromNow)
         {
-            _expirationHours = hoursFromNow;
+            _expirationFromNow = hoursFromNow;
             return this;
         }
 
@@ -68,7 +61,7 @@ namespace CriThink.Server.Infrastructure.Builders
                 audience: _audience,
                 claims: claims,
                 notBefore: now,
-                expires: now.AddHours(_expirationHours),
+                expires: now.Add(_expirationFromNow),
                 signingCredentials: new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256)
             );
         }

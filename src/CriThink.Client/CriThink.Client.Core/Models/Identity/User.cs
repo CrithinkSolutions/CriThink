@@ -1,33 +1,69 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 
 namespace CriThink.Client.Core.Models.Identity
 {
+    /// <summary>
+    /// Represents the logged user. Fields should have
+    /// a private setter, but net core 3.1 does not allow it. 
+    /// </summary>
     public class User
     {
-        public User(string userId, string userEmail, string userName, string password, string avatar, JwtTokenResponse jwtToken, ExternalLoginProvider provider)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public User() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="response">DTO</param>
+        public User(UserLoginResponse response)
         {
-            UserId = userId ?? throw new ArgumentNullException(nameof(userId));
-            UserEmail = userEmail ?? throw new ArgumentNullException(nameof(userEmail));
-            UserName = userName ?? throw new ArgumentNullException(nameof(userName));
-            Password = password ?? throw new ArgumentNullException(nameof(password));
-            JwtToken = jwtToken ?? throw new ArgumentNullException(nameof(jwtToken));
-            AvatarPath = avatar;
-            Provider = provider;
+            if (response is null)
+                throw new ArgumentNullException(nameof(response));
+
+            UserId = response.UserId;
+            UserEmail = response.UserEmail;
+            UserName = response.UserName;
+            JwtToken = response.JwtToken;
+            RefreshToken = response.RefreshToken;
+            AvatarPath = GetAvatarPath(response.AvatarPath);
         }
 
-        public string UserId { get; }
+        [JsonInclude]
+        public string UserId { get; internal set; }
 
-        public string UserEmail { get; }
+        [JsonInclude]
+        public string UserEmail { get; internal set; }
 
-        public string UserName { get; }
+        [JsonInclude]
+        public string UserName { get; internal set; }
 
-        public string Password { get; }
+        [JsonInclude]
+        public string AvatarPath { get; internal set; }
 
-        public JwtTokenResponse JwtToken { get; }
+        [JsonInclude]
+        public JwtTokenResponse JwtToken { get; internal set; }
 
-        public ExternalLoginProvider Provider { get; }
+        [JsonInclude]
+        public string RefreshToken { get; internal set; }
 
-        public string AvatarPath { get; }
+        /// <summary>
+        /// Updates the current JWT and refresh tokens
+        /// </summary>
+        /// <param name="newerTokens">The new JWT and refresh tokens</param>
+        public void UpdateJwtTokens(UserRefreshTokenResponse newerTokens)
+        {
+            if (newerTokens is null)
+                throw new ArgumentNullException(nameof(newerTokens));
+
+            JwtToken = newerTokens.JwtToken;
+            RefreshToken = newerTokens.RefreshToken;
+        }
+
+        private static string GetAvatarPath(string avatarPath) =>
+            string.IsNullOrWhiteSpace(avatarPath) ? "ic_logo.svg" : avatarPath;
     }
 }

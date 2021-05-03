@@ -8,6 +8,9 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
         [JsonPropertyName("token")]
         public JwtTokenResponse JwtToken { get; set; }
 
+        [JsonPropertyName("refreshToken")]
+        public string RefreshToken { get; set; }
+
         [JsonPropertyName("userId")]
         public string UserId { get; set; }
 

@@ -24,31 +24,16 @@ namespace CriThink.Client.Core.Services
             _log = logProvider?.GetLogFor<IdentityService>();
         }
 
-        public async Task<User> GetLoggedUserAsync()
+        public Task<User> GetLoggedUserAsync()
         {
             try
             {
-                var user = await _identityRepository.GetUserInfoAsync().ConfigureAwait(false);
-                return user;
+                return _identityRepository.GetUserInfoAsync();
             }
             catch (Exception ex)
             {
                 _log?.FatalException("Can't get user info", ex);
                 return null;
-            }
-        }
-
-        public async Task<string> GetUserTokenAsync()
-        {
-            try
-            {
-                var userToken = await _identityRepository.GetUserTokenAsync().ConfigureAwait(false);
-                return userToken;
-            }
-            catch (Exception ex)
-            {
-                _log?.FatalException("Error getting user token", ex);
-                return string.Empty;
             }
         }
 
@@ -71,17 +56,9 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var avatarPath = GetAvatarPath(loginResponse);
+                var user = new User(loginResponse);
 
-                await _identityRepository.SetUserInfoAsync(
-                        loginResponse.UserId,
-                        loginResponse.UserEmail,
-                        loginResponse.UserName,
-                        request.Password,
-                        loginResponse.JwtToken.Token,
-                        loginResponse.JwtToken.ExpirationDate,
-                        avatarPath,
-                        ExternalLoginProvider.None)
+                await _identityRepository.SetUserInfoAsync(user)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -111,17 +88,9 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var avatarPath = GetAvatarPath(loginResponse);
+                var user = new User(loginResponse);
 
-                await _identityRepository.SetUserInfoAsync(
-                        loginResponse.UserId,
-                        loginResponse.UserEmail,
-                        loginResponse.UserName,
-                        request.UserToken,
-                        loginResponse.JwtToken.Token,
-                        loginResponse.JwtToken.ExpirationDate,
-                        avatarPath,
-                        request.SocialProvider)
+                await _identityRepository.SetUserInfoAsync(user)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -130,6 +99,35 @@ namespace CriThink.Client.Core.Services
             }
 
             return loginResponse;
+        }
+
+        public async Task<UserRefreshTokenResponse> ExchangeTokensAsync(CancellationToken cancellationToken = default)
+        {
+            var currentUser = await _identityRepository.GetUserInfoAsync();
+
+            var currentAccessToken = currentUser.JwtToken.Token;
+            if (string.IsNullOrWhiteSpace(currentAccessToken))
+                throw new InvalidOperationException("No valid token found");
+
+            var refreshToken = currentUser.RefreshToken;
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new InvalidOperationException("No valid refresh token found");
+
+            var request = new UserRefreshTokenRequest
+            {
+                RefreshToken = refreshToken,
+                AccessToken = currentAccessToken,
+            };
+
+            var newerTokens = await _identityApi.ExchangeTokensAsync(request, cancellationToken)
+                .ConfigureAwait(false);
+
+            currentUser.UpdateJwtTokens(newerTokens);
+
+            await _identityRepository.SetUserInfoAsync(currentUser)
+                .ConfigureAwait(false);
+
+            return newerTokens;
         }
 
         public async Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken)
@@ -229,76 +227,5 @@ namespace CriThink.Client.Core.Services
                 throw;
             }
         }
-
-        private static string GetAvatarPath(UserLoginResponse loginResponse) =>
-            string.IsNullOrWhiteSpace(loginResponse.AvatarPath) ? "ic_logo.svg" : loginResponse.AvatarPath;
-    }
-
-    public interface IIdentityService
-    {
-        /// <summary>
-        /// Get logged user information
-        /// </summary>
-        /// <returns>User info</returns>
-        Task<User> GetLoggedUserAsync();
-
-        /// <summary>
-        /// Get logged user token
-        /// </summary>
-        /// <returns>User token</returns>
-        Task<string> GetUserTokenAsync();
-
-        /// <summary>
-        /// Performs login
-        /// </summary>
-        /// <param name="request">User data</param>
-        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
-        /// <returns>Login response data</returns>
-        Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Performs login or sign in using an external social provider
-        /// </summary>
-        /// <param name="request">User and social provider data</param>
-        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
-        /// <returns>Login response data</returns>
-        Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Requests a temporary token to restore the password
-        /// </summary>
-        /// <param name="request">Email or the username of the account owner</param>
-        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
-        /// <returns>Operation status result</returns>
-        Task RequestTemporaryTokenAsync(ForgotPasswordRequest request, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Change the current and forgotten password with the given one
-        /// </summary>
-        /// <param name="request">User id, temporary token and new password</param>
-        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
-        /// <returns>User info and token</returns>
-        Task<VerifyUserEmailResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Performs user signup
-        /// </summary>
-        /// <param name="request">User data</param>
-        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
-        /// <returns>Registration response data</returns>
-        Task<UserSignUpResponse> PerformSignUpAsync(UserSignUpRequest request, StreamPart streamPart, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Verify user email
-        /// </summary>
-        /// <param name="userId">User id</param>
-        /// <param name="code">Code contained into the email</param>
-        /// <returns>UserInfo and the token</returns>
-        Task<VerifyUserEmailResponse> ConfirmUserEmailAsync(string userId, string code);
-
-        /// <summary>
-        /// Perform logout and erase all user information
-        /// </summary>
-        void PerformLogout();
     }
 }
