@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Commands;
@@ -118,6 +122,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
                 SetSearchResult(response);
                 SetRelatedDebunkingNews(response);
+            }
+            catch (TokensExpiredException)
+            {
+                await _navigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    })).ConfigureAwait(true);
             }
             catch (HttpRequestException)
             {

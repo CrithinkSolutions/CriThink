@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
@@ -43,6 +40,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Westwind.AspNetCore.LiveReload;
 
@@ -224,7 +222,7 @@ namespace CriThink.Server.Web
             var audience = Configuration["Jwt-Audience"];
             var issuer = Configuration["Jwt-Issuer"];
             var key = Configuration["Jwt-SecretKey"];
-            var keyBytes = Encoding.ASCII.GetBytes(key);
+            var keyBytes = Encoding.UTF8.GetBytes(key);
 
             services
                 .AddAuthentication(options =>
@@ -258,22 +256,10 @@ namespace CriThink.Server.Web
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidAudience = audience,
-                        ValidIssuer = issuer
-                    };
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            // TODO: log
-                            Debug.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
-                            return Task.CompletedTask;
-                        },
-                        OnTokenValidated = context =>
-                        {
-                            // TODO: log
-                            Debug.WriteLine("OnTokenValidated: " + context.SecurityToken);
-                            return Task.CompletedTask;
-                        }
+                        ValidIssuer = issuer,
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true,
+                        ClockSkew = TimeSpan.Zero,
                     };
                 });
 
@@ -305,12 +291,12 @@ namespace CriThink.Server.Web
 
             services.AddSwaggerGen(options =>
             {
-                options.AddSecurityDefinition("Bearer",
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme,
                     new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Header,
-                        Description = "Please enter into field the word 'Bearer' following by space and the JWT",
-                        Name = "Authorization",
+                        Description = "Please insert the Bearer token",
+                        Name = HeaderNames.Authorization,
                         Type = SecuritySchemeType.ApiKey
                     });
 
@@ -322,13 +308,13 @@ namespace CriThink.Server.Web
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = JwtBearerDefaults.AuthenticationScheme,
                             },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header
+                            // Scheme = "oauth2",
+                            // Name = JwtBearerDefaults.AuthenticationScheme,
+                            // In = ParameterLocation.Header
                         },
-                        new List<string>()
+                        Array.Empty<string>()
                     }
                 });
 

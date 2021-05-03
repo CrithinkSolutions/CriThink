@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
+using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
@@ -155,6 +158,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
                 if (debunkinNewsCollection.DebunkingNewsCollection != null)
                     Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+            }
+            catch (TokensExpiredException)
+            {
+                await NavigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    })).ConfigureAwait(true);
             }
             finally
             {

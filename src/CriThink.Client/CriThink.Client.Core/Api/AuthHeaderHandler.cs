@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Exceptions;
+using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
+using CriThink.Common.Endpoints;
 using MvvmCross;
+using Refit;
 
 namespace CriThink.Client.Core.Api
 {
@@ -12,15 +17,76 @@ namespace CriThink.Client.Core.Api
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var identityService = Mvx.IoCProvider.Resolve<IIdentityService>();
-            if (identityService is null)
-                throw new InvalidOperationException($"Can't resolve {nameof(IIdentityService)} in {nameof(AuthHeaderHandler)}");
+            var identityService = ResolveIdentityService();
 
-            var token = await identityService.GetUserTokenAsync().ConfigureAwait(false);
+            var currentUser = await GetCurrentUserAsync(identityService).ConfigureAwait(false);
+            var token = currentUser?.JwtToken;
+            if (token is null)
+                throw new InvalidOperationException("No user is logged");
 
+            var remainintLivingTime = token.ExpirationDate - DateTime.UtcNow;
+            if (remainintLivingTime < TimeSpan.FromMinutes(20))
+            {
+                await HandleTokensRenewalAsync(identityService, request, cancellationToken);
+            }
+            else
+            {
+                UpdateRequestToken(request, token.Token);
+            }
+
+            var responseMessage = await TryMakeRequestAsync(request, cancellationToken).ConfigureAwait(false);
+
+            // If the server has changed the expiration time and the client does not know..
+            if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                await HandleTokensRenewalAsync(identityService, request, cancellationToken);
+            }
+
+            responseMessage = await TryMakeRequestAsync(request, cancellationToken).ConfigureAwait(false);
+
+            // Our refresh token has been removed from DB. User needs to re enter credentials
+            if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new TokensExpiredException();
+            }
+
+            return responseMessage;
+        }
+
+        private Task<HttpResponseMessage> TryMakeRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return base.SendAsync(request, cancellationToken);
+        }
+
+        private static Task<User> GetCurrentUserAsync(IIdentityService identityService) =>
+            identityService.GetLoggedUserAsync();
+
+        private static async Task HandleTokensRenewalAsync(IIdentityService identityService, HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var newData = await identityService.ExchangeTokensAsync(cancellationToken);
+                UpdateRequestToken(request, newData.JwtToken.Token);
+            }
+            catch (ApiException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Forbidden &&
+                    ex.Headers.Contains(HeadersConstants.RefreshTokenExpired))
+                {
+                    throw new TokensExpiredException();
+                }
+            }
+        }
+
+        private static IIdentityService ResolveIdentityService()
+        {
+            return Mvx.IoCProvider.Resolve<IIdentityService>() ??
+                   throw new InvalidOperationException($"Can't resolve {nameof(IIdentityService)} in {nameof(AuthHeaderHandler)}");
+        }
+
+        private static void UpdateRequestToken(HttpRequestMessage request, string token)
+        {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

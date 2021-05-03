@@ -110,6 +110,13 @@ namespace CriThink.Server.Core.Interfaces
         Task<ClaimsIdentity> LoginUserAsync(string emailOrUsername, string password, bool rememberMe);
 
         /// <summary>
+        /// Exchange current user access and refresh tokens
+        /// </summary>
+        /// <param name="request">Current access and refresh tokens</param>
+        /// <returns>The new access and refresh tokens</returns>
+        Task<UserRefreshTokenResponse> ExchangeRefreshTokenAsync(UserRefreshTokenRequest request);
+
+        /// <summary>
         /// Verify the user email through the email link
         /// </summary>
         /// <param name="userId"></param>
