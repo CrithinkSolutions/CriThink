@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
@@ -106,6 +110,14 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                 _hasMorePages = debunkinNewsCollection.HasNextPage;
 
                 _pageIndex++;
+            }
+            catch (TokensExpiredException)
+            {
+                await _navigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    })).ConfigureAwait(true);
             }
             finally
             {

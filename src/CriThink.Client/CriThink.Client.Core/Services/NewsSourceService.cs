@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
@@ -113,6 +114,10 @@ namespace CriThink.Client.Core.Services
             {
                 await _newsSourceApi.RegisterForNotificationAsync(request, cancellationToken)
                     .ConfigureAwait(false);
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

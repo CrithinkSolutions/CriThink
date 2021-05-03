@@ -33,15 +33,6 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public async Task<string> GetUserTokenAsync()
-        {
-            return await _memoryCache.GetOrCreateAsync(UserTokenCacheKey, async entry =>
-            {
-                entry.SlidingExpiration = CacheDuration;
-                return await _identityService.GetUserTokenAsync().ConfigureAwait(false);
-            }).ConfigureAwait(false);
-        }
-
         public async Task<UserLoginResponse> PerformLoginAsync(UserLoginRequest request, CancellationToken cancellationToken)
         {
             var response = await _identityService.PerformLoginAsync(request, cancellationToken).ConfigureAwait(false);
@@ -52,6 +43,13 @@ namespace CriThink.Client.Core.Services
         public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
         {
             var response = await _identityService.PerformSocialLoginSignInAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+            return response;
+        }
+
+        public async Task<UserRefreshTokenResponse> ExchangeTokensAsync(CancellationToken cancellationToken = default)
+        {
+            var response = await _identityService.ExchangeTokensAsync(cancellationToken);
             ClearUserInfoFromCache();
             return response;
         }
