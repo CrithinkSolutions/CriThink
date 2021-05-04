@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,6 +13,10 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.ToTable("users");
             builder.Ignore(property => property.TwoFactorEnabled);
             builder.Ignore(property => property.PhoneNumberConfirmed);
+
+            builder
+                .Property(property => property.RegisteredOn)
+                .HasColumnType(DataType.Date.ToString());
 
             SeedData(builder);
         }
@@ -28,7 +33,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                 Email = "service@crithink.com",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
-                SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD"
+                SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD",
+                RegisteredOn = DateTime.UtcNow,
             };
 
             builder.HasData(serviceUser);
