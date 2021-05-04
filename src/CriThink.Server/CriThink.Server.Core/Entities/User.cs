@@ -25,6 +25,9 @@ namespace CriThink.Server.Core.Entities
 
         public string AvatarPath { get; set; }
 
+        [Required]
+        public DateTime RegisteredOn { get; set; }
+
         public bool HasValidRefreshToken(string refreshToken)
         {
             return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);

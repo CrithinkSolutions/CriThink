@@ -67,6 +67,7 @@ namespace CriThink.Server.Core.Identity
                 UserName = request.UserName,
                 Email = request.Email,
                 Id = Guid.NewGuid(),
+                RegisteredOn = DateTime.UtcNow,
             };
 
             if (formFile is not null)
@@ -102,7 +103,8 @@ namespace CriThink.Server.Core.Identity
             var adminUser = new User
             {
                 UserName = request.UserName,
-                Email = request.Email
+                Email = request.Email,
+                RegisteredOn = DateTime.UtcNow,
             };
 
             var userCreationResult = await _userRepository.CreateUserAsync(adminUser, request.Password).ConfigureAwait(false);
@@ -380,6 +382,7 @@ namespace CriThink.Server.Core.Identity
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
                 AvatarPath = user.AvatarPath,
+                RegisteredOn = user.RegisteredOn.ToShortDateString(),
             };
 
             return response;
@@ -617,6 +620,7 @@ namespace CriThink.Server.Core.Identity
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
                 AvatarPath = currentUser.AvatarPath,
+                RegisteredOn = currentUser.RegisteredOn.ToShortDateString(),
             };
         }
 
