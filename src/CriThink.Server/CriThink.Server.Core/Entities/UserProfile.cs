@@ -18,7 +18,7 @@ namespace CriThink.Server.Core.Entities
 
         public string Description { get; set; }
 
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         public string AvatarPath { get; set; }
 
@@ -40,7 +40,7 @@ namespace CriThink.Server.Core.Entities
 
         public string Blog { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Required]
         public DateTime RegisteredOn { get; set; }

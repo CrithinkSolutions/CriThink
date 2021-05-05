@@ -362,7 +362,7 @@ namespace CriThink.Server.Core.Identity
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
+            var user = await FindUserAsync(request.Email ?? request.UserName, true).ConfigureAwait(false);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
             if (user.IsDeleted)

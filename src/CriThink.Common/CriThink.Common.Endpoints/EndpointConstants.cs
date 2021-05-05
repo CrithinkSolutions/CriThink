@@ -86,6 +86,14 @@
 
         #endregion
 
+        #region UserProfile
+
+        public const string UserProfileBase = "user-profile";
+
+        public const string UserProfileUpdate = "update";
+
+        #endregion
+
         #region UserManagement
 
         public const string UserManagementBase = "user-management/";

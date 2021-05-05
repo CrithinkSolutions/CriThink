@@ -5,7 +5,6 @@
     /// </summary>
     public enum Gender
     {
-        NotSet,
         Male,
         Female,
         NonBinary,

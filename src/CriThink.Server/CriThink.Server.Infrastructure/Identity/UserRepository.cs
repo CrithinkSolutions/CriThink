@@ -118,7 +118,10 @@ namespace CriThink.Server.Infrastructure.Identity
             IQueryable<User> query = _userManager.Users;
 
             if (includeForeignKeys)
+            {
                 query = query.Include(u => u.RefreshTokens);
+                query = query.Include(u => u.Profile);
+            }
 
             Expression<Func<User, bool>> whereClause;
 

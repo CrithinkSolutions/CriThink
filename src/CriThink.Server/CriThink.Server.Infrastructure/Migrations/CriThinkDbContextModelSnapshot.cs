@@ -551,7 +551,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("country");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("Date")
                         .HasColumnName("date_of_birth");
 
@@ -568,7 +568,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("family_name");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("gender");
 
@@ -609,13 +608,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("youtube");
 
                     b.HasKey("Id")
-                        .HasName("pk_user_profile");
+                        .HasName("pk_user_profiles");
 
                     b.HasIndex("UserId")
                         .IsUnique()
-                        .HasDatabaseName("ix_user_profile_user_id");
+                        .HasDatabaseName("ix_user_profiles_user_id");
 
-                    b.ToTable("user_profile");
+                    b.ToTable("user_profiles");
 
                     b.HasData(
                         new
@@ -623,7 +622,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                             Id = new Guid("cb825a64-9cdb-48e7-8bb0-45d5bed6eee2"),
                             DateOfBirth = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "This is the default account",
-                            Gender = "Male",
                             RegisteredOn = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
                         });
@@ -897,7 +895,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", "User")
                         .WithOne("Profile")
                         .HasForeignKey("CriThink.Server.Core.Entities.UserProfile", "UserId")
-                        .HasConstraintName("fk_user_profile_users_user_id")
+                        .HasConstraintName("fk_user_profiles_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
