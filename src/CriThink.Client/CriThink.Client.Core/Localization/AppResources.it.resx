@@ -393,4 +393,10 @@
   <data name="SignUpEmailViewModel.SelectAvatar" xml:space="preserve">
     <value>Seleziona il tuo avatar</value>
   </data>
+  <data name="ProfileViewModel.RegisteredOn" xml:space="preserve">
+    <value>Iscritto il {0}</value>
+  </data>
+  <data name="ProfileViewModel.AboutTitle" xml:space="preserve">
+    <value>Su di me</value>
+  </data>
 </root>

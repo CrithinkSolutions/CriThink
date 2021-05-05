@@ -4,6 +4,7 @@ using Android.Views;
 using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 
@@ -22,6 +23,9 @@ namespace CriThink.Client.Droid.Views.Users
             var txtHello = FindViewById<AppCompatTextView>(Resource.Id.txtHello);
             var imgProfile = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var txtRegistrationDate = FindViewById<AppCompatTextView>(Resource.Id.txtRegistrationDate);
+            var txtAbout = FindViewById<AppCompatTextView>(Resource.Id.txtAbout);
+            var txtAboutTitle = FindViewById<AppCompatTextView>(Resource.Id.txtAboutTitle);
 
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
@@ -32,6 +36,10 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtHello).To(vm => vm.HeaderText);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
             set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
+            set.Bind(txtRegistrationDate).To(vm => vm.RegisteredOn);
+            set.Bind(txtAbout).To(vm => vm.About);
+
+            set.Bind(txtAboutTitle).ToLocalizationId("AboutTitle");
 
             set.Apply();
         }

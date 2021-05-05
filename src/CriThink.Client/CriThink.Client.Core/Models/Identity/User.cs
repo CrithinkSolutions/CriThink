@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 
@@ -30,6 +31,8 @@ namespace CriThink.Client.Core.Models.Identity
             JwtToken = response.JwtToken;
             RefreshToken = response.RefreshToken;
             AvatarPath = GetAvatarPath(response.AvatarPath);
+            RegisteredOn = DateTime.Parse(response.RegisteredOn, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+            //TODO: add about description
         }
 
         [JsonInclude]
@@ -49,6 +52,12 @@ namespace CriThink.Client.Core.Models.Identity
 
         [JsonInclude]
         public string RefreshToken { get; internal set; }
+
+        [JsonInclude]
+        public DateTime RegisteredOn { get; internal set; }
+
+        [JsonInclude]
+        public string AboutDescription { get; internal set; }
 
         /// <summary>
         /// Updates the current JWT and refresh tokens

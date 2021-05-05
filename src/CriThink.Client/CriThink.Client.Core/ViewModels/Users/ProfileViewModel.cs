@@ -48,6 +48,22 @@ namespace CriThink.Client.Core.ViewModels.Users
             set => SetProperty(ref _headerText, value);
         }
 
+        private string _registeredOn;
+
+        public string RegisteredOn
+        {
+            get => _registeredOn;
+            set => SetProperty(ref _registeredOn, value);
+        }
+
+        private string _about;
+
+        public string About
+        {
+            get => _about;
+            set => SetProperty(ref _about, value);
+        }
+
         private IMvxAsyncCommand _navigateToEditCommand;
         public IMvxAsyncCommand NavigateToEditCommand => _navigateToEditCommand ??= new MvxAsyncCommand(DoNavigateToEditCommand);
 
@@ -68,6 +84,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), user.UserName);
                 AvatarImagePath = user.AvatarPath;
+                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), user.RegisteredOn.ToString("Y"));
+                About = user.AboutDescription;
             }
         }
 
