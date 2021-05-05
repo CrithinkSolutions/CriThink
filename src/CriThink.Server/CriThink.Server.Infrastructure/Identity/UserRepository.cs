@@ -110,17 +110,16 @@ namespace CriThink.Server.Infrastructure.Identity
             return _userManager.ResetPasswordAsync(user, decodedToken, password);
         }
 
-        public async Task<User> FindUserAsync(string value, bool includeForeignKeys, CancellationToken cancellationToken = default)
+        public async Task<User> FindUserAsync(string value, bool includeTokens, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
 
             IQueryable<User> query = _userManager.Users;
 
-            if (includeForeignKeys)
+            if (includeTokens)
             {
                 query = query.Include(u => u.RefreshTokens);
-                query = query.Include(u => u.Profile);
             }
 
             Expression<Func<User, bool>> whereClause;

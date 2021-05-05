@@ -15,13 +15,13 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class ProfileViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-        private readonly IIdentityService _identityService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IMvxLog _log;
 
-        public ProfileViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService)
+        public ProfileViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IUserProfileService userProfileService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _log = logProvider?.GetLogFor<ProfileViewModel>();
 
             ProfileImageTransformations = new List<ITransformation>
@@ -63,10 +63,10 @@ namespace CriThink.Client.Core.ViewModels.Users
         {
             await base.Initialize().ConfigureAwait(false);
 
-            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            var user = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
             if (user != null)
             {
-                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), user.UserName);
+                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), user.Username);
                 AvatarImagePath = user.AvatarPath;
             }
         }

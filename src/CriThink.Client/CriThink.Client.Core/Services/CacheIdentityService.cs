@@ -10,7 +10,6 @@ namespace CriThink.Client.Core.Services
 {
     public class CacheIdentityService : IIdentityService
     {
-        private const string UserCacheKey = "current_user";
         private const string UserTokenCacheKey = "current_user_token";
 
         private readonly IdentityService _identityService;
@@ -24,12 +23,12 @@ namespace CriThink.Client.Core.Services
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
-        public async Task<User> GetLoggedUserAsync()
+        public async Task<UserAccess> GetLoggedUserAccessAsync()
         {
-            return await _memoryCache.GetOrCreateAsync(UserCacheKey, async entry =>
+            return await _memoryCache.GetOrCreateAsync(UserTokenCacheKey, async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
-                return await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+                return await _identityService.GetLoggedUserAccessAsync().ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 
@@ -95,7 +94,6 @@ namespace CriThink.Client.Core.Services
 
         private void ClearUserInfoFromCache()
         {
-            _memoryCache.Remove(UserCacheKey);
             _memoryCache.Remove(UserTokenCacheKey);
         }
     }

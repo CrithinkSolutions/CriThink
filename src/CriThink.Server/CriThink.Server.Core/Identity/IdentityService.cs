@@ -94,7 +94,6 @@ namespace CriThink.Server.Core.Identity
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
-                AvatarPath = user.Profile.AvatarPath,
             };
         }
 
@@ -382,13 +381,8 @@ namespace CriThink.Server.Core.Identity
 
             var response = new UserLoginResponse
             {
-                UserId = user.Id.ToString(),
-                UserEmail = user.Email,
-                UserName = user.UserName,
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
-                AvatarPath = user.Profile.AvatarPath,
-                RegisteredOn = user.Profile.RegisteredOn.ToShortDateString(),
             };
 
             return response;
@@ -622,11 +616,6 @@ namespace CriThink.Server.Core.Identity
             {
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
-                UserEmail = currentUser.Email,
-                UserId = currentUser.Id.ToString(),
-                UserName = currentUser.UserName,
-                AvatarPath = currentUser.Profile.AvatarPath,
-                RegisteredOn = currentUser.Profile.RegisteredOn.ToShortDateString(),
             };
         }
 
@@ -640,18 +629,6 @@ namespace CriThink.Server.Core.Identity
             {
                 IsAvailable = user is null
             };
-        }
-
-        public async Task UpdateUserAvatarAsync(IFormFile formFile)
-        {
-            if (formFile is null)
-                throw new ArgumentNullException(nameof(formFile));
-
-            var userId = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrWhiteSpace(userId))
-                throw new InvalidOperationException();
-
-            await _fileService.SaveUserAvatarAsync(formFile, $"{userId}/{AssetsConstants.ProfileFolder}");
         }
 
         #region Privates

@@ -36,7 +36,7 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         /// 
-        ///     PATCH: /api/user-profile/update
+        ///     PATCH: /api/user-profile/
         ///     {
         ///         "givenName": "givenName",
         ///         "familyName": "familyName"
@@ -47,7 +47,6 @@ namespace CriThink.Server.Web.Controllers
         /// <response code="401">If the user is not authorized</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
-        [Route(EndpointConstants.UserProfileUpdate)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
@@ -58,6 +57,64 @@ namespace CriThink.Server.Web.Controllers
         {
             await _profileService.UpdateUserProfileAsync(request).ConfigureAwait(false);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Updates the user avatar. File size must be between 5kb and 2mb
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PATCH: /api/user-profile/upload-avatar
+        ///  
+        /// </remarks>
+        /// <param name="formFile">Image to use as avatar. Between 5kb and 3mb. Only
+        /// jpg and jpeg allowed</param>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.UserProfileUploadAvatar)]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpPatch]
+        public async Task<IActionResult> UploadAvatarAsync(
+            [FileSize(5 * 1024, 3 * 1024 * 1024)]
+            [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
+            [Required]
+            IFormFile formFile)
+        {
+            await _profileService.UpdateUserAvatarAsync(formFile).ConfigureAwait(false);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Get full user details
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET: /api/user-profile/
+        /// 
+        /// </remarks>
+        /// <response code="200">Returns full user details</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [ProducesResponseType(typeof(UserProfileGetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserDetailsAsync()
+        {
+            var response = await _profileService.GetUserProfileAsync().ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
         }
     }
 }

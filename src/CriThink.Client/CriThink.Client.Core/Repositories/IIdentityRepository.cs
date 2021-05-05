@@ -6,17 +6,17 @@ namespace CriThink.Client.Core.Repositories
     public interface IIdentityRepository
     {
         /// <summary>
-        /// Read user info stored in local storage
+        /// Read user access info stored in local storage
         /// </summary>
         /// <returns></returns>
-        Task<User> GetUserInfoAsync();
+        Task<UserAccess> GetUserAccessAsync();
 
         /// <summary>
-        /// Save user info locally
+        /// Save user access info locally
         /// </summary>
-        /// <param name="user"><see cref="User"/> to save</param>
+        /// <param name="userAccess">User access to save</param>
         /// <returns></returns>
-        Task SetUserInfoAsync(User user);
+        Task SetUserAccessAsync(UserAccess userAccess);
 
         /// <summary>
         /// Delete user info
