@@ -23,10 +23,8 @@ namespace CriThink.Server.Core.Entities
         [Required]
         public bool IsDeleted { get; set; } = false;
 
-        public string AvatarPath { get; set; }
-
         [Required]
-        public DateTime RegisteredOn { get; set; }
+        public UserProfile Profile { get; set; }
 
         public bool HasValidRefreshToken(string refreshToken)
         {

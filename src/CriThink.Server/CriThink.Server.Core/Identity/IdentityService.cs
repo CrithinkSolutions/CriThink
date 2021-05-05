@@ -67,11 +67,14 @@ namespace CriThink.Server.Core.Identity
                 UserName = request.UserName,
                 Email = request.Email,
                 Id = Guid.NewGuid(),
-                RegisteredOn = DateTime.UtcNow,
+                Profile = new UserProfile
+                {
+                    RegisteredOn = DateTime.UtcNow,
+                }
             };
 
             if (formFile is not null)
-                user.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
+                user.Profile.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
 
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
@@ -91,7 +94,7 @@ namespace CriThink.Server.Core.Identity
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
-                AvatarPath = user.AvatarPath,
+                AvatarPath = user.Profile.AvatarPath,
             };
         }
 
@@ -104,7 +107,10 @@ namespace CriThink.Server.Core.Identity
             {
                 UserName = request.UserName,
                 Email = request.Email,
-                RegisteredOn = DateTime.UtcNow,
+                Profile = new UserProfile
+                {
+                    RegisteredOn = DateTime.UtcNow,
+                }
             };
 
             var userCreationResult = await _userRepository.CreateUserAsync(adminUser, request.Password).ConfigureAwait(false);
@@ -381,8 +387,8 @@ namespace CriThink.Server.Core.Identity
                 UserName = user.UserName,
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
-                AvatarPath = user.AvatarPath,
-                RegisteredOn = user.RegisteredOn.ToShortDateString(),
+                AvatarPath = user.Profile.AvatarPath,
+                RegisteredOn = user.Profile.RegisteredOn.ToShortDateString(),
             };
 
             return response;
@@ -619,8 +625,8 @@ namespace CriThink.Server.Core.Identity
                 UserEmail = currentUser.Email,
                 UserId = currentUser.Id.ToString(),
                 UserName = currentUser.UserName,
-                AvatarPath = currentUser.AvatarPath,
-                RegisteredOn = currentUser.RegisteredOn.ToShortDateString(),
+                AvatarPath = currentUser.Profile.AvatarPath,
+                RegisteredOn = currentUser.Profile.RegisteredOn.ToShortDateString(),
             };
         }
 
@@ -725,8 +731,7 @@ namespace CriThink.Server.Core.Identity
             {
                 try
                 {
-                    var avatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
-                    user.AvatarPath = avatarPath;
+                    user.Profile.AvatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
                 }
                 catch (Exception ex)
                 {
