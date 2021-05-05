@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
@@ -54,15 +53,15 @@ namespace CriThink.Client.Core
                     return;
                 }
 
-                var loggedUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+                var loggedUser = await _identityService.GetLoggedUserAccessAsync().ConfigureAwait(false);
                 if (loggedUser?.JwtToken is null ||
-                    loggedUser?.RefreshToken is null)
+                    loggedUser.RefreshToken is null)
                 {
                     await NavigateToSignUpViewAsync().ConfigureAwait(true);
                 }
                 else
                 {
-                    await NavigateToHomeAsync(loggedUser).ConfigureAwait(true);
+                    await NavigateToHomeAsync().ConfigureAwait(true);
                 }
             }
             catch (Exception ex)
@@ -86,7 +85,7 @@ namespace CriThink.Client.Core
             return NavigationService.Navigate<SignUpViewModel>();
         }
 
-        private async Task NavigateToHomeAsync(User loggedUser)
+        private async Task NavigateToHomeAsync()
         {
             _log?.Info($"User logged. Navigating to {nameof(HomeViewModel)}");
 
@@ -99,7 +98,7 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _log?.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex, loggedUser.UserName);
+                _log?.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex);
                 _identityService.PerformLogout();
                 await NavigateToLoginViewAsync(cancellationToken.Token).ConfigureAwait(true);
             }
