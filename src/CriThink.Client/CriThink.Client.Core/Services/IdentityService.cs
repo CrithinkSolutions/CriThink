@@ -24,15 +24,15 @@ namespace CriThink.Client.Core.Services
             _log = logProvider?.GetLogFor<IdentityService>();
         }
 
-        public Task<User> GetLoggedUserAsync()
+        public Task<UserAccess> GetLoggedUserAccessAsync()
         {
             try
             {
-                return _identityRepository.GetUserInfoAsync();
+                return _identityRepository.GetUserAccessAsync();
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Can't get user info", ex);
+                _log?.FatalException("Can't get user access", ex);
                 return null;
             }
         }
@@ -56,9 +56,9 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var user = new User(loginResponse);
+                var userAccess = new UserAccess(loginResponse);
 
-                await _identityRepository.SetUserInfoAsync(user)
+                await _identityRepository.SetUserAccessAsync(userAccess)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -88,9 +88,9 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var user = new User(loginResponse);
+                var user = new UserAccess(loginResponse);
 
-                await _identityRepository.SetUserInfoAsync(user)
+                await _identityRepository.SetUserAccessAsync(user)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -103,13 +103,13 @@ namespace CriThink.Client.Core.Services
 
         public async Task<UserRefreshTokenResponse> ExchangeTokensAsync(CancellationToken cancellationToken = default)
         {
-            var currentUser = await _identityRepository.GetUserInfoAsync();
+            var userAccess = await _identityRepository.GetUserAccessAsync();
 
-            var currentAccessToken = currentUser.JwtToken.Token;
+            var currentAccessToken = userAccess.JwtToken.Token;
             if (string.IsNullOrWhiteSpace(currentAccessToken))
                 throw new InvalidOperationException("No valid token found");
 
-            var refreshToken = currentUser.RefreshToken;
+            var refreshToken = userAccess.RefreshToken;
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new InvalidOperationException("No valid refresh token found");
 
@@ -122,9 +122,9 @@ namespace CriThink.Client.Core.Services
             var newerTokens = await _identityApi.ExchangeTokensAsync(request, cancellationToken)
                 .ConfigureAwait(false);
 
-            currentUser.UpdateJwtTokens(newerTokens);
+            userAccess.UpdateJwtTokens(newerTokens);
 
-            await _identityRepository.SetUserInfoAsync(currentUser)
+            await _identityRepository.SetUserAccessAsync(userAccess)
                 .ConfigureAwait(false);
 
             return newerTokens;

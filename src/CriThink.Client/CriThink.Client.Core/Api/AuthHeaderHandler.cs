@@ -58,8 +58,8 @@ namespace CriThink.Client.Core.Api
             return base.SendAsync(request, cancellationToken);
         }
 
-        private static Task<User> GetCurrentUserAsync(IIdentityService identityService) =>
-            identityService.GetLoggedUserAsync();
+        private static Task<UserAccess> GetCurrentUserAsync(IIdentityService identityService) =>
+            identityService.GetLoggedUserAccessAsync();
 
         private static async Task HandleTokensRenewalAsync(IIdentityService identityService, HttpRequestMessage request, CancellationToken cancellationToken)
         {

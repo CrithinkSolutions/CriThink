@@ -26,6 +26,8 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UnknownNewsSource> UnknownNewsSources { get; set; }
 
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
         public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

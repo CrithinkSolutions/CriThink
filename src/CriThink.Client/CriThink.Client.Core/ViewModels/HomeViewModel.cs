@@ -57,7 +57,7 @@ namespace CriThink.Client.Core.ViewModels
         {
             await base.Initialize().ConfigureAwait(false);
 
-            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            var user = await _identityService.GetLoggedUserAccessAsync().ConfigureAwait(false);
             if (user is null)
             {
                 await _navigationService.Navigate<SignUpViewModel>(

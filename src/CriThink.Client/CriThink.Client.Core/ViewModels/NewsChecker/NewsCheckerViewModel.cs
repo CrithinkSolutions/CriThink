@@ -23,7 +23,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private const int PageSize = 10;
 
         private readonly IDebunkingNewsService _debunkingNewsService;
-        private readonly IIdentityService _identityService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IMvxLog _log;
 
         private bool _isInitialized;
@@ -31,13 +31,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public NewsCheckerViewModel(
             IMvxLogProvider logProvider,
             IMvxNavigationService navigationService,
-            IIdentityService identityService,
+            IUserProfileService userProfileService,
             IDebunkingNewsService debunkingNewsService)
             : base(logProvider, navigationService)
         {
             TabId = "news_checker";
 
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
             _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
 
@@ -134,11 +134,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             GetDebunkingNewsAsync();
 #pragma warning restore 4014
 
-            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(true);
+            var user = await _userProfileService.GetUserProfileAsync().ConfigureAwait(true);
             if (user is null)
                 return;
 
-            Username = user.UserName;
+            Username = user.Username;
             AvatarImagePath = user.AvatarPath;
 
             _isInitialized = true;

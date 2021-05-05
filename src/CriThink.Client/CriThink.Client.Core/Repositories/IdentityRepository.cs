@@ -9,7 +9,7 @@ namespace CriThink.Client.Core.Repositories
 {
     public class IdentityRepository : IIdentityRepository
     {
-        private const string User = "user";
+        private const string UserProfile = "user_profile";
 
         private readonly ISettingsRepository _settingsRepository;
         private readonly IMvxLog _log;
@@ -20,7 +20,7 @@ namespace CriThink.Client.Core.Repositories
             _log = logProvider?.GetLogFor<IdentityRepository>();
         }
 
-        public async Task<User> GetUserInfoAsync()
+        public async Task<UserAccess> GetUserAccessAsync()
         {
             try
             {
@@ -29,31 +29,31 @@ namespace CriThink.Client.Core.Repositories
                     IncludeFields = true,
                 };
 
-                var serializedData = await GetUserInSettingsSettingAsync(User);
+                var serializedData = await GetUserInSettingsSettingAsync(UserProfile);
                 return string.IsNullOrWhiteSpace(serializedData) ?
                     null :
-                    JsonSerializer.Deserialize<User>(serializedData, options);
+                    JsonSerializer.Deserialize<UserAccess>(serializedData, options);
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error getting user info", ex);
+                _log?.FatalException("Error getting user access info", ex);
                 throw;
             }
         }
 
-        public async Task SetUserInfoAsync(User user)
+        public async Task SetUserAccessAsync(UserAccess userAccess)
         {
-            if (user is null)
+            if (userAccess is null)
                 return;
 
             try
             {
-                var serializedData = JsonSerializer.Serialize(user);
-                await UpdateUserInSettingsAsync(User, serializedData);
+                var serializedData = JsonSerializer.Serialize(userAccess);
+                await UpdateUserInSettingsAsync(UserProfile, serializedData);
             }
             catch (Exception ex)
             {
-                _log.ErrorException("Error saving user info", ex, user?.UserId);
+                _log.ErrorException("Error saving user access info", ex);
                 throw;
             }
         }
@@ -62,7 +62,7 @@ namespace CriThink.Client.Core.Repositories
         {
             try
             {
-                EraseUserSettingsAsync(User);
+                EraseUserSettingsAsync(UserProfile);
             }
             catch (Exception ex)
             {

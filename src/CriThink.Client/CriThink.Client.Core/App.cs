@@ -58,6 +58,8 @@ namespace CriThink.Client.Core
             Mvx.IoCProvider.RegisterType<IdentityService>();
             Mvx.IoCProvider.RegisterType<IIdentityService, CacheIdentityService>();
             Mvx.IoCProvider.RegisterType<IPlatformService, PlatformService>();
+            Mvx.IoCProvider.RegisterType<IUserProfileService, CacheUserProfileService>();
+            Mvx.IoCProvider.RegisterType<UserProfileService>();
 
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IMemoryCache>(() => new MemoryCache(new MemoryCacheOptions
             {
@@ -104,6 +106,7 @@ namespace CriThink.Client.Core
 
             var debunkingNewsApiUri = configurationRoot["DebunkingNewsApiUri"];
             var identityApiUri = configurationRoot["IdentityApiUri"];
+            var userProfileApiUri = configurationRoot["UserProfileApiUri"];
             var newsSourceApiUri = configurationRoot["NewsSourceApiUri"];
             var serviceApiUri = configurationRoot["ServiceApiUri"];
 
@@ -116,6 +119,14 @@ namespace CriThink.Client.Core
                     httpClient.BaseAddress = new Uri(baseApiUri + identityApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
+
+            serviceCollection.AddRefitClient<IUserProfileApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + userProfileApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
 
             serviceCollection.AddRefitClient<IDebunkingNewsApi>()
                 .ConfigureHttpClient(httpClient =>
