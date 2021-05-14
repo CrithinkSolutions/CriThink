@@ -11,25 +11,31 @@ namespace CriThink.Client.Core.Platform
         /// Open Facebook on the optional desired page
         /// </summary>
         /// <param name="pageId">(Optional) Id of the page to open</param>
-        public void OpenFacebook(string pageId = null);
+        void OpenFacebook(string pageId = null);
 
         /// <summary>
         /// Open Instagram on the optional desired profile
         /// </summary>
         /// <param name="profileId">(Optional) Id of the profile to open</param>
-        public void OpenInstagramProfile(string profileId = null);
+        void OpenInstagramProfile(string profileId = null);
 
         /// <summary>
         /// Open Twitter on the optional desired profile
         /// </summary>
         /// <param name="profileId">(Optional) Id of the profile to open</param>
-        public void OpenTwitterProfile(string profileId = null);
+        void OpenTwitterProfile(string profileId = null);
 
         /// <summary>
         /// Open LinkedIn on the optional desired profile
         /// </summary>
         /// <param name="profileId">(Optional) Id of the profile to open</param>
-        public void OpenLinkedInProfile(string profileId = null);
+        void OpenLinkedInProfile(string profileId = null);
+
+        /// <summary>
+        /// Open Skype app on the desired profile
+        /// </summary>
+        /// <param name="profileName">Profile name</param>
+        void OpenSkypeProfile(string profileName);
 
         /// <summary>
         /// Perform logout from social

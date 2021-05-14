@@ -23,7 +23,7 @@ namespace CriThink.Client.Core.Api
             var token = currentUser?.JwtToken;
             if (token is null)
                 throw new InvalidOperationException("No user is logged");
-
+            // TODO: add lock otherwise concurrent requests will exchange token twice throwing an error (current refresh token is deleted at the first request)
             var remainintLivingTime = token.ExpirationDate - DateTime.UtcNow;
             if (remainintLivingTime < TimeSpan.FromMinutes(20))
             {
