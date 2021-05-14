@@ -47,6 +47,17 @@ namespace CriThink.Client.Droid.PlatformDetails
             LaunchIntent(linkedInUri);
         }
 
+        public void OpenSkypeProfile(string profileName)
+        {
+            var skypeIntent = GetIntentOfTheGivenPackage("com.skype.raider");
+            var skypeUri = "https://web.skype.com/";
+            if (skypeIntent != null)
+            {
+                skypeUri = $"skype:{profileName}";
+            }
+            LaunchIntent(skypeUri);
+        }
+
         public async Task LogoutSocialLoginAsync()
         {
             await GoogleSingleton.LogoutAsync();

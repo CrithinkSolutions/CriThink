@@ -601,6 +601,69 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I&apos;m.
+        /// </summary>
+        internal static string ProfileViewModel_IAmGender {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.IAmGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Born the.
+        /// </summary>
+        internal static string ProfileViewModel_IBornOn {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.IBornOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Live in.
+        /// </summary>
+        internal static string ProfileViewModel_ILiveIn {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.ILiveIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Badges.
+        /// </summary>
+        internal static string ProfileViewModel_MyBadges {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.MyBadges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My name is.
+        /// </summary>
+        internal static string ProfileViewModel_MyNameIs {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.MyNameIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Profile.
+        /// </summary>
+        internal static string ProfileViewModel_MyProfile {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.MyProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open app.
+        /// </summary>
+        internal static string ProfileViewModel_OpenApp {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.OpenApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Joined in {0}.
         /// </summary>
         internal static string ProfileViewModel_RegisteredOn {

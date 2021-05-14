@@ -399,4 +399,25 @@
   <data name="ProfileViewModel.AboutTitle" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="ProfileViewModel.MyProfile" xml:space="preserve">
+    <value>My Profile</value>
+  </data>
+  <data name="ProfileViewModel.OpenApp" xml:space="preserve">
+    <value>Open app</value>
+  </data>
+  <data name="ProfileViewModel.MyBadges" xml:space="preserve">
+    <value>My Badges</value>
+  </data>
+  <data name="ProfileViewModel.IAmGender" xml:space="preserve">
+    <value>I'm</value>
+  </data>
+  <data name="ProfileViewModel.IBornOn" xml:space="preserve">
+    <value>Born the</value>
+  </data>
+  <data name="ProfileViewModel.ILiveIn" xml:space="preserve">
+    <value>Live in</value>
+  </data>
+  <data name="ProfileViewModel.MyNameIs" xml:space="preserve">
+    <value>My name is</value>
+  </data>
 </root>

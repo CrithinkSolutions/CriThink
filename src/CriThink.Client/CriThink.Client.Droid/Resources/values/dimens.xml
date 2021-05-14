@@ -26,12 +26,14 @@
   <!-- Image View -->
   <dimen name="imgSize_publisherSmall">30dp</dimen>
   <dimen name="imgSize_loader">56dp</dimen>
+  <dimen name="imgSize_profileSocial">24dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
   <dimen name="imgSize_medium">60dp</dimen>
   <dimen name="imgSize_debunkingCollection">180dp</dimen>
   <dimen name="imgSize_bigLogo">80dp</dimen>
   <dimen name="imgSize_veryBigLogo">160dp</dimen>
   <dimen name="img_corners_radius">25dp</dimen>
+  <dimen name="imgSize_userInfoIcons">20dp</dimen>
   
   <!-- Edit Text -->
   <dimen name="edittext_padding">13dp</dimen>

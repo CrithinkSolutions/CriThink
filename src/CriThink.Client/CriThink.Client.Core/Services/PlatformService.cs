@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CriThink.Client.Core.Platform;
 using MvvmCross.Logging;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
 {
@@ -67,6 +69,30 @@ namespace CriThink.Client.Core.Services
                 _log?.Error(ex, "Failed to open LinkedIn profile", LinkedInProfile);
             }
         }
+
+        public async Task OpenInternalBrowser(Uri uri)
+        {
+            try
+            {
+                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                _log?.WarnException("Error opening internal browser", ex);
+            }
+        }
+
+        public void OpenSkype(string profileName)
+        {
+            try
+            {
+                _platformDetails.OpenSkypeProfile(profileName);
+            }
+            catch (Exception ex)
+            {
+                _log?.Error(ex, "Failed to open a Skype profile", profileName);
+            }
+        }
     }
 
     public interface IPlatformService
@@ -78,5 +104,9 @@ namespace CriThink.Client.Core.Services
         void OpenCriThinkTwitterProfile();
 
         void OpenCriThinkLinkedInProfile();
+
+        Task OpenInternalBrowser(Uri uri);
+
+        void OpenSkype(string profileName);
     }
 }
