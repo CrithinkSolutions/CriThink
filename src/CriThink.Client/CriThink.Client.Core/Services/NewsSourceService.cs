@@ -20,15 +20,19 @@ namespace CriThink.Client.Core.Services
     public class NewsSourceService : INewsSourceService
     {
         private readonly INewsSourceApi _newsSourceApi;
-        private readonly IIdentityService _identityService;
+        private readonly IUserProfileService _userProfileService;
         private readonly ISQLiteRepository _sqlRepo;
         private readonly IMvxMessenger _messenger;
         private readonly IMvxLog _log;
 
-        public NewsSourceService(INewsSourceApi newsSourceApi, IIdentityService identityService, ISQLiteRepository sqlRepo, IMvxMessenger messenger, IMvxLogProvider logProvider)
+        public NewsSourceService(
+            INewsSourceApi newsSourceApi,
+            IUserProfileService userProfileService,
+            ISQLiteRepository sqlRepo,
+            IMvxMessenger messenger, IMvxLogProvider logProvider)
         {
             _newsSourceApi = newsSourceApi ?? throw new ArgumentNullException(nameof(newsSourceApi));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
             _log = logProvider?.GetLogFor<NewsSourceService>();
@@ -101,8 +105,8 @@ namespace CriThink.Client.Core.Services
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
-            var currentUser = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
-            var userEmail = currentUser.UserEmail;
+            var currentUser = await _userProfileService.GetUserProfileAsync(cancellationToken).ConfigureAwait(false);
+            var userEmail = currentUser.Email;
 
             var request = new NewsSourceNotificationForUnknownDomainRequest
             {

@@ -21,16 +21,24 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class AboutViewModel : BaseBottomViewViewModel
     {
         private readonly IIdentityService _identityService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IPlatformDetails _platformDetails;
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
 
         private bool _isInitialized;
 
-        public AboutViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService, IIdentityService identityService, IPlatformDetails platformDetails, IUserDialogs userDialogs)
+        public AboutViewModel(
+            IMvxLogProvider logProvider,
+            IIdentityService identityService,
+            IMvxNavigationService navigationService,
+            IUserProfileService userProfileService,
+            IPlatformDetails platformDetails,
+            IUserDialogs userDialogs)
             : base(logProvider, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = LogProvider?.GetLogFor<AboutViewModel>();
@@ -110,10 +118,10 @@ namespace CriThink.Client.Core.ViewModels.Users
             ReadAppVersion();
 
             _isInitialized = true;
-            var user = await _identityService.GetLoggedUserAsync().ConfigureAwait(false);
+            var user = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
             if (user != null)
             {
-                Username = user.UserName;
+                Username = user.Username;
                 AvatarImagePath = user.AvatarPath;
             }
         }

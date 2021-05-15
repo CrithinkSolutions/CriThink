@@ -67,11 +67,14 @@ namespace CriThink.Server.Core.Identity
                 UserName = request.UserName,
                 Email = request.Email,
                 Id = Guid.NewGuid(),
-                RegisteredOn = DateTime.UtcNow,
+                Profile = new UserProfile
+                {
+                    RegisteredOn = DateTime.UtcNow,
+                }
             };
 
             if (formFile is not null)
-                user.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
+                user.Profile.AvatarPath = await _fileService.SaveUserAvatarAsync(formFile, $"{user.Id}/{AssetsConstants.ProfileFolder}");
 
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
@@ -91,7 +94,6 @@ namespace CriThink.Server.Core.Identity
             {
                 UserId = user.Id.ToString(),
                 UserEmail = user.Email,
-                AvatarPath = user.AvatarPath,
             };
         }
 
@@ -104,7 +106,10 @@ namespace CriThink.Server.Core.Identity
             {
                 UserName = request.UserName,
                 Email = request.Email,
-                RegisteredOn = DateTime.UtcNow,
+                Profile = new UserProfile
+                {
+                    RegisteredOn = DateTime.UtcNow,
+                }
             };
 
             var userCreationResult = await _userRepository.CreateUserAsync(adminUser, request.Password).ConfigureAwait(false);
@@ -356,7 +361,7 @@ namespace CriThink.Server.Core.Identity
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
+            var user = await FindUserAsync(request.Email ?? request.UserName, true).ConfigureAwait(false);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
             if (user.IsDeleted)
@@ -376,13 +381,8 @@ namespace CriThink.Server.Core.Identity
 
             var response = new UserLoginResponse
             {
-                UserId = user.Id.ToString(),
-                UserEmail = user.Email,
-                UserName = user.UserName,
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
-                AvatarPath = user.AvatarPath,
-                RegisteredOn = user.RegisteredOn.ToShortDateString(),
             };
 
             return response;
@@ -616,11 +616,6 @@ namespace CriThink.Server.Core.Identity
             {
                 JwtToken = jwtToken,
                 RefreshToken = refreshToken,
-                UserEmail = currentUser.Email,
-                UserId = currentUser.Id.ToString(),
-                UserName = currentUser.UserName,
-                AvatarPath = currentUser.AvatarPath,
-                RegisteredOn = currentUser.RegisteredOn.ToShortDateString(),
             };
         }
 
@@ -634,18 +629,6 @@ namespace CriThink.Server.Core.Identity
             {
                 IsAvailable = user is null
             };
-        }
-
-        public async Task UpdateUserAvatarAsync(IFormFile formFile)
-        {
-            if (formFile is null)
-                throw new ArgumentNullException(nameof(formFile));
-
-            var userId = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrWhiteSpace(userId))
-                throw new InvalidOperationException();
-
-            await _fileService.SaveUserAvatarAsync(formFile, $"{userId}/{AssetsConstants.ProfileFolder}");
         }
 
         #region Privates
@@ -725,8 +708,7 @@ namespace CriThink.Server.Core.Identity
             {
                 try
                 {
-                    var avatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
-                    user.AvatarPath = avatarPath;
+                    user.Profile.AvatarPath = await _fileService.SaveUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, $"{user.Id}/{AssetsConstants.ProfileFolder}");
                 }
                 catch (Exception ex)
                 {

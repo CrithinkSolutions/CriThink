@@ -9,10 +9,10 @@ namespace CriThink.Client.Core.Services
     public interface IIdentityService
     {
         /// <summary>
-        /// Get logged user information
+        /// Get user credentials to access APIs
         /// </summary>
-        /// <returns>User info</returns>
-        Task<User> GetLoggedUserAsync();
+        /// <returns>User access info</returns>
+        Task<UserAccess> GetLoggedUserAccessAsync();
 
         /// <summary>
         /// Performs login

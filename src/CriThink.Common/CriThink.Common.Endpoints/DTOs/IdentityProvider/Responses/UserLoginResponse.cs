@@ -10,20 +10,5 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 
         [JsonPropertyName("refreshToken")]
         public string RefreshToken { get; set; }
-
-        [JsonPropertyName("userId")]
-        public string UserId { get; set; }
-
-        [JsonPropertyName("userEmail")]
-        public string UserEmail { get; set; }
-
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
-
-        [JsonPropertyName("avatarPath")]
-        public string AvatarPath { get; set; }
-
-        [JsonPropertyName("registeredOn")]
-        public string RegisteredOn { get; set; }
     }
 }

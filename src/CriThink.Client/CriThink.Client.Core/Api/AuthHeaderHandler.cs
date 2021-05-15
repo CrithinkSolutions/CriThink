@@ -15,11 +15,32 @@ namespace CriThink.Client.Core.Api
 {
     internal class AuthHeaderHandler : DelegatingHandler
     {
+        private static readonly SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            await SemaphoreSlim.WaitAsync(cancellationToken);
+            return await SendRequestAsync(request, cancellationToken);
+        }
+
+        private async Task<HttpResponseMessage> SendRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await EnsureAuthHeaderIsValidAsync(request, cancellationToken);
+            }
+            finally
+            {
+                SemaphoreSlim.Release();
+            }
+        }
+
+        private async Task<HttpResponseMessage> EnsureAuthHeaderIsValidAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             var identityService = ResolveIdentityService();
 
-            var currentUser = await GetCurrentUserAsync(identityService).ConfigureAwait(false);
+            var currentUser = await GetUserAccessAsync(identityService).ConfigureAwait(false);
             var token = currentUser?.JwtToken;
             if (token is null)
                 throw new InvalidOperationException("No user is logged");
@@ -58,8 +79,8 @@ namespace CriThink.Client.Core.Api
             return base.SendAsync(request, cancellationToken);
         }
 
-        private static Task<User> GetCurrentUserAsync(IIdentityService identityService) =>
-            identityService.GetLoggedUserAsync();
+        private static Task<UserAccess> GetUserAccessAsync(IIdentityService identityService) =>
+            identityService.GetLoggedUserAccessAsync();
 
         private static async Task HandleTokensRenewalAsync(IIdentityService identityService, HttpRequestMessage request, CancellationToken cancellationToken)
         {

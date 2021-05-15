@@ -449,10 +449,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
 
-                    b.Property<string>("AvatarPath")
-                        .HasColumnType("text")
-                        .HasColumnName("avatar_path");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text")
@@ -497,10 +493,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
 
-                    b.Property<DateTime>("RegisteredOn")
-                        .HasColumnType("Date")
-                        .HasColumnName("registered_on");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text")
                         .HasColumnName("security_stamp");
@@ -535,9 +527,103 @@ namespace CriThink.Server.Infrastructure.Migrations
                             NormalizedEmail = "SERVICE@CRITHINK.COM",
                             NormalizedUserName = "SERVICE",
                             PasswordHash = "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
-                            RegisteredOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD",
                             UserName = "service"
+                        });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("AvatarPath")
+                        .HasColumnType("text")
+                        .HasColumnName("avatar_path");
+
+                    b.Property<string>("Blog")
+                        .HasColumnType("text")
+                        .HasColumnName("blog");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text")
+                        .HasColumnName("country");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("Date")
+                        .HasColumnName("date_of_birth");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Facebook")
+                        .HasColumnType("text")
+                        .HasColumnName("facebook");
+
+                    b.Property<string>("FamilyName")
+                        .HasColumnType("text")
+                        .HasColumnName("family_name");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text")
+                        .HasColumnName("gender");
+
+                    b.Property<string>("GivenName")
+                        .HasColumnType("text")
+                        .HasColumnName("given_name");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("text")
+                        .HasColumnName("instagram");
+
+                    b.Property<DateTime>("RegisteredOn")
+                        .HasColumnType("Date")
+                        .HasColumnName("registered_on");
+
+                    b.Property<string>("Skype")
+                        .HasColumnType("text")
+                        .HasColumnName("skype");
+
+                    b.Property<string>("Snapchat")
+                        .HasColumnType("text")
+                        .HasColumnName("snapchat");
+
+                    b.Property<string>("Telegram")
+                        .HasColumnType("text")
+                        .HasColumnName("telegram");
+
+                    b.Property<string>("Twitter")
+                        .HasColumnType("text")
+                        .HasColumnName("twitter");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("Youtube")
+                        .HasColumnType("text")
+                        .HasColumnName("youtube");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_profiles");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_profiles_user_id");
+
+                    b.ToTable("user_profiles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("cb825a64-9cdb-48e7-8bb0-45d5bed6eee2"),
+                            DateOfBirth = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "This is the default account",
+                            RegisteredOn = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = new Guid("f62fc754-e296-4aca-0a3f-08d88b1daff7")
                         });
                 });
 
@@ -804,6 +890,18 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("UnknownNewsSource");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("CriThink.Server.Core.Entities.UserProfile", "UserId")
+                        .HasConstraintName("fk_user_profiles_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
@@ -883,6 +981,9 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
                 {
+                    b.Navigation("Profile")
+                        .IsRequired();
+
                     b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618

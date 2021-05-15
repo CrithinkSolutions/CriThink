@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
@@ -420,6 +421,7 @@ namespace CriThink.Server.Web
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
             if (_environment.IsDevelopment())
