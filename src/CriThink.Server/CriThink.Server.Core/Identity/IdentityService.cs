@@ -8,6 +8,7 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Constants;
 using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
@@ -16,6 +17,7 @@ using CriThink.Server.Core.Interfaces;
 using CriThink.Server.Core.Models.DTOs;
 using CriThink.Server.Core.Models.LoginProviders;
 using CriThink.Server.Providers.EmailSender.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +33,7 @@ namespace CriThink.Server.Core.Identity
         private readonly IEmailSenderService _emailSender;
         private readonly IFileService _fileService;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityService> _logger;
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
@@ -43,6 +46,7 @@ namespace CriThink.Server.Core.Identity
             IEmailSenderService emailSender,
             IFileService fileService,
             IHttpContextAccessor httpContext,
+            IMediator mediator,
             ILogger<IdentityService> logger,
             ExternalLoginProviderResolver externalLoginProviderResolver)
         {
@@ -53,6 +57,7 @@ namespace CriThink.Server.Core.Identity
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
             _logger = logger;
         }
@@ -629,6 +634,20 @@ namespace CriThink.Server.Core.Identity
             {
                 IsAvailable = user is null
             };
+        }
+
+        public async Task CleanUpExpiredRefreshTokens()
+        {
+            try
+            {
+                var command = new DeleteRefreshTokenCommand();
+                await _mediator.Send(command);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error clearning up expired refresh tokens");
+                throw;
+            }
         }
 
         #region Privates

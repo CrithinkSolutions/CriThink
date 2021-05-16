@@ -15,6 +15,7 @@ using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
+using CriThink.Server.Web.BackgroundServices;
 using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
@@ -106,6 +107,8 @@ namespace CriThink.Server.Web
             SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
+
+            SetupBackgroundServices(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -462,6 +465,14 @@ namespace CriThink.Server.Web
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
                 .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckPostgreSql, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckPostgreSql })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
+        }
+
+        private static void SetupBackgroundServices(IServiceCollection services)
+        {
+            services.AddHostedService<RefreshTokenCleanerBackgroundService>();
+
+            services.Configure<HostOptions>(
+                opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));
         }
 
         private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
