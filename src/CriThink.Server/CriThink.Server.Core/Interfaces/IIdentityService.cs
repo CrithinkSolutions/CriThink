@@ -165,5 +165,11 @@ namespace CriThink.Server.Core.Interfaces
         /// <param name="request">Username</param>
         /// <returns>Returns true if the username if available, false if not</returns>
         Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request);
+
+        /// <summary>
+        /// Clean up expired user refresh tokens
+        /// </summary>
+        /// <returns></returns>
+        Task CleanUpExpiredRefreshTokens();
     }
 }
