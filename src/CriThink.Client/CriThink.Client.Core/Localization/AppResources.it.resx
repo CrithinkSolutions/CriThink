@@ -420,4 +420,52 @@
   <data name="ProfileViewModel.MyNameIs" xml:space="preserve">
     <value>Mi chiamo</value>
   </data>
+  <data name="EditProfileViewModel.Blog" xml:space="preserve">
+    <value>L'URL del tuo blog</value>
+  </data>
+  <data name="EditProfileViewModel.Country" xml:space="preserve">
+    <value>Dove attualmente vivi</value>
+  </data>
+  <data name="EditProfileViewModel.Description" xml:space="preserve">
+    <value>Dicci qualcosa su di te</value>
+  </data>
+  <data name="EditProfileViewModel.DoB" xml:space="preserve">
+    <value>Quand sei nato</value>
+  </data>
+  <data name="EditProfileViewModel.Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="EditProfileViewModel.FamilyName" xml:space="preserve">
+    <value>Il tuo cognome</value>
+  </data>
+  <data name="EditProfileViewModel.Gender" xml:space="preserve">
+    <value>Il tuo genere</value>
+  </data>
+  <data name="EditProfileViewModel.GivenName" xml:space="preserve">
+    <value>Il tuo nome</value>
+  </data>
+  <data name="EditProfileViewModel.Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="EditProfileViewModel.Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="EditProfileViewModel.Snapchat" xml:space="preserve">
+    <value>Snapchat</value>
+  </data>
+  <data name="EditProfileViewModel.Telegram" xml:space="preserve">
+    <value>Telegram</value>
+  </data>
+  <data name="EditProfileViewModel.Twitter" xml:space="preserve">
+    <value>Twitter</value>
+  </data>
+  <data name="EditProfileViewModel.YouTube" xml:space="preserve">
+    <value>YouTube</value>
+  </data>
+  <data name="EditProfileViewModel.Bio" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="EditProfileViewModel.Social" xml:space="preserve">
+    <value>Social</value>
+  </data>
 </root>

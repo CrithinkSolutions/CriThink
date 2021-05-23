@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.Common;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using MvvmCross.Commands;
@@ -36,6 +36,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = logProvider?.GetLogFor<ProfileViewModel>();
 
+            UserProfile = new UserProfileViewModel();
             ProfileImageTransformations = new List<ITransformation>
             {
                 new CircleTransformation()
@@ -46,13 +47,13 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public List<ITransformation> ProfileImageTransformations { get; }
 
-        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {_user.GivenName} {_user.FamilyName}";
+        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {UserProfile.FullName}";
 
-        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {_user.Gender}";
+        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {UserProfile.Gender}";
 
-        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {_user.Country}";
+        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {UserProfile.Country}";
 
-        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {_user.DateOfBirth?.ToString("D")}";
+        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfile.DoB}";
 
         private string _headerText;
         public string HeaderText
@@ -68,8 +69,8 @@ namespace CriThink.Client.Core.ViewModels.Users
             set => SetProperty(ref _registeredOn, value);
         }
 
-        private User _user;
-        public User User
+        private UserProfileViewModel _user;
+        public UserProfileViewModel UserProfile
         {
             get => _user;
             set
@@ -122,17 +123,18 @@ namespace CriThink.Client.Core.ViewModels.Users
         {
             await base.Initialize().ConfigureAwait(false);
 
-            User = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
-            if (User != null)
+            var userProfile = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
+            if (userProfile != null)
             {
-                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), _user.Username);
-                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _user.RegisteredOn.ToString("Y"));
+                UserProfile.MapFromEntity(userProfile);
+                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), UserProfile.Username);
+                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _user.RegisteredOn);
             }
         }
 
         private async Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
-            //await _navigationService.Navigate<EditProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+            await _navigationService.Navigate<EditProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
         }
 
         private void DoOpenTelegramCommand()
@@ -190,9 +192,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private void DoOpenYoutubeCommand()
         {
-            ShowToastForSocial("Youtube", _user.Youtube, async () =>
+            ShowToastForSocial("YouTube", _user.YouTube, async () =>
             {
-                var uri = new Uri($"https://www.youtube.com/c/{_user.Youtube}");
+                var uri = new Uri($"https://www.youtube.com/c/{_user.YouTube}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
