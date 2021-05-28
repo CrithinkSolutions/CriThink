@@ -41,7 +41,7 @@ namespace CriThink.Client.Core.Models.Identity
             Snapchat = response.Snapchat;
             Youtube = response.Youtube;
             Blog = response.Blog;
-            DateOfBirth = DateTime.Parse(response.DateOfBirth, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+            DateOfBirth = response.DateOfBirth;
             RegisteredOn = DateTime.Parse(response.RegisteredOn, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             AvatarPath = GetAvatarPath(response.AvatarPath);
         }

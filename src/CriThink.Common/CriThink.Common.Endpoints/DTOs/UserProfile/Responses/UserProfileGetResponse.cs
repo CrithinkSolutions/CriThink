@@ -49,7 +49,7 @@ namespace CriThink.Common.Endpoints.DTOs.UserProfile
         public string Blog { get; set; }
 
         [JsonPropertyName("dob")]
-        public string DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [JsonPropertyName("registeredOn")]
         public string RegisteredOn { get; set; }
