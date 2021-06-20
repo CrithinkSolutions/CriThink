@@ -89,6 +89,21 @@ namespace CriThink.Server.Core.Identity
                 throw ex;
             }
 
+            var claims = new List<Claim>
+            {
+                new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new (ClaimTypes.Email, user.Email),
+                new (ClaimTypes.Name, user.UserName),
+            };
+
+            var claimsResult = await _userRepository.AddClaimsToUserAsync(user, claims).ConfigureAwait(false);
+            if (!claimsResult.Succeeded)
+            {
+                var ex = new IdentityOperationException(claimsResult);
+                _logger?.LogError(ex, "Error adding user to role", user);
+                throw ex;
+            }
+
             var confirmationCode = await _userRepository.GetEmailConfirmationTokenAsync(user)
                 .ConfigureAwait(false);
 
