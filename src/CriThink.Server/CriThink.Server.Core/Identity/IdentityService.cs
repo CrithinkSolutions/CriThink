@@ -384,8 +384,8 @@ namespace CriThink.Server.Core.Identity
             var user = await FindUserAsync(request.Email ?? request.UserName, true).ConfigureAwait(false);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.UserName}'");
-            if (user.IsDeleted)
-                throw new InvalidOperationException("The user is disabled");
+            if (user.IsDeleted || !user.EmailConfirmed)
+                throw new InvalidOperationException("The user is not enabled");
 
             var verificationResult = _userRepository.VerifyUserPassword(user, request.Password);
             await ProcessPasswordVerificationResultAsync(user, verificationResult).ConfigureAwait(false);
