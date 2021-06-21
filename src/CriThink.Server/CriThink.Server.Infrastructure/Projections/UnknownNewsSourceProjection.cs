@@ -22,7 +22,7 @@ namespace CriThink.Server.Infrastructure.Projections
             unknownNewsSource => new GetAllUnknownSources
             {
                 Id = unknownNewsSource.Id,
-                Uri = unknownNewsSource.Uri,
+                Domain = unknownNewsSource.Uri,
                 RequestCount = unknownNewsSource.RequestCount,
                 RequestedAt = unknownNewsSource.FirstRequestedAt.ToString("u"),
                 IdentifiedAt = unknownNewsSource.IdentifiedAt.HasValue ?

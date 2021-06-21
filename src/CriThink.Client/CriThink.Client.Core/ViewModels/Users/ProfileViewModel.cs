@@ -130,8 +130,9 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
         }
 
-        private async Task DoNavigateToEditCommand(CancellationToken cancellationToken)
+        private Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
+            return Task.CompletedTask;
             //await _navigationService.Navigate<EditProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
         }
 

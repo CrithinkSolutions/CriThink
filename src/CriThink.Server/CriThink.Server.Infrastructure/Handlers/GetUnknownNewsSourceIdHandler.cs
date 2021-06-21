@@ -29,7 +29,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var newsSourceId = await _dbContext.UnknownNewsSources
-                                                   .GetUnknownSourceIdByUriAsync(request.Uri, UnknownNewsSourceProjection.GetId, cancellationToken)
+                                                   .GetUnknownSourceIdByUriAsync(request.Domain, UnknownNewsSourceProjection.GetId, cancellationToken)
                                                    .ConfigureAwait(false);
                 return newsSourceId;
             }

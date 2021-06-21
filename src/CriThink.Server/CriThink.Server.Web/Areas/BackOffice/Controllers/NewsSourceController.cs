@@ -188,7 +188,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            await _newsSourceFacade.TriggerIdentifiedNewsSourceAsync(viewModel.Uri, viewModel.Classification).ConfigureAwait(false);
+            await _newsSourceFacade.TriggerIdentifiedNewsSourceAsync(viewModel.Source, viewModel.Classification).ConfigureAwait(false);
 
             return RedirectToAction(nameof(Index));
         }

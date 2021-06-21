@@ -20,7 +20,7 @@ namespace CriThink.Server.Web.Facades
 
         Task<UnknownNewsSourceGetAllResponse> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel);
 
-        Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification);
+        Task TriggerIdentifiedNewsSourceAsync(string domain, Classification classification);
 
         Task<UnknownNewsSourceViewModel> GetUnknownNewsSourceAsync(Guid unknownNewsSourceId);
     }

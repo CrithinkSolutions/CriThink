@@ -5,11 +5,11 @@ namespace CriThink.Server.Core.Queries
 {
     public class GetUnknownNewsSourceIdQuery : IRequest<Guid>
     {
-        public GetUnknownNewsSourceIdQuery(string uri)
+        public GetUnknownNewsSourceIdQuery(string domain)
         {
-            Uri = uri;
+            Domain = domain;
         }
 
-        public string Uri { get; }
+        public string Domain { get; }
     }
 }
