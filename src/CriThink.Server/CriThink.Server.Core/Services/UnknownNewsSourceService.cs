@@ -89,12 +89,12 @@ namespace CriThink.Server.Core.Services
                 throw new InvalidOperationException("You can't notify a user with an unknown source");
 
             var validator = new DomainValidator();
-            var requestedUri = validator.ValidateDomain(request.Uri);
+            var requestedUri = validator.ValidateDomain(request.Domain);
 
             var getIdCommand = new GetUnknownNewsSourceIdQuery(requestedUri);
             var unknownNewsId = await _mediator.Send(getIdCommand).ConfigureAwait(false);
 
-            await NotifyUsersAsync(unknownNewsId, request.Uri, request.Classification.ToString())
+            await NotifyUsersAsync(unknownNewsId, request.Domain, request.Classification.ToString())
                 .ConfigureAwait(false);
 
             var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.Classification);

@@ -126,13 +126,13 @@ namespace CriThink.Server.Web.Facades
                 .ConfigureAwait(false);
         }
 
-        public async Task TriggerIdentifiedNewsSourceAsync(string uri, Classification classification)
+        public async Task TriggerIdentifiedNewsSourceAsync(string domain, Classification classification)
         {
             var newsSourceClassification = _mapper.Map<Classification, NewsSourceClassification>(classification);
 
             var request = new TriggerUpdateForIdentifiedNewsSourceRequest
             {
-                Uri = uri,
+                Domain = domain,
                 Classification = newsSourceClassification,
             };
 
@@ -151,7 +151,7 @@ namespace CriThink.Server.Web.Facades
             {
                 Id = result.Id,
                 Classification = classification,
-                Uri = result.Uri,
+                Source = result.Uri,
             };
         }
 

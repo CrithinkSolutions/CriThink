@@ -4,6 +4,7 @@
    <AnalysisLevel>latest</AnalysisLevel> 
    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
    <AllEnabledByDefault>True</AllEnabledByDefault>
+   <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />

@@ -20,7 +20,7 @@ namespace CriThink.Server.Infrastructure.Projections
                 Id = unknownSourceNotificationRequest.Id,
                 Email = unknownSourceNotificationRequest.Email,
                 RequestedAt = unknownSourceNotificationRequest.RequestedAt.ToString("u"),
-                Uri = unknownSourceNotificationRequest.UnknownNewsSource.Uri,
+                Domain = unknownSourceNotificationRequest.UnknownNewsSource.Uri,
                 RequestCount = unknownSourceNotificationRequest.UnknownNewsSource.RequestCount,
             };
     }

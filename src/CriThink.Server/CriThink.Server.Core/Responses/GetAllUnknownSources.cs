@@ -7,7 +7,7 @@ namespace CriThink.Server.Core.Responses
     {
         public Guid Id { get; set; }
 
-        public string Uri { get; set; }
+        public string Domain { get; set; }
 
         public string RequestedAt { get; set; }
 

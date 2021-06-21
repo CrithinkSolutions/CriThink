@@ -2,14 +2,14 @@
 {
     public class UnknownDomainAdminAlertViewModel
     {
-        public UnknownDomainAdminAlertViewModel(string unknownDomainUrl, string userEmail)
+        public UnknownDomainAdminAlertViewModel(string unknownDomain, string userEmail)
         {
-            UnknownDomainUrl = unknownDomainUrl;
+            UnknownDomain = unknownDomain;
             UserEmail = userEmail;
         }
 
         public string UserEmail { get; }
 
-        public string UnknownDomainUrl { get; }
+        public string UnknownDomain { get; }
     }
 }
