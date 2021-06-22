@@ -50,7 +50,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// <summary>
         /// News publishing date
         /// </summary>
-        public DateTime? Date { get; }
+        public DateTime? Date { get; private set; }
 
         /// <summary>
         /// The content of the news
@@ -77,5 +77,10 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// </summary>
         /// <returns></returns>
         public string GetCaption() => NewsBody.Length > 100 ? $"{NewsBody.Substring(0, 100)}..." : NewsBody;
+
+        public void SetDate(DateTime dateTime)
+        {
+            Date = dateTime;
+        }
     }
 }

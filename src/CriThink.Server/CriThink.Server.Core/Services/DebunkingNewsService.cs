@@ -93,14 +93,17 @@ namespace CriThink.Server.Core.Services
 
                 DebunkingNewsPublisher publisherOpen = null;
                 DebunkingNewsPublisher publisherChannel4 = null;
+                DebunkingNewsPublisher publisherFullFact = null;
 
                 var publishersTask = Task.Run(async () =>
                 {
                     var publisherOpenQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
                     var publisherChannel4Query = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.Channel4);
+                    var publisherFullFactQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.FullFact);
 
                     publisherOpen = await _mediator.Send(publisherOpenQuery).ConfigureAwait(false);
                     publisherChannel4 = await _mediator.Send(publisherChannel4Query).ConfigureAwait(false);
+                    publisherFullFact = await _mediator.Send(publisherFullFactQuery).ConfigureAwait(false);
                 });
 
                 var scrapeTask = ScrapeDebunkingNewsCollectionAsync(debunkingNewsCollection, lastSuccessfullFetchDate);
@@ -118,6 +121,8 @@ namespace CriThink.Server.Core.Services
                         dNews.Publisher = publisherOpen;
                     else if (dNews.Link.Contains(EntityConstants.Channel4Link, StringComparison.InvariantCultureIgnoreCase))
                         dNews.Publisher = publisherChannel4;
+                    else if (dNews.Link.Contains(EntityConstants.FullFactLink, StringComparison.InvariantCultureIgnoreCase))
+                        dNews.Publisher = publisherFullFact;
                 }
 
                 var addNewsCommand = new CreateDebunkingNewsCommand(debunkedNewsCollection);
@@ -201,6 +206,9 @@ namespace CriThink.Server.Core.Services
                     {
                         var scrapedNews = await ScrapeNewsAsync(response.Link)
                             .ConfigureAwait(false);
+
+                        if (scrapedNews.Date is null)
+                            scrapedNews.SetDate(response.PublishingDate);
 
                         var keywords = await GetNewsKeywordsAsync(scrapedNews)
                             .ConfigureAwait(false);

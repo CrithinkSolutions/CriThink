@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Builders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Providers;
-using CriThink.Server.Providers.DebunkingNewsFetcher;
 
 namespace CriThink.Server.Core.Facades
 {
@@ -21,7 +21,8 @@ namespace CriThink.Server.Core.Facades
         {
             var builder = _builder
                 .EnableOpenOnline(true)
-                .EnableChannel4(true);
+                .EnableChannel4(true)
+                .EnableFullFact(true);
 
             var response = await FetchDebunkNewsAsync(builder).ConfigureAwait(false);
             return response;

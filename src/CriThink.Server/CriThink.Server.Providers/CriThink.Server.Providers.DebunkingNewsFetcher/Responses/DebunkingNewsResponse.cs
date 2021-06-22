@@ -13,6 +13,10 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
             PublishingDate = publishingDate.DateTime;
         }
 
+        public DebunkingNewsResponse(string title, string link, DateTimeOffset publishingDate)
+            : this(title, link, string.Empty, publishingDate)
+        { }
+
         public string Title { get; }
 
         public Uri Link { get; }
