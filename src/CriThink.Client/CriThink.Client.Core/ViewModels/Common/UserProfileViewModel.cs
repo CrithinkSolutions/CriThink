@@ -1,4 +1,7 @@
-﻿using CriThink.Client.Core.Models.Identity;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CriThink.Client.Core.Models.Identity;
+using CriThink.Common.Endpoints.DTOs.UserProfile;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Common
@@ -6,6 +9,16 @@ namespace CriThink.Client.Core.ViewModels.Common
     public class UserProfileViewModel : MvxNotifyPropertyChanged
     {
         #region Properties
+
+        public IList<GenderViewModel> AvailableGenders => new List<GenderViewModel>
+        {
+            new GenderViewModel(null),
+            new GenderViewModel(GenderDto.Male),
+            new GenderViewModel(GenderDto.Female),
+            new GenderViewModel(GenderDto.NonBinary),
+            new GenderViewModel(GenderDto.GenderFluid),
+            new GenderViewModel(GenderDto.GenderNeutral),
+        };
 
         public string FullName => $"{GivenName} {FamilyName}";
 
@@ -51,15 +64,15 @@ namespace CriThink.Client.Core.ViewModels.Common
             set => SetProperty(ref _description, value);
         }
 
-        private string _dob;
-        public string DoB
+        private DateTimeViewModel _dob;
+        public DateTimeViewModel DoB
         {
             get => _dob;
             set => SetProperty(ref _dob, value);
         }
 
-        private string _gender;
-        public string Gender
+        private GenderViewModel _gender;
+        public GenderViewModel Gender
         {
             get => _gender;
             set => SetProperty(ref _gender, value);
@@ -141,8 +154,8 @@ namespace CriThink.Client.Core.ViewModels.Common
             FamilyName = userProfile.FamilyName;
             GivenName = userProfile.GivenName;
             Description = userProfile.Description;
-            DoB = userProfile.DateOfBirth.HasValue ? userProfile.DateOfBirth.Value.ToString("D") : string.Empty;
-            Gender = userProfile.Gender.HasValue ? userProfile.Gender.Value.ToString() : string.Empty;
+            DoB = new DateTimeViewModel(userProfile.DateOfBirth);
+            Gender = new GenderViewModel(userProfile.Gender);
             Country = userProfile.Country;
             Telegram = userProfile.Telegram;
             Skype = userProfile.Skype;
@@ -152,6 +165,14 @@ namespace CriThink.Client.Core.ViewModels.Common
             Snapchat = userProfile.Snapchat;
             YouTube = userProfile.Youtube;
             Blog = userProfile.Blog;
+
+            RaiseAllPropertiesChanged();
+        }
+
+        public void SetGender(string result)
+        {
+            var selectedGender = AvailableGenders.FirstOrDefault(g => string.Equals(g.LocalizedEntry, result));
+            Gender = selectedGender;
         }
     }
 }

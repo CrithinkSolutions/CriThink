@@ -468,4 +468,34 @@
   <data name="EditProfileViewModel.Social" xml:space="preserve">
     <value>Social</value>
   </data>
+  <data name="EditProfileViewModel.SaveProfile" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateError" xml:space="preserve">
+    <value>Si è verificato un errore aggiornando il tuo profilo</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateOk" xml:space="preserve">
+    <value>Profilo aggiornato!</value>
+  </data>
+  <data name="GenderViewModel.Female" xml:space="preserve">
+    <value>Donna</value>
+  </data>
+  <data name="GenderViewModel.GenderFluid" xml:space="preserve">
+    <value>Genere Fluido</value>
+  </data>
+  <data name="GenderViewModel.GenderNeutral" xml:space="preserve">
+    <value>Genere Neutrale</value>
+  </data>
+  <data name="GenderViewModel.Male" xml:space="preserve">
+    <value>Uomo</value>
+  </data>
+  <data name="GenderViewModel.NoGender" xml:space="preserve">
+    <value>Preferisco non specificare</value>
+  </data>
+  <data name="GenderViewModel.NonBinary" xml:space="preserve">
+    <value>Non Binario</value>
+  </data>
+  <data name="EditProfileViewModel.Cancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
 </root>

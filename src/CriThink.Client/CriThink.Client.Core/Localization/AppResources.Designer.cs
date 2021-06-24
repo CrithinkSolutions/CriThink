@@ -313,6 +313,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string EditProfileViewModel_Cancel {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Country where you live.
         /// </summary>
         internal static string EditProfileViewModel_Country {
@@ -340,7 +349,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Facebook username.
+        ///   Looks up a localized string similar to Facebook.
         /// </summary>
         internal static string EditProfileViewModel_Facebook {
             get {
@@ -376,7 +385,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Instagram username.
+        ///   Looks up a localized string similar to Instagram.
         /// </summary>
         internal static string EditProfileViewModel_Instagram {
             get {
@@ -385,7 +394,16 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Skype username.
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string EditProfileViewModel_SaveProfile {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.SaveProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skype.
         /// </summary>
         internal static string EditProfileViewModel_Skype {
             get {
@@ -394,7 +412,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Snapchat username.
+        ///   Looks up a localized string similar to Snapchat.
         /// </summary>
         internal static string EditProfileViewModel_Snapchat {
             get {
@@ -412,7 +430,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Telegram username.
+        ///   Looks up a localized string similar to Telegram.
         /// </summary>
         internal static string EditProfileViewModel_Telegram {
             get {
@@ -421,7 +439,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Twitter username.
+        ///   Looks up a localized string similar to Twitter.
         /// </summary>
         internal static string EditProfileViewModel_Twitter {
             get {
@@ -430,7 +448,25 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YouTube channel username.
+        ///   Looks up a localized string similar to An error occurred while updating your profile.
+        /// </summary>
+        internal static string EditProfileViewModel_UpdateError {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.UpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated!.
+        /// </summary>
+        internal static string EditProfileViewModel_UpdateOk {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.UpdateOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube.
         /// </summary>
         internal static string EditProfileViewModel_YouTube {
             get {
@@ -498,6 +534,60 @@ namespace CriThink.Client.Core.Localization {
         internal static string ForgotPasswordViewModel_Send {
             get {
                 return ResourceManager.GetString("ForgotPasswordViewModel.Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Female.
+        /// </summary>
+        internal static string GenderViewModel_Female {
+            get {
+                return ResourceManager.GetString("GenderViewModel.Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Fluid.
+        /// </summary>
+        internal static string GenderViewModel_GenderFluid {
+            get {
+                return ResourceManager.GetString("GenderViewModel.GenderFluid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Neutral.
+        /// </summary>
+        internal static string GenderViewModel_GenderNeutral {
+            get {
+                return ResourceManager.GetString("GenderViewModel.GenderNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Male.
+        /// </summary>
+        internal static string GenderViewModel_Male {
+            get {
+                return ResourceManager.GetString("GenderViewModel.Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I prefer not to say.
+        /// </summary>
+        internal static string GenderViewModel_NoGender {
+            get {
+                return ResourceManager.GetString("GenderViewModel.NoGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non Binary.
+        /// </summary>
+        internal static string GenderViewModel_NonBinary {
+            get {
+                return ResourceManager.GetString("GenderViewModel.NonBinary", resourceCulture);
             }
         }
         
@@ -754,7 +844,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Born the.
+        ///   Looks up a localized string similar to Born on.
         /// </summary>
         internal static string ProfileViewModel_IBornOn {
             get {

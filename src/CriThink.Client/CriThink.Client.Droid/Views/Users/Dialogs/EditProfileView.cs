@@ -1,5 +1,4 @@
-﻿using System;
-using Android.OS;
+﻿using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
@@ -8,6 +7,7 @@ using FFImageLoading.Cross;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.Material;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 // ReSharper disable once CheckNamespace
@@ -17,15 +17,6 @@ namespace CriThink.Client.Droid.Views.Users
     [Register(nameof(EditProfileView))]
     public class EditProfileView : MvxBottomSheetDialogFragment<EditProfileViewModel>
     {
-        //private ProfileView BaseActivity => (ProfileView) Activity;
-
-        public EditProfileView()
-        { }
-
-        protected EditProfileView(IntPtr javaReference, JniHandleOwnership transfer)
-            : base(javaReference, transfer)
-        { }
-
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,13 +27,6 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnCreateView(inflater, container, savedInstanceState);
             var view = View.Inflate(Context, Resource.Layout.editprofile_view, null);
-
-            //var toolbar = view.FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
-
-            //HasOptionsMenu = true;
-            //BaseActivity.SetSupportActionBar(toolbar);
-            //BaseActivity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            //BaseActivity.SupportActionBar.SetDisplayShowTitleEnabled(false);
 
             var txtBioTitle = view.FindViewById<AppCompatTextView>(Resource.Id.txtBioTitle);
             var txtSocialTitle = view.FindViewById<AppCompatTextView>(Resource.Id.txtSocialTitle);
@@ -77,26 +61,40 @@ namespace CriThink.Client.Droid.Views.Users
             var txtInputYouTube = view.FindViewById<TextInputEditText>(Resource.Id.txtInputYouTube);
             var txtInputBlog = view.FindViewById<TextInputEditText>(Resource.Id.txtInputBlog);
             var imgAvatar = view.FindViewById<MvxSvgCachedImageView>(Resource.Id.imgAvatar);
+            var imgEditAvatar = view.FindViewById<MvxCachedImageView>(Resource.Id.imgEditAvatar);
+
+            var btnSave = view.FindViewById<AppCompatButton>(Resource.Id.btnSave);
 
             var set = CreateBindingSet();
 
-            set.Bind(txtInputGivenName).To(vm => vm.UserProfile.GivenName);
-            set.Bind(txtInputFamilyName).To(vm => vm.UserProfile.FamilyName);
-            set.Bind(txtInputDescription).To(vm => vm.UserProfile.Description);
-            set.Bind(txtInputDob).To(vm => vm.UserProfile.DoB);
-            set.Bind(txtInputGender).To(vm => vm.UserProfile.Gender);
-            set.Bind(txtInputCountry).To(vm => vm.UserProfile.Country);
-            set.Bind(txtInputTelegram).To(vm => vm.UserProfile.Telegram);
-            set.Bind(txtInputSkype).To(vm => vm.UserProfile.Skype);
-            set.Bind(txtInputTwitter).To(vm => vm.UserProfile.Twitter);
-            set.Bind(txtInputInstagram).To(vm => vm.UserProfile.Instagram);
-            set.Bind(txtInputFacebook).To(vm => vm.UserProfile.Facebook);
-            set.Bind(txtInputSnapchat).To(vm => vm.UserProfile.Snapchat);
-            set.Bind(txtInputYouTube).To(vm => vm.UserProfile.YouTube);
-            set.Bind(txtInputBlog).To(vm => vm.UserProfile.Blog);
+            set.Bind(txtInputGivenName).To(vm => vm.UserProfileViewModel.GivenName);
+            set.Bind(txtInputFamilyName).To(vm => vm.UserProfileViewModel.FamilyName);
+            set.Bind(txtInputDescription).To(vm => vm.UserProfileViewModel.Description);
+            set.Bind(txtInputDob).To(vm => vm.UserProfileViewModel.DoB);
+            set.Bind(txtInputGender).To(vm => vm.UserProfileViewModel.Gender.LocalizedEntry);
+            set.Bind(txtInputCountry).To(vm => vm.UserProfileViewModel.Country);
+            set.Bind(txtInputTelegram).To(vm => vm.UserProfileViewModel.Telegram);
+            set.Bind(txtInputSkype).To(vm => vm.UserProfileViewModel.Skype);
+            set.Bind(txtInputTwitter).To(vm => vm.UserProfileViewModel.Twitter);
+            set.Bind(txtInputInstagram).To(vm => vm.UserProfileViewModel.Instagram);
+            set.Bind(txtInputFacebook).To(vm => vm.UserProfileViewModel.Facebook);
+            set.Bind(txtInputSnapchat).To(vm => vm.UserProfileViewModel.Snapchat);
+            set.Bind(txtInputYouTube).To(vm => vm.UserProfileViewModel.YouTube);
+            set.Bind(txtInputBlog).To(vm => vm.UserProfileViewModel.Blog);
+
+            set.Bind(txtInputDob).For(v => v.BindClick()).To(vm => vm.SelectDobCommand);
+            set.Bind(txtInputGender).For(v => v.BindClick()).To(vm => vm.SelectGenderCommand);
+
+            set.Bind(txtEditDoB).For(v => v.BindClick()).To(vm => vm.SelectDobCommand);
+            set.Bind(txtEditGender).For(v => v.BindClick()).To(vm => vm.SelectGenderCommand);
 
             set.Bind(imgAvatar).For(v => v.Transformations).To(vm => vm.LogoImageTransformations);
-            set.Bind(imgAvatar).For(v => v.ImagePath).To(vm => vm.UserProfile.AvatarImagePath);
+            set.Bind(imgAvatar).For(v => v.ImagePath).To(vm => vm.UserProfileViewModel.AvatarImagePath);
+
+            set.Bind(imgAvatar).For(v => v.BindClick()).To(vm => vm.PickUpImageCommand);
+            set.Bind(imgEditAvatar).For(v => v.BindClick()).To(vm => vm.PickUpImageCommand);
+
+            set.Bind(btnSave).To(vm => vm.SaveCommand);
 
             set.Bind(txtBioTitle).ToLocalizationId("Bio");
             set.Bind(txtSocialTitle).ToLocalizationId("Social");
@@ -115,28 +113,11 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtEditSnapchat).For(v => v.Hint).ToLocalizationId("Snapchat");
             set.Bind(txtEditYouTube).For(v => v.Hint).ToLocalizationId("YouTube");
             set.Bind(txtEditBlog).For(v => v.Hint).ToLocalizationId("Blog");
+            set.Bind(btnSave).For(v => v.Text).ToLocalizationId("SaveProfile");
 
             set.Apply();
 
             return view;
         }
-
-        //public override bool OnOptionsItemSelected(IMenuItem item)
-        //{
-        //    Dismiss();
-        //    return true;
-        //}
-
-        //public override Dialog OnCreateDialog(Bundle savedInstanceState)
-        //{
-        //    var dialog = base.OnCreateDialog(savedInstanceState);
-
-        //    dialog.ShowEvent += (sender, args) =>
-        //    {
-        //        SetupFullHeight(dialog as BottomSheetDialog);
-        //    };
-
-        //    return dialog;
-        //}
     }
 }

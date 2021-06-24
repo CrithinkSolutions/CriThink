@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
+using Refit;
 
 namespace CriThink.Client.Core.Services
 {
@@ -21,5 +22,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task UpdateUserProfileAsync(UserProfileUpdateRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Update user profile avatar
+        /// </summary>
+        /// <param name="streamPart">The new avatar</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
+        /// <returns></returns>
+        Task UpdateUserProfileAvatarAsync(StreamPart streamPart, CancellationToken cancellationToken = default);
     }
 }

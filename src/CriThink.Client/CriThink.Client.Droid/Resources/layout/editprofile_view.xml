@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_page"
             android:paddingRight="@dimen/padding_page"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:id="@+id/viewInnerLayout"
             android:scrollbars="vertical">
 
@@ -134,7 +135,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputDob"
-                        android:inputType="date"/>
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="@null"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Gender -->
@@ -147,13 +151,17 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:editable="false"
+                        android:inputType="@null"
                         android:id="@+id/txtInputGender"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
+-->
                 <!-- Country -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -335,7 +343,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtEditBlog"
                     android:layout_marginTop="@dimen/margin_littleBig"
-                    android:layout_marginBottom="@dimen/margin_medium"
                     android:backgroundTint="@color/colorBlue"
                     android:radius="@dimen/btn_radius"
                     android:textColor="@android:color/white"

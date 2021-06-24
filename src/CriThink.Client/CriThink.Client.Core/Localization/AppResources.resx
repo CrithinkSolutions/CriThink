@@ -412,7 +412,7 @@
     <value>I'm</value>
   </data>
   <data name="ProfileViewModel.IBornOn" xml:space="preserve">
-    <value>Born the</value>
+    <value>Born on</value>
   </data>
   <data name="ProfileViewModel.ILiveIn" xml:space="preserve">
     <value>Live in</value>
@@ -433,7 +433,7 @@
     <value>Your date of birth</value>
   </data>
   <data name="EditProfileViewModel.Facebook" xml:space="preserve">
-    <value>Facebook username</value>
+    <value>Facebook</value>
   </data>
   <data name="EditProfileViewModel.FamilyName" xml:space="preserve">
     <value>Your surname</value>
@@ -445,27 +445,57 @@
     <value>Your name</value>
   </data>
   <data name="EditProfileViewModel.Instagram" xml:space="preserve">
-    <value>Instagram username</value>
+    <value>Instagram</value>
   </data>
   <data name="EditProfileViewModel.Skype" xml:space="preserve">
-    <value>Skype username</value>
+    <value>Skype</value>
   </data>
   <data name="EditProfileViewModel.Snapchat" xml:space="preserve">
-    <value>Snapchat username</value>
+    <value>Snapchat</value>
   </data>
   <data name="EditProfileViewModel.Telegram" xml:space="preserve">
-    <value>Telegram username</value>
+    <value>Telegram</value>
   </data>
   <data name="EditProfileViewModel.Twitter" xml:space="preserve">
-    <value>Twitter username</value>
+    <value>Twitter</value>
   </data>
   <data name="EditProfileViewModel.YouTube" xml:space="preserve">
-    <value>YouTube channel username</value>
+    <value>YouTube</value>
   </data>
   <data name="EditProfileViewModel.Bio" xml:space="preserve">
     <value>Bio</value>
   </data>
   <data name="EditProfileViewModel.Social" xml:space="preserve">
     <value>Social</value>
+  </data>
+  <data name="EditProfileViewModel.SaveProfile" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateError" xml:space="preserve">
+    <value>An error occurred while updating your profile</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateOk" xml:space="preserve">
+    <value>Profile updated!</value>
+  </data>
+  <data name="GenderViewModel.Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="GenderViewModel.GenderFluid" xml:space="preserve">
+    <value>Gender Fluid</value>
+  </data>
+  <data name="GenderViewModel.GenderNeutral" xml:space="preserve">
+    <value>Gender Neutral</value>
+  </data>
+  <data name="GenderViewModel.Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="GenderViewModel.NoGender" xml:space="preserve">
+    <value>I prefer not to say</value>
+  </data>
+  <data name="GenderViewModel.NonBinary" xml:space="preserve">
+    <value>Non Binary</value>
+  </data>
+  <data name="EditProfileViewModel.Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

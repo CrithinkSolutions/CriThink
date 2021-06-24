@@ -5,6 +5,7 @@ using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using MvvmCross.Logging;
+using Refit;
 
 namespace CriThink.Client.Core.Services
 {
@@ -47,6 +48,22 @@ namespace CriThink.Client.Core.Services
             catch (Exception ex)
             {
                 _log?.ErrorException("Error updateing user profile", ex);
+                throw;
+            }
+        }
+
+        public async Task UpdateUserProfileAvatarAsync(StreamPart streamPart, CancellationToken cancellationToken = default)
+        {
+            if (streamPart is null)
+                throw new ArgumentNullException(nameof(streamPart));
+
+            try
+            {
+                await _userProfileApi.UpdateUserProfileAvatarAsync(streamPart, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error updating user avatar", ex);
                 throw;
             }
         }
