@@ -49,11 +49,11 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {UserProfileViewModel.FullName}";
 
-        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {UserProfileViewModel.Gender.LocalizedEntry}";
+        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {UserProfileViewModel.GenderViewModel.LocalizedEntry}";
 
         public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {UserProfileViewModel.Country}";
 
-        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoB}";
+        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}";
 
         private string _headerText;
         public string HeaderText

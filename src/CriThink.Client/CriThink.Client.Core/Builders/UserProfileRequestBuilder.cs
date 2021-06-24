@@ -20,7 +20,7 @@ namespace CriThink.Client.Core.Builders
                 GivenName = _viewModel.GivenName,
                 FamilyName = _viewModel.FamilyName,
                 Description = _viewModel.Description,
-                Gender = _viewModel.Gender.Gender,
+                Gender = _viewModel.GenderViewModel.Gender,
                 Country = _viewModel.Country,
                 Telegram = _viewModel.Telegram,
                 Skype = _viewModel.Skype,
@@ -30,7 +30,7 @@ namespace CriThink.Client.Core.Builders
                 Snapchat = _viewModel.Snapchat,
                 Youtube = _viewModel.YouTube,
                 Blog = _viewModel.Blog,
-                DateOfBirth = _viewModel.DoB.DateTime
+                DateOfBirth = _viewModel.DoBViewModel.DateTime
             };
 
             return request;

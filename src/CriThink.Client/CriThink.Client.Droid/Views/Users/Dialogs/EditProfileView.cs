@@ -70,8 +70,8 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtInputGivenName).To(vm => vm.UserProfileViewModel.GivenName);
             set.Bind(txtInputFamilyName).To(vm => vm.UserProfileViewModel.FamilyName);
             set.Bind(txtInputDescription).To(vm => vm.UserProfileViewModel.Description);
-            set.Bind(txtInputDob).To(vm => vm.UserProfileViewModel.DoB);
-            set.Bind(txtInputGender).To(vm => vm.UserProfileViewModel.Gender.LocalizedEntry);
+            set.Bind(txtInputDob).To(vm => vm.UserProfileViewModel.DoBViewModel);
+            set.Bind(txtInputGender).To(vm => vm.UserProfileViewModel.GenderViewModel.LocalizedEntry);
             set.Bind(txtInputCountry).To(vm => vm.UserProfileViewModel.Country);
             set.Bind(txtInputTelegram).To(vm => vm.UserProfileViewModel.Telegram);
             set.Bind(txtInputSkype).To(vm => vm.UserProfileViewModel.Skype);

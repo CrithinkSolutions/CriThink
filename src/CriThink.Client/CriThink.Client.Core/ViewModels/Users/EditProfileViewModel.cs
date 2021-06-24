@@ -85,12 +85,12 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoSelectDobCommand(CancellationToken cancellationToken)
         {
-            var defaultDate = UserProfileViewModel.DoB.DateTime;
+            var defaultDate = UserProfileViewModel.DoBViewModel.DateTime;
 
             var result = await _userDialogs.DatePromptAsync(null, defaultDate, cancellationToken);
             if (result.Ok)
             {
-                UserProfileViewModel.DoB = new DateTimeViewModel(result.SelectedDate);
+                UserProfileViewModel.DoBViewModel = new DateTimeViewModel(result.SelectedDate);
             }
         }
 

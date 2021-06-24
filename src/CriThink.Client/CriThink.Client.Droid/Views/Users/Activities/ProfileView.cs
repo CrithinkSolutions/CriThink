@@ -96,9 +96,9 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(imgBlog).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Blog).WithConversion<MvxVisibilityValueConverter>();
 
             set.Bind(layoutName).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.FullName).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutGender).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Gender).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutGender).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.GenderViewModel.Gender).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(layoutCountry).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Country).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutDoB).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.DoB).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutDoB).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.DoBViewModel.DateTime).WithConversion<MvxVisibilityValueConverter>();
 
             set.Bind(txtAboutTitle).ToLocalizationId("AboutTitle");
             set.Bind(_txtTitle).ToLocalizationId("MyProfile");

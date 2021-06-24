@@ -64,18 +64,18 @@ namespace CriThink.Client.Core.ViewModels.Common
             set => SetProperty(ref _description, value);
         }
 
-        private DateTimeViewModel _dob;
-        public DateTimeViewModel DoB
+        private DateTimeViewModel _doBViewModel;
+        public DateTimeViewModel DoBViewModel
         {
-            get => _dob;
-            set => SetProperty(ref _dob, value);
+            get => _doBViewModel;
+            set => SetProperty(ref _doBViewModel, value);
         }
 
-        private GenderViewModel _gender;
-        public GenderViewModel Gender
+        private GenderViewModel _genderViewModel;
+        public GenderViewModel GenderViewModel
         {
-            get => _gender;
-            set => SetProperty(ref _gender, value);
+            get => _genderViewModel;
+            set => SetProperty(ref _genderViewModel, value);
         }
 
         private string _country;
@@ -154,8 +154,8 @@ namespace CriThink.Client.Core.ViewModels.Common
             FamilyName = userProfile.FamilyName;
             GivenName = userProfile.GivenName;
             Description = userProfile.Description;
-            DoB = new DateTimeViewModel(userProfile.DateOfBirth);
-            Gender = new GenderViewModel(userProfile.Gender);
+            DoBViewModel = new DateTimeViewModel(userProfile.DateOfBirth);
+            GenderViewModel = new GenderViewModel(userProfile.Gender);
             Country = userProfile.Country;
             Telegram = userProfile.Telegram;
             Skype = userProfile.Skype;
@@ -172,7 +172,7 @@ namespace CriThink.Client.Core.ViewModels.Common
         public void SetGender(string result)
         {
             var selectedGender = AvailableGenders.FirstOrDefault(g => string.Equals(g.LocalizedEntry, result));
-            Gender = selectedGender;
+            GenderViewModel = selectedGender;
         }
     }
 }
