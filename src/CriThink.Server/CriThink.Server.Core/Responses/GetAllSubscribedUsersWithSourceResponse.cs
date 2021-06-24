@@ -10,7 +10,7 @@ namespace CriThink.Server.Core.Responses
 
         public string RequestedAt { get; set; }
 
-        public string Uri { get; set; }
+        public string Domain { get; set; }
 
         public int RequestCount { get; set; }
     }

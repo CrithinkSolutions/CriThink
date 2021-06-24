@@ -29,7 +29,7 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.RequestedAt, opt => opt.MapFrom(src => src.RequestedAt))
                 .ForMember(dest =>
-                    dest.RequestedLink, opt => opt.MapFrom(src => src.Uri));
+                    dest.RequestedLink, opt => opt.MapFrom(src => src.Domain));
 
             CreateMap<GetAllUnknownSources, UnknownNewsSourceGetResponse>()
                 .ForMember(dest =>
@@ -41,7 +41,7 @@ namespace CriThink.Server.Core.MapperProfiles
                 .ForMember(dest =>
                     dest.RequestCount, opt => opt.MapFrom(src => src.RequestCount))
                 .ForMember(dest =>
-                    dest.Uri, opt => opt.MapFrom(src => src.Uri))
+                    dest.Uri, opt => opt.MapFrom(src => src.Domain))
                 .ForMember(dest =>
                     dest.RequestedAt, opt => opt.MapFrom(src => src.RequestedAt));
         }

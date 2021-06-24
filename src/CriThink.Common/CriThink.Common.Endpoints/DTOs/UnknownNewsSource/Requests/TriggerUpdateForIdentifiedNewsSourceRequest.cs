@@ -5,7 +5,8 @@ namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource
 {
     public class TriggerUpdateForIdentifiedNewsSourceRequest
     {
-        public string Uri { get; set; }
+        public string Domain { get; set; }
+
         public NewsSourceClassification Classification { get; set; }
     }
 }

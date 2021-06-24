@@ -35,6 +35,9 @@ namespace CriThink.Client.Core.Services
 
         public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken)
         {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
             return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.ToQueryString()}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;

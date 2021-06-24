@@ -2,7 +2,8 @@
 {
     public class TriggerIdentifiedNewsSourceViewModel
     {
-        public string Uri { get; set; }
+        public string Source { get; set; }
+
         public Classification Classification { get; set; }
     }
 }

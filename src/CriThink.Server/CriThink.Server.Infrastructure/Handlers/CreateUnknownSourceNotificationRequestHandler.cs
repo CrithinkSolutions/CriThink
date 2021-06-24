@@ -29,11 +29,11 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                var unknownNewsSource = await GetUnknownNewsSourceByUriAsync(request.Url, cancellationToken)
+                var unknownNewsSource = await GetUnknownNewsSourceByUriAsync(request.Domain, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (unknownNewsSource is null)
-                    throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.Url}'");
+                    throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.Domain}'");
 
                 var unknownSourcesNotificationRequest = new UnknownNewsSourceNotificationRequest
                 {
