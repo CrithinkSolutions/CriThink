@@ -21,7 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.2" />
-    <PackageReference Include="WestWind.AspnetCore.LiveReload" Version="0.3.1" />
+    <PackageReference Include="WestWind.AspnetCore.LiveReload" Version="0.3.2" />
   </ItemGroup>
 
   <ItemGroup>
