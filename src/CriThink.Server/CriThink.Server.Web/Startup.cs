@@ -350,6 +350,7 @@ namespace CriThink.Server.Web
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
             services.Configure<OpenOnlineSettings>(Configuration.GetSection("DebunkingNewsProviders:OpenOnline"));
             services.Configure<Channel4Settings>(Configuration.GetSection("DebunkingNewsProviders:Channel4"));
+            services.Configure<FactaNewsSettings>(Configuration.GetSection("DebunkingNewsProviders:FactaNews"));
         }
 
         private static void SetupMediatR(IServiceCollection services)

@@ -3,15 +3,17 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624133220_[DebunkingNewsPublisher] Add seed data for FactaNews")]
+    partial class DebunkingNewsPublisherAddseeddataforFactaNews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
