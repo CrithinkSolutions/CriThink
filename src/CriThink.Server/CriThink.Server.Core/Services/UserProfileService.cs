@@ -52,16 +52,37 @@ namespace CriThink.Server.Core.Services
             _logger?.LogInformation("User profile updated", userId);
         }
 
-        public async Task UpdateUserAvatarAsync(IFormFile formFile)
+        public async Task<Uri> UpdateUserAvatarAsync(IFormFile formFile)
         {
             if (formFile is null)
                 throw new ArgumentNullException(nameof(formFile));
 
-            var userId = _httpContext.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrWhiteSpace(userId))
-                throw new InvalidOperationException();
+            var userId = GetUserIdFromClaims();
 
-            await _fileService.SaveUserAvatarAsync(formFile, $"{userId}/{AssetsConstants.ProfileFolder}");
+            _logger?.LogInformation("Requested user profile avatar update", userId);
+
+            var uri = await _fileService.SaveFileAsync(formFile, true, ProfileConstants.AvatarFileName, userId, ProfileConstants.ProfileFolder);
+            await UpdateUserProfileAvatarInRepositoryAsync(userId, uri.AbsoluteUri);
+
+            _logger?.LogInformation("User profile avatar updated", userId);
+
+            return uri;
+        }
+
+        public async Task<Uri> UpdateUserAvatarAsync(byte[] bytes, string userId)
+        {
+            if (bytes is null)
+                throw new ArgumentNullException(nameof(bytes));
+
+            _logger?.LogInformation("Requested user profile avatar update", userId);
+
+            var uri = await _fileService.SaveFileAsync(bytes, true, ProfileConstants.AvatarFileName, userId, ProfileConstants.ProfileFolder);
+
+            await UpdateUserProfileAvatarInRepositoryAsync(userId, uri.AbsoluteUri);
+
+            _logger?.LogInformation("User profile avatar updated", userId);
+
+            return uri;
         }
 
         public async Task<UserProfileGetResponse> GetUserProfileAsync()
@@ -76,6 +97,23 @@ namespace CriThink.Server.Core.Services
 
             var response = _mapper.Map<UserProfile, UserProfileGetResponse>(entity);
             return response;
+        }
+
+        private async Task UpdateUserProfileAvatarInRepositoryAsync(string userId, string path)
+        {
+            var command = new UpdateUserProfileAvatarCommand(userId, path);
+
+            try
+            {
+                _ = await _mediator.Send(command).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error updating user profile avatar in DB. Reverting changes..");
+
+                await _fileService.DeleteFileAsync(ProfileConstants.AvatarFileName, userId, ProfileConstants.ProfileFolder);
+                throw;
+            }
         }
 
         private string GetUserIdFromClaims()

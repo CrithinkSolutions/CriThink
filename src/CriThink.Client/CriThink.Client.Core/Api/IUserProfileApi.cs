@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using Refit;
 
@@ -12,5 +13,9 @@ namespace CriThink.Client.Core.Api
 
         [Patch("/")]
         Task UpdateUserProfileAsync([Body] UserProfileUpdateRequest request, CancellationToken cancellationToken = default);
+
+        [Multipart]
+        [Patch("/" + EndpointConstants.UserProfileUploadAvatar)]
+        Task UpdateUserProfileAvatarAsync([AliasAs("formFile")] StreamPart streamPart, CancellationToken cancellationToken = default);
     }
 }

@@ -67,9 +67,9 @@ namespace CriThink.Client.Droid.Views.Users
 
             set.Bind(txtHello).To(vm => vm.HeaderText);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
-            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.User.AvatarPath);
+            set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.UserProfileViewModel.AvatarImagePath);
             set.Bind(txtRegistrationDate).To(vm => vm.RegisteredOn);
-            set.Bind(txtAbout).To(vm => vm.User.Description);
+            set.Bind(txtAbout).To(vm => vm.UserProfileViewModel.Description);
 
             set.Bind(txtName).To(vm => vm.UserFullNameFormat);
             set.Bind(txtGender).To(vm => vm.UserGenderFormat);
@@ -85,20 +85,20 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(imgYoutube).For(v => v.BindClick()).To(vm => vm.OpenYoutubeCommand);
             set.Bind(imgBlog).For(v => v.BindClick()).To(vm => vm.OpenBlogCommand);
 
-            set.Bind(imgTelegram).For(v => v.Visibility).To(vm => vm.User.Telegram).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgSkype).For(v => v.Visibility).To(vm => vm.User.Skype).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgFacebook).For(v => v.Visibility).To(vm => vm.User.Facebook).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgFacebook).For(v => v.Visibility).To(vm => vm.User.Facebook).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgInstagram).For(v => v.Visibility).To(vm => vm.User.Instagram).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgTwitter).For(v => v.Visibility).To(vm => vm.User.Twitter).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgSnapchat).For(v => v.Visibility).To(vm => vm.User.Snapchat).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgYoutube).For(v => v.Visibility).To(vm => vm.User.Youtube).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(imgBlog).For(v => v.Visibility).To(vm => vm.User.Blog).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgTelegram).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Telegram).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgSkype).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Skype).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgFacebook).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Facebook).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgFacebook).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Facebook).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgInstagram).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Instagram).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgTwitter).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Twitter).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgSnapchat).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Snapchat).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgYoutube).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.YouTube).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(imgBlog).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Blog).WithConversion<MvxVisibilityValueConverter>();
 
-            set.Bind(layoutName).For(v => v.Visibility).To(vm => vm.User.HasGivenOrFamilyName).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutGender).For(v => v.Visibility).To(vm => vm.User.HasGender).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutCountry).For(v => v.Visibility).To(vm => vm.User.Country).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutDoB).For(v => v.Visibility).To(vm => vm.User.DateOfBirth).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutName).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.FullName).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutGender).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.GenderViewModel.Gender).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutCountry).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Country).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(layoutDoB).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.DoBViewModel.DateTime).WithConversion<MvxVisibilityValueConverter>();
 
             set.Bind(txtAboutTitle).ToLocalizationId("AboutTitle");
             set.Bind(_txtTitle).ToLocalizationId("MyProfile");

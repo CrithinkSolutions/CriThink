@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using Microsoft.Extensions.Caching.Memory;
+using Refit;
 
 namespace CriThink.Client.Core.Services
 {
@@ -33,6 +34,12 @@ namespace CriThink.Client.Core.Services
         public async Task UpdateUserProfileAsync(UserProfileUpdateRequest request, CancellationToken cancellationToken = default)
         {
             await _userProfileService.UpdateUserProfileAsync(request, cancellationToken).ConfigureAwait(false);
+            ClearUserInfoFromCache();
+        }
+
+        public async Task UpdateUserProfileAvatarAsync(StreamPart streamPart, CancellationToken cancellationToken = default)
+        {
+            await _userProfileService.UpdateUserProfileAvatarAsync(streamPart, cancellationToken).ConfigureAwait(false);
             ClearUserInfoFromCache();
         }
 
