@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using Microsoft.AspNetCore.Http;
 
@@ -18,7 +19,15 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <param name="formFile">File uploaded by the user</param>
         /// <returns></returns>
-        Task UpdateUserAvatarAsync(IFormFile formFile);
+        Task<Uri> UpdateUserAvatarAsync(IFormFile formFile);
+
+        /// <summary>
+        /// Updates the user avatar
+        /// </summary>
+        /// <param name="bytes">File uploaded by the user</param>
+        /// <param name="userId">User id</param>
+        /// <returns></returns>
+        Task<Uri> UpdateUserAvatarAsync(byte[] bytes, string userId);
 
         /// <summary>
         /// Return all user details

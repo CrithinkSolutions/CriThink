@@ -1,10 +1,13 @@
-﻿namespace CriThink.Server.Core.Constants
-{
-    public static class AssetsConstants
-    {
-        public const string RootFolder = "uploads/";
+﻿using System.IO;
 
-        public const string ProfileFolder = "profile/";
+namespace CriThink.Server.Core.Constants
+{
+    /// <summary>
+    /// Constants regarding the uploads subfolders
+    /// </summary>
+    public static class ProfileConstants
+    {
+        public static string ProfileFolder = $"profile{Path.DirectorySeparatorChar}";
 
         public const string AvatarFileName = "avatar.jpg";
     }
