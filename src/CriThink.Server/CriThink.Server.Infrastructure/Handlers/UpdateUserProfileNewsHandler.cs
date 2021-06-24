@@ -32,49 +32,20 @@ namespace CriThink.Server.Infrastructure.Handlers
                 var userProfile = await _dbContext.UserProfiles.SingleOrDefaultAsync(u => u.UserId == updatedUserProfile.UserId, cancellationToken)
                     .ConfigureAwait(false);
 
-                if (updatedUserProfile.FamilyName is not null)
-                    userProfile.FamilyName = updatedUserProfile.FamilyName;
-
-                if (updatedUserProfile.GivenName is not null)
-                    userProfile.GivenName = updatedUserProfile.GivenName;
-
-                if (updatedUserProfile.Description is not null)
-                    userProfile.Description = updatedUserProfile.Description;
-
-                if (updatedUserProfile.Gender is not null)
-                    userProfile.Gender = updatedUserProfile.Gender;
-
-                if (updatedUserProfile.Country is not null)
-                    userProfile.Country = updatedUserProfile.Country;
-
-                if (updatedUserProfile.Telegram is not null)
-                    userProfile.Telegram = updatedUserProfile.Telegram;
-
-                if (updatedUserProfile.Skype is not null)
-                    userProfile.Skype = updatedUserProfile.Skype;
-
-                if (updatedUserProfile.Twitter is not null)
-                    userProfile.Twitter = updatedUserProfile.Twitter;
-
-                if (updatedUserProfile.Instagram is not null)
-                    userProfile.Instagram = updatedUserProfile.Instagram;
-
-                if (updatedUserProfile.Facebook is not null)
-                    userProfile.Facebook = updatedUserProfile.Facebook;
-
-                if (updatedUserProfile.Snapchat is not null)
-                    userProfile.Snapchat = updatedUserProfile.Snapchat;
-
-                if (updatedUserProfile.Youtube is not null)
-                    userProfile.Youtube = updatedUserProfile.Youtube;
-
-                if (updatedUserProfile.Blog is not null)
-                    userProfile.Blog = updatedUserProfile.Blog;
-
-                if (updatedUserProfile.DateOfBirth is not null)
-                    userProfile.DateOfBirth = updatedUserProfile.DateOfBirth;
-
-                _dbContext.UserProfiles.Update(userProfile);
+                userProfile.FamilyName = updatedUserProfile.FamilyName;
+                userProfile.GivenName = updatedUserProfile.GivenName;
+                userProfile.Description = updatedUserProfile.Description;
+                userProfile.Gender = updatedUserProfile.Gender;
+                userProfile.Country = updatedUserProfile.Country;
+                userProfile.Telegram = updatedUserProfile.Telegram;
+                userProfile.Skype = updatedUserProfile.Skype;
+                userProfile.Twitter = updatedUserProfile.Twitter;
+                userProfile.Instagram = updatedUserProfile.Instagram;
+                userProfile.Facebook = updatedUserProfile.Facebook;
+                userProfile.Snapchat = updatedUserProfile.Snapchat;
+                userProfile.Youtube = updatedUserProfile.Youtube;
+                userProfile.Blog = updatedUserProfile.Blog;
+                userProfile.DateOfBirth = updatedUserProfile.DateOfBirth;
 
                 await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }

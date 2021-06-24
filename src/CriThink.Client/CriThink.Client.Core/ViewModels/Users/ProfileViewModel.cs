@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.Common;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using MvvmCross.Commands;
@@ -36,6 +36,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = logProvider?.GetLogFor<ProfileViewModel>();
 
+            UserProfileViewModel = new UserProfileViewModel();
             ProfileImageTransformations = new List<ITransformation>
             {
                 new CircleTransformation()
@@ -46,13 +47,13 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public List<ITransformation> ProfileImageTransformations { get; }
 
-        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {_user.GivenName} {_user.FamilyName}";
+        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {UserProfileViewModel.FullName}";
 
-        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {_user.Gender}";
+        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {UserProfileViewModel.GenderViewModel.LocalizedEntry}";
 
-        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {_user.Country}";
+        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {UserProfileViewModel.Country}";
 
-        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {_user.DateOfBirth?.ToString("D")}";
+        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}";
 
         private string _headerText;
         public string HeaderText
@@ -68,13 +69,13 @@ namespace CriThink.Client.Core.ViewModels.Users
             set => SetProperty(ref _registeredOn, value);
         }
 
-        private User _user;
-        public User User
+        private UserProfileViewModel _userProfileViewModel;
+        public UserProfileViewModel UserProfileViewModel
         {
-            get => _user;
+            get => _userProfileViewModel;
             set
             {
-                SetProperty(ref _user, value);
+                SetProperty(ref _userProfileViewModel, value);
                 RaiseAllPropertiesChanged();
             }
         }
@@ -122,89 +123,86 @@ namespace CriThink.Client.Core.ViewModels.Users
         {
             await base.Initialize().ConfigureAwait(false);
 
-            User = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
-            if (User != null)
-            {
-                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), _user.Username);
-                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _user.RegisteredOn.ToString("Y"));
-            }
+            await GetUserProfileAsync().ConfigureAwait(false);
         }
 
         private Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
-            //await _navigationService.Navigate<EditProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+            var hasBeenEdited = await _navigationService.Navigate<EditProfileViewModel, bool>(cancellationToken: cancellationToken);
+
+            if (hasBeenEdited)
+                await GetUserProfileAsync();
         }
 
         private void DoOpenTelegramCommand()
         {
-            ShowToastForSocial("Telegram", _user.Telegram, async () =>
+            ShowToastForSocial("Telegram", _userProfileViewModel.Telegram, async () =>
             {
-                var telegramUri = new Uri($"https://t.me/{_user.Telegram}");
+                var telegramUri = new Uri($"https://t.me/{_userProfileViewModel.Telegram}");
                 await LaunchInternalBrowserAsync(telegramUri);
             });
         }
 
         private void DoOpenSkypeCommand()
         {
-            ShowToastForSocial("Skype", _user.Skype, () =>
+            ShowToastForSocial("Skype", _userProfileViewModel.Skype, () =>
             {
-                _platformService.OpenSkype(_user.Skype);
+                _platformService.OpenSkype(_userProfileViewModel.Skype);
             });
         }
 
         private void DoOpenFacebookCommand()
         {
-            ShowToastForSocial("Facebook", _user.Facebook, async () =>
+            ShowToastForSocial("Facebook", _userProfileViewModel.Facebook, async () =>
             {
-                var uri = new Uri($"https://facebook.com/{_user.Facebook}");
+                var uri = new Uri($"https://facebook.com/{_userProfileViewModel.Facebook}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenInstagramCommand()
         {
-            ShowToastForSocial("Instagram", _user.Instagram, async () =>
+            ShowToastForSocial("Instagram", _userProfileViewModel.Instagram, async () =>
             {
-                var uri = new Uri($"https://instagram.com/{_user.Instagram}");
+                var uri = new Uri($"https://instagram.com/{_userProfileViewModel.Instagram}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenTwitterCommand()
         {
-            ShowToastForSocial("Twitter", _user.Twitter, async () =>
+            ShowToastForSocial("Twitter", _userProfileViewModel.Twitter, async () =>
             {
-                var uri = new Uri($"https://twitter.com/{_user.Twitter}");
+                var uri = new Uri($"https://twitter.com/{_userProfileViewModel.Twitter}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenSnapchatCommand()
         {
-            ShowToastForSocial("Snapchat", _user.Snapchat, async () =>
+            ShowToastForSocial("Snapchat", _userProfileViewModel.Snapchat, async () =>
             {
-                var uri = new Uri($"https://story.snapchat.com/u/{_user.Snapchat}");
+                var uri = new Uri($"https://story.snapchat.com/u/{_userProfileViewModel.Snapchat}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenYoutubeCommand()
         {
-            ShowToastForSocial("Youtube", _user.Youtube, async () =>
+            ShowToastForSocial("YouTube", _userProfileViewModel.YouTube, async () =>
             {
-                var uri = new Uri($"https://www.youtube.com/c/{_user.Youtube}");
+                var uri = new Uri($"https://www.youtube.com/c/{_userProfileViewModel.YouTube}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenBlogCommand()
         {
-            ShowToastForSocial("Blog", _user.Blog, async () =>
+            ShowToastForSocial("Blog", _userProfileViewModel.Blog, async () =>
             {
                 try
                 {
-                    var uri = new Uri(_user.Blog);
+                    var uri = new Uri(_userProfileViewModel.Blog);
                     await LaunchInternalBrowserAsync(uri);
                 }
                 catch (UriFormatException ex)
@@ -212,6 +210,19 @@ namespace CriThink.Client.Core.ViewModels.Users
                     _log?.WarnException("The user blog uri is malformed", ex);
                 }
             });
+        }
+
+        private async Task GetUserProfileAsync()
+        {
+            var userProfile = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
+            if (userProfile != null)
+            {
+                UserProfileViewModel.MapFromEntity(userProfile);
+                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), UserProfileViewModel.Username);
+                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _userProfileViewModel.RegisteredOn);
+
+                await RaiseAllPropertiesChanged();
+            }
         }
 
         private Task LaunchInternalBrowserAsync(Uri uri) =>

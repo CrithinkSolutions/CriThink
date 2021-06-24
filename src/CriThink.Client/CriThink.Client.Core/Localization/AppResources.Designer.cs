@@ -295,6 +295,186 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bio.
+        /// </summary>
+        internal static string EditProfileViewModel_Bio {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Bio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your blog URL.
+        /// </summary>
+        internal static string EditProfileViewModel_Blog {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Blog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string EditProfileViewModel_Cancel {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country where you live.
+        /// </summary>
+        internal static string EditProfileViewModel_Country {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something about yourself.
+        /// </summary>
+        internal static string EditProfileViewModel_Description {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your date of birth.
+        /// </summary>
+        internal static string EditProfileViewModel_DoB {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.DoB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facebook.
+        /// </summary>
+        internal static string EditProfileViewModel_Facebook {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Facebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your surname.
+        /// </summary>
+        internal static string EditProfileViewModel_FamilyName {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.FamilyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your gender.
+        /// </summary>
+        internal static string EditProfileViewModel_Gender {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your name.
+        /// </summary>
+        internal static string EditProfileViewModel_GivenName {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.GivenName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instagram.
+        /// </summary>
+        internal static string EditProfileViewModel_Instagram {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Instagram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string EditProfileViewModel_SaveProfile {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.SaveProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skype.
+        /// </summary>
+        internal static string EditProfileViewModel_Skype {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Skype", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snapchat.
+        /// </summary>
+        internal static string EditProfileViewModel_Snapchat {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Snapchat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Social.
+        /// </summary>
+        internal static string EditProfileViewModel_Social {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Social", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telegram.
+        /// </summary>
+        internal static string EditProfileViewModel_Telegram {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Telegram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twitter.
+        /// </summary>
+        internal static string EditProfileViewModel_Twitter {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.Twitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while updating your profile.
+        /// </summary>
+        internal static string EditProfileViewModel_UpdateError {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.UpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated!.
+        /// </summary>
+        internal static string EditProfileViewModel_UpdateOk {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.UpdateOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube.
+        /// </summary>
+        internal static string EditProfileViewModel_YouTube {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.YouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert your email.
         /// </summary>
         internal static string ForgotPasswordViewModel_InsertEmail {
@@ -354,6 +534,60 @@ namespace CriThink.Client.Core.Localization {
         internal static string ForgotPasswordViewModel_Send {
             get {
                 return ResourceManager.GetString("ForgotPasswordViewModel.Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Female.
+        /// </summary>
+        internal static string GenderViewModel_Female {
+            get {
+                return ResourceManager.GetString("GenderViewModel.Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Fluid.
+        /// </summary>
+        internal static string GenderViewModel_GenderFluid {
+            get {
+                return ResourceManager.GetString("GenderViewModel.GenderFluid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Neutral.
+        /// </summary>
+        internal static string GenderViewModel_GenderNeutral {
+            get {
+                return ResourceManager.GetString("GenderViewModel.GenderNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Male.
+        /// </summary>
+        internal static string GenderViewModel_Male {
+            get {
+                return ResourceManager.GetString("GenderViewModel.Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I prefer not to say.
+        /// </summary>
+        internal static string GenderViewModel_NoGender {
+            get {
+                return ResourceManager.GetString("GenderViewModel.NoGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non Binary.
+        /// </summary>
+        internal static string GenderViewModel_NonBinary {
+            get {
+                return ResourceManager.GetString("GenderViewModel.NonBinary", resourceCulture);
             }
         }
         
@@ -610,7 +844,7 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Born the.
+        ///   Looks up a localized string similar to Born on.
         /// </summary>
         internal static string ProfileViewModel_IBornOn {
             get {
