@@ -106,6 +106,13 @@
 
         #endregion
 
+        #region Statistics
+
+        public const string StatisticsBase = "statistics";
+        public const string StatisticsUsersCounting = "users/counting";
+
+        #endregion
+
         #region MVC
 
         public const string MvcAdd = "add";
