@@ -362,6 +362,24 @@ namespace CriThink.Server.Core.Identity
             await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
         }
 
+        public async Task<UserSoftDeletionResponse> SoftDeleteUserAsync()
+        {
+            var userId = _httpContext.HttpContext.User?.Claims?
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
+                .Value;
+
+            if (userId is null)
+                throw new InvalidOperationException("No user found in claims");
+
+            var command = new DeleteUserLogicallyCommand(userId);
+            var deletedUser = await _mediator.Send(command);
+
+            return new UserSoftDeletionResponse()
+            {
+                DeletionScheduledOn = deletedUser.DeletionScheduledOn.Value
+            };
+        }
+
         public async Task SoftDeleteUserAsync(UserGetRequest request)
         {
             if (request is null)
@@ -373,9 +391,8 @@ namespace CriThink.Server.Core.Identity
             if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            user.IsDeleted = true;
-
-            await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
+            var command = new DeleteUserLogicallyCommand(userId);
+            await _mediator.Send(command);
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)

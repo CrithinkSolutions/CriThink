@@ -20,25 +20,59 @@ namespace CriThink.Server.Core.Entities
 
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
 
-        [Required]
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted => _deletionScheduledOn is not null;
+
+        private DateTimeOffset? _deletionScheduledOn;
+        public DateTimeOffset? DeletionScheduledOn => _deletionScheduledOn;
+
+        private DateTimeOffset? _deletionRequestedOn;
+        public DateTimeOffset? DeletionRequestedOn => _deletionRequestedOn;
 
         [Required]
         public UserProfile Profile { get; set; }
 
+        /// <summary>
+        /// Returns true if the user has active
+        /// refresh tokens
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
         public bool HasValidRefreshToken(string refreshToken)
         {
             return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
         }
 
+        /// <summary>
+        /// Adds a refresh token for this user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="remoteIpAddress"></param>
+        /// <param name="timeFromNow"></param>
         public void AddRefreshToken(string token, string remoteIpAddress, TimeSpan timeFromNow)
         {
             _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.Add(timeFromNow), this, remoteIpAddress));
         }
 
+        /// <summary>
+        /// Removes a refresh token from this user
+        /// </summary>
+        /// <param name="refreshToken"></param>
         public void RemoveRefreshToken(string refreshToken)
         {
             _refreshTokens.Remove(_refreshTokens.First(t => t.Token == refreshToken));
+        }
+
+        /// <summary>
+        /// Logically delete this user. Schedules deletion
+        /// 3 months from now
+        /// </summary>
+        public void Delete()
+        {
+            if (_deletionRequestedOn is not null)
+                return;
+
+            _deletionRequestedOn = DateTime.UtcNow;
+            _deletionScheduledOn = DateTime.UtcNow.AddMonths(3);
         }
     }
 }
