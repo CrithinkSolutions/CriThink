@@ -23,6 +23,8 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
@@ -61,7 +63,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> SignUpUserAsync(
             [FromForm] UserSignUpRequest request,
@@ -97,7 +98,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> LoginUserAsync([FromBody] UserLoginRequest request)
         {
@@ -144,7 +144,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> RefreshUserTokenAsync([FromBody] UserRefreshTokenRequest request)
         {
@@ -255,7 +254,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
         {
@@ -302,7 +300,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> RequestTemporaryTokenAsync([FromBody] ForgotPasswordRequest dto)
         {
@@ -342,7 +339,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
@@ -383,7 +379,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
         {
@@ -414,11 +409,34 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
         {
             var response = await _identityService.GetUsernameAvailabilityAsync(dto).ConfigureAwait(false);
+            return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
+        /// Delete current user. Returns the scheduled deletion time
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     DELETE: /api/identity/user
+        ///     
+        /// </remarks>
+        /// <response code="200">Returns the scheduled deletion time</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.IdentityDeleteAccount)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserAsync()
+        {
+            var response = await _identityService.SoftDeleteUserAsync();
             return Ok(new ApiOkResponse(response));
         }
     }

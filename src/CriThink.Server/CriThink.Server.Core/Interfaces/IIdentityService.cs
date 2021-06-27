@@ -87,6 +87,12 @@ namespace CriThink.Server.Core.Interfaces
         Task UpdateUserAsync(UserUpdateRequest request);
 
         /// <summary>
+        /// Logically delete the current user
+        /// </summary>
+        /// <returns>The deletion scheduled time</returns>
+        Task<UserSoftDeletionResponse> SoftDeleteUserAsync();
+
+        /// <summary>
         /// Soft delete a user
         /// </summary>
         /// <param name="request">User id</param>
