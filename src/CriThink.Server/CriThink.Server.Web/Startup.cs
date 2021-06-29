@@ -470,6 +470,7 @@ namespace CriThink.Server.Web
         private static void SetupBackgroundServices(IServiceCollection services)
         {
             services.AddHostedService<RefreshTokenCleanerBackgroundService>();
+            services.AddHostedService<UserPendingDeletionCleanerBackgroundService>();
 
             services.Configure<HostOptions>(
                 opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));

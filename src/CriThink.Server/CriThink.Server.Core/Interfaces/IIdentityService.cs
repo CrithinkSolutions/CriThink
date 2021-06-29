@@ -177,5 +177,12 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <returns></returns>
         Task CleanUpExpiredRefreshTokens();
+
+        /// <summary>
+        /// Clean up users on which there is a pending
+        /// deletion request
+        /// </summary>
+        /// <returns></returns>
+        Task CleanUpUsersScheduledDeletionAsync();
     }
 }

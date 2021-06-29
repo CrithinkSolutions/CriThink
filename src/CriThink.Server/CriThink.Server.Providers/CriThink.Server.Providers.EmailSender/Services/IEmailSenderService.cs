@@ -9,5 +9,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
         Task SendUnknownDomainAlertEmailAsync(string unkownDomain, string resquetedByEmail);
         Task SendIdentifiedNewsSourceEmailAsync(string recipient, string identifiedDomain, string classification);
+
+        Task SendAccountDeletionConfirmationEmailAsync(string recipient, string username);
     }
 }
