@@ -240,5 +240,21 @@ namespace CriThink.Client.Core.Services
                 throw;
             }
         }
+
+        public async Task RestoreDeletedAccountAsync(RestoreUserRequest request, CancellationToken cancellationToken)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            try
+            {
+                await _identityApi.RestoreUserAsync(request, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("An error occurred when restoring a deleted account", ex);
+                throw;
+            }
+        }
     }
 }

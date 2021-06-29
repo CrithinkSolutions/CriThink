@@ -522,4 +522,28 @@
   <data name="ProfileViewModel.DeleteMessage" xml:space="preserve">
     <value>Il tuo account verrà cancellato in modo permanente in data {0}. Una email te lo confermerà. Ricorda che nel frattempo puoi ripristinare il tuo account in qualsiasi momento dall'app!</value>
   </data>
+  <data name="SignUpViewModel.OrAccount" xml:space="preserve">
+    <value>o</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccount" xml:space="preserve">
+    <value>Recupera account</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountConfirmationMessage" xml:space="preserve">
+    <value>Il tuo account è stato recuperato! Ti abbiamo inviato una email per ripristinare la tua password, controlla la tua posta!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountConfirmationTitle" xml:space="preserve">
+    <value>Urrah!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore ripristinando il tuo account. Sicuro che i tuoi dati siano corretti?</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountErrorTitle" xml:space="preserve">
+    <value>Ops!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountMessage" xml:space="preserve">
+    <value>Siamo contenti di rivederti. Inserisci qui l'email o lo username dell'account da recuperare</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountTitle" xml:space="preserve">
+    <value>Recupera il tuo account</value>
+  </data>
 </root>

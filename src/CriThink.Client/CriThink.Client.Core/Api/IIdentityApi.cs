@@ -32,5 +32,8 @@ namespace CriThink.Client.Core.Api
 
         [Delete("/" + EndpointConstants.IdentityDeleteUser)]
         Task<UserSoftDeletionResponse> DeleteUserAsync(CancellationToken cancellationToken = default);
+
+        [Patch("/" + EndpointConstants.IdentityRestoreUser)]
+        Task RestoreUserAsync([Body] RestoreUserRequest request, CancellationToken cancellationToken = default);
     }
 }

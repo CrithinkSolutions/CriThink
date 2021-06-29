@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
@@ -26,6 +29,9 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _navigateToLoginCommand;
         public IMvxCommand NavigateToLoginCommand => _navigateToLoginCommand ??= new MvxAsyncCommand(DoNavigateToLoginCommand);
 
+        private IMvxAsyncCommand _restoreAccountCommand;
+        public IMvxAsyncCommand RestoreAccountCommand => _restoreAccountCommand ??= new MvxAsyncCommand(DoRestoreAccountCommand);
+
         #endregion
 
         public override void Prepare()
@@ -42,6 +48,45 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToSignUpEmailCommand()
         {
             await _navigationService.Navigate<SignUpEmailViewModel>().ConfigureAwait(false);
+        }
+
+        private async Task DoRestoreAccountCommand(CancellationToken cancellationToken)
+        {
+            IsLoading = true;
+
+            var message = LocalizedTextSource.GetText("RestoreAccountMessage");
+            var title = LocalizedTextSource.GetText("RestoreAccountTitle");
+
+            var result = await UserDialogs.PromptAsync(message, title, inputType: InputType.Email, cancelToken: cancellationToken);
+            if (!result.Ok)
+                return;
+
+            var emailOrUsername = result.Value;
+            var request = new RestoreUserRequest();
+
+            var isEmail = EmailHelper.IsEmail(emailOrUsername);
+            if (isEmail)
+                request.Email = emailOrUsername;
+            else
+                request.UserName = emailOrUsername;
+
+            try
+            {
+                await IdentityService.RestoreDeletedAccountAsync(request, cancellationToken).ConfigureAwait(true);
+
+                message = LocalizedTextSource.GetText("RestoreAccountConfirmationMessage");
+                title = LocalizedTextSource.GetText("RestoreAccountConfirmationTitle");
+            }
+            catch (Exception)
+            {
+                message = LocalizedTextSource.GetText("RestoreAccountErrorMessage");
+                title = LocalizedTextSource.GetText("RestoreAccountErrorTitle");
+            }
+            finally
+            {
+                IsLoading = false;
+                await UserDialogs.AlertAsync(message, title, cancelToken: cancellationToken);
+            }
         }
     }
 }
