@@ -92,7 +92,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             Task.Run(async () =>
             {
-                await ViewModel.ShowErrorMessage(ex, message);
+                await ViewModel.ShowErrorMessageAsync(ex, message);
             });
         }
 
@@ -100,7 +100,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             Task.Run(async () =>
             {
-                await ViewModel.ShowErrorMessage(message);
+                await ViewModel.ShowErrorMessageAsync(message);
             });
         }
     }

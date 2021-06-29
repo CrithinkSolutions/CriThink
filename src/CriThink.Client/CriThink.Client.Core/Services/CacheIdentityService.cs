@@ -99,6 +99,12 @@ namespace CriThink.Client.Core.Services
             return response;
         }
 
+        public async Task RestoreDeletedAccountAsync(RestoreUserRequest request, CancellationToken cancellationToken)
+        {
+            await _identityService.RestoreDeletedAccountAsync(request, cancellationToken);
+            ClearUserInfoFromCache();
+        }
+
         private void ClearUserInfoFromCache()
         {
             _memoryCache.Remove(UserTokenCacheKey);

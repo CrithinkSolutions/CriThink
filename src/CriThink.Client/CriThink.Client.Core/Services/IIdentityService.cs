@@ -81,5 +81,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Scheduled deletion date</returns>
         Task<UserSoftDeletionResponse> DeleteAccountAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Restore a previously deleted account
+        /// </summary>
+        /// <param name="request">Email or username</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns></returns>
+        Task RestoreDeletedAccountAsync(RestoreUserRequest request, CancellationToken cancellationToken);
     }
 }

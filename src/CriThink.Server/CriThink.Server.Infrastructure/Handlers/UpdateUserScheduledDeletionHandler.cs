@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+                if (user is null)
+                    throw new ResourceNotFoundException("User doesn't exist");
 
                 user.CancelScheduledDeletion();
 

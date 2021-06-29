@@ -1186,6 +1186,78 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Or.
+        /// </summary>
+        internal static string SignUpViewModel_OrAccount {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.OrAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore account.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccount {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account has been recovered! We sent you an email to restore your password. Check it out!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountConfirmationMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Urrah!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountConfirmationTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while restoring your account. Is your data correct?.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountErrorMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ops!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountErrorTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We&apos;re glad to see you again. Insert your email or your username of the account to recover.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recover your account.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It&apos;s easier to sign up now.
         /// </summary>
         internal static string SignUpViewModel_SignUpCaption {
