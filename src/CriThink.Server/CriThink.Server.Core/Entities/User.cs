@@ -71,8 +71,8 @@ namespace CriThink.Server.Core.Entities
             if (_deletionRequestedOn is not null)
                 return;
 
-            _deletionRequestedOn = DateTime.UtcNow;
-            _deletionScheduledOn = DateTime.UtcNow.AddMonths(3);
+            _deletionRequestedOn = DateTimeOffset.UtcNow;
+            _deletionScheduledOn = DateTimeOffset.UtcNow.AddMonths(3);
         }
     }
 }

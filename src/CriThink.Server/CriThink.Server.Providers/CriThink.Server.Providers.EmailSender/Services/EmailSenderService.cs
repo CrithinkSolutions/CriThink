@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CriThink.Server.Providers.EmailSender.Providers;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.RazorViews.Services;
+using CriThink.Server.RazorViews.Views.Emails.AccountDeletion;
 using CriThink.Server.RazorViews.Views.Emails.AlertNotification;
 using CriThink.Server.RazorViews.Views.Emails.ConfirmAccount;
 using Microsoft.AspNetCore.Http;
@@ -77,6 +78,18 @@ namespace CriThink.Server.Providers.EmailSender.Services
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/UnknownDomainAlert/UnknownDomainAlertUserEmail.cshtml", unknownDomainAlertViewModel);
 
             var subject = $"[{classification}] - We identified the domain";
+
+            await Execute(new[] { recipient }, subject, htmlBody);
+        }
+
+        public async Task SendAccountDeletionConfirmationEmailAsync(string recipient, string username)
+        {
+            var viewModel = new AccountDeletionViewModel(username);
+
+            // TODO: Use nameof() for path composition
+            var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/AccountDeletion/AccountDeletion.cshtml", viewModel);
+
+            var subject = $"We have permanently deleted your account";
 
             await Execute(new[] { recipient }, subject, htmlBody);
         }

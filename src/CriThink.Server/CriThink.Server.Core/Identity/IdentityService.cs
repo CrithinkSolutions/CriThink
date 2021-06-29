@@ -684,6 +684,25 @@ namespace CriThink.Server.Core.Identity
             }
         }
 
+        public async Task CleanUpUsersScheduledDeletionAsync()
+        {
+            try
+            {
+                var command = new DeleteUserScheduledDeletionCommand();
+                var deletedUsers = await _mediator.Send(command);
+
+                foreach (var user in deletedUsers.Users)
+                {
+                    await _emailSender.SendAccountDeletionConfirmationEmailAsync(user.Email, user.UserName);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error clearning up users in pending deletion");
+                throw;
+            }
+        }
+
         #region Privates
 
         private Task<User> FindUserAsync(string value, bool includeForeignKeys = false, CancellationToken cancellationToken = default)
