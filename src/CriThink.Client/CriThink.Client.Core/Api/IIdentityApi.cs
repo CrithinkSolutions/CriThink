@@ -29,5 +29,11 @@ namespace CriThink.Client.Core.Api
 
         [Post("/" + EndpointConstants.Mobile + EndpointConstants.IdentityConfirmEmail)]
         Task<VerifyUserEmailResponse> ConfirmEmailAsync([Body] EmailConfirmationRequest request, CancellationToken cancellationToken = default);
+
+        [Delete("/" + EndpointConstants.IdentityDeleteUser)]
+        Task<UserSoftDeletionResponse> DeleteUserAsync(CancellationToken cancellationToken = default);
+
+        [Patch("/" + EndpointConstants.IdentityRestoreUser)]
+        Task RestoreUserAsync([Body] RestoreUserRequest request, CancellationToken cancellationToken = default);
     }
 }

@@ -15,13 +15,13 @@ namespace CriThink.Client.Core.ViewModels.Users
 {
     public class BaseSocialLoginViewModel : BaseViewModel
     {
-        private readonly IUserDialogs _userDialogs;
+        protected readonly IUserDialogs UserDialogs;
         private readonly IMvxNavigationService _navigationService;
 
         public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxNavigationService navigationService, IMvxLogProvider logProvider)
         {
             IdentityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            UserDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Log = logProvider?.GetLogFor<BaseSocialLoginViewModel>();
         }
@@ -55,7 +55,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 Log?.FatalException("Error while loggin using social login", ex, string.IsNullOrWhiteSpace(token), loginProvider);
 
                 var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
-                await ShowErrorMessage(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
+                await ShowErrorMessageAsync(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
             }
             finally
             {
@@ -63,15 +63,15 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
         }
 
-        public Task ShowErrorMessage(Exception ex, string message)
+        public Task ShowErrorMessageAsync(Exception ex, string message)
         {
             Log?.FatalException(message, ex);
-            return ShowErrorMessage(message);
+            return ShowErrorMessageAsync(message);
         }
 
-        public async Task ShowErrorMessage(string message)
+        public async Task ShowErrorMessageAsync(string message)
         {
-            await _userDialogs.AlertAsync(
+            await UserDialogs.AlertAsync(
                 message,
                 okText: "Ok").ConfigureAwait(true);
         }

@@ -87,6 +87,12 @@ namespace CriThink.Server.Core.Interfaces
         Task UpdateUserAsync(UserUpdateRequest request);
 
         /// <summary>
+        /// Logically delete the current user
+        /// </summary>
+        /// <returns>The deletion scheduled time</returns>
+        Task<UserSoftDeletionResponse> SoftDeleteUserAsync();
+
+        /// <summary>
         /// Soft delete a user
         /// </summary>
         /// <param name="request">User id</param>
@@ -167,9 +173,23 @@ namespace CriThink.Server.Core.Interfaces
         Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request);
 
         /// <summary>
+        /// Restore a previously logically deleted user
+        /// </summary>
+        /// <param name="request">User email</param>
+        /// <returns></returns>
+        Task RestoreUserAsync(RestoreUserRequest request);
+
+        /// <summary>
         /// Clean up expired user refresh tokens
         /// </summary>
         /// <returns></returns>
         Task CleanUpExpiredRefreshTokens();
+
+        /// <summary>
+        /// Clean up users on which there is a pending
+        /// deletion request
+        /// </summary>
+        /// <returns></returns>
+        Task CleanUpUsersScheduledDeletionAsync();
     }
 }

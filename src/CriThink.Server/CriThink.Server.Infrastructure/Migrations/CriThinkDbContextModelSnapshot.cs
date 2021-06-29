@@ -16,7 +16,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
@@ -476,10 +476,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("email_confirmed");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean")
                         .HasColumnName("lockout_enabled");
@@ -515,6 +511,14 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("user_name");
 
+                    b.Property<DateTimeOffset?>("_deletionRequestedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_requested_on");
+
+                    b.Property<DateTimeOffset?>("_deletionScheduledOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_scheduled_on");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -535,7 +539,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                             ConcurrencyStamp = "c31844c9-d81b-4c66-991c-a60b0ba36f76",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
-                            IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SERVICE@CRITHINK.COM",
                             NormalizedUserName = "SERVICE",
@@ -663,7 +666,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("normalized_name");
 
                     b.HasKey("Id")
-                        .HasName("pk_roles");
+                        .HasName("pk_user_roles");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -702,10 +705,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_role_claims");
+                        .HasName("pk_aspnet_role_claims");
 
                     b.HasIndex("RoleId")
-                        .HasDatabaseName("ix_role_claims_role_id");
+                        .HasDatabaseName("ix_aspnet_role_claims_role_id");
 
                     b.ToTable("aspnet_role_claims");
                 });
@@ -731,10 +734,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_user_claims");
+                        .HasName("pk_aspnet_user_claims");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_user_claims_user_id");
+                        .HasDatabaseName("ix_aspnet_user_claims_user_id");
 
                     b.ToTable("aspnet_user_claims");
 
@@ -788,10 +791,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("LoginProvider", "ProviderKey")
-                        .HasName("pk_user_logins");
+                        .HasName("pk_aspnet_user_logins");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_user_logins_user_id");
+                        .HasDatabaseName("ix_aspnet_user_logins_user_id");
 
                     b.ToTable("aspnet_user_logins");
                 });
@@ -807,10 +810,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("UserId", "RoleId")
-                        .HasName("pk_user_roles");
+                        .HasName("pk_aspnet_user_roles");
 
                     b.HasIndex("RoleId")
-                        .HasDatabaseName("ix_user_roles_role_id");
+                        .HasDatabaseName("ix_aspnet_user_roles_role_id");
 
                     b.ToTable("aspnet_user_roles");
 
@@ -841,7 +844,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("value");
 
                     b.HasKey("UserId", "LoginProvider", "Name")
-                        .HasName("pk_user_tokens");
+                        .HasName("pk_aspnet_user_tokens");
 
                     b.ToTable("aspnet_user_tokens");
                 });
@@ -863,7 +866,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsCountry", "Country")
                         .WithMany("Publishers")
                         .HasForeignKey("CountryId")
-                        .HasConstraintName("fk_debunking_news_publishers_debunking_news_countries_country_")
+                        .HasConstraintName("fk_debunking_news_publishers_debunking_news_countries_country_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -920,7 +923,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_role_claims_asp_net_roles_user_role_id")
+                        .HasConstraintName("fk_aspnet_role_claims_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -930,7 +933,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_claims_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -940,7 +943,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_logins_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -950,14 +953,14 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_user_roles_asp_net_roles_user_role_id")
+                        .HasConstraintName("fk_aspnet_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_roles_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -967,7 +970,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.HasOne("CriThink.Server.Core.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_tokens_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

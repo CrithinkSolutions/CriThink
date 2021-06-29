@@ -38,6 +38,8 @@ namespace CriThink.Client.Droid.Views.Users
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var alreadyAccount = FindViewById<AppCompatTextView>(Resource.Id.alreadyAccount);
+            var txtOrAccount = FindViewById<AppCompatTextView>(Resource.Id.txtOrAccount);
+            var btnRestore = FindViewById<AppCompatButton>(Resource.Id.btnRestore);
             var loader = FindViewById<MvxCachedImageView>(Resource.Id.loader);
 
             var set = CreateBindingSet();
@@ -51,6 +53,9 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
             set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(alreadyAccount).ToLocalizationId("AlreadyAccount");
+            set.Bind(txtOrAccount).ToLocalizationId("OrAccount");
+            set.Bind(btnRestore).For(v => v.Text).ToLocalizationId("RestoreAccount");
+            set.Bind(btnRestore).For(v => v.BindClick()).To(vm => vm.RestoreAccountCommand);
 
             set.Bind(loader).For(v => v.BindVisible()).To(vm => vm.IsLoading);
 

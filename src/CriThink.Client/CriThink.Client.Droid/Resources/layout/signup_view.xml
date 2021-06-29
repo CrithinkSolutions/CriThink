@@ -131,6 +131,23 @@
             android:minHeight="0dp"
             android:paddingLeft="@dimen/margin_small"
             android:textAllCaps="false"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtOrAccount"
+            android:paddingLeft="@dimen/margin_small"
+            android:textSize="@dimen/textSize_small"/>
+                    
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRestore"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="@dimen/margin_small"
+            android:textAllCaps="false"/>
       </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
