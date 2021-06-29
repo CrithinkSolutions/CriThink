@@ -173,6 +173,13 @@ namespace CriThink.Server.Core.Interfaces
         Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync(UsernameAvailabilityRequest request);
 
         /// <summary>
+        /// Restore a previously logically deleted user
+        /// </summary>
+        /// <param name="request">User email</param>
+        /// <returns></returns>
+        Task RestoreUserAsync(RestoreUserRequest request);
+
+        /// <summary>
         /// Clean up expired user refresh tokens
         /// </summary>
         /// <returns></returns>

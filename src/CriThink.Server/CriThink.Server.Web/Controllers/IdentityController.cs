@@ -429,8 +429,8 @@ namespace CriThink.Server.Web.Controllers
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
-        [Route(EndpointConstants.IdentityDeleteAccount)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route(EndpointConstants.IdentityDeleteUser)]
+        [ProducesResponseType(typeof(UserSoftDeletionResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpDelete]
@@ -438,6 +438,36 @@ namespace CriThink.Server.Web.Controllers
         {
             var response = await _identityService.SoftDeleteUserAsync();
             return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
+        /// Restore a previously deleted account. The user
+        /// will receive an email to restore the password.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PATCH: /api/identity/restore-user
+        ///     {
+        ///         "email": "email",
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="dto">Request with user email</param>
+        /// <response code="204">Returns when operation succeeds</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityRestoreUser)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [HttpPatch]
+        public async Task<IActionResult> RestoreUserAsync([FromBody] RestoreUserRequest dto)
+        {
+            await _identityService.RestoreUserAsync(dto);
+            return NoContent();
         }
     }
 }

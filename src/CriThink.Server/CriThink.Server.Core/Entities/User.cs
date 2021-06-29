@@ -74,5 +74,15 @@ namespace CriThink.Server.Core.Entities
             _deletionRequestedOn = DateTimeOffset.UtcNow;
             _deletionScheduledOn = DateTimeOffset.UtcNow.AddMonths(3);
         }
+
+        /// <summary>
+        /// Fully restore this user from a previously
+        /// deletion request
+        /// </summary>
+        public void CancelScheduledDeletion()
+        {
+            _deletionRequestedOn = null;
+            _deletionScheduledOn = null;
+        }
     }
 }
