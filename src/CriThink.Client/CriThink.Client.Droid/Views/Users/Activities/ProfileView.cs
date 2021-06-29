@@ -38,6 +38,8 @@ namespace CriThink.Client.Droid.Views.Users
             var txtAbout = FindViewById<AppCompatTextView>(Resource.Id.txtAbout);
             var txtAboutTitle = FindViewById<AppCompatTextView>(Resource.Id.txtAboutTitle);
             var txtBadgesTitle = FindViewById<AppCompatTextView>(Resource.Id.txtBadgesTitle);
+            var txtDangerZoneTitle = FindViewById<AppCompatTextView>(Resource.Id.txtDangerZoneTitle);
+            var txtCloseAccount = FindViewById<AppCompatButton>(Resource.Id.txtCloseAccount);
             var imgTelegram = FindViewById<MvxCachedImageView>(Resource.Id.imgTelegram);
             var imgSkype = FindViewById<MvxCachedImageView>(Resource.Id.imgSkype);
             var imgFacebook = FindViewById<MvxCachedImageView>(Resource.Id.imgFacebook);
@@ -84,6 +86,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(imgSnapchat).For(v => v.BindClick()).To(vm => vm.OpenSnapchatCommand);
             set.Bind(imgYoutube).For(v => v.BindClick()).To(vm => vm.OpenYoutubeCommand);
             set.Bind(imgBlog).For(v => v.BindClick()).To(vm => vm.OpenBlogCommand);
+            set.Bind(txtCloseAccount).For(v => v.BindClick()).To(vm => vm.CloseAccountCommand);
 
             set.Bind(imgTelegram).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Telegram).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(imgSkype).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Skype).WithConversion<MvxVisibilityValueConverter>();
@@ -103,6 +106,8 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtAboutTitle).ToLocalizationId("AboutTitle");
             set.Bind(_txtTitle).ToLocalizationId("MyProfile");
             set.Bind(txtBadgesTitle).ToLocalizationId("MyBadges");
+            set.Bind(txtDangerZoneTitle).ToLocalizationId("DangerZone");
+            set.Bind(txtCloseAccount).For(v => v.Text).ToLocalizationId("CloseAccount");
 
             set.Apply();
         }

@@ -498,4 +498,28 @@
   <data name="EditProfileViewModel.Cancel" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="ProfileViewModel.DangerZone" xml:space="preserve">
+    <value>Danger Zone!</value>
+  </data>
+  <data name="ProfileViewModel.CloseAccount" xml:space="preserve">
+    <value>Chiudi Account :(</value>
+  </data>
+  <data name="ProfileViewModel.DeleteConfirmationMessage" xml:space="preserve">
+    <value>Sei sicuro di voler cancellare il tuo account? :(</value>
+  </data>
+  <data name="ProfileViewModel.DeleteConfirmationTitle" xml:space="preserve">
+    <value>Sei sicuro?</value>
+  </data>
+  <data name="ProfileViewModel.DeleteErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore</value>
+  </data>
+  <data name="ProfileViewModel.DeleteErrorTitle" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="ProfileViewModel.DeleteTitle" xml:space="preserve">
+    <value>Cancellazione confermata</value>
+  </data>
+  <data name="ProfileViewModel.DeleteMessage" xml:space="preserve">
+    <value>Il tuo account verrà cancellato in modo permanente in data {0}. Una email te lo confermerà. Ricorda che nel frattempo puoi ripristinare il tuo account in qualsiasi momento dall'app!</value>
+  </data>
 </root>

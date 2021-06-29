@@ -227,5 +227,18 @@ namespace CriThink.Client.Core.Services
                 throw;
             }
         }
+
+        public async Task<UserSoftDeletionResponse> DeleteAccountAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _identityApi.DeleteUserAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("An error occurred when deleting the account", ex);
+                throw;
+            }
+        }
     }
 }

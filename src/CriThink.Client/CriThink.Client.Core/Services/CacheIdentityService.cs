@@ -92,6 +92,13 @@ namespace CriThink.Client.Core.Services
             }
         }
 
+        public async Task<UserSoftDeletionResponse> DeleteAccountAsync(CancellationToken cancellationToken)
+        {
+            var response = await _identityService.DeleteAccountAsync(cancellationToken);
+            ClearUserInfoFromCache();
+            return response;
+        }
+
         private void ClearUserInfoFromCache()
         {
             _memoryCache.Remove(UserTokenCacheKey);
