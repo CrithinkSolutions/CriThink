@@ -670,6 +670,24 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
+        public async Task RestoreUserAsync(RestoreUserRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
+            if (user is null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"User: '{request.Email ?? request.UserName}'");
+
+            var command = new UpdateUserScheduledDeletionCommand(user.Id);
+            await _mediator.Send(command);
+
+            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user).ConfigureAwait(false);
+
+            var encodedCode = Base64Helper.ToBase64(token);
+            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, user.UserName).ConfigureAwait(false);
+        }
+
         public async Task CleanUpExpiredRefreshTokens()
         {
             try
