@@ -5,13 +5,16 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Common;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -19,6 +22,7 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserProfileService _userProfileService;
+        private readonly IIdentityService _identityService;
         private readonly IPlatformService _platformService;
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxLog _log;
@@ -27,11 +31,13 @@ namespace CriThink.Client.Core.ViewModels.Users
             IMvxLogProvider logProvider,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
+            IIdentityService identityService,
             IPlatformService platformService,
             IUserDialogs userDialogs)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _platformService = platformService ?? throw new ArgumentNullException(nameof(platformService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _log = logProvider?.GetLogFor<ProfileViewModel>();
@@ -110,6 +116,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxCommand _openBlogCommand;
         public IMvxCommand OpenBlogCommand => _openBlogCommand ??= new MvxCommand(DoOpenBlogCommand);
+
+        private IMvxAsyncCommand _closeAccountCommand;
+        public IMvxAsyncCommand CloseAccountCommand => _closeAccountCommand ??= new MvxAsyncCommand(DoCloseAccountCommand);
 
         #endregion
 
@@ -212,6 +221,58 @@ namespace CriThink.Client.Core.ViewModels.Users
             });
         }
 
+        private async Task DoCloseAccountCommand(CancellationToken cancellationToken)
+        {
+            var isConfirmed = await AskForDeletionConfirmationAsync(cancellationToken);
+            if (!isConfirmed)
+                return;
+
+            try
+            {
+                var scheduledDeletionDate = await _identityService.DeleteAccountAsync(cancellationToken);
+
+                await ShowDeletionConfirmationAsync(scheduledDeletionDate, cancellationToken);
+
+                _identityService.PerformLogout();
+
+                await _navigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    }),
+                    cancellationToken: cancellationToken).ConfigureAwait(true);
+            }
+            catch (Exception)
+            {
+                await ShowErrorMessageAsync(cancellationToken);
+            }
+        }
+
+        private async Task<bool> AskForDeletionConfirmationAsync(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteConfirmationTitle");
+            var message = LocalizedTextSource.GetText("DeleteConfirmationMessage");
+
+            return await _userDialogs.ConfirmAsync(message, title, cancelToken: cancellationToken);
+        }
+
+        private async Task ShowDeletionConfirmationAsync(UserSoftDeletionResponse response, CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteTitle");
+            var message = string.Format(LocalizedTextSource.GetText("DeleteMessage"),
+                response.DeletionScheduledOn.ToString("D", CultureInfo.CurrentUICulture));
+
+            await ShowAlertAsync(message, title, cancellationToken);
+        }
+
+        private async Task ShowErrorMessageAsync(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteErrorTitle");
+            var message = LocalizedTextSource.GetText("DeleteErrorMessage");
+
+            await ShowAlertAsync(message, title, cancellationToken);
+        }
+
         private async Task GetUserProfileAsync()
         {
             var userProfile = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
@@ -244,5 +305,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             _userDialogs.Toast(cfg);
         }
+
+        private Task ShowAlertAsync(string message, string title, CancellationToken cancellationToken) =>
+            _userDialogs.AlertAsync(message, title, cancelToken: cancellationToken);
     }
 }

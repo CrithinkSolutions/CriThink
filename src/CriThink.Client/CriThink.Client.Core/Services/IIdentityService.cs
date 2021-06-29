@@ -74,5 +74,12 @@ namespace CriThink.Client.Core.Services
         /// Perform logout and erase all user information
         /// </summary>
         void PerformLogout();
+
+        /// <summary>
+        /// Request for user account deletion
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Scheduled deletion date</returns>
+        Task<UserSoftDeletionResponse> DeleteAccountAsync(CancellationToken cancellationToken);
     }
 }

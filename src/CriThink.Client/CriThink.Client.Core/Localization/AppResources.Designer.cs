@@ -826,6 +826,78 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close Account :(.
+        /// </summary>
+        internal static string ProfileViewModel_CloseAccount {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.CloseAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danger Zone!.
+        /// </summary>
+        internal static string ProfileViewModel_DangerZone {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DangerZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete your account? :(.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteConfirmationMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You sure?.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteConfirmationTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteErrorMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteErrorTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account will be permanently deleted on {0}. You will received a confirmation email. In the meantime, you can restore your account at any time from the app!.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletion confirmed.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi, I&apos;m {0}.
         /// </summary>
         internal static string ProfileViewModel_Hello {
