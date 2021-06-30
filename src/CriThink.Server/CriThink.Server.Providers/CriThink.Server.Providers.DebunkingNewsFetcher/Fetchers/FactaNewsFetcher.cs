@@ -143,12 +143,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             var html = await _httpClient.GetStringAsync(link).ConfigureAwait(false);
 
-            // TODO: Write regex to get image link
             var match = Regex.Match(html, ImagePattern);
-            if (string.IsNullOrWhiteSpace(match.Value))
+            if (match.Groups is null || match.Groups.Count < 2)
+            {
                 _logger?.LogWarning($"Can't get image url of the following item: {link}; {html}");
+                return string.Empty;
+            }
 
-            return match.Value;
+            return match.Groups[1].Value;
         }
     }
 }
