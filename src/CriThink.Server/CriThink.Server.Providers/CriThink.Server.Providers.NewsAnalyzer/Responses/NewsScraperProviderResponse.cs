@@ -88,11 +88,6 @@ namespace CriThink.Server.Providers.NewsAnalyzer
                                             $"{NewsBody.Substring(0, 100)}..."
                                             : NewsBody);
 
-        public void SetDate(DateTime dateTime)
-        {
-            Date = dateTime;
-        }
-
         public void SetPublishingDate(DateTime dateTime)
         {
             Date = dateTime;
