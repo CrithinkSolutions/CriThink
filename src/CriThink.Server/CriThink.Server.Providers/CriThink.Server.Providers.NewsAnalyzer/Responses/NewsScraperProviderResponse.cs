@@ -82,9 +82,13 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// Get the first 100 characters of the news body
         /// </summary>
         /// <returns></returns>
-        public string GetCaption() => NewsCaption ?? (NewsBody.Length > 100 ? $"{NewsBody.Substring(0, 100)}..." : NewsBody);
+        public string GetCaption() => NewsCaption?.Length > 3 ?
+                                        NewsCaption :
+                                        (NewsBody.Length > 100 ?
+                                            $"{NewsBody.Substring(0, 100)}..."
+                                            : NewsBody);
 
-        public void SetDate(DateTime dateTime)
+        public void SetPublishingDate(DateTime dateTime)
         {
             Date = dateTime;
         }

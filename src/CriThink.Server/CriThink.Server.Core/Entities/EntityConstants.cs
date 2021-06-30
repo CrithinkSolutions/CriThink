@@ -44,5 +44,17 @@
         public const string FullFactInstagram = "https://www.instagram.com/fullfactorg/";
 
         #endregion
+
+        #region FactaNews
+
+        public const string FactaNews = "FactaNews";
+        public const string FactaNewsLink = "https://facta.news/";
+        public const string FactaNewsDescription = "";
+        public const string FactaNewsOpinion = "";
+        public const string FactaNewsFacebook = "https://www.facebook.com/facta.news";
+        public const string FactaNewsTwitter = "https://twitter.com/FactaNews";
+        public const string FactaNewsInstagram = "https://www.instagram.com/facta.news/";
+
+        #endregion
     }
 }

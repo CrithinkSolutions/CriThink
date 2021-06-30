@@ -69,6 +69,19 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                     TwitterProfile = EntityConstants.FullFactTwitter,
                     CountryId = Guid.Parse("812361b1-d1c3-4315-b601-4e060364a1d6"),
                     LanguageId = Guid.Parse("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
+                },
+                new
+                {
+                    Id = Guid.Parse("80aa1eaf-d64b-46eb-a438-503b716f9c2a"),
+                    Name = EntityConstants.FactaNews,
+                    Link = EntityConstants.FactaNewsLink,
+                    Description = EntityConstants.FactaNewsDescription,
+                    Opinion = EntityConstants.FactaNewsOpinion,
+                    FacebookPage = EntityConstants.FactaNewsFacebook,
+                    InstagramProfile = EntityConstants.FactaNewsInstagram,
+                    TwitterProfile = EntityConstants.FactaNewsTwitter,
+                    CountryId = Guid.Parse("575003e3-991c-4ac5-9ce4-3399553f64a7"),
+                    LanguageId = Guid.Parse("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
                 }
             });
         }

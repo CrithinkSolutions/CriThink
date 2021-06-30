@@ -20,4 +20,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Settings
 
     public class FullFactSettings : DebunkingNewsProviderSettings
     { }
+
+    public class FactaNewsSettings : DebunkingNewsProviderSettings
+    { }
 }
