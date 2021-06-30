@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if DEBUG
 using System.Linq;
-#endif
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
