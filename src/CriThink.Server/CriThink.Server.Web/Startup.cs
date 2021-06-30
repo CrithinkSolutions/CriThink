@@ -350,6 +350,7 @@ namespace CriThink.Server.Web
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
             services.Configure<OpenOnlineSettings>(Configuration.GetSection("DebunkingNewsProviders:OpenOnline"));
             services.Configure<Channel4Settings>(Configuration.GetSection("DebunkingNewsProviders:Channel4"));
+            services.Configure<FullFactSettings>(Configuration.GetSection("DebunkingNewsProviders:FullFact"));
             services.Configure<FactaNewsSettings>(Configuration.GetSection("DebunkingNewsProviders:FactaNews"));
         }
 
@@ -471,6 +472,7 @@ namespace CriThink.Server.Web
         private static void SetupBackgroundServices(IServiceCollection services)
         {
             services.AddHostedService<RefreshTokenCleanerBackgroundService>();
+            services.AddHostedService<UserPendingDeletionCleanerBackgroundService>();
 
             services.Configure<HostOptions>(
                 opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));

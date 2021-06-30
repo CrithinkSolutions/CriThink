@@ -13,6 +13,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
     {
         public const string OpenOnlineHttpClientName = "OpenOnlineFeed";
         public const string Channel4HttpClientName = "Channel4";
+        public const string FullFactHttpClientName = "FullFact";
         public const string FactaNewsHttpClientName = "FactaNews";
         public const string UrlResolverHttpClientName = "UrlResolver";
 
@@ -26,6 +27,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
 
             serviceCollection.AddHttpClient(Channel4HttpClientName);
 
+            serviceCollection.AddHttpClient(FullFactHttpClientName);
             serviceCollection.AddHttpClient(FactaNewsHttpClientName);
 
             serviceCollection.AddHttpClient(UrlResolverHttpClientName)
@@ -37,6 +39,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
 
             serviceCollection.AddTransient<OpenOnlineFetcher>();
             serviceCollection.AddTransient<Channel4Fetcher>();
+            serviceCollection.AddTransient<FullFactFetcher>();
             serviceCollection.AddTransient<FactaNewsFetcher>();
             serviceCollection.AddTransient<DebunkingNewsFetcherBuilder>();
 

@@ -22,6 +22,7 @@ namespace CriThink.Server.Core.Facades
             var builder = _builder
                 .EnableOpenOnline(true)
                 .EnableChannel4(true)
+                .EnableFullFact(true)
                 .EnableFactaNews(true);
 
             var response = await FetchDebunkNewsAsync(builder).ConfigureAwait(false);

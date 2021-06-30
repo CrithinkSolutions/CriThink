@@ -826,6 +826,78 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close Account :(.
+        /// </summary>
+        internal static string ProfileViewModel_CloseAccount {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.CloseAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danger Zone!.
+        /// </summary>
+        internal static string ProfileViewModel_DangerZone {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DangerZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete your account? :(.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteConfirmationMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You sure?.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteConfirmationTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteErrorMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteErrorTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account will be permanently deleted on {0}. You will received a confirmation email. In the meantime, you can restore your account at any time from the app!.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteMessage {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletion confirmed.
+        /// </summary>
+        internal static string ProfileViewModel_DeleteTitle {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.DeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi, I&apos;m {0}.
         /// </summary>
         internal static string ProfileViewModel_Hello {
@@ -1110,6 +1182,78 @@ namespace CriThink.Client.Core.Localization {
         internal static string SignUpViewModel_LoginErrorMessage {
             get {
                 return ResourceManager.GetString("SignUpViewModel.LoginErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or.
+        /// </summary>
+        internal static string SignUpViewModel_OrAccount {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.OrAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore account.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccount {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account has been recovered! We sent you an email to restore your password. Check it out!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountConfirmationMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Urrah!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountConfirmationTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while restoring your account. Is your data correct?.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountErrorMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ops!.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountErrorTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We&apos;re glad to see you again. Insert your email or your username of the account to recover.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountMessage {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recover your account.
+        /// </summary>
+        internal static string SignUpViewModel_RestoreAccountTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.RestoreAccountTitle", resourceCulture);
             }
         }
         

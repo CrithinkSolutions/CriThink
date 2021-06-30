@@ -93,6 +93,7 @@ namespace CriThink.Server.Core.Services
 
                 DebunkingNewsPublisher publisherOpen = null;
                 DebunkingNewsPublisher publisherChannel4 = null;
+                DebunkingNewsPublisher publisherFullFact = null;
                 DebunkingNewsPublisher publisherFactaNews = null;
 
 
@@ -100,10 +101,12 @@ namespace CriThink.Server.Core.Services
                 {
                     var publisherOpenQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.OpenOnline);
                     var publisherChannel4Query = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.Channel4);
+                    var publisherFullFactQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.FullFact);
                     var publisherFactaNewsQuery = new GetDebunkingNewsPublisherByNameQuery(EntityConstants.FactaNews);
 
                     publisherOpen = await _mediator.Send(publisherOpenQuery).ConfigureAwait(false);
                     publisherChannel4 = await _mediator.Send(publisherChannel4Query).ConfigureAwait(false);
+                    publisherFullFact = await _mediator.Send(publisherFullFactQuery).ConfigureAwait(false);
                     publisherFactaNews = await _mediator.Send(publisherFactaNewsQuery).ConfigureAwait(false);
                 });
 
@@ -122,6 +125,8 @@ namespace CriThink.Server.Core.Services
                         dNews.Publisher = publisherOpen;
                     else if (dNews.Link.Contains(EntityConstants.Channel4Link, StringComparison.InvariantCultureIgnoreCase))
                         dNews.Publisher = publisherChannel4;
+                    else if (dNews.Link.Contains(EntityConstants.FullFactLink, StringComparison.InvariantCultureIgnoreCase))
+                        dNews.Publisher = publisherFullFact;
                     else if (dNews.Link.Contains(EntityConstants.FactaNewsLink, StringComparison.InvariantCultureIgnoreCase))
                         dNews.Publisher = publisherFactaNews;
                 }

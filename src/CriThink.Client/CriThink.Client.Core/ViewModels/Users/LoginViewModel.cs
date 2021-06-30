@@ -98,7 +98,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (userInfo is null)
             {
                 var localizedText = LocalizedTextSource.GetText("LoginErrorMessage");
-                await ShowErrorMessage(localizedText).ConfigureAwait(false);
+                await ShowErrorMessageAsync(localizedText).ConfigureAwait(false);
             }
             else
             {

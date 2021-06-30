@@ -16,6 +16,16 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Ignore(property => property.PhoneNumberConfirmed);
 
             builder
+                .Property<DateTimeOffset?>("_deletionRequestedOn")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("deletion_requested_on");
+
+            builder
+                .Property<DateTimeOffset?>("_deletionScheduledOn")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("deletion_scheduled_on");
+
+            builder
                 .HasOne(user => user.Profile)
                 .WithOne(p => p.User)
                 .HasForeignKey<UserProfile>(p => p.UserId);

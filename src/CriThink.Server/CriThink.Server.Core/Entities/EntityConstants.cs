@@ -33,6 +33,18 @@
 
         #endregion
 
+        #region FullFact
+
+        public const string FullFact = "FullFact";
+        public const string FullFactLink = "https://fullfact.org/";
+        public const string FullFactDescription = "";
+        public const string FullFactOpinion = "";
+        public const string FullFactFacebook = "https://www.facebook.com/FullFact.org/";
+        public const string FullFactTwitter = "https://twitter.com/fullfact";
+        public const string FullFactInstagram = "https://www.instagram.com/fullfactorg/";
+
+        #endregion
+
         #region FactaNews
 
         public const string FactaNews = "FactaNews";

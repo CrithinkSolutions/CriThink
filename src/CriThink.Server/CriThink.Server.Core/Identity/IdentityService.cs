@@ -362,6 +362,24 @@ namespace CriThink.Server.Core.Identity
             await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
         }
 
+        public async Task<UserSoftDeletionResponse> SoftDeleteUserAsync()
+        {
+            var userId = _httpContext.HttpContext.User?.Claims?
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
+                .Value;
+
+            if (userId is null)
+                throw new InvalidOperationException("No user found in claims");
+
+            var command = new DeleteUserLogicallyCommand(userId);
+            var deletedUser = await _mediator.Send(command);
+
+            return new UserSoftDeletionResponse()
+            {
+                DeletionScheduledOn = deletedUser.DeletionScheduledOn.Value
+            };
+        }
+
         public async Task SoftDeleteUserAsync(UserGetRequest request)
         {
             if (request is null)
@@ -373,9 +391,8 @@ namespace CriThink.Server.Core.Identity
             if (user is null)
                 throw new ResourceNotFoundException("User not found", userId);
 
-            user.IsDeleted = true;
-
-            await _userRepository.UpdateUserAsync(user).ConfigureAwait(false);
+            var command = new DeleteUserLogicallyCommand(userId);
+            await _mediator.Send(command);
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
@@ -653,6 +670,24 @@ namespace CriThink.Server.Core.Identity
             };
         }
 
+        public async Task RestoreUserAsync(RestoreUserRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            var user = await FindUserAsync(request.Email ?? request.UserName).ConfigureAwait(false);
+            if (user is null)
+                throw new ResourceNotFoundException("The user doesn't exists", $"User: '{request.Email ?? request.UserName}'");
+
+            var command = new UpdateUserScheduledDeletionCommand(user.Id);
+            await _mediator.Send(command);
+
+            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user).ConfigureAwait(false);
+
+            var encodedCode = Base64Helper.ToBase64(token);
+            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, user.UserName).ConfigureAwait(false);
+        }
+
         public async Task CleanUpExpiredRefreshTokens()
         {
             try
@@ -663,6 +698,25 @@ namespace CriThink.Server.Core.Identity
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error clearning up expired refresh tokens");
+                throw;
+            }
+        }
+
+        public async Task CleanUpUsersScheduledDeletionAsync()
+        {
+            try
+            {
+                var command = new DeleteUserScheduledDeletionCommand();
+                var deletedUsers = await _mediator.Send(command);
+
+                foreach (var user in deletedUsers.Users)
+                {
+                    await _emailSender.SendAccountDeletionConfirmationEmailAsync(user.Email, user.UserName);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error clearning up users in pending deletion");
                 throw;
             }
         }

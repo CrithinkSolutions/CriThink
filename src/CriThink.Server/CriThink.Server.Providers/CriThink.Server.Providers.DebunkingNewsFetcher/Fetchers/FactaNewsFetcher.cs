@@ -5,6 +5,7 @@ using System.Linq;
 #endif
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
@@ -16,6 +17,8 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 {
     internal class FactaNewsFetcher : BaseFetcher
     {
+        private const string ImagePattern = "<img[^>]+src=\"([^\"]+)\" class=\"attachment-full size-full wp-post-image\"";
+
         private readonly Uri _webSiteUri;
         private readonly IReadOnlyList<string> _feedCategories;
         private readonly HttpClient _httpClient;
@@ -141,9 +144,11 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             var html = await _httpClient.GetStringAsync(link).ConfigureAwait(false);
 
             // TODO: Write regex to get image link
+            var match = Regex.Match(html, ImagePattern);
+            if (string.IsNullOrWhiteSpace(match.Value))
+                _logger?.LogWarning($"Can't get image url of the following item: {link}; {html}");
 
-            _logger?.LogWarning($"Can't get image url of the following item: {link}; {html}");
-            return string.Empty;
+            return match.Value;
         }
     }
 }

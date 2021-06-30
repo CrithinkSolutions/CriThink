@@ -77,7 +77,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
             catch (Exception ex)
             {
-                _logger?.LogCritical(ex, "Error getting Open Online feed rss");
+                _logger?.LogCritical(ex, "Error getting Channel4 feed rss");
                 throw;
             }
         }

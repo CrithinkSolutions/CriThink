@@ -14,6 +14,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
 
         private bool _isOpenOnlineEnabled;
         private bool _isChannel4Enabled;
+        private bool _isFullFactEnabled;
         private bool _isFactaNewsEnabled;
         private IAnalyzer<DebunkingNewsProviderResult> _analyzer;
 
@@ -32,6 +33,12 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
         public DebunkingNewsFetcherBuilder EnableChannel4(bool enabled = true)
         {
             _isChannel4Enabled = enabled;
+            return this;
+        }
+
+        public DebunkingNewsFetcherBuilder EnableFullFact(bool enabled = true)
+        {
+            _isFullFactEnabled = enabled;
             return this;
         }
 
@@ -55,6 +62,12 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
             {
                 var channel4Fetcher = GetFetcher<Channel4Fetcher>();
                 AddFetcher(channel4Fetcher);
+            }
+
+            if (_isFullFactEnabled)
+            {
+                var fullFactFetcher = GetFetcher<FullFactFetcher>();
+                AddFetcher(fullFactFetcher);
             }
 
             if (_isFactaNewsEnabled)
