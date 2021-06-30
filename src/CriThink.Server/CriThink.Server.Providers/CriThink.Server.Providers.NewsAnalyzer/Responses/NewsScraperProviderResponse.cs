@@ -17,6 +17,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
 
             Author = article.Author;
             Title = article.Title;
+            NewsCaption = article.Excerpt;
             Language = article.Language;
             TimeToRead = article.TimeToRead;
             Date = article.PublicationDate;
@@ -58,6 +59,11 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         public string NewsBody { get; }
 
         /// <summary>
+        /// The news caption
+        /// </summary>
+        public string NewsCaption { get; }
+
+        /// <summary>
         /// The name of the website
         /// </summary>
         public string WebSiteName { get; }
@@ -76,7 +82,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
         /// Get the first 100 characters of the news body
         /// </summary>
         /// <returns></returns>
-        public string GetCaption() => NewsBody.Length > 100 ? $"{NewsBody.Substring(0, 100)}..." : NewsBody;
+        public string GetCaption() => NewsCaption ?? (NewsBody.Length > 100 ? $"{NewsBody.Substring(0, 100)}..." : NewsBody);
 
         public void SetDate(DateTime dateTime)
         {

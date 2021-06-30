@@ -60,7 +60,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
-            var list = await ReadFeedAsync(feed).ConfigureAwait(false);
+            var list = ReadFeed(feed);
             return new DebunkingNewsProviderResult(list);
         }
 
@@ -81,7 +81,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private Task<List<DebunkingNewsResponse>> ReadFeedAsync(SyndicationFeed feed)
+        private IList<DebunkingNewsResponse> ReadFeed(SyndicationFeed feed)
         {
             var list = new List<DebunkingNewsResponse>();
 
@@ -109,7 +109,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
 #endif
 
-            return Task.FromResult(list);
+            return list;
         }
 
         private static string GetLink(SyndicationItem item)
