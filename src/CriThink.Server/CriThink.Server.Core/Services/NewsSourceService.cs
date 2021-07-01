@@ -87,42 +87,60 @@ namespace CriThink.Server.Core.Services
 
             var searchResponse = await SearchNewsSourceAsync(validatedNewsLink).ConfigureAwait(false);
 
-            if (searchResponse is null)
-            {
-                await SendUnknownDomainAlertEmailAsync(validatedNewsLink).ConfigureAwait(false);
-                throw new ResourceNotFoundException("The given news link does not exist");
-            }
+            var userId = _httpContext.HttpContext?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userId is null)
+                throw new InvalidOperationException("User is not logged in");
 
-            if (searchResponse.Classification == NewsSourceClassification.Conspiracist ||
-                searchResponse.Classification == NewsSourceClassification.FakeNews ||
-                searchResponse.Classification == NewsSourceClassification.Suspicious)
+            CreateUserSearchCommand createUserSearchcommand = null;
+
+            try
             {
-                try
+                if (searchResponse is null)
                 {
-                    var uri = new Uri(newsLink, UriKind.Absolute);
-                    var relatedDebunkingNewsCollection = await GetRelatedDebunkingNewsAsync(uri)
-                        .ConfigureAwait(false);
+                    createUserSearchcommand = new CreateUserSearchCommand(Guid.Parse(userId), newsLink, NewsSourceAuthenticity.Unknown);
+                    await SendUnknownDomainAlertEmailAsync(validatedNewsLink).ConfigureAwait(false);
+                    throw new ResourceNotFoundException("The given news link does not exist");
+                }
 
-                    foreach (var relatedDNews in relatedDebunkingNewsCollection)
+                var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(searchResponse.Classification);
+                createUserSearchcommand = new CreateUserSearchCommand(Guid.Parse(userId), newsLink, authenticity);
+
+                if (authenticity == NewsSourceAuthenticity.Conspiracist ||
+                    authenticity == NewsSourceAuthenticity.FakeNews ||
+                    authenticity == NewsSourceAuthenticity.Suspicious)
+                {
+                    try
                     {
-                        var response = _mapper
-                            .Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
-                        relatedDebunkingNewsResponse.Add(response);
+                        var uri = new Uri(newsLink, UriKind.Absolute);
+                        var relatedDebunkingNewsCollection = await GetRelatedDebunkingNewsAsync(uri)
+                            .ConfigureAwait(false);
+
+                        foreach (var relatedDNews in relatedDebunkingNewsCollection)
+                        {
+                            var response = _mapper
+                                .Map<GetAllDebunkingNewsByKeywordsQueryResponse, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
+                            relatedDebunkingNewsResponse.Add(response);
+                        }
+                    }
+                    catch (InvalidOperationException) { }
+                    catch (UriFormatException ex)
+                    {
+                        _logger?.LogError(ex, $"The given url has the wrong format: '{newsLink}'");
                     }
                 }
-                catch (InvalidOperationException) { }
-                catch (UriFormatException ex)
-                {
-                    _logger?.LogError(ex, $"The given url has the wrong format: '{newsLink}'");
-                }
-            }
 
-            return new NewsSourceSearchWithDebunkingNewsResponse
+                return new NewsSourceSearchWithDebunkingNewsResponse
+                {
+                    Classification = searchResponse.Classification,
+                    Description = searchResponse.Description,
+                    RelatedDebunkingNews = relatedDebunkingNewsResponse,
+                };
+            }
+            finally
             {
-                Classification = searchResponse.Classification,
-                Description = searchResponse.Description,
-                RelatedDebunkingNews = relatedDebunkingNewsResponse,
-            };
+                if (createUserSearchcommand is not null)
+                    await _mediator.Send(createUserSearchcommand);
+            }
         }
 
         public async Task<NewsSourceGetAllResponse> GetAllNewsSourcesAsync(NewsSourceGetAllRequest request)

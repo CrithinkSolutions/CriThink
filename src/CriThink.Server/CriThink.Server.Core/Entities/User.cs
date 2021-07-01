@@ -12,10 +12,12 @@ namespace CriThink.Server.Core.Entities
     public class User : IdentityUser<Guid>, ICriThinkIdentity
     {
         private readonly List<RefreshToken> _refreshTokens;
+        private readonly List<UserSearch> _searches;
 
         public User()
         {
             _refreshTokens = new List<RefreshToken>();
+            _searches = new List<UserSearch>();
         }
 
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
@@ -30,6 +32,8 @@ namespace CriThink.Server.Core.Entities
 
         [Required]
         public UserProfile Profile { get; set; }
+
+        public virtual ICollection<UserSearch> Searches => _searches.AsReadOnly();
 
         /// <summary>
         /// Returns true if the user has active
