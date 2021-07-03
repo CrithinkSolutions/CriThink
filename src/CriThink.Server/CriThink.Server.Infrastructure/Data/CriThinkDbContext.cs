@@ -30,6 +30,8 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<UserSearch> UserSearches { get; set; }
+
         public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
