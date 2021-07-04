@@ -31,5 +31,18 @@ namespace CriThink.Server.Core.Services
                 Counting = usersCount.UsersCounting,
             };
         }
+
+        public async Task<SearchesCountingResponse> GetTotalSearchesAsync()
+        {
+            _logger?.LogInformation("Requested total searches counting");
+
+            var query = new GetStatisticsSearchesCountingQuery();
+            var searchesCount = await _mediator.Send(query);
+
+            return new SearchesCountingResponse
+            {
+                TotalSearches = searchesCount.SearchesCounting,
+            };
+        }
     }
 }
