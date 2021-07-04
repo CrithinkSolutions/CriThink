@@ -10,5 +10,11 @@ namespace CriThink.Server.Core.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<UsersCountingResponse> GetUsersCountingAsync();
+
+        /// <summary>
+        /// Returns the number of total searches
+        /// </summary>
+        /// <returns></returns>
+        Task<SearchesCountingResponse> GetTotalSearchesAsync();
     }
 }
