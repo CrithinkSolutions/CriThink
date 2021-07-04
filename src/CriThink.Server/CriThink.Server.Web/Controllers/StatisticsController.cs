@@ -79,5 +79,29 @@ namespace CriThink.Server.Web.Controllers
             var totalSearches = await _statisticsService.GetTotalSearchesAsync();
             return Ok(new ApiOkResponse(totalSearches));
         }
+
+        /// <summary>
+        /// Returns the user searches total counting
+        /// </summary>
+        /// <remarks> 
+        /// Sample request:
+        /// 
+        ///     GET: /api/searches/user/counting
+        /// 
+        /// </remarks>
+        /// <response code="200">Returns total number of users</response>
+        /// <response code="403">If the givne refresh token is invalid or expired</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [Route(EndpointConstants.StatisticsUserSearches)]
+        [ProducesResponseType(typeof(SearchesCountingResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [HttpGet]
+        public async Task<IActionResult> GetTotalUserSearchesAsync()
+        {
+            var userTotalSearches = await _statisticsService.GetUserTotalSearchesAsync();
+            return Ok(new ApiOkResponse(userTotalSearches));
+        }
     }
 }
