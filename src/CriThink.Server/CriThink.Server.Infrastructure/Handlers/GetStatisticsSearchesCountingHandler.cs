@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Queries;
@@ -30,14 +31,29 @@ namespace CriThink.Server.Infrastructure.Handlers
 
             try
             {
-                const string query = "SELECT\n" +
-                                        "count(*) as count\n" +
-                                     "FROM user_searches\n";
+                const string startingQuery = "SELECT\n" +
+                                        "count(*)";
+
+                const string endingQuery = " as count\n" +
+                                           "FROM user_searches\n";
+
+                var query = new StringBuilder(startingQuery);
+
+                if (request.UserId is not null)
+                {
+                    var userId = new NpgsqlParameter("id", request.UserId);
+                    var userFilter = $"filter (where user_id = '{userId.Value}')";
+                    query.Append(userFilter);
+                }
+
+                query.Append(endingQuery);
+
+                var finalQuery = query.ToString();
 
                 await using var connection = new NpgsqlConnection(_connectionString);
                 await connection.OpenAsync(cancellationToken);
 
-                await using var command = new NpgsqlCommand(query, connection);
+                await using var command = new NpgsqlCommand(finalQuery, connection);
 
                 var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
                 await reader.ReadAsync(cancellationToken);

@@ -113,6 +113,7 @@
         public const string StatisticsBase = "statistics";
         public const string StatisticsUsersCounting = "users/counting";
         public const string StatisticsSearches = "searches/counting";
+        public const string StatisticsUserSearches = "searches/user/counting";
 
         #endregion
 
