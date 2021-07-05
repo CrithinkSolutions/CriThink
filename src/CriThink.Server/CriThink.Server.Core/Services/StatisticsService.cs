@@ -24,29 +24,20 @@ namespace CriThink.Server.Core.Services
             _logger = logger;
         }
 
-        public async Task<UsersCountingResponse> GetUsersCountingAsync()
+        public async Task<PlatformDataUsageResponse> GetPlatformDataUsageAsync()
         {
-            _logger?.LogInformation("Requested users counting");
+            _logger?.LogInformation("Requested platform usage data");
 
-            var query = new GetStatisticsUserCountingQuery();
-            var usersCount = await _mediator.Send(query);
+            var userQuery = new GetStatisticsUserCountingQuery();
+            var usersCount = await _mediator.Send(userQuery);
 
-            return new UsersCountingResponse
+            var searchesQuery = new GetStatisticsSearchesCountingQuery();
+            var searchesCount = await _mediator.Send(searchesQuery);
+
+            return new PlatformDataUsageResponse
             {
-                Counting = usersCount.UsersCounting,
-            };
-        }
-
-        public async Task<SearchesCountingResponse> GetTotalSearchesAsync()
-        {
-            _logger?.LogInformation("Requested total searches counting");
-
-            var query = new GetStatisticsSearchesCountingQuery();
-            var searchesCount = await _mediator.Send(query);
-
-            return new SearchesCountingResponse
-            {
-                TotalSearches = searchesCount.SearchesCounting,
+                PlatformUsers = usersCount.UsersCounting,
+                PlatformSearches = searchesCount.SearchesCounting,
             };
         }
 
@@ -54,7 +45,7 @@ namespace CriThink.Server.Core.Services
         {
             _logger?.LogInformation("Requested user total searches counting");
 
-            var userId = _httpContext.HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = _httpContext.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (userId is null)
                 throw new InvalidOperationException("No user logged");
 
@@ -63,7 +54,7 @@ namespace CriThink.Server.Core.Services
 
             return new SearchesCountingResponse
             {
-                TotalSearches = searchesCount.SearchesCounting,
+                UserSearches = searchesCount.SearchesCounting,
             };
         }
     }

@@ -30,54 +30,29 @@ namespace CriThink.Server.Web.Controllers
         }
 
         /// <summary>
-        /// Returns the users total counting
+        /// Returns platform statistics usage
         /// </summary>
         /// <remarks> 
         /// Sample request:
         /// 
-        ///     GET: /api/searches/counting
+        ///     GET: /api/statistics/platform
         /// 
         /// </remarks>
-        /// <response code="200">Returns total number of users</response>
+        /// <response code="200">Returns the total number of users and searches</response>
         /// <response code="403">If the givne refresh token is invalid or expired</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [ResponseCache(Duration = 3600)]
-        [Route(EndpointConstants.StatisticsUsersCounting)]
-        [ProducesResponseType(typeof(UsersCountingResponse), StatusCodes.Status200OK)]
+        [Route(EndpointConstants.StatisticsPlatform)]
+        [ProducesResponseType(typeof(PlatformDataUsageResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpGet]
-        public async Task<IActionResult> GetUsersCountingAsync()
+        public async Task<IActionResult> GetPlatformUsageDataAsync()
         {
-            var users = await _statisticsService.GetUsersCountingAsync();
+            var users = await _statisticsService.GetPlatformDataUsageAsync();
             return Ok(new ApiOkResponse(users));
-        }
-
-        /// <summary>
-        /// Returns the searches total counting
-        /// </summary>
-        /// <remarks> 
-        /// Sample request:
-        /// 
-        ///     GET: /api/searches/counting
-        /// 
-        /// </remarks>
-        /// <response code="200">Returns total number of users</response>
-        /// <response code="403">If the givne refresh token is invalid or expired</response>
-        /// <response code="500">If the server can't process the request</response>
-        /// <response code="503">If the server is not ready to handle the request</response>
-        [ResponseCache(Duration = 3600)]
-        [Route(EndpointConstants.StatisticsSearches)]
-        [ProducesResponseType(typeof(SearchesCountingResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [HttpGet]
-        public async Task<IActionResult> GetTotalSearchesAsync()
-        {
-            var totalSearches = await _statisticsService.GetTotalSearchesAsync();
-            return Ok(new ApiOkResponse(totalSearches));
         }
 
         /// <summary>
@@ -86,10 +61,10 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks> 
         /// Sample request:
         /// 
-        ///     GET: /api/searches/user/counting
+        ///     GET: /api/statistics/user
         /// 
         /// </remarks>
-        /// <response code="200">Returns total number of users</response>
+        /// <response code="200">Returns total number of searches performed by user</response>
         /// <response code="403">If the givne refresh token is invalid or expired</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>

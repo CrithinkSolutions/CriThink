@@ -109,6 +109,7 @@ namespace CriThink.Client.Core
             var userProfileApiUri = configurationRoot["UserProfileApiUri"];
             var newsSourceApiUri = configurationRoot["NewsSourceApiUri"];
             var serviceApiUri = configurationRoot["ServiceApiUri"];
+            var statisticsApiUri = configurationRoot["StatisticsApiUri"];
 
             serviceCollection.AddTransient<CriThinkApiHandler>();
             serviceCollection.AddTransient<AuthHeaderHandler>();
@@ -158,6 +159,14 @@ namespace CriThink.Client.Core
                     httpClient.BaseAddress = new Uri(baseApiUri + serviceApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
+
+            serviceCollection.AddRefitClient<IStatisticsApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + statisticsApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)

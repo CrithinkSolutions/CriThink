@@ -4,7 +4,7 @@ namespace CriThink.Common.Endpoints.DTOs.Statistics
 {
     public class SearchesCountingResponse
     {
-        [JsonPropertyName("totalSearches")]
-        public long TotalSearches { get; set; }
+        [JsonPropertyName("userSearches")]
+        public long UserSearches { get; set; }
     }
 }

@@ -9,13 +9,7 @@ namespace CriThink.Server.Core.Interfaces
         /// Returns the number of users not marked as deleted
         /// </summary>
         /// <returns></returns>
-        Task<UsersCountingResponse> GetUsersCountingAsync();
-
-        /// <summary>
-        /// Returns the number of total searches
-        /// </summary>
-        /// <returns></returns>
-        Task<SearchesCountingResponse> GetTotalSearchesAsync();
+        Task<PlatformDataUsageResponse> GetPlatformDataUsageAsync();
 
         /// <summary>
         /// Returns the number of total searches of the current user

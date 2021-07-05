@@ -601,6 +601,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! We&apos;re trying to fix the issue.
+        /// </summary>
+        internal static string HomeStatisticsViewModel_Error {
+            get {
+                return ResourceManager.GetString("HomeStatisticsViewModel.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use the.
         /// </summary>
         internal static string HomeStatisticsViewModel_MottoOne {

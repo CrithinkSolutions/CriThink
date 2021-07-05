@@ -30,7 +30,7 @@ namespace CriThink.Server.Infrastructure.Handlers
             try
             {
                 const string query = "SELECT\n" +
-                                        "count(*) filter (where is_deleted = false) as count\n" +
+                                        "count(*) filter (where deletion_scheduled_on is null) as count\n" +
                                      "FROM users\n";
 
                 await using var connection = new NpgsqlConnection(_connectionString);
