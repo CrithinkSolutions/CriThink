@@ -2,9 +2,12 @@
 
 namespace CriThink.Common.Endpoints.DTOs.Statistics
 {
-    public class UsersCountingResponse
+    public class PlatformDataUsageResponse
     {
         [JsonPropertyName("usersCounting")]
         public long Counting { get; set; }
+
+        [JsonPropertyName("totalSearches")]
+        public long TotalSearches { get; set; }
     }
 }
