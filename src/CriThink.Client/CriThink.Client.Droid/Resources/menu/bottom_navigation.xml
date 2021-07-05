@@ -18,9 +18,9 @@
     android:id="@+id/page_3"
     android:enabled="true"
     android:icon="@drawable/ic_games"
-    android:titleCondensed="play_games"
+    android:titleCondensed="focus"
     app:showAsAction="always"
-    android:title="@string/menu_playgames"/>
+    android:title="@string/menu_statistics"/>
   <item
       android:id="@+id/page_4"
       android:enabled="true"

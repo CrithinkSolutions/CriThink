@@ -366,9 +366,6 @@
   <data name="SignUpEmailViewModel.SignUpEmailTitle" xml:space="preserve">
     <value>Welcome to the community</value>
   </data>
-  <data name="HomeGameViewModel.Wip" xml:space="preserve">
-    <value>Work in progress..</value>
-  </data>
   <data name="HomeViewModel.FormatErrorMessage" xml:space="preserve">
     <value>The link you inserted is not valid.</value>
   </data>
@@ -545,5 +542,20 @@
   </data>
   <data name="SignUpViewModel.RestoreAccountTitle" xml:space="preserve">
     <value>Recover your account</value>
+  </data>
+  <data name="HomeStatisticsViewModel.MottoOne" xml:space="preserve">
+    <value>Use the</value>
+  </data>
+  <data name="HomeStatisticsViewModel.MottoTwo" xml:space="preserve">
+    <value>HEAD </value>
+  </data>
+  <data name="HomeStatisticsViewModel.ActiveUsers" xml:space="preserve">
+    <value>Active CriThinkers</value>
+  </data>
+  <data name="HomeStatisticsViewModel.TotalSearches" xml:space="preserve">
+    <value>Total Searches</value>
+  </data>
+  <data name="HomeStatisticsViewModel.UserSearches" xml:space="preserve">
+    <value>Your Searches</value>
   </data>
 </root>
