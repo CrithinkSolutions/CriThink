@@ -17,6 +17,13 @@ namespace CriThink.Client.Core.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
+        private bool _hasFailed;
+        public bool HasFailed
+        {
+            get => _hasFailed;
+            set => SetProperty(ref _hasFailed, value);
+        }
+
         public TaskCompletionSource<object> CloseCompletionSource { get; set; }
 
         protected T LoadChildViewModel<T>(IMvxViewModelLoader mvxViewModelLoader) where T : IMvxViewModel

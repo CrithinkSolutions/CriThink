@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Api;
+using CriThink.Client.Core.Models.Statistics;
 using CriThink.Client.Core.Platform;
 using MvvmCross.Logging;
 using Xamarin.Essentials;
@@ -14,11 +17,13 @@ namespace CriThink.Client.Core.Services
         private const string LinkedInProfile = "company/crithink-solutions/";
 
         private readonly IPlatformDetails _platformDetails;
+        private readonly IStatisticsApi _statisticsApi;
         private readonly IMvxLog _log;
 
-        public PlatformService(IPlatformDetails platformDetails, IMvxLogProvider logProvider)
+        public PlatformService(IPlatformDetails platformDetails, IStatisticsApi statisticsApi, IMvxLogProvider logProvider)
         {
             _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
+            _statisticsApi = statisticsApi ?? throw new ArgumentNullException(nameof(statisticsApi));
             _log = logProvider?.GetLogFor<PlatformService>();
         }
 
@@ -93,6 +98,22 @@ namespace CriThink.Client.Core.Services
                 _log?.Error(ex, "Failed to open a Skype profile", profileName);
             }
         }
+
+        public async Task<StatisticsDetailModel> GetPlatformDataUsageAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var platformStatistics = await _statisticsApi.GetPlatformUsageDataAsync(cancellationToken);
+                var userStatistics = await _statisticsApi.GetTotalUserSearchesAsync(cancellationToken);
+
+                return new StatisticsDetailModel(platformStatistics.PlatformUsers, platformStatistics.PlatformSearches, userStatistics.UserSearches);
+            }
+            catch (Exception ex)
+            {
+                _log?.ErrorException("Error getting platform data usage", ex);
+                throw;
+            }
+        }
     }
 
     public interface IPlatformService
@@ -108,5 +129,7 @@ namespace CriThink.Client.Core.Services
         Task OpenInternalBrowser(Uri uri);
 
         void OpenSkype(string profileName);
+
+        Task<StatisticsDetailModel> GetPlatformDataUsageAsync(CancellationToken cancellationToken);
     }
 }

@@ -558,4 +558,7 @@
   <data name="HomeStatisticsViewModel.UserSearches" xml:space="preserve">
     <value>Le Tue Ricerche</value>
   </data>
+  <data name="HomeStatisticsViewModel.Error" xml:space="preserve">
+    <value>Oops! Stiamo cercando di risolvere il problema</value>
+  </data>
 </root>

@@ -36,8 +36,8 @@ namespace CriThink.Server.Core.Services
 
             return new PlatformDataUsageResponse
             {
-                Counting = usersCount.UsersCounting,
-                TotalSearches = searchesCount.SearchesCounting,
+                PlatformUsers = usersCount.UsersCounting,
+                PlatformSearches = searchesCount.SearchesCounting,
             };
         }
 
@@ -54,7 +54,7 @@ namespace CriThink.Server.Core.Services
 
             return new SearchesCountingResponse
             {
-                TotalSearches = searchesCount.SearchesCounting,
+                UserSearches = searchesCount.SearchesCounting,
             };
         }
     }
