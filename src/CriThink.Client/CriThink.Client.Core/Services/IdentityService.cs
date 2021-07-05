@@ -14,12 +14,14 @@ namespace CriThink.Client.Core.Services
     public class IdentityService : IIdentityService
     {
         private readonly IIdentityApi _identityApi;
+        private readonly IAuthorizedIdentityApi _authorizedIdentityApi;
         private readonly IIdentityRepository _identityRepository;
         private readonly IMvxLog _log;
 
-        public IdentityService(IIdentityApi identityApi, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
+        public IdentityService(IIdentityApi identityApi, IAuthorizedIdentityApi authorizedIdentityApi, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
         {
             _identityApi = identityApi ?? throw new ArgumentNullException(nameof(identityApi));
+            _authorizedIdentityApi = authorizedIdentityApi;
             _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
             _log = logProvider?.GetLogFor<IdentityService>();
         }
@@ -232,7 +234,7 @@ namespace CriThink.Client.Core.Services
         {
             try
             {
-                return await _identityApi.DeleteUserAsync(cancellationToken);
+                return await _authorizedIdentityApi.DeleteUserAsync(cancellationToken);
             }
             catch (Exception ex)
             {
