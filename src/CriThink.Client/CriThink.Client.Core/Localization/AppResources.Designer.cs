@@ -592,11 +592,47 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work in progress...
+        ///   Looks up a localized string similar to Active CriThinkers.
         /// </summary>
-        internal static string HomeGameViewModel_Wip {
+        internal static string HomeStatisticsViewModel_ActiveUsers {
             get {
-                return ResourceManager.GetString("HomeGameViewModel.Wip", resourceCulture);
+                return ResourceManager.GetString("HomeStatisticsViewModel.ActiveUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the.
+        /// </summary>
+        internal static string HomeStatisticsViewModel_MottoOne {
+            get {
+                return ResourceManager.GetString("HomeStatisticsViewModel.MottoOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HEAD .
+        /// </summary>
+        internal static string HomeStatisticsViewModel_MottoTwo {
+            get {
+                return ResourceManager.GetString("HomeStatisticsViewModel.MottoTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Searches.
+        /// </summary>
+        internal static string HomeStatisticsViewModel_TotalSearches {
+            get {
+                return ResourceManager.GetString("HomeStatisticsViewModel.TotalSearches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Searches.
+        /// </summary>
+        internal static string HomeStatisticsViewModel_UserSearches {
+            get {
+                return ResourceManager.GetString("HomeStatisticsViewModel.UserSearches", resourceCulture);
             }
         }
         

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.Games;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Core.ViewModels.SpotFakeNews;
+using CriThink.Client.Core.ViewModels.Statistics;
 using CriThink.Client.Core.ViewModels.Users;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -29,7 +29,7 @@ namespace CriThink.Client.Core.ViewModels
             {
                 Mvx.IoCProvider.IoCConstruct<NewsCheckerViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<SpotFakeNewsHomeViewModel>(),
-                Mvx.IoCProvider.IoCConstruct<HomeGameViewModel>(),
+                Mvx.IoCProvider.IoCConstruct<HomeStatisticsViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<AboutViewModel>(),
             };
 
