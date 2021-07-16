@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Services;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 
 namespace CriThink.Client.Core.ViewModels.Statistics
@@ -11,8 +11,8 @@ namespace CriThink.Client.Core.ViewModels.Statistics
         private readonly IPlatformService _platformService;
         private bool _isInitialized;
 
-        public HomeStatisticsViewModel(IPlatformService platformService, IMvxLogProvider logProvider, IMvxNavigationService navigationService)
-            : base(logProvider, navigationService)
+        public HomeStatisticsViewModel(IPlatformService platformService, ILogger<HomeStatisticsViewModel> logger, IMvxNavigationService navigationService)
+            : base(logger, navigationService)
         {
             TabId = "focus";
             _platformService = platformService ?? throw new ArgumentNullException(nameof(platformService));

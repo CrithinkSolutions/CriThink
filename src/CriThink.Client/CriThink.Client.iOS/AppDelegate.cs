@@ -1,4 +1,9 @@
 ﻿using Foundation;
+#if (APPCENTER)
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+#endif
 using MvvmCross.Platforms.Ios.Core;
 using UIKit;
 
@@ -7,14 +12,25 @@ namespace CriThink.Client.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : MvxApplicationDelegate<MvxIosSetup<Core.App>, Core.App>
+    public class AppDelegate : MvxApplicationDelegate<Setup, Core.App>
     {
-        // class-level declarations
+#if (APPCENTER)
+        private const string AppCenterApiKey = "<APPCENTER_API_KEY>";
+# endif
 
         public override UIWindow Window
         {
             get;
             set;
+        }
+
+        public override void FinishedLaunching(UIApplication application)
+        {
+            base.FinishedLaunching(application);
+
+#if (APPCENTER)
+            AppCenter.Start(AppCenterApiKey, typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         public override void OnResignActivation(UIApplication application)

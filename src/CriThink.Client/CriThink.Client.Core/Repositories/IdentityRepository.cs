@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Models.Identity;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Client.Core.Repositories
 {
@@ -12,12 +12,12 @@ namespace CriThink.Client.Core.Repositories
         private const string UserProfile = "user_profile";
 
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IMvxLog _log;
+        private readonly ILogger<IdentityRepository> _logger;
 
-        public IdentityRepository(ISettingsRepository settingsRepository, IMvxLogProvider logProvider)
+        public IdentityRepository(ISettingsRepository settingsRepository, ILogger<IdentityRepository> logger)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
-            _log = logProvider?.GetLogFor<IdentityRepository>();
+            _logger = logger;
         }
 
         public async Task<UserAccess> GetUserAccessAsync()
@@ -36,7 +36,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error getting user access info", ex);
+                _logger?.LogCritical(ex, "Error getting user access info");
                 throw;
             }
         }
@@ -53,7 +53,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log.ErrorException("Error saving user access info", ex);
+                _logger?.LogError(ex, "Error saving user access info");
                 throw;
             }
         }
@@ -66,7 +66,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error deleting user info", ex);
+                _logger?.LogError(ex, "Error deleting user info");
                 throw;
             }
         }

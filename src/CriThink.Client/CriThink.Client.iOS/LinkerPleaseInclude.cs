@@ -2,10 +2,12 @@
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Navigation;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.ViewModels;
+using MvvmCross.Views;
 using UIKit;
 
 namespace CriThink.Client.iOS
@@ -119,9 +121,9 @@ namespace CriThink.Client.iOS
             changed.PropertyChanged += (sender, e) => { var test = e.PropertyName; };
         }
 
-        public void Include(MvxNavigationService service, IMvxViewModelLoader loader)
+        public void Include(MvxNavigationService service, IMvxViewModelLoader loader, IMvxViewDispatcher viewDispatcher)
         {
-            service = new MvxNavigationService(null, loader);
+            service = new MvxNavigationService(null, viewDispatcher, Mvx.IoCProvider);
         }
 
         public void Include(UIImagePickerController uIImagePickerController)

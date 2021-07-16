@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Data.Settings;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Client.Core.Services
 {
@@ -12,13 +12,13 @@ namespace CriThink.Client.Core.Services
 
         private readonly ISettingsRepository _settingsRepository;
         private readonly IServiceApi _serviceApi;
-        private readonly IMvxLog _log;
+        private readonly ILogger<ApplicationService> _logger;
 
-        public ApplicationService(ISettingsRepository settingsRepository, IServiceApi serviceApi, IMvxLogProvider logProvider)
+        public ApplicationService(ISettingsRepository settingsRepository, IServiceApi serviceApi, ILogger<ApplicationService> logger)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
             _serviceApi = serviceApi ?? throw new ArgumentNullException(nameof(serviceApi));
-            _log = logProvider?.GetLogFor<ApplicationService>();
+            _logger = logger;
         }
 
         public bool IsFirstStart()
@@ -36,7 +36,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error setting first app start", ex);
+                _logger?.LogCritical(ex, "Error setting first app start");
             }
         }
 
@@ -49,7 +49,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error getting the app enabled flag", ex);
+                _logger?.LogCritical(ex, "Error getting the app enabled flag");
                 return false;
             }
         }

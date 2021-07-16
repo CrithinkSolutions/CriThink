@@ -5,8 +5,8 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Xamarin.Essentials;
@@ -17,7 +17,7 @@ namespace CriThink.Client.Core
     {
         private readonly IIdentityService _identityService;
         private readonly IApplicationService _applicationService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<AppStart> _logger;
 
         private bool _isDisposed;
 
@@ -25,12 +25,12 @@ namespace CriThink.Client.Core
             IMvxNavigationService navigationService,
             IIdentityService identityService,
             IApplicationService applicationService,
-            IMvxLogProvider logProvider)
+            ILogger<AppStart> logger)
             : base(application, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
-            _log = logProvider?.GetLogFor<AppStart>();
+            _logger = logger;
 
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
@@ -66,14 +66,14 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _log?.Log(MvxLogLevel.Fatal, () => "Error initializing app start", ex, hint);
+                _logger?.LogCritical(ex, "Error initializing app start", hint);
                 throw;
             }
         }
 
         private async Task PerformFirstNavigationAsync()
         {
-            _log?.Info("First app navigation");
+            _logger?.LogInformation("First app navigation");
 
             await _applicationService.SetFirstAppStartAsync().ConfigureAwait(false);
             await NavigationService.Navigate<WelcomeViewModel>().ConfigureAwait(true);
@@ -81,13 +81,13 @@ namespace CriThink.Client.Core
 
         private Task NavigateToSignUpViewAsync()
         {
-            _log?.Info($"User not logged. Navigating to {nameof(SignUpViewModel)}");
+            _logger?.LogInformation($"User not logged. Navigating to {nameof(SignUpViewModel)}");
             return NavigationService.Navigate<SignUpViewModel>();
         }
 
         private async Task NavigateToHomeAsync()
         {
-            _log?.Info($"User logged. Navigating to {nameof(HomeViewModel)}");
+            _logger?.LogInformation($"User logged. Navigating to {nameof(HomeViewModel)}");
 
             using var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
@@ -98,7 +98,7 @@ namespace CriThink.Client.Core
             }
             catch (Exception ex)
             {
-                _log?.FatalException($"Error performing login at startup. Navigating to {nameof(LoginViewModel)}", ex);
+                _logger?.LogCritical(ex, $"Error performing login at startup. Navigating to {nameof(LoginViewModel)}");
                 _identityService.PerformLogout();
                 await NavigateToLoginViewAsync(cancellationToken.Token).ConfigureAwait(true);
             }

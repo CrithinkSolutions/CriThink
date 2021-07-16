@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Statistics;
 using CriThink.Client.Core.Platform;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
@@ -18,13 +18,13 @@ namespace CriThink.Client.Core.Services
 
         private readonly IPlatformDetails _platformDetails;
         private readonly IStatisticsApi _statisticsApi;
-        private readonly IMvxLog _log;
+        private readonly ILogger<PlatformService> _logger;
 
-        public PlatformService(IPlatformDetails platformDetails, IStatisticsApi statisticsApi, IMvxLogProvider logProvider)
+        public PlatformService(IPlatformDetails platformDetails, IStatisticsApi statisticsApi, ILogger<PlatformService> logger)
         {
             _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
             _statisticsApi = statisticsApi ?? throw new ArgumentNullException(nameof(statisticsApi));
-            _log = logProvider?.GetLogFor<PlatformService>();
+            _logger = logger;
         }
 
         public void OpenCriThinkFacebookPage()
@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Failed to open Facebook page", FacebookPageId);
+                _logger?.LogError(ex, "Failed to open Facebook page", FacebookPageId);
             }
         }
 
@@ -47,7 +47,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Failed to open Instagram profile", InstagramProfileName);
+                _logger?.LogError(ex, "Failed to open Instagram profile", InstagramProfileName);
             }
         }
 
@@ -59,7 +59,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Failed to open Twitter profile", TwitterProfileName);
+                _logger?.LogError(ex, "Failed to open Twitter profile", TwitterProfileName);
             }
         }
 
@@ -71,7 +71,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Failed to open LinkedIn profile", LinkedInProfile);
+                _logger?.LogError(ex, "Failed to open LinkedIn profile", LinkedInProfile);
             }
         }
 
@@ -83,7 +83,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.WarnException("Error opening internal browser", ex);
+                _logger?.LogWarning(ex, "Error opening internal browser");
             }
         }
 
@@ -95,7 +95,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Failed to open a Skype profile", profileName);
+                _logger?.LogError(ex, "Failed to open a Skype profile", profileName);
             }
         }
 
@@ -110,7 +110,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error getting platform data usage", ex);
+                _logger?.LogError(ex, "Error getting platform data usage");
                 throw;
             }
         }

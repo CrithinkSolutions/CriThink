@@ -10,8 +10,8 @@ using CriThink.Client.Core.Platform;
 using CriThink.Client.Core.Services;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Xamarin.Essentials;
@@ -24,24 +24,24 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IUserProfileService _userProfileService;
         private readonly IPlatformDetails _platformDetails;
         private readonly IUserDialogs _userDialogs;
-        private readonly IMvxLog _log;
+        private readonly ILogger<AboutViewModel> _logger;
 
         private bool _isInitialized;
 
         public AboutViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<AboutViewModel> logger,
             IIdentityService identityService,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
             IPlatformDetails platformDetails,
             IUserDialogs userDialogs)
-            : base(logProvider, navigationService)
+            : base(logger, navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _log = LogProvider?.GetLogFor<AboutViewModel>();
+            _logger = logger;
 
             ProfileImageTransformations = new List<ITransformation>
             {
@@ -103,7 +103,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to about view");
+            _logger?.LogInformation("User navigates to about view");
 
             if (!_isInitialized)
             {

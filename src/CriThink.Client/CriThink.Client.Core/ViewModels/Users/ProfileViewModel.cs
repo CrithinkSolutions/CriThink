@@ -11,8 +11,8 @@ using CriThink.Client.Core.ViewModels.Common;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -25,10 +25,10 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IIdentityService _identityService;
         private readonly IPlatformService _platformService;
         private readonly IUserDialogs _userDialogs;
-        private readonly IMvxLog _log;
+        private readonly ILogger<ProfileViewModel> _logger;
 
         public ProfileViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<ProfileViewModel> logger,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
             IIdentityService identityService,
@@ -40,7 +40,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _platformService = platformService ?? throw new ArgumentNullException(nameof(platformService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _log = logProvider?.GetLogFor<ProfileViewModel>();
+            _logger = logger;
 
             UserProfileViewModel = new UserProfileViewModel();
             ProfileImageTransformations = new List<ITransformation>
@@ -125,7 +125,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to profile view");
+            _logger?.LogInformation("User navigates to profile view");
         }
 
         public override async Task Initialize()
@@ -137,9 +137,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
-            var hasBeenEdited = await _navigationService.Navigate<EditProfileViewModel, bool>(cancellationToken: cancellationToken);
-
-            if (hasBeenEdited)
+            var viewModelResult = await _navigationService.Navigate<EditProfileViewModel, EditProfileViewModelResult>(cancellationToken: cancellationToken);
+            if (viewModelResult.HasBeenEdited)
                 await GetUserProfileAsync();
         }
 
@@ -216,7 +215,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 }
                 catch (UriFormatException ex)
                 {
-                    _log?.WarnException("The user blog uri is malformed", ex);
+                    _logger?.LogWarning(ex, "The user blog uri is malformed");
                 }
             });
         }

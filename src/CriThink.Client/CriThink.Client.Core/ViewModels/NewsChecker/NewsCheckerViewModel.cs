@@ -11,8 +11,8 @@ using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -24,22 +24,22 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IUserProfileService _userProfileService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<NewsCheckerViewModel> _logger;
 
         private bool _isInitialized;
 
         public NewsCheckerViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<NewsCheckerViewModel> logger,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
             IDebunkingNewsService debunkingNewsService)
-            : base(logProvider, navigationService)
+            : base(logger, navigationService)
         {
             TabId = "news_checker";
 
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
-            _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
+            _logger = logger;
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
 
@@ -180,7 +180,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+            Logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
 
             await NavigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(selectedResponse, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);

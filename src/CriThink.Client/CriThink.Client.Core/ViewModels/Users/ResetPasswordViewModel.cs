@@ -7,8 +7,8 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -19,17 +19,17 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IIdentityService _identityService;
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
-        private readonly IMvxLog _log;
+        private readonly ILogger<ResetPasswordViewModel> _logger;
 
         private string _token;
         private string _userId;
 
-        public ResetPasswordViewModel(IIdentityService identityService, IMvxNavigationService navigationService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
+        public ResetPasswordViewModel(IIdentityService identityService, IMvxNavigationService navigationService, IUserDialogs userDialogs, ILogger<ResetPasswordViewModel> logger)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _log = logProvider?.GetLogFor<ResetPasswordViewModel>();
+            _logger = logger;
         }
 
         protected override void InitFromBundle(IMvxBundle parameters)
@@ -88,7 +88,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to reset password");
+            _logger?.LogInformation("User navigates to reset password");
         }
 
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)
@@ -121,7 +121,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Can't navigate to home after password reset", ex);
+                _logger?.LogCritical(ex, "Can't navigate to home after password reset");
             }
             finally
             {

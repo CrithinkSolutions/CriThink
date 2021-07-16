@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Data.Settings
@@ -8,9 +8,9 @@ namespace CriThink.Client.Core.Data.Settings
     public class SettingsRepository : ISettingsRepository
     {
         private readonly SecureSettingsRepository _secureSettingsRepository;
-        private readonly IMvxLog _logger;
+        private readonly ILogger<SettingsRepository> _logger;
 
-        public SettingsRepository(SecureSettingsRepository secureSettingsRepository, IMvxLog logger)
+        public SettingsRepository(SecureSettingsRepository secureSettingsRepository, ILogger<SettingsRepository> logger)
         {
             _secureSettingsRepository = secureSettingsRepository;
             _logger = logger;
@@ -29,7 +29,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error saving a preference", ex, key);
+                _logger?.LogError(ex, "Error saving a preference", key);
                 throw;
             }
 
@@ -50,7 +50,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error reading preference", ex, key, defaultValue);
+                _logger?.LogError(ex, "Error reading preference", key, defaultValue);
                 throw;
             }
         }
@@ -63,7 +63,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error checking key existance", ex, key);
+                _logger?.LogError(ex, "Error checking key existance", key);
                 throw;
             }
         }
@@ -82,7 +82,7 @@ namespace CriThink.Client.Core.Data.Settings
                 }
                 catch (Exception ex)
                 {
-                    _logger?.Log(MvxLogLevel.Error, () => "Error removing a preference", ex, key);
+                    _logger?.LogError(ex, "Error removing a preference", key);
                     throw;
                 }
             }
@@ -102,7 +102,7 @@ namespace CriThink.Client.Core.Data.Settings
                 }
                 catch (Exception ex)
                 {
-                    _logger?.Log(MvxLogLevel.Error, () => "Error clearning all preferences", ex);
+                    _logger?.LogError(ex, "Error clearning all preferences");
                     throw;
                 }
             }

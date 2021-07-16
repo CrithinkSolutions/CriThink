@@ -12,7 +12,7 @@ using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
@@ -23,19 +23,19 @@ namespace CriThink.Client.Core.Services
         private readonly IUserProfileService _userProfileService;
         private readonly ISQLiteRepository _sqlRepo;
         private readonly IMvxMessenger _messenger;
-        private readonly IMvxLog _log;
+        private readonly ILogger<NewsSourceService> _logger;
 
         public NewsSourceService(
             INewsSourceApi newsSourceApi,
             IUserProfileService userProfileService,
             ISQLiteRepository sqlRepo,
-            IMvxMessenger messenger, IMvxLogProvider logProvider)
+            IMvxMessenger messenger, ILogger<NewsSourceService> logger)
         {
             _newsSourceApi = newsSourceApi ?? throw new ArgumentNullException(nameof(newsSourceApi));
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
-            _log = logProvider?.GetLogFor<NewsSourceService>();
+            _logger = logger;
         }
 
         public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken)
@@ -78,7 +78,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error searching a news source", ex, newsLink);
+                _logger?.LogError(ex, "Error searching a news source", newsLink);
                 return searchResponse;
             }
         }
@@ -125,7 +125,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error registering for notification", ex, newsLink);
+                _logger?.LogError(ex, "Error registering for notification", newsLink);
             }
         }
 
