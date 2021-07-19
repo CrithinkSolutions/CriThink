@@ -69,6 +69,14 @@
 
         #endregion
 
+        #region Article
+
+        public const string ArticleBase = "article/";
+
+        public const string ArticleAllQuestions = "question/all";
+
+        #endregion
+
         #region DebunkNews
 
         public const string DebunkNewsBase = "debunking-news/";
