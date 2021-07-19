@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -30,6 +32,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -41,6 +44,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -102,6 +106,8 @@ namespace CriThink.Server.Web
 
             SetupRazorAutoReload(services);
 
+            SetupLocalization(services);
+
             SetupControllers(services);
 
             SetupExternalLoginProviders(services);
@@ -114,6 +120,11 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+#pragma warning disable CA1062 // Validate arguments of public methods
+            var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(opt);
+#pragma warning restore CA1062 // Validate arguments of public methods
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -314,15 +325,13 @@ namespace CriThink.Server.Web
                                 Type = ReferenceType.SecurityScheme,
                                 Id = JwtBearerDefaults.AuthenticationScheme,
                             },
-                            // Scheme = "oauth2",
-                            // Name = JwtBearerDefaults.AuthenticationScheme,
-                            // In = ParameterLocation.Header
                         },
                         Array.Empty<string>()
                     }
                 });
 
                 options.OperationFilter<AddRequiredHeaderParameter>();
+                options.OperationFilter<SwaggerLanguageHeader>();
 
                 var contact = new OpenApiContact
                 {
@@ -447,6 +456,28 @@ namespace CriThink.Server.Web
                 mvcBuilder.AddRazorRuntimeCompilation(); // Razor
                 services.AddLiveReload(); // LiveReload
             }
+        }
+
+        private static void SetupLocalization(IServiceCollection services)
+        {
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                List<CultureInfo> supportedCultures = new()
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("it")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.ApplyCurrentCultureToResponseHeaders = true;
+            });
         }
 
         private static void SetupControllers(IServiceCollection services)
