@@ -9,5 +9,8 @@ namespace CriThink.Common.Endpoints.DTOs.Statistics
 
         [JsonPropertyName("platformSearches")]
         public long PlatformSearches { get; set; }
+
+        [JsonPropertyName("articleRates")]
+        public long ArticleRates { get; set; }
     }
 }
