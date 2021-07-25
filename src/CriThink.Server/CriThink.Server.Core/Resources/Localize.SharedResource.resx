@@ -129,4 +129,22 @@
   <data name="HQuestion" xml:space="preserve">
     <value>Headlines do not contain the full story. Have you read the entire article?</value>
   </data>
+  <data name="NewsSourceConspiracist" xml:space="preserve">
+    <value>Sources in the Conspiracy category may publish unverifiable information that is not always supported by evidence. Actually, they usually publish Conspiracy theories consisting in explanations for an event or situation that invoke a conspiracy by sinister and powerful groups, often political in motivation. These sources may be untrustworthy for credible/verifiable information, therefore fact checking and further investigation is recommended.</value>
+  </data>
+  <data name="NewsSourceFakeNews" xml:space="preserve">
+    <value>Sources in this category show extreme bias, poor or no sourcing to credible information, a complete lack of transparency and/or publish fake news for profit or ideologically influence the audience. These sources may be very untrustworthy and should be fact checked.</value>
+  </data>
+  <data name="NewsSourceReliable" xml:space="preserve">
+    <value>These sources have minimal bias and use very few loaded words (wording that attempts to influence an audience by using appeal to emotion or stereotypes).  The reporting is factual and usually sourced.</value>
+  </data>
+  <data name="NewsSourceSatirical" xml:space="preserve">
+    <value>These sources exclusively use humor, irony, exaggeration, or ridicule to expose and criticize people’s stupidity or vices, particularly in the context of contemporary politics and other topical issues. Primarily these sources are clear that they are satire and do not attempt to deceive.</value>
+  </data>
+  <data name="NewsSourceSocialMedia" xml:space="preserve">
+    <value>Social media platforms (such as Facebook, Twitter, Reddit and so on) cannot be classified strictly as sources of information. Rather these platforms are just mediums through which information can be shared. In these cases, verifying the reliability of the user/page sharing the information is recommended.</value>
+  </data>
+  <data name="NewsSourceSuspicious" xml:space="preserve">
+    <value>These sources may publish a mix of non-factual and factual information which is misrepresented and/or reported with bias (e.g. political leaning bias). Therefore, information coming from these sources should be double-checked considering reliable sources of news.</value>
+  </data>
 </root>
