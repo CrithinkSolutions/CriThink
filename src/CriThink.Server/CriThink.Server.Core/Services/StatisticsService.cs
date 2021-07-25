@@ -34,10 +34,14 @@ namespace CriThink.Server.Core.Services
             var searchesQuery = new GetStatisticsSearchesCountingQuery();
             var searchesCount = await _mediator.Send(searchesQuery);
 
+            var ratesQuery = new GetStatisticsArticleRatesCountingQuery();
+            var ratesCount = await _mediator.Send(ratesQuery);
+
             return new PlatformDataUsageResponse
             {
                 PlatformUsers = usersCount.UsersCounting,
                 PlatformSearches = searchesCount.SearchesCounting,
+                ArticleRates = ratesCount.RatesCounting,
             };
         }
 
