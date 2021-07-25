@@ -1,5 +1,6 @@
 ﻿using System;
 using Google.Android.Material.BottomNavigation;
+using Google.Android.Material.Navigation;
 using MvvmCross.Binding;
 using MvvmCross.Commands;
 using MvvmCross.Platforms.Android.Binding.Target;
@@ -20,7 +21,7 @@ namespace CriThink.Client.Droid.Bindings
         public MvxBottomNavigationItemChangedBinding(BottomNavigationView bottomNav) : base(bottomNav)
         {
             _bottomNav = bottomNav;
-            _bottomNav.NavigationItemSelected += OnNavigationItemSelected;
+            _bottomNav.ItemSelected += OnNavigationItemSelected;
         }
 
         public override void SetValue(object value)
@@ -30,15 +31,15 @@ namespace CriThink.Client.Droid.Bindings
 
         protected override void SetValueImpl(object target, object value) { }
 
-        private void OnNavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
+        private void OnNavigationItemSelected(object sender, NavigationBarView.ItemSelectedEventArgs e)
         {
-            _command?.Execute(e.Item.TitleCondensedFormatted.ToString());
+            _command?.Execute(e.P0.TitleCondensedFormatted.ToString());
         }
 
         protected override void Dispose(bool isDisposing)
         {
             if (isDisposing)
-                _bottomNav.NavigationItemSelected -= OnNavigationItemSelected;
+                _bottomNav.ItemSelected -= OnNavigationItemSelected;
 
             base.Dispose(isDisposing);
         }

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Data.Settings
 {
     public class SecureSettingsRepository
     {
-        private readonly IMvxLog _logger;
+        private readonly ILogger<SecureSettingsRepository> _logger;
 
-        public SecureSettingsRepository(IMvxLog logger)
+        public SecureSettingsRepository(ILogger<SecureSettingsRepository> logger)
         {
             _logger = logger;
         }
@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error getting setting from secure storage", ex, key, defaultValue);
+                _logger?.LogError(ex, "Error getting setting from secure storage", key, defaultValue);
                 throw;
             }
         }
@@ -48,7 +48,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error removing setting from secure storage", ex, key);
+                _logger?.LogError(ex, "Error removing setting from secure storage", key);
                 throw;
             }
         }
@@ -61,7 +61,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Error, () => "Error removing all secure storage", ex);
+                _logger?.LogError(ex, "Error removing all secure storage");
                 throw;
             }
         }
@@ -77,7 +77,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.Log(MvxLogLevel.Fatal, () => "Can't save secure preference", ex, key);
+                _logger?.LogError(ex, "Can't save secure preference", key);
                 throw;
             }
         }

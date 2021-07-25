@@ -11,32 +11,33 @@ using CriThink.Client.Core.ViewModels.Common;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 using Refit;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class EditProfileViewModel : ViewModelResult<bool>
+    public class EditProfileViewModel : ViewModelResult<bool>, IMvxViewModelResult<EditProfileViewModelResult>
     {
         private readonly IUserProfileService _userProfileService;
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxNavigationService _navigationService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<EditProfileViewModel> _logger;
 
         private User _userProfile;
         private StreamPart _streamPart;
 
-        public EditProfileViewModel(IUserProfileService userProfileService, IUserDialogs userDialogs, IMvxNavigationService navigationService, IMvxLogProvider logProvider)
+        public EditProfileViewModel(IUserProfileService userProfileService, IUserDialogs userDialogs, IMvxNavigationService navigationService, ILogger<EditProfileViewModel> logger)
         {
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _log = logProvider?.GetLogFor<EditProfileViewModel>();
+            _logger = logger;
 
             LogoImageTransformations = new List<ITransformation>
             {
@@ -134,7 +135,7 @@ namespace CriThink.Client.Core.ViewModels.Users
 
                 if (!hasFailed)
                 {
-                    await _navigationService.Close(this, true, cancellationToken);
+                    await _navigationService.Close(this, new EditProfileViewModelResult(true), cancellationToken);
                 }
             }
         }
@@ -148,7 +149,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             catch (TaskCanceledException) { }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Error getting avatar from file picker");
+                _logger?.LogError(ex, "Error getting avatar from file picker");
             }
         }
 
@@ -187,7 +188,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error occurred uploading a new avatar", ex);
+                _logger?.LogError(ex, "Error occurred uploading a new avatar");
             }
             finally
             {

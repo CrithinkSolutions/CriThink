@@ -6,6 +6,7 @@ using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Localization;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
@@ -45,6 +46,9 @@ namespace CriThink.Client.Droid.Views.Users
             var set = CreateBindingSet();
 
             set.Bind(txtTitle).ToLocalizationId("SignUpTitle");
+            //set.Bind(txtTitle).To(vm => vm.LocalizedTextSource)
+            //    .WithConversion(new MvxLanguageConverter(), "SignUpTitle");
+
             set.Bind(txtCaption).ToLocalizationId("SignUpCaption");
             set.Bind(btnSignUpEmail).To(vm => vm.NavigateToSignUpEmailCommand);
             set.Bind(btnSignUpEmail).For(v => v.Text).ToLocalizationId("SignUpEmail");

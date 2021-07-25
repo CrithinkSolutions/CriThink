@@ -12,8 +12,8 @@ using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -24,17 +24,17 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private readonly INewsSourceService _newsSourceService;
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IMvxNavigationService _navigationService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<NewsCheckerResultViewModel> _logger;
 
         private string _uri;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public NewsCheckerResultViewModel(INewsSourceService newsSourceService, IMvxLogProvider logProvider, IDebunkingNewsService debunkingNewsService, IMvxNavigationService navigationService)
+        public NewsCheckerResultViewModel(INewsSourceService newsSourceService, ILogger<NewsCheckerResultViewModel> logger, IDebunkingNewsService debunkingNewsService, IMvxNavigationService navigationService)
         {
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _log = logProvider?.GetLogFor<NewsCheckerResultViewModel>();
+            _logger = logger;
 
             Feed = new MvxObservableCollection<NewsSourceRelatedDebunkingNewsResponse>();
         }
@@ -84,14 +84,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             if (parameter == null)
             {
                 var argumentNullException = new ArgumentNullException(nameof(parameter));
-                _log?.FatalException("The given paramter is null", argumentNullException);
+                _logger?.LogCritical(argumentNullException, "The given paramter is null");
                 throw argumentNullException;
             }
 
             _uri = parameter;
             Title = _uri.Length > 25 ? $"{_uri.Substring(0, 20)}.." : _uri;
 
-            _log?.Info("User checks news source", _uri);
+            _logger?.LogInformation("User checks news source", _uri);
         }
 
         public override void ViewDestroy(bool viewFinishing = true)
@@ -180,7 +180,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(NewsSourceRelatedDebunkingNewsResponse selectedResponse, CancellationToken cancellationToken)
         {
-            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+            _logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
 
             var response = new DebunkingNewsGetResponse
             {

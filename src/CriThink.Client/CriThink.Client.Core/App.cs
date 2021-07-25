@@ -11,10 +11,10 @@ using CriThink.Client.Core.Services;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.Localization;
-using MvvmCross.Logging;
 using MvvmCross.Plugin.ResxLocalization;
 using MvvmCross.ViewModels;
 using Refit;
@@ -87,20 +87,20 @@ namespace CriThink.Client.Core
 
         private static void ConfigureServices(IServiceCollection serviceCollection, IConfigurationRoot configurationRoot)
         {
-            IMvxLog logger = null;
+            ILogger<App> logger = null;
 
-            if (Mvx.IoCProvider.CanResolve<IMvxLogProvider>())
+            if (Mvx.IoCProvider.CanResolve<ILogger<App>>())
             {
-                logger = Mvx.IoCProvider.Resolve<IMvxLogProvider>().GetLogFor<App>();
+                logger = Mvx.IoCProvider.Resolve<ILogger<App>>();
             }
 
             var baseApiUri = configurationRoot["BaseApiUri"];
-            logger?.Info($"Starting app with uri: {baseApiUri}");
+            logger?.LogInformation($"Starting app with uri: {baseApiUri}");
 
             if (string.IsNullOrWhiteSpace(baseApiUri))
             {
                 var argumentException = new ArgumentException("The base uri is null");
-                logger?.FatalException("Api Uri not found", argumentException);
+                logger?.LogCritical(argumentException, "Api Uri not found");
                 throw argumentException;
             }
 

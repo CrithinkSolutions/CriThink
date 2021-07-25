@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
 {
     public class GeolocationService : IGeolocationService
     {
-        private readonly IMvxLog _log;
+        private readonly ILogger<GeolocationService> _logger;
 
-        public GeolocationService(IMvxLogProvider logProvider)
+        public GeolocationService(ILogger<GeolocationService> logger)
         {
-            _log = logProvider?.GetLogFor<GeolocationService>();
+            _logger = logger;
         }
 
         public async Task<string> GetCurrentCountryCodeAsync()
@@ -26,21 +26,21 @@ namespace CriThink.Client.Core.Services
                     var placemark = placemarks.FirstOrDefault();
                     if (placemark != null)
                     {
-                        _log?.Info($"User country: {placemark.CountryCode}");
+                        _logger?.LogInformation($"User country: {placemark.CountryCode}");
                         return placemark.CountryCode.ToLowerInvariant();
                     }
                 }
             }
             catch (PermissionException ex)
             {
-                _log?.ErrorException("Can't get country code because of lack of permissions", ex);
+                _logger?.LogError(ex, "Can't get country code because of lack of permissions");
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Can't get country code", ex);
+                _logger?.LogError(ex, "Can't get country code");
             }
 
-            _log?.Info("Can't get user country");
+            _logger?.LogInformation("Can't get user country");
             return string.Empty;
         }
     }

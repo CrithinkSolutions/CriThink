@@ -6,7 +6,7 @@ using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using Refit;
 
 namespace CriThink.Client.Core.Services
@@ -16,14 +16,14 @@ namespace CriThink.Client.Core.Services
         private readonly IIdentityApi _identityApi;
         private readonly IAuthorizedIdentityApi _authorizedIdentityApi;
         private readonly IIdentityRepository _identityRepository;
-        private readonly IMvxLog _log;
+        private readonly ILogger<IdentityService> _logger;
 
-        public IdentityService(IIdentityApi identityApi, IAuthorizedIdentityApi authorizedIdentityApi, IIdentityRepository identityRepository, IMvxLogProvider logProvider)
+        public IdentityService(IIdentityApi identityApi, IAuthorizedIdentityApi authorizedIdentityApi, IIdentityRepository identityRepository, ILogger<IdentityService> logger)
         {
             _identityApi = identityApi ?? throw new ArgumentNullException(nameof(identityApi));
             _authorizedIdentityApi = authorizedIdentityApi;
             _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
-            _log = logProvider?.GetLogFor<IdentityService>();
+            _logger = logger;
         }
 
         public Task<UserAccess> GetLoggedUserAccessAsync()
@@ -34,7 +34,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Can't get user access", ex);
+                _logger?.LogCritical(ex, "Can't get user access");
                 return null;
             }
         }
@@ -52,7 +52,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error occurred during the login", ex);
+                _logger?.LogCritical(ex, "Error occurred during the login");
                 return null;
             }
 
@@ -65,7 +65,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("An error occurred when saving login data", ex);
+                _logger?.LogError(ex, "An error occurred when saving login data");
             }
 
             return loginResponse;
@@ -84,7 +84,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error occurred during the social login", ex);
+                _logger?.LogCritical(ex, "Error occurred during the social login");
                 return null;
             }
 
@@ -97,7 +97,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error occurred when saving social login data", ex);
+                _logger?.LogError(ex, "Error occurred when saving social login data");
             }
 
             return loginResponse;
@@ -144,7 +144,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error requesting temporary token", ex);
+                _logger?.LogCritical(ex, "Error requesting temporary token");
                 throw;
             }
         }
@@ -163,7 +163,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("Error resseting user password", ex);
+                _logger?.LogCritical(ex, "Error resseting user password");
                 return null;
             }
         }
@@ -186,7 +186,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("An error occurred during the sign up", ex);
+                _logger?.LogCritical(ex, "An error occurred during the sign up");
                 return null;
             }
         }
@@ -212,7 +212,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.FatalException("An error occurred during the email confirmation", ex, userId);
+                _logger?.LogCritical(ex, "An error occurred during the email confirmation", userId);
                 return null;
             }
         }
@@ -225,7 +225,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("An error occurred when logging out", ex);
+                _logger?.LogError(ex, "An error occurred when logging out");
                 throw;
             }
         }
@@ -238,7 +238,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("An error occurred when deleting the account", ex);
+                _logger?.LogError(ex, "An error occurred when deleting the account");
                 throw;
             }
         }
@@ -254,7 +254,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("An error occurred when restoring a deleted account", ex);
+                _logger?.LogError(ex, "An error occurred when restoring a deleted account");
                 throw;
             }
         }

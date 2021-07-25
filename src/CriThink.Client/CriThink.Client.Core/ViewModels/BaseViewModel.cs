@@ -7,7 +7,14 @@ namespace CriThink.Client.Core.ViewModels
 {
     public abstract class BaseViewModel : MvxViewModel, IMvxLocalizedTextSourceOwner
     {
-        public IMvxLanguageBinder LocalizedTextSource => new MvxLanguageBinder("", GetType().Name);
+        private readonly IMvxLanguageBinder _binder;
+
+        protected BaseViewModel()
+        {
+            _binder = new MvxLanguageBinder("", GetType().Name);
+        }
+
+        public IMvxLanguageBinder LocalizedTextSource => _binder;
 
         private bool _isLoading;
 
