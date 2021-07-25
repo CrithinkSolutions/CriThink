@@ -41,7 +41,6 @@ namespace CriThink.Server.Web.Controllers
         ///     
         /// </remarks>
         /// <response code="200">Returns the list of questions</response>
-        /// <response code="400">If the request body is invalid</response>
         /// <response code="401">If the user is not authorized</response>
         /// <response code="404">If the given domain is not found</response>
         /// <response code="500">If the server can't process the request</response>
@@ -56,6 +55,56 @@ namespace CriThink.Server.Web.Controllers
         {
             var questions = await _articleService.GetQuestionsAsync();
             return Ok(new ApiOkResponse(questions));
+        }
+
+        /// <summary>
+        /// Gives answers to questions for the specified article. Returns
+        /// your rate, the community rate, the news source category with
+        /// the description, the related debunking news (if any)
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST: /api/article/question
+        ///     {
+        ///         "newsLink": "link",
+        ///         "questions": [
+        ///             {
+        ///                 "questionId": "id",
+        ///                 "rate": rate
+        ///             }
+        ///         ]
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="request">The answers to article questions</param>
+        /// <response code="200">Returns the user calculated rate, the
+        /// community rate, the news source category and description,
+        /// the related debunking news (if any)</response>
+        /// <response code="400">If the request body is invalid</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="404">If the given domain is not found</response>
+        /// <response code="409">If the user has already gave a rate for this news</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [ProducesResponseType(typeof(ArticlePostAnswersResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Route(EndpointConstants.ArticlePostAnswerToQuestions)]
+        [HttpPost]
+        public async Task<IActionResult> PostAnswersToArticleQuestionsAsync([FromBody] ArticlePostAllAnswersRequest request)
+        {
+            try
+            {
+                var result = await _articleService.PostAnswersToArticleQuestionsAsync(request);
+                return Ok(new ApiOkResponse(result));
+            }
+            catch (InvalidOperationException)
+            {
+                return Conflict();
+            }
         }
     }
 }

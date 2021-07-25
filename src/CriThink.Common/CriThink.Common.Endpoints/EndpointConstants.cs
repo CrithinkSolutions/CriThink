@@ -74,6 +74,7 @@
         public const string ArticleBase = "article/";
 
         public const string ArticleAllQuestions = "question/all";
+        public const string ArticlePostAnswerToQuestions = "question";
 
         #endregion
 

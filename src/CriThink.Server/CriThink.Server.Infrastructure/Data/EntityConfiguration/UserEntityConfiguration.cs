@@ -35,11 +35,6 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                 .WithOne(p => p.User)
                 .HasForeignKey<UserProfile>(p => p.UserId);
 
-            builder
-                .HasMany(user => user.Searches)
-                .WithOne(s => s.User)
-                .OnDelete(DeleteBehavior.Cascade);
-
             SeedData(builder);
         }
 
