@@ -11,11 +11,12 @@ namespace CriThink.Server.Core.Entities
         internal ArticleQuestion()
         { }
 
-        public ArticleQuestion(Guid id, string question)
+        public ArticleQuestion(Guid id, string question, decimal ratio)
         {
             Id = id;
             Question = question;
             Category = QuestionCategory.General;
+            Ratio = ratio;
         }
 
         [Key]
@@ -25,6 +26,10 @@ namespace CriThink.Server.Core.Entities
         [Required]
         public string Question { get; private set; }
 
+        [Required]
         public QuestionCategory Category { get; private set; }
+
+        [Required]
+        public decimal Ratio { get; private set; }
     }
 }

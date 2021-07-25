@@ -12,15 +12,19 @@ namespace CriThink.Server.Core.Entities
     public class User : IdentityUser<Guid>, ICriThinkIdentity
     {
         private readonly List<RefreshToken> _refreshTokens;
+        private readonly List<ArticleAnswer> _articleAnswers;
         private readonly List<UserSearch> _searches;
 
         public User()
         {
             _refreshTokens = new List<RefreshToken>();
+            _articleAnswers = new List<ArticleAnswer>();
             _searches = new List<UserSearch>();
         }
 
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
+
+        public IReadOnlyCollection<ArticleAnswer> ArticleAnswers => _articleAnswers.AsReadOnly();
 
         public bool IsDeleted => _deletionScheduledOn is not null;
 
