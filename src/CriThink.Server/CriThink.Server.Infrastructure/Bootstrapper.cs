@@ -1,5 +1,6 @@
 ﻿using System;
 using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Core.Repositories;
 using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Identity;
@@ -42,6 +43,7 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddTransient<INewsSourceRepository, NewsSourceRepository>();
             serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
 
             // Services
             serviceCollection.AddScoped<IFileService>(sp =>

@@ -20,7 +20,6 @@ namespace CriThink.Server.Core
             serviceCollection.AddTransient<INewsSourceService, NewsSourceService>();
             serviceCollection.AddTransient<IUnknownNewsSourceService, UnknownNewsSourceService>();
             serviceCollection.AddTransient<IUserProfileService, UserProfileService>();
-            serviceCollection.AddTransient<IStatisticsService, StatisticsService>();
             serviceCollection.AddTransient<IArticleService, ArticleService>();
         }
     }

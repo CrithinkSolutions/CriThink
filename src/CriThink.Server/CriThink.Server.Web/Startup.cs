@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Server.Application;
 using CriThink.Server.Core.Delegates;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure;
@@ -217,7 +218,6 @@ namespace CriThink.Server.Web
                 .AddEntityFrameworkStores<CriThinkDbContext>()
                 .AddDefaultTokenProviders();
 
-
             services.Configure<IdentityOptions>(options =>
             {
                 // Password
@@ -365,7 +365,7 @@ namespace CriThink.Server.Web
 
         private static void SetupMediatR(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+            services.AddMediatR(typeof(Startup), typeof(Infrastructure.Bootstrapper));
         }
 
         private static void SetupInternalServices(IServiceCollection services)
@@ -375,6 +375,9 @@ namespace CriThink.Server.Web
 
             // Infrastructure
             services.AddInfrastructure();
+
+            // Application
+            services.AddApplication();
 
             // Services
             services.AddSingleton<IAppVersionService, AppVersionService>();
