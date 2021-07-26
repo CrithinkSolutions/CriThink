@@ -7,7 +7,7 @@ namespace CriThink.Server.Core.Entities
     /// <summary>
     /// Database entity representing the user information
     /// </summary>
-    public class UserProfile : ICriThinkIdentity
+    public class UserProfile : ICriThinkIdentity, IAggregateRoot
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

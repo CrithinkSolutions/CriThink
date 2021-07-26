@@ -1,11 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
+using CriThink.Server.Core.Entities;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,13 +26,27 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.UserProfileBase)]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public class UserProfileController : ControllerBase
     {
-        private readonly IUserProfileService _profileService;
+        private readonly IUserProfileQueries _userProfileQueries;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public UserProfileController(IUserProfileService profileService)
+        public UserProfileController(
+            IUserProfileQueries userProfileQueries,
+            IMediator mediator,
+            IMapper mapper)
         {
-            _profileService = profileService ?? throw new ArgumentNullException(nameof(profileService));
+            _userProfileQueries = userProfileQueries ??
+                throw new ArgumentNullException(nameof(userProfileQueries));
+
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -51,11 +70,31 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserProfileAsync([Required] UserProfileUpdateRequest request)
         {
-            await _profileService.UpdateUserProfileAsync(request).ConfigureAwait(false);
+            var userId = User.GetId();
+
+            var command = new UpdateUserProfileCommand(
+                userId,
+                request.GivenName,
+                request.FamilyName,
+                request.Description,
+                request.Gender.HasValue ?
+                    _mapper.Map<GenderDto, Gender>(request.Gender.Value) :
+                    null,
+                request.Country,
+                request.Telegram,
+                request.Skype,
+                request.Twitter,
+                request.Instagram,
+                request.Facebook,
+                request.Snapchat,
+                request.Youtube,
+                request.Blog,
+                request.DateOfBirth);
+
+            await _mediator.Send(command);
             return NoContent();
         }
 
@@ -80,7 +119,6 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPatch]
         public async Task<IActionResult> UploadAvatarAsync(
             [FileSize(5 * 1024, 3 * 1024 * 1024)]
@@ -88,7 +126,9 @@ namespace CriThink.Server.Web.Controllers
             [Required]
             IFormFile formFile)
         {
-            await _profileService.UpdateUserAvatarAsync(formFile).ConfigureAwait(false);
+            var command = new UpdateUserProfileAvatarCommand(formFile);
+
+            await _mediator.Send(command);
             return NoContent();
         }
 
@@ -109,11 +149,10 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> GetUserDetailsAsync()
         {
-            var response = await _profileService.GetUserProfileAsync().ConfigureAwait(false);
+            var response = await _userProfileQueries.GetUserProfileAsync();
             return Ok(new ApiOkResponse(response));
         }
     }

@@ -30,7 +30,6 @@ namespace CriThink.Server.Core.Identity
         private readonly IUserRepository _userRepository;
         private readonly IJwtManager _jwtManager;
         private readonly IEmailSenderService _emailSender;
-        private readonly IUserProfileService _userProfileService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -43,7 +42,6 @@ namespace CriThink.Server.Core.Identity
             IJwtManager jwtManager,
             IMapper mapper,
             IEmailSenderService emailSender,
-            IUserProfileService userProfileService,
             IHttpContextAccessor httpContext,
             IMediator mediator,
             ILogger<IdentityService> logger,
@@ -54,7 +52,6 @@ namespace CriThink.Server.Core.Identity
             _jwtManager = jwtManager ?? throw new ArgumentNullException(nameof(jwtManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _externalLoginProviderResolver = externalLoginProviderResolver ?? throw new ArgumentNullException(nameof(externalLoginProviderResolver));
@@ -79,8 +76,8 @@ namespace CriThink.Server.Core.Identity
 
             if (formFile is not null)
             {
-                var avatarUri = await _userProfileService.UpdateUserAvatarAsync(formFile);
-                user.Profile.AvatarPath = avatarUri.AbsolutePath;
+                //var avatarUri = await _userProfileService.UpdateUserAvatarAsync(formFile);
+                //user.Profile.AvatarPath = avatarUri.AbsolutePath;
             }
 
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
@@ -798,8 +795,8 @@ namespace CriThink.Server.Core.Identity
             {
                 try
                 {
-                    var avatarUri = await _userProfileService.UpdateUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, user.Id.ToString());
-                    user.Profile.AvatarPath = avatarUri.AbsolutePath;
+                    //var avatarUri = await _userProfileService.UpdateUserAvatarAsync(userAccessInfo.ProfileAvatarBytes, user.Id.ToString());
+                    //user.Profile.AvatarPath = avatarUri.AbsolutePath;
                 }
                 catch (Exception ex)
                 {

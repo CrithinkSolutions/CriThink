@@ -44,6 +44,7 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
             // Services
             serviceCollection.AddScoped<IFileService>(sp =>
@@ -75,11 +76,8 @@ namespace CriThink.Server.Infrastructure
                     var config = sp.GetRequiredService<IConfiguration>();
                     c.BaseAddress = new Uri(config[configKey]);
                 })
-                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-                {
-                    TimeSpan.FromSeconds(3),
-                    TimeSpan.FromSeconds(8),
-                }));
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         }
     }
 }

@@ -25,6 +25,7 @@ using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -365,7 +366,8 @@ namespace CriThink.Server.Web
 
         private static void SetupMediatR(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup), typeof(Infrastructure.Bootstrapper));
+            services.AddMediatR(typeof(Infrastructure.Bootstrapper), typeof(Application.Bootstrapper));
+            services.AddFluentValidation(new[] { typeof(Application.Bootstrapper).Assembly });
         }
 
         private static void SetupInternalServices(IServiceCollection services)
