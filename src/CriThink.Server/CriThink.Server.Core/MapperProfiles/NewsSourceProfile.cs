@@ -18,7 +18,7 @@ namespace CriThink.Server.Core.MapperProfiles
 
             CreateMap<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>()
                 .ForMember(dest => dest.Description,
-                    opt => opt.MapFrom(src => src.Description))
+                    opt => opt.MapFrom<LocalizationResolver<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>, string>(src => src.Description))
                 .ForMember(dest => dest.Classification,
                     opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceClassification>(src.SourceAuthenticity)));
 
