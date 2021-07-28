@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Core.Repositories;
 using CriThink.Server.Infrastructure.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

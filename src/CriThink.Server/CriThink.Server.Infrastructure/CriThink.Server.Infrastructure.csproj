@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CriThink.Server.Core\CriThink.Server.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
 </Project>

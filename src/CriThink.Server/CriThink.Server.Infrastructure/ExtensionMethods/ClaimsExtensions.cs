@@ -14,8 +14,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods
             return Guid.Parse(value);
         }
 
-        public static string GetEmail(this IPrincipal user)
-            => GetClaimValue(user, ClaimTypes.Email);
+        public static string GetEmail(this IPrincipal user) =>
+            GetClaimValue(user, ClaimTypes.Email);
 
         public static IEnumerable<string> GetRoles(this IPrincipal user)
         {

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
-using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Models.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +23,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Route(EndpointConstants.UserManagementBase)]
     public class UserManagementController : Controller
     {
-        private readonly IUserManagementServiceFacade _userManagementServiceFacade;
+        private readonly IMediator _mediator;
+        private readonly IIdentityQueries _identityQueries;
 
-        public UserManagementController(IUserManagementServiceFacade userManagementServiceFacade)
+        public UserManagementController(IMediator mediator, IIdentityQueries identityQueries)
         {
-            _userManagementServiceFacade = userManagementServiceFacade ?? throw new ArgumentNullException(nameof(userManagementServiceFacade));
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+
+            _identityQueries = identityQueries ??
+                throw new ArgumentNullException(nameof(identityQueries));
         }
 
         /// <summary>
@@ -35,13 +42,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
+            var users = await _identityQueries.GetAllUsersAsync(
+                viewModel.PageIndex,
+                viewModel.PageSize);
 
-            var users = await _userManagementServiceFacade.GetAllUserAsync(viewModel).ConfigureAwait(false);
             return View(users);
         }
 
@@ -53,7 +57,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route(EndpointConstants.UserManagementRoles)]
         public async Task<IActionResult> GetRole()
         {
-            var roles = await _userManagementServiceFacade.GetAllRolesAsync().ConfigureAwait(false);
+            var roles = await _identityQueries.GetAllRolesAsync();
             return View("RoleView", roles);
         }
 
@@ -87,7 +91,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                await _userManagementServiceFacade.CreateNewUserAsync(viewModel).ConfigureAwait(false);
+                var command = new CreateUserCommand(
+                    viewModel.UserName,
+                    viewModel.Email,
+                    viewModel.Password,
+                    null);
+
+                await _mediator.Send(command);
+
                 viewModel.Message = "User Added!";
                 return View("AddUserView", viewModel);
             }
@@ -127,7 +138,13 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                await _userManagementServiceFacade.CreateNewAdminAsync(viewModel).ConfigureAwait(false);
+                var command = new CreateNewUserAsAdminCommand(
+                    viewModel.Email,
+                    viewModel.UserName,
+                    viewModel.Password);
+
+                await _mediator.Send(command);
+
                 viewModel.Message = "Admin Added!";
                 return View("AddUserView", viewModel);
             }
@@ -153,7 +170,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _userManagementServiceFacade.SoftDeleteUserAsync(viewModel).ConfigureAwait(false);
+                    var command = new DeleteUserCommand(
+                        viewModel.Id);
+
+                    await _mediator.Send(command);
                 }
 
                 return RedirectToAction("Index");
@@ -178,8 +198,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                var info = await _userManagementServiceFacade.GetUserByIdAsync(viewModel).ConfigureAwait(false);
-                return Ok(new ApiOkResponse(info));
+                var response = await _identityQueries.GetUserByIdAsync(viewModel.Id);
+                return Ok(new ApiOkResponse(response));
             }
             catch (Exception ex)
             {
@@ -203,7 +223,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _userManagementServiceFacade.UpdateUserAsync(viewModel).ConfigureAwait(false);
+                    var command = new UpdateUserCommand(
+                        viewModel.Id,
+                        viewModel.UserName,
+                        viewModel.IsEmailConfirmed,
+                        viewModel.IsLockoutEnabled,
+                        viewModel.LockoutEnd);
+
+                    await _mediator.Send(command);
                 }
 
                 return RedirectToAction("Index");
@@ -223,14 +250,18 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [Route(EndpointConstants.UserManagementEditRoleUser)]
         public async Task<IActionResult> UpdateUserRoleAsync(UserRoleUpdateViewModel viewModel)
         {
-            if (viewModel == null)
+            if (viewModel is null)
                 throw new ArgumentNullException(nameof(viewModel));
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _userManagementServiceFacade.UpdateUserRoleAsync(viewModel).ConfigureAwait(false);
+                    var command = new UpdateUserRoleCommand(
+                        viewModel.Id,
+                        viewModel.Role);
+
+                    await _mediator.Send(command);
                 }
 
                 return RedirectToAction("Index");

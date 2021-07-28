@@ -15,11 +15,19 @@ namespace CriThink.Server.Core.Entities
         private readonly List<ArticleAnswer> _articleAnswers;
         private readonly List<UserSearch> _searches;
 
-        public User()
+        internal User()
         {
             _refreshTokens = new List<RefreshToken>();
             _articleAnswers = new List<ArticleAnswer>();
             _searches = new List<UserSearch>();
+        }
+
+        private User(string username, string email)
+            : this()
+        {
+            UserName = username;
+            Email = email;
+            Id = Guid.NewGuid();
         }
 
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
@@ -38,6 +46,42 @@ namespace CriThink.Server.Core.Entities
         public UserProfile Profile { get; set; }
 
         public virtual ICollection<UserSearch> Searches => _searches.AsReadOnly();
+
+        public static User Create(string username, string email)
+        {
+            var user = new User(username, email);
+            user.Profile = UserProfile.Create();
+            return user;
+        }
+
+        public static User Create(
+            string concurrencyStamp,
+            Guid userId,
+            string username,
+            string email,
+            bool emailConfirmed,
+            string passwordHash,
+            string securityStamp)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException(nameof(username));
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentNullException(nameof(email));
+
+            var user = new User(username, email)
+            {
+                Id = userId,
+                ConcurrencyStamp = concurrencyStamp,
+                EmailConfirmed = emailConfirmed,
+                PasswordHash = passwordHash,
+                SecurityStamp = securityStamp,
+                NormalizedEmail = email.ToUpperInvariant(),
+                NormalizedUserName = username.ToUpperInvariant(),
+            };
+
+            return user;
+        }
 
         /// <summary>
         /// Returns true if the user has active

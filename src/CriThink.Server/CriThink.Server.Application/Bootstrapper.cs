@@ -14,6 +14,7 @@ namespace CriThink.Server.Application
             // Queries
             serviceCollection.AddScoped<IStatisticsQueries, StatisticsQueries>();
             serviceCollection.AddScoped<IUserProfileQueries, UserProfileQueries>();
+            serviceCollection.AddScoped<IIdentityQueries, IdentityQueries>();
         }
     }
 }

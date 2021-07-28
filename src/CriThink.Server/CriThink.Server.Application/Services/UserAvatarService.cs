@@ -32,6 +32,55 @@ namespace CriThink.Server.Application.Services
 
         public async Task UpdateUserProfileAvatarAsync(
             Guid userId,
+            byte[] bytes,
+            CancellationToken cancellationToken = default)
+        {
+            if (userId == Guid.Empty)
+                throw new ArgumentNullException(nameof(userId));
+
+            if (bytes is null)
+                throw new ArgumentNullException(nameof(bytes));
+
+            var userProfile = await _userProfileRepo.GetUserProfileByUserIdAsync(userId);
+            if (userProfile is null)
+            {
+                _logger?.LogError("Updating UserProfile: UserId not found", userId);
+                throw new ResourceNotFoundException(nameof(userProfile));
+            }
+
+            var uri = await _fileService.SaveFileAsync(
+                bytes,
+                true,
+                ProfileConstants.AvatarFileName,
+                userId.ToString(),
+                ProfileConstants.ProfileFolder);
+
+            userProfile.AvatarPath = uri.AbsoluteUri;
+
+            try
+            {
+                _userProfileRepo.SaveUserProfileAsync(userProfile);
+
+                // TODO: not sure
+                await _userProfileRepo.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+                _logger?.LogInformation("Updating UserProfile Avatar: done", userId);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Updating UserProfile Avatar: generic error", userId);
+
+                await _fileService.DeleteFileAsync(
+                    ProfileConstants.AvatarFileName,
+                    userId.ToString(),
+                    ProfileConstants.ProfileFolder);
+
+                throw;
+            }
+        }
+
+        public async Task UpdateUserProfileAvatarAsync(
+            Guid userId,
             IFormFile formFile,
             CancellationToken cancellationToken = default)
         {

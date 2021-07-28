@@ -386,7 +386,6 @@ namespace CriThink.Server.Web
 
             // Facades
             services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
-            services.AddTransient<IUserManagementServiceFacade, UserManagementServiceFacade>();
             services.AddTransient<INewsSourceFacade, NewsSourceFacade>();
             services.AddTransient<ITriggerLogServiceFacade, TriggerLogServiceFacade>();
         }

@@ -94,7 +94,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (isEmail)
                 request.Email = emailOrUsername;
             else
-                request.UserName = emailOrUsername;
+                request.Username = emailOrUsername;
 
             try
             {

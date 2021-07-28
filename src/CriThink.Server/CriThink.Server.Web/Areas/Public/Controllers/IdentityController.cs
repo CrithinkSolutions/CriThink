@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
 using CriThink.Server.Web.Areas.Publics.ViewModel;
 using CriThink.Server.Web.Areas.Publics.ViewModel.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Areas.Publics.Controllers
 {
@@ -14,13 +14,12 @@ namespace CriThink.Server.Web.Areas.Publics.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class IdentityController : Controller
     {
-        private readonly IIdentityService _identityService;
-        private readonly ILogger<IdentityController> _logger;
+        private readonly IMediator _mediator;
 
-        public IdentityController(IIdentityService identityService, ILogger<IdentityController> logger)
+        public IdentityController(IMediator mediator)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _logger = logger;
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
         }
 
         [AllowAnonymous]
@@ -60,8 +59,12 @@ namespace CriThink.Server.Web.Areas.Publics.Controllers
 
             try
             {
-                await _identityService.ResetUserPasswordAsync(viewModel.UserId, viewModel.Code, viewModel.Password)
-                    .ConfigureAwait(false);
+                var command = new ResetUserPasswordCommand(
+                    viewModel.UserId,
+                    viewModel.Code,
+                    viewModel.Password);
+
+                await _mediator.Send(command);
             }
             catch (Exception)
             {

@@ -8,5 +8,7 @@ namespace CriThink.Server.Application.Services
     internal interface IUserAvatarService
     {
         Task UpdateUserProfileAvatarAsync(Guid userId, IFormFile formFile, CancellationToken cancellationToken = default);
+
+        Task UpdateUserProfileAvatarAsync(Guid userId, byte[] bytes, CancellationToken cancellationToken = default);
     }
 }

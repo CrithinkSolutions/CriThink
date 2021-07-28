@@ -9,6 +9,11 @@ namespace CriThink.Server.Core.Entities
     /// </summary>
     public class UserProfile : ICriThinkIdentity, IAggregateRoot
     {
+        public UserProfile()
+        {
+            RegisteredOn = DateTime.UtcNow;
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
@@ -49,5 +54,10 @@ namespace CriThink.Server.Core.Entities
 
         [Required]
         public User User { get; set; }
+
+        public static UserProfile Create()
+        {
+            return new UserProfile();
+        }
     }
 }
