@@ -20,6 +20,7 @@
 {
     <div id="toolbox" class="border p-2 mb-2">
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>
+        <a class="mDelete d-none btn btn-danger" type="button" data-toggle="modal" data-target="#modalDelete"><i class="fas fa-trash-alt"></i></a>
     </div>
     <table class="table mb-3" id="featureT">
         <thead>
@@ -31,17 +32,11 @@
         </thead>
         @foreach (var debunkedNews in Model.DebunkingNewsCollection)
         {
-            <tr>
+            <tr data-title="@debunkedNews.Title" data-id="@debunkedNews.Id">
                 <td>@debunkedNews.Title</td>
                 <td>@debunkedNews.Publisher</td>
                 <td style="width:6%">
-                    <a type="button" href="" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-route-id="@debunkedNews.Id" asp-action="@nameof(DebunkingNewsController.UpdateDebunkingNewsAsync).Replace("Async", string.Empty)"><i class="fas fa-pen mr-2"></i>Edit news</a>
-                        <a class="dropdown-item mDelete" data-toggle="modal" data-target="#modalDelete" data-title="@debunkedNews.Title" data-id="@debunkedNews.Id"><i class="fas fa-trash-alt mr-2"></i>Remove news</a>
-                    </div>
+                    <a class="dropdown-item" asp-route-id="@debunkedNews.Id" asp-action="@nameof(DebunkingNewsController.UpdateDebunkingNewsAsync).Replace("Async", string.Empty)"><i class="fas fa-pen mr-2"></i>Edit news</a>
                 </td>
             </tr>
         }
@@ -60,7 +55,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure to delete the news with name <span class="font-weight-bold nameNews"></span>?
+                Are you sure to delete <span class="font-weight-bold newsCounter"></span> news?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -74,7 +69,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit news: <span class="font-weight-bold nameNews"></span></h5>
+                <h5 class="modal-title">Edit news: <span class="font-weight-bold newsName"></span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -124,36 +119,69 @@
 @section Scripts
 {
     <script type="text/javascript">
+        const REMOVE_NEWS_FLAG = '?message=removedNews'
+        const REMOVE_NEWS_FAILED_FLAG = '?message=failedRemoveNews'
+
+        let newsIds = [];
+
         $(function () {
+
             $('#featureT').DataTable({
                 paging: false,
                 ordering: false,
                 info: false
             });
-        });
-    </script>
 
-    <script type="text/javascript">
-        {
-
-        let newsId = '';
-
-        $('.mDelete').click(function(){
-            newsId = $(this).data('id');
-            $('.nameNews').html($(this).data('title'));
-        });
-
-        $('#sureDelete').click(function(){
-            let token = $('input[name="__RequestVerificationToken"]').val();
-            $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsRemoveNews}")', {Id:newsId, __RequestVerificationToken: token}, function(data){
-                $('body').html(data);
+            if(window.location.search === REMOVE_NEWS_FLAG){
                 $('#message').addClass('alert alert-success').html('News removed!');
-            })
-            .fail(function(data){
-                $('#message').addClass('alert alert-danger').html('Error!');
+                setTimeout(function(){ $('#message').removeClass('alert alert-success').html('') }, 3000);
+            }
+
+            if(window.location.search === REMOVE_NEWS_FAILED_FLAG){
+                $('#message').addClass('alert alert-danger').html('Error to remove news!');
+                setTimeout(function(){ $('#message').removeClass('alert alert-danger').html('') }, 3000);
+            }
+
+            $('#featureT tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+                if(!newsIds.includes($(this).data('id'))){
+                    newsIds.push($(this).data('id'));
+                }else{
+                    newsIds = newsIds.filter((news) => news !== $(this).data('id'));
+                }
+
+                // Show remove btn if one news is selected
+                if(newsIds.length > 0){
+                    $('.mDelete').removeClass('d-none')
+                }else{
+                    $('.mDelete').addClass('d-none')
+                }
             });
         });
-        }
+        
+        $('.mDelete').click(function(){
+            $('.newsCounter').html(newsIds.length);
+        });
 
+        $('#sureDelete').click(async function(){
+            let token = $('input[name="__RequestVerificationToken"]').val();
+            let flagRemovedNews = []
+            
+            for(news of newsIds){
+                try{
+                    await $.post('@($"{@EndpointConstants.DebunkNewsBase}{EndpointConstants.DebunkingNewsRemoveNews}")', {Id:news, __RequestVerificationToken: token}, function(data){
+                        flagRemovedNews.push(true)
+                    })
+                }catch{
+                    flagRemovedNews.push(false)
+                }   
+            }
+
+            if(flagRemovedNews.every((flag) => flag)){
+                window.location.search = REMOVE_NEWS_FLAG
+            }else{
+                window.location.search = REMOVE_NEWS_FAILED_FLAG
+            }
+        });
     </script>
 }
