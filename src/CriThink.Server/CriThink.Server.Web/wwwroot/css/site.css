@@ -141,6 +141,10 @@ table.dataTable tbody tr.even.selected {
   background-color: #b0bed9;
 }
 
+table.dataTable thead th, table.dataTable thead td {
+  padding-left: 8px;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
