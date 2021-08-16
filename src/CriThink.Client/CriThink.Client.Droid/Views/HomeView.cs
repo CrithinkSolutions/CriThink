@@ -1,13 +1,26 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Widget;
+using AndroidX.Core.Content;
+using AndroidX.Core.Content.Resources;
+using AndroidX.Core.Graphics.Drawable;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Droid.Bindings;
+using CriThink.Client.Droid.Extensions;
+using FFImageLoading;
+using FFImageLoading.Work;
 using Google.Android.Material.BottomNavigation;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using Xamarin.Facebook;
+using CriThink.Client.Core.Extensions;
+using static Android.Graphics.Bitmap;
+using static Android.Graphics.PorterDuff;
+using System.Threading.Tasks;
 
 namespace CriThink.Client.Droid.Views
 {
@@ -19,6 +32,7 @@ namespace CriThink.Client.Droid.Views
     [Activity]
     public class HomeView : MvxActivity<HomeViewModel>
     {
+        public BottomNavigationView BottomNavigationView => FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -45,6 +59,7 @@ namespace CriThink.Client.Droid.Views
                 var text = Intent.GetStringExtra(Intent.ExtraText);
                 ViewModel.NavigateToNewsCheckResultViewModel.Execute(text);
             }
+            Task.Run(async ()=> await SetBottomViewProfileIcon());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
@@ -64,6 +79,31 @@ namespace CriThink.Client.Droid.Views
             minimiseIntent.AddCategory(Intent.CategoryHome);
             minimiseIntent.SetFlags(ActivityFlags.NewTask);
             StartActivity(minimiseIntent);
+        }
+
+        private async Task SetBottomViewProfileIcon()
+        {
+            if (ViewModel.User?.AvatarPath.IsUrl() == true)
+            {
+                var color = Color.ParseColor(Resources.GetString(Resource.Color.menuTint));
+                var states = new StateListDrawable();
+                var bitmapDrawable = await ImageService.Instance
+                    .LoadUrl(ViewModel.User.AvatarPath)
+                    .WithCache(FFImageLoading.Cache.CacheType.All)
+                    .AsBitmapDrawableAsync();
+
+                if (bitmapDrawable != null
+                    && bitmapDrawable.Bitmap != null)
+                {
+                    var unselectedBitmapDrawable = new BitmapDrawable(Resources, bitmapDrawable.Bitmap.RoundedCornerBitmap(80, 2, Color.Transparent));
+                    var selectedBitmapDrawable = new BitmapDrawable(Resources, bitmapDrawable.Bitmap.RoundedCornerBitmap(80, 2, color));
+                    states.AddState(new int[] { Android.Resource.Attribute.StateChecked }, selectedBitmapDrawable);
+                    states.AddState(new int[] { }, unselectedBitmapDrawable);
+                    BottomNavigationView.ItemIconTintList = null;
+                    BottomNavigationView.Menu.FindItem(Resource.Id.page_4)?.SetIconTintMode(null);
+                    RunOnUiThread(() => BottomNavigationView.Menu.FindItem(Resource.Id.page_4)?.SetIcon(states));
+                }
+            }
         }
     }
 }

@@ -18,7 +18,6 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -115,6 +114,8 @@
     <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />
     <Compile Include="Views\Users\Activities\WelcomeView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeViewFragmentAdapter.cs" />
+    <Compile Include="Extensions\ImageServiceExtensions.cs" />
+    <Compile Include="Extensions\BitmapExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\53513-confetti.json" />
