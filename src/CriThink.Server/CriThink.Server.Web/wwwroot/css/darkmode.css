@@ -1,4 +1,19 @@
-*:not(.btn):not(i):not(.alert){
+*:not(.btn):not(i):not(.alert):not(.selected *):not(tbody *){
 	background-color: #272727 !important; 
+	color: #fff !important;
+}
+
+.selected > td{
+	background-color: #fff;
+	color: #272727;
+}
+
+table.dataTable tbody tr.odd  {
+	background-color: #272727 !important; 
+	color: #fff !important;
+}
+
+table.dataTable tbody tr.even  {
+	background-color: #3a3939 !important; 
 	color: #fff !important;
 }
