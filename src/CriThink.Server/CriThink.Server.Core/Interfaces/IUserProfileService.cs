@@ -18,8 +18,9 @@ namespace CriThink.Server.Core.Interfaces
         /// Updates the user avatar
         /// </summary>
         /// <param name="formFile">File uploaded by the user</param>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
-        Task<Uri> UpdateUserAvatarAsync(IFormFile formFile);
+        Task<Uri> UpdateUserAvatarAsync(IFormFile formFile, Guid userId);
 
         /// <summary>
         /// Updates the user avatar
