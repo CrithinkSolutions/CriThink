@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
@@ -88,7 +90,9 @@ namespace CriThink.Server.Web.Controllers
             [Required]
             IFormFile formFile)
         {
-            await _profileService.UpdateUserAvatarAsync(formFile).ConfigureAwait(false);
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            await _profileService.UpdateUserAvatarAsync(formFile, Guid.Parse(userId));
             return NoContent();
         }
 

@@ -6,6 +6,8 @@ namespace CriThink.Server.Core.Interfaces
 {
     public interface IFileService
     {
+        string Hostname { get; }
+
         /// <summary>
         /// Save file on storage
         /// </summary>
