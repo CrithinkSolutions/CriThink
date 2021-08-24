@@ -12,4 +12,8 @@
 
   <!-- Used as background in welcome views -->
   <color name="welcomeBackground">#ff9600</color>
+
+  <!-- Shimmer related -->  
+  <color name="shimmerColor">#C2C2C2</color>
+    
 </resources>
