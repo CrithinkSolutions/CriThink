@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +60,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
 </Project>

@@ -87,7 +87,6 @@ namespace CriThink.Client.Core.ViewModels
             }
         }
 
-
         private void DoBottomNavigationItemSelectedCommand(string tabId)
         {
             foreach (var item in BottomViewTabs.Where(item => tabId == item.TabId))

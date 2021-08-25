@@ -116,6 +116,7 @@
     <Compile Include="Views\Users\Fragments\WelcomeViewFragmentAdapter.cs" />
     <Compile Include="Extensions\ImageServiceExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Constants\FFImageConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\53513-confetti.json" />
@@ -289,6 +290,9 @@
     <ProjectReference Include="..\CriThink.Client.Core\CriThink.Client.Core.csproj">
       <Project>{6334b064-dd22-4f85-aa05-7ab088145757}</Project>
       <Name>CriThink.Client.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj">
+      <Name>CriThink.Common.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

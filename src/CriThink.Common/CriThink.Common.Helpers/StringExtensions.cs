@@ -22,6 +22,14 @@ namespace CriThink.Common.Helpers
             }
         }
 
+        public static string FormatMe(this string value, params object[] args) =>
+            string.Format(value, args);
+
+        public static bool IsUrl(this string value)
+        {
+            return Uri.IsWellFormedUriString(value, UriKind.Absolute);
+        }
+
         public static string RemoveWhitespaces(this string source) =>
             Regex.Replace(source, WhitespacePattern, "");
     }
