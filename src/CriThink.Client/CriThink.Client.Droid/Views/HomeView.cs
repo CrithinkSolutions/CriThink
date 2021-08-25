@@ -84,12 +84,12 @@ namespace CriThink.Client.Droid.Views
                 var unselectedBitmapDrawable = await ImageService.Instance
                     .LoadUrl(ViewModel.User?.AvatarPath)
                     .WithCache(FFImageLoading.Cache.CacheType.All)
-                    .Transform(new ITransformation[] { new CropTransformation(1.1, 0, -0.2, 1, 1), new CircleTransformation()})
+                    .Transform(BottomProfileIconTransformations(false))
                     .AsBitmapDrawableAsync();
                 var selectedBitmapDrawable = await ImageService.Instance
                     .LoadUrl(ViewModel.User?.AvatarPath)
                     .WithCache(FFImageLoading.Cache.CacheType.All)
-                    .Transform(new ITransformation[] { new CropTransformation(1.1, 0, -0.2, 1, 1), new CircleTransformation(SelectedBorderSize, Resources.GetString(Resource.Color.menuTint)) })
+                    .Transform(BottomProfileIconTransformations(true))
                     .AsBitmapDrawableAsync();
 
                 if (selectedBitmapDrawable != null
@@ -105,6 +105,15 @@ namespace CriThink.Client.Droid.Views
                     });
                 }
             }
+        }
+
+        private ITransformation[] BottomProfileIconTransformations(bool selected)
+        {
+            return new ITransformation[]
+                {
+                    new CropTransformation(zoomFactor: 1.1, xOffset: 0, yOffset: -0.2, cropWidthRatio: 1, cropHeightRatio: 1),
+                    new CircleTransformation(selected ? SelectedBorderSize : 0, Resources.GetString(Resource.Color.menuTint))
+                };
         }
     }
 }
