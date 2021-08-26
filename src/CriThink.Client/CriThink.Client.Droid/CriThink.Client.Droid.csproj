@@ -18,7 +18,6 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -115,6 +114,7 @@
     <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />
     <Compile Include="Views\Users\Activities\WelcomeView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeViewFragmentAdapter.cs" />
+    <Compile Include="Constants\FFImageConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\53513-confetti.json" />
@@ -288,6 +288,9 @@
     <ProjectReference Include="..\CriThink.Client.Core\CriThink.Client.Core.csproj">
       <Project>{6334b064-dd22-4f85-aa05-7ab088145757}</Project>
       <Name>CriThink.Client.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj">
+      <Name>CriThink.Common.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

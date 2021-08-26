@@ -12,4 +12,5 @@
 
   <!-- Used as background in welcome views -->
   <color name="welcomeBackground">#ff9600</color>
+  <color name="menuTint">#ff9600</color>
 </resources>
