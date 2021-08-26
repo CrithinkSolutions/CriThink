@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using CriThink.Client.Core.ViewModels;
@@ -80,7 +79,6 @@ namespace CriThink.Client.Droid.Views
         {
             if (ViewModel.User?.AvatarPath.IsUrl() == true)
             {
-                var states = new StateListDrawable();
                 var unselectedBitmapDrawable = await ImageService.Instance
                     .LoadUrl(ViewModel.User?.AvatarPath)
                     .WithCache(FFImageLoading.Cache.CacheType.All)
@@ -95,6 +93,7 @@ namespace CriThink.Client.Droid.Views
                 if (selectedBitmapDrawable != null
                     && unselectedBitmapDrawable != null)
                 {
+                    var states = new StateListDrawable();
                     states.AddState(new int[] { Android.Resource.Attribute.StateChecked }, selectedBitmapDrawable);
                     states.AddState(new int[] { }, unselectedBitmapDrawable);
                     RunOnUiThread(() =>

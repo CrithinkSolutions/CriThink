@@ -114,8 +114,6 @@
     <Compile Include="Views\Users\Fragments\WelcomeLoginSignInView.cs" />
     <Compile Include="Views\Users\Activities\WelcomeView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeViewFragmentAdapter.cs" />
-    <Compile Include="Extensions\ImageServiceExtensions.cs" />
-    <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Constants\FFImageConstants.cs" />
   </ItemGroup>
   <ItemGroup>
