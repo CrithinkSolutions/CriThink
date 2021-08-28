@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -18,7 +19,7 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
-
+using MvvmCross.WeakSubscription;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.NewsChecker
 {
@@ -31,7 +32,9 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            base.OnCreateView(inflater, container, savedInstanceState);     
+            base.OnCreateView(inflater, container, savedInstanceState);
+
+            ViewModel.WeakSubscribe(() => ViewModel.IsLoading, UpdateShimmerAnimation);
 
             var view = this.BindingInflate(Resource.Layout.newschecker_view, null);
 
@@ -56,7 +59,6 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var adapter = new DebunkingNewsAdapter((IMvxAndroidBindingContext) BindingContext);
             listDebunkingNews.Adapter = adapter;
 
-
             var set = CreateBindingSet();
 
             set.Bind(txtWelcome).To(vm => vm.WelcomeText);
@@ -80,12 +82,9 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             return view;
         }
 
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void UpdateShimmerAnimation(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ViewModel.IsLoading))
-            {
-                Activity.RunOnUiThread(()=> _layoutShimmer.StartShimmerAnimation(ViewModel.IsLoading));   
-            }
+            Activity.RunOnUiThread(() => _layoutShimmer?.StartShimmerAnimation(ViewModel.IsLoading));
         }
 
     }

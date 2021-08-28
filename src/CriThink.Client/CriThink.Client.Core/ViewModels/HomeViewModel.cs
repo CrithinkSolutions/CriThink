@@ -34,7 +34,6 @@ namespace CriThink.Client.Core.ViewModels
             };
 
             BottomViewTabs = tabs;
-
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
@@ -55,8 +54,8 @@ namespace CriThink.Client.Core.ViewModels
 
         public override async Task Initialize()
         {
-            await base.Initialize().ConfigureAwait(false);
 
+            await base.Initialize().ConfigureAwait(false);
             var user = await _identityService.GetLoggedUserAccessAsync().ConfigureAwait(false);
             if (user is null)
             {
