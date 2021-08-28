@@ -46,6 +46,7 @@ namespace CriThink.Server.Web.Controllers
         ///     POST: /api/identity/sign-up
         ///     {
         ///         "username": "username",
+        ///         "email": "email",
         ///         "password": "password",
         ///     }
         /// 
@@ -63,6 +64,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Consumes("multipart/form-data", "application/json")]
         [HttpPost]
         public async Task<IActionResult> SignUpUserAsync(
             [FromForm] UserSignUpRequest request,
@@ -70,7 +72,7 @@ namespace CriThink.Server.Web.Controllers
             [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
             IFormFile formFile)
         {
-            var creationResponse = await _identityService.CreateNewUserAsync(request, formFile).ConfigureAwait(false);
+            var creationResponse = await _identityService.CreateNewUserAsync(request, formFile);
             return Ok(new ApiOkResponse(creationResponse));
         }
 

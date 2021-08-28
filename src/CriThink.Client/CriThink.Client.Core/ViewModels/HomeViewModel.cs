@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
+using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Core.ViewModels.SpotFakeNews;
@@ -22,8 +23,13 @@ namespace CriThink.Client.Core.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IUserProfileService _userProfileService;
 
-        public HomeViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs)
+        public HomeViewModel(
+            IMvxNavigationService navigationService,
+            IIdentityService identityService,
+            IUserDialogs userDialogs,
+            IUserProfileService userProfileService)
         {
             var tabs = new List<BaseBottomViewViewModel>
             {
@@ -37,9 +43,17 @@ namespace CriThink.Client.Core.ViewModels
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
         }
 
         #region Properties
+
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set => SetProperty(ref _user, value);
+        }
 
         public List<BaseBottomViewViewModel> BottomViewTabs { get; }
 
@@ -64,6 +78,11 @@ namespace CriThink.Client.Core.ViewModels
                     {
                         {MvxBundleConstaints.ClearBackStack, ""}
                     })).ConfigureAwait(true);
+            }
+            var userProfile = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
+            if (userProfile != null)
+            {
+                User = userProfile;
             }
         }
 

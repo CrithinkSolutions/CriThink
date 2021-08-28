@@ -16,7 +16,7 @@
 
 @section sidebarRight
 {
-    <table class="table">
+    <table class="table" id="featureT">
             <thead>
                 <tr>
                     <th>Uri</th>
@@ -35,7 +35,7 @@
                     <td>@uNews.Authenticity</td>
                     <td style="width:8%">
                         <div>
-                            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Identify" asp-route-id="@uNews.Id"><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
+                            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Identify" asp-route-id="@uNews.Id"><button class="btn btn-warning"><i class="fas fa-pen"></i></button></a>
                         </div>
                     </td>
                 </tr>
@@ -49,3 +49,21 @@
 }
 
 <div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
+
+@section Scripts
+{
+    <script text="text/javascript">
+
+        $(function(){
+
+            $('#featureT').DataTable({
+                paging: false,
+                ordering: false,
+                info: false,
+                responsive: true
+            });
+
+        }); 
+
+    </script>
+}

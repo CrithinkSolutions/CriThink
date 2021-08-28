@@ -52,17 +52,15 @@ namespace CriThink.Server.Core.Services
             _logger?.LogInformation("User profile updated", userId);
         }
 
-        public async Task<Uri> UpdateUserAvatarAsync(IFormFile formFile)
+        public async Task<Uri> UpdateUserAvatarAsync(IFormFile formFile, Guid userId)
         {
             if (formFile is null)
                 throw new ArgumentNullException(nameof(formFile));
 
-            var userId = GetUserIdFromClaims();
-
             _logger?.LogInformation("Requested user profile avatar update", userId);
 
-            var uri = await _fileService.SaveFileAsync(formFile, true, ProfileConstants.AvatarFileName, userId, ProfileConstants.ProfileFolder);
-            await UpdateUserProfileAvatarInRepositoryAsync(userId, uri.AbsoluteUri);
+            var uri = await _fileService.SaveFileAsync(formFile, true, ProfileConstants.AvatarFileName, userId.ToString(), ProfileConstants.ProfileFolder);
+            await UpdateUserProfileAvatarInRepositoryAsync(userId.ToString(), uri.AbsolutePath.Substring(1));
 
             _logger?.LogInformation("User profile avatar updated", userId);
 
@@ -78,7 +76,7 @@ namespace CriThink.Server.Core.Services
 
             var uri = await _fileService.SaveFileAsync(bytes, true, ProfileConstants.AvatarFileName, userId, ProfileConstants.ProfileFolder);
 
-            await UpdateUserProfileAvatarInRepositoryAsync(userId, uri.AbsoluteUri);
+            await UpdateUserProfileAvatarInRepositoryAsync(userId, uri.AbsoluteUri.Substring(1));
 
             _logger?.LogInformation("User profile avatar updated", userId);
 

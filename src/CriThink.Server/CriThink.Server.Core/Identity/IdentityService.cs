@@ -77,18 +77,18 @@ namespace CriThink.Server.Core.Identity
                 }
             };
 
-            if (formFile is not null)
-            {
-                var avatarUri = await _userProfileService.UpdateUserAvatarAsync(formFile);
-                user.Profile.AvatarPath = avatarUri.AbsolutePath;
-            }
-
             var userCreationResult = await _userRepository.CreateUserAsync(user, request.Password).ConfigureAwait(false);
             if (!userCreationResult.Succeeded)
             {
                 var ex = new IdentityOperationException(userCreationResult, "CreateNewUser");
                 _logger?.LogError(ex, "Error creating a new user", user);
                 throw ex;
+            }
+
+            if (formFile is not null)
+            {
+                var avatarUri = await _userProfileService.UpdateUserAvatarAsync(formFile, user.Id);
+                user.Profile.AvatarPath = avatarUri.AbsolutePath.Substring(1);
             }
 
             var claims = new List<Claim>

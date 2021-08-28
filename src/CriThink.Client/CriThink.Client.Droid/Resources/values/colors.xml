@@ -16,4 +16,5 @@
   <!-- Shimmer related -->  
   <color name="shimmerColor">#C2C2C2</color>
     
+  <color name="menuTint">#ff9600</color>
 </resources>

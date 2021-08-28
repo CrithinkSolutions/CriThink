@@ -45,7 +45,7 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
@@ -53,11 +53,15 @@
     <div class="d-flex" id="wrapper">
         @if (IsSectionDefined("sidebarLeft"))
         {
-            <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="bg-light border-right d-flex justify-content-center pl-2 pr-2" id="sidebar-default">
+                <i class="fas fa-angle-double-right fa-lg mt-3 text-muted"></i>
+            </div>
+
+            <div class="bg-light border-right d-none" id="sidebar-wrapper">
                 @RenderSection("sidebarLeft", required: false)
             </div>
         }
-        <div class="p-4 text-center m-4 w-100">
+        <div class="p-4 m-4 w-100">
             @RenderSection("sidebarRight", required: false)
             @RenderSection("pagination", required: false)
         </div>
@@ -109,6 +113,10 @@
                 document.cookie = 'isDarkMode=false;expires=';
             }
         });
+
+        $('#sidebar-default').click(() => {
+            $('#sidebar-wrapper').toggleClass('d-none');
+        })
     </script>
 
 
