@@ -34,8 +34,8 @@ namespace CriThink.Client.Core.ViewModels
             var tabs = new List<BaseBottomViewViewModel>
             {
                 Mvx.IoCProvider.IoCConstruct<NewsCheckerViewModel>(),
-                Mvx.IoCProvider.IoCConstruct<SpotFakeNewsHomeViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<HomeStatisticsViewModel>(),
+                Mvx.IoCProvider.IoCConstruct<SpotFakeNewsHomeViewModel>(),
                 Mvx.IoCProvider.IoCConstruct<AboutViewModel>(),
             };
 

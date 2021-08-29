@@ -22,8 +22,8 @@
             android:layout_height="wrap_content">
 
              <FFImageLoading.Cross.MvxSvgCachedImageView
-                android:layout_width="@dimen/imgSize_medium"
-                android:layout_height="@dimen/imgSize_medium"
+                android:layout_width="@dimen/imgSize_large"
+                android:layout_height="@dimen/imgSize_large"
                 android:id="@+id/imgProfile"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

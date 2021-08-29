@@ -11,11 +11,17 @@
 
   <!-- Padding -->
   <dimen name="padding_page">16dp</dimen>
+  <dimen name="padding_card">12dp</dimen>
+  <dimen name="padding_tag_x">12dp</dimen>
+  <dimen name="padding_tag_y">3dp</dimen>
 
   <!-- FontSize -->
   <dimen name="textSize_huge">64sp</dimen>
   <dimen name="textSize_title">32sp</dimen>
+  <dimen name="textSize_header">26sp</dimen>
   <dimen name="textSize_caption">22sp</dimen>
+  <dimen name="textSize_contentTitle">18sp</dimen>
+  <dimen name="textSize_contentSubtitle">16sp</dimen>
   <dimen name="textSize_subheader">16sp</dimen>
   <dimen name="textSize_littleBig">14sp</dimen>
   <dimen name="textSize_small">12sp</dimen>
@@ -29,8 +35,9 @@
   <dimen name="imgSize_loader">56dp</dimen>
   <dimen name="imgSize_profileSocial">24dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
-  <dimen name="imgSize_medium">60dp</dimen>
-  <dimen name="imgSize_debunkingCollection">180dp</dimen>
+  <dimen name="imgSize_large">60dp</dimen>
+  <dimen name="imgSize_medium">48dp</dimen>
+  <dimen name="imgSize_debunkingCollection">100dp</dimen>
   <dimen name="imgSize_bigLogo">80dp</dimen>
   <dimen name="imgSize_veryBigLogo">160dp</dimen>
   <dimen name="img_corners_radius">25dp</dimen>
@@ -49,5 +56,10 @@
   <dimen name="cardview_marginTopList">18dp</dimen>
   <dimen name="cardview_marginBottomList">6dp</dimen>
   <dimen name="cardview_marginSidesList">12dp</dimen>
-  
+
+  <!-- Tag -->
+  <dimen name="tag_corners_radius">18dp</dimen>
+  <dimen name="tag_width">50dp</dimen>
+
+  <dimen name="img_news_corners_radius">12dp</dimen>
 </resources>

@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:layout_marginTop="@dimen/cardview_marginTopList"
@@ -9,70 +10,67 @@
   android:layout_marginStart="@dimen/cardview_marginSidesList"
   android:layout_marginEnd="@dimen/cardview_marginSidesList"
   android:background="@android:color/white"
-  app:cardElevation="@dimen/cardview_elevation"
+  app:cardElevation="0dp"
   app:cardCornerRadius="@dimen/cardview_corners_radius">
   
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/layoutHeader"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:paddingTop="@dimen/padding_page"
-      android:paddingStart="@dimen/padding_page"
-      android:paddingEnd="@dimen/padding_page">
-      
-      <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtPublisher"
-        app:layout_constraintTop_toTopOf="parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_card">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNews"
+        android:layout_width="@dimen/imgSize_debunkingCollection"
+        android:layout_height="@dimen/imgSize_debunkingCollection"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        app:cardCornerRadius="@dimen/img_news_corners_radius"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="@font/urbanist_extrabold"
-        android:textSize="@dimen/textSize_caption" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FFImageLoading.Cross.MvxCachedImageView
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/imgSize_debunkingCollection"
-      android:id="@+id/imgNews"
-      android:scaleType="centerCrop"
-      android:layout_marginTop="@dimen/margin_medium"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/layoutTitle"
-      app:layout_constraintTop_toBottomOf="@id/imgNews"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginTop="@dimen/margin_medium"
-      android:paddingBottom="@dimen/padding_page"
-      android:paddingStart="@dimen/padding_page"
-      android:paddingEnd="@dimen/padding_page">
-
-      <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <FFImageLoading.Cross.MvxCachedImageView
+            android:layout_width="@dimen/imgSize_debunkingCollection"
+            android:layout_height="@dimen/imgSize_debunkingCollection"
+            android:id="@+id/imgNews"
+            android:background="@color/shimmerColor"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars"/>
+    </com.google.android.material.card.MaterialCardView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_news"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/cardNews"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/txtTitle"
-        android:textSize="@dimen/textSize_subheader"
-        android:fontFamily="@font/urbanist"/>
-      
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/txtTitle"
+            tools:text="Titolo notizia"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_subheader"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPublisher"
+            tools:text="Open"
+            android:textColor="@color/accent"
+            android:paddingLeft="@dimen/padding_tag_x"
+            android:paddingRight="@dimen/padding_tag_x"
+            android:paddingTop="@dimen/padding_tag_y"
+            android:paddingBottom="@dimen/padding_tag_y"
+            android:background="@drawable/bg_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"
+            android:textSize="@dimen/textSize_small" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>
