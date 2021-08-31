@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace CriThink.Server.Application.Commands
@@ -8,10 +9,15 @@ namespace CriThink.Server.Application.Commands
     /// </summary>
     public class UpdateUserProfileAvatarCommand : IRequest
     {
-        public UpdateUserProfileAvatarCommand(IFormFile formFile)
+        public UpdateUserProfileAvatarCommand(
+            Guid userId,
+            IFormFile formFile)
         {
+            UserId = userId;
             FormFile = formFile;
         }
+
+        public Guid UserId { get; }
 
         public IFormFile FormFile { get; }
     }

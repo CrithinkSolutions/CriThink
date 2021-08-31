@@ -21,6 +21,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             CancellationToken cancellationToken = default)
         {
             return dbSet
+                .Include(dnp => dnp.Language)
+                .Include(dnp => dnp.Country)
                 .SingleOrDefaultAsync(p => p.Name == name, cancellationToken);
         }
 
@@ -36,6 +38,9 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             Guid publisherId,
             CancellationToken cancellationToken = default)
         {
+            if (dbSet is null)
+                throw new ArgumentNullException(nameof(dbSet));
+
             return dbSet
                 .FindAsync(new object[] { publisherId }, cancellationToken);
         }

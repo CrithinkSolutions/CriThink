@@ -11,6 +11,15 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Ignore(dn => dn.DomainEvents);
+
+            builder.HasKey(uns => uns.Id);
+            builder.Property(uns => uns.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Property(u => u.Profile)
+                .IsRequired();
+
             builder.ToTable("users");
             builder.Ignore(property => property.TwoFactorEnabled);
             builder.Ignore(property => property.PhoneNumberConfirmed);

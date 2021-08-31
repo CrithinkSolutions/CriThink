@@ -33,7 +33,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             await using var command = new NpgsqlCommand(query, connection);
 
-            var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            var reader = await command.ExecuteReaderAsync(cancellationToken);
             await reader.ReadAsync(cancellationToken);
 
             var result = long.Parse(reader["count"].ToString());

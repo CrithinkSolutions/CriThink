@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Infrastructure.Projections
 {
@@ -11,15 +11,13 @@ namespace CriThink.Server.Infrastructure.Projections
             unknownNewsSource => unknownNewsSource.Id;
 
         internal static Expression<Func<UnknownNewsSource, UnknownNewsSource>> GetUnknownNewsSource =>
-            unknownNewsSource => new UnknownNewsSource
-            {
-                Id = unknownNewsSource.Id,
-                Uri = unknownNewsSource.Uri,
-                Authenticity = unknownNewsSource.Authenticity
-            };
+            unknownNewsSource => UnknownNewsSource.Create(
+                unknownNewsSource.Id,
+                unknownNewsSource.Uri,
+                unknownNewsSource.Authenticity);
 
-        internal static Expression<Func<UnknownNewsSource, GetAllUnknownSources>> GetAll =>
-            unknownNewsSource => new GetAllUnknownSources
+        internal static Expression<Func<UnknownNewsSource, GetAllUnknownSourcesQueryResult>> GetAll =>
+            unknownNewsSource => new GetAllUnknownSourcesQueryResult
             {
                 Id = unknownNewsSource.Id,
                 Domain = unknownNewsSource.Uri,

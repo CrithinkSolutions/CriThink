@@ -9,7 +9,23 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserSearch> builder)
         {
+            builder.Ignore(us => us.DomainEvents);
+
+            builder.HasKey(us => us.Id);
+            builder.Property(us => us.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Property(us => us.NewsLink)
+                .IsRequired();
+
+            builder.Property(us => us.Timestamp)
+                .IsRequired();
+
+            builder.Property(us => us.User)
+                .IsRequired();
+
             builder.Property(us => us.Authenticity)
+                .IsRequired()
                 .HasConversion(
                     enumValue => enumValue.ToString(),
                     stringValue => EntityEnumConverter.GetEnumValue<NewsSourceAuthenticity>(stringValue));

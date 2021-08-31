@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.Repositories;
 using CriThink.Server.Infrastructure.Data;
 using StackExchange.Redis;
 
@@ -14,12 +16,16 @@ namespace CriThink.Server.Infrastructure.Repositories
 
         private readonly CriThinkRedisMultiplexer _multiplexer;
 
-        public NewsSourceRepository(CriThinkRedisMultiplexer multiplexer)
+        public NewsSourceRepository(
+            CriThinkRedisMultiplexer multiplexer)
         {
-            _multiplexer = multiplexer ?? throw new ArgumentNullException(nameof(multiplexer));
+            _multiplexer = multiplexer ??
+                throw new ArgumentNullException(nameof(multiplexer));
         }
 
-        public Task<bool> AddNewsSourceAsync(string newsLink, NewsSourceAuthenticity authenticity)
+        public Task<bool> AddNewsSourceAsync(
+            string newsLink,
+            NewsSourceAuthenticity authenticity)
         {
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
@@ -37,17 +43,20 @@ namespace CriThink.Server.Infrastructure.Repositories
             return RemoveNewsSource(db, newsLink);
         }
 
-        public async Task<RedisValue> SearchNewsSourceAsync(string newsLink)
+        public async Task<NewsSource> SearchNewsSourceAsync(string newsLink)
         {
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
-            var whitelistValue = await db.StringGetAsync(newsLink).ConfigureAwait(false);
-            return whitelistValue;
+            var whitelistValue = await db.StringGetAsync(newsLink);
+
+            return new NewsSource(
+                newsLink,
+                whitelistValue);
         }
 
-        public IEnumerable<Tuple<RedisKey, RedisValue>> GetAllSearchNewsSources()
+        public IEnumerable<NewsSource> GetAllSearchNewsSources()
         {
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
             var server = _multiplexer.GetServer();
@@ -58,18 +67,19 @@ namespace CriThink.Server.Infrastructure.Repositories
 
         #region Privates
 
-        private static IEnumerable<Tuple<RedisKey, RedisValue>> GetNewsSources(IDatabase database, IServer server)
+        private static IEnumerable<NewsSource> GetNewsSources(IDatabase database, IServer server)
         {
             return server
                 .Keys(database.Database, "*")
                 .Select(k => ReadValue(k, database));
         }
 
-        private static Tuple<RedisKey, RedisValue> ReadValue(RedisKey key, IDatabase database)
+        private static NewsSource ReadValue(RedisKey key, IDatabase database)
         {
             var redisValue = database.StringGet(key);
-            var tuple = new Tuple<RedisKey, RedisValue>(key, redisValue);
-            return tuple;
+            return new NewsSource(
+                key,
+                redisValue);
         }
 
         private static Task RemoveNewsSource(IDatabase database, string newsLink)

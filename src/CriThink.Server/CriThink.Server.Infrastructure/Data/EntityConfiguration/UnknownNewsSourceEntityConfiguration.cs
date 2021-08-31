@@ -9,12 +9,30 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UnknownNewsSource> builder)
         {
-            builder.Property(us => us.Authenticity)
+            builder.Ignore(uns => uns.DomainEvents);
+
+            builder.HasKey(uns => uns.Id);
+            builder.Property(uns => uns.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Property(uns => uns.Uri)
+                .IsRequired();
+
+            builder.HasIndex(us => us.Uri)
+                .IsUnique();
+
+            builder.Property(uns => uns.FirstRequestedAt)
+                .IsRequired();
+
+            builder.Property(uns => uns.IdentifiedAt);
+
+            builder.Property(uns => uns.RequestCount)
+                .IsRequired();
+
+            builder.Property(uns => uns.Authenticity)
                 .HasConversion(
                     enumValue => enumValue.ToString(),
                     stringValue => EntityEnumConverter.GetEnumValue<NewsSourceAuthenticity>(stringValue));
-
-            builder.HasIndex(us => us.Uri).IsUnique();
 
             builder
                 .HasMany(r => r.NotificationQueue)

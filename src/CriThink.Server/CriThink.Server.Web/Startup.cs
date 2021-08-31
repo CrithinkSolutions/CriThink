@@ -19,7 +19,6 @@ using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.BackgroundServices;
-using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
@@ -383,11 +382,6 @@ namespace CriThink.Server.Web
 
             // Services
             services.AddSingleton<IAppVersionService, AppVersionService>();
-
-            // Facades
-            services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
-            services.AddTransient<INewsSourceFacade, NewsSourceFacade>();
-            services.AddTransient<ITriggerLogServiceFacade, TriggerLogServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
@@ -448,7 +442,8 @@ namespace CriThink.Server.Web
 
         private static void SetupAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Core.Bootstrapper));
+            services.AddAutoMapper(
+                typeof(Application.Bootstrapper));
         }
 
         private void SetupRazorAutoReload(IServiceCollection services)

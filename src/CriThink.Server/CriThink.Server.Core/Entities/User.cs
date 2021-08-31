@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,25 +9,28 @@ namespace CriThink.Server.Core.Entities
     /// <summary>
     /// Database entity representing a user. Implement the AspNetCoreIdentity framework
     /// </summary>
-    public class User : IdentityUser<Guid>, ICriThinkIdentity
+    public class User : IdentityUser<Guid>
     {
         private readonly List<RefreshToken> _refreshTokens;
         private readonly List<ArticleAnswer> _articleAnswers;
         private readonly List<UserSearch> _searches;
 
-        internal User()
-        {
-            _refreshTokens = new List<RefreshToken>();
-            _articleAnswers = new List<ArticleAnswer>();
-            _searches = new List<UserSearch>();
-        }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected User()
+        { }
 
         private User(string username, string email)
-            : this()
         {
             UserName = username;
             Email = email;
             Id = Guid.NewGuid();
+
+            _refreshTokens = new List<RefreshToken>();
+            _articleAnswers = new List<ArticleAnswer>();
+            _searches = new List<UserSearch>();
         }
 
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
@@ -42,7 +45,6 @@ namespace CriThink.Server.Core.Entities
         private DateTimeOffset? _deletionRequestedOn;
         public DateTimeOffset? DeletionRequestedOn => _deletionRequestedOn;
 
-        [Required]
         public UserProfile Profile { get; set; }
 
         public virtual ICollection<UserSearch> Searches => _searches.AsReadOnly();
@@ -102,7 +104,8 @@ namespace CriThink.Server.Core.Entities
         /// <param name="timeFromNow"></param>
         public void AddRefreshToken(string token, string remoteIpAddress, TimeSpan timeFromNow)
         {
-            _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.Add(timeFromNow), this, remoteIpAddress));
+            var refreshToken = RefreshToken.Create(token, timeFromNow, this, remoteIpAddress);
+            _refreshTokens.Add(refreshToken);
         }
 
         /// <summary>

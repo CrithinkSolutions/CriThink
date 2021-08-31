@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 
 namespace CriThink.Server.Application.Queries
@@ -8,7 +9,8 @@ namespace CriThink.Server.Application.Queries
         /// <summary>
         /// Return user profile
         /// </summary>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
-        Task<UserProfileGetResponse> GetUserProfileAsync();
+        Task<UserProfileGetResponse> GetUserProfileByUserIdAsync(Guid userId);
     }
 }

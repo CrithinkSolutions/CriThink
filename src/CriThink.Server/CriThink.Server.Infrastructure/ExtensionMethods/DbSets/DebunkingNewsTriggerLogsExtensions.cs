@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Core.QueryResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
@@ -19,7 +19,10 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
-        internal static Task<DateTime> GetMostRecentSuccessfullDateAsync(this DbSet<DebunkingNewsTriggerLog> dbSet, Expression<Func<DebunkingNewsTriggerLog, DateTime>> projection, CancellationToken cancellationToken = default)
+        internal static Task<DateTime> GetMostRecentSuccessfullDateAsync(
+            this DbSet<DebunkingNewsTriggerLog> dbSet,
+            Expression<Func<DebunkingNewsTriggerLog, DateTime>> projection,
+            CancellationToken cancellationToken = default)
         {
             return dbSet
                 .Where(log => log.IsSuccessful)
@@ -37,11 +40,11 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
-        internal static Task<List<GetAllTriggerLogQueryResponse>> GetAllDebunkingNewsTriggerLogsAsync(
+        internal static Task<List<GetAllTriggerLogQueryResult>> GetAllDebunkingNewsTriggerLogsAsync(
             this DbSet<DebunkingNewsTriggerLog> dbSet,
             int pageSize,
             int pageIndex,
-            Expression<Func<DebunkingNewsTriggerLog, GetAllTriggerLogQueryResponse>> projection,
+            Expression<Func<DebunkingNewsTriggerLog, GetAllTriggerLogQueryResult>> projection,
             CancellationToken cancellationToken = default)
         {
             return dbSet

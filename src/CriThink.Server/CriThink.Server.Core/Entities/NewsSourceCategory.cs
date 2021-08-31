@@ -1,20 +1,45 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class NewsSourceCategory : ICriThinkIdentity
+    public class NewsSourceCategory : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected NewsSourceCategory()
+        { }
 
-        [Required]
-        public NewsSourceAuthenticity Authenticity { get; set; }
+        private NewsSourceCategory(
+            Guid id,
+            string description,
+            NewsSourceAuthenticity authenticity)
+        {
+            Id = id;
+            Description = description;
+            Authenticity = authenticity;
+        }
 
-        [Required]
-        [MaxLength(2000)]
-        public string Description { get; set; }
+        public NewsSourceAuthenticity Authenticity { get; private set; }
+
+        public string Description { get; private set; }
+
+        #region Create
+
+        public static NewsSourceCategory Create(
+            Guid id,
+            string description,
+            NewsSourceAuthenticity authenticity)
+        {
+            return new NewsSourceCategory(
+                id,
+                description,
+                authenticity);
+        }
+
+        #endregion
     }
 }

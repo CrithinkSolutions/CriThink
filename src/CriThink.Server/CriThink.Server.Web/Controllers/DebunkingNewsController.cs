@@ -1,32 +1,51 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Web.Controllers
 {
     /// <summary>
-    /// This controller contains APIs to update the debunking news repository
+    /// This controller contains APIs to deal with debunking news
     /// </summary>
     [ApiVersion(EndpointConstants.VersionOne)]
     [ApiValidationFilter]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.DebunkNewsBase)]
-    public class DebunkingNewsController : Controller
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    public class DebunkingNewsController : ControllerBase
     {
-        private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IDebunkingNewsQueries _debunkingNewsQueries;
+        private readonly RequestLocalizationOptions _localizationOptions;
+        private readonly IMediator _mediator;
 
-        public DebunkingNewsController(IDebunkingNewsService debunkNewsService)
+        public DebunkingNewsController(
+            IDebunkingNewsQueries debunkingNewsQueries,
+            IOptions<RequestLocalizationOptions> localizationOptions,
+            IMediator mediator)
         {
-            _debunkingNewsService = debunkNewsService ?? throw new ArgumentNullException(nameof(debunkNewsService));
+            _debunkingNewsQueries = debunkingNewsQueries ??
+                throw new ArgumentNullException(nameof(debunkingNewsQueries));
+
+            _localizationOptions = localizationOptions.Value;
+
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
         }
 
         /// <summary>
@@ -49,11 +68,12 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> TriggerRepositoryUpdateAsync()
         {
-            await _debunkingNewsService.UpdateRepositoryAsync().ConfigureAwait(false);
+            var command = new UpdateDebunkingNewsRepositoryCommand();
+            await _mediator.Send(command);
+
             return NoContent();
         }
 
@@ -78,11 +98,25 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
         {
-            var allDebunkingNews = await _debunkingNewsService.GetAllDebunkingNewsAsync(request).ConfigureAwait(false);
+            string languageFilter = null;
+
+            var hasLanguage = Request.Headers.TryGetValue("Accept-Language", out var languageValues);
+            if (hasLanguage && languageValues.Any())
+            {
+                languageFilter = _localizationOptions.SupportedCultures
+                    .Select(sc => sc.TwoLetterISOLanguageName)
+                    .Intersect(languageValues)
+                    .Aggregate((i, j) => $"{i},{j}");
+            }
+
+            var allDebunkingNews = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
+                request.PageSize,
+                request.PageIndex,
+                languageFilter);
+
             return Ok(new ApiOkResponse(allDebunkingNews));
         }
 
@@ -108,11 +142,10 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> GetDebunkingNewsAsync([FromQuery] DebunkingNewsGetRequest request)
         {
-            var debunkingNews = await _debunkingNewsService.GetDebunkingNewsAsync(request).ConfigureAwait(false);
+            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsAsync(request.Id);
             return Ok(new ApiOkResponse(debunkingNews));
         }
     }

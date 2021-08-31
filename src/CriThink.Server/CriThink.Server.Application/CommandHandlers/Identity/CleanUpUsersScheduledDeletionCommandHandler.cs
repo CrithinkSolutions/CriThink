@@ -4,24 +4,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Core.Repositories;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Application.CommandHandlers.Identity
 {
     internal class CleanUpUsersScheduledDeletionCommandHandler : IRequestHandler<CleanUpUsersScheduledDeletionCommand>
     {
-        private readonly CriThinkDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
         private readonly IEmailSenderService _emailSender;
 
         public CleanUpUsersScheduledDeletionCommandHandler(
-            CriThinkDbContext dbContext,
+            IUserRepository userRepository,
             IEmailSenderService emailSender)
         {
-            _dbContext = dbContext ??
-                throw new ArgumentNullException(nameof(dbContext));
+            _userRepository = userRepository ??
+                throw new ArgumentNullException(nameof(userRepository));
 
             _emailSender = emailSender ??
                 throw new ArgumentNullException(nameof(emailSender));
@@ -29,7 +28,7 @@ namespace CriThink.Server.Application.CommandHandlers.Identity
 
         public async Task<Unit> Handle(CleanUpUsersScheduledDeletionCommand request, CancellationToken cancellationToken)
         {
-            var deletedUsers = await Delete(cancellationToken);
+            var deletedUsers = await DeleteAsync();
 
             foreach (var user in deletedUsers)
             {
@@ -39,19 +38,9 @@ namespace CriThink.Server.Application.CommandHandlers.Identity
             return Unit.Value;
         }
 
-        private async Task<List<User>> Delete(CancellationToken cancellationToken)
+        private async Task<IList<User>> DeleteAsync()
         {
-            const string sqlCommand = "DELETE FROM users\n" +
-                                      "WHERE deletion_scheduled_on < now() AT TIME ZONE 'UTC'\n" +
-                                      "RETURNING *";
-
-            var deletedUsers = await _dbContext.Users
-                .FromSqlRaw(sqlCommand)
-                .AsNoTracking()
-                .ToListAsync();
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
+            var deletedUsers = await _userRepository.DeleteUserScheduledDeletionAsync();
             return deletedUsers;
         }
     }

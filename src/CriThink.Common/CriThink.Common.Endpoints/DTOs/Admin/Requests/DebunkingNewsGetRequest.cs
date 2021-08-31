@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 // ReSharper disable once CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.Admin
 {
-    public class DebunkingNewsGetRequest : IValidatableObject, IQueryStringRequest
+    public class DebunkingNewsGetRequest : IValidatableObject
     {
         [JsonPropertyName("id")]
         [Required]
@@ -19,7 +19,5 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
                 yield return new ValidationResult("Guid can't be empty", new[] { nameof(Id) });
             }
         }
-
-        public string ToQueryString() => $"{nameof(Id)}={Id.ToString().ToLowerInvariant()}";
     }
 }

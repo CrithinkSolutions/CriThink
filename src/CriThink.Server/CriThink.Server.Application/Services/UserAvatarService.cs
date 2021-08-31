@@ -55,7 +55,7 @@ namespace CriThink.Server.Application.Services
                 userId.ToString(),
                 ProfileConstants.ProfileFolder);
 
-            userProfile.AvatarPath = uri.AbsoluteUri;
+            userProfile.UpdateUserAvatar(uri.AbsoluteUri);
 
             try
             {
@@ -104,7 +104,7 @@ namespace CriThink.Server.Application.Services
                 userId.ToString(),
                 ProfileConstants.ProfileFolder);
 
-            userProfile.AvatarPath = uri.AbsoluteUri;
+            userProfile.UpdateUserAvatar(uri.AbsoluteUri);
 
             try
             {

@@ -6,8 +6,11 @@ using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
+using CriThink.Server.Providers.NewsAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -17,17 +20,38 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
     {
         private const string ImagePattern = "<img[^>]+src=\"([^\"]+)\" class=\"attachment-full size-full wp-post-image\"";
 
+        private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
+        private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly INewsScraperService _newsScraperService;
         private readonly Uri _webSiteUri;
         private readonly IReadOnlyList<string> _feedCategories;
         private readonly HttpClient _httpClient;
         private readonly ILogger<FactaNewsFetcher> _logger;
 
-        public FactaNewsFetcher(IHttpClientFactory httpClientFactory, IOptions<FactaNewsSettings> options, ILogger<FactaNewsFetcher> logger)
+        private DebunkingNewsPublisher _cachedDebunkingNewsPublisher;
+
+        public FactaNewsFetcher(
+            IHttpClientFactory httpClientFactory,
+            IDebunkingNewsPublisherService debunkingNewsPublisherService,
+            ITextAnalyticsService textAnalyticsService,
+            INewsScraperService newsScraperService,
+            IOptions<FactaNewsSettings> options,
+            ILogger<FactaNewsFetcher> logger)
         {
             if (httpClientFactory is null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.FactaNewsHttpClientName);
+
+            _debunkingNewsPublisherService = debunkingNewsPublisherService ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherService));
+
+            _textAnalyticsService = textAnalyticsService ??
+                throw new ArgumentNullException(nameof(_textAnalyticsService));
+
+            _newsScraperService = newsScraperService ??
+                throw new ArgumentNullException(nameof(newsScraperService));
+
             _logger = logger;
 
             _webSiteUri = options.Value.Uri;
@@ -39,7 +63,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             var analysisTask = Task.Run(async () =>
             {
                 _logger?.LogInformation("FactaNews fetcher is running");
-                return await RunFetcherAsync().ConfigureAwait(false);
+                return await RunFetcherAsync();
             });
 
             Queue.Enqueue(analysisTask);
@@ -52,14 +76,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
             try
             {
-                feed = await GetSyndicationFeedAsync().ConfigureAwait(false);
+                feed = await GetSyndicationFeedAsync();
             }
             catch (Exception ex)
             {
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{_webSiteUri}'");
             }
 
-            var list = await ReadFeedAsync(feed).ConfigureAwait(false);
+            var list = await ReadFeedAsync(feed);
 
             return new DebunkingNewsProviderResult(list);
         }
@@ -68,7 +92,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             try
             {
-                var result = await _httpClient.GetStreamAsync(_webSiteUri).ConfigureAwait(false);
+                var result = await _httpClient.GetStreamAsync(_webSiteUri);
 
                 using var xmlReader = XmlReader.Create(result);
                 var feed = SyndicationFeed.Load(xmlReader);
@@ -81,43 +105,82 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNewsResponse>> ReadFeedAsync(SyndicationFeed feed)
+        private async Task<IList<DebunkingNews>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNewsResponse>();
+            var list = new List<DebunkingNews>();
 
-            foreach (var item in feed.Items)
+            foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
-                foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
-                {
-                    if (!_feedCategories.Contains(categoryName)) continue;
-
-                    try
-                    {
-                        var link = GetLink(item);
-                        var imageUri = await GetNewsImageAsync(link).ConfigureAwait(false);
-
-                        list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
-                        break;
-                    }
-                    catch (LinkUnavailableException ex)
-                    {
-                        _logger?.LogError(ex, $"Can't get link of FactaNews news {item.Title.Text}", item.Id);
-                    }
-                }
+                await ReadCategoriesAsync(list, item);
             }
 
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse(
+                var debunkingNews = DebunkingNews.Create(
                     "QUESTA FEDINA PENALE DI GEORGE FLOYD CONTIENE DIVERSE IMPRECISIONI",
                     "https://facta.news/notizia-imprecisa/2021/06/24/questa-fedina-penale-di-george-floyd-contiene-diverse-imprecisioni/",
                     "https://facta.news/wp-content/uploads/2021/06/xFloyd.jpg.pagespeed.ic.7MQc0WD7NF.webp",
-                    DateTime.Now));
+                    DateTime.Now);
+
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FactaNews);
+
+                list.Add(debunkingNews);
             }
 #endif
 
             return list;
+        }
+
+        private async Task ReadCategoriesAsync(IList<DebunkingNews> debunkingNewsCollector, SyndicationItem item)
+        {
+            foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
+            {
+                if (!_feedCategories.Contains(categoryName))
+                    continue;
+
+                var debunkingNews = await ReadItemAsync(item);
+
+                debunkingNewsCollector.Add(debunkingNews);
+                break;
+            }
+        }
+
+        private async Task<DebunkingNews> ReadItemAsync(SyndicationItem item)
+        {
+            try
+            {
+                var link = GetLink(item);
+                var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+                var imageUri = await GetNewsImageAsync(link);
+
+                var debunkingNews = DebunkingNews.Create(
+                    item.Title.Text,
+                    link,
+                    imageUri,
+                    item.PublishDate);
+
+                if (_cachedDebunkingNewsPublisher is null)
+                {
+                    await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FactaNews);
+                    _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                }
+                else
+                {
+                    debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                }
+
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
+                debunkingNews.SetKeywords(keywords);
+
+                return debunkingNews;
+            }
+            catch (LinkUnavailableException ex)
+            {
+                _logger?.LogError(ex, $"Can't get link of FactaNews news {item.Title.Text}", item.Id);
+                throw;
+            }
         }
 
         private static string GetLink(SyndicationItem item)
@@ -139,7 +202,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
         private async Task<string> GetNewsImageAsync(string link)
         {
-            var html = await _httpClient.GetStringAsync(link).ConfigureAwait(false);
+            var html = await _httpClient.GetStringAsync(link);
 
             var match = Regex.Match(html, ImagePattern);
             if (match.Groups is null || match.Groups.Count < 2)

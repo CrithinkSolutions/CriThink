@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class ArticleAnswer : ICriThinkIdentity
+    public class ArticleAnswer : Entity<Guid>
     {
         /// <summary>
         /// Default constructor used by migrations
@@ -28,10 +27,6 @@ namespace CriThink.Server.Core.Entities
             NewsLink = newsLink;
             User = user ?? throw new ArgumentNullException(nameof(user));
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
 
         [Required]
         [Range(1, 1000)]

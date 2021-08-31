@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
@@ -26,8 +27,8 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.UserProfileBase)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileQueries _userProfileQueries;
@@ -126,7 +127,11 @@ namespace CriThink.Server.Web.Controllers
             [Required]
             IFormFile formFile)
         {
-            var command = new UpdateUserProfileAvatarCommand(formFile);
+            var userId = User.GetId();
+
+            var command = new UpdateUserProfileAvatarCommand(
+                userId,
+                formFile);
 
             await _mediator.Send(command);
             return NoContent();
@@ -152,7 +157,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserDetailsAsync()
         {
-            var response = await _userProfileQueries.GetUserProfileAsync();
+            var userId = User.GetId();
+
+            var response = await _userProfileQueries.GetUserProfileByUserIdAsync(userId);
             return Ok(new ApiOkResponse(response));
         }
     }

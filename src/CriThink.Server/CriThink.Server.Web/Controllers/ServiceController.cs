@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -19,12 +20,14 @@ namespace CriThink.Server.Web.Controllers
     [ApiValidationFilter]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.ServiceBase)]
-    public class ServiceController : Controller
+    public class ServiceController : ControllerBase
     {
         private readonly IAppVersionService _appService;
         private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IAppVersionService appService, ILogger<ServiceController> logger)
+        public ServiceController(
+            IAppVersionService appService,
+            ILogger<ServiceController> logger)
         {
             _appService = appService ?? throw new ArgumentNullException(nameof(appService));
             _logger = logger;
@@ -45,7 +48,7 @@ namespace CriThink.Server.Web.Controllers
         [Route(EndpointConstants.ServiceEnvironment)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-        [Produces("text/plain")]
+        [Produces(MediaTypeNames.Text.Plain)]
         [HttpGet]
         public IActionResult GetEnvironment()
         {

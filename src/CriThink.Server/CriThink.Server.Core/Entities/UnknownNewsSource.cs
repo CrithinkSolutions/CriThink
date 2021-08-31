@@ -1,28 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using CriThink.Server.Core.Commands;
 
-#pragma warning disable CA2227 // Collection properties should be read only
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownNewsSource : ICriThinkIdentity
+    public class UnknownNewsSource : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected UnknownNewsSource()
+        { }
 
-        [Required]
-        public string Uri { get; set; }
+        private UnknownNewsSource(
+            Guid id,
+            string link,
+            NewsSourceAuthenticity authenticity)
+        {
+            Id = id;
+            Uri = link;
+            Authenticity = authenticity;
+        }
 
-        public DateTime FirstRequestedAt { get; set; }
+        public string Uri { get; private set; }
 
-        public DateTime? IdentifiedAt { get; set; }
+        public DateTimeOffset FirstRequestedAt { get; private set; }
 
-        public int RequestCount { get; set; }
+        public DateTimeOffset? IdentifiedAt { get; private set; }
 
-        public NewsSourceAuthenticity Authenticity { get; set; }
+        public int RequestCount { get; private set; }
 
-        public ICollection<UnknownNewsSourceNotificationRequest> NotificationQueue { get; set; }
+        public NewsSourceAuthenticity Authenticity { get; private set; }
+
+        public ICollection<UnknownNewsSourceNotificationRequest> NotificationQueue { get; private set; }
+
+        #region Create
+
+        public static UnknownNewsSource Create(
+            Guid id,
+            string link,
+            NewsSourceAuthenticity authenticity)
+        {
+            return new UnknownNewsSource(
+                id,
+                link,
+                authenticity);
+        }
+
+        #endregion
+
+        public void UpdateIdentifiedAt(DateTime utcNow)
+        {
+            IdentifiedAt = utcNow;
+        }
+
+        public void UpdateAuthenticity(NewsSourceAuthenticity classification)
+        {
+            Authenticity = classification;
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
         public async Task<UserSignUpResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            _logger?.LogInformation("Add User");
+            _logger?.LogInformation(nameof(CreateUserCommandHandler));
 
             var user = User.Create(
                 request.Username,
@@ -61,7 +61,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), confirmationCode, user.UserName);
 
-            _logger?.LogInformation("Add User: done");
+            _logger?.LogInformation($"{nameof(CreateUserCommandHandler)}: done");
 
             return new UserSignUpResponse
             {

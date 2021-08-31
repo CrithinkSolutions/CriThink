@@ -9,6 +9,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
+            builder.Ignore(dn => dn.DomainEvents);
+
             builder.ToTable("user_roles");
 
             SeedData(builder);
@@ -16,13 +18,10 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<UserRole> builder)
         {
-            var adminRole = new UserRole
-            {
-                Id = Guid.Parse("EC1405D9-5E55-401A-B469-37A44ECD211F"),
-                Name = "Admin",
-                NormalizedName = "ADMIN",
-                ConcurrencyStamp = "15b1b12c-4dff-413e-81d5-7c9423f25c35"
-            };
+            var adminRole = UserRole.Create(
+                Guid.Parse("EC1405D9-5E55-401A-B469-37A44ECD211F"),
+                "Admin",
+                "15b1b12c-4dff-413e-81d5-7c9423f25c35");
 
             builder.HasData(adminRole);
         }

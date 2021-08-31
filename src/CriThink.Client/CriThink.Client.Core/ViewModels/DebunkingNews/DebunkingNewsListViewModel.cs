@@ -97,7 +97,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                 {
                     PageSize = PageSize,
                     PageIndex = _pageIndex,
-                    LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
+                    LanguageFilters = GetAllDebunkingNewsLanguageFiltersRequest.None,
                 };
 
                 var debunkinNewsCollection = await _debunkingNewsService

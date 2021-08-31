@@ -7,8 +7,12 @@ namespace CriThink.Server.Core.Repositories
 {
     public interface IUserProfileRepository : IRepository<UserProfile>
     {
-        Task<UserProfile> GetUserProfileByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+        Task<UserProfile> GetUserProfileByUserIdAsync(
+            Guid userId,
+            CancellationToken cancellationToken = default);
 
-        UserProfile SaveUserProfileAsync(UserProfile userProfile);
+        UserProfile SaveUserProfileAsync(
+            UserProfile userProfile,
+            CancellationToken cancellationToken = default);
     }
 }

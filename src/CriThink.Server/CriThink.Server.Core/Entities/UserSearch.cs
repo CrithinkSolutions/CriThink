@@ -1,30 +1,53 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UserSearch : ICriThinkIdentity
+    public class UserSearch : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        protected UserSearch()
+        { }
 
-        [Required]
-        public string NewsLink { get; set; }
+        private UserSearch(
+            Guid userId,
+            string newsLink,
+            NewsSourceAuthenticity authenticity)
+        {
+            UserId = userId;
+            NewsLink = newsLink;
+            Authenticity = authenticity;
+            Timestamp = DateTimeOffset.UtcNow;
+        }
 
-        [Required]
-        public NewsSourceAuthenticity Authenticity { get; set; }
+        public string NewsLink { get; private set; }
 
-        [Required]
-        public DateTimeOffset Timestamp { get; set; }
+        public NewsSourceAuthenticity Authenticity { get; private set; }
+
+        public DateTimeOffset Timestamp { get; private set; }
 
         #region Foreign Key
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; private set; }
 
-        [Required]
-        public User User { get; set; }
+        public User User { get; private set; }
+
+        #endregion
+
+        #region Create
+
+        public static UserSearch Create(
+            Guid userId,
+            string newsLink,
+            NewsSourceAuthenticity authenticity)
+        {
+            return new UserSearch(
+                userId,
+                newsLink,
+                authenticity);
+        }
 
         #endregion
     }

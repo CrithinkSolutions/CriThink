@@ -1,48 +1,34 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Infrastructure.Data;
-using CriThink.Server.Infrastructure.ExtensionMethods;
+using CriThink.Server.Core.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.CommandHandlers
 {
-    internal class DeleteLoggedUserCommandHandler : IRequestHandler<DeleteLoggedUserCommand, UserSoftDeletionResponse>
+    internal class DeleteLoggedUserCommandHandler : IRequestHandler<DeleteUserCommand, UserSoftDeletionResponse>
     {
-        private readonly HttpContext _httpContext;
-        private readonly CriThinkDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<DeleteLoggedUserCommandHandler> _logger;
 
         public DeleteLoggedUserCommandHandler(
-            IHttpContextAccessor httpContext,
-            CriThinkDbContext dbContext,
+            IUserRepository userRepository,
             ILogger<DeleteLoggedUserCommandHandler> logger)
         {
-            _httpContext = httpContext.HttpContext;
-
-            _dbContext = dbContext ??
-                throw new ArgumentNullException(nameof(dbContext));
+            _userRepository = userRepository ??
+                throw new ArgumentNullException(nameof(userRepository));
 
             _logger = logger;
         }
 
-        public async Task<UserSoftDeletionResponse> Handle(DeleteLoggedUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserSoftDeletionResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             _logger?.LogInformation("DeleteLoggedUser");
 
-            var userId = _httpContext.User.GetId();
-
-            var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Id == userId);
-
-            user.Delete();
-
-            await _dbContext.SaveChangesAsync();
+            var user = await _userRepository.DeleteUserByIdAsync(request.Id);
 
             _logger?.LogInformation("DeleteLoggedUser: done");
 

@@ -27,7 +27,7 @@ namespace CriThink.Client.Core.Services
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
+                LanguageFilters = GetAllDebunkingNewsLanguageFiltersRequest.None,
             };
 
             var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
@@ -37,11 +37,11 @@ namespace CriThink.Client.Core.Services
                 switch (currentArea)
                 {
                     case "it":
-                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.Italian;
+                        request.LanguageFilters = GetAllDebunkingNewsLanguageFiltersRequest.Italian;
                         break;
                     case "gb":
                     case "us":
-                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.English;
+                        request.LanguageFilters = GetAllDebunkingNewsLanguageFiltersRequest.English;
                         break;
                 }
             }

@@ -38,7 +38,7 @@ namespace CriThink.Client.Core.Services
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.ToQueryString()}", async entry =>
+            return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.PageIndex}_{request.PageSize}_{request.LanguageFilters}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 return await _debunkingNewsService.GetDebunkingNewsAsync(request, cancellationToken).ConfigureAwait(false);

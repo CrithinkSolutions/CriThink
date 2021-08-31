@@ -25,5 +25,8 @@ namespace CriThink.Common.Endpoints.DTOs.Admin
 
         [JsonPropertyName("newsImageLink")]
         public string NewsImageLink { get; set; }
+
+        [JsonPropertyName("newsCaption")]
+        public string NewsCaption { get; set; }
     }
 }

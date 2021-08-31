@@ -2,6 +2,7 @@
 using CriThink.Server.Providers.DebunkingNewsFetcher.Builders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Providers;
+using CriThink.Server.Providers.NewsAnalyzer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CriThink.Server.Providers.DebunkingNewsFetcher
@@ -23,6 +24,8 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
         /// <param name="serviceCollection">The IoC container</param>
         public static void AddDebunkNewsFetcherProvider(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddNewsAnalyzerProvider();
+
             serviceCollection.AddHttpClient(OpenOnlineHttpClientName);
 
             serviceCollection.AddHttpClient(Channel4HttpClientName);

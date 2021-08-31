@@ -7,9 +7,7 @@ using CriThink.Server.Infrastructure.Identity;
 using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
 using CriThink.Server.Infrastructure.Services;
-using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.EmailSender;
-using CriThink.Server.Providers.NewsAnalyzer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -32,8 +30,6 @@ namespace CriThink.Server.Infrastructure
             SetupHttpClient(serviceCollection);
 
             // Providers
-            serviceCollection.AddNewsAnalyzerProvider();
-            serviceCollection.AddDebunkNewsFetcherProvider();
             serviceCollection.AddEmailSenderProvider();
 
             // Managers
@@ -45,6 +41,15 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
             serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            serviceCollection.AddScoped<IDebunkingNewsRepository, DebunkingNewsRepository>();
+            serviceCollection.AddScoped<IDebunkingNewsPublisherRepository, DebunkingNewsPublisherRepository>();
+            serviceCollection.AddScoped<INewsSourceCategoriesRepository, NewsSourceCategoriesRepository>();
+            serviceCollection.AddScoped<INotificationRepository, NotificationRepository>();
+            serviceCollection.AddScoped<INewsSourceQuestionRepository, NewsSourceQuestionRepository>();
+            serviceCollection.AddScoped<IUnknownNewsSourcesRepository, UnknownNewsSourcesRepository>();
+            serviceCollection.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            serviceCollection.AddScoped<INewsSourceAnswersRepository, NewsSourceAnswersRepository>();
+            serviceCollection.AddScoped<IDebunkingNewsTriggerLogRepository, DebunkingNewsTriggerLogRepository>();
 
             // Services
             serviceCollection.AddScoped<IFileService>(sp =>

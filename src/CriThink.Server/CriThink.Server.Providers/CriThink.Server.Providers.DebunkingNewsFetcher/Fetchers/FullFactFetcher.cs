@@ -5,8 +5,11 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
+using CriThink.Server.Providers.NewsAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -17,9 +20,20 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         private static Uri WebSiteUri;
 
         private readonly HttpClient _httpClient;
+        private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
+        private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly INewsScraperService _newsScraperService;
         private readonly ILogger<FullFactFetcher> _logger;
 
-        public FullFactFetcher(IHttpClientFactory httpClientFactory, IOptions<FullFactSettings> options, ILogger<FullFactFetcher> logger)
+        private DebunkingNewsPublisher _cachedDebunkingNewsPublisher;
+
+        public FullFactFetcher(
+            IHttpClientFactory httpClientFactory,
+            IDebunkingNewsPublisherService debunkingNewsPublisherService,
+            ITextAnalyticsService textAnalyticsService,
+            INewsScraperService newsScraperService,
+            IOptions<FullFactSettings> options,
+            ILogger<FullFactFetcher> logger)
         {
             if (httpClientFactory is null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
@@ -28,6 +42,16 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 throw new ArgumentNullException(nameof(options));
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.FullFactHttpClientName);
+
+            _debunkingNewsPublisherService = debunkingNewsPublisherService ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherService));
+
+            _textAnalyticsService = textAnalyticsService ??
+                throw new ArgumentNullException(nameof(_textAnalyticsService));
+
+            _newsScraperService = newsScraperService ??
+                throw new ArgumentNullException(nameof(newsScraperService));
+
             _logger = logger;
 
             WebSiteUri = options.Value.Uri;
@@ -58,7 +82,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
-            var list = ReadFeed(feed);
+            var list = await ReadFeedAsync(feed);
             return new DebunkingNewsProviderResult(list);
         }
 
@@ -79,16 +103,16 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private IList<DebunkingNewsResponse> ReadFeed(SyndicationFeed feed)
+        private async Task<IList<DebunkingNews>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNewsResponse>();
+            var list = new List<DebunkingNews>();
 
-            foreach (var item in feed.Items)
+            foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
                 try
                 {
-                    var link = GetLink(item);
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, item.PublishDate));
+                    var debunkingNews = await ReadItemAsync(item);
+                    list.Add(debunkingNews);
                 }
                 catch (LinkUnavailableException ex)
                 {
@@ -99,15 +123,46 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse(
+                var debunkingNews = DebunkingNews.Create(
                     "Hydroxychloroquine study not all that it seems",
                     "https://fullfact.org/online/hydroxychloroquine-200-per-cent/",
                     string.Empty,
-                    DateTime.Now));
+                    DateTime.Now);
+
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
+
+                list.Add(debunkingNews);
             }
 #endif
 
             return list;
+        }
+
+        private async Task<DebunkingNews> ReadItemAsync(SyndicationItem item)
+        {
+            var link = GetLink(item);
+
+            var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+            var debunkingNews = DebunkingNews.Create(
+               item.Title.Text,
+               link,
+               item.PublishDate);
+
+            if (_cachedDebunkingNewsPublisher is null)
+            {
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
+                _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+            }
+            else
+            {
+                debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+            }
+
+            var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
+            debunkingNews.SetKeywords(keywords);
+
+            return debunkingNews;
         }
 
         private static string GetLink(SyndicationItem item)

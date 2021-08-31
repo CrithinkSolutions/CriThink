@@ -2,19 +2,16 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CriThink.Server.Providers.Common;
-using CriThink.Server.Providers.NewsAnalyzer.Singletons;
 
 namespace CriThink.Server.Providers.NewsAnalyzer.Analyzers
 {
     internal class TextSentimentAnalyzer : BaseNewsAnalyzer
     {
         private readonly NewsAnalysisType _analysisType;
-        private readonly NewsAnalyticsClient _newsAnalyticsClient;
 
-        public TextSentimentAnalyzer(NewsAnalyticsClient newsAnalyticsClient)
+        public TextSentimentAnalyzer()
         {
             _analysisType = NewsAnalysisType.TextSentiment;
-            _newsAnalyticsClient = newsAnalyticsClient;
         }
 
         public override Task<NewsAnalysisProviderResult>[] AnalyzeAsync()

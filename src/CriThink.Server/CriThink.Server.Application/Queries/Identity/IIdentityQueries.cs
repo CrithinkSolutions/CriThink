@@ -18,10 +18,10 @@ namespace CriThink.Server.Application.Queries
         /// <summary>
         /// Get all users
         /// </summary>
-        /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
+        /// <param name="pageIndex">Page index</param>
         /// <returns></returns>
-        Task<UserGetAllResponse> GetAllUsersAsync(int pageIndex, int pageSize);
+        Task<UserGetAllResponse> GetAllUsersAsync(int pageSize, int pageIndex);
 
         /// <summary>
         /// Get all roles

@@ -1,41 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CA2227 // Collection properties should be read only
 namespace CriThink.Server.Core.Entities
 {
-    public class DebunkingNewsPublisher : ICriThinkIdentity
+    public class DebunkingNewsPublisher : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected DebunkingNewsPublisher()
+        { }
 
-        [Required]
-        public string Name { get; set; }
+        private DebunkingNewsPublisher(
+            Guid id,
+            string name,
+            string link,
+            string description,
+            string opinion,
+            string facebookPage,
+            string instagramProfile,
+            string twitterProfile,
+            Guid countryId,
+            Guid languageId)
+        {
+            Id = id;
+            Name = name;
+            Link = link;
+            Description = description;
+            Opinion = opinion;
+            FacebookPage = facebookPage;
+            InstagramProfile = instagramProfile;
+            TwitterProfile = twitterProfile;
+            Country = DebunkingNewsCountry.Create(countryId);
+            Language = DebunkingNewsLanguage.Create(languageId);
+        }
 
-        [Required]
-        public string Link { get; set; }
+        public string Name { get; private set; }
 
-        public string Description { get; set; }
+        public string Link { get; private set; }
 
-        public string Opinion { get; set; }
+        public string Description { get; private set; }
 
-        public string FacebookPage { get; set; }
+        public string Opinion { get; private set; }
 
-        public string InstagramProfile { get; set; }
+        public string FacebookPage { get; private set; }
 
-        public string TwitterProfile { get; set; }
+        public string InstagramProfile { get; private set; }
+
+        public string TwitterProfile { get; private set; }
 
         #region Foreign Keys
 
-        [Required]
-        public DebunkingNewsLanguage Language { get; set; }
+        public virtual DebunkingNewsLanguage Language { get; private set; }
 
-        [Required]
-        public DebunkingNewsCountry Country { get; set; }
+        public virtual DebunkingNewsCountry Country { get; private set; }
 
-        public ICollection<DebunkingNews> DebunkingNews { get; set; }
+        public static DebunkingNewsPublisher Create(
+            Guid id,
+            string name,
+            string link,
+            string description,
+            string opinion,
+            string facebook,
+            string instagram,
+            string twitter,
+            Guid countryId,
+            Guid languageId)
+        {
+            return new DebunkingNewsPublisher(
+                id,
+                name,
+                link,
+                description,
+                opinion,
+                facebook,
+                instagram,
+                twitter,
+                countryId,
+                languageId);
+        }
+
+        public virtual ICollection<DebunkingNews> DebunkingNews { get; private set; }
 
         #endregion
     }

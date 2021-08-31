@@ -6,7 +6,8 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Providers
 {
     internal class DebunkingNewsProvider : IDebunkingNewsProvider
     {
-        public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder)
+        public Task<DebunkingNewsProviderResult>[] StartFetcherAsync(
+            DebunkingNewsFetcherBuilder fetcherBuilder)
         {
             return fetcherBuilder
                 .BuildFetchers()
@@ -21,6 +22,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Providers
         /// </summary>
         /// <param name="fetcherBuilder">The request containing the list of debunking news publishers</param>
         /// <returns>The fetcher results</returns>
-        Task<DebunkingNewsProviderResult>[] StartFetcherAsync(DebunkingNewsFetcherBuilder fetcherBuilder);
+        Task<DebunkingNewsProviderResult>[] StartFetcherAsync(
+            DebunkingNewsFetcherBuilder fetcherBuilder);
     }
 }

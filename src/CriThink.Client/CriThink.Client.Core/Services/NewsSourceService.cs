@@ -105,13 +105,9 @@ namespace CriThink.Client.Core.Services
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
-            var currentUser = await _userProfileService.GetUserProfileAsync(cancellationToken).ConfigureAwait(false);
-            var userEmail = currentUser.Email;
-
             var request = new NewsSourceNotificationForUnknownDomainRequest
             {
-                Uri = newsLink,
-                Email = userEmail,
+                NewsSource = newsLink,
             };
 
             try

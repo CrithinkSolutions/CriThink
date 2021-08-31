@@ -1,9 +1,11 @@
 using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using MediatR;
@@ -22,8 +24,8 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class IdentityController : Controller
     {
         private readonly IMediator _mediator;
@@ -419,7 +421,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteUserAsync()
         {
-            var command = new DeleteLoggedUserCommand();
+            var userId = User.GetId();
+
+            var command = new DeleteUserCommand(userId);
 
             var response = await _mediator.Send(command);
             return Ok(new ApiOkResponse(response));

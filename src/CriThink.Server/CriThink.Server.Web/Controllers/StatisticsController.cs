@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Statistics;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -18,8 +20,8 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.StatisticsBase)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class StatisticsController : ControllerBase
     {
         private readonly IStatisticsQueries _statisticsQueries;
@@ -75,7 +77,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTotalUserSearchesAsync()
         {
-            var userTotalSearches = await _statisticsQueries.GetUserTotalSearchesAsync();
+            var userId = User.GetId();
+
+            var userTotalSearches = await _statisticsQueries.GetTotalSearchesByUserIdAsync(userId);
             return Ok(new ApiOkResponse(userTotalSearches));
         }
     }

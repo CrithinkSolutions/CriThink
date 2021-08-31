@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Helpers;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Repositories;
+using CriThink.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,11 +18,21 @@ namespace CriThink.Server.Infrastructure.Identity
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly CriThinkDbContext _dbContext;
 
-        public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserRepository(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            CriThinkDbContext dbContext)
         {
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+            _userManager = userManager ??
+                throw new ArgumentNullException(nameof(userManager));
+
+            _signInManager = signInManager ??
+                throw new ArgumentNullException(nameof(signInManager));
+
+            _dbContext = dbContext ??
+                throw new ArgumentNullException(nameof(dbContext));
         }
 
         public Task<IdentityResult> CreateUserAsync(User user, string plainPassword = null)
@@ -89,8 +100,7 @@ namespace CriThink.Server.Infrastructure.Identity
             }
 
             return await query
-                .SingleOrDefaultAsync(whereClause, cancellationToken)
-                .ConfigureAwait(false);
+                .SingleOrDefaultAsync(whereClause, cancellationToken);
         }
 
         public Task<IdentityResult> ConfirmUserEmailAsync(User user, string encodedConfirmationCode)
@@ -220,6 +230,34 @@ namespace CriThink.Server.Infrastructure.Identity
         public Task SignInAsync(User user, bool isPersistent)
         {
             return _signInManager.SignInAsync(user, isPersistent);
+        }
+
+        public async Task<IList<User>> DeleteUserScheduledDeletionAsync()
+        {
+            const string sqlCommand = "DELETE FROM users\n" +
+                                      "WHERE deletion_scheduled_on < now() AT TIME ZONE 'UTC'\n" +
+                                      "RETURNING *";
+
+            var deletedUsers = await _dbContext.Users
+                .FromSqlRaw(sqlCommand)
+                .AsNoTracking()
+                .ToListAsync();
+
+            await _dbContext.SaveChangesAsync();
+
+            return deletedUsers;
+        }
+
+        public async Task<User> DeleteUserByIdAsync(Guid id)
+        {
+            var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Id == id);
+
+            user.Delete();
+
+            await _dbContext.SaveChangesAsync();
+
+            return user;
         }
     }
 }

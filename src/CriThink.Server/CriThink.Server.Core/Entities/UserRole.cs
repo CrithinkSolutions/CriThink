@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Identity;
 
 namespace CriThink.Server.Core.Entities
@@ -6,22 +7,39 @@ namespace CriThink.Server.Core.Entities
     /// <summary>
     /// Entity to customize the AspNetCore.IdentityRole class
     /// </summary>
-    public sealed class UserRole : IdentityRole<Guid>, ICriThinkIdentity
+    public class UserRole : IdentityRole<Guid>
     {
         /// <summary>
-        /// Default constructor used by migrations
+        /// EF reserved constructor
         /// </summary>
-        public UserRole()
+        [ExcludeFromCodeCoverage]
+        protected UserRole()
         { }
 
-        /// <summary>
-        /// Creates a new role
-        /// </summary>
-        /// <param name="name">Role name</param>
-        public UserRole(string name)
+        private UserRole(
+            Guid id,
+            string roleName,
+            string concurrencyStamp)
         {
-            Id = Guid.NewGuid();
-            Name = name;
+            Id = id;
+            Name = roleName;
+            NormalizedName = roleName?.ToUpperInvariant();
+            ConcurrencyStamp = concurrencyStamp;
         }
+
+        #region Create
+
+        public static UserRole Create(
+            Guid id,
+            string roleName,
+            string concurrencyStamp)
+        {
+            return new UserRole(
+                id,
+                roleName,
+                concurrencyStamp);
+        }
+
+        #endregion
     }
 }

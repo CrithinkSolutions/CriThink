@@ -43,8 +43,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var users = await _identityQueries.GetAllUsersAsync(
-                viewModel.PageIndex,
-                viewModel.PageSize);
+                viewModel.PageSize,
+                viewModel.PageIndex);
 
             return View(users);
         }

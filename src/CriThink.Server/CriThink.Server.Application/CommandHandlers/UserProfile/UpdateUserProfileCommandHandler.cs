@@ -35,20 +35,20 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw new ResourceNotFoundException(nameof(userProfile));
             }
 
-            userProfile.FamilyName = request.FamilyName;
-            userProfile.GivenName = request.GivenName;
-            userProfile.Description = request.Description;
-            userProfile.Gender = request.Gender;
-            userProfile.Country = request.Country;
-            userProfile.Telegram = request.Telegram;
-            userProfile.Skype = request.Skype;
-            userProfile.Twitter = request.Twitter;
-            userProfile.Instagram = request.Instagram;
-            userProfile.Facebook = request.Facebook;
-            userProfile.Snapchat = request.Snapchat;
-            userProfile.Youtube = request.Youtube;
-            userProfile.Blog = request.Blog;
-            userProfile.DateOfBirth = request.DateOfBirth;
+            userProfile.UpdateFamilyName(request.FamilyName);
+            userProfile.UpdateGivenName(request.GivenName);
+            userProfile.UpdateDescription(request.Description);
+            userProfile.UpdateGender(request.Gender);
+            userProfile.UpdateCountry(request.Country);
+            userProfile.UpdateTelegram(request.Telegram);
+            userProfile.UpdateSkype(request.Skype);
+            userProfile.UpdateTwitter(request.Twitter);
+            userProfile.UpdateInstagram(request.Instagram);
+            userProfile.UpdateFacebook(request.Facebook);
+            userProfile.UpdateSnapchat(request.Snapchat);
+            userProfile.UpdateYoutube(request.Youtube);
+            userProfile.UpdateBlog(request.Blog);
+            userProfile.UpdateDateOfBirth(request.DateOfBirth);
 
             _userProfileRepo.SaveUserProfileAsync(userProfile);
 

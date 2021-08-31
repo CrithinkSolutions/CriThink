@@ -6,12 +6,8 @@ namespace CriThink.Common.Endpoints.DTOs.UnknownNewsSource
 {
     public class NewsSourceNotificationForUnknownDomainRequest
     {
-        [JsonPropertyName("email")]
         [Required]
-        public string Email { get; set; }
-
-        [Required]
-        [JsonPropertyName("uri")]
-        public string Uri { get; set; }
+        [JsonPropertyName("newsSource")]
+        public string NewsSource { get; set; }
     }
 }

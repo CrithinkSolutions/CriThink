@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Statistics;
 
 namespace CriThink.Server.Application.Queries
@@ -14,9 +15,10 @@ namespace CriThink.Server.Application.Queries
         Task<PlatformDataUsageResponse> GetPlatformUsageDataAsync();
 
         /// <summary>
-        /// Returns the number of total searches of the current user
+        /// Returns the number of total searches of the given user
         /// </summary>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
-        Task<SearchesCountingResponse> GetUserTotalSearchesAsync();
+        Task<SearchesCountingResponse> GetTotalSearchesByUserIdAsync(Guid userId);
     }
 }

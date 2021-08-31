@@ -4,21 +4,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Repositories;
+using CriThink.Server.Infrastructure.ExtensionMethods;
+using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.Data
 {
-    public interface ICriThinkDbContext
+    public class CriThinkDbContext : IdentityDbContext<User, UserRole, Guid>, ICriThinkDbContext, IUnitOfWork
     {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+        private readonly IMediator _mediator;
 
-    public class CriThinkDbContext : IdentityDbContext<User, UserRole, Guid>, IUnitOfWork
-    {
-        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> options)
+        public CriThinkDbContext(
+            DbContextOptions<CriThinkDbContext> options,
+            IMediator mediator)
             : base(options)
-        { }
+        {
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+        }
 
         public DbSet<ArticleAnswer> ArticleAnswers { get; set; }
 
@@ -55,8 +59,7 @@ namespace CriThink.Server.Infrastructure.Data
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            // TODO:
-            // await _mediator.DispatchDomainEventsAsync(this);
+            await _mediator.DispatchDomainEventsAsync(this);
 
             var result = await base.SaveChangesAsync(cancellationToken);
             return result >= 0;

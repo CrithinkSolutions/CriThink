@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,13 @@ namespace CriThink.Server.Core.Repositories
         /// <param name="user">Admin user</param>
         /// <returns></returns>
         Task<IdentityResult> AddClaimsToAdminUserAsync(User user);
+
+        /// <summary>
+        /// Logically delete the given user
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns></returns>
+        Task<User> DeleteUserByIdAsync(Guid id);
 
         /// <summary>
         /// Generates a token to confirm the user email
@@ -204,5 +212,11 @@ namespace CriThink.Server.Core.Repositories
         /// be persistent</param>
         /// <returns>An <see cref="Task"/></returns>
         Task SignInAsync(User user, bool isPersistent);
+
+        /// <summary>
+        /// Delete all the users which have a deletion scheduled
+        /// </summary>
+        /// <returns></returns>
+        Task<IList<User>> DeleteUserScheduledDeletionAsync();
     }
 }

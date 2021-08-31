@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
+using CriThink.Server.Providers.NewsAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 {
     internal class Channel4Fetcher : BaseFetcher
@@ -20,26 +21,46 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         private const string ImagePattern = "(?:<meta property=\"og:image\" content=\")(.+)(?:\"\\/>)";
 
         private readonly HttpClient _httpClient;
+        private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
+        private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly INewsScraperService _newsScraperService;
         private readonly ILogger<Channel4Fetcher> _logger;
+        private readonly Uri _webSiteUri;
 
-        public Channel4Fetcher(IHttpClientFactory httpClientFactory, IOptions<Channel4Settings> options, ILogger<Channel4Fetcher> logger)
+        private DebunkingNewsPublisher _cachedDebunkingNewsPublisher;
+
+        public Channel4Fetcher(
+            IHttpClientFactory httpClientFactory,
+            IDebunkingNewsPublisherService debunkingNewsPublisherService,
+            ITextAnalyticsService textAnalyticsService,
+            INewsScraperService newsScraperService,
+            IOptions<Channel4Settings> options,
+            ILogger<Channel4Fetcher> logger)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.Channel4HttpClientName);
+
+            _debunkingNewsPublisherService = debunkingNewsPublisherService ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherService));
+
+            _textAnalyticsService = textAnalyticsService ??
+                throw new ArgumentNullException(nameof(_textAnalyticsService));
+
+            _newsScraperService = newsScraperService ??
+                throw new ArgumentNullException(nameof(newsScraperService));
+
             _logger = logger;
 
-            WebSiteUri = options.Value.Uri;
+            _webSiteUri = options.Value.Uri;
         }
-
-        internal static Uri WebSiteUri { get; private set; }
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
             var analysisTask = Task.Run(async () =>
             {
-                Debug.WriteLine("Get in Channel4 fetcher");
+                _logger?.LogInformation("Get in Channel4 fetcher");
                 return await RunFetcherAsync().ConfigureAwait(false);
             });
 
@@ -57,7 +78,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
             catch (Exception ex)
             {
-                return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
+                return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{_webSiteUri}'");
             }
 
             var list = await ReadFeedAsync(feed).ConfigureAwait(false);
@@ -69,7 +90,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             try
             {
-                var result = await _httpClient.GetStreamAsync(WebSiteUri).ConfigureAwait(false);
+                var result = await _httpClient.GetStreamAsync(_webSiteUri).ConfigureAwait(false);
 
                 using var xmlReader = XmlReader.Create(result);
                 var feed = SyndicationFeed.Load(xmlReader);
@@ -82,39 +103,69 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNewsResponse>> ReadFeedAsync(SyndicationFeed feed)
+        private async Task<IList<DebunkingNews>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNewsResponse>();
+            var list = new List<DebunkingNews>();
 
-            foreach (var item in feed.Items)
+            foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
-                try
-                {
-                    var link = GetLink(item);
-                    var imageUri = await GetNewsImageAsync(link).ConfigureAwait(false);
-
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, link,
-                        imageUri,
-                        item.PublishDate));
-                }
-                catch (LinkUnavailableException ex)
-                {
-                    _logger?.LogError(ex, $"Can't get link of Channel4 news {item.Title.Text}", item.Id);
-                }
+                var debunkingNews = await ReadItemAsync(item);
+                list.Add(debunkingNews);
             }
 
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse(
+                var debunkingNews = DebunkingNews.Create(
                     "Hancock suggests ‘no evidence’ UK variant is more severe",
                     "https://www.channel4.com/news/factcheck/factcheck-hancock-suggests-no-evidence-uk-variant-is-more-severe",
                     "https://fournews-assets-prod-s3-ew1-nmprod.s3.amazonaws.com/media/2021/02/shutterstock_editorial_11661756o-1920x1080.jpg",
-                    DateTime.Now));
+                    DateTime.Now);
+
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.Channel4);
+
+                list.Add(debunkingNews);
             }
 #endif
 
             return list;
+        }
+
+        private async Task<DebunkingNews> ReadItemAsync(SyndicationItem item)
+        {
+            try
+            {
+                var link = GetLink(item);
+                var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+                var imageUri = await GetNewsImageAsync(link).ConfigureAwait(false);
+
+                var debunkingNews = DebunkingNews.Create(
+                    item.Title.Text,
+                    link,
+                    imageUri,
+                    item.PublishDate);
+
+                if (_cachedDebunkingNewsPublisher is null)
+                {
+                    await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.Channel4);
+                    _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                }
+                else
+                {
+                    debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                }
+
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
+                debunkingNews.SetKeywords(keywords);
+
+                return debunkingNews;
+            }
+            catch (LinkUnavailableException ex)
+            {
+                _logger?.LogError(ex, $"Can't get link of Channel4 news {item.Title.Text}", item.Id);
+                throw;
+            }
         }
 
         private static string GetLink(SyndicationItem item)

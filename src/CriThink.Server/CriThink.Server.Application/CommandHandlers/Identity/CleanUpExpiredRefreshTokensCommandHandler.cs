@@ -1,23 +1,25 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.CommandHandlers
 {
     internal class CleanUpExpiredRefreshTokensCommandHandler : IRequestHandler<CleanUpExpiredRefreshTokensCommand>
     {
-        private readonly CriThinkDbContext _dbContext;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly ILogger<CleanUpExpiredRefreshTokensCommandHandler> _logger;
 
         public CleanUpExpiredRefreshTokensCommandHandler(
-            CriThinkDbContext dbContext,
+            IRefreshTokenRepository refreshTokenRepository,
             ILogger<CleanUpExpiredRefreshTokensCommandHandler> logger)
         {
-            _dbContext = dbContext;
+            _refreshTokenRepository = refreshTokenRepository ??
+                throw new ArgumentNullException(nameof(refreshTokenRepository));
+
             _logger = logger;
         }
 
@@ -25,15 +27,7 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             _logger?.LogInformation("CleanUpExpiredRefreshTokens");
 
-            const string sqlCommand = "DELETE FROM refresh_tokens\n" +
-                                      "WHERE expires_at < now() AT TIME ZONE 'UTC'";
-
-            await _dbContext.Database.ExecuteSqlRawAsync(sqlCommand, cancellationToken);
-
-            _dbContext.RefreshTokens
-                .FromSqlRaw(sqlCommand);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _refreshTokenRepository.DeleteExpiredTokensAsync();
 
             _logger?.LogInformation("CleanUpExpiredRefreshTokens: done");
 

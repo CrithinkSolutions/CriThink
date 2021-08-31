@@ -1,20 +1,39 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownNewsSourceNotificationRequest : ICriThinkIdentity
+    public class UnknownNewsSourceNotificationRequest : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected UnknownNewsSourceNotificationRequest()
+        { }
 
-        [Required]
-        public string Email { get; set; }
+        public UnknownNewsSourceNotificationRequest(
+            string email,
+            UnknownNewsSource unknownNewsSource)
+        {
+            Email = email;
+            UnknownNewsSource = unknownNewsSource;
+            RequestedAt = DateTime.UtcNow;
+        }
 
-        public DateTime RequestedAt { get; set; }
+        public string Email { get; private set; }
 
-        [Required]
-        public UnknownNewsSource UnknownNewsSource { get; set; }
+        public DateTimeOffset RequestedAt { get; private set; }
+
+        public UnknownNewsSource UnknownNewsSource { get; private set; }
+
+        public static UnknownNewsSourceNotificationRequest Create(
+            string userEmail,
+            UnknownNewsSource unknownNewsSource)
+        {
+            return new UnknownNewsSourceNotificationRequest(
+                userEmail,
+                unknownNewsSource);
+        }
     }
 }

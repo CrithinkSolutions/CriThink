@@ -1,21 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class DebunkingNewsLanguage : ICriThinkIdentity
+    public class DebunkingNewsLanguage : Entity<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        protected DebunkingNewsLanguage()
+        { }
 
-        [Required]
-        public string Name { get; set; }
+        private DebunkingNewsLanguage(
+            Guid id,
+            string languageCode,
+            string name)
+        {
+            Id = id;
+            Code = languageCode;
+            Name = name;
+        }
 
-        [Required]
-        public string Code { get; set; }
+        private DebunkingNewsLanguage(Guid id)
+        {
+            Id = id;
+        }
 
-        public ICollection<DebunkingNewsPublisher> Publishers { get; set; }
+        public string Name { get; private set; }
+
+        public string Code { get; private set; }
+
+        public virtual ICollection<DebunkingNewsPublisher> Publishers { get; private set; }
+
+        #region Create
+
+        public static DebunkingNewsLanguage Create(
+            Guid id,
+            string languageCode,
+            string name)
+        {
+            return new DebunkingNewsLanguage(
+                id,
+                languageCode,
+                name);
+        }
+
+        internal static DebunkingNewsLanguage Create(Guid languageId)
+        {
+            return new DebunkingNewsLanguage(languageId);
+        }
+
+        #endregion
     }
 }
