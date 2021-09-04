@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 
 namespace CriThink.Server.Application.Commands
 {
@@ -7,11 +8,17 @@ namespace CriThink.Server.Application.Commands
     /// </summary>
     public class UpdatePasswordCommand : IRequest
     {
-        public UpdatePasswordCommand(string currentPassword, string newPassword)
+        public UpdatePasswordCommand(
+            Guid userId,
+            string currentPassword,
+            string newPassword)
         {
+            UserId = userId;
             CurrentPassword = currentPassword;
             NewPassword = newPassword;
         }
+
+        public Guid UserId { get; }
 
         public string CurrentPassword { get; }
 

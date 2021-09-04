@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Server.Core.Constants;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Core.DomainServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace CriThink.Server.Infrastructure.Services
+namespace CriThink.Server.Application.DomainServices
 {
     internal class FileService : IFileService
     {

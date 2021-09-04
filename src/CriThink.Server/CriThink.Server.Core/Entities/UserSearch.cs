@@ -28,17 +28,17 @@ namespace CriThink.Server.Core.Entities
 
         public DateTimeOffset Timestamp { get; private set; }
 
-        #region Foreign Key
+        #region Relationships
 
         public Guid UserId { get; private set; }
 
-        public User User { get; private set; }
+        public virtual User User { get; private set; }
 
         #endregion
 
         #region Create
 
-        public static UserSearch Create(
+        internal static UserSearch Create(
             Guid userId,
             string newsLink,
             NewsSourceAuthenticity authenticity)

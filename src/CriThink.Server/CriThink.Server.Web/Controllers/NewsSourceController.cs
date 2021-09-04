@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Core.Commands;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -31,14 +33,19 @@ namespace CriThink.Server.Web.Controllers
     public class NewsSourceController : ControllerBase
     {
         private readonly INewsSourceQueries _newsSourceQueries;
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public NewsSourceController(
             INewsSourceQueries newsSourceQueries,
+            IMapper mapper,
             IMediator mediator)
         {
             _newsSourceQueries = newsSourceQueries ??
                 throw new ArgumentNullException(nameof(newsSourceQueries));
+
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
 
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
@@ -118,7 +125,7 @@ namespace CriThink.Server.Web.Controllers
                     userId,
                     userEmail,
                     request.NewsLink,
-                    request.Questions); ;
+                    request.Questions);
 
                 var response = await _mediator.Send(command);
 
@@ -155,6 +162,7 @@ namespace CriThink.Server.Web.Controllers
         /// <response code="401">If the user is not authorized</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
+        [AllowAnonymous]
         [ServiceFilter(typeof(ScraperAuthenticationFilter), Order = int.MinValue)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status206PartialContent)]
@@ -174,7 +182,7 @@ namespace CriThink.Server.Web.Controllers
                 try
                 {
                     var command = new CreateNewsSourceCommand(
-                        kvp.Key, kvp.Value);
+                        kvp.Key, _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(kvp.Value));
 
                     await _mediator.Send(command);
 

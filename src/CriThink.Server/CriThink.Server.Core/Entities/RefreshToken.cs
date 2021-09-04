@@ -32,7 +32,9 @@ namespace CriThink.Server.Core.Entities
 
         public string RemoteIpAddress { get; private set; }
 
-        #region Foreign Keys
+        #region Relationships
+
+        public virtual Guid UserId { get; private set; }
 
         public virtual User User { get; set; }
 

@@ -11,14 +11,11 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Ignore(dn => dn.DomainEvents);
+            builder.Ignore(u => u.IsDeleted);
 
             builder.HasKey(uns => uns.Id);
             builder.Property(uns => uns.Id)
                 .ValueGeneratedOnAdd();
-
-            builder.Property(u => u.Profile)
-                .IsRequired();
 
             builder.ToTable("users");
             builder.Ignore(property => property.TwoFactorEnabled);
@@ -35,13 +32,9 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                 .HasColumnName("deletion_scheduled_on");
 
             builder
-                .HasMany(user => user.Searches)
-                .WithOne(s => s.User)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder
                 .HasOne(user => user.Profile)
                 .WithOne(p => p.User)
+                .IsRequired()
                 .HasForeignKey<UserProfile>(p => p.UserId);
 
             SeedData(builder);
@@ -49,7 +42,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<User> builder)
         {
-            var serviceUser = User.Create(
+            var serviceUser = User.CreateSeed(
                 "c31844c9-d81b-4c66-991c-a60b0ba36f76",
                 Guid.Parse(UserId),
                 "service",

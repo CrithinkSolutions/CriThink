@@ -1,16 +1,21 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CriThink.Server.Core.Entities
 {
     public class ArticleQuestion : Entity<Guid>
     {
+        /// <summary>
+        /// EF reserved constructor
+        /// </summary>
         [ExcludeFromCodeCoverage]
-        internal ArticleQuestion()
+        protected ArticleQuestion()
         { }
 
-        public ArticleQuestion(Guid id, string question, decimal ratio)
+        private ArticleQuestion(
+            Guid id,
+            string question,
+            decimal ratio)
         {
             Id = id;
             Question = question;
@@ -18,13 +23,25 @@ namespace CriThink.Server.Core.Entities
             Ratio = ratio;
         }
 
-        [Required]
         public string Question { get; private set; }
 
-        [Required]
         public QuestionCategory Category { get; private set; }
 
-        [Required]
         public decimal Ratio { get; private set; }
+
+        #region Create
+
+        public static ArticleQuestion Create(
+            Guid id,
+            string question,
+            decimal ratio)
+        {
+            return new ArticleQuestion(
+                id,
+                question,
+                ratio);
+        }
+
+        #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace CriThink.Server.Core.Entities
 
         #region Create
 
-        public static NewsSourceCategory Create(
+        public static NewsSourceCategory CreateSeed(
             Guid id,
             string description,
             NewsSourceAuthenticity authenticity)

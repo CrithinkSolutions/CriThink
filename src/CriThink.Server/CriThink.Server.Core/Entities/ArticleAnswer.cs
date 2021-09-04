@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 
@@ -9,41 +10,54 @@ namespace CriThink.Server.Core.Entities
     public class ArticleAnswer : Entity<Guid>
     {
         /// <summary>
-        /// Default constructor used by migrations
+        /// EF reserved constructor
         /// </summary>
-        internal ArticleAnswer() { }
+        [ExcludeFromCodeCoverage]
+        protected ArticleAnswer() { }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="rate">The rate given to this news</param>
-        /// <param name="newsLink">The entire news link</param>
-        /// <param name="userId">The user id</param>
-        public ArticleAnswer(string newsLink, User user)
+        private ArticleAnswer(
+            string newsLink,
+            User user)
         {
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
             NewsLink = newsLink;
-            User = user ?? throw new ArgumentNullException(nameof(user));
+            User = user ??
+                throw new ArgumentNullException(nameof(user));
         }
 
-        [Required]
-        [Range(1, 1000)]
+        [Range(1, 1000)] // not available as Fluent api
         public decimal Rate { get; private set; }
 
-        [Required]
-        [MinLength(1)]
+        [MinLength(1)] // not available as Fluent api
         public string NewsLink { get; private set; }
 
-        #region Foreign Keys
+        #region Relationships
 
-        [Required]
-        public User User { get; private set; }
+        public virtual Guid UserId { get; private set; }
+
+        public virtual User User { get; private set; }
 
         #endregion
 
-        public void CalculateUserRate(NewsSourceClassification classification, IList<ArticleQuestion> questions, IList<(Guid Id, decimal Rate)> answers)
+        #region Create
+
+        public static ArticleAnswer Create(
+            string newsLink,
+            User user)
+        {
+            return new ArticleAnswer(
+                newsLink,
+                user);
+        }
+
+        #endregion
+
+        public void CalculateUserRate(
+            NewsSourceClassification classification,
+            IList<ArticleQuestion> questions,
+            IList<(Guid Id, decimal Rate)> answers)
         {
             if (questions is null)
                 throw new ArgumentNullException(nameof(questions));

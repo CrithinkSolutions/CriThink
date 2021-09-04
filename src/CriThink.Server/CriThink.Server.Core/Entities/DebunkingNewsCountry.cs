@@ -23,20 +23,19 @@ namespace CriThink.Server.Core.Entities
             Code = code;
         }
 
-        private DebunkingNewsCountry(Guid id)
-        {
-            Id = id;
-        }
-
         public string Name { get; private set; }
 
         public string Code { get; private set; }
 
+        #region Relationships
+
         public virtual ICollection<DebunkingNewsPublisher> Publishers { get; private set; }
+
+        #endregion
 
         #region Create
 
-        public static DebunkingNewsCountry Create(
+        public static DebunkingNewsCountry CreateSeed(
             Guid id,
             string name,
             string code)
@@ -45,11 +44,6 @@ namespace CriThink.Server.Core.Entities
                 id,
                 name,
                 code);
-        }
-
-        internal static DebunkingNewsCountry Create(Guid countryId)
-        {
-            return new DebunkingNewsCountry(countryId);
         }
 
         #endregion

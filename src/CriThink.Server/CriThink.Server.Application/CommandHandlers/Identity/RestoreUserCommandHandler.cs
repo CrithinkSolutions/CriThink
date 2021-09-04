@@ -5,7 +5,6 @@ using CriThink.Common.Helpers;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Repositories;
-using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,13 +15,11 @@ namespace CriThink.Server.Application.CommandHandlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailSenderService _emailSender;
-        private readonly CriThinkDbContext _dbContext;
         private readonly ILogger<RestoreUserCommandHandler> _logger;
 
         public RestoreUserCommandHandler(
             IUserRepository userRepository,
             IEmailSenderService emailSender,
-            CriThinkDbContext dbContext,
             ILogger<RestoreUserCommandHandler> logger)
         {
             _userRepository = userRepository ??
@@ -30,9 +27,6 @@ namespace CriThink.Server.Application.CommandHandlers
 
             _emailSender = emailSender ??
                 throw new ArgumentNullException(nameof(emailSender));
-
-            _dbContext = dbContext ??
-                throw new ArgumentNullException(nameof(dbContext));
 
             _logger = logger;
         }
@@ -47,12 +41,17 @@ namespace CriThink.Server.Application.CommandHandlers
 
             user.CancelScheduledDeletion();
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _userRepository.UpdateUserAsync(user);
 
-            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user).ConfigureAwait(false);
+            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user);
 
             var encodedCode = Base64Helper.ToBase64(token);
-            await _emailSender.SendPasswordResetEmailAsync(user.Email, user.Id.ToString(), encodedCode, user.UserName).ConfigureAwait(false);
+
+            await _emailSender.SendPasswordResetEmailAsync(
+                user.Email,
+                user.Id.ToString(),
+                encodedCode,
+                user.UserName);
 
             _logger?.LogInformation("RestoreUser: done");
 

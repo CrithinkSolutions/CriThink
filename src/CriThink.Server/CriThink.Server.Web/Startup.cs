@@ -443,7 +443,8 @@ namespace CriThink.Server.Web
         private static void SetupAutoMapper(IServiceCollection services)
         {
             services.AddAutoMapper(
-                typeof(Application.Bootstrapper));
+                typeof(Application.Bootstrapper)
+                , typeof(Startup));
         }
 
         private void SetupRazorAutoReload(IServiceCollection services)

@@ -63,7 +63,7 @@ namespace CriThink.Server.Application.CommandHandlers
                 case PasswordVerificationResult.Failed:
                     throw new ResourceNotFoundException("Password is not correct");
                 case PasswordVerificationResult.SuccessRehashNeeded:
-                    await UpdateUserPasswordHashAsync(user).ConfigureAwait(false);
+                    await UpdateUserPasswordHashAsync(user);
                     break;
                 case PasswordVerificationResult.Success:
                     return;

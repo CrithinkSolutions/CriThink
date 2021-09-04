@@ -63,6 +63,8 @@ namespace CriThink.Server.Application.CommandHandlers
             var lifetimeFromNow = _jwtManager.GetDefaultRefreshTokenLifetime();
             user.AddRefreshToken(refreshToken, _httpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
 
+            await _userRepository.UpdateUserAsync(user);
+
             var jwtToken = await _jwtManager.GenerateUserJwtTokenAsync(user);
 
             _logger?.LogInformation("VerifyUserEmail: done");

@@ -28,7 +28,6 @@ namespace CriThink.Server.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             await _dbContext.DebunkingNewsTriggerLogs.AddAsync(triggerLog, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IList<GetAllTriggerLogQueryResult>> GetAllTriggerLogsAsync(

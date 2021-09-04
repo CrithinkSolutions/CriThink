@@ -20,15 +20,18 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(dn => dn.NewsCaption)
                 .HasMaxLength(500);
 
-            builder.Property(dn => dn.Publisher)
-                .IsRequired();
-
             builder.HasIndex(dn => dn.Link)
                 .IsUnique();
 
             builder.Property(dn => dn.PublishingDate);
             builder.Property(dn => dn.ImageLink);
             builder.Property(dn => dn.Keywords);
+
+            builder
+                .HasOne(p => p.Publisher)
+                .WithMany(dn => dn.DebunkingNews)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

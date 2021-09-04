@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class DebunkingNewsTriggerLog : Entity<Guid>
+    public class DebunkingNewsTriggerLog : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
@@ -30,6 +30,8 @@ namespace CriThink.Server.Core.Entities
 
         public string FailReason { get; private set; }
 
+        #region Create
+
         public static DebunkingNewsTriggerLog Create()
         {
             return new DebunkingNewsTriggerLog(true);
@@ -39,5 +41,7 @@ namespace CriThink.Server.Core.Entities
         {
             return new DebunkingNewsTriggerLog(false, message);
         }
+
+        #endregion
     }
 }

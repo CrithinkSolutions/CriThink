@@ -64,6 +64,8 @@ namespace CriThink.Server.Application.CommandHandlers
             finally
             {
                 await _debunkingNewsTriggerLogRepository.AddTriggerLogAsync(triggerLog);
+
+                await _debunkingNewsTriggerLogRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }
 
             return Unit.Value;

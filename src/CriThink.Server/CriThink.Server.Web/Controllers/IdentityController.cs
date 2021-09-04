@@ -50,6 +50,7 @@ namespace CriThink.Server.Web.Controllers
         ///     POST: /api/identity/sign-up
         ///     {
         ///         "username": "username",
+        ///         "email": "email",
         ///         "password": "password",
         ///     }
         /// 
@@ -94,6 +95,7 @@ namespace CriThink.Server.Web.Controllers
         ///     POST: /api/identity/login
         ///     {
         ///         "email": "email",
+        ///         "username": "username",
         ///         "password": "password",
         ///     }
         /// 
@@ -254,7 +256,10 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
         {
+            var userId = User.GetId();
+
             var command = new UpdatePasswordCommand(
+                userId,
                 dto.CurrentPassword,
                 dto.NewPassword);
 
@@ -439,6 +444,7 @@ namespace CriThink.Server.Web.Controllers
         ///     PATCH: /api/identity/restore-user
         ///     {
         ///         "email": "email",
+        ///         "username": "username"
         ///     }
         ///     
         /// </remarks>

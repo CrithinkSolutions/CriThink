@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
@@ -6,6 +8,7 @@ using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Infrastructure.Constants;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
@@ -49,12 +52,17 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public IActionResult Index(SimplePaginationViewModel viewModel)
         {
-            var newsSources = _newsSourceQueries.GetAllNewsSources(
+            var queryResult = _newsSourceQueries.GetAllNewsSources(
                 viewModel.PageSize,
                 viewModel.PageIndex,
                 NewsSourceAuthenticityFilter.All);
 
-            return View(newsSources);
+            var indexViewModel = new IndexViewModel(
+                _mapper.Map<IEnumerable<GetAllNewsSourceQueryResult>, ICollection<NewsSourceViewModel>>(
+                        queryResult.Take(viewModel.PageSize)),
+                queryResult.Count > viewModel.PageSize);
+
+            return View(indexViewModel);
         }
 
         [Route(EndpointConstants.MvcAdd)]  // news-source/add
@@ -69,9 +77,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
@@ -79,7 +84,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var command = new CreateNewsSourceCommand(
                 viewModel.Uri,
-                _mapper.Map<Classification, NewsSourceClassification>(viewModel.Classification));
+                _mapper.Map<Classification, NewsSourceAuthenticity>(viewModel.Classification));
 
             try
             {
@@ -89,7 +94,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction(nameof(Index));
+                viewModel.Message = $"Something went wrong adding '{viewModel.Uri}'";
+                return View(viewModel);
             }
         }
 
@@ -147,7 +153,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var createCommand = new CreateNewsSourceCommand(
                 viewModel.NewLink,
-                _mapper.Map<Classification, NewsSourceClassification>(viewModel.Classification));
+                _mapper.Map<Classification, NewsSourceAuthenticity>(viewModel.Classification));
 
             await _mediator.Send(createCommand);
 

@@ -50,7 +50,10 @@ namespace CriThink.Server.Application.Queries
             _logger = logger;
         }
 
-        public IList<GetAllNewsSourceQueryResult> GetAllNewsSources(int pageSize, int pageIndex, NewsSourceAuthenticityFilter filter)
+        public IList<GetAllNewsSourceQueryResult> GetAllNewsSources(
+            int pageSize,
+            int pageIndex,
+            NewsSourceAuthenticityFilter filter)
         {
             _logger?.LogInformation(nameof(GetAllNewsSources));
 

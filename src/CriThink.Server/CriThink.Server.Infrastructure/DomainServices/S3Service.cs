@@ -6,14 +6,14 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using CriThink.Server.Core.Constants;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Core.DomainServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CriThink.Server.Infrastructure.Services
+namespace CriThink.Server.Infrastructure.DomainServices
 {
-    internal class S3Service : IFileService
+    public class S3Service : IFileService
     {
         private readonly static RegionEndpoint Region = RegionEndpoint.EUCentral1;
 
@@ -28,6 +28,9 @@ namespace CriThink.Server.Infrastructure.Services
 
         public async Task<Uri> SaveFileAsync(IFormFile formFile, bool replaceIfExist, string fileName, params string[] paths)
         {
+            if (formFile is null)
+                throw new ArgumentNullException(nameof(formFile));
+
             try
             {
                 await using var stream = formFile.OpenReadStream();
@@ -103,6 +106,9 @@ namespace CriThink.Server.Infrastructure.Services
 
         public async Task<string> SaveUserAvatarAsync(IFormFile formFile, string subfolder, bool replaceIfExist = true)
         {
+            if (formFile is null)
+                throw new ArgumentNullException(nameof(formFile));
+
             try
             {
                 var fileTransferUtility = PrepareTransferUtility();

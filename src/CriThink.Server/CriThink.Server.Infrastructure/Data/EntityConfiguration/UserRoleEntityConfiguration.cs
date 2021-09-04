@@ -9,8 +9,6 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
-            builder.Ignore(dn => dn.DomainEvents);
-
             builder.ToTable("user_roles");
 
             SeedData(builder);

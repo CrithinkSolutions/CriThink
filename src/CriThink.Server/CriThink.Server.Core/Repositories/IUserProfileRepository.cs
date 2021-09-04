@@ -5,14 +5,10 @@ using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface IUserProfileRepository : IRepository<UserProfile>
+    public interface IUserProfileRepository
     {
         Task<UserProfile> GetUserProfileByUserIdAsync(
             Guid userId,
-            CancellationToken cancellationToken = default);
-
-        UserProfile SaveUserProfileAsync(
-            UserProfile userProfile,
             CancellationToken cancellationToken = default);
     }
 }

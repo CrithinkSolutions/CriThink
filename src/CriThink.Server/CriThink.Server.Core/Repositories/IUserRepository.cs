@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
         /// <summary>
         /// Creates a new user

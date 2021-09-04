@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Application.Services;
 using CriThink.Server.Core.Delegates;
+using CriThink.Server.Core.DomainServices;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Interfaces;
@@ -21,7 +21,7 @@ namespace CriThink.Server.Application.CommandHandlers
     internal class LoginJwtUsingExternalProviderCommandHandler : BaseUserCommandHandler<LoginJwtUsingExternalProviderCommand, UserLoginResponse>
     {
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
-        private readonly IUserAvatarService _userAvatarService;
+        private readonly IFileService _fileService;
         private readonly ILogger<LoginJwtUsingExternalProviderCommandHandler> _logger;
 
         public LoginJwtUsingExternalProviderCommandHandler(
@@ -29,20 +29,22 @@ namespace CriThink.Server.Application.CommandHandlers
             IUserRepository userRepository,
             IJwtManager jwtManager,
             IHttpContextAccessor httpContext,
-            IUserAvatarService userAvatarService,
+            IFileService fileService,
             ILogger<LoginJwtUsingExternalProviderCommandHandler> logger)
                 : base(userRepository, jwtManager, httpContext)
         {
             _externalLoginProviderResolver = externalLoginProviderResolver ??
                 throw new ArgumentNullException(nameof(externalLoginProviderResolver));
 
-            _userAvatarService = userAvatarService ??
-                throw new ArgumentNullException(nameof(userAvatarService));
+            _fileService = fileService ??
+                throw new ArgumentNullException(nameof(fileService));
 
             _logger = logger;
         }
 
-        public override async Task<UserLoginResponse> Handle(LoginJwtUsingExternalProviderCommand request, CancellationToken cancellationToken)
+        public override async Task<UserLoginResponse> Handle(
+            LoginJwtUsingExternalProviderCommand request,
+            CancellationToken cancellationToken)
         {
             IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(request.SocialProvider);
 
@@ -55,10 +57,11 @@ namespace CriThink.Server.Application.CommandHandlers
             var currentUser = await UserRepository.FindUserByLoginAsync(provider, userAccessInfo.UserId);
             if (currentUser is null)
             {
-                currentUser = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider, cancellationToken);
+                currentUser = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider);
             }
 
             var refreshToken = JwtManager.GenerateToken();
+
             await AddRefreshTokenToUserAsync(refreshToken, currentUser);
 
             var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(currentUser).ConfigureAwait(false);
@@ -70,7 +73,9 @@ namespace CriThink.Server.Application.CommandHandlers
             };
         }
 
-        private async Task<User> CreateExternalProviderLoginUserAsync(ExternalProviderUserInfo userAccessInfo, string providerName, CancellationToken cancellationToken)
+        private async Task<User> CreateExternalProviderLoginUserAsync(
+            ExternalProviderUserInfo userAccessInfo,
+            string providerName)
         {
             var user = User.Create(
                 userAccessInfo.Username,
@@ -88,11 +93,15 @@ namespace CriThink.Server.Application.CommandHandlers
             {
                 try
                 {
-                    await _userAvatarService.UpdateUserProfileAvatarAsync(user.Id, userAccessInfo.ProfileAvatarBytes, cancellationToken);
+                    await user.UpdateUserProfileAvatarAsync(
+                        _fileService,
+                        userAccessInfo.ProfileAvatarBytes);
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError(ex, "Error saving user social avatar");
+                    _logger?.LogError(ex, "Error updating a new social user", user);
+                    await user.DeleteUserUserProfileAvatarAsync(_fileService);
+                    throw;
                 }
             }
 

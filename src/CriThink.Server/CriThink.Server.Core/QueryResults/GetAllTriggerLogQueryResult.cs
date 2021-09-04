@@ -8,7 +8,7 @@ namespace CriThink.Server.Core.QueryResults
 
         public bool IsSuccessful { get; set; }
 
-        public string TimeStamp { get; set; }
+        public DateTimeOffset TimeStamp { get; set; }
 
         public string FailReason { get; set; }
     }

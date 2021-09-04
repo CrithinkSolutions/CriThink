@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace CriThink.Server.Core.Interfaces
+namespace CriThink.Server.Core.DomainServices
 {
     public interface IFileService
     {

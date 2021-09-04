@@ -17,8 +17,6 @@ namespace CriThink.Server.Infrastructure.Repositories
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork => _context;
-
         public async Task<UserProfile> GetUserProfileByUserIdAsync(
             Guid userId,
             CancellationToken cancellationToken = default)
@@ -29,13 +27,6 @@ namespace CriThink.Server.Infrastructure.Repositories
                     .ConfigureAwait(false);
 
             return userProfile;
-        }
-
-        public UserProfile SaveUserProfileAsync(
-            UserProfile userProfile,
-            CancellationToken cancellationToken = default)
-        {
-            return _context.UserProfiles.Update(userProfile).Entity;
         }
     }
 }

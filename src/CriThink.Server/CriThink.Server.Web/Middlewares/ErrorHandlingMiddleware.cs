@@ -44,11 +44,11 @@ namespace CriThink.Server.Web.Middlewares
         {
             try
             {
-                await _next(context).ConfigureAwait(false);
+                await _next(context);
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex).ConfigureAwait(false);
+                await HandleExceptionAsync(context, ex);
             }
         }
 

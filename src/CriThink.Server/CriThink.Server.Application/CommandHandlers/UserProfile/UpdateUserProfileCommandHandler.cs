@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,51 +10,45 @@ namespace CriThink.Server.Application.CommandHandlers
 {
     internal class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand>
     {
-        private readonly IUserProfileRepository _userProfileRepo;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<UpdateUserProfileCommandHandler> _logger;
 
         public UpdateUserProfileCommandHandler(
-            IUserProfileRepository userProfileRepo,
+            IUserRepository userRepository,
             ILogger<UpdateUserProfileCommandHandler> logger)
         {
-            _userProfileRepo = userProfileRepo ??
-                throw new ArgumentNullException(nameof(userProfileRepo));
+            _userRepository = userRepository ??
+                throw new ArgumentNullException(nameof(userRepository));
 
             _logger = logger;
         }
 
-        public async Task<Unit> Handle(UpdateUserProfileCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(
+            UpdateUserProfileCommand request,
+            CancellationToken cancellationToken)
         {
-            _logger?.LogInformation("Updating UserProfile", request.UserId);
+            _logger?.LogInformation(nameof(UpdateUserProfileCommand), request.UserId);
 
-            var userProfile = await _userProfileRepo.GetUserProfileByUserIdAsync(request.UserId);
-            if (userProfile is null)
-            {
-                _logger?.LogError("Updating UserProfile: UserId not found", request.UserId);
-                throw new ResourceNotFoundException(nameof(userProfile));
-            }
+            var user = await _userRepository.FindUserAsync(request.UserId.ToString());
 
-            userProfile.UpdateFamilyName(request.FamilyName);
-            userProfile.UpdateGivenName(request.GivenName);
-            userProfile.UpdateDescription(request.Description);
-            userProfile.UpdateGender(request.Gender);
-            userProfile.UpdateCountry(request.Country);
-            userProfile.UpdateTelegram(request.Telegram);
-            userProfile.UpdateSkype(request.Skype);
-            userProfile.UpdateTwitter(request.Twitter);
-            userProfile.UpdateInstagram(request.Instagram);
-            userProfile.UpdateFacebook(request.Facebook);
-            userProfile.UpdateSnapchat(request.Snapchat);
-            userProfile.UpdateYoutube(request.Youtube);
-            userProfile.UpdateBlog(request.Blog);
-            userProfile.UpdateDateOfBirth(request.DateOfBirth);
+            user.UpdateFamilyName(request.FamilyName);
+            user.UpdateGivenName(request.GivenName);
+            user.UpdateDescription(request.Description);
+            user.UpdateGender(request.Gender);
+            user.UpdateCountry(request.Country);
+            user.UpdateTelegram(request.Telegram);
+            user.UpdateSkype(request.Skype);
+            user.UpdateTwitter(request.Twitter);
+            user.UpdateInstagram(request.Instagram);
+            user.UpdateFacebook(request.Facebook);
+            user.UpdateSnapchat(request.Snapchat);
+            user.UpdateYoutube(request.Youtube);
+            user.UpdateBlog(request.Blog);
+            user.UpdateDateOfBirth(request.DateOfBirth);
 
-            _userProfileRepo.SaveUserProfileAsync(userProfile);
+            await _userRepository.UpdateUserAsync(user);
 
-            // TODO: not sure
-            await _userProfileRepo.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
-            _logger?.LogInformation("Updating UserProfile: done", request.UserId);
+            _logger?.LogInformation($"{nameof(UpdateUserProfileCommand)}: done", request.UserId);
 
             return Unit.Value;
         }

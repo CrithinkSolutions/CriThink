@@ -30,8 +30,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(up => up.Snapchat);
             builder.Property(up => up.Youtube);
             builder.Property(up => up.Blog);
-            builder.Property(up => up.UserId);
-            builder.Property(up => up.User)
+
+            builder.Property(up => up.UserId)
                 .IsRequired();
 
             builder
@@ -53,7 +53,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<UserProfile> builder)
         {
-            var profile = UserProfile.Create(
+            var profile = UserProfile.CreateSeed(
                 Guid.Parse("CB825A64-9CDB-48E7-8BB0-45D5BED6EEE2"),
                 DateTime.Parse("2021-01-01"),
                 DateTime.Parse("2021-01-01"),

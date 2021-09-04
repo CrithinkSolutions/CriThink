@@ -7,15 +7,15 @@ namespace CriThink.Server.Core.Entities
 {
     public abstract class DomainEventsBasedObject
     {
-        private readonly List<INotification> _domainEvents = new List<INotification>();
+        private readonly List<INotification> _domainEventsCollection = new List<INotification>();
 
-        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<INotification> DomainEvents => _domainEventsCollection.AsReadOnly();
 
-        public void AddDomainEvent(INotification eventItem) => _domainEvents.Add(eventItem);
+        public void AddDomainEvent(INotification eventItem) => _domainEventsCollection.Add(eventItem);
 
-        public void RemoveDomainEvent(INotification eventItem) => _domainEvents.Remove(eventItem);
+        public void RemoveDomainEvent(INotification eventItem) => _domainEventsCollection.Remove(eventItem);
 
-        public void ClearDomainEvents() => _domainEvents.Clear();
+        public void ClearDomainEvents() => _domainEventsCollection.Clear();
 
         public async Task RaiseDomainEventsAsync(IMediator mediator)
         {

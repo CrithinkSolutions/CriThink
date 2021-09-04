@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-#pragma warning disable CA1054 // URI-like parameters should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
     /// <summary>
@@ -71,9 +70,9 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 var claimsIdentity = await _mediator.Send(command);
 
-                await HttpContext
-                    .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity))
-                    .ConfigureAwait(false);
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 return Redirect(viewModel.ReturnUrl ?? "/");
             }

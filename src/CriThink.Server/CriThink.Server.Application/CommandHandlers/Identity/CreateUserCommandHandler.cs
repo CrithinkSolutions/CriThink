@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Application.Services;
+using CriThink.Server.Core.DomainServices;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Repositories;
@@ -16,21 +16,21 @@ namespace CriThink.Server.Application.CommandHandlers
     internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserSignUpResponse>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserAvatarService _userAvatarService;
+        private readonly IFileService _fileService;
         private readonly IEmailSenderService _emailSender;
         private readonly ILogger<CreateUserCommandHandler> _logger;
 
         public CreateUserCommandHandler(
             IUserRepository userRepository,
-            IUserAvatarService userAvatarService,
+            IFileService fileService,
             IEmailSenderService emailSender,
             ILogger<CreateUserCommandHandler> logger)
         {
             _userRepository = userRepository ??
                 throw new ArgumentNullException(nameof(userRepository));
 
-            _userAvatarService = userAvatarService ??
-                throw new ArgumentNullException(nameof(userAvatarService));
+            _fileService = fileService ??
+                throw new ArgumentNullException(nameof(fileService));
 
             _emailSender = emailSender ??
                 throw new ArgumentNullException(nameof(emailSender));
@@ -52,14 +52,28 @@ namespace CriThink.Server.Application.CommandHandlers
 
             if (request.FormFile is not null)
             {
-                _logger?.LogInformation("Add User: customa avatar");
+                _logger?.LogInformation("Add User: custom avatar");
+                await user.UpdateUserProfileAvatarAsync(_fileService, request.FormFile);
+            }
 
-                await _userAvatarService.UpdateUserProfileAvatarAsync(user.Id, request.FormFile, cancellationToken);
+            try
+            {
+                await _userRepository.UpdateUserAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error updating a new user", user);
+                await user.DeleteUserUserProfileAvatarAsync(_fileService);
+                throw;
             }
 
             var confirmationCode = await _userRepository.GetEmailConfirmationTokenAsync(user);
 
-            await _emailSender.SendAccountConfirmationEmailAsync(user.Email, user.Id.ToString(), confirmationCode, user.UserName);
+            await _emailSender.SendAccountConfirmationEmailAsync(
+                user.Email,
+                user.Id.ToString(),
+                confirmationCode,
+                user.UserName);
 
             _logger?.LogInformation($"{nameof(CreateUserCommandHandler)}: done");
 

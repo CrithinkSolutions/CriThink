@@ -9,13 +9,11 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.Ignore(dn => dn.DomainEvents);
+            builder.Ignore(dn => dn.Active);
 
             builder.HasKey(rt => rt.Id);
             builder.Property(rt => rt.Id)
                 .ValueGeneratedOnAdd();
-
-            builder.Property(rt => rt.User)
-                .IsRequired();
 
             builder.Property(rt => rt.ExpiresAt)
                 .IsRequired();

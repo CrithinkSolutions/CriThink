@@ -49,11 +49,13 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(newsLink));
 
             var db = _multiplexer.GetDatabase(NewsSourceDatabase);
-            var whitelistValue = await db.StringGetAsync(newsLink);
+            var result = await db.StringGetAsync(newsLink);
+            if (result.IsNull)
+                return null;
 
             return new NewsSource(
                 newsLink,
-                whitelistValue);
+                result);
         }
 
         public IEnumerable<NewsSource> GetAllSearchNewsSources()

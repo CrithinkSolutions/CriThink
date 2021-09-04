@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
+using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Constants;
+using CriThink.Server.Core.DomainServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace CriThink.Server.Core.Entities
@@ -9,7 +14,7 @@ namespace CriThink.Server.Core.Entities
     /// <summary>
     /// Database entity representing a user. Implement the AspNetCoreIdentity framework
     /// </summary>
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>, IAggregateRoot
     {
         private readonly List<RefreshToken> _refreshTokens;
         private readonly List<ArticleAnswer> _articleAnswers;
@@ -28,14 +33,10 @@ namespace CriThink.Server.Core.Entities
             Email = email;
             Id = Guid.NewGuid();
 
+            _searches = new List<UserSearch>();
             _refreshTokens = new List<RefreshToken>();
             _articleAnswers = new List<ArticleAnswer>();
-            _searches = new List<UserSearch>();
         }
-
-        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
-
-        public IReadOnlyCollection<ArticleAnswer> ArticleAnswers => _articleAnswers.AsReadOnly();
 
         public bool IsDeleted => _deletionScheduledOn is not null;
 
@@ -45,9 +46,19 @@ namespace CriThink.Server.Core.Entities
         private DateTimeOffset? _deletionRequestedOn;
         public DateTimeOffset? DeletionRequestedOn => _deletionRequestedOn;
 
-        public UserProfile Profile { get; set; }
+        #region Relationships
 
-        public virtual ICollection<UserSearch> Searches => _searches.AsReadOnly();
+        public virtual UserProfile Profile { get; private set; }
+
+        public virtual ICollection<ArticleAnswer> ArticleAnswers => _articleAnswers;
+
+        public virtual ICollection<RefreshToken> RefreshTokens => _refreshTokens;
+
+        public virtual IReadOnlyCollection<UserSearch> Searches => _searches;
+
+        #endregion
+
+        #region Create
 
         public static User Create(string username, string email)
         {
@@ -56,7 +67,7 @@ namespace CriThink.Server.Core.Entities
             return user;
         }
 
-        public static User Create(
+        public static User CreateSeed(
             string concurrencyStamp,
             Guid userId,
             string username,
@@ -85,6 +96,88 @@ namespace CriThink.Server.Core.Entities
             return user;
         }
 
+        #endregion
+
+        public void UpdateFamilyName(string familyName)
+        {
+            Profile.UpdateFamilyName(familyName);
+        }
+
+        public void UpdateDescription(string description)
+        {
+            Profile.UpdateDescription(description);
+        }
+
+        public void UpdateTelegram(string telegram)
+        {
+            Profile.UpdateTelegram(telegram);
+        }
+
+        public void UpdateInstagram(string instagram)
+        {
+            Profile.UpdateInstagram(instagram);
+        }
+
+        public void UpdateSnapchat(string snapchat)
+        {
+            Profile.UpdateSnapchat(snapchat);
+        }
+
+        public void UpdateDateOfBirth(DateTime? dateOfBirth)
+        {
+            Profile.UpdateDateOfBirth(dateOfBirth);
+        }
+
+        public void UpdateBlog(string blog)
+        {
+            Profile.UpdateBlog(blog);
+        }
+
+        public void UpdateYoutube(string youtube)
+        {
+            Profile.UpdateYoutube(youtube);
+        }
+
+        public void UpdateFacebook(string facebook)
+        {
+            Profile.UpdateFacebook(facebook);
+        }
+
+        public void UpdateTwitter(string twitter)
+        {
+            Profile.UpdateTwitter(twitter);
+        }
+
+        public void UpdateSkype(string skype)
+        {
+            Profile.UpdateSkype(skype);
+        }
+
+        public void UpdateCountry(string country)
+        {
+            Profile.UpdateCountry(country);
+        }
+
+        public void UpdateGender(Gender? gender)
+        {
+            Profile.UpdateGender(gender);
+        }
+
+        public void UpdateGivenName(string givenName)
+        {
+            Profile.UpdateGivenName(givenName);
+        }
+
+        public void AddSearch(
+            string newsLink,
+            NewsSourceAuthenticity authenticity)
+        {
+            _searches.Add(UserSearch.Create(
+                Id,
+                newsLink,
+                authenticity));
+        }
+
         /// <summary>
         /// Returns true if the user has active
         /// refresh tokens
@@ -93,7 +186,7 @@ namespace CriThink.Server.Core.Entities
         /// <returns></returns>
         public bool HasValidRefreshToken(string refreshToken)
         {
-            return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
+            return RefreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
         }
 
         /// <summary>
@@ -105,7 +198,7 @@ namespace CriThink.Server.Core.Entities
         public void AddRefreshToken(string token, string remoteIpAddress, TimeSpan timeFromNow)
         {
             var refreshToken = RefreshToken.Create(token, timeFromNow, this, remoteIpAddress);
-            _refreshTokens.Add(refreshToken);
+            RefreshTokens.Add(refreshToken);
         }
 
         /// <summary>
@@ -114,7 +207,7 @@ namespace CriThink.Server.Core.Entities
         /// <param name="refreshToken"></param>
         public void RemoveRefreshToken(string refreshToken)
         {
-            _refreshTokens.Remove(_refreshTokens.First(t => t.Token == refreshToken));
+            RefreshTokens.Remove(RefreshTokens.First(t => t.Token == refreshToken));
         }
 
         /// <summary>
@@ -138,6 +231,59 @@ namespace CriThink.Server.Core.Entities
         {
             _deletionRequestedOn = null;
             _deletionScheduledOn = null;
+            EmailConfirmed = false;
+        }
+
+        public async Task UpdateUserProfileAvatarAsync(
+            IFileService fileService,
+            IFormFile formFile)
+        {
+            if (fileService is null)
+                throw new ArgumentNullException(nameof(fileService));
+
+            if (formFile is null)
+                throw new ArgumentNullException(nameof(formFile));
+
+            var uri = await fileService.SaveFileAsync(
+                formFile,
+                true,
+                ProfileConstants.AvatarFileName,
+                Id.ToString(),
+                ProfileConstants.ProfileFolder);
+
+            Profile.UpdateUserAvatar(uri.AbsoluteUri);
+        }
+
+        public async Task UpdateUserProfileAvatarAsync(
+            IFileService fileService,
+            byte[] bytes)
+        {
+            if (fileService is null)
+                throw new ArgumentNullException(nameof(fileService));
+
+            if (bytes is null)
+                throw new ArgumentNullException(nameof(bytes));
+
+            var uri = await fileService.SaveFileAsync(
+                bytes,
+                true,
+                ProfileConstants.AvatarFileName,
+                Id.ToString(),
+                ProfileConstants.ProfileFolder);
+
+            Profile.UpdateUserAvatar(uri.AbsoluteUri);
+        }
+
+        public async Task DeleteUserUserProfileAvatarAsync(
+            IFileService fileService)
+        {
+            if (fileService is null)
+                throw new ArgumentNullException(nameof(fileService));
+
+            await fileService.DeleteFileAsync(
+                ProfileConstants.AvatarFileName,
+                Id.ToString(),
+                ProfileConstants.ProfileFolder);
         }
     }
 }

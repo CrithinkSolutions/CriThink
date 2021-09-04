@@ -2,7 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Application.Services;
+using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -10,27 +11,37 @@ namespace CriThink.Server.Application.CommandHandlers
 {
     internal class UpdateUserProfileAvatarCommandHandler : IRequestHandler<UpdateUserProfileAvatarCommand>
     {
-        private readonly IUserAvatarService _userAvatarService;
+        private readonly IUserRepository _userRepository;
+        private readonly IFileService _fileService;
         private readonly ILogger<UpdateUserProfileAvatarCommandHandler> _logger;
 
         public UpdateUserProfileAvatarCommandHandler(
-            IUserAvatarService userAvatarService,
+            IUserRepository userRepository,
+            IFileService fileService,
             ILogger<UpdateUserProfileAvatarCommandHandler> logger)
         {
-            _userAvatarService = userAvatarService ??
-                throw new ArgumentNullException(nameof(userAvatarService));
+            _userRepository = userRepository ??
+                throw new ArgumentNullException(nameof(userRepository));
+
+            _fileService = fileService ??
+                throw new ArgumentNullException(nameof(fileService));
 
             _logger = logger;
         }
 
         public async Task<Unit> Handle(UpdateUserProfileAvatarCommand request, CancellationToken cancellationToken)
         {
-            _logger?.LogInformation("Updating UserProfile Avatar");
+            _logger?.LogInformation(nameof(UpdateUserProfileAvatarCommandHandler));
 
-            await _userAvatarService.UpdateUserProfileAvatarAsync(
-                request.UserId,
-                request.FormFile,
-                cancellationToken);
+            var user = await _userRepository.FindUserAsync(request.UserId.ToString());
+
+            await user.UpdateUserProfileAvatarAsync(
+                _fileService,
+                request.FormFile);
+
+            await _userRepository.UpdateUserAsync(user);
+
+            _logger?.LogInformation($"{nameof(UpdateUserProfileAvatarCommandHandler)}: done");
 
             return Unit.Value;
         }

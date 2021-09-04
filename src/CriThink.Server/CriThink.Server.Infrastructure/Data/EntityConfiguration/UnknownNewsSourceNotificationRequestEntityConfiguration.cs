@@ -17,9 +17,12 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(unsnr => unsnr.Email)
                 .IsRequired();
 
-            builder.Property(unsnr => unsnr.RequestedAt);
+            builder.Property(unsnr => unsnr.RequestedAt)
+                .IsRequired();
 
-            builder.Property(unsnr => unsnr.UnknownNewsSource)
+            builder
+                .HasOne(r => r.UnknownNewsSource)
+                .WithMany(r => r.NotificationQueue)
                 .IsRequired();
         }
     }

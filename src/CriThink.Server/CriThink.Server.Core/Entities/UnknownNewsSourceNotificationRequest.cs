@@ -25,7 +25,15 @@ namespace CriThink.Server.Core.Entities
 
         public DateTimeOffset RequestedAt { get; private set; }
 
-        public UnknownNewsSource UnknownNewsSource { get; private set; }
+        #region Relationships
+
+        public virtual Guid UnknownNewsSourceId { get; private set; }
+
+        public virtual UnknownNewsSource UnknownNewsSource { get; private set; }
+
+        #endregion
+
+        #region Create
 
         public static UnknownNewsSourceNotificationRequest Create(
             string userEmail,
@@ -35,5 +43,7 @@ namespace CriThink.Server.Core.Entities
                 userEmail,
                 unknownNewsSource);
         }
+
+        #endregion
     }
 }

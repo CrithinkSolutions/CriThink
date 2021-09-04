@@ -36,7 +36,11 @@ namespace CriThink.Server.Application.CommandHandlers
         protected async Task AddRefreshTokenToUserAsync(string refreshToken, User user)
         {
             var lifetimeFromNow = JwtManager.GetDefaultRefreshTokenLifetime();
-            user.AddRefreshToken(refreshToken, HttpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
+
+            user.AddRefreshToken(
+                refreshToken,
+                HttpContext?.Connection.RemoteIpAddress?.ToString(),
+                lifetimeFromNow);
 
             var result = await UserRepository.UpdateUserAsync(user);
 

@@ -7,7 +7,7 @@ using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface IDebunkingNewsTriggerLogRepository
+    public interface IDebunkingNewsTriggerLogRepository : IRepository<DebunkingNewsTriggerLog>
     {
         Task<DateTime> GetLatestTimeStampAsync(CancellationToken cancellationToken = default);
 

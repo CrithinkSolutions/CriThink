@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Validators;
 using CriThink.Server.Core.Commands;
 using CriThink.Server.Core.Repositories;
 using MediatR;
@@ -35,11 +35,13 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             try
             {
-                var authenticity = _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(request.NewsSourceClassification);
+                var authenticity = request.NewsSourceClassification;
 
-                await ValidateRequestAsync(request.NewsLink, authenticity);
+                var validatedNewsLink = ValidateNewsLink(request.NewsLink);
 
-                await _newsSourceRepository.AddNewsSourceAsync(request.NewsLink, authenticity);
+                await ValidateRequestAsync(validatedNewsLink, authenticity);
+
+                await _newsSourceRepository.AddNewsSourceAsync(validatedNewsLink, authenticity);
 
                 return Unit.Value;
             }
@@ -48,6 +50,12 @@ namespace CriThink.Server.Application.CommandHandlers
                 _logger.LogError(ex, "Error adding a news source", request.NewsLink, request.NewsSourceClassification);
                 throw;
             }
+        }
+
+        private static string ValidateNewsLink(string newsLink)
+        {
+            var resolver = new DomainValidator();
+            return resolver.ValidateDomain(newsLink);
         }
 
         private async Task ValidateRequestAsync(string newsLink, NewsSourceAuthenticity authenticity)

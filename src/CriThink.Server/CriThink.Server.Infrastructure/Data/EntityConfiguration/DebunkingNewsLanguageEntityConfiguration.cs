@@ -11,12 +11,12 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
         {
             builder.Ignore(dn => dn.DomainEvents);
 
-            var languageItalian = DebunkingNewsLanguage.Create(
+            var languageItalian = DebunkingNewsLanguage.CreateSeed(
                 Guid.Parse("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
                 EntityConstants.LanguageCodeIt,
                 "Italian");
 
-            var languageEnglish = DebunkingNewsLanguage.Create(
+            var languageEnglish = DebunkingNewsLanguage.CreateSeed(
                 Guid.Parse("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
                 EntityConstants.LanguageCodeEn,
                 "English");

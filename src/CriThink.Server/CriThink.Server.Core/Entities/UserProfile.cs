@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace CriThink.Server.Core.Entities
 {
@@ -66,7 +65,7 @@ namespace CriThink.Server.Core.Entities
 
         public Guid UserId { get; private set; }
 
-        public User User { get; private set; }
+        public virtual User User { get; private set; }
 
         #region Create
 
@@ -75,7 +74,7 @@ namespace CriThink.Server.Core.Entities
             return new UserProfile(DateTime.UtcNow);
         }
 
-        public static UserProfile Create(
+        public static UserProfile CreateSeed(
             Guid id,
             DateTime registeredOn,
             DateTime dateOfBirth,
@@ -92,77 +91,77 @@ namespace CriThink.Server.Core.Entities
 
         #endregion
 
-        public void UpdateGivenName(string givenName)
+        internal void UpdateGivenName(string givenName)
         {
             GivenName = givenName;
         }
 
-        public void UpdateGender(Gender? gender)
+        internal void UpdateGender(Gender? gender)
         {
             Gender = gender;
         }
 
-        public void UpdateTelegram(string telegram)
+        internal void UpdateTelegram(string telegram)
         {
             Telegram = telegram;
         }
 
-        public void UpdateTwitter(string twitter)
+        internal void UpdateTwitter(string twitter)
         {
             Twitter = twitter;
         }
 
-        public void UpdateUserAvatar(string path)
+        internal void UpdateUserAvatar(string path)
         {
             AvatarPath = path;
         }
 
-        public void UpdateFacebook(string facebook)
+        internal void UpdateFacebook(string facebook)
         {
             Facebook = facebook;
         }
 
-        public void UpdateBlog(string blog)
+        internal void UpdateBlog(string blog)
         {
             Blog = blog;
         }
 
-        public void UpdateDateOfBirth(DateTime? dateOfBirth)
+        internal void UpdateDateOfBirth(DateTime? dateOfBirth)
         {
             DateOfBirth = dateOfBirth;
         }
 
-        public void UpdateYoutube(string youtube)
+        internal void UpdateYoutube(string youtube)
         {
             Youtube = youtube;
         }
 
-        public void UpdateSnapchat(string snapchat)
+        internal void UpdateSnapchat(string snapchat)
         {
             Snapchat = snapchat;
         }
 
-        public void UpdateInstagram(string instagram)
+        internal void UpdateInstagram(string instagram)
         {
             Instagram = instagram;
         }
 
-        public void UpdateSkype(string skype)
+        internal void UpdateSkype(string skype)
         {
             Skype = skype;
         }
 
-        public void UpdateCountry(string country)
+        internal void UpdateCountry(string country)
         {
             Country = country;
         }
 
-        public void UpdateDescription(string description)
+        internal void UpdateDescription(string description)
         {
             Description = description;
         }
 
-        public void UpdateFamilyName(string familyName)
+        internal void UpdateFamilyName(string familyName)
         {
             FamilyName = familyName;
         }

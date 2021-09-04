@@ -76,9 +76,6 @@ namespace CriThink.Server.Application.CommandHandlers
             newsSource.UpdateIdentifiedAt(DateTime.UtcNow);
             newsSource.UpdateAuthenticity(request.Classification);
 
-            // TODO
-            // await _dbContext.SaveChangesAsync(cancellationToken);
-
             await ValidateRequestAsync(requestedUri, request.Classification);
 
             await _newsSourceRepository.AddNewsSourceAsync(requestedUri, request.Classification);

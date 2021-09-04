@@ -74,10 +74,10 @@ namespace CriThink.Server.Web.Controllers
         [HttpHead]
         public IActionResult LogSampleEntry()
         {
-            _logger?.LogInformation("Test log as information");
-            _logger?.LogCritical("Test log as critical");
-            _logger?.LogError("Test log as error");
-            _logger?.LogWarning("Test log as warning");
+            _logger.LogInformation("Test log as information");
+            _logger.LogCritical("Test log as critical");
+            _logger.LogError("Test log as error");
+            _logger.LogWarning("Test log as warning");
 
             return NoContent();
         }

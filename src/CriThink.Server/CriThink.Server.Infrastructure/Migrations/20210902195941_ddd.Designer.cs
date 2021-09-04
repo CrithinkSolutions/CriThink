@@ -3,15 +3,17 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210902195941_ddd")]
+    partial class ddd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -372,10 +374,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Property<bool>("IsSuccessful")
                         .HasColumnType("boolean")
                         .HasColumnName("is_successful");
-
-                    b.Property<DateTimeOffset>("TimeStamp")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("time_stamp");
 
                     b.HasKey("Id")
                         .HasName("pk_debunking_news_trigger_logs");

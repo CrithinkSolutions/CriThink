@@ -53,7 +53,7 @@ namespace CriThink.Server.Core.Entities
 
         public string Title { get; private set; }
 
-        public DateTime? PublishingDate { get; private set; }
+        public DateTimeOffset? PublishingDate { get; private set; }
 
         public string Link { get; private set; }
 
@@ -63,7 +63,13 @@ namespace CriThink.Server.Core.Entities
 
         public string Keywords { get; private set; }
 
+        #region Relationships
+
+        public virtual Guid PublisherId { get; private set; }
+
         public virtual DebunkingNewsPublisher Publisher { get; private set; }
+
+        #endregion
 
         #region Create
 

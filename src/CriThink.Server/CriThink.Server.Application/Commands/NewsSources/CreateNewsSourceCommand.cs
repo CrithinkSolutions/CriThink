@@ -1,4 +1,4 @@
-﻿using CriThink.Common.Endpoints.DTOs.NewsSource;
+﻿using CriThink.Server.Core.Commands;
 using MediatR;
 
 namespace CriThink.Server.Application.Commands
@@ -7,7 +7,7 @@ namespace CriThink.Server.Application.Commands
     {
         public CreateNewsSourceCommand(
             string newsLink,
-            NewsSourceClassification newsSourceClassification)
+            NewsSourceAuthenticity newsSourceClassification)
         {
             NewsLink = newsLink;
             NewsSourceClassification = newsSourceClassification;
@@ -15,6 +15,6 @@ namespace CriThink.Server.Application.Commands
 
         public string NewsLink { get; }
 
-        public NewsSourceClassification NewsSourceClassification { get; }
+        public NewsSourceAuthenticity NewsSourceClassification { get; }
     }
 }

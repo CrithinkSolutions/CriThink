@@ -1,7 +1,7 @@
-﻿using System;
-using CriThink.Server.Core.Entities;
+﻿using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
@@ -30,8 +30,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(dn => dn.TwitterProfile);
 
             builder
-                .HasMany(p => p.DebunkingNews)
-                .WithOne(dn => dn.Publisher)
+                .HasOne(p => p.Country)
+                .WithMany(c => c.Publishers)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -41,15 +41,9 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder
-                .HasOne(p => p.Country)
-                .WithMany(c => c.Publishers)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasData(new[]
             {
-                DebunkingNewsPublisher.Create(
+                DebunkingNewsPublisher.CreateSeed(
                     Guid.Parse("ec22b726-c503-4bfc-ae33-eb6729b22bef"),
                     EntityConstants.OpenOnline,
                     EntityConstants.OpenOnlineLink,
@@ -61,7 +55,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                     Guid.Parse("575003e3-991c-4ac5-9ce4-3399553f64a7"),
                     Guid.Parse("b5165f46-b82e-46c3-9b98-e5a37a10276f")
                 ),
-                DebunkingNewsPublisher.Create(
+                DebunkingNewsPublisher.CreateSeed(
                     Guid.Parse("3181faf4-45e2-4a91-8340-8ed9598513c8"),
                     EntityConstants.Channel4,
                     EntityConstants.Channel4Link,
@@ -73,7 +67,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                     Guid.Parse("812361b1-d1c3-4315-b601-4e060364a1d6"),
                     Guid.Parse("cea0eeea-ec03-483e-be0f-e2f1af7669d8")
                 ),
-                DebunkingNewsPublisher.Create(
+                DebunkingNewsPublisher.CreateSeed(
                     Guid.Parse("511199ed-595c-4830-a40b-bcb58ca7bbb2"),
                     EntityConstants.FullFact,
                     EntityConstants.FullFactLink,
@@ -85,7 +79,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                     Guid.Parse("812361b1-d1c3-4315-b601-4e060364a1d6"),
                     Guid.Parse("cea0eeea-ec03-483e-be0f-e2f1af7669d8")
                 ),
-                DebunkingNewsPublisher.Create(
+                DebunkingNewsPublisher.CreateSeed(
                     Guid.Parse("80aa1eaf-d64b-46eb-a438-503b716f9c2a"),
                     EntityConstants.FactaNews,
                     EntityConstants.FactaNewsLink,

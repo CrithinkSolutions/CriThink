@@ -35,6 +35,8 @@ namespace CriThink.Server.Infrastructure.Identity
                 throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public IUnitOfWork UnitOfWork => _dbContext;
+
         public Task<IdentityResult> CreateUserAsync(User user, string plainPassword = null)
         {
             return string.IsNullOrWhiteSpace(plainPassword) ?

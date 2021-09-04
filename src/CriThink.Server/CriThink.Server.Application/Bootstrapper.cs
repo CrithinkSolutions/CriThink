@@ -1,10 +1,15 @@
 ﻿using CriThink.Server.Application.DomainServices;
 using CriThink.Server.Application.Facades;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Application.Services;
 using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Infrastructure.DomainServices;
 using CriThink.Server.Providers.DebunkingNewsFetcher;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application
 {
@@ -16,9 +21,6 @@ namespace CriThink.Server.Application
 
             // Domain Services
             serviceCollection.AddScoped<IDebunkingNewsPublisherService, DebunkingNewsPublisherService>();
-
-            // Services
-            serviceCollection.AddScoped<IUserAvatarService, UserAvatarService>();
 
             // Facades
             serviceCollection.AddScoped<IDebunkNewsFetcherFacade, DebunkNewsFetcherFacade>();
@@ -33,6 +35,19 @@ namespace CriThink.Server.Application
             serviceCollection.AddScoped<IDebunkingNewsTriggerLogQueries, DebunkingNewsTriggerLogQueries>();
             serviceCollection.AddScoped<INewsSourceQueries, NewsSourceQueries>();
             serviceCollection.AddScoped<IUnknownNewsSourceQueries, UnknownNewsSourceQueries>();
+
+            serviceCollection.AddScoped<IFileService>(sp =>
+            {
+                var environment = sp.GetRequiredService<IHostEnvironment>();
+                if (environment.IsDevelopment())
+                    return new FileService(
+                        sp.GetRequiredService<IWebHostEnvironment>(),
+                        sp.GetRequiredService<IHttpContextAccessor>());
+
+                return new S3Service(
+                    sp.GetRequiredService<IConfiguration>(),
+                    sp.GetService<ILogger<S3Service>>());
+            });
         }
     }
 }

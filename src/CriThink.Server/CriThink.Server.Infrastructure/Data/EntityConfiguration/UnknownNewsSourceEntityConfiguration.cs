@@ -34,9 +34,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                     enumValue => enumValue.ToString(),
                     stringValue => EntityEnumConverter.GetEnumValue<NewsSourceAuthenticity>(stringValue));
 
-            builder
-                .HasMany(r => r.NotificationQueue)
-                .WithOne(r => r.UnknownNewsSource);
+            
         }
     }
 }

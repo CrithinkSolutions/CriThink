@@ -32,11 +32,15 @@ namespace CriThink.Server.Core.Entities
 
         public string Code { get; private set; }
 
+        #region Relationships
+
         public virtual ICollection<DebunkingNewsPublisher> Publishers { get; private set; }
+
+        #endregion
 
         #region Create
 
-        public static DebunkingNewsLanguage Create(
+        public static DebunkingNewsLanguage CreateSeed(
             Guid id,
             string languageCode,
             string name)
@@ -45,11 +49,6 @@ namespace CriThink.Server.Core.Entities
                 id,
                 languageCode,
                 name);
-        }
-
-        internal static DebunkingNewsLanguage Create(Guid languageId)
-        {
-            return new DebunkingNewsLanguage(languageId);
         }
 
         #endregion

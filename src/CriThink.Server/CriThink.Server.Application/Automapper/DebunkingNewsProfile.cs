@@ -46,7 +46,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.PublishingDate, opt => opt.Condition(src => src.PublishingDate.HasValue))
                 .ForMember(dest =>
-                    dest.PublishingDate, opt => opt.MapFrom(src => src.PublishingDate.Value.ToShortDateString()))
+                    dest.PublishingDate, opt => opt.MapFrom(src => src.PublishingDate.Value.UtcDateTime.ToShortDateString()))
                 .ForMember(dest =>
                     dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest =>

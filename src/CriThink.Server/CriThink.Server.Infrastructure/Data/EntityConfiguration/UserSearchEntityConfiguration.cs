@@ -21,14 +21,16 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(us => us.Timestamp)
                 .IsRequired();
 
-            builder.Property(us => us.User)
-                .IsRequired();
-
             builder.Property(us => us.Authenticity)
                 .IsRequired()
                 .HasConversion(
                     enumValue => enumValue.ToString(),
                     stringValue => EntityEnumConverter.GetEnumValue<NewsSourceAuthenticity>(stringValue));
+
+            builder
+                .HasOne(user => user.User)
+                .WithMany(s => s.Searches)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

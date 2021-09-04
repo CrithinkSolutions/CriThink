@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice home operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [AllowAnonymous]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : Controller
@@ -17,7 +16,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/error/{code:int}")]
+        [Route("error/{code}")]
         public IActionResult Index(int code)
         {
             ViewData["ErrorMessage"] = $"{code}";

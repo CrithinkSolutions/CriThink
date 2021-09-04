@@ -86,8 +86,6 @@ namespace CriThink.Server.Infrastructure.Repositories
                 publisherName,
                 keywords,
                 imageLink);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task RemoveDebunkingNewsByIdAsync(
@@ -96,8 +94,6 @@ namespace CriThink.Server.Infrastructure.Repositories
         {
             var debunkingNews = await _dbContext.DebunkingNews.FindAsync(new object[] { id });
             _dbContext.DebunkingNews.Remove(debunkingNews);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateDebunkingNewsAsync(
@@ -127,8 +123,6 @@ namespace CriThink.Server.Infrastructure.Repositories
                 debunkingNews.UpdateImageLink(imageLink);
 
             _dbContext.DebunkingNews.Update(debunkingNews);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IList<GetAllDebunkingNewsByKeywordsQueryResult>> GetAllDebunkingNewsByKeywordsAsync(
@@ -136,15 +130,15 @@ namespace CriThink.Server.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             const string query = "SELECT dn.id, dn.title, dn.link, dn.news_caption, dn.publishing_date, dn.image_link, p.name as publisher_name\n" +
-                                  "FROM debunking_news dn\n" +
-                                  "JOIN debunking_news_publishers p ON p.id = dn.publisher_id\n" +
-                                  "ORDER BY dnews_get_related_news(dn.keywords, :keywords) DESC\n" +
-                                  "LIMIT 5;";
+                                 "FROM debunking_news dn\n" +
+                                 "JOIN debunking_news_publishers p ON p.id = dn.publisher_id\n" +
+                                 "ORDER BY dnews_get_related_news(dn.keywords, :keywords) DESC\n" +
+                                 "LIMIT 5;";
 
             var result = new List<GetAllDebunkingNewsByKeywordsQueryResult>();
 
             await using var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString());
-            await connection.OpenAsync();
+            await connection.OpenAsync(cancellationToken);
 
             await using var command = new NpgsqlCommand(query, connection);
 

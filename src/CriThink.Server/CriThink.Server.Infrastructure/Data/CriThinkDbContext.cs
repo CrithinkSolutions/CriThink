@@ -24,6 +24,11 @@ namespace CriThink.Server.Infrastructure.Data
                 throw new ArgumentNullException(nameof(mediator));
         }
 
+        internal CriThinkDbContext(
+            DbContextOptions<CriThinkDbContext> options)
+            : base(options)
+        { }
+
         public DbSet<ArticleAnswer> ArticleAnswers { get; set; }
 
         public DbSet<ArticleQuestion> ArticleQuestions { get; set; }
@@ -57,11 +62,21 @@ namespace CriThink.Server.Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(Assembly.Load("CriThink.Server.Infrastructure"));
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseNpgsql();
+        }
+
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            await _mediator.DispatchDomainEventsAsync(this);
-
             var result = await base.SaveChangesAsync(cancellationToken);
+
+            await _mediator?.DispatchDomainEventsAsync(this);
+
             return result >= 0;
         }
     }

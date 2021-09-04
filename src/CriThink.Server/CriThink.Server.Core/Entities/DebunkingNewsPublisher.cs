@@ -33,8 +33,10 @@ namespace CriThink.Server.Core.Entities
             FacebookPage = facebookPage;
             InstagramProfile = instagramProfile;
             TwitterProfile = twitterProfile;
-            Country = DebunkingNewsCountry.Create(countryId);
-            Language = DebunkingNewsLanguage.Create(languageId);
+            CountryId = countryId;
+            //Country = DebunkingNewsCountry.Create(countryId);
+            LanguageId = languageId;
+            //Language = DebunkingNewsLanguage.Create(languageId);
         }
 
         public string Name { get; private set; }
@@ -51,13 +53,23 @@ namespace CriThink.Server.Core.Entities
 
         public string TwitterProfile { get; private set; }
 
-        #region Foreign Keys
+        #region Relationships
 
-        public virtual DebunkingNewsLanguage Language { get; private set; }
+        public Guid CountryId { get; private set; }
 
         public virtual DebunkingNewsCountry Country { get; private set; }
 
-        public static DebunkingNewsPublisher Create(
+        public Guid LanguageId { get; private set; }
+
+        public virtual DebunkingNewsLanguage Language { get; private set; }
+
+        public virtual ICollection<DebunkingNews> DebunkingNews { get; private set; }
+
+        #endregion
+
+        #region Create
+
+        public static DebunkingNewsPublisher CreateSeed(
             Guid id,
             string name,
             string link,
@@ -81,8 +93,6 @@ namespace CriThink.Server.Core.Entities
                 countryId,
                 languageId);
         }
-
-        public virtual ICollection<DebunkingNews> DebunkingNews { get; private set; }
 
         #endregion
     }

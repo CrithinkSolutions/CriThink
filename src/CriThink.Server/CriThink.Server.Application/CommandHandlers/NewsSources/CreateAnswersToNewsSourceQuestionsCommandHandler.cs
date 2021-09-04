@@ -109,16 +109,11 @@ namespace CriThink.Server.Application.CommandHandlers
                 NewsSourceAuthenticity.Unknown :
                 _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(newsSourceSearch.Classification);
 
-            var userSearch = UserSearch.Create(
-                userId,
-                newsLink,
-                authenticity);
-
-            user.Searches.Add(userSearch);
+            user.AddSearch(newsLink, authenticity);
 
             if (newsSourceSearch?.Classification == NewsSourceClassification.Unknown)
             {
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
                 await _emailSenderService.SendUnknownDomainAlertEmailAsync(newsLink, request.Email);
                 throw new ResourceNotFoundException("The given news link does not exist");
@@ -129,7 +124,7 @@ namespace CriThink.Server.Application.CommandHandlers
                     .Where(aa => aa.NewsLink == request.NewsLink)
                     .ToListAsync(cancellationToken);
 
-            var answer = new ArticleAnswer(request.NewsLink, user);
+            var answer = ArticleAnswer.Create(request.NewsLink, user);
             answer.CalculateUserRate(newsSourceSearch.Classification, questionList, request.Questions.Select(q => (q.QuestionId, q.Rate)).ToList());
 
             var communityRate = otherUserAnswers.Any() ?
@@ -190,6 +185,7 @@ namespace CriThink.Server.Application.CommandHandlers
                     {
                         var response = _mapper
                             .Map<GetAllDebunkingNewsByKeywordsQueryResult, NewsSourceRelatedDebunkingNewsResponse>(relatedDNews);
+
                         relatedDebunkingNewsResponse.Add(response);
                     }
                 }
@@ -214,15 +210,24 @@ namespace CriThink.Server.Application.CommandHandlers
             {
                 var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(uri);
 
-                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapeAnalysis.NewsBody, scrapeAnalysis.Language);
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(
+                    scrapeAnalysis.NewsBody,
+                    scrapeAnalysis.Language);
 
-                var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(keywords);
+                var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(
+                    keywords);
+
                 return dNewsByKeywordsQuery;
             }
             catch (InvalidOperationException ex)
             {
                 _logger?.LogWarning(ex, "The given URL is not readable", uri.ToString());
                 throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, $"Error getting debunking news by keywords '{uri}'");
+                return new List<GetAllDebunkingNewsByKeywordsQueryResult>();
             }
         }
 
