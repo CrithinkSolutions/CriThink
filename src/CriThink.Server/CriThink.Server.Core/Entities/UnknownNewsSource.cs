@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownNewsSource : Entity<Guid>
+    public class UnknownNewsSource : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
@@ -22,6 +21,15 @@ namespace CriThink.Server.Core.Entities
             Id = id;
             Uri = link;
             Authenticity = authenticity;
+        }
+
+        private UnknownNewsSource(
+            string link,
+            DateTime requestedAt)
+        {
+            Uri = link;
+            FirstRequestedAt = requestedAt;
+            Authenticity = NewsSourceAuthenticity.Unknown;
         }
 
         public string Uri { get; private set; }
@@ -47,6 +55,13 @@ namespace CriThink.Server.Core.Entities
                 id,
                 link,
                 authenticity);
+        }
+
+        public static UnknownNewsSource Create(
+            string link,
+            DateTime requestedAt)
+        {
+            return new UnknownNewsSource(link, requestedAt);
         }
 
         #endregion

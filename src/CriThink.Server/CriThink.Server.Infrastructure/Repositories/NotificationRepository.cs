@@ -22,6 +22,8 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public IUnitOfWork UnitOfWork => _dbContext;
+
         public async Task<IList<GetAllSubscribedUsersWithSourceQueryResult>> GetAllNotificationsAsync(
             int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
@@ -35,21 +37,23 @@ namespace CriThink.Server.Infrastructure.Repositories
             return notificationCollection;
         }
 
+        public async Task<UnknownNewsSourceNotificationRequest> GetNotificationByEmailAndLinkAsync(
+            string userEmail, string link, CancellationToken cancellationToken = default)
+        {
+            var notificationRequest = await _dbContext.UnknownNewsSourceNotificationRequests
+                .GetNotificationRequestByEmailAndLiknAsync(userEmail, link, cancellationToken);
+
+            return notificationRequest;
+        }
+
         public async Task AddNotificationRequestAsync(UnknownNewsSourceNotificationRequest request, CancellationToken cancellationToken = default)
         {
             await _dbContext.UnknownNewsSourceNotificationRequests.AddAsync(request, cancellationToken);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteNotificationRequestAsync(string validated, string userEmail, CancellationToken cancellationToken)
+        public void DeleteNotificationRequest(UnknownNewsSourceNotificationRequest notificationRequest)
         {
-            var notificationRequest = await _dbContext.UnknownNewsSourceNotificationRequests
-                .GetNotificationRequestByEmailAndLiknAsync(userEmail, validated, cancellationToken);
-
             _dbContext.UnknownNewsSourceNotificationRequests.Remove(notificationRequest);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

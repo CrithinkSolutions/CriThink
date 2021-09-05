@@ -1,17 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
 
 namespace CriThink.Server.Application.Queries
 {
     public interface IDebunkingNewsTriggerLogQueries
     {
-        /// <summary>
-        /// Get timestamp of the latest iteration time
-        /// </summary>
-        /// <returns></returns>
-        Task<DateTime> GetLastDebunkinNewsFetchTimestampAsync();
-
         /// <summary>
         /// Get all trigger logs with pagination support
         /// </summary>

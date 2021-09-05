@@ -37,7 +37,6 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
             serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
             serviceCollection.AddScoped<IDebunkingNewsRepository, DebunkingNewsRepository>();
-            serviceCollection.AddScoped<IDebunkingNewsPublisherRepository, DebunkingNewsPublisherRepository>();
             serviceCollection.AddScoped<INewsSourceCategoriesRepository, NewsSourceCategoriesRepository>();
             serviceCollection.AddScoped<INotificationRepository, NotificationRepository>();
             serviceCollection.AddScoped<INewsSourceQuestionRepository, NewsSourceQuestionRepository>();

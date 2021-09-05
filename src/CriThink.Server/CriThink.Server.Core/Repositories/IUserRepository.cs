@@ -48,6 +48,14 @@ namespace CriThink.Server.Core.Repositories
         Task<string> GetEmailConfirmationTokenAsync(User user);
 
         /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="cancellationToken">(Optional) cancellation token</param>
+        /// <returns></returns>
+        Task<User> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Find a user through the username or the email
         /// </summary>
         /// <param name="value">USername or email</param>

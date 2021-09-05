@@ -1,15 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Application.Queries
 {
     public interface IDebunkingNewsPublisherQueries
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="publisherName"></param>
-        /// <returns></returns>
-        Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByNameAsync(string publisherName);
+        Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByNameAsync(
+            string publisherName,
+            CancellationToken cancellationToken = default);
+
+        Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken = default);
     }
 }

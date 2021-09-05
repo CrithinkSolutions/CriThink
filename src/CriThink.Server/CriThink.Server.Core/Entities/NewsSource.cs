@@ -1,5 +1,4 @@
 ﻿using System;
-using CriThink.Server.Core.Commands;
 
 namespace CriThink.Server.Core.Entities
 {

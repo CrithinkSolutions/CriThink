@@ -5,11 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Validators;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Core.Repositories;
-using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -19,14 +18,12 @@ namespace CriThink.Server.Application.CommandHandlers
     {
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
-        private readonly IEmailSenderService _emailSenderService;
         private readonly INotificationRepository _notificationRepository;
         private readonly ILogger<IdentifyUnknownNewsSourceCommandHandler> _logger;
 
         public IdentifyUnknownNewsSourceCommandHandler(
             INewsSourceRepository newsSourceRepository,
             IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
-            IEmailSenderService emailSenderService,
             INotificationRepository notificationRepository,
             ILogger<IdentifyUnknownNewsSourceCommandHandler> logger)
         {
@@ -35,9 +32,6 @@ namespace CriThink.Server.Application.CommandHandlers
 
             _unknownNewsSourcesRepository = unknownNewsSourcesRepository ??
                 throw new ArgumentNullException(nameof(unknownNewsSourcesRepository));
-
-            _emailSenderService = emailSenderService ??
-                throw new ArgumentNullException(nameof(emailSenderService));
 
             _notificationRepository = notificationRepository ??
                 throw new ArgumentNullException(nameof(notificationRepository));
@@ -65,9 +59,7 @@ namespace CriThink.Server.Application.CommandHandlers
             await NotifyUsersAsync(
                 newsSourceId,
                 request.Source,
-                request.Classification.ToString(),
                 cancellationToken);
-
 
             var newsSource = await _unknownNewsSourcesRepository.GetUnknownNewsSourceByIdAsync(newsSourceId);
             if (newsSource is null)
@@ -88,7 +80,6 @@ namespace CriThink.Server.Application.CommandHandlers
         private async Task NotifyUsersAsync(
             Guid unknownNewsId,
             string requestedUri,
-            string classification,
             CancellationToken cancellationToken)
         {
             const int pageSize = 20;
@@ -104,7 +95,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
                 foreach (var user in subscribedUsers.Take(pageSize))
                 {
-                    await NotifyUserAsync(user.Email, requestedUri, classification, cancellationToken);
+                    await NotifyUserAsync(user.Email, requestedUri, cancellationToken);
                 }
 
                 if (subscribedUsers.Count <= pageSize) break;
@@ -115,13 +106,15 @@ namespace CriThink.Server.Application.CommandHandlers
         private async Task NotifyUserAsync(
             string userEmail,
             string uri,
-            string classification,
             CancellationToken cancellationToken)
         {
             try
             {
-                await _emailSenderService.SendIdentifiedNewsSourceEmailAsync(userEmail, uri, classification);
-                await _notificationRepository.DeleteNotificationRequestAsync(userEmail, uri, cancellationToken);
+                var notificationRequest = await _notificationRepository.GetNotificationByEmailAndLinkAsync(userEmail, uri, cancellationToken);
+                notificationRequest.SendNotification();
+                _notificationRepository.DeleteNotificationRequest(notificationRequest);
+
+                await _notificationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }
             catch (Exception ex)
             {

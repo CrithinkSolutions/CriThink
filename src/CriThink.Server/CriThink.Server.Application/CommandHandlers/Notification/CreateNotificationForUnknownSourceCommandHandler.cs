@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Application.Validators;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Repositories;
@@ -36,11 +35,7 @@ namespace CriThink.Server.Application.CommandHandlers.Notification
         {
             _logger?.LogInformation(nameof(CreateNotificationForUnknownSourceCommand));
 
-            var validator = new DomainValidator();
-            var validated = validator.ValidateDomain(request.NewsSource);
-
-            var unknownNewsSource = await _unknownNewsSourceQueries.GetUnknownNewsSourceByUriAsync(validated, cancellationToken);
-
+            var unknownNewsSource = await _unknownNewsSourceQueries.GetUnknownNewsSourceByUriAsync(request.NewsSource, cancellationToken);
             if (unknownNewsSource is null)
                 throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.NewsSource}'");
 
@@ -51,6 +46,8 @@ namespace CriThink.Server.Application.CommandHandlers.Notification
             await _notificationRepository.AddNotificationRequestAsync(
                 unknownSourcesNotificationRequest,
                 cancellationToken);
+
+            await _notificationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             _logger?.LogInformation($"{nameof(CreateNotificationForUnknownSourceCommand)}: done");
 

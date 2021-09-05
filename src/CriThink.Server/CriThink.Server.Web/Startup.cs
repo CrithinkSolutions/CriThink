@@ -201,10 +201,10 @@ namespace CriThink.Server.Web
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(15),
+                        maxRetryDelay: TimeSpan.FromSeconds(Math.Pow(2, 3)),
                         errorCodesToAdd: null);
                 })
-                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
+                .UseSnakeCaseNamingConvention(CultureInfo.InvariantCulture);
             });
         }
 

@@ -10,5 +10,9 @@ namespace CriThink.Server.Core.Exceptions
         public ResourceNotFoundException(string message, string resource = null)
             : base($"{message}. {resource}")
         { }
+
+        public ResourceNotFoundException(string message, Guid id)
+            : base($"{message}. {id}")
+        { }
     }
 }

@@ -23,6 +23,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         {
             return dbSet
                    .Where(aq => aq.Category == questionCategory)
+                   .AsNoTracking()
                    .ToListAsync(cancellationToken);
         }
     }

@@ -8,7 +8,7 @@ using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;

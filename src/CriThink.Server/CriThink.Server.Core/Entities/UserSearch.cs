@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Entities
 {
@@ -30,7 +30,7 @@ namespace CriThink.Server.Core.Entities
 
         #region Relationships
 
-        public Guid UserId { get; private set; }
+        public virtual Guid UserId { get; private set; }
 
         public virtual User User { get; private set; }
 

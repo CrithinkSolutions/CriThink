@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.QueryResults
 {

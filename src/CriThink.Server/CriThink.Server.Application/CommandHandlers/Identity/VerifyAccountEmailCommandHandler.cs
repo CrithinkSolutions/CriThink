@@ -40,10 +40,10 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             _logger?.LogInformation("VerifyUserEmail");
 
-            var userId = request.UserId.ToString();
+            var userId = request.UserId;
             var confirmationCode = request.Code;
 
-            var user = await _userRepository.FindUserAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");

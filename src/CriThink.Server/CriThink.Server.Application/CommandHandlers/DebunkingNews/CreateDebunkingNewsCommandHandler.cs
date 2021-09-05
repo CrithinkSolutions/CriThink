@@ -14,13 +14,11 @@ namespace CriThink.Server.Application.CommandHandlers
     {
         private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
         private readonly IDebunkingNewsRepository _debunkingNewsRepository;
-        private readonly IDebunkingNewsPublisherRepository _debunkingNewsPublisherRepository;
         private readonly ILogger<CreateDebunkingNewsCommandHandler> _logger;
 
         public CreateDebunkingNewsCommandHandler(
             IDebunkingNewsPublisherService debunkingNewsPublisherService,
             IDebunkingNewsRepository debunkingNewsRepository,
-            IDebunkingNewsPublisherRepository debunkingNewsPublisherRepository,
             ILogger<CreateDebunkingNewsCommandHandler> logger)
         {
             _debunkingNewsPublisherService = debunkingNewsPublisherService ??
@@ -29,8 +27,6 @@ namespace CriThink.Server.Application.CommandHandlers
             _debunkingNewsRepository = debunkingNewsRepository ??
                 throw new ArgumentNullException(nameof(debunkingNewsRepository));
 
-            _debunkingNewsPublisherRepository = debunkingNewsPublisherRepository ??
-                throw new ArgumentNullException(nameof(debunkingNewsPublisherRepository));
             _logger = logger;
         }
 
@@ -45,7 +41,10 @@ namespace CriThink.Server.Application.CommandHandlers
                 request.ImageLink,
                 request.Keywords);
 
-            await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, request.PublisherId);
+            await debunkingNews.SetPublisherAsync(
+                _debunkingNewsPublisherService,
+                request.PublisherId,
+                cancellationToken);
 
             await _debunkingNewsRepository.AddDebunkingNewsAsync(debunkingNews);
 

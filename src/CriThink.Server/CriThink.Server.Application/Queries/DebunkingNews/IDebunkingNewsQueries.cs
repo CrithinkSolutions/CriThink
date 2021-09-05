@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Admin;
-using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Application.Queries
 {
@@ -25,13 +23,6 @@ namespace CriThink.Server.Application.Queries
         /// </summary>
         /// <param name="request">Debunking news id</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsAsync(Guid id);
-
-        /// <summary>
-        /// Get debunking news by keywords
-        /// </summary>
-        /// <param name="keywords">List of keywords</param>
-        /// <returns></returns>
-        Task<IList<GetAllDebunkingNewsByKeywordsQueryResult>> GetAllDebunkingNewsByKeywordsAsync(IEnumerable<string> keywords);
+        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(Guid id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Core.DomainServices;
 
@@ -132,12 +133,16 @@ namespace CriThink.Server.Core.Entities
 
         public async Task SetPublisherAsync(
             IDebunkingNewsPublisherService publisherService,
-            Guid publisherId)
+            Guid publisherId,
+            CancellationToken cancellationToken = default)
         {
             if (publisherService is null)
                 throw new ArgumentNullException(nameof(publisherService));
 
-            var publisher = await publisherService.GetDebunkingNewsPublisherByIdAsync(publisherId);
+            var publisher = await publisherService.GetDebunkingNewsPublisherByIdAsync(
+                publisherId,
+                cancellationToken);
+
             Publisher = publisher;
         }
 

@@ -8,6 +8,8 @@ using CriThink.Server.Core.Repositories;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
 using CriThink.Server.Infrastructure.Projections;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace CriThink.Server.Infrastructure.Repositories
 {
@@ -21,6 +23,8 @@ namespace CriThink.Server.Infrastructure.Repositories
             _dbContext = dbContext ??
                 throw new ArgumentNullException(nameof(dbContext));
         }
+
+        public IUnitOfWork UnitOfWork => _dbContext;
 
         public async Task<IList<GetAllSubscribedUsersQueryResult>> GetAllSubscribedUsersAsync(
             Guid unknownNewsId,
@@ -69,6 +73,32 @@ namespace CriThink.Server.Infrastructure.Repositories
                 cancellationToken);
 
             return id;
+        }
+
+        public async Task AddUnknownNewsSourceAsync(
+            string newsLink)
+        {
+            var sqlQuery = "INSERT INTO unknown_news_sources\n" +
+                           "(id, uri, first_requested_at, request_count, authenticity)\n" +
+                           "VALUES\n" +
+                           "({0}, {1}, {2}, {3}, {4})\n" +
+                           "ON CONFLICT (uri)\n" +
+                           "DO UPDATE\n" +
+                           "SET\n" +
+                           "request_count = (unknown_news_sources.request_count + 1);";
+
+            var id = new NpgsqlParameter("id", Guid.NewGuid());
+            var uri = new NpgsqlParameter("uri", newsLink);
+            var firstRequestedAt = new NpgsqlParameter("first_requested_at", DateTime.UtcNow);
+            var requestCount = new NpgsqlParameter("request_count", 1);
+            var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
+
+            await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
+                    id,
+                    uri,
+                    firstRequestedAt,
+                    requestCount,
+                    authenticity);
         }
     }
 }

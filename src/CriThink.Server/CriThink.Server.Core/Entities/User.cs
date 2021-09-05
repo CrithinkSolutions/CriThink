@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Constants;
 using CriThink.Server.Core.DomainServices;
 using Microsoft.AspNetCore.Http;
@@ -16,9 +16,9 @@ namespace CriThink.Server.Core.Entities
     /// </summary>
     public class User : IdentityUser<Guid>, IAggregateRoot
     {
-        private readonly List<RefreshToken> _refreshTokens;
-        private readonly List<ArticleAnswer> _articleAnswers;
-        private readonly List<UserSearch> _searches;
+        private readonly List<RefreshToken> _refreshTokens = new();
+        private readonly List<ArticleAnswer> _articleAnswers = new();
+        private readonly List<UserSearch> _searches = new();
 
         /// <summary>
         /// EF reserved constructor
@@ -32,10 +32,6 @@ namespace CriThink.Server.Core.Entities
             UserName = username;
             Email = email;
             Id = Guid.NewGuid();
-
-            _searches = new List<UserSearch>();
-            _refreshTokens = new List<RefreshToken>();
-            _articleAnswers = new List<ArticleAnswer>();
         }
 
         public bool IsDeleted => _deletionScheduledOn is not null;
@@ -50,9 +46,9 @@ namespace CriThink.Server.Core.Entities
 
         public virtual UserProfile Profile { get; private set; }
 
-        public virtual ICollection<ArticleAnswer> ArticleAnswers => _articleAnswers;
+        public virtual IReadOnlyCollection<ArticleAnswer> ArticleAnswers => _articleAnswers;
 
-        public virtual ICollection<RefreshToken> RefreshTokens => _refreshTokens;
+        public virtual IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
 
         public virtual IReadOnlyCollection<UserSearch> Searches => _searches;
 
@@ -178,6 +174,11 @@ namespace CriThink.Server.Core.Entities
                 authenticity));
         }
 
+        public void AddAnswer(ArticleAnswer answer)
+        {
+            _articleAnswers.Add(answer);
+        }
+
         /// <summary>
         /// Returns true if the user has active
         /// refresh tokens
@@ -186,7 +187,7 @@ namespace CriThink.Server.Core.Entities
         /// <returns></returns>
         public bool HasValidRefreshToken(string refreshToken)
         {
-            return RefreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
+            return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace CriThink.Server.Core.Entities
         public void AddRefreshToken(string token, string remoteIpAddress, TimeSpan timeFromNow)
         {
             var refreshToken = RefreshToken.Create(token, timeFromNow, this, remoteIpAddress);
-            RefreshTokens.Add(refreshToken);
+            _refreshTokens.Add(refreshToken);
         }
 
         /// <summary>
@@ -207,7 +208,7 @@ namespace CriThink.Server.Core.Entities
         /// <param name="refreshToken"></param>
         public void RemoveRefreshToken(string refreshToken)
         {
-            RefreshTokens.Remove(RefreshTokens.First(t => t.Token == refreshToken));
+            _refreshTokens.Remove(_refreshTokens.First(t => t.Token == refreshToken));
         }
 
         /// <summary>

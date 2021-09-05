@@ -20,6 +20,8 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public IUnitOfWork UnitOfWork => _dbContext;
+
         public async Task<IList<ArticleAnswer>> GetNewsSourceAnswersByUserId(
             Guid userId,
             string newsLink,
@@ -27,9 +29,25 @@ namespace CriThink.Server.Infrastructure.Repositories
         {
             var answers = await _dbContext
                     .ArticleAnswers
-                    .GetNewsSourceAnswersByUserIdAsync(userId, newsLink, cancellationToken);
+                    .GetNewsSourceAnswersByUserIdAndNewssLinkAsync(userId, newsLink, cancellationToken);
 
             return answers;
+        }
+
+        public async Task<IList<ArticleAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
+            string newsLink,
+            CancellationToken cancellationToken = default)
+        {
+            var answers = await _dbContext
+                .ArticleAnswers
+                .GetNewsSourceAnswersByNewsLinkAsync(newsLink, cancellationToken);
+
+            return answers;
+        }
+
+        public async Task AddAsync(ArticleAnswer answer)
+        {
+            await _dbContext.AddAsync(answer);
         }
     }
 }

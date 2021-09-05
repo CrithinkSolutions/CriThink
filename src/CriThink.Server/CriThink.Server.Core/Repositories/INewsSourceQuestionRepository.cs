@@ -5,7 +5,7 @@ using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface INewsSourceQuestionRepository
+    public interface INewsSourceQuestionRepository : IRepository<ArticleQuestion>
     {
         Task<IList<ArticleQuestion>> GetQuestionsByCategoryAsync(
             QuestionCategory category,

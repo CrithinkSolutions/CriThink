@@ -146,7 +146,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsAsync(
+                var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsByIdAsync(
                     viewModel.Id);
 
                 return Ok(new ApiOkResponse(debunkingNews));
@@ -161,7 +161,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateDebunkingNewsAsync(Guid id)
         {
-            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsAsync(id);
+            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsByIdAsync(id);
             if (debunkingNews is not null)
             {
                 var viewModel = new UpdateDebunkingNewsViewModel

@@ -35,9 +35,10 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var userId = request.UserId;
 
-            var user = await _userRepository.FindUserAsync(userId.ToString(), cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"User id: '{userId}'");
+
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 

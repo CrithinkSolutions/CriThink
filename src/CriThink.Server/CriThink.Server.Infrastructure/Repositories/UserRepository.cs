@@ -51,6 +51,7 @@ namespace CriThink.Server.Infrastructure.Identity
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Email, user.Email),
                 new (ClaimTypes.Name, user.UserName),
+                new (ClaimTypes.Role, "FreeUser"),
             };
 
             return _userManager.AddClaimsAsync(user, claims);
@@ -75,6 +76,19 @@ namespace CriThink.Server.Infrastructure.Identity
                 .ConfigureAwait(false);
 
             return Base64Helper.ToBase64(code);
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException(nameof(id));
+
+            IQueryable<User> query = _userManager
+                .Users
+                .Include(u => u.RefreshTokens);
+
+            return await query
+                .SingleOrDefaultAsync(u => u.Id.Equals(id), cancellationToken);
         }
 
         public async Task<User> FindUserAsync(string value, CancellationToken cancellationToken = default)

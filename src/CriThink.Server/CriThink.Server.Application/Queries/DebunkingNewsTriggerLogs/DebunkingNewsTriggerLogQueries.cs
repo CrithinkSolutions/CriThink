@@ -29,17 +29,6 @@ namespace CriThink.Server.Application.Queries
             _logger = logger;
         }
 
-        public async Task<DateTime> GetLastDebunkinNewsFetchTimestampAsync()
-        {
-            _logger?.LogInformation(nameof(GetLastDebunkinNewsFetchTimestampAsync));
-
-            var latestTriggerDateTime = await _debunkingNewsTriggerLogRepository.GetLatestTimeStampAsync();
-
-            _logger?.LogInformation($"{nameof(GetLastDebunkinNewsFetchTimestampAsync)}: done");
-
-            return latestTriggerDateTime;
-        }
-
         public async Task<TriggerLogsGetAllResponse> GetAllTriggerLogsAsync(int pageSize, int pageIndex)
         {
             _logger?.LogInformation(nameof(GetAllTriggerLogsAsync));

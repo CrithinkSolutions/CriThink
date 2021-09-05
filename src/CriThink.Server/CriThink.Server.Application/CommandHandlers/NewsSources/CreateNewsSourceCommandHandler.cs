@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Validators;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;

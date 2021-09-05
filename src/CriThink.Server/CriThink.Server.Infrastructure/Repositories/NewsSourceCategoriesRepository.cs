@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Repositories;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;

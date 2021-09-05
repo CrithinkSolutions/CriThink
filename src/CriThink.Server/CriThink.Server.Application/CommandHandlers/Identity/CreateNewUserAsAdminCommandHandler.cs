@@ -26,7 +26,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
         public async Task<Unit> Handle(CreateNewUserAsAdminCommand request, CancellationToken cancellationToken)
         {
-            _logger?.LogInformation("CreateNewUserAsAdmin");
+            _logger?.LogInformation(nameof(CreateNewUserAsAdminCommand));
 
             var user = User.Create(
                 request.Username,
@@ -42,7 +42,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await _userRepository.AddClaimsToAdminUserAsync(user);
 
-            _logger?.LogInformation("CreateNewUserAsAdmin: done");
+            _logger?.LogInformation($"{nameof(CreateNewUserAsAdminCommand)}: done");
 
             return Unit.Value;
         }

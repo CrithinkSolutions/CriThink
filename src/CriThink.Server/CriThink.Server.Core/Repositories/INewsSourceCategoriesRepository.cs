@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Repositories
 {

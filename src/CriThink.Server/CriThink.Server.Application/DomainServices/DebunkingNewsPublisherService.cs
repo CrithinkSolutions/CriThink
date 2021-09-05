@@ -1,31 +1,41 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.DomainServices;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Repositories;
 
 namespace CriThink.Server.Application.DomainServices
 {
     internal class DebunkingNewsPublisherService : IDebunkingNewsPublisherService
     {
-        private readonly IDebunkingNewsPublisherRepository _debunkingNewsPublisherRepository;
+        private readonly IDebunkingNewsPublisherQueries _debunkingNewsPublisherQueries;
 
         public DebunkingNewsPublisherService(
-            IDebunkingNewsPublisherRepository debunkingNewsPublisherRepository)
+            IDebunkingNewsPublisherQueries debunkingNewsPublisherQueries)
         {
-            _debunkingNewsPublisherRepository = debunkingNewsPublisherRepository ??
-                throw new ArgumentNullException(nameof(debunkingNewsPublisherRepository));
+            _debunkingNewsPublisherQueries = debunkingNewsPublisherQueries ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherQueries));
         }
 
-        public async Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByNameAsync(string publisherName)
+        public async Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByNameAsync(
+            string publisherName,
+            CancellationToken cancellationToken = default)
         {
-            var debunkingNewsPublisher = await _debunkingNewsPublisherRepository.GetPublisherByNameAsync(publisherName);
+            var debunkingNewsPublisher = await _debunkingNewsPublisherQueries.GetDebunkingNewsPublisherByNameAsync(
+                publisherName,
+                cancellationToken);
+
             return debunkingNewsPublisher;
         }
 
-        public async Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByIdAsync(Guid id)
+        public async Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var debunkingNewsPublisher = await _debunkingNewsPublisherRepository.GetPublisherByIdAsync(id);
+            var debunkingNewsPublisher = await _debunkingNewsPublisherQueries.GetDebunkingNewsPublisherByIdAsync(
+                id, cancellationToken);
+
             return debunkingNewsPublisher;
         }
     }

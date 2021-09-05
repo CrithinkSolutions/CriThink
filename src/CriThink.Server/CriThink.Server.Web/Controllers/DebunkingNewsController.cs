@@ -145,7 +145,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDebunkingNewsAsync([FromQuery] DebunkingNewsGetRequest request)
         {
-            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsAsync(request.Id);
+            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsByIdAsync(request.Id);
             return Ok(new ApiOkResponse(debunkingNews));
         }
     }

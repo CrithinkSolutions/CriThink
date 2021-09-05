@@ -28,9 +28,9 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             var userId = request.Id;
 
-            var user = await _userRepository.FindUserAsync(userId.ToString());
+            var user = await _userRepository.GetUserByIdAsync(userId);
             if (user is null)
-                throw new ResourceNotFoundException("User not found", userId.ToString());
+                throw new ResourceNotFoundException("User not found", userId);
 
             if (!string.IsNullOrWhiteSpace(request.UserName))
                 user.UserName = request.UserName;

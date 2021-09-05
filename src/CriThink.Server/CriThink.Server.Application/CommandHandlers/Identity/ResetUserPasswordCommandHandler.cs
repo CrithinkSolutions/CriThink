@@ -30,7 +30,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var token = request.Token;
             var newPassword = request.NewPassword;
 
-            var user = await _userRepository.FindUserAsync(userId);
+            var user = await _userRepository.FindUserAsync(userId, cancellationToken);
             if (user is null)
                 throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
             if (user.IsDeleted)

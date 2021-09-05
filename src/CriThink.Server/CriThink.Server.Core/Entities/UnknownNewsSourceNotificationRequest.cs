@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using CriThink.Server.Core.DomainEvents;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownNewsSourceNotificationRequest : Entity<Guid>
+    public class UnknownNewsSourceNotificationRequest : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
@@ -42,6 +43,15 @@ namespace CriThink.Server.Core.Entities
             return new UnknownNewsSourceNotificationRequest(
                 userEmail,
                 unknownNewsSource);
+        }
+
+        public void SendNotification()
+        {
+            AddDomainEvent(
+                new NewsSourceIdentifiedDomainEvent(
+                    Email,
+                    UnknownNewsSource,
+                    RequestedAt));
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 // ReSharper disable CheckNamespace
 namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
@@ -12,7 +13,7 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
         public string RefreshToken { get; set; }
 
         [JsonPropertyName("userId")]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }

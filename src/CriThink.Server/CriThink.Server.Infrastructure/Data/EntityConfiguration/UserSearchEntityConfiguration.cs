@@ -1,5 +1,4 @@
-﻿using CriThink.Server.Core.Commands;
-using CriThink.Server.Core.Entities;
+﻿using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class ArticleAnswer : Entity<Guid>
+    public class ArticleAnswer : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
@@ -22,7 +21,9 @@ namespace CriThink.Server.Core.Entities
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
+            Id = Guid.NewGuid();
             NewsLink = newsLink;
+            UserId = user.Id;
             User = user ??
                 throw new ArgumentNullException(nameof(user));
         }
@@ -47,6 +48,9 @@ namespace CriThink.Server.Core.Entities
             string newsLink,
             User user)
         {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user));
+
             return new ArticleAnswer(
                 newsLink,
                 user);
@@ -55,7 +59,7 @@ namespace CriThink.Server.Core.Entities
         #endregion
 
         public void CalculateUserRate(
-            NewsSourceClassification classification,
+            NewsSourceAuthenticity classification,
             IList<ArticleQuestion> questions,
             IList<(Guid Id, decimal Rate)> answers)
         {
@@ -67,8 +71,6 @@ namespace CriThink.Server.Core.Entities
 
             if (questions.Count != answers.Count)
                 throw new ArgumentException("The number of questions and answers is different");
-
-            Rate = 0;
 
             decimal userEvaluation = 0;
             foreach (var question in questions)
@@ -83,16 +85,16 @@ namespace CriThink.Server.Core.Entities
             Rate = classification switch
             {
                 var nsc when
-                    nsc == NewsSourceClassification.FakeNews ||
-                    nsc == NewsSourceClassification.Conspiracist => 0.7m * 0m + 0.3m * userEvaluation,
+                    nsc == NewsSourceAuthenticity.FakeNews ||
+                    nsc == NewsSourceAuthenticity.Conspiracist => 0.7m * 0m + 0.3m * userEvaluation,
 
                 var nsc when
-                    nsc == NewsSourceClassification.Suspicious ||
-                    nsc == NewsSourceClassification.SocialMedia => 0.5m * 2m + 0.5m * userEvaluation,
+                    nsc == NewsSourceAuthenticity.Suspicious ||
+                    nsc == NewsSourceAuthenticity.SocialMedia => 0.5m * 2m + 0.5m * userEvaluation,
 
-                NewsSourceClassification.Satirical => 0.6m * 3m + 0.4m * userEvaluation,
+                NewsSourceAuthenticity.Satirical => 0.6m * 3m + 0.4m * userEvaluation,
 
-                NewsSourceClassification.Reliable => 0.6m * 5m + 0.4m * userEvaluation,
+                NewsSourceAuthenticity.Reliable => 0.6m * 5m + 0.4m * userEvaluation,
 
                 _ => throw new NotImplementedException("Unknown classification type")
             };

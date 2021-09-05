@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
+using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,9 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             _logger?.LogInformation(nameof(UpdateUserProfileCommand), request.UserId);
 
-            var user = await _userRepository.FindUserAsync(request.UserId.ToString());
+            var user = await _userRepository.GetUserByIdAsync(request.UserId);
+            if (user is null)
+                throw new ResourceNotFoundException("User not found", request.UserId);
 
             user.UpdateFamilyName(request.FamilyName);
             user.UpdateGivenName(request.GivenName);

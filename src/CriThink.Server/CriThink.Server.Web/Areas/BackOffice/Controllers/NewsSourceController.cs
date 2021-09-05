@@ -7,7 +7,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Infrastructure.Constants;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;

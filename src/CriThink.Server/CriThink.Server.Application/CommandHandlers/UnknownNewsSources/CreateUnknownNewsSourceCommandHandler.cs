@@ -2,26 +2,23 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Core.Commands;
-using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Npgsql;
 
 namespace CriThink.Server.Application.CommandHandlers
 {
     internal class CreateUnknownNewsSourceCommandHandler : IRequestHandler<CreateUnknownNewsSourceCommand>
     {
-        private readonly CriThinkDbContext _dbContext;
+        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
         private readonly ILogger<CreateUnknownNewsSourceCommandHandler> _logger;
 
         public CreateUnknownNewsSourceCommandHandler(
-            CriThinkDbContext dbContext,
+            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
             ILogger<CreateUnknownNewsSourceCommandHandler> logger)
         {
-            _dbContext = dbContext ??
-                throw new ArgumentNullException(nameof(dbContext));
+            _unknownNewsSourcesRepository = unknownNewsSourcesRepository ??
+                throw new ArgumentNullException(nameof(unknownNewsSourcesRepository));
 
             _logger = logger;
         }
@@ -33,29 +30,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             try
             {
-                var sqlQuery = "INSERT INTO unknown_news_sources\n" +
-                           "(id, uri, first_requested_at, request_count, authenticity)\n" +
-                           "VALUES\n" +
-                           "({0}, {1}, {2}, {3}, {4})\n" +
-                           "ON CONFLICT (uri)\n" +
-                           "DO UPDATE\n" +
-                           "SET\n" +
-                           "request_count = (unknown_news_sources.request_count + 1);";
+                await _unknownNewsSourcesRepository.AddUnknownNewsSourceAsync(request.NewsLink);
 
-                var id = new NpgsqlParameter("id", Guid.NewGuid());
-                var uri = new NpgsqlParameter("uri", request.NewsLink);
-                var firstRequestedAt = new NpgsqlParameter("first_requested_at", DateTime.Now);
-                var requestCount = new NpgsqlParameter("request_count", 1);
-                var authenticity = new NpgsqlParameter("authenticity", NewsSourceAuthenticity.Unknown.ToString());
-
-                await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
-                        id,
-                        uri,
-                        firstRequestedAt,
-                        requestCount,
-                        authenticity);
-
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                await _unknownNewsSourcesRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
                 return Unit.Value;
             }

@@ -7,7 +7,7 @@ using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface IUnknownNewsSourcesRepository
+    public interface IUnknownNewsSourcesRepository : IRepository<UnknownNewsSource>
     {
         Task<List<GetAllUnknownSourcesQueryResult>> GetAllUnknownSourcesAsync(
             int pageSize,
@@ -27,5 +27,8 @@ namespace CriThink.Server.Core.Repositories
             int pageSize,
             int pageIndex,
             CancellationToken cancellationToken = default);
+
+        Task AddUnknownNewsSourceAsync(
+            string newsLink);
     }
 }

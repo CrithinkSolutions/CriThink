@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Application.Automapper
 {

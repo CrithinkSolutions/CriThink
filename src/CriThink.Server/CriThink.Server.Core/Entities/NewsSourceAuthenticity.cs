@@ -1,4 +1,4 @@
-﻿namespace CriThink.Server.Core.Commands
+﻿namespace CriThink.Server.Core.Entities
 {
     /// <summary>
     /// Represents the news source categories

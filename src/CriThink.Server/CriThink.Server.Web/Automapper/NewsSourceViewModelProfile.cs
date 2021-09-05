@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CriThink.Server.Core.Commands;
+using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 

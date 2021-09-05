@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Application.Validators;
 using CriThink.Server.Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -28,13 +27,14 @@ namespace CriThink.Server.Application.CommandHandlers.Notification
         {
             _logger?.LogInformation(nameof(DeleteNotificationForUnknownSourceCommand));
 
-            var validator = new DomainValidator();
-            var validated = validator.ValidateDomain(request.NewsSource);
-
-            await _notificationRepository.DeleteNotificationRequestAsync(
-                validated,
+            var notificationRequest = await _notificationRepository.GetNotificationByEmailAndLinkAsync(
                 request.UserEmail,
+                request.NewsSource,
                 cancellationToken);
+
+            _notificationRepository.DeleteNotificationRequest(notificationRequest);
+
+            await _notificationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             _logger?.LogInformation($"{nameof(DeleteNotificationForUnknownSourceCommand)}: done");
 

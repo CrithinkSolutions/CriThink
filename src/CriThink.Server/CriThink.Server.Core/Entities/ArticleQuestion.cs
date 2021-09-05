@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class ArticleQuestion : Entity<Guid>
+    public class ArticleQuestion : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
