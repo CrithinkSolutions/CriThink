@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="Converters\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +60,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
 </Project>

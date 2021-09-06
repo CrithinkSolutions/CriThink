@@ -561,4 +561,7 @@
   <data name="HomeStatisticsViewModel.Error" xml:space="preserve">
     <value>Oops! We're trying to fix the issue</value>
   </data>
+  <data name="NewsCheckerViewModel.Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
 </root>

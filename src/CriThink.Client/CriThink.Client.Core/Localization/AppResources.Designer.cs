@@ -934,5 +934,11 @@ namespace CriThink.Client.Core.Localization {
                 return ResourceManager.GetString("HomeStatisticsViewModel.Error", resourceCulture);
             }
         }
+        
+        internal static string NewsCheckerViewModel_Hello {
+            get {
+                return ResourceManager.GetString("NewsCheckerViewModel.Hello", resourceCulture);
+            }
+        }
     }
 }

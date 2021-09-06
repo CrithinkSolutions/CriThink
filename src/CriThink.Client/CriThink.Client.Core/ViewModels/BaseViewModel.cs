@@ -37,7 +37,6 @@ namespace CriThink.Client.Core.ViewModels
         {
             if (mvxViewModelLoader is null)
                 throw new ArgumentNullException(nameof(mvxViewModelLoader));
-
             return (T) mvxViewModelLoader.LoadViewModel(
                 new MvxViewModelRequest<T>(null, null), null);
         }

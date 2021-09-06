@@ -50,6 +50,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         #region Properties
 
+        public string HelloText => LocalizedTextSource.GetText("Hello");
+
         public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
 
         public List<ITransformation> LogoImageTransformations { get; }

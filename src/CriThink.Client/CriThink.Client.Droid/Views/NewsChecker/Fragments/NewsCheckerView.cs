@@ -69,7 +69,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var set = CreateBindingSet();
 
             set.Bind(txtWelcome).To(vm => vm.WelcomeText);
-            set.Bind(txtName).To(vm => vm.Username).WithConversion(nameof(UsernameValueConverter));
+            set.Bind(txtName).SourceDescribed("HelloText + ' ' + Username");
             set.Bind(txtMotto).ToLocalizationId("Motto");
             set.Bind(txtDate).To(vm => vm.TodayDate);
             set.Bind(btnNews).For(v => v.Text).ToLocalizationId("NewsLinkHint");
