@@ -9,6 +9,7 @@ using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using Com.Facebook.Shimmer;
+using CriThink.Client.Core.Converters;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Extensions;
