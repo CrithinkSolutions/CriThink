@@ -10,7 +10,6 @@ using Google.Android.Material.BottomNavigation;
 using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Binding.Bindings.Target.Construction;
-using MvvmCross.Converters;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Core;
 using MvvmCross.Platforms.Android.Presenters;
