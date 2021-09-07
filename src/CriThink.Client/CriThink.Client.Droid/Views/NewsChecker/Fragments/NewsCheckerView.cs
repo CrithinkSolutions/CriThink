@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using Com.Facebook.Shimmer;
+using CriThink.Client.Core.Converters;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Controls;
@@ -50,6 +53,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var listDebunkingNews = view.FindViewById<MvxRecyclerView>(Resource.Id.list_debunkingNews);
             var layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Vertical, false);
             _layoutShimmer = view.FindViewById<ShimmerFrameLayout>(Resource.Id.shimmer_layout);
+            var seeAll = ViewModel.LocalizedTextSource.GetText("SeeAll");
+            var seeAllSpannable = new SpannableString(seeAll);
+            seeAllSpannable.SetSpan(new UnderlineSpan(), 0, seeAll.Length, 0);
+            txtSeeAll.SetText(seeAllSpannable, TextView.BufferType.Spannable);
             _layoutShimmer.StartShimmerAnimation(ViewModel.IsLoading);
             listDebunkingNews.SetLayoutManager(layoutManager);
             // Workaround to avoid a crash when navigating from login view model.
@@ -62,14 +69,13 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var set = CreateBindingSet();
 
             set.Bind(txtWelcome).To(vm => vm.WelcomeText);
-            set.Bind(txtName).To(vm => vm.Username);
+            set.Bind(txtName).SourceDescribed("HelloText + ' ' + Username");
             set.Bind(txtMotto).ToLocalizationId("Motto");
             set.Bind(txtDate).To(vm => vm.TodayDate);
             set.Bind(btnNews).For(v => v.Text).ToLocalizationId("NewsLinkHint");
             set.Bind(btnNews).To(vm => vm.NavigateNewsCheckerCommand);
             set.Bind(adapter).For(v => v.ItemsSource).To(vm => vm.Feed);
             set.Bind(listDebunkingNews).For(v => v.ItemClick).To(vm => vm.DebunkingNewsSelectedCommand);
-            set.Bind(txtSeeAll).ToLocalizationId("SeeAll");
             set.Bind(txtSeeAll).For("Click").To(vm => vm.NavigateToAllDebunkingNewsCommand);
             set.Bind(imgLogo).For(v => v.Transformations).To(vm => vm.LogoImageTransformations);
             set.Bind(imgLogo).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);

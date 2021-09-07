@@ -36,7 +36,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             : base(logger, navigationService)
         {
             TabId = "news_checker";
-
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
             _logger = logger;
@@ -45,11 +44,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             LogoImageTransformations = new List<ITransformation>
             {
-                new CircleTransformation()
+                new CircleTransformation(10, "#FFFFFF")
             };
         }
 
         #region Properties
+
+        public string HelloText => LocalizedTextSource.GetText("Hello");
 
         public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
 
@@ -120,7 +121,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             };
 
             WelcomeText = LocalizedTextSource.GetText(localizedString);
-            TodayDate = currentDate.ToString("D", CultureInfo.CurrentCulture);
+            TodayDate = currentDate.ToString("MMM dd, yyyy", CultureInfo.CurrentCulture);
         }
 
         public override async Task Initialize()

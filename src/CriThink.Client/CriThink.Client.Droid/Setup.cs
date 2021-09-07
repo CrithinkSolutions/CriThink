@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CriThink.Client.Core;
+using CriThink.Client.Core.Converters;
 using CriThink.Client.Core.Logging;
 using CriThink.Client.Core.Platform;
 using CriThink.Client.Droid.Bindings;
@@ -51,7 +52,9 @@ namespace CriThink.Client.Droid
         }
 
         protected override void FillValueConverters(IMvxValueConverterRegistry registry)
-        { }
+        {
+            registry.AddOrOverwrite(nameof(UsernameValueConverter), new UsernameValueConverter());
+        }
 
         protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
         {
