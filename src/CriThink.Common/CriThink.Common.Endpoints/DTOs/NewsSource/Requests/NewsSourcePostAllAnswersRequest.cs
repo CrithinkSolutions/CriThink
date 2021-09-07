@@ -6,7 +6,7 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
     public class NewsSourcePostAllAnswersRequest
     {
         [JsonPropertyName("questions")]
-        public IList<NewsSourcePostAnswersRequest> Questions { get; set; }
+        public IList<NewsSourcePostAnswerRequest> Questions { get; set; }
 
         [JsonPropertyName("newsLink")]
         public string NewsLink { get; set; }

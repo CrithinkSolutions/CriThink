@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Core.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +19,15 @@ namespace CriThink.Server.Infrastructure.Repositories
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
-        public async Task<IList<RoleGetResponse>> GetAllRolesAsync()
+        public async Task<IList<GetAllRolesQueryResult>> GetAllRolesAsync()
         {
             var allRoles = await _roleManager.Roles
-                .Select(r => new RoleGetResponse
+                .Select(r => new GetAllRolesQueryResult
                 {
                     Name = r.Name,
-                    Id = r.Id.ToString()
+                    Id = r.Id
                 })
-                .ToListAsync()
-                .ConfigureAwait(false);
+                .ToListAsync();
 
             return allRoles;
         }

@@ -20,9 +20,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IUnitOfWork UnitOfWork => _dbContext;
-
-        public async Task<IList<ArticleQuestion>> GetQuestionsByCategoryAsync(
+        public async Task<IList<NewsSourcePostQuestion>> GetQuestionsByCategoryAsync(
             QuestionCategory category,
             CancellationToken cancellationToken = default)
         {

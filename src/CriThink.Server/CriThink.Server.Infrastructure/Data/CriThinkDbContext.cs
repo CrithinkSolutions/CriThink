@@ -29,9 +29,9 @@ namespace CriThink.Server.Infrastructure.Data
             : base(options)
         { }
 
-        public DbSet<ArticleAnswer> ArticleAnswers { get; set; }
+        public DbSet<NewsSoucePostAnswer> ArticleAnswers { get; set; }
 
-        public DbSet<ArticleQuestion> ArticleQuestions { get; set; }
+        public DbSet<NewsSourcePostQuestion> ArticleQuestions { get; set; }
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
 

@@ -10,12 +10,6 @@ namespace CriThink.Server.Application.Automapper
     {
         public NewsSourceProfile()
         {
-            CreateMap<GetAllNewsSourceQueryResult, NewsSourceGetResponse>()
-                .ForMember(dest => dest.Uri,
-                    opt => opt.MapFrom(src => src.NewsLink.ToLowerInvariant()))
-                .ForMember(dest => dest.NewsSourceClassification,
-                    opt => opt.MapFrom(src => src.SourceAuthencity));
-
             CreateMap<SearchNewsSourceQueryResponse, NewsSourceSearchResponse>()
                 .ForMember(dest => dest.Description,
                     opt => opt.MapFrom(src => src.Description))

@@ -1,5 +1,5 @@
-﻿@using CriThink.Common.Endpoints.DTOs.Admin;
-@model NotificationRequestGetAllResponse
+﻿@using CriThink.Server.Application.Administration.ViewModels;
+@model NotificationRequestGetAllViewModel
 
 @{
     Layout = "_LayoutPagination";
@@ -18,23 +18,23 @@
 @section sidebarRight
 {
     <table class="table">
-            <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Link</th>
-                    <th>Requested At</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
-            @foreach (var userNotify in Model.NotificationCollection)
-            {
-                <tr>
-                    <td>@userNotify.Email</td>
-                    <td>@userNotify.RequestedLink</td>
-                    <td>@userNotify.RequestedAt</td>
-                    <td>@userNotify.RequestCount</td>
-                </tr>
-            }
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Link</th>
+                <th>Requested At</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        @foreach (var userNotify in Model.NotificationCollection)
+        {
+            <tr>
+                <td>@userNotify.Email</td>
+                <td>@userNotify.RequestedLink</td>
+                <td>@userNotify.RequestedAt</td>
+                <td>@userNotify.RequestCount</td>
+            </tr>
+        }
     </table>
 }
 

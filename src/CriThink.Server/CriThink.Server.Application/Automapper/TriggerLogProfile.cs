@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Application.Automapper
@@ -8,7 +8,7 @@ namespace CriThink.Server.Application.Automapper
     {
         public TriggerLogProfile()
         {
-            CreateMap<GetAllTriggerLogQueryResult, TriggerLogGetResponse>()
+            CreateMap<GetAllTriggerLogQueryResult, TriggerLogGetViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.IsSuccessful, opt => opt.MapFrom(src => src.IsSuccessful))
                 .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.TimeStamp.ToString("u")))

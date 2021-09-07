@@ -29,6 +29,8 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await _debunkingNewsRepository.RemoveDebunkingNewsByIdAsync(request.Id);
 
+            await _debunkingNewsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
             _logger?.LogInformation($"{nameof(DeleteDebunkingNewsCommandHandler)}: done");
 
             return Unit.Value;

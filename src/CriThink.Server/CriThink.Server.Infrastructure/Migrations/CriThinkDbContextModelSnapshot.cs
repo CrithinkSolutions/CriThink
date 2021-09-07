@@ -19,92 +19,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.ArticleAnswer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("NewsLink")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("news_link");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("numeric")
-                        .HasColumnName("rate");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_article_answers");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_article_answers_user_id");
-
-                    b.ToTable("article_answers");
-                });
-
-            modelBuilder.Entity("CriThink.Server.Core.Entities.ArticleQuestion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("category");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("question");
-
-                    b.Property<decimal>("Ratio")
-                        .HasColumnType("numeric")
-                        .HasColumnName("ratio");
-
-                    b.HasKey("Id")
-                        .HasName("pk_article_questions");
-
-                    b.ToTable("article_questions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("30c7d606-d1cf-434e-a1f3-b7b1841dc331"),
-                            Category = "General",
-                            Question = "HQuestion",
-                            Ratio = 0.3m
-                        },
-                        new
-                        {
-                            Id = new Guid("12f7218c-e2dd-43cd-82e0-a9216fcf6aff"),
-                            Category = "General",
-                            Question = "EQuestion",
-                            Ratio = 0.4m
-                        },
-                        new
-                        {
-                            Id = new Guid("a05d4433-2c47-4749-a8f0-fb9a6e35a868"),
-                            Category = "General",
-                            Question = "AQuestion",
-                            Ratio = 0.2m
-                        },
-                        new
-                        {
-                            Id = new Guid("8731f45c-a41f-45d9-b97d-0f181e2cce94"),
-                            Category = "General",
-                            Question = "DQuestion",
-                            Ratio = 0.1m
-                        });
-                });
-
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
@@ -383,6 +297,35 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("debunking_news_trigger_logs");
                 });
 
+            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSoucePostAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("NewsLink")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("news_link");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("rate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_article_answers");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_article_answers_user_id");
+
+                    b.ToTable("article_answers");
+                });
+
             modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourceCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -446,6 +389,63 @@ namespace CriThink.Server.Infrastructure.Migrations
                             Id = new Guid("d66bf55d-d30d-448f-be69-d2e0cebdd26a"),
                             Authenticity = "SocialMedia",
                             Description = "NewsSourceSocialMedia"
+                        });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourcePostQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("category");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("question");
+
+                    b.Property<decimal>("Ratio")
+                        .HasColumnType("numeric")
+                        .HasColumnName("ratio");
+
+                    b.HasKey("Id")
+                        .HasName("pk_article_questions");
+
+                    b.ToTable("article_questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30c7d606-d1cf-434e-a1f3-b7b1841dc331"),
+                            Category = "General",
+                            Question = "HQuestion",
+                            Ratio = 0.3m
+                        },
+                        new
+                        {
+                            Id = new Guid("12f7218c-e2dd-43cd-82e0-a9216fcf6aff"),
+                            Category = "General",
+                            Question = "EQuestion",
+                            Ratio = 0.4m
+                        },
+                        new
+                        {
+                            Id = new Guid("a05d4433-2c47-4749-a8f0-fb9a6e35a868"),
+                            Category = "General",
+                            Question = "AQuestion",
+                            Ratio = 0.2m
+                        },
+                        new
+                        {
+                            Id = new Guid("8731f45c-a41f-45d9-b97d-0f181e2cce94"),
+                            Category = "General",
+                            Question = "DQuestion",
+                            Ratio = 0.1m
                         });
                 });
 
@@ -780,6 +780,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                             ConcurrencyStamp = "15b1b12c-4dff-413e-81d5-7c9423f25c35",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("4c28eed7-a34a-4534-9c2c-5ffe86b72393"),
+                            ConcurrencyStamp = "4E597EE6-5339-44B0-988E-258AD486BE49",
+                            Name = "FreeUser",
+                            NormalizedName = "FREEUSER"
                         });
                 });
 
@@ -982,18 +989,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("aspnet_user_tokens");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.ArticleAnswer", b =>
-                {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
-                        .WithMany("ArticleAnswers")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_article_answers_users_user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
                 {
                     b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsPublisher", "Publisher")
@@ -1025,6 +1020,18 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("Language");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSoucePostAnswer", b =>
+                {
+                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                        .WithMany("ArticleAnswers")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_article_answers_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CriThink.Server.Core.Entities.RefreshToken", b =>

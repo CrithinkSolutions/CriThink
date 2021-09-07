@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.QueryResults;
 
@@ -10,7 +10,7 @@ namespace CriThink.Server.Application.Automapper
     {
         public UnknownNewsSourceProfile()
         {
-            CreateMap<UnknownNewsSource, Common.Endpoints.DTOs.UnknownNewsSource.UnknownNewsSourceResponse>()
+            CreateMap<UnknownNewsSource, UnknownNewsSourceResponse>()
                 .ForMember(dest =>
                     dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest =>
@@ -18,7 +18,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.Classification, opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceClassification>(src.Authenticity)));
 
-            CreateMap<GetAllSubscribedUsersWithSourceQueryResult, NotificationRequestGetResponse>()
+            CreateMap<GetAllSubscribedUsersWithSourceQueryResult, NotificationRequestGetViewModel>()
                 .ForMember(dest =>
                     dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest =>
@@ -30,7 +30,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.RequestedLink, opt => opt.MapFrom(src => src.Domain));
 
-            CreateMap<GetAllUnknownSourcesQueryResult, UnknownNewsSourceGetResponse>()
+            CreateMap<GetAllUnknownSourcesQueryResult, UnknownNewsSourceGetViewModel>()
                 .ForMember(dest =>
                     dest.Authenticity, opt => opt.MapFrom(src => src.NewsSourceAuthenticity.ToString()))
                 .ForMember(dest =>

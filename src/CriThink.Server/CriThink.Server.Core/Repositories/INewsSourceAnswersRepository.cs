@@ -6,17 +6,17 @@ using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface INewsSourceAnswersRepository : IRepository<ArticleAnswer>
+    public interface INewsSourceAnswersRepository : IRepository<NewsSoucePostAnswer>
     {
-        Task<IList<ArticleAnswer>> GetNewsSourceAnswersByUserId(
+        Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByUserId(
             Guid userId,
             string newsLink,
             CancellationToken cancellationToken = default);
 
-        Task<IList<ArticleAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
+        Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
             string newsLink,
             CancellationToken cancellationToken = default);
 
-        Task AddAsync(ArticleAnswer answer);
+        Task AddAsync(NewsSoucePostAnswer answer);
     }
 }

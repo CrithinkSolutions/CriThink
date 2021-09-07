@@ -34,7 +34,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                 .OrderByDescending(dn => dn.PublishingDate)
                 .AsQueryable();
 
-            IList<string> languageCodes = languageFilter
+            IList<string> languageCodes = languageFilter?
                 .Split(',')
                 .ToList();
 

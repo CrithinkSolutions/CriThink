@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Core.Repositories;
 using Microsoft.Extensions.Logging;
@@ -29,7 +29,7 @@ namespace CriThink.Server.Application.Queries
             _logger = logger;
         }
 
-        public async Task<NotificationRequestGetAllResponse> GetAllNotificationsAsync(int pageSize, int pageIndex)
+        public async Task<NotificationRequestGetAllViewModel> GetAllNotificationsAsync(int pageSize, int pageIndex)
         {
             _logger?.LogInformation(nameof(GetAllNotificationsAsync));
 
@@ -37,10 +37,10 @@ namespace CriThink.Server.Application.Queries
 
             var dtos = notificationCollection
                 .Take(pageSize)
-                .Select(notification => _mapper.Map<GetAllSubscribedUsersWithSourceQueryResult, NotificationRequestGetResponse>(notification))
+                .Select(notification => _mapper.Map<GetAllSubscribedUsersWithSourceQueryResult, NotificationRequestGetViewModel>(notification))
                 .ToList();
 
-            var response = new NotificationRequestGetAllResponse(dtos, notificationCollection.Count > pageSize);
+            var response = new NotificationRequestGetAllViewModel(dtos, notificationCollection.Count > pageSize);
 
             _logger?.LogInformation($"{nameof(GetAllNotificationsAsync)}: done");
 

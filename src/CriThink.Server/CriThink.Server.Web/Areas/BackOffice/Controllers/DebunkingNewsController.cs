@@ -4,6 +4,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
 using CriThink.Server.Web.Models.DTOs;
@@ -17,7 +18,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice debunking news operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route(EndpointConstants.DebunkNewsBase)]
@@ -42,12 +43,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
-
             var news = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
                 viewModel.PageSize,
                 viewModel.PageIndex);

@@ -18,7 +18,7 @@ namespace CriThink.Server.Core.Repositories
             Guid id,
             CancellationToken cancellationToken = default);
 
-        Task<Guid> GetUnknownNewsSourceByIdAsync(
+        Task<UnknownNewsSource> GetUnknownNewsSourceByUriAsync(
             string newsLink,
             CancellationToken cancellationToken = default);
 

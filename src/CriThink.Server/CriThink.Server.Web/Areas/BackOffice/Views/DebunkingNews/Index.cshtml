@@ -1,4 +1,4 @@
-@using CriThink.Common.Endpoints.DTOs.Admin;
+@using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 @using CriThink.Common.Endpoints;
 @using CriThink.Server.Web.Areas.BackOffice.Controllers;
 @model DebunkingNewsGetAllResponse;
@@ -8,7 +8,7 @@
     ViewData["Title"] = "Debunking News";
 }
 
-@section sidebarLeft 
+@section sidebarLeft
 {
     <div class="list-group list-group-flush">
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">Debunking News</a>
@@ -16,7 +16,7 @@
     </div>
 }
 
-@section sidebarRight 
+@section sidebarRight
 {
     <div id="toolbox" class="border p-2 mb-2">
         <a asp-area="BackOffice" asp-controller="DebunkingNews" asp-action="AddNewsView" type="button" class="btn btn-success"><i class="fas fa-plus"></i></a>

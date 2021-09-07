@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Application.Administration.ViewModels;
 
 namespace CriThink.Server.Application.Queries
 {
@@ -11,6 +11,6 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
         /// <returns></returns>
-        Task<TriggerLogsGetAllResponse> GetAllTriggerLogsAsync(int pageSize, int pageIndex);
+        Task<TriggerLogsGetAllViewModel> GetAllTriggerLogsAsync(int pageSize, int pageIndex);
     }
 }

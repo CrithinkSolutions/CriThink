@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
+using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Application.Validators;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.QueryResults;
@@ -119,7 +118,7 @@ namespace CriThink.Server.Application.Queries
             return response;
         }
 
-        public async Task<UnknownNewsSourceGetAllResponse> GetAllUnknownNewsSourcesAsync(int pageSize, int pageIndex)
+        public async Task<UnknownNewsSourceGetAllViewModel> GetAllUnknownNewsSourcesAsync(int pageSize, int pageIndex)
         {
             _logger?.LogInformation(nameof(GetAllUnknownNewsSourcesAsync));
 
@@ -128,10 +127,10 @@ namespace CriThink.Server.Application.Queries
 
             var dtos = unknownNewsSourceCollection
                 .Take(pageSize)
-                .Select(_mapper.Map<GetAllUnknownSourcesQueryResult, UnknownNewsSourceGetResponse>)
+                .Select(_mapper.Map<GetAllUnknownSourcesQueryResult, UnknownNewsSourceGetViewModel>)
                 .ToList();
 
-            var response = new UnknownNewsSourceGetAllResponse(dtos, unknownNewsSourceCollection.Count > pageSize);
+            var response = new UnknownNewsSourceGetAllViewModel(dtos, unknownNewsSourceCollection.Count > pageSize);
 
             _logger?.LogInformation($"{nameof(GetAllUnknownNewsSourcesAsync)}: done");
 

@@ -207,12 +207,12 @@ namespace CriThink.Server.Application.CommandHandlers
             User user,
             string newsLink,
             NewsSource searchResponse,
-            IList<NewsSourcePostAnswersRequest> answers)
+            IList<NewsSourcePostAnswerRequest> answers)
         {
             var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
             var otherUserAnswers = await _newsSourceAnswersRepository.GetNewsSourceAnswersByNewsLinkAsync(newsLink);
 
-            var answer = ArticleAnswer.Create(newsLink, user);
+            var answer = NewsSoucePostAnswer.Create(newsLink, user);
             answer.CalculateUserRate(searchResponse.Category, questionList, answers.Select(q => (q.QuestionId, q.Rate)).ToList());
 
             var communityRate = otherUserAnswers.Any() ?

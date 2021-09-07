@@ -11,7 +11,7 @@ namespace CriThink.Server.Application.Commands
             Guid userId,
             string email,
             string newsLink,
-            IList<NewsSourcePostAnswersRequest> questions)
+            IList<NewsSourcePostAnswerRequest> questions)
         {
             UserId = userId;
             Email = email;
@@ -25,6 +25,6 @@ namespace CriThink.Server.Application.Commands
 
         public string NewsLink { get; }
 
-        public IList<NewsSourcePostAnswersRequest> Questions { get; }
+        public IList<NewsSourcePostAnswerRequest> Questions { get; }
     }
 }

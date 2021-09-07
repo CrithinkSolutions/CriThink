@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Validators;
 using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Exceptions;
 using CriThink.Server.Core.QueryResults;
 using CriThink.Server.Core.Repositories;
 using MediatR;
@@ -50,27 +49,22 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw new InvalidOperationException("You can't notify a user with an unknown source");
 
             var validator = new DomainValidator();
-            var requestedUri = validator.ValidateDomain(request.Source);
+            var domain = validator.ValidateDomain(request.Source);
 
-            var newsSourceId = await _unknownNewsSourcesRepository.GetUnknownNewsSourceByIdAsync(
-                requestedUri,
-                cancellationToken);
-
-            await NotifyUsersAsync(
-                newsSourceId,
+            var unknownNewsSource = await _unknownNewsSourcesRepository.GetUnknownNewsSourceByUriAsync(
                 request.Source,
                 cancellationToken);
 
-            var newsSource = await _unknownNewsSourcesRepository.GetUnknownNewsSourceByIdAsync(newsSourceId);
-            if (newsSource is null)
-                throw new ResourceNotFoundException(nameof(newsSource));
+            unknownNewsSource.UpdateIdentifiedAt(DateTime.UtcNow);
+            unknownNewsSource.UpdateAuthenticity(request.Classification);
 
-            newsSource.UpdateIdentifiedAt(DateTime.UtcNow);
-            newsSource.UpdateAuthenticity(request.Classification);
+            await NotifyUsersAsync(
+                unknownNewsSource,
+                cancellationToken);
 
-            await ValidateRequestAsync(requestedUri, request.Classification);
+            unknownNewsSource.MarkAsKnown(domain, request.Classification);
 
-            await _newsSourceRepository.AddNewsSourceAsync(requestedUri, request.Classification);
+            await _unknownNewsSourcesRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             _logger?.LogInformation($"{nameof(IdentifyUnknownNewsSourceCommand)}: done");
 
@@ -78,8 +72,7 @@ namespace CriThink.Server.Application.CommandHandlers
         }
 
         private async Task NotifyUsersAsync(
-            Guid unknownNewsId,
-            string requestedUri,
+            UnknownNewsSource unknownNewsSource,
             CancellationToken cancellationToken)
         {
             const int pageSize = 20;
@@ -87,15 +80,15 @@ namespace CriThink.Server.Application.CommandHandlers
 
             do
             {
-                IList<GetAllSubscribedUsersQueryResult> subscribedUsers = await _unknownNewsSourcesRepository.GetAllSubscribedUsersAsync
-                    (unknownNewsId,
+                IList<GetAllSubscribedUsersQueryResult> subscribedUsers = await _unknownNewsSourcesRepository.GetAllSubscribedUsersAsync(
+                    unknownNewsSource.Id,
                     pageSize + 1,
                     pageIndex++,
                     cancellationToken);
 
                 foreach (var user in subscribedUsers.Take(pageSize))
                 {
-                    await NotifyUserAsync(user.Email, requestedUri, cancellationToken);
+                    await NotifyUserAsync(user.Email, unknownNewsSource.Uri, cancellationToken);
                 }
 
                 if (subscribedUsers.Count <= pageSize) break;
@@ -110,41 +103,20 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             try
             {
-                var notificationRequest = await _notificationRepository.GetNotificationByEmailAndLinkAsync(userEmail, uri, cancellationToken);
-                notificationRequest.SendNotification();
-                _notificationRepository.DeleteNotificationRequest(notificationRequest);
+                var notificationRequest = await _notificationRepository.GetNotificationByEmailAndLinkAsync(
+                    userEmail,
+                    uri,
+                    cancellationToken);
 
+                notificationRequest.Send();
                 await _notificationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+                _notificationRepository.DeleteNotificationRequest(notificationRequest);
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, $"Can't send an email to user '{userEmail}' for uri '{uri}'");
             }
-        }
-
-        private async Task ValidateRequestAsync(string newsLink, NewsSourceAuthenticity authencity)
-        {
-            if (authencity != NewsSourceAuthenticity.Suspicious)
-                return;
-
-            var existingSource = await _newsSourceRepository.SearchNewsSourceAsync(newsLink)
-                    .ConfigureAwait(false);
-
-            if (existingSource is null)
-                return;
-
-            var isExistingValid = TryGetExistingNewsSource(existingSource.ToString(), out var existingAuthenticity);
-            if (isExistingValid &&
-                existingAuthenticity == NewsSourceAuthenticity.Conspiracist ||
-                existingAuthenticity == NewsSourceAuthenticity.FakeNews)
-            {
-                throw new InvalidOperationException($"There is already an existing news source '{newsLink}' marked as '{existingAuthenticity}'");
-            }
-        }
-
-        private static bool TryGetExistingNewsSource(string newsSource, out NewsSourceAuthenticity existingAuthenticity)
-        {
-            return Enum.TryParse(newsSource, true, out existingAuthenticity);
         }
     }
 }

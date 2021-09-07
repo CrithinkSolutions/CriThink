@@ -1,5 +1,4 @@
-﻿using CriThink.Common.Endpoints.DTOs.Admin;
-using MediatR;
+﻿using MediatR;
 
 namespace CriThink.Server.Application.Commands
 {

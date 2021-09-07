@@ -2,7 +2,7 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
+using CriThink.Common.Endpoints.DTOs.Notification;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;

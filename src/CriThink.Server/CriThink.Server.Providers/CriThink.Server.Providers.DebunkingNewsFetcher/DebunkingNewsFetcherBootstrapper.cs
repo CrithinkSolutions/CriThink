@@ -54,7 +54,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
                                  AllowAutoRedirect = false,
                              })
                              .AddTransientHttpErrorPolicy(builder =>
-                                builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))); ;
+                                builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
             serviceCollection.AddTransient<OpenOnlineFetcher>();
             serviceCollection.AddTransient<Channel4Fetcher>();

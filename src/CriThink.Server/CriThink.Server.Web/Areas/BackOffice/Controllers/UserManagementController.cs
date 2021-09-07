@@ -4,6 +4,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.UserManagement;
 using CriThink.Server.Web.Models.DTOs;
@@ -17,7 +18,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route(EndpointConstants.UserManagementBase)]

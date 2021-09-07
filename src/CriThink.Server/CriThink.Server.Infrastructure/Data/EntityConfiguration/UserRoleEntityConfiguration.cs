@@ -21,7 +21,12 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
                 "Admin",
                 "15b1b12c-4dff-413e-81d5-7c9423f25c35");
 
-            builder.HasData(adminRole);
+            var freeUserRole = UserRole.Create(
+                Guid.Parse("4C28EED7-A34A-4534-9C2C-5FFE86B72393"),
+                "FreeUser",
+                "4E597EE6-5339-44B0-988E-258AD486BE49");
+
+            builder.HasData(adminRole, freeUserRole);
         }
     }
 }

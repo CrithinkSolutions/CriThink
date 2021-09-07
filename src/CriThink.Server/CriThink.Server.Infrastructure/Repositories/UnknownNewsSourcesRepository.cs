@@ -65,11 +65,13 @@ namespace CriThink.Server.Infrastructure.Repositories
             return response;
         }
 
-        public async Task<Guid> GetUnknownNewsSourceByIdAsync(string newsLink, CancellationToken cancellationToken = default)
+        public async Task<UnknownNewsSource> GetUnknownNewsSourceByUriAsync(
+            string newsLink,
+            CancellationToken cancellationToken = default)
         {
-            var id = await _dbContext.UnknownNewsSources.GetUnknownSourceIdByUriAsync(
+            var id = await _dbContext.UnknownNewsSources.GetUnknownSourceByUriAsync(
                 newsLink,
-                UnknownNewsSourceProjection.GetId,
+                UnknownNewsSourceProjection.GetUnknownNewsSource,
                 cancellationToken);
 
             return id;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
+using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Application.Queries
@@ -47,6 +46,6 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
         /// <returns></returns>
-        Task<UnknownNewsSourceGetAllResponse> GetAllUnknownNewsSourcesAsync(int pageSize, int pageIndex);
+        Task<UnknownNewsSourceGetAllViewModel> GetAllUnknownNewsSourcesAsync(int pageSize, int pageIndex);
     }
 }

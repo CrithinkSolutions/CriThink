@@ -9,11 +9,11 @@ namespace CriThink.Server.Application.Automapper
     {
         public NewsSourceQuestionProfile()
         {
-            CreateMap<ArticleQuestion, NewsSourceGetQuestionResponse>()
+            CreateMap<NewsSourcePostQuestion, NewsSourceGetQuestionResponse>()
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Text,
-                    opt => opt.MapFrom<LocalizationResolver<ArticleQuestion, NewsSourceGetQuestionResponse>, string>(src => src.Question));
+                    opt => opt.MapFrom<LocalizationResolver<NewsSourcePostQuestion, NewsSourceGetQuestionResponse>, string>(src => src.Question));
 
             CreateMap<GetAllNewsSourceQuestionsQueryResult, NewsSourceGetAllQuestionsResponse>()
                 .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions));

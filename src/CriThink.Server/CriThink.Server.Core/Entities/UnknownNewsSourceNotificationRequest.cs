@@ -20,6 +20,11 @@ namespace CriThink.Server.Core.Entities
             Email = email;
             UnknownNewsSource = unknownNewsSource;
             RequestedAt = DateTime.UtcNow;
+
+            AddDomainEvent(
+                new NewsSourceNotificationCreateDomainEvent(
+                    Email,
+                    UnknownNewsSource));
         }
 
         public string Email { get; private set; }
@@ -45,7 +50,7 @@ namespace CriThink.Server.Core.Entities
                 unknownNewsSource);
         }
 
-        public void SendNotification()
+        public void Send()
         {
             AddDomainEvent(
                 new NewsSourceIdentifiedDomainEvent(

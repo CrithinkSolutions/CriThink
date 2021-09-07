@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using CriThink.Server.Core.DomainEvents;
 
 namespace CriThink.Server.Core.Entities
 {
@@ -74,6 +75,16 @@ namespace CriThink.Server.Core.Entities
         public void UpdateAuthenticity(NewsSourceAuthenticity classification)
         {
             Authenticity = classification;
+        }
+
+        public void MarkAsKnown(
+            string domain,
+            NewsSourceAuthenticity authenticity)
+        {
+            AddDomainEvent(
+                new UpdateNewsSourceRepositoryDomainEvent(
+                    domain,
+                    authenticity));
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice trigger log operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route(EndpointConstants.TriggerLogBase)]
@@ -35,8 +36,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
             var logs = await _debunkingNewsTriggerLogQueries.GetAllTriggerLogsAsync(
-                viewModel.PageIndex,
-                viewModel.PageSize);
+                viewModel.PageSize,
+                viewModel.PageIndex);
 
             return View(logs);
         }

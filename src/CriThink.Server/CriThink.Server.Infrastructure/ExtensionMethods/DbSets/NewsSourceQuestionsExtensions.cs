@@ -16,8 +16,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="questionCategory">News source category</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<List<ArticleQuestion>> GetNewsSourceQuestionsByCategoryAsync(
-            this DbSet<ArticleQuestion> dbSet,
+        internal static Task<List<NewsSourcePostQuestion>> GetNewsSourceQuestionsByCategoryAsync(
+            this DbSet<NewsSourcePostQuestion> dbSet,
             QuestionCategory questionCategory,
             CancellationToken cancellationToken = default)
         {

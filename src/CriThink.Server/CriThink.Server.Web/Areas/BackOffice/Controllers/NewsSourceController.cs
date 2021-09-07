@@ -9,7 +9,7 @@ using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.QueryResults;
-using CriThink.Server.Infrastructure.Constants;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 using MediatR;
@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleConstants.AdminRole)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
     public class NewsSourceController : Controller

@@ -13,17 +13,17 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
     internal static class UnknownNewsSourceExtensions
     {
         /// <summary>
-        /// Get an unknown source id by uri
+        /// Get an unknown source by uri
         /// </summary>
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
         /// <param name="uri">Unknown source uri</param>
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<Guid> GetUnknownSourceIdByUriAsync(
+        internal static Task<UnknownNewsSource> GetUnknownSourceByUriAsync(
             this DbSet<UnknownNewsSource> dbSet,
             string uri,
-            Expression<Func<UnknownNewsSource, Guid>> projection,
+            Expression<Func<UnknownNewsSource, UnknownNewsSource>> projection,
             CancellationToken cancellationToken = default)
         {
             return dbSet.Where(us => us.Uri == uri)

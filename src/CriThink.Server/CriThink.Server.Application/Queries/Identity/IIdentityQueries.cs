@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Server.Application.Administration.ViewModels;
 
 namespace CriThink.Server.Application.Queries
 {
@@ -21,19 +21,19 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
         /// <returns></returns>
-        Task<UserGetAllResponse> GetAllUsersAsync(int pageSize, int pageIndex);
+        Task<UserGetAllViewModel> GetAllUsersAsync(int pageSize, int pageIndex);
 
         /// <summary>
         /// Get all roles
         /// </summary>
         /// <returns></returns>
-        Task<IList<RoleGetResponse>> GetAllRolesAsync();
+        Task<IList<RoleGetViewModel>> GetAllRolesAsync();
 
         /// <summary>
         /// Get user details by id
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<UserGetDetailsResponse> GetUserByIdAsync(Guid userId);
+        Task<UserGetDetailsViewModel> GetUserByIdAsync(Guid userId);
     }
 }

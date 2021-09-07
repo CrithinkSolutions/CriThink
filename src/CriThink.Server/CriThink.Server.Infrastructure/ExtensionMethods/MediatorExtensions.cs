@@ -24,7 +24,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods
             domainEntities.ToList()
                 .ForEach(entity => entity.Entity.ClearDomainEvents());
 
-            var tasks = domainEntities
+            var tasks = domainEvents
                 .Select(async (domainEvent) =>
                 {
                     await mediator.Publish(domainEvent);

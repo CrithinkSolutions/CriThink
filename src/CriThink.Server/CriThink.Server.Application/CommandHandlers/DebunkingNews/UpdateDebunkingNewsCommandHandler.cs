@@ -35,6 +35,8 @@ namespace CriThink.Server.Application.CommandHandlers
                 request.Keywords,
                 request.ImageLink);
 
+            await _debunkingNewsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
             _logger?.LogInformation($"{nameof(UpdateDebunkingNewsCommandHandler)}: done");
 
             return Unit.Value;

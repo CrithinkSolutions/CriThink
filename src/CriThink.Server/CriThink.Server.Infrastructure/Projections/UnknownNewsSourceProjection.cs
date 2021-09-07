@@ -7,14 +7,8 @@ namespace CriThink.Server.Infrastructure.Projections
 {
     internal static class UnknownNewsSourceProjection
     {
-        internal static Expression<Func<UnknownNewsSource, Guid>> GetId =>
-            unknownNewsSource => unknownNewsSource.Id;
-
         internal static Expression<Func<UnknownNewsSource, UnknownNewsSource>> GetUnknownNewsSource =>
-            unknownNewsSource => UnknownNewsSource.Create(
-                unknownNewsSource.Id,
-                unknownNewsSource.Uri,
-                unknownNewsSource.Authenticity);
+            unknownNewsSource => unknownNewsSource;
 
         internal static Expression<Func<UnknownNewsSource, GetAllUnknownSourcesQueryResult>> GetAll =>
             unknownNewsSource => new GetAllUnknownSourcesQueryResult

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Server.Application.Administration.ViewModels;
 
 namespace CriThink.Server.Application.Queries
 {
@@ -12,6 +12,6 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns></returns>
-        Task<NotificationRequestGetAllResponse> GetAllNotificationsAsync(int pageSize, int pageIndex);
+        Task<NotificationRequestGetAllViewModel> GetAllNotificationsAsync(int pageSize, int pageIndex);
     }
 }

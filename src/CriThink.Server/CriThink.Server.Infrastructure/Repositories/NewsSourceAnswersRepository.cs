@@ -22,7 +22,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        public async Task<IList<ArticleAnswer>> GetNewsSourceAnswersByUserId(
+        public async Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByUserId(
             Guid userId,
             string newsLink,
             CancellationToken cancellationToken = default)
@@ -34,7 +34,7 @@ namespace CriThink.Server.Infrastructure.Repositories
             return answers;
         }
 
-        public async Task<IList<ArticleAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
+        public async Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
             string newsLink,
             CancellationToken cancellationToken = default)
         {
@@ -45,7 +45,7 @@ namespace CriThink.Server.Infrastructure.Repositories
             return answers;
         }
 
-        public async Task AddAsync(ArticleAnswer answer)
+        public async Task AddAsync(NewsSoucePostAnswer answer)
         {
             await _dbContext.AddAsync(answer);
         }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Web.ActionFilters;

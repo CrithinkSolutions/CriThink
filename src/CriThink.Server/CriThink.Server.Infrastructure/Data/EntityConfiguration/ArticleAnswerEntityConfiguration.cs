@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
-    internal class ArticleAnswerEntityConfiguration : IEntityTypeConfiguration<ArticleAnswer>
+    internal class ArticleAnswerEntityConfiguration : IEntityTypeConfiguration<NewsSoucePostAnswer>
     {
-        public void Configure(EntityTypeBuilder<ArticleAnswer> builder)
+        public void Configure(EntityTypeBuilder<NewsSoucePostAnswer> builder)
         {
             builder.Ignore(aa => aa.DomainEvents);
 

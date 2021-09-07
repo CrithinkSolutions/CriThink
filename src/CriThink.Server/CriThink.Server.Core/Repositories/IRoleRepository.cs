@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Server.Core.Entities;
+using CriThink.Server.Core.QueryResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace CriThink.Server.Core.Repositories
@@ -12,7 +12,7 @@ namespace CriThink.Server.Core.Repositories
         /// Gets all the roles
         /// </summary>
         /// <returns>Role list</returns>
-        Task<IList<RoleGetResponse>> GetAllRolesAsync();
+        Task<IList<GetAllRolesQueryResult>> GetAllRolesAsync();
 
         /// <summary>
         /// Creates a new role

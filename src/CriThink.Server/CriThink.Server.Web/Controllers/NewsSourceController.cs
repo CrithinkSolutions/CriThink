@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Core.Entities;

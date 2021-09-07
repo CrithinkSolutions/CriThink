@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 
 namespace CriThink.Server.Application.Queries
 {
