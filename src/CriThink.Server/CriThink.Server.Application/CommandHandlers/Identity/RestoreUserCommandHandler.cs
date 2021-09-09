@@ -37,7 +37,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.FindUserAsync(request.Email ?? request.Username);
             if (user is null)
-                throw new ResourceNotFoundException("The user doesn't exists", $"User: '{request.Email ?? request.Username}'");
+                throw new CriThinkNotFoundException("The user doesn't exists", $"User: '{request.Email ?? request.Username}'");
 
             user.CancelScheduledDeletion();
 

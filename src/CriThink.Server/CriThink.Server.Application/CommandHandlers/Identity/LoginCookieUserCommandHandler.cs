@@ -33,7 +33,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.FindUserAsync(request.Email ?? request.Username);
             if (user is null)
-                throw new ResourceNotFoundException("The user doesn't exists");
+                throw new CriThinkNotFoundException("The user doesn't exists");
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
@@ -55,7 +55,7 @@ namespace CriThink.Server.Application.CommandHandlers
         private static void ProcessPasswordVerificationResult(SignInResult signInResult)
         {
             if (!signInResult.Succeeded)
-                throw new ResourceNotFoundException("Password is not correct");
+                throw new CriThinkNotFoundException("Password is not correct");
         }
     }
 }

@@ -46,7 +46,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user is null)
-                throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+                throw new CriThinkNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
 
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
@@ -54,7 +54,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var result = await _userRepository.ConfirmUserEmailAsync(user, confirmationCode);
             if (!result.Succeeded)
             {
-                var ex = new IdentityOperationException(result);
+                var ex = new CriThinkIdentityOperationException(result);
                 _logger?.LogError(ex, "Error verifying user email", user, confirmationCode);
                 throw ex;
             }

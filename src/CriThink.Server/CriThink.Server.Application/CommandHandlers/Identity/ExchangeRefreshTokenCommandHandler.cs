@@ -57,7 +57,7 @@ namespace CriThink.Server.Application.CommandHandlers
         private async Task<string> ReplaceRefreshToken(User user, string oldRefreshToken)
         {
             if (user?.HasValidRefreshToken(oldRefreshToken) != true)
-                throw new RefreshTokenExpiredException();
+                throw new CriThinkRefreshTokenExpiredException();
 
             user.RemoveRefreshToken(oldRefreshToken);
 

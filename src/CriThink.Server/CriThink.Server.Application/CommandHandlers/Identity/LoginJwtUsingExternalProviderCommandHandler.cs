@@ -84,7 +84,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var userCreationResult = await UserRepository.CreateUserAsync(user);
             if (!userCreationResult.Succeeded)
             {
-                var ex = new IdentityOperationException(userCreationResult, "CreateNewUser");
+                var ex = new CriThinkIdentityOperationException(userCreationResult, "CreateNewUser");
                 _logger?.LogError(ex, "Error creating a new user", user, userCreationResult.Errors);
                 throw ex;
             }
@@ -110,7 +110,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var userCreated = await UserRepository.CreateUserAsync(user).ConfigureAwait(false);
             if (!userCreated.Succeeded)
             {
-                var ex = new IdentityOperationException(userCreated);
+                var ex = new CriThinkIdentityOperationException(userCreated);
                 _logger?.LogError(ex, "Error creating user.", providerName, user);
                 throw ex;
             }
@@ -120,7 +120,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             if (!loginAssociated.Succeeded)
             {
-                var ex = new IdentityOperationException(loginAssociated);
+                var ex = new CriThinkIdentityOperationException(loginAssociated);
                 _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
                 throw ex;
             }

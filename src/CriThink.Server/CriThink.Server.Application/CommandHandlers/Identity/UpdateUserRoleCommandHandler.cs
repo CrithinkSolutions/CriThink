@@ -30,11 +30,11 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user is null)
-                throw new ResourceNotFoundException("User not found", userId);
+                throw new CriThinkNotFoundException("User not found", userId);
 
             var role = await _roleRepository.FindRoleByNameAsync(request.Role);
             if (role is null)
-                throw new ResourceNotFoundException("The role is not valid", $"Role: '{request.Role}'");
+                throw new CriThinkNotFoundException("The role is not valid", $"Role: '{request.Role}'");
 
             var currentUserRoles = await _userRepository.GetUserRolesAsync(user);
             await _userRepository.RemoveUserFromRolesAsync(user, currentUserRoles);

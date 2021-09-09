@@ -32,7 +32,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.FindUserAsync(userId, cancellationToken);
             if (user is null)
-                throw new ResourceNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
+                throw new CriThinkNotFoundException("The user doesn't exists", $"UserId: '{userId}'");
             if (user.IsDeleted)
                 throw new InvalidOperationException("The user is disabled");
 
@@ -40,7 +40,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             if (!result.Succeeded)
             {
-                var ex = new IdentityOperationException(result);
+                var ex = new CriThinkIdentityOperationException(result);
                 _logger?.LogError(ex, "Error resetting user password", user, token);
             }
 

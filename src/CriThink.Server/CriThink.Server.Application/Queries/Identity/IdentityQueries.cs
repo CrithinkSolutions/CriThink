@@ -94,7 +94,7 @@ namespace CriThink.Server.Application.Queries
 
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user is null)
-                throw new ResourceNotFoundException("User not found", userId);
+                throw new CriThinkNotFoundException("User not found", userId);
 
             var userDto = _mapper.Map<User, UserGetDetailsViewModel>(user);
             var roles = await _userRepository.GetUserRolesAsync(user);

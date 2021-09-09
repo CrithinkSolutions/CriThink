@@ -28,6 +28,8 @@ namespace CriThink.Server.Web.Models.DTOs
             return statusCode switch
             {
                 400 => "The request is invalid",
+                401 => "You are not authorized",
+                403 => "You are not authorized",
                 404 => "Resource not found",
                 500 => "An unhandled error occurred",
                 _ => null

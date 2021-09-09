@@ -33,8 +33,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await UserRepository.FindUserAsync(request.Email ?? request.Username, cancellationToken);
 
-            if (user is null)
-                throw new ResourceNotFoundException("The user doesn't exists", $"Email: '{request.Email}' - Username: '{request.Username}'");
+            if (user is null ||
+                user.IsDeleted)
+                throw new CriThinkNotFoundException("Invalid credentials");
 
             if (user.IsDeleted || !user.EmailConfirmed)
                 throw new InvalidOperationException("The user is not enabled");
@@ -61,7 +62,7 @@ namespace CriThink.Server.Application.CommandHandlers
             switch (verificationResult)
             {
                 case PasswordVerificationResult.Failed:
-                    throw new ResourceNotFoundException("Password is not correct");
+                    throw new CriThinkNotFoundException("Password is not correct");
                 case PasswordVerificationResult.SuccessRehashNeeded:
                     await UpdateUserPasswordHashAsync(user);
                     break;

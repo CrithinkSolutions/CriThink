@@ -7,15 +7,15 @@ namespace CriThink.Server.Core.Exceptions
     /// <summary>
     /// Custom exception to report Identity Provider errors
     /// </summary>
-    public class IdentityOperationException : AggregateException
+    public class CriThinkIdentityOperationException : AggregateException
     {
-        public IdentityOperationException(IdentityResult identityResult)
+        public CriThinkIdentityOperationException(IdentityResult identityResult)
             : base(identityResult?.Errors.Select(e => new Exception(e.Description)))
         {
             IdentityResult = identityResult;
         }
 
-        public IdentityOperationException(IdentityResult identityResult, string resource = "")
+        public CriThinkIdentityOperationException(IdentityResult identityResult, string resource = "")
             : base(identityResult?.Errors.Select(e => new Exception(e.Description)))
         {
             Resource = resource;

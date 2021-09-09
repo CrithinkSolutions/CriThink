@@ -32,7 +32,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.GetUserByIdAsync(request.UserId);
             if (user is null)
-                throw new ResourceNotFoundException("User not found", request.UserId);
+                throw new CriThinkNotFoundException("User not found", request.UserId);
 
             user.UpdateFamilyName(request.FamilyName);
             user.UpdateGivenName(request.GivenName);

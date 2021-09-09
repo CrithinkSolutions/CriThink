@@ -37,7 +37,7 @@ namespace CriThink.Server.Application.CommandHandlers.Notification
 
             var unknownNewsSource = await _unknownNewsSourceQueries.GetUnknownNewsSourceByUriAsync(request.NewsSource, cancellationToken);
             if (unknownNewsSource is null)
-                throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.NewsSource}'");
+                throw new CriThinkNotFoundException($"Can't find an unknown source with url '{request.NewsSource}'");
 
             var unknownSourcesNotificationRequest = UnknownNewsSourceNotification.Create(
                 request.UserEmail,

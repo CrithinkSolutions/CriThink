@@ -103,7 +103,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "User Added!";
                 return View("AddUserView", viewModel);
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -149,7 +149,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "Admin Added!";
                 return View("AddUserView", viewModel);
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -179,7 +179,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -236,7 +236,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -267,7 +267,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }

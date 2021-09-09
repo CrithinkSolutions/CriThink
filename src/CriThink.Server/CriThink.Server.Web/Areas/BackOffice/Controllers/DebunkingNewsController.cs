@@ -93,7 +93,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 viewModel.Message = "News Added!";
                 return View("AddNewsView", viewModel);
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -121,7 +121,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -146,7 +146,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
                 return Ok(new ApiOkResponse(debunkingNews));
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }

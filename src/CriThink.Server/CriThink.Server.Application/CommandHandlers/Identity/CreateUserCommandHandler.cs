@@ -89,7 +89,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var userCreationResult = await _userRepository.CreateUserAsync(user, password);
             if (!userCreationResult.Succeeded)
             {
-                var ex = new IdentityOperationException(userCreationResult, "CreateNewUser");
+                var ex = new CriThinkIdentityOperationException(userCreationResult, "CreateNewUser");
                 _logger?.LogError(ex, "Error creating a new user", user, userCreationResult.Errors);
                 throw ex;
             }
@@ -100,7 +100,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var claimsResult = await _userRepository.AddClaimsToUserAsync(user);
             if (!claimsResult.Succeeded)
             {
-                var ex = new IdentityOperationException(claimsResult);
+                var ex = new CriThinkIdentityOperationException(claimsResult);
                 _logger?.LogError(ex, "Error adding user to role", user);
                 throw ex;
             }

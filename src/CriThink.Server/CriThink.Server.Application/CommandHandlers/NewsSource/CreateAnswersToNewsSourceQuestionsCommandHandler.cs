@@ -98,7 +98,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
             if (user is null)
-                throw new ResourceNotFoundException("User not found", userId);
+                throw new CriThinkNotFoundException("User not found", userId);
 
             await ThrowExceptionIfUserHasAlreadyAnswersAsync(userId, newsLink);
 
