@@ -1,7 +1,7 @@
-﻿using CriThink.Server.Core.Entities;
+﻿using System;
+using CriThink.Server.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
@@ -9,6 +9,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DebunkingNewsPublisher> builder)
         {
+            builder.ToTable("debunking_news_publishers");
+
             builder.Ignore(dn => dn.DomainEvents);
 
             builder.HasKey(dn => dn.Id);

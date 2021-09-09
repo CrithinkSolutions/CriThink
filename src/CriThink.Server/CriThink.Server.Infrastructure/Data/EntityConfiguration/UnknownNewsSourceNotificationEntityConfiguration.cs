@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
-    internal class UnknownNewsSourceNotificationRequestEntityConfiguration : IEntityTypeConfiguration<UnknownNewsSourceNotificationRequest>
+    internal class UnknownNewsSourceNotificationEntityConfiguration : IEntityTypeConfiguration<UnknownNewsSourceNotification>
     {
-        public void Configure(EntityTypeBuilder<UnknownNewsSourceNotificationRequest> builder)
+        public void Configure(EntityTypeBuilder<UnknownNewsSourceNotification> builder)
         {
+            builder.ToTable("unknown_news_source_notifications");
+
             builder.Ignore(unsnr => unsnr.DomainEvents);
 
             builder.HasKey(unsnr => unsnr.Id);

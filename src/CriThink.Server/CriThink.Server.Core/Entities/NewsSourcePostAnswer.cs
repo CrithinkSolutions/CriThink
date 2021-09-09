@@ -6,15 +6,15 @@ using System.Linq;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class NewsSoucePostAnswer : Entity<Guid>, IAggregateRoot
+    public class NewsSourcePostAnswer : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
         /// </summary>
         [ExcludeFromCodeCoverage]
-        protected NewsSoucePostAnswer() { }
+        protected NewsSourcePostAnswer() { }
 
-        private NewsSoucePostAnswer(
+        private NewsSourcePostAnswer(
             string newsLink,
             User user)
         {
@@ -44,14 +44,14 @@ namespace CriThink.Server.Core.Entities
 
         #region Create
 
-        public static NewsSoucePostAnswer Create(
+        public static NewsSourcePostAnswer Create(
             string newsLink,
             User user)
         {
             if (user is null)
                 throw new ArgumentNullException(nameof(user));
 
-            return new NewsSoucePostAnswer(
+            return new NewsSourcePostAnswer(
                 newsLink,
                 user);
         }

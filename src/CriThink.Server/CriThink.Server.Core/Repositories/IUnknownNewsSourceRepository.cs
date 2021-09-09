@@ -7,7 +7,7 @@ using CriThink.Server.Core.QueryResults;
 
 namespace CriThink.Server.Core.Repositories
 {
-    public interface IUnknownNewsSourcesRepository : IRepository<UnknownNewsSource>
+    public interface IUnknownNewsSourceRepository : IRepository<UnknownNewsSource>
     {
         Task<List<GetAllUnknownSourcesQueryResult>> GetAllUnknownSourcesAsync(
             int pageSize,

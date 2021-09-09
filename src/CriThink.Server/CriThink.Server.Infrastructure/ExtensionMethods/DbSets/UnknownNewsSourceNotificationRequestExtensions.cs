@@ -23,11 +23,11 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
         internal static Task<List<GetAllSubscribedUsersQueryResult>> GetAllSubscribedUsersForUnknownNewsSourceId(
-            this DbSet<UnknownNewsSourceNotificationRequest> dbSet,
+            this DbSet<UnknownNewsSourceNotification> dbSet,
             Guid unknownNewsSourceId,
             int pageSize,
             int pageIndex,
-            Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersQueryResult>> projection,
+            Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersQueryResult>> projection,
             CancellationToken cancellationToken = default)
         {
             return dbSet.Where(unsnr => unsnr.UnknownNewsSource.Id == unknownNewsSourceId)
@@ -46,8 +46,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="link">News link</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<UnknownNewsSourceNotificationRequest> GetNotificationRequestByEmailAndLiknAsync(
-            this DbSet<UnknownNewsSourceNotificationRequest> dbSet,
+        internal static Task<UnknownNewsSourceNotification> GetNotificationRequestByEmailAndLiknAsync(
+            this DbSet<UnknownNewsSourceNotification> dbSet,
             string email,
             string link,
             CancellationToken cancellationToken = default)
@@ -66,10 +66,10 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
         internal static Task<List<GetAllSubscribedUsersWithSourceQueryResult>> GetAllNotificationRequestsAsync(
-            this DbSet<UnknownNewsSourceNotificationRequest> dbSet,
+            this DbSet<UnknownNewsSourceNotification> dbSet,
             int pageSize,
             int pageIndex,
-            Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersWithSourceQueryResult>> projection,
+            Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersWithSourceQueryResult>> projection,
             CancellationToken cancellationToken = default)
         {
             return dbSet

@@ -8,6 +8,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
+            builder.ToTable("refresh_tokens");
+
             builder.Ignore(dn => dn.DomainEvents);
             builder.Ignore(dn => dn.Active);
 

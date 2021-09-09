@@ -13,11 +13,11 @@ using Npgsql;
 
 namespace CriThink.Server.Infrastructure.Repositories
 {
-    internal class UnknownNewsSourcesRepository : IUnknownNewsSourcesRepository
+    internal class UnknownNewsSourceRepository : IUnknownNewsSourceRepository
     {
         private readonly CriThinkDbContext _dbContext;
 
-        public UnknownNewsSourcesRepository(
+        public UnknownNewsSourceRepository(
             CriThinkDbContext dbContext)
         {
             _dbContext = dbContext ??
@@ -32,7 +32,7 @@ namespace CriThink.Server.Infrastructure.Repositories
             int pageIndex,
             CancellationToken cancellationToken = default)
         {
-            var users = await _dbContext.UnknownNewsSourceNotificationRequests
+            var users = await _dbContext.UnknownNewsSourceNotifications
                 .GetAllSubscribedUsersForUnknownNewsSourceId(
                     unknownNewsId,
                     pageSize,

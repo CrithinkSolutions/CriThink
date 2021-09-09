@@ -8,6 +8,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DebunkingNewsTriggerLog> builder)
         {
+            builder.ToTable("debunking_news_trigger_logs");
+
             builder.Ignore(dn => dn.DomainEvents);
 
             builder.HasKey(dntl => dntl.Id);

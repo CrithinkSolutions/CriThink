@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
-    internal class ArticleAnswerEntityConfiguration : IEntityTypeConfiguration<NewsSoucePostAnswer>
+    internal class NewsSourcePostAnswerAnswerEntityConfiguration : IEntityTypeConfiguration<NewsSourcePostAnswer>
     {
-        public void Configure(EntityTypeBuilder<NewsSoucePostAnswer> builder)
+        public void Configure(EntityTypeBuilder<NewsSourcePostAnswer> builder)
         {
+            builder.ToTable("news_source_post_answers");
+
             builder.Ignore(aa => aa.DomainEvents);
 
             builder.HasKey(aa => aa.Id);

@@ -9,6 +9,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DebunkingNewsCountry> builder)
         {
+            builder.ToTable("debunking_news_countries");
+
             builder.Ignore(dn => dn.DomainEvents);
 
             var countryItaly = DebunkingNewsCountry.CreateSeed(

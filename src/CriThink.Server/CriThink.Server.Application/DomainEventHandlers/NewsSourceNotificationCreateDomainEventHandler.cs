@@ -16,13 +16,13 @@ namespace CriThink.Server.Application.DomainEventHandlers
     internal class NewsSourceNotificationCreateDomainEventHandler : INotificationHandler<NewsSourceNotificationCreateDomainEvent>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
-        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
+        private readonly IUnknownNewsSourceRepository _unknownNewsSourcesRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly ILogger<NewsSourceNotificationCreateDomainEventHandler> _logger;
 
         public NewsSourceNotificationCreateDomainEventHandler(
             INewsSourceRepository newsSourceRepository,
-            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
+            IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             INotificationRepository notificationRepository,
             ILogger<NewsSourceNotificationCreateDomainEventHandler> logger)
         {

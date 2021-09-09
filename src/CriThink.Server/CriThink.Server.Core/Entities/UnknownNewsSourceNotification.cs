@@ -4,16 +4,16 @@ using CriThink.Server.Core.DomainEvents;
 
 namespace CriThink.Server.Core.Entities
 {
-    public class UnknownNewsSourceNotificationRequest : Entity<Guid>, IAggregateRoot
+    public class UnknownNewsSourceNotification : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
         /// EF reserved constructor
         /// </summary>
         [ExcludeFromCodeCoverage]
-        protected UnknownNewsSourceNotificationRequest()
+        protected UnknownNewsSourceNotification()
         { }
 
-        public UnknownNewsSourceNotificationRequest(
+        public UnknownNewsSourceNotification(
             string email,
             UnknownNewsSource unknownNewsSource)
         {
@@ -41,11 +41,11 @@ namespace CriThink.Server.Core.Entities
 
         #region Create
 
-        public static UnknownNewsSourceNotificationRequest Create(
+        public static UnknownNewsSourceNotification Create(
             string userEmail,
             UnknownNewsSource unknownNewsSource)
         {
-            return new UnknownNewsSourceNotificationRequest(
+            return new UnknownNewsSourceNotification(
                 userEmail,
                 unknownNewsSource);
         }

@@ -7,14 +7,14 @@ namespace CriThink.Server.Infrastructure.Projections
 {
     internal static class UnknownSourceNotificationRequestProjection
     {
-        internal static Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersQueryResult>> GetAll =>
+        internal static Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersQueryResult>> GetAll =>
             unknownSourceNotificationRequest => new GetAllSubscribedUsersQueryResult
             {
                 Id = unknownSourceNotificationRequest.Id,
                 Email = unknownSourceNotificationRequest.Email,
             };
 
-        internal static Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersWithSourceQueryResult>> GetAllWithSources =>
+        internal static Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersWithSourceQueryResult>> GetAllWithSources =>
             unknownSourceNotificationRequest => new GetAllSubscribedUsersWithSourceQueryResult
             {
                 Id = unknownSourceNotificationRequest.Id,

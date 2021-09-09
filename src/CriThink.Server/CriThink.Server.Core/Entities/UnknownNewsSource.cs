@@ -43,7 +43,7 @@ namespace CriThink.Server.Core.Entities
 
         public NewsSourceAuthenticity Authenticity { get; private set; }
 
-        public virtual ICollection<UnknownNewsSourceNotificationRequest> NotificationQueue { get; private set; }
+        public virtual ICollection<UnknownNewsSourceNotification> NotificationQueue { get; private set; }
 
         #region Create
 

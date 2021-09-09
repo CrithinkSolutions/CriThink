@@ -39,7 +39,7 @@ namespace CriThink.Server.Application.CommandHandlers.Notification
             if (unknownNewsSource is null)
                 throw new ResourceNotFoundException($"Can't find an unknown source with url '{request.NewsSource}'");
 
-            var unknownSourcesNotificationRequest = UnknownNewsSourceNotificationRequest.Create(
+            var unknownSourcesNotificationRequest = UnknownNewsSourceNotification.Create(
                 request.UserEmail,
                 unknownNewsSource);
 

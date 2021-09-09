@@ -17,7 +17,7 @@ namespace CriThink.Server.Application.Queries
     {
         private readonly IMapper _mapper;
         private readonly INewsSourceQuestionRepository _newsSourceQuestionRepository;
-        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
+        private readonly IUnknownNewsSourceRepository _unknownNewsSourcesRepository;
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly ILogger<NewsSourceQueries> _logger;
         private readonly INewsSourceCategoriesRepository _newsSourceCategoriesRepository;
@@ -25,7 +25,7 @@ namespace CriThink.Server.Application.Queries
         public NewsSourceQueries(
             IMapper mapper,
             INewsSourceQuestionRepository newsSourceQuestionRepository,
-            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
+            IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             INewsSourceRepository newsSourceRepository,
             INewsSourceCategoriesRepository newsSourceCategoriesRepository,
             ILogger<NewsSourceQueries> logger)

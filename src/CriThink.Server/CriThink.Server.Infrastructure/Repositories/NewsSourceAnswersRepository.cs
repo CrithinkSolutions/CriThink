@@ -22,30 +22,30 @@ namespace CriThink.Server.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        public async Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByUserId(
+        public async Task<IList<NewsSourcePostAnswer>> GetNewsSourceAnswersByUserId(
             Guid userId,
             string newsLink,
             CancellationToken cancellationToken = default)
         {
             var answers = await _dbContext
-                    .ArticleAnswers
+                    .NewsSourcePostAnswers
                     .GetNewsSourceAnswersByUserIdAndNewssLinkAsync(userId, newsLink, cancellationToken);
 
             return answers;
         }
 
-        public async Task<IList<NewsSoucePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
+        public async Task<IList<NewsSourcePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
             string newsLink,
             CancellationToken cancellationToken = default)
         {
             var answers = await _dbContext
-                .ArticleAnswers
+                .NewsSourcePostAnswers
                 .GetNewsSourceAnswersByNewsLinkAsync(newsLink, cancellationToken);
 
             return answers;
         }
 
-        public async Task AddAsync(NewsSoucePostAnswer answer)
+        public async Task AddAsync(NewsSourcePostAnswer answer)
         {
             await _dbContext.AddAsync(answer);
         }

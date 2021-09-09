@@ -9,6 +9,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<NewsSourceCategory> builder)
         {
+            builder.ToTable("news_source_categories");
+
             builder.Ignore(dn => dn.DomainEvents);
 
             builder.HasKey(dntl => dntl.Id);

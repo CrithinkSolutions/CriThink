@@ -10,6 +10,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
+            builder.ToTable("user_profiles");
+
             builder.Ignore(dn => dn.DomainEvents);
 
             builder.HasKey(up => up.Id);

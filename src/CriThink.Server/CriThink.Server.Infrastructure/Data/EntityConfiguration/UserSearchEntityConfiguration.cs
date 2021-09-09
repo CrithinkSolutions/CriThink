@@ -8,6 +8,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserSearch> builder)
         {
+            builder.ToTable("user_searches");
+
             builder.Ignore(us => us.DomainEvents);
 
             builder.HasKey(us => us.Id);

@@ -27,7 +27,7 @@ namespace CriThink.Server.Application.CommandHandlers
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly IDebunkingNewsRepository _debunkingNewsRepository;
         private readonly INewsSourceCategoriesRepository _newsSourceCategoriesRepository;
-        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
+        private readonly IUnknownNewsSourceRepository _unknownNewsSourcesRepository;
         private readonly IMapper _mapper;
         private readonly INewsScraperService _scraperService;
         private readonly ITextAnalyticsService _textAnalyticsService;
@@ -41,7 +41,7 @@ namespace CriThink.Server.Application.CommandHandlers
             INewsSourceRepository newsSourceRepository,
             IDebunkingNewsRepository debunkingNewsRepository,
             INewsSourceCategoriesRepository newsSourceCategoriesRepository,
-            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
+            IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             IMapper mapper,
             INewsScraperService scraperService,
             ITextAnalyticsService textAnalyticsService,
@@ -212,7 +212,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
             var otherUserAnswers = await _newsSourceAnswersRepository.GetNewsSourceAnswersByNewsLinkAsync(newsLink);
 
-            var answer = NewsSoucePostAnswer.Create(newsLink, user);
+            var answer = NewsSourcePostAnswer.Create(newsLink, user);
             answer.CalculateUserRate(searchResponse.Category, questionList, answers.Select(q => (q.QuestionId, q.Rate)).ToList());
 
             var communityRate = otherUserAnswers.Any() ?

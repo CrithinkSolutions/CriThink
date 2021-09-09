@@ -25,7 +25,7 @@ namespace CriThink.Server.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             var questions = await _dbContext
-                .ArticleQuestions.GetNewsSourceQuestionsByCategoryAsync(category, cancellationToken);
+                .NewsSourcePostQuestions.GetNewsSourceQuestionsByCategoryAsync(category, cancellationToken);
 
             return questions;
         }

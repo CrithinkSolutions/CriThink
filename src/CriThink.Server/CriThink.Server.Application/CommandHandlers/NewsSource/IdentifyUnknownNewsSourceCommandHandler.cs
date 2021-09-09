@@ -16,13 +16,13 @@ namespace CriThink.Server.Application.CommandHandlers
     internal class IdentifyUnknownNewsSourceCommandHandler : IRequestHandler<IdentifyUnknownNewsSourceCommand>
     {
         private readonly INewsSourceRepository _newsSourceRepository;
-        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
+        private readonly IUnknownNewsSourceRepository _unknownNewsSourcesRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly ILogger<IdentifyUnknownNewsSourceCommandHandler> _logger;
 
         public IdentifyUnknownNewsSourceCommandHandler(
             INewsSourceRepository newsSourceRepository,
-            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
+            IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             INotificationRepository notificationRepository,
             ILogger<IdentifyUnknownNewsSourceCommandHandler> logger)
         {

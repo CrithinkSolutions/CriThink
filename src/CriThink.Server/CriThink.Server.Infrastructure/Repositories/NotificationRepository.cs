@@ -27,7 +27,7 @@ namespace CriThink.Server.Infrastructure.Repositories
         public async Task<IList<GetAllSubscribedUsersWithSourceQueryResult>> GetAllNotificationsAsync(
             int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            var notificationCollection = await _dbContext.UnknownNewsSourceNotificationRequests
+            var notificationCollection = await _dbContext.UnknownNewsSourceNotifications
                     .GetAllNotificationRequestsAsync(
                 pageSize,
                 pageIndex,
@@ -37,23 +37,23 @@ namespace CriThink.Server.Infrastructure.Repositories
             return notificationCollection;
         }
 
-        public async Task<UnknownNewsSourceNotificationRequest> GetNotificationByEmailAndLinkAsync(
+        public async Task<UnknownNewsSourceNotification> GetNotificationByEmailAndLinkAsync(
             string userEmail, string link, CancellationToken cancellationToken = default)
         {
-            var notificationRequest = await _dbContext.UnknownNewsSourceNotificationRequests
+            var notificationRequest = await _dbContext.UnknownNewsSourceNotifications
                 .GetNotificationRequestByEmailAndLiknAsync(userEmail, link, cancellationToken);
 
             return notificationRequest;
         }
 
-        public async Task AddNotificationRequestAsync(UnknownNewsSourceNotificationRequest request, CancellationToken cancellationToken = default)
+        public async Task AddNotificationRequestAsync(UnknownNewsSourceNotification request, CancellationToken cancellationToken = default)
         {
-            await _dbContext.UnknownNewsSourceNotificationRequests.AddAsync(request, cancellationToken);
+            await _dbContext.UnknownNewsSourceNotifications.AddAsync(request, cancellationToken);
         }
 
-        public void DeleteNotificationRequest(UnknownNewsSourceNotificationRequest notificationRequest)
+        public void DeleteNotificationRequest(UnknownNewsSourceNotification notificationRequest)
         {
-            _dbContext.UnknownNewsSourceNotificationRequests.Remove(notificationRequest);
+            _dbContext.UnknownNewsSourceNotifications.Remove(notificationRequest);
         }
     }
 }

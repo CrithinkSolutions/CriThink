@@ -18,8 +18,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="newsLink">News link</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<List<NewsSoucePostAnswer>> GetNewsSourceAnswersByUserIdAndNewssLinkAsync(
-            this DbSet<NewsSoucePostAnswer> dbSet,
+        internal static Task<List<NewsSourcePostAnswer>> GetNewsSourceAnswersByUserIdAndNewssLinkAsync(
+            this DbSet<NewsSourcePostAnswer> dbSet,
             Guid userId,
             string newsLink,
             CancellationToken cancellationToken = default)
@@ -37,8 +37,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="newsLink">News link</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<List<NewsSoucePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
-            this DbSet<NewsSoucePostAnswer> dbSet,
+        internal static Task<List<NewsSourcePostAnswer>> GetNewsSourceAnswersByNewsLinkAsync(
+            this DbSet<NewsSourcePostAnswer> dbSet,
             string newsLink,
             CancellationToken cancellationToken = default)
         {

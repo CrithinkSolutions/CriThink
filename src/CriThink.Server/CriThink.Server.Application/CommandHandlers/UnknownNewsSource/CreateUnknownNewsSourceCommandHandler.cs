@@ -10,11 +10,11 @@ namespace CriThink.Server.Application.CommandHandlers
 {
     internal class CreateUnknownNewsSourceCommandHandler : IRequestHandler<CreateUnknownNewsSourceCommand>
     {
-        private readonly IUnknownNewsSourcesRepository _unknownNewsSourcesRepository;
+        private readonly IUnknownNewsSourceRepository _unknownNewsSourcesRepository;
         private readonly ILogger<CreateUnknownNewsSourceCommandHandler> _logger;
 
         public CreateUnknownNewsSourceCommandHandler(
-            IUnknownNewsSourcesRepository unknownNewsSourcesRepository,
+            IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             ILogger<CreateUnknownNewsSourceCommandHandler> logger)
         {
             _unknownNewsSourcesRepository = unknownNewsSourcesRepository ??

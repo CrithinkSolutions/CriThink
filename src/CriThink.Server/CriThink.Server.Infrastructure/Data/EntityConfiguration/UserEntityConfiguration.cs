@@ -11,6 +11,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("users");
+
             builder.Ignore(u => u.IsDeleted);
 
             builder.HasKey(uns => uns.Id);

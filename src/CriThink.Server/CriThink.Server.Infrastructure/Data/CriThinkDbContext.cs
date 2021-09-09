@@ -29,9 +29,9 @@ namespace CriThink.Server.Infrastructure.Data
             : base(options)
         { }
 
-        public DbSet<NewsSoucePostAnswer> ArticleAnswers { get; set; }
+        public DbSet<NewsSourcePostAnswer> NewsSourcePostAnswers { get; set; }
 
-        public DbSet<NewsSourcePostQuestion> ArticleQuestions { get; set; }
+        public DbSet<NewsSourcePostQuestion> NewsSourcePostQuestions { get; set; }
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
 
@@ -53,7 +53,7 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UserSearch> UserSearches { get; set; }
 
-        public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
+        public DbSet<UnknownNewsSourceNotification> UnknownNewsSourceNotifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
