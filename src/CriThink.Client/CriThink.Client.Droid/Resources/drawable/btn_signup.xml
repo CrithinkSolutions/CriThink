@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" > 
+  <item 
+    android:width="@dimen/imgSize_extraSmall" 
+    android:height="@dimen/imgSize_mini"       
+    android:left="@dimen/margin_small"
+    android:gravity="center" 
+    android:drawable="@drawable/ic_mail"/>
+</layer-list>
