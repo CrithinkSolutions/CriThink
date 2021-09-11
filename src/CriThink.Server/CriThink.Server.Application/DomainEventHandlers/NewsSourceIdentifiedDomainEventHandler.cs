@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.DomainEvents;
+using CriThink.Server.Domain.DomainEvents;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;

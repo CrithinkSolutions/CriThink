@@ -2,8 +2,8 @@
 using System.Linq;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.DebunkingNews;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Application.Automapper
 {

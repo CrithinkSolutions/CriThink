@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;

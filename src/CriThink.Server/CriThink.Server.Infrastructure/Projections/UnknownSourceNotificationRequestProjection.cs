@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Infrastructure.Projections
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CriThink.Common.Helpers;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Providers.Common;
 
 // ReSharper disable once CheckNamespace

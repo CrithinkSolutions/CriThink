@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Application.Administration.ViewModels;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Application.Queries
 {

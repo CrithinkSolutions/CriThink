@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
+using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
 using CriThink.Server.Infrastructure.Projections;

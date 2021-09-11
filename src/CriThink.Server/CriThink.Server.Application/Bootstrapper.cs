@@ -1,7 +1,7 @@
 ﻿using CriThink.Server.Application.DomainServices;
 using CriThink.Server.Application.Facades;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Domain.DomainServices;
 using CriThink.Server.Infrastructure.DomainServices;
 using CriThink.Server.Providers.DebunkingNewsFetcher;
 using Microsoft.AspNetCore.Hosting;

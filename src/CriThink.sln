@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Common.Endpoints",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Infrastructure", "CriThink.Server\CriThink.Server.Infrastructure\CriThink.Server.Infrastructure.csproj", "{06D78090-7B36-4C9F-B832-A8042A427308}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Core", "CriThink.Server\CriThink.Server.Core\CriThink.Server.Core.csproj", "{621D1F39-9250-4186-81AA-C7E049674CF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Domain", "CriThink.Server\CriThink.Server.Domain\CriThink.Server.Domain.csproj", "{621D1F39-9250-4186-81AA-C7E049674CF5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Common.Helpers", "CriThink.Common\CriThink.Common.Helpers\CriThink.Common.Helpers.csproj", "{5D07BB1D-6447-48D0-B5ED-4BCE3F2ACCDE}"
 EndProject

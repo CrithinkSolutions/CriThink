@@ -1,6 +1,6 @@
 ﻿using System;
-using CriThink.Server.Core.Interfaces;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Interfaces;
+using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Identity;

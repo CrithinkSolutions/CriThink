@@ -1,4 +1,4 @@
-﻿using CriThink.Server.Core.Entities;
+﻿using CriThink.Server.Domain.Entities;
 using MediatR;
 
 namespace CriThink.Server.Application.Commands

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Validators;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

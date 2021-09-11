@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
 
 namespace CriThink.Server.Web.Automapper

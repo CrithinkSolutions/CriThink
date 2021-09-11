@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

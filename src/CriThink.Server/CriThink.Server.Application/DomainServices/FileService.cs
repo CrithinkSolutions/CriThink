@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Constants;
-using CriThink.Server.Core.DomainServices;
+using CriThink.Server.Domain.Constants;
+using CriThink.Server.Domain.DomainServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 

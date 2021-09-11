@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets

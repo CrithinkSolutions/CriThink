@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.Statistics;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.Queries

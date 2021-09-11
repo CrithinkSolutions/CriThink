@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CriThink.Server.Application.Administration.ViewModels;
-using CriThink.Server.Core.QueryResults;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Application.Automapper
 {

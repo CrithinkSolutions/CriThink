@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 
 namespace CriThink.Server.Application.Queries
 {

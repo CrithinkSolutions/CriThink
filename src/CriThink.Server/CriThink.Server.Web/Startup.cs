@@ -10,8 +10,8 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application;
-using CriThink.Server.Core.Delegates;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Delegates;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.SocialProviders;
@@ -372,9 +372,6 @@ namespace CriThink.Server.Web
 
         private static void SetupInternalServices(IServiceCollection services)
         {
-            // Core
-            Core.Bootstrapper.AddCore(services);
-
             // Infrastructure
             services.AddInfrastructure();
 

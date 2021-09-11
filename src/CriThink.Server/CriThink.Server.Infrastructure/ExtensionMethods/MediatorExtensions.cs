@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

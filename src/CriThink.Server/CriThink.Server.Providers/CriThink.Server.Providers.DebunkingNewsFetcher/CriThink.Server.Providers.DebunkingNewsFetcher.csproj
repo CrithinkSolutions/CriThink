@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CriThink.Server.Core\CriThink.Server.Core.csproj" />
+    <ProjectReference Include="..\..\CriThink.Server.Domain\CriThink.Server.Domain.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers.Common\CriThink.Server.Providers.Common.csproj" />
     <ProjectReference Include="..\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
   </ItemGroup>

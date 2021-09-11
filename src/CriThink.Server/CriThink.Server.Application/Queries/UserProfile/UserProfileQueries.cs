@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.Queries

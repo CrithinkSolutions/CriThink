@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 
 namespace CriThink.Server.Application.Automapper
 {
@@ -21,7 +21,7 @@ namespace CriThink.Server.Application.Automapper
                     .MapValue(GenderDto.GenderNeutral, Gender.GenderNeutral)
                     .MapValue(GenderDto.NonBinary, Gender.NonBinary));
 
-            CreateMap<UserProfileUpdateRequest, Core.Entities.UserProfile>()
+            CreateMap<UserProfileUpdateRequest, Domain.Entities.UserProfile>()
                 .ForMember(dest => dest.FamilyName, opt =>
                     opt.MapFrom(src => src.FamilyName))
                 .ForMember(dest => dest.GivenName, opt =>
@@ -55,7 +55,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.RegisteredOn, opt => opt.Ignore());
 
-            CreateMap<Core.Entities.UserProfile, UserProfileGetResponse>()
+            CreateMap<Domain.Entities.UserProfile, UserProfileGetResponse>()
                 .ForMember(dest => dest.FamilyName, opt =>
                     opt.MapFrom(src => src.FamilyName))
                 .ForMember(dest => dest.GivenName, opt =>

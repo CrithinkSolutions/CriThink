@@ -5,10 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Exceptions;
-using CriThink.Server.Core.Interfaces;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.Exceptions;
+using CriThink.Server.Domain.Interfaces;
+using CriThink.Server.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

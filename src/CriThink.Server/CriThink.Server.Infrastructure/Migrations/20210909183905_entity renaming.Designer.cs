@@ -21,7 +21,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("debunking_news");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsCountry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,7 +159,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -274,7 +274,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsTriggerLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -299,7 +299,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("debunking_news_trigger_logs");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourceCategory", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourceCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +365,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourcePostAnswer", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostAnswer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -394,7 +394,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("news_source_post_answers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourcePostQuestion", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostQuestion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +451,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -484,7 +484,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("refresh_tokens");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSource", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -523,7 +523,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("unknown_news_sources");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotification", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSourceNotification", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -552,7 +552,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("unknown_news_source_notifications");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -649,7 +649,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -744,7 +744,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -792,7 +792,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserSearch", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserSearch", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -991,9 +991,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("aspnet_user_tokens");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNews", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsPublisher", "Publisher")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", "Publisher")
                         .WithMany("DebunkingNews")
                         .HasForeignKey("PublisherId")
                         .HasConstraintName("fk_debunking_news_debunking_news_publishers_publisher_id")
@@ -1003,16 +1003,16 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsCountry", "Country")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsCountry", "Country")
                         .WithMany("Publishers")
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_debunking_news_publishers_debunking_news_countries_country_")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsLanguage", "Language")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", "Language")
                         .WithMany("Publishers")
                         .HasForeignKey("LanguageId")
                         .HasConstraintName("fk_debunking_news_publishers_debunking_news_languages_language")
@@ -1024,9 +1024,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourcePostAnswer", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostAnswer", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
                         .WithMany("ArticleAnswers")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_news_source_post_answers_users_user_id")
@@ -1036,9 +1036,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_refresh_tokens_users_user_id")
@@ -1048,9 +1048,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotification", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSourceNotification", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UnknownNewsSource", "UnknownNewsSource")
+                    b.HasOne("CriThink.Server.Domain.Entities.UnknownNewsSource", "UnknownNewsSource")
                         .WithMany("NotificationQueue")
                         .HasForeignKey("UnknownNewsSourceId")
                         .HasConstraintName("fk_unknown_news_source_notifications_unknown_news_sources_unkn")
@@ -1060,11 +1060,11 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("UnknownNewsSource");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserProfile", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
                         .WithOne("Profile")
-                        .HasForeignKey("CriThink.Server.Core.Entities.UserProfile", "UserId")
+                        .HasForeignKey("CriThink.Server.Domain.Entities.UserProfile", "UserId")
                         .HasConstraintName("fk_user_profiles_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1072,9 +1072,9 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserSearch", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserSearch", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
                         .WithMany("Searches")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_searches_users_user_id")
@@ -1086,7 +1086,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_aspnet_role_claims_asp_net_roles_role_id")
@@ -1096,7 +1096,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_aspnet_user_claims_asp_net_users_user_id")
@@ -1106,7 +1106,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_aspnet_user_logins_asp_net_users_user_id")
@@ -1116,14 +1116,14 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_aspnet_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_aspnet_user_roles_asp_net_users_user_id")
@@ -1133,7 +1133,7 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_aspnet_user_tokens_asp_net_users_user_id")
@@ -1141,27 +1141,27 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsCountry", b =>
                 {
                     b.Navigation("Publishers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", b =>
                 {
                     b.Navigation("Publishers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
                     b.Navigation("DebunkingNews");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSource", b =>
                 {
                     b.Navigation("NotificationQueue");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.User", b =>
                 {
                     b.Navigation("ArticleAnswers");
 

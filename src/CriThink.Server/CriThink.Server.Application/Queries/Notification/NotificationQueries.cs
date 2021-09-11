@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Server.Application.Administration.ViewModels;
-using CriThink.Server.Core.QueryResults;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.QueryResults;
+using CriThink.Server.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.Queries

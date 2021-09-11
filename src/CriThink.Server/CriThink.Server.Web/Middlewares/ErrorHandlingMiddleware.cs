@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;

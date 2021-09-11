@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Queries;
-using CriThink.Server.Core.DomainServices;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.DomainServices;
+using CriThink.Server.Domain.Entities;
 
 namespace CriThink.Server.Application.DomainServices
 {

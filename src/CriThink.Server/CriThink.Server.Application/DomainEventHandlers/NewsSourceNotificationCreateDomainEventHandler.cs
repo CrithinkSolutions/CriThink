@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Validators;
-using CriThink.Server.Core.DomainEvents;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.QueryResults;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.DomainEvents;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
+using CriThink.Server.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

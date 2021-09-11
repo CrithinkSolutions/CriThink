@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Core.Exceptions;
-using CriThink.Server.Core.Repositories;
+using CriThink.Server.Domain.Exceptions;
+using CriThink.Server.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
