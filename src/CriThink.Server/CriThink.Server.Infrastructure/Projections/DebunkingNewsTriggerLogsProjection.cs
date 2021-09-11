@@ -20,9 +20,9 @@ namespace CriThink.Server.Infrastructure.Projections
             log => new GetAllTriggerLogQueryResult
             {
                 Id = log.Id,
-                IsSuccessful = log.IsSuccessful,
+                Status = log.Status,
                 TimeStamp = log.TimeStamp.UtcDateTime,
-                FailReason = log.FailReason
+                FailReason = log.Failures
             };
     }
 }

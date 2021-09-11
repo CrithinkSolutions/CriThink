@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Exceptions;
 using CriThink.Server.Application.Facades;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Core.Repositories;
+using CriThink.Server.Providers.DebunkingNewsFetcher;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -38,37 +41,84 @@ namespace CriThink.Server.Application.CommandHandlers
 
         public async Task<Unit> Handle(UpdateDebunkingNewsRepositoryCommand request, CancellationToken cancellationToken)
         {
+            DebunkingNewsProviderResult[] debunkingNewsCollection;
             DebunkingNewsTriggerLog triggerLog = null;
+            StringBuilder errorLog = null;
 
             try
             {
-                var lastFetchingTimeStamp = await _debunkingNewsTriggerLogRepository.GetLatestTimeStampAsync();
-                var debunkingNewsCollection = await _debunkNewsFetcherFacade.FetchDebunkingNewsAsync(lastFetchingTimeStamp);
+                try
+                {
+                    debunkingNewsCollection = await FetchDebunkingNewsAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Error to fetch debunking news");
+                    triggerLog = DebunkingNewsTriggerLog.CreateWithFailure(
+                        $"{nameof(UpdateDebunkingNewsRepositoryCommandHandler)}: {ex.Message}");
+
+                    throw;
+                }
 
                 if (!debunkingNewsCollection.Any())
+                {
+                    triggerLog = DebunkingNewsTriggerLog.CreateWithSuccess();
                     return Unit.Value;
+                }
 
                 foreach (var dNews in debunkingNewsCollection.SelectMany(x => x.DebunkingNewsCollection))
                 {
-                    await _debunkingNewsRepository.AddDebunkingNewsAsync(dNews);
+                    if (dNews.HasErrror)
+                    {
+                        errorLog ??= new StringBuilder();
+                        errorLog.AppendLine(dNews.Exception.Message);
+                        continue;
+                    }
+
+                    try
+                    {
+                        await _debunkingNewsRepository.AddDebunkingNewsAsync(dNews.Result);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger?.LogError(ex, "Error to save debunking news");
+                        triggerLog = DebunkingNewsTriggerLog.CreateWithFailure(
+                            $"{nameof(UpdateDebunkingNewsRepositoryCommandHandler)}: {ex.Message}");
+
+                        throw;
+                    }
                 }
 
-                triggerLog = DebunkingNewsTriggerLog.Create();
+                triggerLog = GetLogByAnyError(errorLog);
             }
-            catch (Exception ex)
+            catch (DebunkingNewsFetcherPartialFailureException)
             {
-                _logger?.LogError(ex, "Error to fetch debunking news");
-                triggerLog = DebunkingNewsTriggerLog.Create(ex.Message);
+                triggerLog = DebunkingNewsTriggerLog.CreateWithPartialFailure(errorLog.ToString());
                 throw;
             }
             finally
             {
                 await _debunkingNewsTriggerLogRepository.AddTriggerLogAsync(triggerLog);
-
                 await _debunkingNewsTriggerLogRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }
 
             return Unit.Value;
+        }
+
+        private async Task<DebunkingNewsProviderResult[]> FetchDebunkingNewsAsync()
+        {
+            var lastFetchingTimeStamp = await _debunkingNewsTriggerLogRepository.GetLatestTimeStampAsync();
+            var debunkingNewsCollection = await _debunkNewsFetcherFacade.FetchDebunkingNewsAsync(lastFetchingTimeStamp);
+
+            return debunkingNewsCollection;
+        }
+
+        private static DebunkingNewsTriggerLog GetLogByAnyError(StringBuilder errorLog)
+        {
+            if (errorLog.Length <= 0)
+                return DebunkingNewsTriggerLog.CreateWithSuccess();
+
+            throw new DebunkingNewsFetcherPartialFailureException();
         }
     }
 }

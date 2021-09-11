@@ -72,10 +72,10 @@ namespace CriThink.Server.Infrastructure.Repositories
             var title = new NpgsqlParameter("title", debunkingNews.Title);
             var publishingDate = new NpgsqlParameter("publishing_date", debunkingNews.PublishingDate);
             var link = new NpgsqlParameter("link", debunkingNews.Link);
-            var newsCaption = new NpgsqlParameter("news_caption", debunkingNews.NewsCaption);
-            var publisherName = new NpgsqlParameter("publisher_id", debunkingNews.Publisher.Id);
-            var keywords = new NpgsqlParameter("keywords", debunkingNews.Keywords);
-            var imageLink = new NpgsqlParameter("image_link", debunkingNews.ImageLink);
+            var newsCaption = new NpgsqlParameter("news_caption", (object) debunkingNews.NewsCaption ?? DBNull.Value);
+            var publisherId = new NpgsqlParameter("publisher_id", debunkingNews.Publisher.Id);
+            var keywords = new NpgsqlParameter("keywords", (object) debunkingNews.Keywords ?? DBNull.Value);
+            var imageLink = new NpgsqlParameter("image_link", (object) debunkingNews.ImageLink ?? DBNull.Value);
 
             await _dbContext.Database.ExecuteSqlRawAsync(sqlQuery,
                 id,
@@ -83,7 +83,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 publishingDate,
                 link,
                 newsCaption,
-                publisherName,
+                publisherId,
                 keywords,
                 imageLink);
         }
@@ -168,6 +168,21 @@ namespace CriThink.Server.Infrastructure.Repositories
             }
 
             return result;
+        }
+    }
+
+    public static class NpgsqlParameterExtensions
+    {
+        public static NpgsqlParameter Create<T>(string key, T value)
+        {
+            if (value is { })
+            {
+                return new NpgsqlParameter<T>(key, value);
+            }
+            else
+            {
+                return new NpgsqlParameter(key, DBNull.Value);
+            }
         }
     }
 }

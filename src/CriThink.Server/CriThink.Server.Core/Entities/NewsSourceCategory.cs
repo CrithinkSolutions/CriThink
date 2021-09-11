@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.Entities
 {

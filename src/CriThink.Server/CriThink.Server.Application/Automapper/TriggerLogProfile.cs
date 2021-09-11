@@ -10,9 +10,9 @@ namespace CriThink.Server.Application.Automapper
         {
             CreateMap<GetAllTriggerLogQueryResult, TriggerLogGetViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.IsSuccessful, opt => opt.MapFrom(src => src.IsSuccessful))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.TimeStamp.ToString("u")))
-                .ForMember(dest => dest.ErrorMessage, opt => opt.MapFrom(src => src.FailReason ?? string.Empty));
+                .ForMember(dest => dest.Failures, opt => opt.MapFrom(src => src.FailReason ?? string.Empty));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.DomainServices;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
@@ -58,11 +59,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
-            var analysisTask = Task.Run(async () =>
-            {
-                _logger?.LogInformation("Get in Channel4 fetcher");
-                return await RunFetcherAsync().ConfigureAwait(false);
-            });
+            var analysisTask = Task.Run(RunFetcherAsync);
 
             Queue.Enqueue(analysisTask);
             return base.AnalyzeAsync();
@@ -103,9 +100,9 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNews>> ReadFeedAsync(SyndicationFeed feed)
+        private async Task<IList<Monad<DebunkingNews>>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNews>();
+            var list = new List<Monad<DebunkingNews>>();
 
             foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
@@ -124,14 +121,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
                 await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.Channel4);
 
-                list.Add(debunkingNews);
+                list.Add(new(debunkingNews));
             }
 #endif
 
             return list;
         }
 
-        private async Task<DebunkingNews> ReadItemAsync(SyndicationItem item)
+        private async Task<Monad<DebunkingNews>> ReadItemAsync(SyndicationItem item)
         {
             try
             {
@@ -159,12 +156,16 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
                 debunkingNews.SetKeywords(keywords);
 
-                return debunkingNews;
+                return new(debunkingNews);
             }
             catch (LinkUnavailableException ex)
             {
                 _logger?.LogError(ex, $"Can't get link of Channel4 news {item.Title.Text}", item.Id);
-                throw;
+                return new(ex);
+            }
+            catch (Exception ex)
+            {
+                return new(ex);
             }
         }
 

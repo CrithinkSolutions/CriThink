@@ -12,34 +12,41 @@ namespace CriThink.Server.Core.Entities
         protected DebunkingNewsTriggerLog()
         { }
 
-        private DebunkingNewsTriggerLog(bool isSuccessful)
+        private DebunkingNewsTriggerLog(DebunkingNewsTriggerLogStatus status)
         {
-            IsSuccessful = isSuccessful;
+            Status = status;
             TimeStamp = DateTime.UtcNow;
         }
 
-        private DebunkingNewsTriggerLog(bool isSuccessful, string message)
-            : this(isSuccessful)
+        private DebunkingNewsTriggerLog(
+            DebunkingNewsTriggerLogStatus status,
+            string message)
+            : this(status)
         {
-            FailReason = message;
+            Failures = message;
         }
 
-        public bool IsSuccessful { get; private set; }
+        public DebunkingNewsTriggerLogStatus Status { get; private set; }
 
         public DateTimeOffset TimeStamp { get; private set; }
 
-        public string FailReason { get; private set; }
+        public string Failures { get; private set; }
 
         #region Create
 
-        public static DebunkingNewsTriggerLog Create()
+        public static DebunkingNewsTriggerLog CreateWithSuccess()
         {
-            return new DebunkingNewsTriggerLog(true);
+            return new DebunkingNewsTriggerLog(DebunkingNewsTriggerLogStatus.Successfull);
         }
 
-        public static DebunkingNewsTriggerLog Create(string message)
+        public static DebunkingNewsTriggerLog CreateWithPartialFailure(string failures)
         {
-            return new DebunkingNewsTriggerLog(false, message);
+            return new DebunkingNewsTriggerLog(DebunkingNewsTriggerLogStatus.Partial, failures);
+        }
+
+        public static DebunkingNewsTriggerLog CreateWithFailure(string failures)
+        {
+            return new DebunkingNewsTriggerLog(DebunkingNewsTriggerLogStatus.Failed, failures);
         }
 
         #endregion

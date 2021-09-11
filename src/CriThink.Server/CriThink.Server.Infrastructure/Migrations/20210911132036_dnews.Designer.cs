@@ -3,15 +3,17 @@ using System;
 using CriThink.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CriThink.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(CriThinkDbContext))]
-    partial class CriThinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210911132036_dnews")]
+    partial class dnews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,14 +283,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Failures")
+                    b.Property<string>("FailReason")
                         .HasColumnType("text")
-                        .HasColumnName("failures");
+                        .HasColumnName("fail_reason");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("status");
+                    b.Property<bool>("IsSuccessful")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_successful");
 
                     b.Property<DateTimeOffset>("TimeStamp")
                         .HasColumnType("timestamp with time zone")

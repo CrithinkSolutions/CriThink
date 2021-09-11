@@ -25,7 +25,7 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             CancellationToken cancellationToken = default)
         {
             return dbSet
-                .Where(log => log.IsSuccessful)
+                .Where(log => log.Status == DebunkingNewsTriggerLogStatus.Successfull)
                 .OrderBy(log => log.TimeStamp)
                 .Select(projection)
                 .FirstOrDefaultAsync(cancellationToken);

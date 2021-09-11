@@ -4,10 +4,10 @@
     {
         public string Id { get; set; }
 
-        public bool IsSuccessful { get; set; }
+        public string Status { get; set; }
 
         public string TimeStamp { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string Failures { get; set; }
     }
 }

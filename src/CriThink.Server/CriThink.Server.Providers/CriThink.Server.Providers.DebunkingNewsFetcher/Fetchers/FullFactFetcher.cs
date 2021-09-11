@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Common.Helpers;
 using CriThink.Server.Core.DomainServices;
 using CriThink.Server.Core.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
@@ -59,11 +60,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
-            var analysisTask = Task.Run(async () =>
-            {
-                _logger?.LogInformation("FullFact fetcher is running");
-                return await RunFetcherAsync().ConfigureAwait(false);
-            });
+            var analysisTask = Task.Run(RunFetcherAsync);
 
             Queue.Enqueue(analysisTask);
             return base.AnalyzeAsync();
@@ -103,21 +100,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNews>> ReadFeedAsync(SyndicationFeed feed)
+        private async Task<IList<Monad<DebunkingNews>>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNews>();
+            var list = new List<Monad<DebunkingNews>>();
 
             foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
-                try
-                {
-                    var debunkingNews = await ReadItemAsync(item);
-                    list.Add(debunkingNews);
-                }
-                catch (LinkUnavailableException ex)
-                {
-                    _logger?.LogError(ex, $"Can't get link of FullFact news {item.Title.Text}", item.Id);
-                }
+                var debunkingNews = await ReadItemAsync(item);
+                list.Add(debunkingNews);
             }
 
 #if DEBUG
@@ -131,38 +121,50 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
                 await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
 
-                list.Add(debunkingNews);
+                list.Add(new(debunkingNews));
             }
 #endif
 
             return list;
         }
 
-        private async Task<DebunkingNews> ReadItemAsync(SyndicationItem item)
+        private async Task<Monad<DebunkingNews>> ReadItemAsync(SyndicationItem item)
         {
-            var link = GetLink(item);
-
-            var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
-
-            var debunkingNews = DebunkingNews.Create(
-               item.Title.Text,
-               link,
-               item.PublishDate);
-
-            if (_cachedDebunkingNewsPublisher is null)
+            try
             {
-                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
-                _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                var link = GetLink(item);
+
+                var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+                var debunkingNews = DebunkingNews.Create(
+                   item.Title.Text,
+                   link,
+                   item.PublishDate);
+
+                if (_cachedDebunkingNewsPublisher is null)
+                {
+                    await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
+                    _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                }
+                else
+                {
+                    debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                }
+
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
+                debunkingNews.SetKeywords(keywords);
+
+                return new(debunkingNews);
             }
-            else
+            catch (LinkUnavailableException ex)
             {
-                debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                _logger?.LogError(ex, $"Can't get link of FullFact news {item.Title.Text}", item.Id);
+                return new(ex);
             }
-
-            var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
-            debunkingNews.SetKeywords(keywords);
-
-            return debunkingNews;
+            catch (Exception ex)
+            {
+                return new(ex);
+            }
         }
 
         private static string GetLink(SyndicationItem item)

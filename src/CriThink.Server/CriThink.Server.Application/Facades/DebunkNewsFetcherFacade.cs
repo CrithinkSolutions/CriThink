@@ -11,7 +11,9 @@ namespace CriThink.Server.Application.Facades
         private readonly DebunkingNewsFetcherBuilder _builder;
         private readonly IDebunkingNewsProvider _debunkingNewsProvider;
 
-        public DebunkNewsFetcherFacade(IDebunkingNewsProvider debunkingNewsProvider, DebunkingNewsFetcherBuilder builder)
+        public DebunkNewsFetcherFacade(
+            IDebunkingNewsProvider debunkingNewsProvider,
+            DebunkingNewsFetcherBuilder builder)
         {
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
             _debunkingNewsProvider = debunkingNewsProvider ?? throw new ArgumentNullException(nameof(debunkingNewsProvider));

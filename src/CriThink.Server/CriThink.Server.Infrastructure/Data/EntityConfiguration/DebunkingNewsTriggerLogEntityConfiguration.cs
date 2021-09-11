@@ -16,13 +16,16 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(dntl => dntl.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(dntl => dntl.IsSuccessful)
-                .IsRequired();
+            builder.Property(dntl => dntl.Status)
+                .IsRequired()
+                .HasConversion(
+                    enumValue => enumValue.ToString(),
+                    stringValue => EntityEnumConverter.GetEnumValue<DebunkingNewsTriggerLogStatus>(stringValue));
 
             builder.Property(dntl => dntl.TimeStamp)
                 .IsRequired();
 
-            builder.Property(dntl => dntl.FailReason);
+            builder.Property(dntl => dntl.Failures);
         }
     }
 }

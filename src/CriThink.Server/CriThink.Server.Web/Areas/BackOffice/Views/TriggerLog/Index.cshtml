@@ -21,8 +21,8 @@
             <tr>
                 <th>Timestamp</th>
                 <th>Id</th>
-                <th>Successful</th>
-                <th>Error Message</th>
+                <th>Status</th>
+                <th>Failures</th>
             </tr>
         </thead>
         @foreach (var log in Model.LogsCollection)
@@ -30,8 +30,8 @@
             <tr>
                 <td>@log.TimeStamp</td>
                 <td>@log.Id</td>
-                <td>@log.IsSuccessful</td>
-                <td>@log.ErrorMessage</td>
+                <td>@log.Status</td>
+                <td>@log.Failures</td>
             </tr>
         }
     </table>

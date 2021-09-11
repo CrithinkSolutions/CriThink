@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Exceptions;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -65,6 +66,7 @@ namespace CriThink.Server.Web.Controllers
         [ServiceFilter(typeof(DebunkingNewsTriggerAuthenticationFilter), Order = int.MinValue)]
         [Route(EndpointConstants.DebunkNewsTriggerUpdate)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status206PartialContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
@@ -72,9 +74,17 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> TriggerRepositoryUpdateAsync()
         {
             var command = new UpdateDebunkingNewsRepositoryCommand();
-            await _mediator.Send(command);
 
-            return NoContent();
+            try
+            {
+                await _mediator.Send(command);
+
+                return NoContent();
+            }
+            catch (DebunkingNewsFetcherPartialFailureException)
+            {
+                return StatusCode(StatusCodes.Status206PartialContent);
+            }
         }
 
         /// <summary>

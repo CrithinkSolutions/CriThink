@@ -1,4 +1,5 @@
 ﻿using System;
+using CriThink.Server.Core.Entities;
 
 namespace CriThink.Server.Core.QueryResults
 {
@@ -6,7 +7,7 @@ namespace CriThink.Server.Core.QueryResults
     {
         public Guid Id { get; set; }
 
-        public bool IsSuccessful { get; set; }
+        public DebunkingNewsTriggerLogStatus Status { get; set; }
 
         public DateTimeOffset TimeStamp { get; set; }
 
