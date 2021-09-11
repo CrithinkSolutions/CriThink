@@ -244,7 +244,7 @@
     <value>Good night</value>
   </data>
   <data name="NewsCheckerViewModel.Motto" xml:space="preserve">
-    <value>USE THE HEAD TODAY</value>
+    <value>Use the head today</value>
   </data>
   <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
     <value>Which news do you want to check?</value>
@@ -560,5 +560,8 @@
   </data>
   <data name="HomeStatisticsViewModel.Error" xml:space="preserve">
     <value>Oops! We're trying to fix the issue</value>
+  </data>
+  <data name="NewsCheckerViewModel.Hello" xml:space="preserve">
+    <value>Hello</value>
   </data>
 </root>

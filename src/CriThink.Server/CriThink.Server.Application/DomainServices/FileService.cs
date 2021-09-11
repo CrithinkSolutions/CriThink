@@ -20,6 +20,8 @@ namespace CriThink.Server.Application.DomainServices
             _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
         }
 
+        public string Hostname => GetHostname();
+
         public async Task<Uri> SaveFileAsync(IFormFile formFile, bool replaceIfExist, string fileName, params string[] paths)
         {
             if (formFile is null || formFile.Length == 0)

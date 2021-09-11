@@ -10,7 +10,6 @@ using Google.Android.Material.BottomNavigation;
 using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Binding.Bindings.Target.Construction;
-using MvvmCross.Converters;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Core;
 using MvvmCross.Platforms.Android.Presenters;
@@ -49,9 +48,6 @@ namespace CriThink.Client.Droid
             registry.RegisterCustomBindingFactory<BottomNavigationView>(
                 MvxBottomNavigationItemChangedBinding.BindingKey, view => new MvxBottomNavigationItemChangedBinding(view));
         }
-
-        protected override void FillValueConverters(IMvxValueConverterRegistry registry)
-        { }
 
         protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
         {

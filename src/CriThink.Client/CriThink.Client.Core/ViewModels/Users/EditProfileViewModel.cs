@@ -123,6 +123,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             try
             {
                 await _userProfileService.UpdateUserProfileAsync(request, cancellationToken);
+                await FFImageLoading.ImageService.Instance.InvalidateCacheAsync(FFImageLoading.Cache.CacheType.All);
             }
             catch (Exception)
             {

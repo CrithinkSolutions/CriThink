@@ -154,7 +154,7 @@ namespace CriThink.Client.Core
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
                 .AddHttpMessageHandler<AuthHeaderHandler>();
 
-            serviceCollection.AddRefitClient<INewsSourceApi>()
+            serviceCollection.AddRefitClient<INotificationApi>()
                 .ConfigureHttpClient(httpClient =>
                 {
                     httpClient.BaseAddress = new Uri(baseApiUri + notificationApiUri);

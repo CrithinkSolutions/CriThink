@@ -26,6 +26,8 @@ namespace CriThink.Server.Infrastructure.DomainServices
             _logger = logger;
         }
 
+        public string Hostname => GetHostname();
+
         public async Task<Uri> SaveFileAsync(IFormFile formFile, bool replaceIfExist, string fileName, params string[] paths)
         {
             if (formFile is null)

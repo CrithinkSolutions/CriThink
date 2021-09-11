@@ -7,8 +7,8 @@
   android:layout_height="wrap_content">
 
   <FFImageLoading.Cross.MvxCachedImageView
-    android:layout_width="@dimen/imgSize_medium"
-    android:layout_height="@dimen/imgSize_medium"
+    android:layout_width="@dimen/imgSize_large"
+    android:layout_height="@dimen/imgSize_large"
     android:id="@+id/imgWebsite" />
 
   <com.google.android.material.textview.MaterialTextView
