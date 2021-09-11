@@ -71,14 +71,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
             try
             {
-                feed = await GetSyndicationFeedAsync().ConfigureAwait(false);
+                feed = await GetSyndicationFeedAsync();
             }
             catch (Exception ex)
             {
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{_webSiteUri}'");
             }
 
-            var list = await ReadFeedAsync(feed).ConfigureAwait(false);
+            var list = await ReadFeedAsync(feed);
 
             return new DebunkingNewsProviderResult(list);
         }
@@ -135,7 +135,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 var link = GetLink(item);
                 var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
 
-                var imageUri = await GetNewsImageAsync(link).ConfigureAwait(false);
+                var imageUri = await GetNewsImageAsync(link);
 
                 var debunkingNews = DebunkingNews.Create(
                     item.Title.Text,
