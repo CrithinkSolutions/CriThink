@@ -47,8 +47,16 @@
     </style>
     <style name="ContentSubtitleText">
         <item name="android:textColor">@android:color/black</item>
+        
         <item name="android:textSize">@dimen/textSize_contentSubtitle</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FlatWhiteRoundCornerButton" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/bg_button_radius</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+
     </style>
     
 </resources>

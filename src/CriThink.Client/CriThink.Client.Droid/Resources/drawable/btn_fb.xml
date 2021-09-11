@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" > 
   <item 
     android:drawable="@drawable/ic_facebook_official_logo" 
-    android:width="@dimen/imgSize_small" 
-    android:height="@dimen/imgSize_small"
-    android:left="@dimen/margin_small"/> 
+    android:width="@dimen/imgSize_extraSmall" 
+    android:height="@dimen/imgSize_extraSmall"
+    android:left="@dimen/margin_medium"/> 
 </layer-list >
