@@ -4,5 +4,5 @@
     android:drawable="@drawable/ic_google_logo" 
     android:width="@dimen/imgSize_extraSmall" 
     android:height="@dimen/imgSize_extraSmall"
-    android:left="@dimen/margin_small"/> 
+    android:left="@dimen/margin_medium"/> 
 </layer-list >

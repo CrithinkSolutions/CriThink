@@ -3,7 +3,7 @@
   <item 
     android:width="@dimen/imgSize_extraSmall" 
     android:height="@dimen/imgSize_mini"       
-    android:left="@dimen/margin_small"
+    android:left="@dimen/margin_medium"
     android:gravity="center" 
     android:drawable="@drawable/ic_mail"/>
 </layer-list>
