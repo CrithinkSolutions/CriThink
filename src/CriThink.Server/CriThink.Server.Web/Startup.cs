@@ -285,7 +285,10 @@ namespace CriThink.Server.Web
 
         private static void SetupCache(IServiceCollection services)
         {
-            services.AddResponseCaching();
+            services.AddResponseCaching(options =>
+            {
+                options.MaximumBodySize = 1024;
+            });
             services.AddMemoryCache();
         }
 

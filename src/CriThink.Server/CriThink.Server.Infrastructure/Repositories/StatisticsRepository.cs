@@ -26,7 +26,7 @@ namespace CriThink.Server.Infrastructure.Repositories
         {
             const string query = "SELECT\n" +
                                  "count(*) as count\n" +
-                                 "FROM article_answers";
+                                 "FROM news_source_post_answers";
 
             await using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync(cancellationToken);
@@ -83,7 +83,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             await using var command = new NpgsqlCommand(query, connection);
 
-            var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            var reader = await command.ExecuteReaderAsync(cancellationToken);
             await reader.ReadAsync(cancellationToken);
 
             var result = long.Parse(reader["count"].ToString());
@@ -102,7 +102,7 @@ namespace CriThink.Server.Infrastructure.Repositories
 
             await using var command = new NpgsqlCommand(query, connection);
 
-            var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            var reader = await command.ExecuteReaderAsync(cancellationToken);
             await reader.ReadAsync(cancellationToken);
 
             var result = long.Parse(reader["count"].ToString());
