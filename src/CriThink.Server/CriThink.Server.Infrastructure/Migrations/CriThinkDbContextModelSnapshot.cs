@@ -16,10 +16,10 @@ namespace CriThink.Server.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,6 +35,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("keywords");
 
                     b.Property<string>("Link")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("link");
 
@@ -47,11 +48,13 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("publisher_id");
 
-                    b.Property<DateTime>("PublishingDate")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<DateTimeOffset?>("PublishingDate")
+                        .IsRequired()
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("publishing_date");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("title");
 
@@ -68,7 +71,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("debunking_news");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsCountry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +118,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +159,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,27 +245,53 @@ namespace CriThink.Server.Infrastructure.Migrations
                             Name = "Channel4",
                             Opinion = "",
                             TwitterProfile = "https://twitter.com/Channel4News"
+                        },
+                        new
+                        {
+                            Id = new Guid("511199ed-595c-4830-a40b-bcb58ca7bbb2"),
+                            CountryId = new Guid("812361b1-d1c3-4315-b601-4e060364a1d6"),
+                            Description = "",
+                            FacebookPage = "https://www.facebook.com/FullFact.org/",
+                            InstagramProfile = "https://www.instagram.com/fullfactorg/",
+                            LanguageId = new Guid("cea0eeea-ec03-483e-be0f-e2f1af7669d8"),
+                            Link = "https://fullfact.org/",
+                            Name = "FullFact",
+                            Opinion = "",
+                            TwitterProfile = "https://twitter.com/fullfact"
+                        },
+                        new
+                        {
+                            Id = new Guid("80aa1eaf-d64b-46eb-a438-503b716f9c2a"),
+                            CountryId = new Guid("575003e3-991c-4ac5-9ce4-3399553f64a7"),
+                            Description = "",
+                            FacebookPage = "https://www.facebook.com/facta.news",
+                            InstagramProfile = "https://www.instagram.com/facta.news/",
+                            LanguageId = new Guid("b5165f46-b82e-46c3-9b98-e5a37a10276f"),
+                            Link = "https://facta.news/",
+                            Name = "FactaNews",
+                            Opinion = "",
+                            TwitterProfile = "https://twitter.com/FactaNews"
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsTriggerLog", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsTriggerLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("FailReason")
+                    b.Property<string>("Failures")
                         .HasColumnType("text")
-                        .HasColumnName("fail_reason");
+                        .HasColumnName("failures");
 
-                    b.Property<bool>("IsSuccessful")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_successful");
-
-                    b.Property<string>("TimeStamp")
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<DateTimeOffset>("TimeStamp")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("time_stamp");
 
                     b.HasKey("Id")
@@ -271,7 +300,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("debunking_news_trigger_logs");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.NewsSourceCategory", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourceCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -303,49 +332,135 @@ namespace CriThink.Server.Infrastructure.Migrations
                         {
                             Id = new Guid("ec5eb3b0-1a32-4698-88e2-9ae81ec87176"),
                             Authenticity = "FakeNews",
-                            Description = "Sources in this category show extreme bias, poor or no sourcing to credible information, a complete lack of transparency and/or publish fake news for profit or ideologically influence the audience. These sources may be very untrustworthy and should be fact checked."
+                            Description = "NewsSourceFakeNews"
                         },
                         new
                         {
                             Id = new Guid("762f6747-e0de-4b3b-80b1-46d599ce02df"),
                             Authenticity = "Satirical",
-                            Description = "These sources exclusively use humor, irony, exaggeration, or ridicule to expose and criticize people’s stupidity or vices, particularly in the context of contemporary politics and other topical issues. Primarily these sources are clear that they are satire and do not attempt to deceive."
+                            Description = "NewsSourceSatirical"
                         },
                         new
                         {
                             Id = new Guid("6254c650-76f0-4bba-ba5e-01218891f729"),
                             Authenticity = "Reliable",
-                            Description = "These sources have minimal bias and use very few loaded words (wording that attempts to influence an audience by using appeal to emotion or stereotypes).  The reporting is factual and usually sourced."
+                            Description = "NewsSourceReliable"
                         },
                         new
                         {
                             Id = new Guid("28e0a6fc-4937-4ed3-949a-75bec8f8d2e1"),
                             Authenticity = "Conspiracist",
-                            Description = "Sources in the Conspiracy category may publish unverifiable information that is not always supported by evidence. Actually, they usually publish Conspiracy theories consisting in explanations for an event or situation that invoke a conspiracy by sinister and powerful groups, often political in motivation. These sources may be untrustworthy for credible/verifiable information, therefore fact checking and further investigation is recommended."
+                            Description = "NewsSourceConspiracist"
                         },
                         new
                         {
                             Id = new Guid("3cc36977-5115-45ea-88e9-7c86f19b6cd6"),
                             Authenticity = "Suspicious",
-                            Description = "These sources may publish a mix of non-factual and factual information which is misrepresented and/or reported with bias (e.g. political leaning bias). Therefore, information coming from these sources should be double-checked considering reliable sources of news."
+                            Description = "NewsSourceSuspicious"
                         },
                         new
                         {
                             Id = new Guid("d66bf55d-d30d-448f-be69-d2e0cebdd26a"),
                             Authenticity = "SocialMedia",
-                            Description = "Social media platforms (such as Facebook, Twitter, Reddit and so on) cannot be classified strictly as sources of information. Rather these platforms are just mediums through which information can be shared. In these cases, verifying the reliability of the user/page sharing the information is recommended."
+                            Description = "NewsSourceSocialMedia"
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostAnswer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<string>("NewsLink")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("news_link");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("rate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_news_source_post_answers");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_news_source_post_answers_user_id");
+
+                    b.ToTable("news_source_post_answers");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("category");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("question");
+
+                    b.Property<decimal>("Ratio")
+                        .HasColumnType("numeric")
+                        .HasColumnName("ratio");
+
+                    b.HasKey("Id")
+                        .HasName("pk_news_source_post_questions");
+
+                    b.ToTable("news_source_post_questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30c7d606-d1cf-434e-a1f3-b7b1841dc331"),
+                            Category = "General",
+                            Question = "HQuestion",
+                            Ratio = 0.3m
+                        },
+                        new
+                        {
+                            Id = new Guid("12f7218c-e2dd-43cd-82e0-a9216fcf6aff"),
+                            Category = "General",
+                            Question = "EQuestion",
+                            Ratio = 0.4m
+                        },
+                        new
+                        {
+                            Id = new Guid("a05d4433-2c47-4749-a8f0-fb9a6e35a868"),
+                            Category = "General",
+                            Question = "AQuestion",
+                            Ratio = 0.2m
+                        },
+                        new
+                        {
+                            Id = new Guid("8731f45c-a41f-45d9-b97d-0f181e2cce94"),
+                            Category = "General",
+                            Question = "DQuestion",
+                            Ratio = 0.1m
+                        });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<string>("RemoteIpAddress")
@@ -362,15 +477,15 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_refresh_token");
+                        .HasName("pk_refresh_tokens");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_refresh_token_user_id");
+                        .HasDatabaseName("ix_refresh_tokens_user_id");
 
-                    b.ToTable("refresh_token");
+                    b.ToTable("refresh_tokens");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSource", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -382,12 +497,12 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("authenticity");
 
-                    b.Property<DateTime>("FirstRequestedAt")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<DateTimeOffset>("FirstRequestedAt")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("first_requested_at");
 
-                    b.Property<DateTime?>("IdentifiedAt")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<DateTimeOffset?>("IdentifiedAt")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("identified_at");
 
                     b.Property<int>("RequestCount")
@@ -409,7 +524,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.ToTable("unknown_news_sources");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSourceNotification", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -421,8 +536,8 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("email");
 
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<DateTimeOffset>("RequestedAt")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("requested_at");
 
                     b.Property<Guid>("UnknownNewsSourceId")
@@ -430,15 +545,15 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("unknown_news_source_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_unknown_news_source_notification_requests");
+                        .HasName("pk_unknown_news_source_notifications");
 
                     b.HasIndex("UnknownNewsSourceId")
-                        .HasDatabaseName("ix_unknown_news_source_notification_requests_unknown_news_sour");
+                        .HasDatabaseName("ix_unknown_news_source_notifications_unknown_news_source_id");
 
-                    b.ToTable("unknown_news_source_notification_requests");
+                    b.ToTable("unknown_news_source_notifications");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -462,10 +577,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean")
                         .HasColumnName("email_confirmed");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean")
@@ -502,6 +613,14 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("user_name");
 
+                    b.Property<DateTimeOffset?>("_deletionRequestedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_requested_on");
+
+                    b.Property<DateTimeOffset?>("_deletionScheduledOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_scheduled_on");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -522,7 +641,6 @@ namespace CriThink.Server.Infrastructure.Migrations
                             ConcurrencyStamp = "c31844c9-d81b-4c66-991c-a60b0ba36f76",
                             Email = "service@crithink.com",
                             EmailConfirmed = true,
-                            IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SERVICE@CRITHINK.COM",
                             NormalizedUserName = "SERVICE",
@@ -532,7 +650,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -627,7 +745,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -650,7 +768,7 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("normalized_name");
 
                     b.HasKey("Id")
-                        .HasName("pk_roles");
+                        .HasName("pk_user_roles");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -665,7 +783,48 @@ namespace CriThink.Server.Infrastructure.Migrations
                             ConcurrencyStamp = "15b1b12c-4dff-413e-81d5-7c9423f25c35",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("4c28eed7-a34a-4534-9c2c-5ffe86b72393"),
+                            ConcurrencyStamp = "4E597EE6-5339-44B0-988E-258AD486BE49",
+                            Name = "FreeUser",
+                            NormalizedName = "FREEUSER"
                         });
+                });
+
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserSearch", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Authenticity")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("authenticity");
+
+                    b.Property<string>("NewsLink")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("news_link");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("timestamp");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_searches");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_searches_user_id");
+
+                    b.ToTable("user_searches");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -689,10 +848,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_role_claims");
+                        .HasName("pk_aspnet_role_claims");
 
                     b.HasIndex("RoleId")
-                        .HasDatabaseName("ix_role_claims_role_id");
+                        .HasDatabaseName("ix_aspnet_role_claims_role_id");
 
                     b.ToTable("aspnet_role_claims");
                 });
@@ -718,10 +877,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_user_claims");
+                        .HasName("pk_aspnet_user_claims");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_user_claims_user_id");
+                        .HasDatabaseName("ix_aspnet_user_claims_user_id");
 
                     b.ToTable("aspnet_user_claims");
 
@@ -775,10 +934,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("LoginProvider", "ProviderKey")
-                        .HasName("pk_user_logins");
+                        .HasName("pk_aspnet_user_logins");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_user_logins_user_id");
+                        .HasDatabaseName("ix_aspnet_user_logins_user_id");
 
                     b.ToTable("aspnet_user_logins");
                 });
@@ -794,10 +953,10 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("UserId", "RoleId")
-                        .HasName("pk_user_roles");
+                        .HasName("pk_aspnet_user_roles");
 
                     b.HasIndex("RoleId")
-                        .HasDatabaseName("ix_user_roles_role_id");
+                        .HasDatabaseName("ix_aspnet_user_roles_role_id");
 
                     b.ToTable("aspnet_user_roles");
 
@@ -828,14 +987,14 @@ namespace CriThink.Server.Infrastructure.Migrations
                         .HasColumnName("value");
 
                     b.HasKey("UserId", "LoginProvider", "Name")
-                        .HasName("pk_user_tokens");
+                        .HasName("pk_aspnet_user_tokens");
 
                     b.ToTable("aspnet_user_tokens");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNews", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNews", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsPublisher", "Publisher")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", "Publisher")
                         .WithMany("DebunkingNews")
                         .HasForeignKey("PublisherId")
                         .HasConstraintName("fk_debunking_news_debunking_news_publishers_publisher_id")
@@ -845,16 +1004,16 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsCountry", "Country")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsCountry", "Country")
                         .WithMany("Publishers")
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_debunking_news_publishers_debunking_news_countries_country_")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CriThink.Server.Core.Entities.DebunkingNewsLanguage", "Language")
+                    b.HasOne("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", "Language")
                         .WithMany("Publishers")
                         .HasForeignKey("LanguageId")
                         .HasConstraintName("fk_debunking_news_publishers_debunking_news_languages_language")
@@ -866,36 +1025,60 @@ namespace CriThink.Server.Infrastructure.Migrations
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.NewsSourcePostAnswer", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
-                        .WithMany("RefreshTokens")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
+                        .WithMany("ArticleAnswers")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_refresh_token_users_user_id")
+                        .HasConstraintName("fk_news_source_post_answers_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSourceNotificationRequest", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UnknownNewsSource", "UnknownNewsSource")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_refresh_tokens_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSourceNotification", b =>
+                {
+                    b.HasOne("CriThink.Server.Domain.Entities.UnknownNewsSource", "UnknownNewsSource")
                         .WithMany("NotificationQueue")
                         .HasForeignKey("UnknownNewsSourceId")
-                        .HasConstraintName("fk_unknown_news_source_notification_requests_unknown_news_sour")
+                        .HasConstraintName("fk_unknown_news_source_notifications_unknown_news_sources_unkn")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("UnknownNewsSource");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UserProfile", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserProfile", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", "User")
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
                         .WithOne("Profile")
-                        .HasForeignKey("CriThink.Server.Core.Entities.UserProfile", "UserId")
+                        .HasForeignKey("CriThink.Server.Domain.Entities.UserProfile", "UserId")
                         .HasConstraintName("fk_user_profiles_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UserSearch", b =>
+                {
+                    b.HasOne("CriThink.Server.Domain.Entities.User", "User")
+                        .WithMany("Searches")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_searches_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -904,87 +1087,90 @@ namespace CriThink.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_role_claims_asp_net_roles_user_role_id")
+                        .HasConstraintName("fk_aspnet_role_claims_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_claims_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_logins_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.UserRole", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_user_roles_asp_net_roles_user_role_id")
+                        .HasConstraintName("fk_aspnet_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_roles_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("CriThink.Server.Core.Entities.User", null)
+                    b.HasOne("CriThink.Server.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_tokens_asp_net_users_user_id")
+                        .HasConstraintName("fk_aspnet_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsCountry", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsCountry", b =>
                 {
                     b.Navigation("Publishers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsLanguage", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsLanguage", b =>
                 {
                     b.Navigation("Publishers");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.DebunkingNewsPublisher", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.DebunkingNewsPublisher", b =>
                 {
                     b.Navigation("DebunkingNews");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.UnknownNewsSource", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.UnknownNewsSource", b =>
                 {
                     b.Navigation("NotificationQueue");
                 });
 
-            modelBuilder.Entity("CriThink.Server.Core.Entities.User", b =>
+            modelBuilder.Entity("CriThink.Server.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Profile")
-                        .IsRequired();
+                    b.Navigation("ArticleAnswers");
+
+                    b.Navigation("Profile");
 
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("Searches");
                 });
 #pragma warning restore 612, 618
         }

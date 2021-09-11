@@ -5,13 +5,16 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using CriThink.Client.Core.Models.Identity;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.Common;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
@@ -19,23 +22,27 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserProfileService _userProfileService;
+        private readonly IIdentityService _identityService;
         private readonly IPlatformService _platformService;
         private readonly IUserDialogs _userDialogs;
-        private readonly IMvxLog _log;
+        private readonly ILogger<ProfileViewModel> _logger;
 
         public ProfileViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<ProfileViewModel> logger,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
+            IIdentityService identityService,
             IPlatformService platformService,
             IUserDialogs userDialogs)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _platformService = platformService ?? throw new ArgumentNullException(nameof(platformService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _log = logProvider?.GetLogFor<ProfileViewModel>();
+            _logger = logger;
 
+            UserProfileViewModel = new UserProfileViewModel();
             ProfileImageTransformations = new List<ITransformation>
             {
                 new CircleTransformation()
@@ -46,13 +53,13 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public List<ITransformation> ProfileImageTransformations { get; }
 
-        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {_user.GivenName} {_user.FamilyName}";
+        public string UserFullNameFormat => $"{LocalizedTextSource.GetText("MyNameIs")} {UserProfileViewModel.FullName}";
 
-        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {_user.Gender}";
+        public string UserGenderFormat => $"{LocalizedTextSource.GetText("IAmGender")} {UserProfileViewModel.GenderViewModel.LocalizedEntry}";
 
-        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {_user.Country}";
+        public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {UserProfileViewModel.Country}";
 
-        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {_user.DateOfBirth?.ToString("D")}";
+        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}";
 
         private string _headerText;
         public string HeaderText
@@ -68,13 +75,13 @@ namespace CriThink.Client.Core.ViewModels.Users
             set => SetProperty(ref _registeredOn, value);
         }
 
-        private User _user;
-        public User User
+        private UserProfileViewModel _userProfileViewModel;
+        public UserProfileViewModel UserProfileViewModel
         {
-            get => _user;
+            get => _userProfileViewModel;
             set
             {
-                SetProperty(ref _user, value);
+                SetProperty(ref _userProfileViewModel, value);
                 RaiseAllPropertiesChanged();
             }
         }
@@ -110,107 +117,172 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxCommand _openBlogCommand;
         public IMvxCommand OpenBlogCommand => _openBlogCommand ??= new MvxCommand(DoOpenBlogCommand);
 
+        private IMvxAsyncCommand _closeAccountCommand;
+        public IMvxAsyncCommand CloseAccountCommand => _closeAccountCommand ??= new MvxAsyncCommand(DoCloseAccountCommand);
+
         #endregion
 
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to profile view");
+            _logger?.LogInformation("User navigates to profile view");
         }
 
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
 
-            User = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
-            if (User != null)
-            {
-                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), _user.Username);
-                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _user.RegisteredOn.ToString("Y"));
-            }
+            await GetUserProfileAsync().ConfigureAwait(false);
         }
 
         private async Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
-            //await _navigationService.Navigate<EditProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(true);
+            var viewModelResult = await _navigationService.Navigate<EditProfileViewModel, EditProfileViewModelResult>(cancellationToken: cancellationToken);
+            if (viewModelResult.HasBeenEdited)
+                await GetUserProfileAsync();
         }
 
         private void DoOpenTelegramCommand()
         {
-            ShowToastForSocial("Telegram", _user.Telegram, async () =>
+            ShowToastForSocial("Telegram", _userProfileViewModel.Telegram, async () =>
             {
-                var telegramUri = new Uri($"https://t.me/{_user.Telegram}");
+                var telegramUri = new Uri($"https://t.me/{_userProfileViewModel.Telegram}");
                 await LaunchInternalBrowserAsync(telegramUri);
             });
         }
 
         private void DoOpenSkypeCommand()
         {
-            ShowToastForSocial("Skype", _user.Skype, () =>
+            ShowToastForSocial("Skype", _userProfileViewModel.Skype, () =>
             {
-                _platformService.OpenSkype(_user.Skype);
+                _platformService.OpenSkype(_userProfileViewModel.Skype);
             });
         }
 
         private void DoOpenFacebookCommand()
         {
-            ShowToastForSocial("Facebook", _user.Facebook, async () =>
+            ShowToastForSocial("Facebook", _userProfileViewModel.Facebook, async () =>
             {
-                var uri = new Uri($"https://facebook.com/{_user.Facebook}");
+                var uri = new Uri($"https://facebook.com/{_userProfileViewModel.Facebook}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenInstagramCommand()
         {
-            ShowToastForSocial("Instagram", _user.Instagram, async () =>
+            ShowToastForSocial("Instagram", _userProfileViewModel.Instagram, async () =>
             {
-                var uri = new Uri($"https://instagram.com/{_user.Instagram}");
+                var uri = new Uri($"https://instagram.com/{_userProfileViewModel.Instagram}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenTwitterCommand()
         {
-            ShowToastForSocial("Twitter", _user.Twitter, async () =>
+            ShowToastForSocial("Twitter", _userProfileViewModel.Twitter, async () =>
             {
-                var uri = new Uri($"https://twitter.com/{_user.Twitter}");
+                var uri = new Uri($"https://twitter.com/{_userProfileViewModel.Twitter}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenSnapchatCommand()
         {
-            ShowToastForSocial("Snapchat", _user.Snapchat, async () =>
+            ShowToastForSocial("Snapchat", _userProfileViewModel.Snapchat, async () =>
             {
-                var uri = new Uri($"https://story.snapchat.com/u/{_user.Snapchat}");
+                var uri = new Uri($"https://story.snapchat.com/u/{_userProfileViewModel.Snapchat}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenYoutubeCommand()
         {
-            ShowToastForSocial("Youtube", _user.Youtube, async () =>
+            ShowToastForSocial("YouTube", _userProfileViewModel.YouTube, async () =>
             {
-                var uri = new Uri($"https://www.youtube.com/c/{_user.Youtube}");
+                var uri = new Uri($"https://www.youtube.com/c/{_userProfileViewModel.YouTube}");
                 await LaunchInternalBrowserAsync(uri);
             });
         }
 
         private void DoOpenBlogCommand()
         {
-            ShowToastForSocial("Blog", _user.Blog, async () =>
+            ShowToastForSocial("Blog", _userProfileViewModel.Blog, async () =>
             {
                 try
                 {
-                    var uri = new Uri(_user.Blog);
+                    var uri = new Uri(_userProfileViewModel.Blog);
                     await LaunchInternalBrowserAsync(uri);
                 }
                 catch (UriFormatException ex)
                 {
-                    _log?.WarnException("The user blog uri is malformed", ex);
+                    _logger?.LogWarning(ex, "The user blog uri is malformed");
                 }
             });
+        }
+
+        private async Task DoCloseAccountCommand(CancellationToken cancellationToken)
+        {
+            var isConfirmed = await AskForDeletionConfirmationAsync(cancellationToken);
+            if (!isConfirmed)
+                return;
+
+            try
+            {
+                var scheduledDeletionDate = await _identityService.DeleteAccountAsync(cancellationToken);
+
+                await ShowDeletionConfirmationAsync(scheduledDeletionDate, cancellationToken);
+
+                _identityService.PerformLogout();
+
+                await _navigationService.Navigate<SignUpViewModel>(
+                    new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    }),
+                    cancellationToken: cancellationToken).ConfigureAwait(true);
+            }
+            catch (Exception)
+            {
+                await ShowErrorMessageAsync(cancellationToken);
+            }
+        }
+
+        private async Task<bool> AskForDeletionConfirmationAsync(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteConfirmationTitle");
+            var message = LocalizedTextSource.GetText("DeleteConfirmationMessage");
+
+            return await _userDialogs.ConfirmAsync(message, title, cancelToken: cancellationToken);
+        }
+
+        private async Task ShowDeletionConfirmationAsync(UserSoftDeletionResponse response, CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteTitle");
+            var message = string.Format(LocalizedTextSource.GetText("DeleteMessage"),
+                response.DeletionScheduledOn.ToString("D", CultureInfo.CurrentUICulture));
+
+            await ShowAlertAsync(message, title, cancellationToken);
+        }
+
+        private async Task ShowErrorMessageAsync(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("DeleteErrorTitle");
+            var message = LocalizedTextSource.GetText("DeleteErrorMessage");
+
+            await ShowAlertAsync(message, title, cancellationToken);
+        }
+
+        private async Task GetUserProfileAsync()
+        {
+            var userProfile = await _userProfileService.GetUserProfileAsync().ConfigureAwait(false);
+            if (userProfile != null)
+            {
+                UserProfileViewModel.MapFromEntity(userProfile);
+                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), UserProfileViewModel.Username);
+                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _userProfileViewModel.RegisteredOn);
+
+                await RaiseAllPropertiesChanged();
+            }
         }
 
         private Task LaunchInternalBrowserAsync(Uri uri) =>
@@ -232,5 +304,8 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             _userDialogs.Toast(cfg);
         }
+
+        private Task ShowAlertAsync(string message, string title, CancellationToken cancellationToken) =>
+            _userDialogs.AlertAsync(message, title, cancelToken: cancellationToken);
     }
 }

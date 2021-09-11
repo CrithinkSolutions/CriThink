@@ -11,5 +11,22 @@
   <color name="colorFacebook">#1877F2</color>
 
   <!-- Used as background in welcome views -->
-  <color name="welcomeBackground">#ff9600</color>
+  <color name="welcomeBackground">#f19a38</color>
+
+  <!-- Shimmer related -->  
+  <color name="shimmerColor">#C2C2C2</color>
+    
+  <color name="menuTint">#f19a38</color>
+
+  <color name="accent">#f19a38</color>
+
+  <color name="pageBackground">#fafbff</color>
+
+  <color name="secondaryTextColor">#8f8f8e</color>
+
+  <color name="backgroundTag">#fbeeda</color>
+
+  <color name="borderColor">#f0f0f0</color>
+
+  <color name="textColor">#4a4a4a</color>
 </resources>

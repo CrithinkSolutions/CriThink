@@ -7,8 +7,8 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -18,8 +18,8 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
-            : base(identityService, userDialogs, navigationService, logProvider)
+        public LoginViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<LoginViewModel> logger)
+            : base(identityService, userDialogs, navigationService, logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
@@ -69,7 +69,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            Log?.Info("User navigates to login");
+            Logger?.LogInformation("User navigates to login");
         }
 
         private async Task DoLoginCommand(CancellationToken cancellationToken)
@@ -84,7 +84,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 if (EmailHelper.IsEmail(EmailOrUsername))
                     request.Email = EmailOrUsername.ToUpperInvariant();
                 else
-                    request.UserName = EmailOrUsername.ToUpperInvariant();
+                    request.Username = EmailOrUsername.ToUpperInvariant();
 
                 userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken)
                     .ConfigureAwait(false);
@@ -98,7 +98,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (userInfo is null)
             {
                 var localizedText = LocalizedTextSource.GetText("LoginErrorMessage");
-                await ShowErrorMessage(localizedText).ConfigureAwait(false);
+                await ShowErrorMessageAsync(localizedText).ConfigureAwait(false);
             }
             else
             {

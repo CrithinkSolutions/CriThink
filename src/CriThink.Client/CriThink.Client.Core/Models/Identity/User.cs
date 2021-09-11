@@ -46,12 +46,6 @@ namespace CriThink.Client.Core.Models.Identity
             AvatarPath = GetAvatarPath(response.AvatarPath);
         }
 
-        public bool HasGivenOrFamilyName =>
-            !string.IsNullOrWhiteSpace(GivenName) ||
-            !string.IsNullOrWhiteSpace(FamilyName);
-
-        public bool HasGender => Gender.HasValue;
-
         [JsonInclude]
         public Guid Id { get; internal set; }
 

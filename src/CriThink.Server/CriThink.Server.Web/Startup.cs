@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -7,20 +9,22 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Server.Core.Delegates;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Application;
+using CriThink.Server.Domain.Delegates;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
-using CriThink.Server.Web.Facades;
+using CriThink.Server.Web.BackgroundServices;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +33,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -40,6 +45,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -101,16 +108,25 @@ namespace CriThink.Server.Web
 
             SetupRazorAutoReload(services);
 
+            SetupLocalization(services);
+
             SetupControllers(services);
 
             SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
+
+            SetupBackgroundServices(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+#pragma warning disable CA1062 // Validate arguments of public methods
+            var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(opt);
+#pragma warning restore CA1062 // Validate arguments of public methods
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -186,10 +202,10 @@ namespace CriThink.Server.Web
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(15),
+                        maxRetryDelay: TimeSpan.FromSeconds(Math.Pow(2, 3)),
                         errorCodesToAdd: null);
                 })
-                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
+                .UseSnakeCaseNamingConvention(CultureInfo.InvariantCulture);
             });
         }
 
@@ -202,7 +218,6 @@ namespace CriThink.Server.Web
                 })
                 .AddEntityFrameworkStores<CriThinkDbContext>()
                 .AddDefaultTokenProviders();
-
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -270,7 +285,10 @@ namespace CriThink.Server.Web
 
         private static void SetupCache(IServiceCollection services)
         {
-            services.AddResponseCaching();
+            services.AddResponseCaching(options =>
+            {
+                options.MaximumBodySize = 1024;
+            });
             services.AddMemoryCache();
         }
 
@@ -311,15 +329,13 @@ namespace CriThink.Server.Web
                                 Type = ReferenceType.SecurityScheme,
                                 Id = JwtBearerDefaults.AuthenticationScheme,
                             },
-                            // Scheme = "oauth2",
-                            // Name = JwtBearerDefaults.AuthenticationScheme,
-                            // In = ParameterLocation.Header
                         },
                         Array.Empty<string>()
                     }
                 });
 
                 options.OperationFilter<AddRequiredHeaderParameter>();
+                options.OperationFilter<SwaggerLanguageHeader>();
 
                 var contact = new OpenApiContact
                 {
@@ -347,29 +363,26 @@ namespace CriThink.Server.Web
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
             services.Configure<OpenOnlineSettings>(Configuration.GetSection("DebunkingNewsProviders:OpenOnline"));
             services.Configure<Channel4Settings>(Configuration.GetSection("DebunkingNewsProviders:Channel4"));
+            services.Configure<FullFactSettings>(Configuration.GetSection("DebunkingNewsProviders:FullFact"));
+            services.Configure<FactaNewsSettings>(Configuration.GetSection("DebunkingNewsProviders:FactaNews"));
         }
 
         private static void SetupMediatR(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+            services.AddMediatR(typeof(Infrastructure.Bootstrapper), typeof(Application.Bootstrapper));
+            services.AddFluentValidation(new[] { typeof(Application.Bootstrapper).Assembly });
         }
 
         private static void SetupInternalServices(IServiceCollection services)
         {
-            // Core
-            Core.Bootstrapper.AddCore(services);
-
             // Infrastructure
             services.AddInfrastructure();
 
+            // Application
+            services.AddApplication();
+
             // Services
             services.AddSingleton<IAppVersionService, AppVersionService>();
-
-            // Facades
-            services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
-            services.AddTransient<IUserManagementServiceFacade, UserManagementServiceFacade>();
-            services.AddTransient<INewsSourceFacade, NewsSourceFacade>();
-            services.AddTransient<ITriggerLogServiceFacade, TriggerLogServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
@@ -430,7 +443,9 @@ namespace CriThink.Server.Web
 
         private static void SetupAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Core.Bootstrapper));
+            services.AddAutoMapper(
+                typeof(Application.Bootstrapper)
+                , typeof(Startup));
         }
 
         private void SetupRazorAutoReload(IServiceCollection services)
@@ -442,6 +457,28 @@ namespace CriThink.Server.Web
                 mvcBuilder.AddRazorRuntimeCompilation(); // Razor
                 services.AddLiveReload(); // LiveReload
             }
+        }
+
+        private static void SetupLocalization(IServiceCollection services)
+        {
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                List<CultureInfo> supportedCultures = new()
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("it")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.ApplyCurrentCultureToResponseHeaders = true;
+            });
         }
 
         private static void SetupControllers(IServiceCollection services)
@@ -462,6 +499,15 @@ namespace CriThink.Server.Web
                 .AddCheck<RedisHealthChecker>(EndpointConstants.HealthCheckRedis, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckRedis })
                 .AddCheck<PostgreSqlHealthChecker>(EndpointConstants.HealthCheckPostgreSql, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckPostgreSql })
                 .AddDbContextCheck<CriThinkDbContext>(EndpointConstants.HealthCheckDbContext, HealthStatus.Unhealthy, tags: new[] { EndpointConstants.HealthCheckDbContext });
+        }
+
+        private static void SetupBackgroundServices(IServiceCollection services)
+        {
+            services.AddHostedService<RefreshTokenCleanerBackgroundService>();
+            services.AddHostedService<UserPendingDeletionCleanerBackgroundService>();
+
+            services.Configure<HostOptions>(
+                opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));
         }
 
         private static void MapHealthChecks(IEndpointRouteBuilder endpoints)

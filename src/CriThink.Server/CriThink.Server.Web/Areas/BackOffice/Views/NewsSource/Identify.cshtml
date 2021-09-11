@@ -19,15 +19,15 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Uri</span>
             </div>
-            <input asp-for="Uri" class="form-control">
+            <input asp-for="Source" class="form-control">
         </div>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Type</span>
             </div>
-            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()
-            .Where(i => i.Value != ((int)Classification.Unknown).ToString())"></select>
+            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<NewsSourceAuthenticityViewModel>()
+            .Where(i => i.Value != ((int)NewsSourceAuthenticityViewModel.Unknown).ToString())"></select>
         </div>
 
         @if (!Html.ViewData.ModelState.IsValid)

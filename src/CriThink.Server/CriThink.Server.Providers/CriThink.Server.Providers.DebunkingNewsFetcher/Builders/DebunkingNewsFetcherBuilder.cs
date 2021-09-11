@@ -14,12 +14,21 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
 
         private bool _isOpenOnlineEnabled;
         private bool _isChannel4Enabled;
+        private bool _isFullFactEnabled;
+        private bool _isFactaNewsEnabled;
+        private DateTime? _lastFetchingTimeStamp;
         private IAnalyzer<DebunkingNewsProviderResult> _analyzer;
 
         public DebunkingNewsFetcherBuilder(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _queue = new ConcurrentQueue<Task<DebunkingNewsProviderResult>>();
+        }
+
+        public DebunkingNewsFetcherBuilder EnableTimeStampCap(DateTime dateTime)
+        {
+            _lastFetchingTimeStamp = dateTime;
+            return this;
         }
 
         public DebunkingNewsFetcherBuilder EnableOpenOnline(bool enabled = true)
@@ -31,6 +40,18 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
         public DebunkingNewsFetcherBuilder EnableChannel4(bool enabled = true)
         {
             _isChannel4Enabled = enabled;
+            return this;
+        }
+
+        public DebunkingNewsFetcherBuilder EnableFullFact(bool enabled = true)
+        {
+            _isFullFactEnabled = enabled;
+            return this;
+        }
+
+        public DebunkingNewsFetcherBuilder EnableFactaNews(bool enabled = true)
+        {
+            _isFactaNewsEnabled = enabled;
             return this;
         }
 
@@ -50,20 +71,35 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
                 AddFetcher(channel4Fetcher);
             }
 
+            if (_isFullFactEnabled)
+            {
+                var fullFactFetcher = GetFetcher<FullFactFetcher>();
+                AddFetcher(fullFactFetcher);
+            }
+
+            if (_isFactaNewsEnabled)
+            {
+                var factaFetcher = GetFetcher<FactaNewsFetcher>();
+                AddFetcher(factaFetcher);
+            }
+
             return _analyzer;
         }
 
         private BaseFetcher GetFetcher<T>() where T : BaseFetcher
         {
             var analyzerService = _serviceProvider.GetRequiredService<T>();
-            analyzerService.Queue = _queue;
+            analyzerService.SetQueue(_queue);
+
+            if (_lastFetchingTimeStamp.HasValue)
+                analyzerService.SetLastFetchingTimeStamp(_lastFetchingTimeStamp.Value);
 
             return analyzerService;
         }
 
         private void AddFetcher(IAnalyzer<DebunkingNewsProviderResult> fetcher)
         {
-            if (_analyzer == null)
+            if (_analyzer is null)
                 _analyzer = fetcher;
             else
                 _analyzer.SetNext(fetcher);

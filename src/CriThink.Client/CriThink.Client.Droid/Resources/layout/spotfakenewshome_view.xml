@@ -23,8 +23,8 @@
         app:layout_constraintBottom_toTopOf="@id/layoutE">
 
         <FFImageLoading.Cross.MvxCachedImageView
-            android:layout_width="@dimen/imgSize_medium"
-            android:layout_height="@dimen/imgSize_medium"
+            android:layout_width="@dimen/imgSize_large"
+            android:layout_height="@dimen/imgSize_large"
             android:id="@+id/imgH" 
             android:src="@drawable/ic_H"/>
 
@@ -47,8 +47,8 @@
         app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal">
 
         <FFImageLoading.Cross.MvxCachedImageView
-            android:layout_width="@dimen/imgSize_medium"
-            android:layout_height="@dimen/imgSize_medium"
+            android:layout_width="@dimen/imgSize_large"
+            android:layout_height="@dimen/imgSize_large"
             android:id="@+id/imgE" 
             android:src="@drawable/ic_E"/>
 
@@ -71,8 +71,8 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal">
 
         <FFImageLoading.Cross.MvxCachedImageView
-            android:layout_width="@dimen/imgSize_medium"
-            android:layout_height="@dimen/imgSize_medium"
+            android:layout_width="@dimen/imgSize_large"
+            android:layout_height="@dimen/imgSize_large"
             android:id="@+id/imgA" 
             android:src="@drawable/ic_a"/>
 
@@ -95,8 +95,8 @@
         app:layout_constraintTop_toBottomOf="@id/layoutA">
 
         <FFImageLoading.Cross.MvxCachedImageView
-            android:layout_width="@dimen/imgSize_medium"
-            android:layout_height="@dimen/imgSize_medium"
+            android:layout_width="@dimen/imgSize_large"
+            android:layout_height="@dimen/imgSize_large"
             android:id="@+id/imgD" 
             android:src="@drawable/ic_D"/>
 

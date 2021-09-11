@@ -7,7 +7,14 @@ namespace CriThink.Client.Core.ViewModels
 {
     public abstract class BaseViewModel : MvxViewModel, IMvxLocalizedTextSourceOwner
     {
-        public IMvxLanguageBinder LocalizedTextSource => new MvxLanguageBinder("", GetType().Name);
+        private readonly IMvxLanguageBinder _binder;
+
+        protected BaseViewModel()
+        {
+            _binder = new MvxLanguageBinder("", GetType().Name);
+        }
+
+        public IMvxLanguageBinder LocalizedTextSource => _binder;
 
         private bool _isLoading;
 
@@ -17,25 +24,42 @@ namespace CriThink.Client.Core.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
+        private bool _hasFailed;
+        public bool HasFailed
+        {
+            get => _hasFailed;
+            set => SetProperty(ref _hasFailed, value);
+        }
+
+        public TaskCompletionSource<object> CloseCompletionSource { get; set; }
+
         protected T LoadChildViewModel<T>(IMvxViewModelLoader mvxViewModelLoader) where T : IMvxViewModel
         {
             if (mvxViewModelLoader is null)
                 throw new ArgumentNullException(nameof(mvxViewModelLoader));
-
             return (T) mvxViewModelLoader.LoadViewModel(
                 new MvxViewModelRequest<T>(null, null), null);
         }
     }
 
-    public abstract class BaseViewModel<T> : BaseViewModel, IMvxViewModel<T>
+    public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<TParameter>
     {
-        public abstract void Prepare(T parameter);
+        public abstract void Prepare(TParameter parameter);
     }
 
     public abstract class MvxBaseViewModel<TParameter, TResult> : BaseViewModel, IMvxViewModel<TParameter, TResult>
     {
         public abstract void Prepare(TParameter parameter);
+    }
 
-        public TaskCompletionSource<object> CloseCompletionSource { get; set; }
+    public abstract class ViewModelResult<TResult> : BaseViewModel, IMvxViewModelResult<TResult>
+    {
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            if (viewFinishing && CloseCompletionSource != null && !CloseCompletionSource.Task.IsCompleted && !CloseCompletionSource.Task.IsFaulted)
+                CloseCompletionSource?.TrySetCanceled();
+
+            base.ViewDestroy(viewFinishing);
+        }
     }
 }

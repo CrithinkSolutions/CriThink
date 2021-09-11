@@ -7,7 +7,7 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -15,20 +15,20 @@ namespace CriThink.Client.Core.ViewModels.Users
 {
     public class BaseSocialLoginViewModel : BaseViewModel
     {
-        private readonly IUserDialogs _userDialogs;
+        protected readonly IUserDialogs UserDialogs;
         private readonly IMvxNavigationService _navigationService;
 
-        public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxNavigationService navigationService, IMvxLogProvider logProvider)
+        public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxNavigationService navigationService, ILogger<BaseSocialLoginViewModel> logger)
         {
             IdentityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            UserDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            Log = logProvider?.GetLogFor<BaseSocialLoginViewModel>();
+            Logger = logger;
         }
 
         protected IIdentityService IdentityService { get; }
 
-        protected IMvxLog Log { get; }
+        protected ILogger<BaseSocialLoginViewModel> Logger { get; }
 
         public async Task PerformLoginSignInAsync(string token, ExternalLoginProvider loginProvider)
         {
@@ -52,10 +52,10 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                Log?.FatalException("Error while loggin using social login", ex, string.IsNullOrWhiteSpace(token), loginProvider);
+                Logger?.LogCritical(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token), loginProvider);
 
                 var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
-                await ShowErrorMessage(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
+                await ShowErrorMessageAsync(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
             }
             finally
             {
@@ -63,15 +63,15 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
         }
 
-        public Task ShowErrorMessage(Exception ex, string message)
+        public Task ShowErrorMessageAsync(Exception ex, string message)
         {
-            Log?.FatalException(message, ex);
-            return ShowErrorMessage(message);
+            Logger?.LogCritical(ex, message);
+            return ShowErrorMessageAsync(message);
         }
 
-        public async Task ShowErrorMessage(string message)
+        public async Task ShowErrorMessageAsync(string message)
         {
-            await _userDialogs.AlertAsync(
+            await UserDialogs.AlertAsync(
                 message,
                 okText: "Ok").ConfigureAwait(true);
         }

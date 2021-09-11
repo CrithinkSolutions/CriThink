@@ -3,7 +3,7 @@ using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;

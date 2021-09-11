@@ -2,9 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
-using CriThink.Server.Core.Models.DTOs;
-using CriThink.Server.Core.Models.DTOs.Google;
-using CriThink.Server.Core.Models.LoginProviders;
+using CriThink.Server.Domain.Models.DTOs;
+using CriThink.Server.Domain.Models.DTOs.Google;
+using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Infrastructure.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

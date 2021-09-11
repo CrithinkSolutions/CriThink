@@ -1,23 +1,23 @@
-@using CriThink.Common.Endpoints.DTOs.Admin;
+@using CriThink.Server.Application.Administration.ViewModels;
 @using CriThink.Common.Endpoints
-@model UserGetAllResponse;
+@model UserGetAllViewModel;
 
 @{
     Layout = "_LayoutPagination";
     ViewData["Title"] = "User Management";
 }
 
-@section sidebarLeft 
+@section sidebarLeft
 {
-  <div class="list-group list-group-flush">
-      <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
-      <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetRole" class="list-group-item list-group-item-action bg-light">Role</a>
-  </div>
+    <div class="list-group list-group-flush">
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="Index" class="list-group-item list-group-item-action bg-light font-weight-bold">User</a>
+        <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="GetRole" class="list-group-item list-group-item-action bg-light">Role</a>
+    </div>
 }
-    
+
 @section sidebarRight
 {
-   <div id="toolbox" class="border p-2 mb-2">
+    <div id="toolbox" class="border p-2 mb-2">
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="AddUserView" type="button" class="btn btn-success" data-toggle="tooltip" title="Add a standard user"><i class="fas fa-plus"></i></a>
         <a asp-area="BackOffice" asp-controller="UserManagement" asp-action="AddAdminView" type="button" class="btn btn-purple" data-toggle="tooltip" title="Add a admin user"><i class="fas fa-plus"></i></a>
     </div>
@@ -32,117 +32,117 @@
             </tr>
         </thead>
         <tbody>
-        @foreach(var user in Model.Users) 
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>
-                    @foreach (var role in user.Roles)
-                    {
-                        <span class="mr-1">@role</span>
-                    }
-                </td>
-                <td>@user.IsDeleted</td>
-                <td style="width:8%">
-                    <a type="button" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item modalEdit" data-toggle="modal" data-target="#modalEdit" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-pen mr-2"></i>Edit</a>
-                        <a class="dropdown-item info" data-toggle="modal" data-target="#modalInfo" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-info-circle mr-2"></i>Info</a>
-                        <a class="dropdown-item srDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Soft remove user</a>
-                    </div>
-                </td>
-            </tr>
-        }
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                        @foreach (var role in user.Roles)
+                        {
+                            <span class="mr-1">@role</span>
+                        }
+                    </td>
+                    <td>@user.IsDeleted</td>
+                    <td style="width:8%">
+                        <a type="button" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item modalEdit" data-toggle="modal" data-target="#modalEdit" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-pen mr-2"></i>Edit</a>
+                            <a class="dropdown-item info" data-toggle="modal" data-target="#modalInfo" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-info-circle mr-2"></i>Info</a>
+                            <a class="dropdown-item srDelete" data-title="@user.UserName" data-id="@user.UserId"><i class="fas fa-trash-alt mr-2"></i>Soft remove user</a>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
 
 <div id="modalInfo" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Info user <span class="nameUser font-weight-bold"></span></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="infoBody"></div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Info user <span class="nameUser font-weight-bold"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="infoBody"></div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit user <span class="nameUser font-weight-bold"></span></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-              <span class="input-group-text">Username</span>
-          </div>
-          <input type="text" id="iUsername" class="form-control">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit user <span class="nameUser font-weight-bold"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Username</span>
+                    </div>
+                    <input type="text" id="iUsername" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Email Confirmed</span>
+                    </div>
+                    <div class="form-control">
+                        <input id="boolETrue" name="boolemailConfirmed" value="true" type="radio">
+                        <label for="boolETrue">Yes</label>
+                        <input id="boolEFalse" name="boolemailConfirmed" value="false" type="radio">
+                        <label for="boolEFalse">No</label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Role</span>
+                    </div>
+                    <input type="text" id="iRole" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Lockout Enabled</span>
+                    </div>
+                    <div class="form-control">
+                        <input id="boolLTrue" name="boolLockout" value="true" type="radio">
+                        <label for="boolLTrue">Yes</label>
+                        <input id="boolLFalse" name="boolLockout" value="false" type="radio">
+                        <label for="boolLFalse">No</label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Lockout End</span>
+                    </div>
+                    <input type="datetime-local" id="iLockoutend" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
+            </div>
         </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-              <span class="input-group-text">Email Confirmed</span>
-          </div>
-          <div class="form-control">
-            <input id="boolETrue" name="boolemailConfirmed" value="true" type="radio">
-            <label for="boolETrue">Yes</label>
-            <input id="boolEFalse" name="boolemailConfirmed" value="false" type="radio">
-            <label for="boolEFalse">No</label>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-              <span class="input-group-text">Role</span>
-          </div>
-          <input type="text" id="iRole" class="form-control">
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-              <span class="input-group-text">Lockout Enabled</span>
-          </div>
-          <div class="form-control">
-            <input id="boolLTrue" name="boolLockout" value="true" type="radio">
-            <label for="boolLTrue">Yes</label>
-            <input id="boolLFalse" name="boolLockout" value="false" type="radio">
-            <label for="boolLFalse">No</label>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-              <span class="input-group-text">Lockout End</span>
-          </div>
-          <input type="datetime-local" id="iLockoutend" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="sureEdit" type="button" class="btn btn-warning">Edit</button>
-      </div>
     </div>
-  </div>
 </div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
 {
-  @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 }
 
-<div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
+<div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
 
 @section Scripts
 {
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             $('#featureT').DataTable({
                 paging: false,
                 ordering: false,
@@ -200,7 +200,7 @@
 
         $('#sureEdit').click(function(){
           $.post('@($"{@EndpointConstants.UserManagementBase}{EndpointConstants.UserManagementEditUser}")', {
-              Id:userId, 
+              Id:userId,
               __RequestVerificationToken: token,
               UserName: $('#iUsername').val(),
               IsEmailConfirmed: $('input[name=boolemailConfirmed]:checked').val(),

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Models.Entities;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using SQLite;
 
 namespace CriThink.Client.Core.Repositories
@@ -11,12 +11,12 @@ namespace CriThink.Client.Core.Repositories
     public class SQLiteRepository : ISQLiteRepository
     {
         private readonly string _databasePath;
-        private readonly IMvxLog _log;
+        private readonly ILogger<SQLiteRepository> _logger;
 
-        public SQLiteRepository(IMvxLogProvider logProvider)
+        public SQLiteRepository(ILogger<SQLiteRepository> logger)
         {
             _databasePath = Path.Combine(Xamarin.Essentials.FileSystem.AppDataDirectory, "crithink_db.db3");
-            _log = logProvider?.GetLogFor<SQLiteRepository>();
+            _logger = logger;
         }
 
         public async ValueTask<IEnumerable<LatestNewsCheck>> GetLatestNewsChecks()
@@ -36,7 +36,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error getting recent news checks from DB", ex);
+                _logger?.LogError(ex, "Error getting recent news checks from DB");
                 return Array.Empty<LatestNewsCheck>();
             }
         }
@@ -59,7 +59,7 @@ namespace CriThink.Client.Core.Repositories
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error adding a recent news to DB", ex, latesNewsCheck);
+                _logger?.LogError(ex, "Error adding a recent news to DB", latesNewsCheck);
             }
         }
 

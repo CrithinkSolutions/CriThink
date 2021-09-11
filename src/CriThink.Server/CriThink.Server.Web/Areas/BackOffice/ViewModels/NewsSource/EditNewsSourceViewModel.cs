@@ -13,6 +13,6 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
         public string NewLink { get; set; }
 
         [Required]
-        public Classification Classification { get; set; }
+        public NewsSourceAuthenticityViewModel Classification { get; set; }
     }
 }

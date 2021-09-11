@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true">
 
   <androidx.core.widget.NestedScrollView
@@ -22,6 +24,7 @@
         android:paddingLeft="@dimen/padding_page"
         android:paddingRight="@dimen/padding_page"
         android:id="@+id/viewInnerLayout"
+        android:background="@drawable/welcome_background"
         android:scrollbars="vertical">
 
       <FFImageLoading.Cross.MvxCachedImageView
@@ -31,14 +34,15 @@
           app:layout_constraintTop_toTopOf="parent"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          android:layout_marginTop="@dimen/margin_medium"
-          android:src="@drawable/ic_text_logo" />
+          app:layout_constraintBottom_toTopOf="@id/txtTitle"
+          android:layout_marginTop="@dimen/margin_big"
+          android:src="@drawable/ic_logo_head" />
 
       <androidx.appcompat.widget.AppCompatTextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/txtTitle"
-          app:layout_constraintTop_toBottomOf="@id/imgTopImg"
+          app:layout_constraintBottom_toTopOf="@id/txtCaption"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
           android:layout_marginTop="@dimen/margin_littleBig"
@@ -52,7 +56,8 @@
           android:id="@+id/txtCaption"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/txtTitle"
+          app:layout_constraintBottom_toTopOf="@id/btnFb"
+          android:layout_marginBottom="@dimen/margin_big"
           android:textSize="@dimen/textSize_subheader"
           android:layout_marginTop="@dimen/margin_small"
           android:gravity="center"/>
@@ -67,72 +72,133 @@
           app:layout_constraintEnd_toEndOf="parent"/>
       
       <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:id="@+id/btnFb"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
+          tools:text="Registrati con Facebook"
+          app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+          app:layout_constraintRight_toRightOf="@id/guideline_end"
           app:layout_constraintBottom_toTopOf="@id/btnGoogle"
-          android:layout_marginBottom="@dimen/margin_littleBig"
-          android:textColor="@android:color/black"
-          android:background="@android:color/white"
+          android:layout_marginBottom="@dimen/margin_extraSmall"
+          android:textColor="@color/textColor"
           android:drawableLeft="@drawable/btn_fb"
-          android:elevation="@dimen/btn_elevation" />
+          style="@style/FlatWhiteRoundCornerButton"
+          android:textAllCaps="false"
+          android:elevation="0dp" />
 
       <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:id="@+id/btnGoogle"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
+          tools:text="Registrati con Google"
+          android:textColor="@color/textColor"
+          app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+          app:layout_constraintRight_toRightOf="@id/guideline_end"
           app:layout_constraintBottom_toTopOf="@id/btnSignUp"
-          android:layout_marginBottom="@dimen/margin_littleBig"
-          android:textColor="@android:color/black"
-          android:background="@android:color/white"
-          android:drawableLeft="@drawable/btn_google"
-          android:elevation="@dimen/btn_elevation"/>
+          android:layout_marginBottom="@dimen/margin_extraSmall"
+          style="@style/FlatWhiteRoundCornerButton"
+          android:textAllCaps="false"
+          android:drawableLeft="@drawable/btn_google"/>
 
       <androidx.appcompat.widget.AppCompatButton
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
+          style="?android:attr/borderlessButtonStyle"
           android:id="@+id/btnSignUp"
-          android:background="@android:color/white"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
+          android:background="@drawable/orange_bg_button_radius"
+          app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+          app:layout_constraintRight_toRightOf="@id/guideline_end"
           app:layout_constraintBottom_toTopOf="@id/viewLogin"
-          android:layout_marginBottom="@dimen/margin_big"
-          android:backgroundTint="@color/colorBlue"
-          android:radius="@dimen/btn_radius"
+          android:layout_marginBottom="@dimen/margin_large"
+          android:drawableLeft="@drawable/btn_signup"
           android:textColor="@android:color/white"
-          android:elevation="@dimen/btn_elevation"/>
-
+          tools:text="Registrati con la tua email"
+          android:textAllCaps="false"/>
+        
       <androidx.appcompat.widget.LinearLayoutCompat
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
           android:id="@+id/viewLogin"
-          android:layout_marginBottom="@dimen/margin_littleBig"
+          android:layout_marginBottom="@dimen/margin_medium"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintBottom_toBottomOf="parent">
+          app:layout_constraintBottom_toTopOf="@id/txtOrAccount">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/alreadyAccount"
+                android:textSize="@dimen/textSize_small"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnLogin"
+                android:background="@null"
+                android:textColor="@color/accent"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="@dimen/margin_small"
+                android:textAllCaps="false"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_width="@dimen/line_width"
+            android:layout_height="1dp"
+            app:layout_constraintRight_toLeftOf="@id/txtOrAccount"
+            android:background="@color/borderColor"
+            app:layout_constraintBottom_toBottomOf="@id/txtOrAccount"
+            app:layout_constraintTop_toTopOf="@id/txtOrAccount"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/alreadyAccount"
-            android:textSize="@dimen/textSize_small"/>
+            android:id="@+id/txtOrAccount"  
+            android:textSize="@dimen/textSize_small"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="@dimen/margin_medium"
+            app:layout_constraintRight_toRightOf="parent"  
+            app:layout_constraintBottom_toTopOf="@id/btnRestore"/>
+            
+        <View
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_width="@dimen/line_width"
+            android:layout_height="1dp"  
+            app:layout_constraintLeft_toRightOf="@id/txtOrAccount"
+            android:background="@color/borderColor"
+            app:layout_constraintBottom_toBottomOf="@id/txtOrAccount"
+            app:layout_constraintTop_toTopOf="@id/txtOrAccount"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRestore"
             android:background="@null"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:paddingLeft="@dimen/margin_small"
+            android:textColor="@color/accent"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:layout_marginTop="@dimen/margin_big"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:textAllCaps="false"/>
-      </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+      <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/margin_large"/> 
+
+      <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/margin_large"/>
+      </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

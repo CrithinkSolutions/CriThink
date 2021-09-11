@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq.Expressions;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Infrastructure.Projections
 {
-    internal class DebunkingNewsTriggerLogsProjection
+    public static class DebunkingNewsTriggerLogsProjection
     {
         /// <summary>
         /// Get a single item timestamp property
         /// </summary>
-        internal static Expression<Func<DebunkingNewsTriggerLog, DateTime>> GetTimeStamp =>
-            log => DateTime.Parse(log.TimeStamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+        public static Expression<Func<DebunkingNewsTriggerLog, DateTime>> GetTimeStamp =>
+            log => log.TimeStamp.UtcDateTime;
 
         /// <summary>
         /// Get a single item getting all properties
         /// </summary>
-        internal static Expression<Func<DebunkingNewsTriggerLog, GetAllTriggerLogQueryResponse>> GetAll =>
-            log => new GetAllTriggerLogQueryResponse
+        internal static Expression<Func<DebunkingNewsTriggerLog, GetAllTriggerLogQueryResult>> GetAll =>
+            log => new GetAllTriggerLogQueryResult
             {
                 Id = log.Id,
-                IsSuccessful = log.IsSuccessful,
-                TimeStamp = log.TimeStamp,
-                FailReason = log.FailReason
+                Status = log.Status,
+                TimeStamp = log.TimeStamp.UtcDateTime,
+                FailReason = log.Failures
             };
     }
 }

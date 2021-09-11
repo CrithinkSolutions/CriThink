@@ -1,18 +1,18 @@
 ﻿using System;
-using CriThink.Common.Endpoints.DTOs.Admin;
-using MvvmCross.Logging;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews
 {
     public class DebunkingNewsDetailsViewModel : BaseViewModel<DebunkingNewsGetResponse>
     {
-        private readonly IMvxLog _log;
+        private readonly ILogger<DebunkingNewsDetailsViewModel> _logger;
 
         private DebunkingNewsGetResponse _debunkingNewsId;
 
-        public DebunkingNewsDetailsViewModel(IMvxLogProvider logProvider)
+        public DebunkingNewsDetailsViewModel(ILogger<DebunkingNewsDetailsViewModel> logger)
         {
-            _log = logProvider?.GetLogFor<DebunkingNewsDetailsViewModel>();
+            _logger = logger;
         }
 
         #region Properties
@@ -38,14 +38,14 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             if (parameter is null)
             {
                 var argumentNullException = new ArgumentNullException(nameof(parameter));
-                _log?.ErrorException("The given debunking news id is null", argumentNullException);
+                _logger?.LogError(argumentNullException, "The given debunking news id is null");
                 throw argumentNullException;
             }
 
             _debunkingNewsId = parameter;
             Uri = new Uri(parameter.NewsLink);
             Title = parameter.Title;
-            _log?.Info("Visit debunking news details", _debunkingNewsId);
+            _logger?.LogInformation("Visit debunking news details", _debunkingNewsId);
         }
     }
 }

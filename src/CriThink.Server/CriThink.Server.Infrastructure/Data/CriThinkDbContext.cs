@@ -1,16 +1,37 @@
 ﻿using System;
 using System.Reflection;
-using CriThink.Server.Core.Entities;
+using System.Threading;
+using System.Threading.Tasks;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.ExtensionMethods;
+using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.Data
 {
-    public class CriThinkDbContext : IdentityDbContext<User, UserRole, Guid>
+    public class CriThinkDbContext : IdentityDbContext<User, UserRole, Guid>, ICriThinkDbContext, IUnitOfWork
     {
-        public CriThinkDbContext(DbContextOptions<CriThinkDbContext> context)
-            : base(context)
+        private readonly IMediator _mediator;
+
+        public CriThinkDbContext(
+            DbContextOptions<CriThinkDbContext> options,
+            IMediator mediator)
+            : base(options)
+        {
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+        }
+
+        internal CriThinkDbContext(
+            DbContextOptions<CriThinkDbContext> options)
+            : base(options)
         { }
+
+        public DbSet<NewsSourcePostAnswer> NewsSourcePostAnswers { get; set; }
+
+        public DbSet<NewsSourcePostQuestion> NewsSourcePostQuestions { get; set; }
 
         public DbSet<NewsSourceCategory> NewsSourceCategories { get; set; }
 
@@ -28,13 +49,35 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UserProfile> UserProfiles { get; set; }
 
-        public DbSet<UnknownNewsSourceNotificationRequest> UnknownNewsSourceNotificationRequests { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        public DbSet<UserSearch> UserSearches { get; set; }
+
+        public DbSet<UnknownNewsSourceNotification> UnknownNewsSourceNotifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.ApplyConfigurationsFromAssembly(Assembly.Load("CriThink.Server.Infrastructure"));
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseNpgsql();
+        }
+
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        {
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            await _mediator?.DispatchDomainEventsAsync(this);
+
+            return result >= 0;
         }
     }
 }

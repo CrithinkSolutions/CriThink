@@ -6,9 +6,9 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Users;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -20,7 +20,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private readonly IMvxNavigationService _navigationService;
         private readonly IDebunkingNewsService _debunkingNewsService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<DebunkingNewsListViewModel> _logger;
 
         private bool _isInitialized;
         private int _pageIndex;
@@ -28,13 +28,13 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private CancellationTokenSource _cancellationTokenSource;
 
         public DebunkingNewsListViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<DebunkingNewsListViewModel> logger,
             IMvxNavigationService navigationService,
             IDebunkingNewsService debunkingNewsService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
-            _log = logProvider?.GetLogFor<DebunkingNewsListViewModel>();
+            _logger = logger;
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
             _hasMorePages = true;
@@ -67,7 +67,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             if (_isInitialized)
                 return;
 
-            _log?.Info("User navigates to all debunking news");
+            _logger?.LogInformation("User navigates to all debunking news");
         }
 
         public override async Task Initialize()
@@ -97,7 +97,6 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                 {
                     PageSize = PageSize,
                     PageIndex = _pageIndex,
-                    LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
                 };
 
                 var debunkinNewsCollection = await _debunkingNewsService
@@ -127,7 +126,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+            _logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
 
             await _navigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(selectedResponse, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);

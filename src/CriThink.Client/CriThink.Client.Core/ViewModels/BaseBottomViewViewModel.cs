@@ -1,4 +1,4 @@
-﻿using MvvmCross.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 
 namespace CriThink.Client.Core.ViewModels
@@ -8,13 +8,13 @@ namespace CriThink.Client.Core.ViewModels
     /// </summary>
     public abstract class BaseBottomViewViewModel : BaseViewModel
     {
-        protected BaseBottomViewViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        protected BaseBottomViewViewModel(ILogger<BaseBottomViewViewModel> logger, IMvxNavigationService navigationService)
         {
-            LogProvider = logProvider;
+            Logger = logger;
             NavigationService = navigationService;
         }
 
-        public IMvxLogProvider LogProvider { get; }
+        public ILogger<BaseBottomViewViewModel> Logger { get; }
 
         public IMvxNavigationService NavigationService { get; }
 

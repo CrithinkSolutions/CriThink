@@ -11,10 +11,10 @@ using CriThink.Client.Core.Services;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.Localization;
-using MvvmCross.Logging;
 using MvvmCross.Plugin.ResxLocalization;
 using MvvmCross.ViewModels;
 using Refit;
@@ -87,20 +87,20 @@ namespace CriThink.Client.Core
 
         private static void ConfigureServices(IServiceCollection serviceCollection, IConfigurationRoot configurationRoot)
         {
-            IMvxLog logger = null;
+            ILogger<App> logger = null;
 
-            if (Mvx.IoCProvider.CanResolve<IMvxLogProvider>())
+            if (Mvx.IoCProvider.CanResolve<ILogger<App>>())
             {
-                logger = Mvx.IoCProvider.Resolve<IMvxLogProvider>().GetLogFor<App>();
+                logger = Mvx.IoCProvider.Resolve<ILogger<App>>();
             }
 
             var baseApiUri = configurationRoot["BaseApiUri"];
-            logger?.Info($"Starting app with uri: {baseApiUri}");
+            logger?.LogInformation($"Starting app with uri: {baseApiUri}");
 
             if (string.IsNullOrWhiteSpace(baseApiUri))
             {
                 var argumentException = new ArgumentException("The base uri is null");
-                logger?.FatalException("Api Uri not found", argumentException);
+                logger?.LogCritical(argumentException, "Api Uri not found");
                 throw argumentException;
             }
 
@@ -108,7 +108,9 @@ namespace CriThink.Client.Core
             var identityApiUri = configurationRoot["IdentityApiUri"];
             var userProfileApiUri = configurationRoot["UserProfileApiUri"];
             var newsSourceApiUri = configurationRoot["NewsSourceApiUri"];
+            var notificationApiUri = configurationRoot["NotificationApiUri"];
             var serviceApiUri = configurationRoot["ServiceApiUri"];
+            var statisticsApiUri = configurationRoot["StatisticsApiUri"];
 
             serviceCollection.AddTransient<CriThinkApiHandler>();
             serviceCollection.AddTransient<AuthHeaderHandler>();
@@ -119,6 +121,14 @@ namespace CriThink.Client.Core
                     httpClient.BaseAddress = new Uri(baseApiUri + identityApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
+
+            serviceCollection.AddRefitClient<IAuthorizedIdentityApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + identityApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
 
             serviceCollection.AddRefitClient<IUserProfileApi>()
                 .ConfigureHttpClient(httpClient =>
@@ -144,12 +154,28 @@ namespace CriThink.Client.Core
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
                 .AddHttpMessageHandler<AuthHeaderHandler>();
 
+            serviceCollection.AddRefitClient<INotificationApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + notificationApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
+
             serviceCollection.AddRefitClient<IServiceApi>()
                 .ConfigureHttpClient(httpClient =>
                 {
                     httpClient.BaseAddress = new Uri(baseApiUri + serviceApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
+
+            serviceCollection.AddRefitClient<IStatisticsApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + statisticsApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
         }
 
         private static void MapServiceCollectionToMvx(IServiceProvider serviceProvider, IServiceCollection serviceCollection)

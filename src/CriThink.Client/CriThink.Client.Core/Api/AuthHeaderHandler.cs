@@ -43,7 +43,7 @@ namespace CriThink.Client.Core.Api
             var currentUser = await GetUserAccessAsync(identityService).ConfigureAwait(false);
             var token = currentUser?.JwtToken;
             if (token is null)
-                throw new InvalidOperationException("No user is logged");
+                return await TryMakeRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             var remainintLivingTime = token.ExpirationDate - DateTime.UtcNow;
             if (remainintLivingTime < TimeSpan.FromMinutes(20))

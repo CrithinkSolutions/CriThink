@@ -1,29 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Common.Helpers;
+using CriThink.Server.Domain.DomainServices;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
+using CriThink.Server.Providers.NewsAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 {
     internal class OpenOnlineFetcher : BaseFetcher
     {
         private const string ImagePattern = "(http|https):\\/\\/www.open.online\\/wp-content\\/uploads\\/\\d{4}\\/\\d{2}\\/(.+)\\.(\\w{2,4})";
 
+        private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
+        private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly INewsScraperService _newsScraperService;
         private readonly ILogger<OpenOnlineFetcher> _logger;
+        private readonly IReadOnlyList<string> _feedCategories;
+        private readonly Uri _webSiteUri;
         private readonly HttpClient _httpClient;
         private readonly HttpClient _urlResolver;
 
-        public OpenOnlineFetcher(IHttpClientFactory httpClientFactory, IOptions<OpenOnlineSettings> options, ILogger<OpenOnlineFetcher> logger)
+        private DebunkingNewsPublisher _cachedDebunkingNewsPublisher;
+
+        public OpenOnlineFetcher(
+            IHttpClientFactory httpClientFactory,
+            IDebunkingNewsPublisherService debunkingNewsPublisherService,
+            ITextAnalyticsService textAnalyticsService,
+            INewsScraperService newsScraperService,
+            IOptions<OpenOnlineSettings> options,
+            ILogger<OpenOnlineFetcher> logger)
         {
             if (httpClientFactory == null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
@@ -33,23 +48,25 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.OpenOnlineHttpClientName);
             _urlResolver = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.UrlResolverHttpClientName);
+
+            _debunkingNewsPublisherService = debunkingNewsPublisherService ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherService));
+
+            _textAnalyticsService = textAnalyticsService ??
+                throw new ArgumentNullException(nameof(_textAnalyticsService));
+
+            _newsScraperService = newsScraperService ??
+                throw new ArgumentNullException(nameof(newsScraperService));
+
             _logger = logger;
 
-            FeedCategories = new List<string>(options.Value.Categories);
-            WebSiteUri = options.Value.Uri;
+            _feedCategories = new List<string>(options.Value.Categories);
+            _webSiteUri = options.Value.Uri;
         }
-
-        internal static IReadOnlyList<string> FeedCategories { get; private set; }
-
-        internal static Uri WebSiteUri { get; private set; }
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
-            var analysisTask = Task.Run(async () =>
-            {
-                Debug.WriteLine("Get in LanguageAnalyzer");
-                return await RunFetcherAsync().ConfigureAwait(false);
-            });
+            var analysisTask = Task.Run(RunFetcherAsync);
 
             Queue.Enqueue(analysisTask);
             return base.AnalyzeAsync();
@@ -61,14 +78,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
             try
             {
-                feed = await GetSyndicationFeedAsync().ConfigureAwait(false);
+                feed = await GetSyndicationFeedAsync();
             }
             catch (Exception ex)
             {
-                return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
+                return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{_webSiteUri}'");
             }
 
-            var list = await ReadFeedAsync(feed).ConfigureAwait(false);
+            var list = await ReadFeedAsync(feed);
 
             return new DebunkingNewsProviderResult(list);
         }
@@ -77,7 +94,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             try
             {
-                var result = await _httpClient.GetStreamAsync(WebSiteUri).ConfigureAwait(false);
+                var result = await _httpClient.GetStreamAsync(_webSiteUri);
 
                 using var xmlReader = XmlReader.Create(result);
                 var feed = SyndicationFeed.Load(xmlReader);
@@ -90,36 +107,89 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private async Task<IList<DebunkingNewsResponse>> ReadFeedAsync(SyndicationFeed feed)
+        private async Task<IList<Monad<DebunkingNews>>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNewsResponse>();
+            var list = new List<Monad<DebunkingNews>>();
 
-            foreach (var item in feed.Items)
+            foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
-                foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
-                {
-                    if (!FeedCategories.Contains(categoryName)) continue;
-
-                    var imageUri = GetNewsImageFromFeed(item);
-
-                    var link = await GetOpenLinkAsync(item).ConfigureAwait(false);
-
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, link, imageUri, item.PublishDate));
-                    break;
-                }
+                await ReadCategoriesAsync(list, item);
             }
 
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse(
+                var debunkingNews = DebunkingNews.Create(
                     "Fondi Lega, arrestati tre commercialisti coinvolti nell’inchiesta su Lombardia Film Commission",
                     "https://www.open.online/2020/09/10/fondi-lega-arrestati-commercialisti-inchiesta-lombardia-film-commission/",
                     "https://www.open.online/wp-content/uploads/2020/02/guardia-di-finanza.jpg",
-                    DateTime.Now));
+                    DateTime.Now);
+
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.OpenOnline);
+
+                list.Add(new(debunkingNews));
+
+                list.Add(new Monad<DebunkingNews>(new Exception("fake error")));
             }
 #endif
             return list;
+        }
+
+        private async Task ReadCategoriesAsync(IList<Monad<DebunkingNews>> debunkingNewsCollector, SyndicationItem item)
+        {
+            foreach (var categoryName in item.Categories.Select(c => c.Name.ToUpperInvariant()))
+            {
+                if (!_feedCategories.Contains(categoryName))
+                    continue;
+
+                var debunkingNews = await ReadItemAsync(item);
+                debunkingNewsCollector.Add(debunkingNews);
+                break;
+            }
+        }
+
+        private async Task<Monad<DebunkingNews>> ReadItemAsync(SyndicationItem item)
+        {
+            try
+            {
+                var link = await GetOpenLinkAsync(item);
+                var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+                var imageUri = GetNewsImageFromFeed(item);
+
+                var debunkingNews = DebunkingNews.Create(
+                    item.Title.Text,
+                    link,
+                    imageUri,
+                    item.PublishDate);
+
+                if (_cachedDebunkingNewsPublisher is null)
+                {
+                    await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.OpenOnline);
+                    _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                }
+                else
+                {
+                    debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                }
+
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(
+                    scrapedNews.NewsBody,
+                    debunkingNews.Publisher.Language.Code);
+
+                debunkingNews.SetKeywords(keywords);
+
+                return new(debunkingNews);
+            }
+            catch (LinkUnavailableException ex)
+            {
+                _logger?.LogError(ex, $"Can't get link of OpenOnline news {item.Title.Text}", item.Id);
+                return new(ex);
+            }
+            catch (Exception ex)
+            {
+                return new(ex);
+            }
         }
 
         private async Task<string> GetOpenLinkAsync(SyndicationItem item)
@@ -137,7 +207,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
 
             // Solve Redirect from "permalink"
-            var result = await _urlResolver.GetAsync(new Uri(item.Id)).ConfigureAwait(false);
+            var result = await _urlResolver.GetAsync(new Uri(item.Id));
 
             if (result.StatusCode == System.Net.HttpStatusCode.Moved)
             {

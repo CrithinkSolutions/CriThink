@@ -3,8 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Exceptions;
-using CriThink.Common.Endpoints.DTOs.Admin;
-using MvvmCross.Logging;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Client.Core.Services
 {
@@ -12,54 +12,46 @@ namespace CriThink.Client.Core.Services
     {
         private readonly IDebunkingNewsApi _debunkingNewsApi;
         private readonly IGeolocationService _geoService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<DebunkingNewsService> _logger;
 
-        public DebunkingNewsService(IDebunkingNewsApi debunkingNewsApi, IGeolocationService geoService, IMvxLogProvider logProvider)
+        public DebunkingNewsService(IDebunkingNewsApi debunkingNewsApi, IGeolocationService geoService, ILogger<DebunkingNewsService> logger)
         {
             _debunkingNewsApi = debunkingNewsApi ?? throw new ArgumentNullException(nameof(debunkingNewsApi));
             _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
-            _log = logProvider?.GetLogFor<DebunkingNewsService>();
+            _logger = logger;
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(
+            int pageIndex,
+            int pageSize,
+            CancellationToken cancellationToken)
         {
             var request = new DebunkingNewsGetAllRequest
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.None,
             };
 
             var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
-
-            if (!string.IsNullOrWhiteSpace(currentArea))
-            {
-                switch (currentArea)
-                {
-                    case "it":
-                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.Italian;
-                        break;
-                    case "gb":
-                    case "us":
-                        request.LanguageFilters = DebunkingNewsGetAllLanguageFilterRequests.English;
-                        break;
-                }
-            }
-
-            return await GetDebunkingNewsAsync(request, cancellationToken).ConfigureAwait(false);
+            return await GetDebunkingNewsAsync(request, cancellationToken, currentArea).ConfigureAwait(false);
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(
+            DebunkingNewsGetAllRequest request,
+            CancellationToken cancellationToken,
+            string language = null)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            _log?.Info($"Querying {request.LanguageFilters} debunking news");
+            _logger?.LogInformation($"Querying debunking news");
 
             try
             {
                 DebunkingNewsGetAllResponse debunkingNewsCollection = await _debunkingNewsApi
-                    .GetAllDebunkingNewsAsync(request, cancellationToken)
+                    .GetAllDebunkingNewsAsync(request,
+                        language,
+                        cancellationToken)
                     .ConfigureAwait(false);
 
                 return debunkingNewsCollection;
@@ -70,8 +62,8 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Can't get recent debunking news", ex);
-                return new DebunkingNewsGetAllResponse(null, false);
+                _logger?.LogError(ex, "Can't get recent debunking news");
+                return new DebunkingNewsGetAllResponse(Array.Empty<DebunkingNewsGetResponse>(), false);
             }
         }
 
@@ -95,7 +87,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Can't get debunking news details", ex);
+                _logger?.LogError(ex, "Can't get debunking news details");
                 return null;
             }
         }
@@ -110,15 +102,22 @@ namespace CriThink.Client.Core.Services
         /// <param name="pageSize">Number of debunking news per page</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(
+            int pageIndex,
+            int pageSize,
+            CancellationToken cancellationToken);
 
         /// <summary>
         /// Retrieve all the debunking news
         /// </summary>
         /// <param name="request">Pagination settings and filters</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <param name="language">(Optional) Accepted language</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(
+            DebunkingNewsGetAllRequest request,
+            CancellationToken cancellationToken,
+            string language = null);
 
         /// <summary>
         /// Returns details of the given debunking news id
@@ -126,6 +125,8 @@ namespace CriThink.Client.Core.Services
         /// <param name="id">Debunking news id</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
-        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(string id, CancellationToken cancellationToken);
+        Task<DebunkingNewsGetDetailsResponse> GetDebunkingNewsByIdAsync(
+            string id,
+            CancellationToken cancellationToken);
     }
 }

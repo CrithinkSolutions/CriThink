@@ -47,8 +47,8 @@
                 android:layout_marginEnd="@dimen/padding_page">
 
                 <FFImageLoading.Cross.MvxSvgCachedImageView
-                    android:layout_width="@dimen/imgSize_medium"
-                    android:layout_height="@dimen/imgSize_medium"
+                    android:layout_width="@dimen/imgSize_large"
+                    android:layout_height="@dimen/imgSize_large"
                     android:id="@+id/imgProfile"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -365,6 +365,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/margin_littleBig"/>
+
+                <!-- DangerZone -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDangerZoneTitle"
+                    android:textSize="@dimen/textSize_subheader"
+                    android:textColor="@android:color/holo_red_light"
+                    android:gravity="left"
+                    app:layout_constraintTop_toBottomOf="@id/txtBadgesTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_littleBig"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Close Account"
+                    android:id="@+id/txtCloseAccount"
+                    android:textColor="@android:color/holo_red_light"
+                    android:background="@drawable/btn_dangerzone"
+                    app:layout_constraintTop_toBottomOf="@id/txtDangerZoneTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_small"/>
                 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

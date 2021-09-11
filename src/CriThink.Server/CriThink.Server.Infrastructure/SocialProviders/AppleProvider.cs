@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Models.DTOs;
-using CriThink.Server.Core.Models.LoginProviders;
+using CriThink.Server.Domain.Models.DTOs;
+using CriThink.Server.Domain.Models.LoginProviders;
 using Microsoft.Extensions.Configuration;
 
 namespace CriThink.Server.Infrastructure.SocialProviders

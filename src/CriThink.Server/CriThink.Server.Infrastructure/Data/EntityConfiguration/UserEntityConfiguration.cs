@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,12 +12,31 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("users");
+
+            builder.Ignore(u => u.IsDeleted);
+
+            builder.HasKey(uns => uns.Id);
+            builder.Property(uns => uns.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.ToTable("users");
             builder.Ignore(property => property.TwoFactorEnabled);
             builder.Ignore(property => property.PhoneNumberConfirmed);
 
             builder
+                .Property<DateTimeOffset?>("_deletionRequestedOn")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("deletion_requested_on");
+
+            builder
+                .Property<DateTimeOffset?>("_deletionScheduledOn")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("deletion_scheduled_on");
+
+            builder
                 .HasOne(user => user.Profile)
                 .WithOne(p => p.User)
+                .IsRequired()
                 .HasForeignKey<UserProfile>(p => p.UserId);
 
             SeedData(builder);
@@ -25,18 +44,14 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<User> builder)
         {
-            var serviceUser = new User
-            {
-                ConcurrencyStamp = "c31844c9-d81b-4c66-991c-a60b0ba36f76",
-                Id = Guid.Parse(UserId),
-                NormalizedUserName = "SERVICE",
-                UserName = "service",
-                NormalizedEmail = "SERVICE@CRITHINK.COM",
-                Email = "service@crithink.com",
-                EmailConfirmed = true,
-                PasswordHash = "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
-                SecurityStamp = "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD",
-            };
+            var serviceUser = User.CreateSeed(
+                "c31844c9-d81b-4c66-991c-a60b0ba36f76",
+                Guid.Parse(UserId),
+                "service",
+                "service@crithink.com",
+                true,
+                "AQAAAAEAACcQAAAAEDw0jwJ7LHQhBe2Zo45PpE6FYSpNsPyHbXP/YD51WzHrmI0MAbwHhdZf6MytihsYzg==",
+                "XV7NZ5BSN7ASJO6OMO3WT2L75Y2TI6VD");
 
             builder.HasData(serviceUser);
         }

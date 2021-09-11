@@ -1,8 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Builders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Providers;
+using CriThink.Server.Providers.NewsAnalyzer;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 
 namespace CriThink.Server.Providers.DebunkingNewsFetcher
 {
@@ -13,6 +16,8 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
     {
         public const string OpenOnlineHttpClientName = "OpenOnlineFeed";
         public const string Channel4HttpClientName = "Channel4";
+        public const string FullFactHttpClientName = "FullFact";
+        public const string FactaNewsHttpClientName = "FactaNews";
         public const string UrlResolverHttpClientName = "UrlResolver";
 
         /// <summary>
@@ -21,19 +26,40 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher
         /// <param name="serviceCollection">The IoC container</param>
         public static void AddDebunkNewsFetcherProvider(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddHttpClient(OpenOnlineHttpClientName);
+            serviceCollection.AddNewsAnalyzerProvider();
 
-            serviceCollection.AddHttpClient(Channel4HttpClientName);
+            serviceCollection.
+                AddHttpClient(OpenOnlineHttpClientName)
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))); ;
+
+            serviceCollection
+                .AddHttpClient(Channel4HttpClientName)
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+
+            serviceCollection
+                .AddHttpClient(FullFactHttpClientName)
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+
+            serviceCollection
+                .AddHttpClient(FactaNewsHttpClientName)
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
             serviceCollection.AddHttpClient(UrlResolverHttpClientName)
-                             .ConfigurePrimaryHttpMessageHandler(()
-                              => new HttpClientHandler
-                              {
-                                  AllowAutoRedirect = false,
-                              });
+                             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                             {
+                                 AllowAutoRedirect = false,
+                             })
+                             .AddTransientHttpErrorPolicy(builder =>
+                                builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
             serviceCollection.AddTransient<OpenOnlineFetcher>();
             serviceCollection.AddTransient<Channel4Fetcher>();
+            serviceCollection.AddTransient<FullFactFetcher>();
+            serviceCollection.AddTransient<FactaNewsFetcher>();
             serviceCollection.AddTransient<DebunkingNewsFetcherBuilder>();
 
             serviceCollection.AddTransient<IDebunkingNewsProvider, DebunkingNewsProvider>();

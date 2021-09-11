@@ -5,8 +5,8 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 
 namespace CriThink.Client.Core.ViewModels.Users
@@ -16,14 +16,14 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IIdentityService _identityService;
         private readonly IUserDialogs _userDialogs;
         private readonly IMvxNavigationService _navigationService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<ForgotPasswordViewModel> _logger;
 
-        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ForgotPasswordViewModel(IIdentityService identityService, IUserDialogs userDialogs, ILogger<ForgotPasswordViewModel> logger, IMvxNavigationService navigationService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _log = logProvider?.GetLogFor<ForgotPasswordViewModel>();
+            _logger = logger;
         }
 
         private string _emailOrUsername;
@@ -47,7 +47,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to forgot password");
+            _logger?.LogInformation("User navigates to forgot password");
         }
 
         private async Task DoSendRequestCommand(CancellationToken cancellationToken)

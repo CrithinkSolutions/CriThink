@@ -11,10 +11,10 @@ using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using Refit;
 using Xamarin.Essentials;
@@ -26,16 +26,16 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
         private readonly IUserDialogs _userDialogs;
-        private readonly IMvxLog _log;
+        private readonly ILogger<SignUpEmailViewModel> _logger;
 
         private StreamPart _streamPart;
 
-        public SignUpEmailViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, IMvxLogProvider logProvider)
+        public SignUpEmailViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<SignUpEmailViewModel> logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _log = logProvider?.GetLogFor<SignUpEmailViewModel>();
+            _logger = logger;
 
             AvatarImageTransformations = new List<ITransformation>
             {
@@ -118,7 +118,7 @@ namespace CriThink.Client.Core.ViewModels.Users
         public override void Prepare()
         {
             base.Prepare();
-            _log?.Info("User navigates to sign up with email");
+            _logger?.LogInformation("User navigates to sign up with email");
         }
 
         private async Task DoPickUpImageCommand()
@@ -130,7 +130,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             catch (TaskCanceledException) { }
             catch (Exception ex)
             {
-                _log?.Error(ex, "Error getting avatar from file picker");
+                _logger?.LogError(ex, "Error getting avatar from file picker");
             }
         }
 
@@ -142,7 +142,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 Password = Password,
                 Email = Email,
-                UserName = Username
+                Username = Username
             };
 
             try
@@ -169,7 +169,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error during the user sign up", ex);
+                _logger?.LogError(ex, "Error during the user sign up");
             }
             finally
             {
@@ -199,7 +199,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                _log?.ErrorException("Error confirming user email", ex);
+                _logger?.LogError(ex, "Error confirming user email");
             }
             finally
             {

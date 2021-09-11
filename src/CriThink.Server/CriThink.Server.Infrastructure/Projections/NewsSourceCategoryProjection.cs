@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 
 namespace CriThink.Server.Infrastructure.Projections
 {

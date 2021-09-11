@@ -1,5 +1,5 @@
-@using CriThink.Common.Endpoints.DTOs.Admin;
-@model IList<RoleGetResponse>;
+@using CriThink.Server.Application.Administration.ViewModels;
+@model IList<RoleGetViewModel>;
 
 @{
     Layout = "_LayoutPagination";
@@ -17,9 +17,9 @@
 }
 @section sidebarRight
 {
-    <div id="toolbox" class="border p-2 mb-2">
+    @* <div id="toolbox" class="border p-2 mb-2">
         <!-- TODO -->
-    </div>
+    </div> *@
 
     <table class="table">
         <thead>
@@ -27,7 +27,7 @@
                 <th data-field="role" data-sortable="true">Role</th>
             </tr>
         </thead>
-        @foreach(var role in Model) 
+        @foreach (var role in Model)
         {
             <tr>
                 <td>@role.Name</td>

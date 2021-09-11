@@ -8,11 +8,11 @@ using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.Users;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -24,32 +24,33 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private readonly IDebunkingNewsService _debunkingNewsService;
         private readonly IUserProfileService _userProfileService;
-        private readonly IMvxLog _log;
+        private readonly ILogger<NewsCheckerViewModel> _logger;
 
         private bool _isInitialized;
 
         public NewsCheckerViewModel(
-            IMvxLogProvider logProvider,
+            ILogger<NewsCheckerViewModel> logger,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
             IDebunkingNewsService debunkingNewsService)
-            : base(logProvider, navigationService)
+            : base(logger, navigationService)
         {
             TabId = "news_checker";
-
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
-            _log = logProvider?.GetLogFor<NewsCheckerViewModel>();
+            _logger = logger;
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
 
             LogoImageTransformations = new List<ITransformation>
             {
-                new CircleTransformation()
+                new CircleTransformation(10, "#FFFFFF")
             };
         }
 
         #region Properties
+
+        public string HelloText => LocalizedTextSource.GetText("Hello");
 
         public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
 
@@ -120,7 +121,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             };
 
             WelcomeText = LocalizedTextSource.GetText(localizedString);
-            TodayDate = currentDate.ToString("D", CultureInfo.CurrentCulture);
+            TodayDate = currentDate.ToString("MMM dd, yyyy", CultureInfo.CurrentCulture);
         }
 
         public override async Task Initialize()
@@ -180,7 +181,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
-            _log?.Info("User opens debunking news", selectedResponse.NewsLink);
+            Logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
 
             await NavigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(selectedResponse, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);

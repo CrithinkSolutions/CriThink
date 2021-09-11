@@ -50,6 +50,8 @@
         public const string IdentityResetPassword = "reset-password";
         public const string IdentityExternalLogin = "external-login";
         public const string IdentityUsernameAvailability = "username-availability";
+        public const string IdentityDeleteUser = "user";
+        public const string IdentityRestoreUser = "restore-user";
 
         #endregion
 
@@ -59,11 +61,19 @@
 
         public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
-        public const string NewsSourceRegisterForNotification = "register-for-notification";
         public const string NewsSourcesGetAllNotifications = "notification-requests";
         public const string NewsSourcesGetAllUnknownNewsSources = "get-all-unknown";
         public const string NewsSourceTriggerIdentifiedSource = "identify";
         public const string NewsSourceAddBatch = "add/batch";
+        public const string NewsSourceAllQuestions = "question/all";
+        public const string NewsSourcePostAnswerToQuestions = "question";
+
+        #endregion
+
+        #region Notification
+
+        public const string NotificationBase = "notification/";
+        public const string NotificationUnknownNewsSource = "unknown-source";
 
         #endregion
 
@@ -103,6 +113,14 @@
         public const string UserManagementInfoUser = "info-user";
         public const string UserManagementEditUser = "edit-user";
         public const string UserManagementEditRoleUser = "edit-roleuser";
+
+        #endregion
+
+        #region Statistics
+
+        public const string StatisticsBase = "statistics";
+        public const string StatisticsPlatform = "platform";
+        public const string StatisticsUserSearches = "user";
 
         #endregion
 

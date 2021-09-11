@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtHeader"
         app:MvxBind="Text Text"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

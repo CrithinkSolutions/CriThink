@@ -244,7 +244,7 @@
     <value>Good night</value>
   </data>
   <data name="NewsCheckerViewModel.Motto" xml:space="preserve">
-    <value>USE THE HEAD TODAY</value>
+    <value>Use the head today</value>
   </data>
   <data name="NewsCheckerViewModel.NewsLinkHint" xml:space="preserve">
     <value>Which news do you want to check?</value>
@@ -366,9 +366,6 @@
   <data name="SignUpEmailViewModel.SignUpEmailTitle" xml:space="preserve">
     <value>Welcome to the community</value>
   </data>
-  <data name="HomeGameViewModel.Wip" xml:space="preserve">
-    <value>Work in progress..</value>
-  </data>
   <data name="HomeViewModel.FormatErrorMessage" xml:space="preserve">
     <value>The link you inserted is not valid.</value>
   </data>
@@ -412,12 +409,159 @@
     <value>I'm</value>
   </data>
   <data name="ProfileViewModel.IBornOn" xml:space="preserve">
-    <value>Born the</value>
+    <value>Born on</value>
   </data>
   <data name="ProfileViewModel.ILiveIn" xml:space="preserve">
     <value>Live in</value>
   </data>
   <data name="ProfileViewModel.MyNameIs" xml:space="preserve">
     <value>My name is</value>
+  </data>
+  <data name="EditProfileViewModel.Blog" xml:space="preserve">
+    <value>Your blog URL</value>
+  </data>
+  <data name="EditProfileViewModel.Country" xml:space="preserve">
+    <value>Country where you live</value>
+  </data>
+  <data name="EditProfileViewModel.Description" xml:space="preserve">
+    <value>Something about yourself</value>
+  </data>
+  <data name="EditProfileViewModel.DoB" xml:space="preserve">
+    <value>Your date of birth</value>
+  </data>
+  <data name="EditProfileViewModel.Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="EditProfileViewModel.FamilyName" xml:space="preserve">
+    <value>Your surname</value>
+  </data>
+  <data name="EditProfileViewModel.Gender" xml:space="preserve">
+    <value>Your gender</value>
+  </data>
+  <data name="EditProfileViewModel.GivenName" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="EditProfileViewModel.Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="EditProfileViewModel.Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="EditProfileViewModel.Snapchat" xml:space="preserve">
+    <value>Snapchat</value>
+  </data>
+  <data name="EditProfileViewModel.Telegram" xml:space="preserve">
+    <value>Telegram</value>
+  </data>
+  <data name="EditProfileViewModel.Twitter" xml:space="preserve">
+    <value>Twitter</value>
+  </data>
+  <data name="EditProfileViewModel.YouTube" xml:space="preserve">
+    <value>YouTube</value>
+  </data>
+  <data name="EditProfileViewModel.Bio" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="EditProfileViewModel.Social" xml:space="preserve">
+    <value>Social</value>
+  </data>
+  <data name="EditProfileViewModel.SaveProfile" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateError" xml:space="preserve">
+    <value>An error occurred while updating your profile</value>
+  </data>
+  <data name="EditProfileViewModel.UpdateOk" xml:space="preserve">
+    <value>Profile updated!</value>
+  </data>
+  <data name="GenderViewModel.Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="GenderViewModel.GenderFluid" xml:space="preserve">
+    <value>Gender Fluid</value>
+  </data>
+  <data name="GenderViewModel.GenderNeutral" xml:space="preserve">
+    <value>Gender Neutral</value>
+  </data>
+  <data name="GenderViewModel.Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="GenderViewModel.NoGender" xml:space="preserve">
+    <value>I prefer not to say</value>
+  </data>
+  <data name="GenderViewModel.NonBinary" xml:space="preserve">
+    <value>Non Binary</value>
+  </data>
+  <data name="EditProfileViewModel.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ProfileViewModel.DangerZone" xml:space="preserve">
+    <value>Danger Zone!</value>
+  </data>
+  <data name="ProfileViewModel.CloseAccount" xml:space="preserve">
+    <value>Close Account :(</value>
+  </data>
+  <data name="ProfileViewModel.DeleteConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete your account? :(</value>
+  </data>
+  <data name="ProfileViewModel.DeleteConfirmationTitle" xml:space="preserve">
+    <value>You sure?</value>
+  </data>
+  <data name="ProfileViewModel.DeleteErrorMessage" xml:space="preserve">
+    <value>An error occurred</value>
+  </data>
+  <data name="ProfileViewModel.DeleteErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ProfileViewModel.DeleteTitle" xml:space="preserve">
+    <value>Deletion confirmed</value>
+  </data>
+  <data name="ProfileViewModel.DeleteMessage" xml:space="preserve">
+    <value>Your account will be permanently deleted on {0}. You will received a confirmation email. In the meantime, you can restore your account at any time from the app!</value>
+  </data>
+  <data name="SignUpViewModel.OrAccount" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccount" xml:space="preserve">
+    <value>Restore account</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountConfirmationMessage" xml:space="preserve">
+    <value>Your account has been recovered! We sent you an email to restore your password. Check it out!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountConfirmationTitle" xml:space="preserve">
+    <value>Urrah!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountErrorMessage" xml:space="preserve">
+    <value>An error occurred while restoring your account. Is your data correct?</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountErrorTitle" xml:space="preserve">
+    <value>Ops!</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountMessage" xml:space="preserve">
+    <value>We're glad to see you again. Insert your email or your username of the account to recover</value>
+  </data>
+  <data name="SignUpViewModel.RestoreAccountTitle" xml:space="preserve">
+    <value>Recover your account</value>
+  </data>
+  <data name="HomeStatisticsViewModel.MottoOne" xml:space="preserve">
+    <value>Use the</value>
+  </data>
+  <data name="HomeStatisticsViewModel.MottoTwo" xml:space="preserve">
+    <value>HEAD </value>
+  </data>
+  <data name="HomeStatisticsViewModel.ActiveUsers" xml:space="preserve">
+    <value>Active CriThinkers</value>
+  </data>
+  <data name="HomeStatisticsViewModel.TotalSearches" xml:space="preserve">
+    <value>Total Searches</value>
+  </data>
+  <data name="HomeStatisticsViewModel.UserSearches" xml:space="preserve">
+    <value>Your Searches</value>
+  </data>
+  <data name="HomeStatisticsViewModel.Error" xml:space="preserve">
+    <value>Oops! We're trying to fix the issue</value>
+  </data>
+  <data name="NewsCheckerViewModel.Hello" xml:space="preserve">
+    <value>Hello</value>
   </data>
 </root>
