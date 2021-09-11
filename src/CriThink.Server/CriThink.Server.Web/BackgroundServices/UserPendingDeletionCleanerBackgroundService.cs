@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -28,14 +29,17 @@ namespace CriThink.Server.Web.BackgroundServices
         private async void RemoveUsersPendingDeletion()
         {
             using var scope = ServiceScopeFactory.CreateScope();
-            var identityService = scope.ServiceProvider.GetRequiredService<IIdentityService>();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             var logger = scope.ServiceProvider.GetService<ILogger<UserPendingDeletionCleanerBackgroundService>>();
 
             logger?.LogInformation($"{nameof(UserPendingDeletionCleanerBackgroundService)} is starting");
 
             try
             {
-                await identityService.CleanUpUsersScheduledDeletionAsync();
+                var command = new CleanUpUsersScheduledDeletionCommand();
+
+                await mediator.Send(command);
+
                 logger?.LogInformation("User cleaned up");
             }
             catch (Exception ex)

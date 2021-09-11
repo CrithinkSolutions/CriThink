@@ -1,3 +1,4 @@
+using CriThink.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice home operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Area("BackOffice")]
     public class HealthController : Controller
     {

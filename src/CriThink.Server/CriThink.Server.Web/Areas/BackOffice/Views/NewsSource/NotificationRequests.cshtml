@@ -1,5 +1,5 @@
-﻿@using CriThink.Common.Endpoints.DTOs.Admin;
-@model NotificationRequestGetAllResponse
+﻿@using CriThink.Server.Application.Administration.ViewModels;
+@model NotificationRequestGetAllViewModel
 
 @{
     Layout = "_LayoutPagination";
@@ -17,24 +17,24 @@
 
 @section sidebarRight
 {
-    <table class="table" id="featureT">
-            <thead>
-                <tr>
-                    <th>Link</th>
-                    <th>Email</th>
-                    <th>Requested At</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
-            @foreach (var userNotify in Model.NotificationCollection)
-            {
-                <tr>
-                    <td>@userNotify.RequestedLink</td>
-                    <td>@userNotify.Email</td>
-                    <td>@userNotify.RequestedAt</td>
-                    <td>@userNotify.RequestCount</td>
-                </tr>
-            }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Link</th>
+                <th>Requested At</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        @foreach (var userNotify in Model.NotificationCollection)
+        {
+            <tr>
+                <td>@userNotify.Email</td>
+                <td>@userNotify.RequestedLink</td>
+                <td>@userNotify.RequestedAt</td>
+                <td>@userNotify.RequestCount</td>
+            </tr>
+        }
     </table>
 }
 
@@ -43,22 +43,4 @@
     @Html.AntiForgeryToken()
 }
 
-<div id="hasNextPage" class="d-none">@Model.HasNextPage</div> 
-
-@section Scripts
-{
-    <script text="text/javascript">
-
-        $(function(){
-
-            $('#featureT').DataTable({
-                paging: false,
-                ordering: false,
-                info: false,
-                responsive: true
-            });
-
-        }); 
-
-    </script>
-}
+<div id="hasNextPage" class="d-none">@Model.HasNextPage</div>  

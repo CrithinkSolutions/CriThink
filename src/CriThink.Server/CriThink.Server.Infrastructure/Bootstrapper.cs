@@ -1,20 +1,14 @@
 ﻿using System;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Domain.Interfaces;
+using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Identity;
 using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
-using CriThink.Server.Infrastructure.Services;
-using CriThink.Server.Providers.DebunkingNewsFetcher;
 using CriThink.Server.Providers.EmailSender;
-using CriThink.Server.Providers.NewsAnalyzer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Polly;
 using Refit;
 
@@ -31,8 +25,6 @@ namespace CriThink.Server.Infrastructure
             SetupHttpClient(serviceCollection);
 
             // Providers
-            serviceCollection.AddNewsAnalyzerProvider();
-            serviceCollection.AddDebunkNewsFetcherProvider();
             serviceCollection.AddEmailSenderProvider();
 
             // Managers
@@ -42,20 +34,16 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddTransient<INewsSourceRepository, NewsSourceRepository>();
             serviceCollection.AddScoped<IRoleRepository, RoleRepository>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
-
-            // Services
-            serviceCollection.AddScoped<IFileService>(sp =>
-            {
-                var environment = sp.GetRequiredService<IHostEnvironment>();
-                if (environment.IsDevelopment())
-                    return new FileService(
-                        sp.GetRequiredService<IWebHostEnvironment>(),
-                        sp.GetRequiredService<IHttpContextAccessor>());
-
-                return new S3Service(
-                    sp.GetRequiredService<IConfiguration>(),
-                    sp.GetService<ILogger<S3Service>>());
-            });
+            serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            serviceCollection.AddScoped<IDebunkingNewsRepository, DebunkingNewsRepository>();
+            serviceCollection.AddScoped<INewsSourceCategoriesRepository, NewsSourceCategoriesRepository>();
+            serviceCollection.AddScoped<INotificationRepository, NotificationRepository>();
+            serviceCollection.AddScoped<INewsSourceQuestionRepository, NewsSourceQuestionRepository>();
+            serviceCollection.AddScoped<IUnknownNewsSourceRepository, UnknownNewsSourceRepository>();
+            serviceCollection.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            serviceCollection.AddScoped<INewsSourceAnswersRepository, NewsSourceAnswersRepository>();
+            serviceCollection.AddScoped<IDebunkingNewsTriggerLogRepository, DebunkingNewsTriggerLogRepository>();
         }
 
         private static void SetupHttpClient(IServiceCollection serviceCollection)
@@ -73,11 +61,8 @@ namespace CriThink.Server.Infrastructure
                     var config = sp.GetRequiredService<IConfiguration>();
                     c.BaseAddress = new Uri(config[configKey]);
                 })
-                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
-                {
-                    TimeSpan.FromSeconds(3),
-                    TimeSpan.FromSeconds(8),
-                }));
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         }
     }
 }

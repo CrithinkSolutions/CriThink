@@ -1,45 +1,70 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CriThink.Common.Endpoints;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource;
-using CriThink.Server.Web.Facades;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-#pragma warning disable CA1062 // Validate arguments of public methods
-
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Route(EndpointConstants.NewsSourceBase)]
     [Area("BackOffice")]
     public class NewsSourceController : Controller
     {
-        private readonly INewsSourceFacade _newsSourceFacade;
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly INotificationQueries _notificationQueries;
+        private readonly INewsSourceQueries _newsSourceQueries;
 
-        public NewsSourceController(INewsSourceFacade newsSourceFacade)
+        public NewsSourceController(
+            IMapper mapper,
+            IMediator mediator,
+            INotificationQueries notificationQueries,
+            INewsSourceQueries newsSourceQueries)
         {
-            _newsSourceFacade = newsSourceFacade ?? throw new ArgumentNullException(nameof(newsSourceFacade));
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
+
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+
+            _notificationQueries = notificationQueries ??
+                throw new ArgumentNullException(nameof(notificationQueries));
+
+            _newsSourceQueries = newsSourceQueries ??
+                throw new ArgumentNullException(nameof(newsSourceQueries));
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
+        public IActionResult Index(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
+            var queryResult = _newsSourceQueries.GetAllNewsSources(
+                viewModel.PageSize,
+                viewModel.PageIndex,
+                NewsSourceAuthenticityFilter.All);
 
-            var news = await _newsSourceFacade.GetAllNewsSourcesAsync(viewModel).ConfigureAwait(false);
-            return View(news);
+            var indexViewModel = new IndexViewModel(
+                _mapper.Map<IEnumerable<GetAllNewsSourceQueryResult>, ICollection<NewsSourceViewModel>>(
+                        queryResult.Take(viewModel.PageSize)),
+                queryResult.Count > viewModel.PageSize);
+
+            return View(indexViewModel);
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpGet]
         public IActionResult AddSource()
@@ -47,71 +72,69 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             return View();
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [Route(EndpointConstants.MvcAdd)]  // news-source/add
         [HttpPost]
         public async Task<IActionResult> AddSource(AddNewsSourceViewModel viewModel)
         {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
 
-            var newsSource = new NewsSourceViewModel
-            {
-                Classification = viewModel.Classification,
-                Uri = viewModel.Uri,
-            };
+            var command = new CreateNewsSourceCommand(
+                viewModel.Uri,
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
 
             try
             {
-                await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
-                viewModel.Message = $"Source {newsSource.Uri} successfully added";
+                await _mediator.Send(command);
+                viewModel.Message = $"Source '{viewModel.Uri}' successfully added";
                 return View(viewModel);
             }
             catch (Exception)
             {
-                return RedirectToAction(nameof(Index));
+                viewModel.Message = $"Something went wrong adding '{viewModel.Uri}'";
+                return View(viewModel);
             }
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [Route(EndpointConstants.NewsSourceRemoveNewsSource)] // news-source/blacklist
         [HttpDelete]
         public async Task<IActionResult> RemoveNewsSourceAsync(RemoveBlacklistViewModel viewModel)
         {
-            await _newsSourceFacade.RemoveNewsSourceAsync(viewModel.Uri).ConfigureAwait(false);
+            var command = new DeleteNewsSourceCommand(
+                viewModel.Uri);
+
+            await _mediator.Send(command);
+
             return NoContent();
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.MvcEdit)] // news-source/edit
         [HttpGet]
-        public async Task<IActionResult> Edit(string newsSourceLink)
+        public Task<IActionResult> Edit(string newsSourceLink)
         {
-            if (string.IsNullOrEmpty(newsSourceLink))
-                return RedirectToAction(nameof(Index));
+            throw new NotImplementedException();
+            //if (string.IsNullOrEmpty(newsSourceLink))
+            //    return RedirectToAction(nameof(Index));
 
-            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(newsSourceLink).ConfigureAwait(false);
+            //var searchResult = await _newsSourceQueries.GetNewsSourceByNameAsync(newsSourceLink);
+            //if (searchResult is null)
+            //    return RedirectToAction(nameof(Index));
 
-            if (searchResult is null)
-                return RedirectToAction(nameof(Index));
+            //var viewModel = new EditNewsSourceViewModel
+            //{
+            //    OldLink = searchResult.,
+            //    NewLink = searchResult.Uri,
+            //    Classification = searchResult.Classification,
+            //};
 
-            var viewModel = new EditNewsSourceViewModel
-            {
-                OldLink = searchResult.Uri,
-
-                NewLink = searchResult.Uri,
-                Classification = searchResult.Classification,
-            };
-
-            return View(viewModel);
+            //return View(viewModel);
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [Route(EndpointConstants.MvcEdit)] // news-source/edit
         [HttpPost]
         public async Task<IActionResult> Edit(EditNewsSourceViewModel viewModel)
@@ -119,76 +142,78 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var searchResult = await _newsSourceFacade.SearchNewsSourceAsync(viewModel.OldLink).ConfigureAwait(false);
-
+            var searchResult = await _newsSourceQueries.GetNewsSourceByNameAsync(viewModel.OldLink);
             if (searchResult is null)
                 return RedirectToAction(nameof(Index));
 
-            await _newsSourceFacade.RemoveNewsSourceAsync(viewModel.OldLink).ConfigureAwait(false);
+            var deleteCommand = new DeleteNewsSourceCommand(
+                viewModel.OldLink);
 
-            var newsSource = new NewsSourceViewModel
-            {
-                Classification = viewModel.Classification,
-                Uri = viewModel.NewLink,
-            };
+            await _mediator.Send(deleteCommand);
 
-            await _newsSourceFacade.AddNewsSourceAsync(newsSource).ConfigureAwait(false);
+            var createCommand = new CreateNewsSourceCommand(
+                viewModel.NewLink,
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
+
+            await _mediator.Send(createCommand);
 
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourcesGetAllNotifications)] // news-source/notification-requests
         [HttpGet]
         public async Task<IActionResult> GetNotificationRequestsAsync(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
+            var response = await _notificationQueries.GetAllNotificationsAsync(
+                viewModel.PageSize,
+                viewModel.PageIndex);
 
-            var response = await _newsSourceFacade.GetPendingNotificationRequestsAsync(viewModel).ConfigureAwait(false);
             return View("NotificationRequests", response);
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourcesGetAllUnknownNewsSources)] // news-source/get-all-unknown
         [HttpGet]
         public async Task<IActionResult> GetUnknownNewsSourcesAsync(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
+            var response = await _newsSourceQueries.GetAllUnknownNewsSourcesAsync(
+                viewModel.PageSize,
+                viewModel.PageIndex);
 
-            var response = await _newsSourceFacade.GetUnknownNewsSourcesAsync(viewModel).ConfigureAwait(false);
             return View("Unknown", response);
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpGet]
         public async Task<IActionResult> Identify(Guid id)
         {
-            var viewModel = await _newsSourceFacade.GetUnknownNewsSourceAsync(id).ConfigureAwait(false);
+            var result = await _newsSourceQueries.GetUnknownNewsSourceByIdAsync(id);
+
+            var viewModel = new UnknownNewsSourceViewModel
+            {
+                Id = result.Id,
+                Classification = _mapper.Map<NewsSourceAuthenticityDto, NewsSourceAuthenticityViewModel>(result.Classification),
+                Source = result.Uri,
+            };
 
             return View(viewModel);
         }
 
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [Route(EndpointConstants.NewsSourceTriggerIdentifiedSource)] // news-source/identify
         [HttpPost]
         public async Task<IActionResult> Identify(UnknownNewsSourceViewModel viewModel)
         {
-            if (viewModel.Classification == Classification.Unknown)
+            if (viewModel.Classification == NewsSourceAuthenticityViewModel.Unknown)
                 ModelState.AddModelError(nameof(UnknownNewsSourceViewModel.Classification), "You must identify the source");
 
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            await _newsSourceFacade.TriggerIdentifiedNewsSourceAsync(viewModel.Source, viewModel.Classification).ConfigureAwait(false);
+            var command = new IdentifyUnknownNewsSourceCommand(
+                viewModel.Source,
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
+
+            await _mediator.Send(command);
 
             return RedirectToAction(nameof(Index));
         }

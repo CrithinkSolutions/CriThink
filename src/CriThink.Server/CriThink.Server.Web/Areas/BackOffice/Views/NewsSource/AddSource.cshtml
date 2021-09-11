@@ -21,7 +21,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Classification</span>
             </div>
-            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()"></select>
+            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<NewsSourceAuthenticityViewModel>()"></select>
         </div>
 
         @if (!string.IsNullOrWhiteSpace(Model?.Message))

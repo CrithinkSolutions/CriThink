@@ -3,8 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Commands;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
@@ -17,14 +16,18 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="authenticity">Authenticty value to search</param>
-        /// <param name="cancellationToken">Optional cancellation token</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns></returns>
-        internal static Task<string> GetCategoryDescriptionByAuthenticityAsync(this DbSet<NewsSourceCategory> dbSet, Expression<Func<NewsSourceCategory, string>> projection, NewsSourceAuthenticity authenticity, CancellationToken cancellationToken = default)
+        internal static Task<string> GetCategoryDescriptionByAuthenticityAsync(
+            this DbSet<NewsSourceCategory> dbSet,
+            Expression<Func<NewsSourceCategory, string>> projection,
+            NewsSourceAuthenticity authenticity,
+            CancellationToken cancellationToken = default)
         {
             return dbSet
-            .Where(q => q.Authenticity == authenticity)
-            .Select(projection)
-            .FirstOrDefaultAsync(cancellationToken);
+                .Where(q => q.Authenticity == authenticity)
+                .Select(projection)
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

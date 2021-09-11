@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Server.Core.Models.DTOs.Facebook;
+using CriThink.Server.Domain.Models.DTOs.Facebook;
 using Refit;
 
 namespace CriThink.Server.Infrastructure.Api

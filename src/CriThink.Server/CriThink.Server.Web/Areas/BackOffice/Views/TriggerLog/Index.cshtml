@@ -1,5 +1,5 @@
-@using CriThink.Common.Endpoints.DTOs.Admin;
-@model TriggerLogsGetAllResponse;
+@using CriThink.Server.Application.Administration.ViewModels;
+@model TriggerLogsGetAllViewModel;
 
 @{
     Layout = "_LayoutPagination";
@@ -17,32 +17,32 @@
 @section sidebarRight
 {
     <table class="table mb-3" id="featureT">
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Id</th>
-                    <th>Successful</th>
-                    <th>Error Message</th>
-                </tr>
-            </thead>
-            @foreach (var log in Model.LogsCollection)
-            {
-                <tr>
-                    <td>@log.TimeStamp</td>
-                    <td>@log.Id</td>
-                    <td>@log.IsSuccessful</td>
-                    <td>@log.ErrorMessage</td>
-                </tr>
-            }
-        </table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Failures</th>
+            </tr>
+        </thead>
+        @foreach (var log in Model.LogsCollection)
+        {
+            <tr>
+                <td>@log.TimeStamp</td>
+                <td>@log.Id</td>
+                <td>@log.Status</td>
+                <td>@log.Failures</td>
+            </tr>
+        }
+    </table>
 }
-        
+
 <div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
 
 @section Scripts
 {
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             $('#featureT').DataTable({
                 paging: false,
                 info: false,

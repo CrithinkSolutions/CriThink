@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
@@ -10,8 +9,7 @@ using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Endpoints.DTOs.UnknownNewsSource;
+using CriThink.Common.Endpoints.DTOs.Notification;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Plugin.Messenger;
 
@@ -20,6 +18,7 @@ namespace CriThink.Client.Core.Services
     public class NewsSourceService : INewsSourceService
     {
         private readonly INewsSourceApi _newsSourceApi;
+        private readonly INotificationApi _notificationApi;
         private readonly IUserProfileService _userProfileService;
         private readonly ISQLiteRepository _sqlRepo;
         private readonly IMvxMessenger _messenger;
@@ -27,60 +26,17 @@ namespace CriThink.Client.Core.Services
 
         public NewsSourceService(
             INewsSourceApi newsSourceApi,
+            INotificationApi notificationApi,
             IUserProfileService userProfileService,
             ISQLiteRepository sqlRepo,
             IMvxMessenger messenger, ILogger<NewsSourceService> logger)
         {
             _newsSourceApi = newsSourceApi ?? throw new ArgumentNullException(nameof(newsSourceApi));
+            _notificationApi = notificationApi ?? throw new ArgumentNullException(nameof(notificationApi)); ;
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
             _logger = logger;
-        }
-
-        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken)
-        {
-            if (string.IsNullOrWhiteSpace(newsLink))
-                throw new ArgumentNullException(nameof(newsLink));
-
-            var request = new NewsSourceSearchRequest
-            {
-                NewsLink = newsLink
-            };
-
-            NewsSourceSearchWithDebunkingNewsResponse searchResponse = null;
-
-            try
-            {
-                searchResponse = await _newsSourceApi.SearchNewsSourceAsync(request, cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (searchResponse.Classification != NewsSourceClassification.Unknown)
-                {
-                    var recentSearchRequest = new RecentNewsChecksModel
-                    {
-                        // TODO: Replce with real image
-                        NewsImageLink = "res:ic_text_logo",
-                        Classification = searchResponse.Classification.ToString(),
-                        NewsLink = newsLink,
-                        SearchDateTime = DateTime.Now,
-                    };
-
-                    await AddLatestNewsCheckAsync(recentSearchRequest).ConfigureAwait(false);
-                }
-
-                return searchResponse
-;
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error searching a news source", newsLink);
-                return searchResponse;
-            }
         }
 
         public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
@@ -105,18 +61,14 @@ namespace CriThink.Client.Core.Services
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
-            var currentUser = await _userProfileService.GetUserProfileAsync(cancellationToken).ConfigureAwait(false);
-            var userEmail = currentUser.Email;
-
             var request = new NewsSourceNotificationForUnknownDomainRequest
             {
-                Uri = newsLink,
-                Email = userEmail,
+                NewsSource = newsLink,
             };
 
             try
             {
-                await _newsSourceApi.RegisterForNotificationAsync(request, cancellationToken)
+                await _notificationApi.RequestNotificationForUnknownSourceAsync(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (TokensExpiredException)
@@ -129,6 +81,7 @@ namespace CriThink.Client.Core.Services
             }
         }
 
+        // TODO: use again
         private async Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck)
         {
             if (newsCheck == null)
@@ -156,8 +109,6 @@ namespace CriThink.Client.Core.Services
 
     public interface INewsSourceService
     {
-        Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken);
-
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync();
 
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);

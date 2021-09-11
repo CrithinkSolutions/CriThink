@@ -4,42 +4,67 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
 {
     internal static class UnknownNewsSourceExtensions
     {
-        internal static Task<Guid> GetUnknownSourceIdByUriAsync(
+        /// <summary>
+        /// Get an unknown source by uri
+        /// </summary>
+        /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
+        /// <param name="uri">Unknown source uri</param>
+        /// <param name="projection">Projection applied to Select query</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
+        /// <returns></returns>
+        internal static Task<UnknownNewsSource> GetUnknownSourceByUriAsync(
             this DbSet<UnknownNewsSource> dbSet,
             string uri,
-            Expression<Func<UnknownNewsSource, Guid>> projection,
-            CancellationToken cancellationToken)
+            Expression<Func<UnknownNewsSource, UnknownNewsSource>> projection,
+            CancellationToken cancellationToken = default)
         {
             return dbSet.Where(us => us.Uri == uri)
                         .Select(projection)
                         .SingleOrDefaultAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Get an unknown source by id
+        /// </summary>
+        /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
+        /// <param name="unknownNewsSourceId">Unknown source id</param>
+        /// <param name="projection">Projection applied to Select query</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
+        /// <returns></returns>
         internal static Task<UnknownNewsSource> GetUnknownNewsSourceByIdAsync(
             this DbSet<UnknownNewsSource> dbSet,
             Guid unknownNewsSourceId,
             Expression<Func<UnknownNewsSource, UnknownNewsSource>> projection,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             return dbSet.Where(us => us.Id == unknownNewsSourceId)
                         .Select(projection)
                         .SingleOrDefaultAsync(cancellationToken);
         }
 
-        internal static Task<List<GetAllUnknownSources>> GetAllUnknownSourceAsync(
+        /// <summary>
+        /// Get all unknown sources
+        /// </summary>
+        /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="projection">Projection applied to Select query</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
+        /// <returns></returns>
+        internal static Task<List<GetAllUnknownSourcesQueryResult>> GetAllUnknownSourceAsync(
             this DbSet<UnknownNewsSource> dbSet,
             int pageSize,
             int pageIndex,
-            Expression<Func<UnknownNewsSource, GetAllUnknownSources>> projection,
-            CancellationToken cancellationToken)
+            Expression<Func<UnknownNewsSource, GetAllUnknownSourcesQueryResult>> projection,
+            CancellationToken cancellationToken = default)
         {
             return dbSet
                 .OrderByDescending(r => r.FirstRequestedAt)

@@ -3,15 +3,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Helpers;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.Account;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-#pragma warning disable CA1054 // URI-like parameters should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
     /// <summary>
@@ -22,12 +22,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     [Area("BackOffice")]
     public class AccountController : Controller
     {
-        private readonly IIdentityService _identityService;
+        private readonly IMediator _mediator;
         private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IIdentityService identityService, ILogger<AccountController> logger)
+        public AccountController(
+            IMediator mediator,
+            ILogger<AccountController> logger)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+
             _logger = logger;
         }
 
@@ -59,12 +63,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                var claimsIdentity = await _identityService.LoginUserAsync(viewModel.EmailOrUsername, viewModel.Password, viewModel.RememberMe)
-                    .ConfigureAwait(false);
+                var (email, username) = GetEmailAndUsername(viewModel.EmailOrUsername);
 
-                await HttpContext
-                    .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity))
-                    .ConfigureAwait(false);
+                var command = new LoginCookieUserCommand(
+                    email, username, viewModel.Password, viewModel.RememberMe);
+
+                var claimsIdentity = await _mediator.Send(command);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 return Redirect(viewModel.ReturnUrl ?? "/");
             }
@@ -117,12 +125,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
                 return View(viewModel);
             }
 
+            var (email, username) = GetEmailAndUsername(viewModel.EmailOrUsername);
+
             try
             {
-                if (EmailHelper.IsEmail(viewModel.EmailOrUsername))
-                    await _identityService.GenerateUserPasswordTokenAsync(viewModel.EmailOrUsername, null).ConfigureAwait(false);
-                else
-                    await _identityService.GenerateUserPasswordTokenAsync(null, viewModel.EmailOrUsername).ConfigureAwait(false);
+                var command = new ForgotPasswordCommand(
+                    email, username);
+
+                await _mediator.Send(command);
 
                 viewModel.Message = "Email sent!";
                 return View(viewModel);
@@ -131,6 +141,22 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 return View();
             }
+        }
+
+        private (string email, string username) GetEmailAndUsername(string value)
+        {
+            string email = null, username = null;
+
+            if (EmailHelper.IsEmail(value))
+            {
+                email = value;
+            }
+            else
+            {
+                username = value;
+            }
+
+            return (email, username);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,9 +10,36 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
+            builder.ToTable("user_profiles");
+
+            builder.Ignore(dn => dn.DomainEvents);
+
+            builder.HasKey(up => up.Id);
+            builder.Property(up => up.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Property(up => up.GivenName);
+            builder.Property(up => up.FamilyName);
+            builder.Property(up => up.Description);
+            builder.Property(up => up.Gender);
+            builder.Property(up => up.AvatarPath);
+            builder.Property(up => up.Country);
+            builder.Property(up => up.Telegram);
+            builder.Property(up => up.Skype);
+            builder.Property(up => up.Twitter);
+            builder.Property(up => up.Instagram);
+            builder.Property(up => up.Facebook);
+            builder.Property(up => up.Snapchat);
+            builder.Property(up => up.Youtube);
+            builder.Property(up => up.Blog);
+
+            builder.Property(up => up.UserId)
+                .IsRequired();
+
             builder
                 .Property(property => property.RegisteredOn)
-                .HasColumnType(DataType.Date.ToString());
+                .HasColumnType(DataType.Date.ToString())
+                .IsRequired();
 
             builder
                 .Property(property => property.DateOfBirth)
@@ -28,14 +55,12 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<UserProfile> builder)
         {
-            var profile = new UserProfile
-            {
-                Id = Guid.Parse("CB825A64-9CDB-48E7-8BB0-45D5BED6EEE2"),
-                RegisteredOn = DateTime.Parse("2021-01-01"),
-                DateOfBirth = DateTime.Parse("2021-01-01"),
-                Description = "This is the default account",
-                UserId = Guid.Parse(UserEntityConfiguration.UserId),
-            };
+            var profile = UserProfile.CreateSeed(
+                Guid.Parse("CB825A64-9CDB-48E7-8BB0-45D5BED6EEE2"),
+                DateTime.Parse("2021-01-01"),
+                DateTime.Parse("2021-01-01"),
+                "This is the default account",
+                Guid.Parse(UserEntityConfiguration.UserId));
 
             builder.HasData(profile);
         }

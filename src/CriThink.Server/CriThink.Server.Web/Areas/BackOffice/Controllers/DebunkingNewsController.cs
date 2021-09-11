@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
-using CriThink.Server.Core.Exceptions;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
+using CriThink.Server.Domain.Exceptions;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels;
 using CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews;
-using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.Models.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +18,22 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     /// <summary>
     /// Controller to handle the backoffice debunking news operations
     /// </summary>
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = RoleNames.Admin)]
     [Area("BackOffice")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route(EndpointConstants.DebunkNewsBase)]
     public class DebunkingNewsController : Controller
     {
-        private readonly IDebunkingNewsServiceFacade _debunkingNewsServiceFacade;
+        private readonly IDebunkingNewsQueries _debunkingNewsQueries;
+        private readonly IMediator _mediator;
 
-        public DebunkingNewsController(IDebunkingNewsServiceFacade debunkingNewsServiceFacade)
+        public DebunkingNewsController(IDebunkingNewsQueries debunkingNewsQueries, IMediator mediator)
         {
-            _debunkingNewsServiceFacade = debunkingNewsServiceFacade ?? throw new ArgumentNullException(nameof(debunkingNewsServiceFacade));
+            _debunkingNewsQueries = debunkingNewsQueries ??
+                throw new ArgumentNullException(nameof(debunkingNewsQueries));
+
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
         }
 
         /// <summary>
@@ -35,13 +43,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SimplePaginationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.PageIndex = 0;
-                viewModel.PageSize = 20;
-            }
+            var news = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
+                viewModel.PageSize,
+                viewModel.PageIndex);
 
-            var news = await _debunkingNewsServiceFacade.GetAllDebunkingNewsAsync(viewModel).ConfigureAwait(false);
             return View(news);
         }
 
@@ -75,11 +80,20 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                await _debunkingNewsServiceFacade.AddDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                var command = new CreateDebunkingNewsCommand(
+                    viewModel.Caption,
+                    viewModel.Link,
+                    viewModel.Keywords,
+                    viewModel.Title,
+                    viewModel.ImageLink,
+                    Guid.Empty); // TODO
+
+                await _mediator.Send(command);
+
                 viewModel.Message = "News Added!";
                 return View("AddNewsView", viewModel);
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -101,12 +115,13 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _debunkingNewsServiceFacade.DeleteDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+                    var command = new DeleteDebunkingNewsCommand(viewModel.Id);
+                    await _mediator.Send(command);
                 }
 
                 return RedirectToAction("Index");
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -126,11 +141,12 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
-                var info = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(viewModel).ConfigureAwait(false);
-                return Ok(new ApiOkResponse(info));
+                var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsByIdAsync(
+                    viewModel.Id);
 
+                return Ok(new ApiOkResponse(debunkingNews));
             }
-            catch (ResourceNotFoundException)
+            catch (CriThinkNotFoundException)
             {
                 return NotFound();
             }
@@ -140,11 +156,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateDebunkingNewsAsync(Guid id)
         {
-            var debunkingNews = await _debunkingNewsServiceFacade.GetDebunkingNewsAsync(new SimpleDebunkingNewsViewModel
-            {
-                Id = id,
-            }).ConfigureAwait(false);
-
+            var debunkingNews = await _debunkingNewsQueries.GetDebunkingNewsByIdAsync(id);
             if (debunkingNews is not null)
             {
                 var viewModel = new UpdateDebunkingNewsViewModel
@@ -173,7 +185,14 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            await _debunkingNewsServiceFacade.UpdateDebunkingNewsAsync(viewModel).ConfigureAwait(false);
+            var command = new UpdateDebunkingNewsCommand(
+                viewModel.Id,
+                viewModel.Title,
+                viewModel.Caption,
+                viewModel.Link,
+                viewModel.ImageLink);
+
+            await _mediator.Send(command);
 
             return RedirectToAction(nameof(Index));
         }

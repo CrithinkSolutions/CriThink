@@ -32,7 +32,7 @@ namespace CriThink.Client.Core.Handlers
                 .OrResult<HttpResponseMessage>(x => !x.IsSuccessStatusCode && !DisableRetryPolicyStatusCodes.Contains(x.StatusCode))
                 .WaitAndRetryAsync(new[]
                 {
-                    TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(Math.Pow(2, 3))
                 })
                 .ExecuteAsync(() =>
                 {

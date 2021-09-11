@@ -10,13 +10,13 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
         public string Email { get; set; }
 
         [JsonPropertyName("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(UserName))
+            if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(Username))
             {
-                yield return new ValidationResult("Email or UserName must have a valid value", new[] { nameof(Email), nameof(UserName) });
+                yield return new ValidationResult("Email or UserName must have a valid value", new[] { nameof(Email), nameof(Username) });
             }
         }
     }
