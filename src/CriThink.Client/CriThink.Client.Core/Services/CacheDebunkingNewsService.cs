@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace CriThink.Client.Core.Services
@@ -24,7 +24,10 @@ namespace CriThink.Client.Core.Services
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetRecentDebunkingNewsOfCurrentCountryAsync(
+            int pageIndex,
+            int pageSize,
+            CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{pageIndex}_{pageSize}", async entry =>
             {
@@ -33,15 +36,18 @@ namespace CriThink.Client.Core.Services
             }).ConfigureAwait(false);
         }
 
-        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(DebunkingNewsGetAllRequest request, CancellationToken cancellationToken)
+        public async Task<DebunkingNewsGetAllResponse> GetDebunkingNewsAsync(
+            DebunkingNewsGetAllRequest request,
+            CancellationToken cancellationToken,
+            string language = null)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.PageIndex}_{request.PageSize}_{request.LanguageFilters}", async entry =>
+            return await _memoryCache.GetOrCreateAsync($"{AllDebunkingNewsCacheKey}_{request.PageIndex}_{request.PageSize}_{language}", async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
-                return await _debunkingNewsService.GetDebunkingNewsAsync(request, cancellationToken).ConfigureAwait(false);
+                return await _debunkingNewsService.GetDebunkingNewsAsync(request, cancellationToken, language).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 

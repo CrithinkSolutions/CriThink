@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -8,9 +7,7 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.Users;
-using CriThink.Common.Endpoints.DTOs.Admin;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -114,14 +111,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             try
             {
-                var response = await _newsSourceService.SearchNewsSourceAsync(_uri, _cancellationTokenSource.Token)
-                    .ConfigureAwait(true);
+                // TODO: new app flow
+                return;
 
-                if (response is null)
-                    return;
-
-                SetSearchResult(response);
-                SetRelatedDebunkingNews(response);
+                //SetSearchResult(response);
+                //SetRelatedDebunkingNews(response);
             }
             catch (TokensExpiredException)
             {
@@ -133,7 +127,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
             catch (HttpRequestException)
             {
-                await HandleUnknownResultAsync().ConfigureAwait(true);
+                //await HandleUnknownResultAsync().ConfigureAwait(true);
             }
             finally
             {
@@ -141,58 +135,59 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        private void SetSearchResult(NewsSourceSearchWithDebunkingNewsResponse response)
-        {
-            var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
+        //private void SetSearchResult(NewsSourceSearchWithDebunkingNewsResponse response)
+        //{
+        //    var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
 
-            Description = response.Description;
-            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.Classification.ToString());
+        //    Description = response.Description;
+        //    Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.Classification.ToString());
 
-            ResultImage = response.Classification switch
-            {
-                NewsSourceAuthenticityDto.Conspiracist => "result_conspiracy.svg",
-                NewsSourceAuthenticityDto.FakeNews => "result_fakenews.svg",
-                NewsSourceAuthenticityDto.Reliable => "result_reliable.svg",
-                NewsSourceAuthenticityDto.Satirical => "result_satirical.svg",
-                NewsSourceAuthenticityDto.SocialMedia => "result_socialmedia.svg",
-                NewsSourceAuthenticityDto.Suspicious => "result_suspicious.svg",
-                _ => "result_suspicious.svg"
-            };
-        }
+        //    ResultImage = response.Classification switch
+        //    {
+        //        NewsSourceAuthenticityDto.Conspiracist => "result_conspiracy.svg",
+        //        NewsSourceAuthenticityDto.FakeNews => "result_fakenews.svg",
+        //        NewsSourceAuthenticityDto.Reliable => "result_reliable.svg",
+        //        NewsSourceAuthenticityDto.Satirical => "result_satirical.svg",
+        //        NewsSourceAuthenticityDto.SocialMedia => "result_socialmedia.svg",
+        //        NewsSourceAuthenticityDto.Suspicious => "result_suspicious.svg",
+        //        _ => "result_suspicious.svg"
+        //    };
+        //}
 
-        private void SetRelatedDebunkingNews(NewsSourceSearchWithDebunkingNewsResponse response)
-        {
-            if (!response.RelatedDebunkingNews.Any())
-                return;
+        //private void SetRelatedDebunkingNews(NewsSourceSearchWithDebunkingNewsResponse response)
+        //{
+        //    if (!response.RelatedDebunkingNews.Any())
+        //        return;
 
-            Feed.AddRange(response.RelatedDebunkingNews);
-            RaisePropertyChanged(nameof(HasRelatedDebunkingNews));
-        }
+        //    Feed.AddRange(response.RelatedDebunkingNews);
+        //    RaisePropertyChanged(nameof(HasRelatedDebunkingNews));
+        //}
 
-        private async Task HandleUnknownResultAsync()
-        {
-            await _newsSourceService.RegisterForNotificationAsync(_uri, _cancellationTokenSource.Token)
-                .ConfigureAwait(true);
+        //private async Task HandleUnknownResultAsync()
+        //{
+        //    await _newsSourceService.RegisterForNotificationAsync(_uri, _cancellationTokenSource.Token)
+        //        .ConfigureAwait(true);
 
-            Classification = LocalizedTextSource.GetText("UnknownClassificationHeader");
-            Description = LocalizedTextSource.GetText("UnknownDescription");
-        }
+        //    Classification = LocalizedTextSource.GetText("UnknownClassificationHeader");
+        //    Description = LocalizedTextSource.GetText("UnknownDescription");
+        //}
 
-        private async Task DoDebunkingNewsSelectedCommand(NewsSourceRelatedDebunkingNewsResponse selectedResponse, CancellationToken cancellationToken)
+        private Task DoDebunkingNewsSelectedCommand(NewsSourceRelatedDebunkingNewsResponse selectedResponse, CancellationToken cancellationToken)
         {
             _logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
 
-            var response = new DebunkingNewsGetResponse
-            {
-                Title = selectedResponse.Title,
-                NewsLink = selectedResponse.NewsLink,
-                Id = selectedResponse.Id,
-                NewsImageLink = selectedResponse.NewsImageLink,
-                Publisher = selectedResponse.Publisher,
-            };
+            return Task.CompletedTask;
+            //var response = new DebunkingNewsGetResponse
+            //{
+            //    Title = selectedResponse.Title,
+            //    NewsLink = selectedResponse.NewsLink,
+            //    Id = selectedResponse.Id,
+            //    NewsImageLink = selectedResponse.NewsImageLink,
+            //    Publisher = selectedResponse.Publisher,
+            //};
 
-            await _navigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(response, cancellationToken: cancellationToken)
-                .ConfigureAwait(true);
+            //await _navigationService.Navigate<DebunkingNewsDetailsViewModel, DebunkingNewsGetResponse>(response, cancellationToken: cancellationToken)
+            //    .ConfigureAwait(true);
         }
     }
 }

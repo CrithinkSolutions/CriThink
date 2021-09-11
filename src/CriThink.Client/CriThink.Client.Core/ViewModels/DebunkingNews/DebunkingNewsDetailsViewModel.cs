@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Client.Core.ViewModels.DebunkingNews

@@ -8,7 +8,7 @@ using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
 using CriThink.Client.Core.ViewModels.Users;
-using CriThink.Common.Endpoints.DTOs.Admin;
+using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using Microsoft.Extensions.Logging;

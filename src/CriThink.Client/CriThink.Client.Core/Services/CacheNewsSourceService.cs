@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using MvvmCross.Plugin.Messenger;
@@ -31,16 +30,6 @@ namespace CriThink.Client.Core.Services
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
             _token = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ?? throw new ArgumentNullException(nameof(messenger));
-        }
-
-        public async Task<NewsSourceSearchWithDebunkingNewsResponse> SearchNewsSourceAsync(string newsLink, CancellationToken cancellationToken)
-        {
-            return await _memoryCache.GetOrCreateAsync($"{NewsSourceCacheKey}_{newsLink}", async entry =>
-            {
-                entry.SlidingExpiration = CacheDuration;
-                _resetCacheToken.Cancel();
-                return await _newsSourceService.SearchNewsSourceAsync(newsLink, cancellationToken).ConfigureAwait(false);
-            }).ConfigureAwait(false);
         }
 
         public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
