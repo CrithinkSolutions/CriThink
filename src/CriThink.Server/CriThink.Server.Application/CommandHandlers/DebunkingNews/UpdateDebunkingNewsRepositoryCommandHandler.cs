@@ -62,6 +62,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
                 if (!debunkingNewsCollection.Any())
                 {
+                    _logger?.LogWarning("No debunking news to add");
                     triggerLog = DebunkingNewsTriggerLog.CreateWithSuccess();
                     return Unit.Value;
                 }
@@ -115,7 +116,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
         private static DebunkingNewsTriggerLog GetLogByAnyError(StringBuilder errorLog)
         {
-            if (errorLog.Length <= 0)
+            if (errorLog is null)
                 return DebunkingNewsTriggerLog.CreateWithSuccess();
 
             throw new DebunkingNewsFetcherPartialFailureException();

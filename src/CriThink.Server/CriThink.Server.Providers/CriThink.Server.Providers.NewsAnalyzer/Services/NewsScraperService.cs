@@ -17,6 +17,9 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Services
 
         public async Task<NewsScraperProviderResponse> ScrapeNewsWebPage(Uri uri)
         {
+            if (uri is null)
+                throw new ArgumentNullException(nameof(uri), "The given URL is not valid");
+
             Article article;
 
             try
@@ -26,7 +29,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error while scraping the news");
+                _logger?.LogError(ex, "Error while scraping the news", uri.AbsoluteUri);
                 return null;
             }
 
