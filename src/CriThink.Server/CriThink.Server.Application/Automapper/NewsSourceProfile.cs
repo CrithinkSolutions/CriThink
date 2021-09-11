@@ -14,7 +14,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest => dest.Description,
                     opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Classification,
-                    opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceClassification>(src.SourceAuthenticity)));
+                    opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceAuthenticityDto>(src.SourceAuthenticity)));
 
             CreateMap<GetAllDebunkingNewsByKeywordsQueryResult, NewsSourceRelatedDebunkingNewsResponse>()
                 .ForMember(dest =>

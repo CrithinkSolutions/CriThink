@@ -181,7 +181,7 @@ namespace CriThink.Server.Web.Controllers
                 try
                 {
                     var command = new CreateNewsSourceCommand(
-                        kvp.Key, _mapper.Map<NewsSourceClassification, NewsSourceAuthenticity>(kvp.Value));
+                        kvp.Key, _mapper.Map<NewsSourceAuthenticityDto, NewsSourceAuthenticity>(kvp.Value));
 
                     await _mediator.Send(command);
 

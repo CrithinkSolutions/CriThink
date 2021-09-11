@@ -150,12 +150,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             ResultImage = response.Classification switch
             {
-                NewsSourceClassification.Conspiracist => "result_conspiracy.svg",
-                NewsSourceClassification.FakeNews => "result_fakenews.svg",
-                NewsSourceClassification.Reliable => "result_reliable.svg",
-                NewsSourceClassification.Satirical => "result_satirical.svg",
-                NewsSourceClassification.SocialMedia => "result_socialmedia.svg",
-                NewsSourceClassification.Suspicious => "result_suspicious.svg",
+                NewsSourceAuthenticityDto.Conspiracist => "result_conspiracy.svg",
+                NewsSourceAuthenticityDto.FakeNews => "result_fakenews.svg",
+                NewsSourceAuthenticityDto.Reliable => "result_reliable.svg",
+                NewsSourceAuthenticityDto.Satirical => "result_satirical.svg",
+                NewsSourceAuthenticityDto.SocialMedia => "result_socialmedia.svg",
+                NewsSourceAuthenticityDto.Suspicious => "result_suspicious.svg",
                 _ => "result_suspicious.svg"
             };
         }

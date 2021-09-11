@@ -2,7 +2,7 @@
 
 namespace CriThink.Common.Endpoints.DTOs.NewsSource
 {
-    public enum NewsSourceClassification
+    public enum NewsSourceAuthenticityDto
     {
         /// <summary>
         /// Represents a trusted news source

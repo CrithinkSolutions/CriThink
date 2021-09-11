@@ -9,6 +9,6 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
 
         public string Uri { get; set; }
 
-        public NewsSourceClassification Classification { get; set; }
+        public NewsSourceAuthenticityDto Classification { get; set; }
     }
 }

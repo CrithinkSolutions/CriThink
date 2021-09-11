@@ -26,8 +26,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Type</span>
             </div>
-            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<Classification>()
-            .Where(i => i.Value != ((int)Classification.Unknown).ToString())"></select>
+            <select asp-for="Classification" asp-items="Html.GetEnumSelectList<NewsSourceAuthenticityViewModel>()
+            .Where(i => i.Value != ((int)NewsSourceAuthenticityViewModel.Unknown).ToString())"></select>
         </div>
 
         @if (!Html.ViewData.ModelState.IsValid)

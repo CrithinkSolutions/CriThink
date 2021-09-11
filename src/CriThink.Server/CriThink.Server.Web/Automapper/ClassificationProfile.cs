@@ -10,15 +10,15 @@ namespace CriThink.Server.Web.Automapper
     {
         public ClassificationProfile()
         {
-            CreateMap<Classification, NewsSourceAuthenticity>()
+            CreateMap<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>()
                 .ConvertUsingEnumMapping(opt => opt
-                    .MapValue(Classification.Unknown, NewsSourceAuthenticity.Unknown)
-                    .MapValue(Classification.Conspiracist, NewsSourceAuthenticity.Conspiracist)
-                    .MapValue(Classification.FakeNews, NewsSourceAuthenticity.FakeNews)
-                    .MapValue(Classification.Reliable, NewsSourceAuthenticity.Reliable)
-                    .MapValue(Classification.Satirical, NewsSourceAuthenticity.Satirical)
-                    .MapValue(Classification.Suspicious, NewsSourceAuthenticity.Suspicious)
-                    .MapValue(Classification.SocialMedia, NewsSourceAuthenticity.SocialMedia));
+                    .MapValue(NewsSourceAuthenticityViewModel.Unknown, NewsSourceAuthenticity.Unknown)
+                    .MapValue(NewsSourceAuthenticityViewModel.Conspiracist, NewsSourceAuthenticity.Conspiracist)
+                    .MapValue(NewsSourceAuthenticityViewModel.FakeNews, NewsSourceAuthenticity.FakeNews)
+                    .MapValue(NewsSourceAuthenticityViewModel.Reliable, NewsSourceAuthenticity.Reliable)
+                    .MapValue(NewsSourceAuthenticityViewModel.Satirical, NewsSourceAuthenticity.Satirical)
+                    .MapValue(NewsSourceAuthenticityViewModel.Suspicious, NewsSourceAuthenticity.Suspicious)
+                    .MapValue(NewsSourceAuthenticityViewModel.SocialMedia, NewsSourceAuthenticity.SocialMedia));
         }
     }
 }

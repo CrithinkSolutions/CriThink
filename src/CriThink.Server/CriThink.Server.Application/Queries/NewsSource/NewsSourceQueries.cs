@@ -82,7 +82,7 @@ namespace CriThink.Server.Application.Queries
 
             var response = new NewsSourceSearchResponse()
             {
-                Classification = _mapper.Map<NewsSourceAuthenticity, NewsSourceClassification>(newsSource.Category),
+                Classification = _mapper.Map<NewsSourceAuthenticity, NewsSourceAuthenticityDto>(newsSource.Category),
             };
 
             _logger?.LogInformation($"{nameof(GetNewsSourceByNameAsync)}: done");

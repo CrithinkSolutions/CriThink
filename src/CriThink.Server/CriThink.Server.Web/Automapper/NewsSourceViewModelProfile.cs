@@ -13,7 +13,7 @@ namespace CriThink.Server.Web.Automapper
                 .ForMember(dest => dest.Uri, opt =>
                     opt.MapFrom(src => src.NewsLink.ToLowerInvariant()))
                 .ForMember(dest => dest.Classification, opt =>
-                    opt.MapFrom((src,dest,srcMember, context) => context.Mapper.Map<NewsSourceAuthenticity, Classification>(src.SourceAuthencity)));
+                    opt.MapFrom((src,dest,srcMember, context) => context.Mapper.Map<NewsSourceAuthenticity, NewsSourceAuthenticityViewModel>(src.SourceAuthencity)));
         }
     }
 }

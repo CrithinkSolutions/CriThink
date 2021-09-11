@@ -84,7 +84,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var command = new CreateNewsSourceCommand(
                 viewModel.Uri,
-                _mapper.Map<Classification, NewsSourceAuthenticity>(viewModel.Classification));
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
 
             try
             {
@@ -153,7 +153,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var createCommand = new CreateNewsSourceCommand(
                 viewModel.NewLink,
-                _mapper.Map<Classification, NewsSourceAuthenticity>(viewModel.Classification));
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
 
             await _mediator.Send(createCommand);
 
@@ -191,7 +191,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             var viewModel = new UnknownNewsSourceViewModel
             {
                 Id = result.Id,
-                Classification = _mapper.Map<NewsSourceClassification, Classification>(result.Classification),
+                Classification = _mapper.Map<NewsSourceAuthenticityDto, NewsSourceAuthenticityViewModel>(result.Classification),
                 Source = result.Uri,
             };
 
@@ -203,7 +203,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> Identify(UnknownNewsSourceViewModel viewModel)
         {
-            if (viewModel.Classification == Classification.Unknown)
+            if (viewModel.Classification == NewsSourceAuthenticityViewModel.Unknown)
                 ModelState.AddModelError(nameof(UnknownNewsSourceViewModel.Classification), "You must identify the source");
 
             if (!ModelState.IsValid)
@@ -211,7 +211,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             var command = new IdentifyUnknownNewsSourceCommand(
                 viewModel.Source,
-                _mapper.Map<Classification, NewsSourceAuthenticity>(viewModel.Classification));
+                _mapper.Map<NewsSourceAuthenticityViewModel, NewsSourceAuthenticity>(viewModel.Classification));
 
             await _mediator.Send(command);
 

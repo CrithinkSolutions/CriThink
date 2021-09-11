@@ -9,6 +9,6 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
     {
         [Required]
         [JsonPropertyName("newsSources")]
-        public Dictionary<string, NewsSourceClassification> NewsSources { get; set; }
+        public Dictionary<string, NewsSourceAuthenticityDto> NewsSources { get; set; }
     }
 }

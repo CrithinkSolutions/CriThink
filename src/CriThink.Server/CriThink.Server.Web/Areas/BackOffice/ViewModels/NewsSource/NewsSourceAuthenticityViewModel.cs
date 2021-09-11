@@ -2,7 +2,7 @@
 
 namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
 {
-    public enum Classification
+    public enum NewsSourceAuthenticityViewModel
     {
         Reliable,
         Satirical,

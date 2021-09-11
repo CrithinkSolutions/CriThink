@@ -16,7 +16,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.Uri, opt => opt.MapFrom(src => src.Uri))
                 .ForMember(dest =>
-                    dest.Classification, opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceClassification>(src.Authenticity)));
+                    dest.Classification, opt => opt.MapFrom((src, subDest, dest, ctx) => ctx.Mapper.Map<NewsSourceAuthenticity, NewsSourceAuthenticityDto>(src.Authenticity)));
 
             CreateMap<GetAllSubscribedUsersWithSourceQueryResult, NotificationRequestGetViewModel>()
                 .ForMember(dest =>

@@ -4,6 +4,6 @@
     {
         public string Source { get; set; }
 
-        public Classification Classification { get; set; }
+        public NewsSourceAuthenticityViewModel Classification { get; set; }
     }
 }

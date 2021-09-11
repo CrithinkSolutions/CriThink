@@ -55,7 +55,7 @@ namespace CriThink.Client.Core.Services
                 searchResponse = await _newsSourceApi.SearchNewsSourceAsync(request, cancellationToken)
                     .ConfigureAwait(false);
 
-                if (searchResponse.Classification != NewsSourceClassification.Unknown)
+                if (searchResponse.Classification != NewsSourceAuthenticityDto.Unknown)
                 {
                     var recentSearchRequest = new RecentNewsChecksModel
                     {
