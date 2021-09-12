@@ -98,6 +98,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
 
             if (_lastFetchingTimeStamp.HasValue)
                 analyzerService.SetLastFetchingTimeStamp(_lastFetchingTimeStamp.Value);
+
             return analyzerService;
         }
 
