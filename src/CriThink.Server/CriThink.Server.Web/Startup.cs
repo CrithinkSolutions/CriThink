@@ -47,6 +47,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -117,6 +118,8 @@ namespace CriThink.Server.Web
             SetupHealthChecks(services);
 
             SetupBackgroundServices(services);
+
+            SetupFeatureManagement(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -508,6 +511,11 @@ namespace CriThink.Server.Web
 
             services.Configure<HostOptions>(
                 opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));
+        }
+
+        private static void SetupFeatureManagement(IServiceCollection services)
+        {
+            services.AddFeatureManagement();
         }
 
         private static void MapHealthChecks(IEndpointRouteBuilder endpoints)
