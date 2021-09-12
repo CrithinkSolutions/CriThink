@@ -44,7 +44,15 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpGet]
         public IActionResult Index(string returnUrl)
         {
-            var model = new LoginViewModel { ReturnUrl = returnUrl };
+            if (HttpContext.User.Identity?.IsAuthenticated == true)
+                return RedirectToAction("Index", "Home");
+
+            var model = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ImagePath = GetRandomImageForLoginView(),
+            };
+
             return View(model);
         }
 
@@ -58,8 +66,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
+            if (!ModelState.IsValid)
+            {
+                viewModel.ImagePath = GetRandomImageForLoginView();
+                return View(nameof(Index), viewModel);
+            }
 
             try
             {
@@ -79,8 +90,8 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error performing login on backoffice");
-                ModelState.AddModelError(nameof(viewModel.EmailOrUsername), "Login Failed: Invalid Email or password");
-                return BadRequest();
+                viewModel.ImagePath = GetRandomImageForLoginView();
+                return View(nameof(Index), viewModel);
             }
         }
 
@@ -103,8 +114,11 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         [AllowAnonymous]
         [Route(EndpointConstants.MvcForgotPassword)]
         [HttpGet]
-        public IActionResult ForgotPasswordAsync()
+        public IActionResult ForgotPassword()
         {
+            if (HttpContext.User.Identity?.IsAuthenticated == true)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -114,16 +128,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [Route(EndpointConstants.MvcForgotPassword)]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel viewModel)
         {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return View(nameof(ForgotPassword), viewModel);
             }
+
+            viewModel.Message = "We sent you an email if the user exists";
 
             var (email, username) = GetEmailAndUsername(viewModel.EmailOrUsername);
 
@@ -139,8 +153,17 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             }
             catch (Exception)
             {
-                return View();
+                _logger?.LogWarning("Error resetting password from the backoffice");
+                ModelState.AddModelError(string.Empty, "An error occurred. Please verify your credentials");
             }
+            return View(nameof(ForgotPassword), viewModel);
+
+        }
+
+        private static string GetRandomImageForLoginView()
+        {
+            var randomImageIndex = new Random().Next(1, 6);
+            return $"/images/login_intro_{randomImageIndex}.svg";
         }
 
         private (string email, string username) GetEmailAndUsername(string value)
