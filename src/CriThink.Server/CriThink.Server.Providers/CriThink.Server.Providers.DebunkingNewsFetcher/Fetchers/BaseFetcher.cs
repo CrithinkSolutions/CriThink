@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Providers.Common;
 
@@ -8,6 +9,13 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
     internal abstract class BaseFetcher : IAnalyzer<DebunkingNewsProviderResult>
     {
         private IAnalyzer<DebunkingNewsProviderResult> _nextAnalyzer;
+
+        static BaseFetcher()
+        {
+            SemaphoreSlim ??= new SemaphoreSlim(1, 1);
+        }
+
+        protected static SemaphoreSlim SemaphoreSlim { get; }
 
         public ConcurrentQueue<Task<DebunkingNewsProviderResult>> Queue { get; private set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Server.Providers.Common;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers;
@@ -59,29 +60,33 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
         {
             _queue.Clear();
 
+            var fetchers = new List<IAnalyzer<DebunkingNewsProviderResult>>();
+
             if (_isOpenOnlineEnabled)
             {
                 var openOnlineFetcher = GetFetcher<OpenOnlineFetcher>();
-                AddFetcher(openOnlineFetcher);
+                fetchers.Add(openOnlineFetcher);
             }
 
             if (_isChannel4Enabled)
             {
                 var channel4Fetcher = GetFetcher<Channel4Fetcher>();
-                AddFetcher(channel4Fetcher);
+                fetchers.Add(channel4Fetcher);
             }
 
             if (_isFullFactEnabled)
             {
                 var fullFactFetcher = GetFetcher<FullFactFetcher>();
-                AddFetcher(fullFactFetcher);
+                fetchers.Add(fullFactFetcher);
             }
 
             if (_isFactaNewsEnabled)
             {
                 var factaFetcher = GetFetcher<FactaNewsFetcher>();
-                AddFetcher(factaFetcher);
+                fetchers.Add(factaFetcher);
             }
+
+            AddFetchers(fetchers);
 
             return _analyzer;
         }
@@ -97,12 +102,22 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Builders
             return analyzerService;
         }
 
-        private void AddFetcher(IAnalyzer<DebunkingNewsProviderResult> fetcher)
+        private void AddFetchers(IList<IAnalyzer<DebunkingNewsProviderResult>> fetchers)
         {
-            if (_analyzer is null)
-                _analyzer = fetcher;
-            else
-                _analyzer.SetNext(fetcher);
+            for (var i = 0; i < fetchers.Count; i++)
+            {
+                var fetcher = fetchers[i];
+
+                if (_analyzer is null)
+                {
+                    _analyzer = fetcher;
+                }
+                else
+                {
+                    fetchers[i - 1]
+                        .SetNext(fetcher);
+                }
+            }
         }
     }
 }

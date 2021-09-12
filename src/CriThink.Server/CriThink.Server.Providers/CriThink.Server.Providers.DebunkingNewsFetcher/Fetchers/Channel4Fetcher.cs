@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using CriThink.Common.Helpers;
@@ -87,7 +88,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             try
             {
-                var result = await _httpClient.GetStreamAsync(_webSiteUri).ConfigureAwait(false);
+                var result = await _httpClient.GetStreamAsync(_webSiteUri);
 
                 using var xmlReader = XmlReader.Create(result);
                 var feed = SyndicationFeed.Load(xmlReader);
@@ -145,8 +146,17 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
                 if (_cachedDebunkingNewsPublisher is null)
                 {
-                    await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.Channel4);
-                    _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                    await SemaphoreSlim.WaitAsync();
+
+                    try
+                    {
+                        await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.Channel4);
+                        _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                    }
+                    finally
+                    {
+                        SemaphoreSlim.Release();
+                    }
                 }
                 else
                 {
