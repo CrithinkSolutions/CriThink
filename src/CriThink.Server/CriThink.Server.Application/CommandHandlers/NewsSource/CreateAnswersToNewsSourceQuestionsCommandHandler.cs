@@ -93,8 +93,7 @@ namespace CriThink.Server.Application.CommandHandlers
             IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse> relatedDebunkingNews = null;
 
             var userId = request.UserId;
-            var newsLink = request.NewsLink;
-            var domain = GetDomainFromNewsLink(newsLink);
+            var (newsLink, domain) = GetDataFromNewsLink(request.NewsLink);
 
             var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
             if (user is null)
@@ -245,6 +244,16 @@ namespace CriThink.Server.Application.CommandHandlers
                 response.Description = _stringLocalizer[description];
 
             return response;
+        }
+
+        private static (string validatedNewsLink, string domain) GetDataFromNewsLink(string newsLink)
+        {
+            var newsUri = new Uri(newsLink);
+
+            var validatedNewsLink = newsLink.Replace(newsUri.Query, "");
+            var domain = GetDomainFromNewsLink(newsLink);
+
+            return (validatedNewsLink, domain);
         }
 
         private static string GetDomainFromNewsLink(string newsLink)
