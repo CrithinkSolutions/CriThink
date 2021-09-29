@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root"
+    android:background="@color/welcomeBackground"
     android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
@@ -19,8 +21,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_page"
-            android:paddingRight="@dimen/padding_page"
             android:id="@+id/viewInnerLayout"
             android:scrollbars="vertical">
 
@@ -33,18 +33,13 @@
                 android:id="@+id/appBarLayout"
                 layout="@layout/toolbar"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guidelineAllHorizontal"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.30" />
-
+            
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtTitle"
-                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+                android:textColor="@android:color/white"
+                app:layout_goneMarginTop="@dimen/margin_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/margin_small"
@@ -56,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtCaption"
+                android:textColor="@android:color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTitle"
@@ -63,28 +59,165 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"/>
 
-            <LoaderView
-                android:layout_width="@dimen/imgSize_loader"
-                android:layout_height="@dimen/imgSize_loader"
-                android:id="@+id/loader"
-                app:layout_constraintTop_toBottomOf="@id/txtCaption"
-                app:layout_constraintBottom_toTopOf="@id/layoutCredentials"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:background="@drawable/round_background"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/imgSize_halfBigLogo"
                 android:id="@+id/layoutCredentials"
                 android:focusableInTouchMode="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guidelineAllHorizontal">
+                app:layout_constraintTop_toBottomOf="@id/txtCaption"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:paddingTop="@dimen/margin_veryBig"
+                        android:layout_height="0dp"
+                        android:paddingStart="@dimen/margin_large"
+                        android:paddingEnd="@dimen/margin_large"
+                        android:paddingBottom="@dimen/margin_large">
+                        
+                        <!-- Email -->
+                        <TextView
+                            android:id="@+id/tv_header_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_big"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Email"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEditEmail"
+                            app:layout_constraintTop_toBottomOf="@id/tv_header_email"
+                            style="@style/OutlinedRoundedBox"
+                            app:hintAnimationEnabled="false"
+                            app:expandedHintEnabled="false"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txtInput_email"
+                                android:inputType="textEmailAddress"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        
+                        <!-- Username -->
+                        <TextView
+                            android:id="@+id/tv_header_username"
+                            app:layout_constraintTop_toBottomOf="@id/txtEditEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            tools:text="Username"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEditUsername"
+                            style="@style/OutlinedRoundedBox"
+                            app:layout_constraintTop_toBottomOf="@id/tv_header_username"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="@dimen/margin_mini">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txtInput_username"
+                                android:inputType="textEmailAddress"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        
+                        <!-- Password -->
+                        <TextView
+                            android:id="@+id/tv_header_password"
+                            app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            tools:text="Password"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEditPassword"
+                            app:layout_constraintTop_toBottomOf="@id/tv_header_password"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:passwordToggleEnabled="true"
+                            android:layout_marginTop="@dimen/margin_mini"
+                            style="@style/OutlinedRoundedBox">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txtInput_password"
+                                android:inputType="textPassword"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        
+                        <!-- Repeat Password -->
+                        <TextView
+                            android:id="@+id/tv_header_repeat_password"
+                            app:layout_constraintTop_toBottomOf="@id/txtEditPassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            tools:text="Password"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtEditRepeatPassword"
+                            app:layout_constraintTop_toBottomOf="@id/tv_header_repeat_password"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:passwordToggleEnabled="true"
+                            android:layout_marginTop="@dimen/margin_mini"
+                            style="@style/OutlinedRoundedBox">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txtInput_repeatPassword"
+                                android:inputType="textPassword"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                <FFImageLoading.Cross.MvxSvgCachedImageView
+                        <!-- Join US -->
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnSignUp"
+                            tools:text="Join us!"
+                    
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/textSize_button"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txtEditRepeatPassword"
+                            android:layout_marginTop="@dimen/margin_big"
+                            android:layout_marginBottom="@dimen/margin_big"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:background="@drawable/orange_bg_button_radius"
+                            android:radius="@dimen/btn_radius"
+                            android:textColor="@android:color/white"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                  </androidx.core.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCaption">
+                 <FFImageLoading.Cross.MvxSvgCachedImageView
                     android:layout_width="@dimen/imgSize_bigLogo"
                     android:layout_height="@dimen/imgSize_bigLogo"
-                    android:id="@+id/imgAvatar"
+                    android:id="@id/imgAvatar"
+                    tools:src="@tools:sample/avatars"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
@@ -95,97 +228,21 @@
                     android:src="@drawable/ic_edit"
                     android:background="@drawable/ic_btnborder"
                     android:tint="@color/welcomeBackground"
+                    android:layout_marginBottom="@dimen/margin_mini"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_huge"
-                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
+                    android:layout_marginStart="@dimen/margin_half_huge"
+                    app:layout_constraintStart_toStartOf="@id/imgAvatar"
                     app:layout_constraintEnd_toEndOf="@id/imgAvatar"
                     app:layout_constraintBottom_toBottomOf="@id/imgAvatar"/>
-
-                <!-- Email -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEditEmail"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/imgAvatar"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtInput_email"
-                        android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Username -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEditUsername"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditEmail"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="@dimen/margin_mini"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtInput_username"
-                        android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                
-                <!-- Password -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEditPassword"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginTop="@dimen/margin_mini"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtInput_password"
-                        android:inputType="textPassword"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                
-                <!-- Repeat Password -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtEditRepeatPassword"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditPassword"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginTop="@dimen/margin_mini"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtInput_repeatPassword"
-                        android:inputType="textPassword"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnSignUp"
-                    android:background="@android:color/white"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditRepeatPassword"
-                    android:layout_marginTop="@dimen/margin_big"
-                    android:backgroundTint="@color/colorBlue"
-                    android:radius="@dimen/btn_radius"
-                    android:textColor="@android:color/white"
-                    android:elevation="@dimen/btn_elevation"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <LoaderView
+                android:layout_width="@dimen/imgSize_loader"
+                android:layout_height="@dimen/imgSize_loader"
+                android:id="@+id/loader"
+                app:layout_constraintTop_toBottomOf="@id/txtCaption"
+                app:layout_constraintBottom_toTopOf="@id/layoutCredentials"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

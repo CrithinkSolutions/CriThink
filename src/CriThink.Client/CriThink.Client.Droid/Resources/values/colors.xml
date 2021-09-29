@@ -28,5 +28,6 @@
 
   <color name="borderColor">#f0f0f0</color>
 
+  <color name="borderTextInput">#dcdcdc</color>
   <color name="textColor">#4a4a4a</color>
 </resources>
