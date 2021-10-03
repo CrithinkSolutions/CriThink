@@ -425,15 +425,27 @@ namespace CriThink.Client.Core.Localization {
             }
         }
         
-        internal static string SignUpViewModel_Login {
-            get {
-                return ResourceManager.GetString("SignUpViewModel.Login", resourceCulture);
-            }
-        }
-        
         internal static string SignUpViewModel_SignUpCaption {
             get {
                 return ResourceManager.GetString("SignUpViewModel.SignUpCaption", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpViewModel_DialogOk {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.DialogOk", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpViewModel_DialogCancel {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.DialogCancel", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpViewModel_EmailHint {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.EmailHint", resourceCulture);
             }
         }
         
@@ -938,6 +950,12 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerViewModel_Hello {
             get {
                 return ResourceManager.GetString("NewsCheckerViewModel.Hello", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpViewModel_DialogTitle {
+            get {
+                return ResourceManager.GetString("SignUpViewModel.DialogTitle", resourceCulture);
             }
         }
     }

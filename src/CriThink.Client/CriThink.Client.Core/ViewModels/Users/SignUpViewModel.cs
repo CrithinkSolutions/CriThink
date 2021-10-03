@@ -45,8 +45,8 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _navigateToLoginCommand;
         public IMvxCommand NavigateToLoginCommand => _navigateToLoginCommand ??= new MvxAsyncCommand(DoNavigateToLoginCommand);
 
-        private IMvxAsyncCommand _restoreAccountCommand;
-        public IMvxAsyncCommand RestoreAccountCommand => _restoreAccountCommand ??= new MvxAsyncCommand(DoRestoreAccountCommand);
+        private IMvxAsyncCommand<string> _restoreAccountCommand;
+        public IMvxAsyncCommand<string> RestoreAccountCommand => _restoreAccountCommand ??= new MvxAsyncCommand<string>(DoRestoreAccountCommand);
 
         #endregion
 
@@ -76,18 +76,12 @@ namespace CriThink.Client.Core.ViewModels.Users
             await _navigationService.Navigate<SignUpEmailViewModel>().ConfigureAwait(false);
         }
 
-        private async Task DoRestoreAccountCommand(CancellationToken cancellationToken)
+        private async Task DoRestoreAccountCommand(string emailOrUsername, CancellationToken cancellationToken)
         {
             IsLoading = true;
 
-            var message = LocalizedTextSource.GetText("RestoreAccountMessage");
-            var title = LocalizedTextSource.GetText("RestoreAccountTitle");
-
-            var result = await UserDialogs.PromptAsync(message, title, inputType: InputType.Email, cancelToken: cancellationToken);
-            if (!result.Ok)
-                return;
-
-            var emailOrUsername = result.Value;
+            var message = string.Empty;
+            var title = string.Empty;
             var request = new RestoreUserRequest();
 
             var isEmail = EmailHelper.IsEmail(emailOrUsername);

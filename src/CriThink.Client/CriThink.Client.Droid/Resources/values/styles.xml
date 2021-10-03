@@ -65,7 +65,7 @@
         <item name="colorControlActivated">@color/accent</item>
         <item name="colorControlHighlight">@color/accent</item>
         <item name="boxStrokeColor">@drawable/text_input_box_stroke_color</item>
-        <item name="android:textColor">@drawable/editText_textColor</item>
+        <item name="android:textColor">@color/editText_textColor</item>
         <item name="shapeAppearanceOverlay">
           @style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded
         </item>
@@ -75,12 +75,16 @@
     <item name="cornerFamily">rounded</item>
     <item name="cornerSize">32dp</item>
   </style>
-    
-    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
-    </style>
-    <style name="AppTheme.LightArrow" parent="@style/AppTheme">
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    </style>
+
+  <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+    <item name="colorControlNormal">@android:color/white</item>
+  </style>
+
+   <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded</item>
+  </style>
+   <style name="ShapeAppearanceOverlay.MyApp.Dialog.Rounded" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">25dp</item>
+  </style>
 </resources>

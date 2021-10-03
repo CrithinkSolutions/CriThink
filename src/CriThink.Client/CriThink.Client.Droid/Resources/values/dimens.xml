@@ -17,6 +17,9 @@
   <dimen name="padding_card">12dp</dimen>
   <dimen name="padding_tag_x">12dp</dimen>
   <dimen name="padding_tag_y">3dp</dimen>
+  <dimen name="padding_top_alert">18dp</dimen>
+  <dimen name="padding_x_alert">18dp</dimen>
+  <dimen name="padding_bottom_alert">24dp</dimen>
 
   <!-- FontSize -->
   <dimen name="textSize_huge">64sp</dimen>
@@ -33,7 +36,7 @@
   <!-- Buttons -->
   <dimen name="btn_elevation">20dp</dimen>
   <dimen name="btn_radius">25dp</dimen>
-
+  <dimen name="btn_min_width">100dp</dimen>
   <!-- Image View -->
   <dimen name="imgSize_publisherSmall">30dp</dimen>
   <dimen name="imgSize_loader">56dp</dimen>

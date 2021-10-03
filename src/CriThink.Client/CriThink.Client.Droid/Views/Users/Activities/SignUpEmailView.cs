@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.Content;
+using AndroidX.Core.Graphics;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using CriThink.Client.Droid.Controls;
@@ -29,14 +30,14 @@ namespace CriThink.Client.Droid.Views.Users
         DataPathPrefix = "/" + DeepLinkConstants.SchemaPrefixEmailConfirmation,
         AutoVerify = false)]
     [MvxActivityPresentation]
-    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true, Theme = "@style/AppTheme.LightArrow")]
+    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true)]
     public class SignUpEmailView : MvxActivity<SignUpEmailViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {
+            
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signupemail_view);
-
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
