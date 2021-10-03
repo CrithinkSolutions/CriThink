@@ -142,7 +142,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 Password = Password,
                 Email = Email,
-                UserName = Username
+                Username = Username
             };
 
             try

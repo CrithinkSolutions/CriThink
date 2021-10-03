@@ -1,5 +1,5 @@
 ﻿using System;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,15 +16,17 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
         private static void SeedData(EntityTypeBuilder<UserRole> builder)
         {
-            var adminRole = new UserRole
-            {
-                Id = Guid.Parse("EC1405D9-5E55-401A-B469-37A44ECD211F"),
-                Name = "Admin",
-                NormalizedName = "ADMIN",
-                ConcurrencyStamp = "15b1b12c-4dff-413e-81d5-7c9423f25c35"
-            };
+            var adminRole = UserRole.Create(
+                Guid.Parse("EC1405D9-5E55-401A-B469-37A44ECD211F"),
+                "Admin",
+                "15b1b12c-4dff-413e-81d5-7c9423f25c35");
 
-            builder.HasData(adminRole);
+            var freeUserRole = UserRole.Create(
+                Guid.Parse("4C28EED7-A34A-4534-9C2C-5FFE86B72393"),
+                "FreeUser",
+                "4E597EE6-5339-44B0-988E-258AD486BE49");
+
+            builder.HasData(adminRole, freeUserRole);
         }
     }
 }

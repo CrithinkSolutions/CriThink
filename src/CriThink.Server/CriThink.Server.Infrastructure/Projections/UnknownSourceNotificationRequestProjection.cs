@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq.Expressions;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 
 namespace CriThink.Server.Infrastructure.Projections
 {
     internal static class UnknownSourceNotificationRequestProjection
     {
-        internal static Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersResponse>> GetAll =>
-            unknownSourceNotificationRequest => new GetAllSubscribedUsersResponse
+        internal static Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersQueryResult>> GetAll =>
+            unknownSourceNotificationRequest => new GetAllSubscribedUsersQueryResult
             {
                 Id = unknownSourceNotificationRequest.Id,
                 Email = unknownSourceNotificationRequest.Email,
             };
 
-        internal static Expression<Func<UnknownNewsSourceNotificationRequest, GetAllSubscribedUsersWithSourceResponse>> GetAllWithSources =>
-            unknownSourceNotificationRequest => new GetAllSubscribedUsersWithSourceResponse
+        internal static Expression<Func<UnknownNewsSourceNotification, GetAllSubscribedUsersWithSourceQueryResult>> GetAllWithSources =>
+            unknownSourceNotificationRequest => new GetAllSubscribedUsersWithSourceQueryResult
             {
                 Id = unknownSourceNotificationRequest.Id,
                 Email = unknownSourceNotificationRequest.Email,

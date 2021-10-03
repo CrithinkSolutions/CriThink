@@ -4,9 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Server.Core.Entities;
-using CriThink.Server.Core.Queries;
-using CriThink.Server.Core.Responses;
+using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.QueryResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
@@ -19,37 +18,27 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
-        /// <param name="languageFilters">Language filters</param>
         /// <param name="projection">Projection applied to Select query</param>
-        /// <param name="cancellationToken">Optional cancellation token</param>
+        /// <param name="languageFilter">(Optional) Language filters</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns>Awaitable task</returns>
-        internal static Task<List<GetAllDebunkingNewsQueryResponse>> GetAllDebunkingNewsAsync(
+        internal static Task<List<GetAllDebunkingNewsQueryResult>> GetAllDebunkingNewsAsync(
             this DbSet<DebunkingNews> dbSet,
             int pageSize,
             int pageIndex,
-            GetAllDebunkingNewsLanguageFilters languageFilters,
-            Expression<Func<DebunkingNews, GetAllDebunkingNewsQueryResponse>> projection,
+            Expression<Func<DebunkingNews, GetAllDebunkingNewsQueryResult>> projection,
+            string languageFilter = null,
             CancellationToken cancellationToken = default)
         {
             var query = dbSet
                 .OrderByDescending(dn => dn.PublishingDate)
                 .AsQueryable();
 
-            IList<string> languageCodes = null;
+            IList<string> languageCodes = languageFilter?
+                .Split(',')
+                .ToList();
 
-            if (languageFilters.HasFlag(GetAllDebunkingNewsLanguageFilters.English))
-            {
-                languageCodes ??= new List<string>();
-                languageCodes.Add(EntityConstants.LanguageCodeEn);
-            }
-
-            if (languageFilters.HasFlag(GetAllDebunkingNewsLanguageFilters.Italian))
-            {
-                languageCodes ??= new List<string>();
-                languageCodes.Add(EntityConstants.LanguageCodeIt);
-            }
-
-            if (languageCodes != null && languageCodes.Any())
+            if (languageCodes?.Any() == true)
             {
                 query = query.Where(dn => languageCodes.Contains(dn.Publisher.Language.Code));
             }
@@ -60,13 +49,18 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                 .ToListAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Get debunking news by id
+        /// </summary>
+        /// <param name="dbSet">This <see cref="DbSet{TEntity}"/></param>
+        /// <param name="id">Debunking news id</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token</param>
+        /// <returns></returns>
         internal static Task<DebunkingNews> GetDebunkingNewsAsync(
             this DbSet<DebunkingNews> dbSet,
             Guid id,
             CancellationToken cancellationToken = default)
         {
-            // TODO: improve query getting only the needed fields
-
             return dbSet
                 .Include(dn => dn.Publisher)
                 .Include(dn => dn.Publisher.Language)

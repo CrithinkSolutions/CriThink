@@ -6,8 +6,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-#pragma warning disable CA1062 // Validate arguments of public methods
-
 namespace CriThink.Server.Web.Models.DTOs
 {
     /// <summary>

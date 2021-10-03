@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using CriThink.Common.Helpers;
+using CriThink.Server.Domain.DomainServices;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Exceptions;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
+using CriThink.Server.Providers.NewsAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -17,9 +22,20 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         private static Uri WebSiteUri;
 
         private readonly HttpClient _httpClient;
+        private readonly IDebunkingNewsPublisherService _debunkingNewsPublisherService;
+        private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly INewsScraperService _newsScraperService;
         private readonly ILogger<FullFactFetcher> _logger;
 
-        public FullFactFetcher(IHttpClientFactory httpClientFactory, IOptions<FullFactSettings> options, ILogger<FullFactFetcher> logger)
+        private DebunkingNewsPublisher _cachedDebunkingNewsPublisher;
+
+        public FullFactFetcher(
+            IHttpClientFactory httpClientFactory,
+            IDebunkingNewsPublisherService debunkingNewsPublisherService,
+            ITextAnalyticsService textAnalyticsService,
+            INewsScraperService newsScraperService,
+            IOptions<FullFactSettings> options,
+            ILogger<FullFactFetcher> logger)
         {
             if (httpClientFactory is null)
                 throw new ArgumentNullException(nameof(httpClientFactory));
@@ -28,6 +44,16 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
                 throw new ArgumentNullException(nameof(options));
 
             _httpClient = httpClientFactory.CreateClient(DebunkingNewsFetcherBootstrapper.FullFactHttpClientName);
+
+            _debunkingNewsPublisherService = debunkingNewsPublisherService ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherService));
+
+            _textAnalyticsService = textAnalyticsService ??
+                throw new ArgumentNullException(nameof(_textAnalyticsService));
+
+            _newsScraperService = newsScraperService ??
+                throw new ArgumentNullException(nameof(newsScraperService));
+
             _logger = logger;
 
             WebSiteUri = options.Value.Uri;
@@ -35,11 +61,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
         public override Task<DebunkingNewsProviderResult>[] AnalyzeAsync()
         {
-            var analysisTask = Task.Run(async () =>
-            {
-                _logger?.LogInformation("FullFact fetcher is running");
-                return await RunFetcherAsync().ConfigureAwait(false);
-            });
+            var analysisTask = Task.Run(RunFetcherAsync);
 
             Queue.Enqueue(analysisTask);
             return base.AnalyzeAsync();
@@ -51,14 +73,14 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
 
             try
             {
-                feed = await GetSyndicationFeedAsync().ConfigureAwait(false);
+                feed = await GetSyndicationFeedAsync();
             }
             catch (Exception ex)
             {
                 return new DebunkingNewsProviderResult(ex, $"Error getting feed: '{WebSiteUri}'");
             }
 
-            var list = ReadFeed(feed);
+            var list = await ReadFeedAsync(feed);
             return new DebunkingNewsProviderResult(list);
         }
 
@@ -66,7 +88,7 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
         {
             try
             {
-                var result = await _httpClient.GetStreamAsync(WebSiteUri).ConfigureAwait(false);
+                var result = await _httpClient.GetStreamAsync(WebSiteUri);
 
                 using var xmlReader = XmlReader.Create(result);
                 var feed = SyndicationFeed.Load(xmlReader);
@@ -79,35 +101,80 @@ namespace CriThink.Server.Providers.DebunkingNewsFetcher.Fetchers
             }
         }
 
-        private IList<DebunkingNewsResponse> ReadFeed(SyndicationFeed feed)
+        private async Task<IList<Monad<DebunkingNews>>> ReadFeedAsync(SyndicationFeed feed)
         {
-            var list = new List<DebunkingNewsResponse>();
+            var list = new List<Monad<DebunkingNews>>();
 
-            foreach (var item in feed.Items)
+            foreach (var item in feed.Items.Where(i => i.PublishDate.DateTime > LastFetchingTimeStamp))
             {
-                try
-                {
-                    var link = GetLink(item);
-                    list.Add(new DebunkingNewsResponse(item.Title.Text, item.Id, item.PublishDate));
-                }
-                catch (LinkUnavailableException ex)
-                {
-                    _logger?.LogError(ex, $"Can't get link of FullFact news {item.Title.Text}", item.Id);
-                }
+                var debunkingNews = await ReadItemAsync(item);
+                list.Add(debunkingNews);
             }
 
 #if DEBUG
             if (!list.Any())
             {
-                list.Add(new DebunkingNewsResponse(
+                var debunkingNews = DebunkingNews.Create(
                     "Hydroxychloroquine study not all that it seems",
                     "https://fullfact.org/online/hydroxychloroquine-200-per-cent/",
                     string.Empty,
-                    DateTime.Now));
+                    DateTime.Now);
+
+                await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
+
+                list.Add(new(debunkingNews));
             }
 #endif
 
             return list;
+        }
+
+        private async Task<Monad<DebunkingNews>> ReadItemAsync(SyndicationItem item)
+        {
+            try
+            {
+                var link = GetLink(item);
+
+                var scrapedNews = await _newsScraperService.ScrapeNewsWebPage(new Uri(link));
+
+                var debunkingNews = DebunkingNews.Create(
+                   item.Title.Text,
+                   link,
+                   item.PublishDate);
+
+                if (_cachedDebunkingNewsPublisher is null)
+                {
+                    await SemaphoreSlim.WaitAsync();
+
+                    try
+                    {
+                        await debunkingNews.SetPublisherAsync(_debunkingNewsPublisherService, EntityConstants.FullFact);
+                        _cachedDebunkingNewsPublisher = debunkingNews.Publisher;
+                    }
+                    finally
+                    {
+                        SemaphoreSlim.Release();
+                    }
+                }
+                else
+                {
+                    debunkingNews.SetPublisher(_cachedDebunkingNewsPublisher);
+                }
+
+                var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(scrapedNews.NewsBody, debunkingNews.Publisher.Language.Code);
+                debunkingNews.SetKeywords(keywords);
+
+                return new(debunkingNews);
+            }
+            catch (LinkUnavailableException ex)
+            {
+                _logger?.LogError(ex, $"Can't get link of FullFact news {item.Title.Text}", item.Id);
+                return new(ex);
+            }
+            catch (Exception ex)
+            {
+                return new(ex);
+            }
         }
 
         private static string GetLink(SyndicationItem item)

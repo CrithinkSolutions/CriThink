@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Server.Core.Delegates;
-using CriThink.Server.Core.Entities;
+using CriThink.Server.Application;
+using CriThink.Server.Domain.Delegates;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.SocialProviders;
@@ -18,12 +19,12 @@ using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.BackgroundServices;
-using CriThink.Server.Web.Facades;
 using CriThink.Server.Web.HealthCheckers;
 using CriThink.Server.Web.Middlewares;
 using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -45,6 +46,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -115,6 +118,8 @@ namespace CriThink.Server.Web
             SetupHealthChecks(services);
 
             SetupBackgroundServices(services);
+
+            SetupFeatureManagement(services);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -200,10 +205,10 @@ namespace CriThink.Server.Web
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(15),
+                        maxRetryDelay: TimeSpan.FromSeconds(Math.Pow(2, 3)),
                         errorCodesToAdd: null);
                 })
-                .UseSnakeCaseNamingConvention(System.Globalization.CultureInfo.InvariantCulture);
+                .UseSnakeCaseNamingConvention(CultureInfo.InvariantCulture);
             });
         }
 
@@ -216,7 +221,6 @@ namespace CriThink.Server.Web
                 })
                 .AddEntityFrameworkStores<CriThinkDbContext>()
                 .AddDefaultTokenProviders();
-
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -284,7 +288,10 @@ namespace CriThink.Server.Web
 
         private static void SetupCache(IServiceCollection services)
         {
-            services.AddResponseCaching();
+            services.AddResponseCaching(options =>
+            {
+                options.MaximumBodySize = 1024;
+            });
             services.AddMemoryCache();
         }
 
@@ -365,25 +372,20 @@ namespace CriThink.Server.Web
 
         private static void SetupMediatR(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup), typeof(Bootstrapper));
+            services.AddMediatR(typeof(Infrastructure.Bootstrapper), typeof(Application.Bootstrapper));
+            services.AddFluentValidation(new[] { typeof(Application.Bootstrapper).Assembly });
         }
 
         private static void SetupInternalServices(IServiceCollection services)
         {
-            // Core
-            Core.Bootstrapper.AddCore(services);
-
             // Infrastructure
             services.AddInfrastructure();
 
+            // Application
+            services.AddApplication();
+
             // Services
             services.AddSingleton<IAppVersionService, AppVersionService>();
-
-            // Facades
-            services.AddTransient<IDebunkingNewsServiceFacade, DebunkingNewsServiceFacade>();
-            services.AddTransient<IUserManagementServiceFacade, UserManagementServiceFacade>();
-            services.AddTransient<INewsSourceFacade, NewsSourceFacade>();
-            services.AddTransient<ITriggerLogServiceFacade, TriggerLogServiceFacade>();
         }
 
         private static void SetupErrorHandling(IServiceCollection services)
@@ -444,7 +446,9 @@ namespace CriThink.Server.Web
 
         private static void SetupAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Core.Bootstrapper));
+            services.AddAutoMapper(
+                typeof(Application.Bootstrapper)
+                , typeof(Startup));
         }
 
         private void SetupRazorAutoReload(IServiceCollection services)
@@ -507,6 +511,11 @@ namespace CriThink.Server.Web
 
             services.Configure<HostOptions>(
                 opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));
+        }
+
+        private static void SetupFeatureManagement(IServiceCollection services)
+        {
+            services.AddFeatureManagement();
         }
 
         private static void MapHealthChecks(IEndpointRouteBuilder endpoints)

@@ -1,17 +1,18 @@
 using System;
-using System.Security.Claims;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Server.Core.Exceptions;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Commands;
+using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -23,17 +24,20 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.IdentityBase)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class IdentityController : Controller
     {
-        private readonly IIdentityService _identityService;
-        private readonly ILogger<IdentityController> _logger;
+        private readonly IMediator _mediator;
+        private readonly IIdentityQueries _identityQueries;
 
-        public IdentityController(IIdentityService identityService, ILogger<IdentityController> logger)
+        public IdentityController(IMediator mediator, IIdentityQueries identityQueries)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _logger = logger;
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
+
+            _identityQueries = identityQueries ??
+                throw new ArgumentNullException(nameof(identityQueries));
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [Consumes("multipart/form-data", "application/json")]
+        [Consumes("multipart/form-data")]
         [HttpPost]
         public async Task<IActionResult> SignUpUserAsync(
             [FromForm] UserSignUpRequest request,
@@ -72,8 +76,14 @@ namespace CriThink.Server.Web.Controllers
             [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
             IFormFile formFile)
         {
-            var creationResponse = await _identityService.CreateNewUserAsync(request, formFile);
-            return Ok(new ApiOkResponse(creationResponse));
+            var command = new CreateUserCommand(
+                request.Username,
+                request.Email,
+                request.Password,
+                formFile);
+
+            var response = await _mediator.Send(command);
+            return Ok(new ApiOkResponse(response));
         }
 
         /// <summary>
@@ -85,6 +95,7 @@ namespace CriThink.Server.Web.Controllers
         ///     POST: /api/identity/login
         ///     {
         ///         "email": "email",
+        ///         "username": "username",
         ///         "password": "password",
         ///     }
         /// 
@@ -103,21 +114,13 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginUserAsync([FromBody] UserLoginRequest request)
         {
-            try
-            {
-                var response = await _identityService.LoginUserAsync(request).ConfigureAwait(false);
-                return Ok(new ApiOkResponse(response));
-            }
-            catch (ResourceNotFoundException ex)
-            {
-                _logger?.LogError(ex, "User or password incorrect while login");
-            }
-            catch (InvalidOperationException ex)
-            {
-                _logger?.LogError(ex, "User or password incorrect while login");
-            }
+            var command = new LoginJwtUserCommand(
+                request.Email,
+                request.Username,
+                request.Password);
 
-            throw new ResourceNotFoundException("The user does not exist or the password is incorrect");
+            var response = await _mediator.Send(command);
+            return Ok(new ApiOkResponse(response));
         }
 
         /// <summary>
@@ -149,7 +152,11 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RefreshUserTokenAsync([FromBody] UserRefreshTokenRequest request)
         {
-            var response = await _identityService.ExchangeRefreshTokenAsync(request).ConfigureAwait(false);
+            var command = new ExchangeRefreshTokenCommand(
+                request.AccessToken,
+                request.RefreshToken);
+
+            var response = await _mediator.Send(command);
             return Ok(new ApiOkResponse(response));
         }
 
@@ -176,19 +183,13 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmailAsync([FromQuery] EmailConfirmationRequest request)
         {
-            var result = true;
+            var command = new VerifyAccountEmailCommand(
+                request.UserId,
+                request.Code);
 
-            try
-            {
-                await _identityService.VerifyAccountEmailAsync(request.UserId.ToString(), request.Code).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error confirming email");
-                result = false;
-            }
+            var response = await _mediator.Send(command);
 
-            return View("EmailConfirmation", result);
+            return View("EmailConfirmation", response is not null);
         }
 
         /// <summary>
@@ -205,7 +206,7 @@ namespace CriThink.Server.Web.Controllers
         ///     }
         /// 
         /// </remarks>
-        /// <param name="dto">User id and the code</param>
+        /// <param name="request">User id and the code</param>
         /// <response code="200">Returns the user info with the jwt token</response>
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
@@ -217,18 +218,14 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpPost]
-        public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest dto)
+        public async Task<IActionResult> ConfirmEmailFromMobileAsync([FromBody] EmailConfirmationRequest request)
         {
-            try
-            {
-                var userInfo = await _identityService.VerifyAccountEmailAsync(dto.UserId.ToString(), dto.Code).ConfigureAwait(false);
-                return Ok(new ApiOkResponse(userInfo));
-            }
-            catch (ResourceNotFoundException) { }
-            catch (InvalidOperationException) { }
-            catch (IdentityOperationException) { }
+            var command = new VerifyAccountEmailCommand(
+                request.UserId,
+                request.Code);
 
-            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
+            var response = await _mediator.Send(command);
+            return Ok(new ApiOkResponse(response));
         }
 
         /// <summary>
@@ -259,23 +256,16 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest dto)
         {
-            var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrWhiteSpace(userEmail))
-                return Unauthorized();
+            var userId = User.GetId();
 
-            try
-            {
+            var command = new UpdatePasswordCommand(
+                userId,
+                dto.CurrentPassword,
+                dto.NewPassword);
 
-                await _identityService
-                    .ChangeUserPasswordAsync(userEmail, dto.CurrentPassword, dto.NewPassword)
-                    .ConfigureAwait(false);
+            await _mediator.Send(command);
 
-                return NoContent();
-            }
-            catch (ResourceNotFoundException) { }
-            catch (InvalidOperationException) { }
-
-            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
+            return NoContent();
         }
 
         /// <summary>
@@ -305,15 +295,11 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RequestTemporaryTokenAsync([FromBody] ForgotPasswordRequest dto)
         {
-            try
-            {
-                await _identityService.GenerateUserPasswordTokenAsync(dto.Email, dto.UserName).ConfigureAwait(false);
-                return NoContent();
-            }
-            catch (ResourceNotFoundException) { }
-            catch (InvalidOperationException) { }
+            var command = new ForgotPasswordCommand(
+                dto.Email, dto.UserName);
 
-            throw new ResourceNotFoundException("The user does not exist");
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         /// <summary>
@@ -344,17 +330,14 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetUserPasswordAsync([FromBody] ResetPasswordRequest dto)
         {
-            try
-            {
-                await _identityService.ResetUserPasswordAsync(dto.UserId, dto.Token, dto.NewPassword)
-                    .ConfigureAwait(false);
+            var command = new ResetUserPasswordCommand(
+                dto.UserId,
+                dto.Token,
+                dto.NewPassword);
 
-                return NoContent();
-            }
-            catch (ResourceNotFoundException) { }
-            catch (InvalidOperationException) { }
+            await _mediator.Send(command);
 
-            throw new ResourceNotFoundException("The user does not exist or the code is invalid");
+            return NoContent();
         }
 
         /// <summary>
@@ -384,7 +367,12 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
         {
-            var response = await _identityService.ExternalProviderLoginAsync(dto).ConfigureAwait(false);
+            var command = new LoginJwtUsingExternalProviderCommand(
+                dto.SocialProvider,
+                dto.UserToken);
+
+            var response = await _mediator.Send(command);
+
             return Ok(new ApiOkResponse(response));
         }
 
@@ -414,7 +402,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
         {
-            var response = await _identityService.GetUsernameAvailabilityAsync(dto).ConfigureAwait(false);
+            var response = await _identityQueries.AnyUserByUsernameAsync(dto.Username);
             return Ok(new ApiOkResponse(response));
         }
 
@@ -438,7 +426,11 @@ namespace CriThink.Server.Web.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteUserAsync()
         {
-            var response = await _identityService.SoftDeleteUserAsync();
+            var userId = User.GetId();
+
+            var command = new DeleteUserCommand(userId);
+
+            var response = await _mediator.Send(command);
             return Ok(new ApiOkResponse(response));
         }
 
@@ -452,6 +444,7 @@ namespace CriThink.Server.Web.Controllers
         ///     PATCH: /api/identity/restore-user
         ///     {
         ///         "email": "email",
+        ///         "username": "username"
         ///     }
         ///     
         /// </remarks>
@@ -468,7 +461,12 @@ namespace CriThink.Server.Web.Controllers
         [HttpPatch]
         public async Task<IActionResult> RestoreUserAsync([FromBody] RestoreUserRequest dto)
         {
-            await _identityService.RestoreUserAsync(dto);
+            var command = new RestoreUserCommand(
+                dto.Email,
+                dto.Username);
+
+            await _mediator.Send(command);
+
             return NoContent();
         }
     }

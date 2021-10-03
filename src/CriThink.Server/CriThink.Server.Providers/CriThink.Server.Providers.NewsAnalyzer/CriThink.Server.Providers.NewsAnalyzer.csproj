@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.3.0" />
     <PackageReference Include="SmartReader" Version="0.7.5" />
   </ItemGroup>
 

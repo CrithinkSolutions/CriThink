@@ -84,7 +84,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 if (EmailHelper.IsEmail(EmailOrUsername))
                     request.Email = EmailOrUsername.ToUpperInvariant();
                 else
-                    request.UserName = EmailOrUsername.ToUpperInvariant();
+                    request.Username = EmailOrUsername.ToUpperInvariant();
 
                 userInfo = await IdentityService.PerformLoginAsync(request, cancellationToken)
                     .ConfigureAwait(false);

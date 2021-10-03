@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-#pragma warning disable CA1056 // URI-like properties should not be strings
 namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.NewsSource
 {
     public class IndexViewModel
     {
-        public IEnumerable<NewsSource> NewsSources { get; set; }
+        public IndexViewModel(
+            IEnumerable<NewsSourceViewModel> newsSources,
+            bool hasNextPage)
+        {
+            NewsSources = newsSources.ToList();
+            HasNextPage = hasNextPage;
+        }
 
-        public bool HasNextPage { get; set; }
-    }
+        public ICollection<NewsSourceViewModel> NewsSources { get; }
 
-    public class NewsSource
-    {
-        public string Uri { get; set; }
-
-        public Classification Classification { get; set; }
+        public bool HasNextPage { get; }
     }
 }

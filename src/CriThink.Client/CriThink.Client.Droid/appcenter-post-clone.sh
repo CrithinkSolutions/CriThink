@@ -15,3 +15,6 @@ cd Constants/
 
 find DeepLinkConstants.cs -type f -exec sed -i '' -e 's/crithinkdemo.com/'"$SCHEMA_HOST"'/' {} \;
 
+cd ../Properties/
+find AndroidManifest.xml -type f -exec sed -i '' -e 's/CriThink Dev/'"$APP_NAME"'/' {} \;
+find AndroidManifest.xml -type f -exec sed -i '' -e 's/com.crithink.client.dev/'"$PACKAGE_NAME"'/' {} \;

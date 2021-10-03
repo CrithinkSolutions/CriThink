@@ -1,0 +1,10 @@
+# C# files
+[*.cs]
+
+#### Diagnostic configuration ####
+# CA1054: URI-like parameters should not be strings
+dotnet_diagnostic.CA1054.severity = none
+# CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1056.severity = none
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none

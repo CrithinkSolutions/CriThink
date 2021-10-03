@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Statistics;
-using CriThink.Server.Core.Interfaces;
+using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -18,15 +20,15 @@ namespace CriThink.Server.Web.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route(EndpointConstants.ApiBase + EndpointConstants.StatisticsBase)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class StatisticsController : ControllerBase
     {
-        private readonly IStatisticsService _statisticsService;
+        private readonly IStatisticsQueries _statisticsQueries;
 
-        public StatisticsController(IStatisticsService statisticsService)
+        public StatisticsController(IStatisticsQueries statisticsQueries)
         {
-            _statisticsService = statisticsService ?? throw new ArgumentNullException(nameof(statisticsService));
+            _statisticsQueries = statisticsQueries ?? throw new ArgumentNullException(nameof(statisticsQueries));
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlatformUsageDataAsync()
         {
-            var users = await _statisticsService.GetPlatformDataUsageAsync();
+            var users = await _statisticsQueries.GetPlatformUsageDataAsync();
             return Ok(new ApiOkResponse(users));
         }
 
@@ -75,7 +77,9 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTotalUserSearchesAsync()
         {
-            var userTotalSearches = await _statisticsService.GetUserTotalSearchesAsync();
+            var userId = User.GetId();
+
+            var userTotalSearches = await _statisticsQueries.GetTotalSearchesByUserIdAsync(userId);
             return Ok(new ApiOkResponse(userTotalSearches));
         }
     }

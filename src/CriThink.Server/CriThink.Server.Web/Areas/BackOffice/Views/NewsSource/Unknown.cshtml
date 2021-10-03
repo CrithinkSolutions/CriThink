@@ -1,4 +1,4 @@
-﻿@model CriThink.Common.Endpoints.DTOs.Admin.UnknownNewsSourceGetAllResponse;
+﻿@model CriThink.Server.Application.Administration.ViewModels.UnknownNewsSourceGetAllViewModel;
 
 @{
     Layout = "_LayoutPagination";
@@ -16,30 +16,30 @@
 
 @section sidebarRight
 {
-    <table class="table" id="featureT">
-            <thead>
-                <tr>
-                    <th>Uri</th>
-                    <th>Request Count</th>
-                    <th>Requested At</th>
-                    <th>Authenticity</th>
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            @foreach (var uNews in Model.UnknownNewsSourceCollection)
-            {
-                <tr>
-                    <td>@uNews.Uri</td>
-                    <td>@uNews.RequestCount</td>
-                    <td>@uNews.RequestedAt</td>
-                    <td>@uNews.Authenticity</td>
-                    <td style="width:8%">
-                        <div>
-                            <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Identify" asp-route-id="@uNews.Id"><button class="btn btn-warning"><i class="fas fa-pen"></i></button></a>
-                        </div>
-                    </td>
-                </tr>
-            }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Uri</th>
+                <th>Request Count</th>
+                <th>Requested At</th>
+                <th>Authenticity</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        @foreach (var uNews in Model.UnknownNewsSourceCollection)
+        {
+            <tr>
+                <td>@uNews.Uri</td>
+                <td>@uNews.RequestCount</td>
+                <td>@uNews.RequestedAt</td>
+                <td>@uNews.Authenticity</td>
+                <td style="width:8%">
+                    <div>
+                        <a asp-area="BackOffice" asp-controller="NewsSource" asp-action="Identify" asp-route-id="@uNews.Id"><button class="btn btn-outline-warning"><i class="fas fa-pen"></i></button></a>
+                    </div>
+                </td>
+            </tr>
+        }
     </table>
 }
 
@@ -49,21 +49,3 @@
 }
 
 <div id="hasNextPage" class="d-none">@Model.HasNextPage</div>
-
-@section Scripts
-{
-    <script text="text/javascript">
-
-        $(function(){
-
-            $('#featureT').DataTable({
-                paging: false,
-                ordering: false,
-                info: false,
-                responsive: true
-            });
-
-        }); 
-
-    </script>
-}

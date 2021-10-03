@@ -61,20 +61,19 @@
 
         public const string NewsSourceRemoveNewsSource = "remove";
         public const string NewsSourceSearch = "search";
-        public const string NewsSourceRegisterForNotification = "register-for-notification";
         public const string NewsSourcesGetAllNotifications = "notification-requests";
         public const string NewsSourcesGetAllUnknownNewsSources = "get-all-unknown";
         public const string NewsSourceTriggerIdentifiedSource = "identify";
         public const string NewsSourceAddBatch = "add/batch";
+        public const string NewsSourceAllQuestions = "question/all";
+        public const string NewsSourcePostAnswerToQuestions = "question";
 
         #endregion
 
-        #region Article
+        #region Notification
 
-        public const string ArticleBase = "article/";
-
-        public const string ArticleAllQuestions = "question/all";
-        public const string ArticlePostAnswerToQuestions = "question";
+        public const string NotificationBase = "notification/";
+        public const string NotificationUnknownNewsSource = "unknown-source";
 
         #endregion
 

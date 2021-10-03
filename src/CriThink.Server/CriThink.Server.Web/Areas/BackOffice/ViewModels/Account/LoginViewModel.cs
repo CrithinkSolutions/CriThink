@@ -17,5 +17,7 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.Account
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

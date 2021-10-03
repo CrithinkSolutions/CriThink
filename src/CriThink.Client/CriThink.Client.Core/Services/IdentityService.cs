@@ -175,7 +175,7 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                UserSignUpResponse response = await _identityApi.SignUpAsync(request.UserName, request.Email, request.Password, streamPart, cancellationToken)
+                UserSignUpResponse response = await _identityApi.SignUpAsync(request.Username, request.Email, request.Password, streamPart, cancellationToken)
                     .ConfigureAwait(false);
 
                 return response;
