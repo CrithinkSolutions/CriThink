@@ -44,6 +44,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:textStyle="bold"
+                tools:text="Title"
                 android:textSize="@dimen/textSize_title"
                 android:gravity="center" />
 
