@@ -7,7 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/white</item>        
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -55,8 +58,33 @@
     <style name="FlatWhiteRoundCornerButton" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_button_radius</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="colorControlHighlight">@android:color/transparent</item>
-
+        <item name="colorControlHighlight">?android:attr/colorAccent</item>
+        <item name="android:textSize">@dimen/textSize_button</item>
     </style>
-    
+     <style name="OutlinedRoundedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">    
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/accent</item>
+        <item name="boxStrokeColor">@drawable/text_input_box_stroke_color</item>
+        <item name="android:textColor">@color/editText_textColor</item>
+        <item name="shapeAppearanceOverlay">
+          @style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded
+        </item>
+  </style>
+
+  <style name="ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">32dp</item>
+  </style>
+
+  <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+    <item name="colorControlNormal">@android:color/white</item>
+  </style>
+
+   <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded</item>
+  </style>
+   <style name="ShapeAppearanceOverlay.MyApp.Dialog.Rounded" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">25dp</item>
+  </style>
 </resources>

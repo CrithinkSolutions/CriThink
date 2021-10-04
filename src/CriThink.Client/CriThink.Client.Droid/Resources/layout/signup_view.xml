@@ -111,6 +111,7 @@
           app:layout_constraintBottom_toTopOf="@id/viewLogin"
           android:layout_marginBottom="@dimen/margin_large"
           android:drawableLeft="@drawable/btn_signup"
+          android:textSize="@dimen/textSize_button"
           android:textColor="@android:color/white"
           tools:text="Registrati con la tua email"
           android:textAllCaps="false"/>

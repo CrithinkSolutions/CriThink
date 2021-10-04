@@ -306,11 +306,17 @@
   <data name="SignUpViewModel.Google" xml:space="preserve">
     <value>SignUp with Google</value>
   </data>
-  <data name="SignUpViewModel.Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
   <data name="SignUpViewModel.SignUpCaption" xml:space="preserve">
     <value>It's easier to sign up now</value>
+  </data>
+  <data name="SignUpViewModel.DialogOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SignUpViewModel.DialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+    <data name="SignUpViewModel.EmailHint" xml:space="preserve">
+    <value>Email or username</value>
   </data>
   <data name="SignUpViewModel.SignUpEmail" xml:space="preserve">
     <value>SignUp with Email</value>
@@ -563,5 +569,8 @@
   </data>
   <data name="NewsCheckerViewModel.Hello" xml:space="preserve">
     <value>Hello</value>
+  </data>
+  <data name="SignUpViewModel.DialogTitle" xml:space="preserve">
+      <value></value>
   </data>
 </root>
