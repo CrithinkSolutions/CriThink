@@ -24,6 +24,7 @@ namespace CriThink.Client.Droid.Views.Users
         private AppCompatButton _btnFb;
         private AppCompatButton _btnGoogle;
         private AlertDialog _alertDialog;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
