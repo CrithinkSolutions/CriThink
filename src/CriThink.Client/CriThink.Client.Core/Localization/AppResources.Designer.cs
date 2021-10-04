@@ -245,6 +245,12 @@ namespace CriThink.Client.Core.Localization {
             }
         }
         
+        internal static string LoginViewModel_OrAccount {
+            get {
+                return ResourceManager.GetString("LoginViewModel.OrAccount", resourceCulture);
+            }
+        }
+        
         internal static string NewsCheckerResultViewModel_ClassificationHeader {
             get {
                 return ResourceManager.GetString("NewsCheckerResultViewModel.ClassificationHeader", resourceCulture);

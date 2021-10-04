@@ -1,13 +1,17 @@
 ﻿using System;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
+using AndroidX.Core.Content;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -30,16 +34,20 @@ namespace CriThink.Client.Droid.Views.Users
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
             var emailOrUsername = FindViewById<BindableEditText>(Resource.Id.txtEdit_emailOrUsername);
             var password = FindViewById<BindableEditText>(Resource.Id.txtEdit_password);
             var txtInputPassword = FindViewById<TextInputLayout>(Resource.Id.txtInput_password);
             var loader = FindViewById<LoaderView>(Resource.Id.loader);
-            var txtInputEmail = FindViewById<TextInputLayout>(Resource.Id.txtInput_email);
+            var txtInputEmail = FindViewById<TextInputLayout>(Resource.Id.txtInput_emailOrUsername);
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
+            var tvHeaderEmailOrUsername = FindViewById<TextView>(Resource.Id.tv_header_emailOrUsername);
+            var tvHeaderPassword = FindViewById<TextView>(Resource.Id.tv_header_password);
+            var txtOrSocial = FindViewById<AppCompatTextView>(Resource.Id.txtOrAccount);
+
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)
@@ -55,9 +63,9 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(emailOrUsername).For(v => v.KeyCommand).To(vm => vm.LoginCommand);
             set.Bind(password).To(vm => vm.Password);
             set.Bind(password).For(v => v.KeyCommand).To(vm => vm.LoginCommand);
-
-            set.Bind(txtInputPassword).For(v => v.Hint).ToLocalizationId("PasswordHint");
-            set.Bind(txtInputEmail).For(v => v.Hint).ToLocalizationId("EmailHint");
+            set.Bind(txtOrSocial).ToLocalizationId("OrAccount");
+            set.Bind(tvHeaderPassword).For(v => v.Text).ToLocalizationId("PasswordHint");
+            set.Bind(tvHeaderEmailOrUsername).For(v => v.Text).ToLocalizationId("EmailHint");
             set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
             set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");

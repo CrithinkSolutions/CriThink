@@ -216,6 +216,9 @@
   <data name="LoginViewModel.PasswordHint" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="LoginViewModel.OrAccount" xml:space="preserve">
+    <value>Or</value>
+  </data>
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
     <value>We think this website is {0}</value>
   </data>

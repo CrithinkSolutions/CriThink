@@ -127,19 +127,21 @@
           app:layout_constraintBottom_toTopOf="@id/txtOrAccount">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alreadyAccount"
+                 tools:text="Hai già un account? "
                 android:textSize="@dimen/textSize_small"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                tools:text="Login"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnLogin"
                 android:background="@null"
                 android:textColor="@color/accent"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:paddingLeft="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_extraSmall"
                 android:textAllCaps="false"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
