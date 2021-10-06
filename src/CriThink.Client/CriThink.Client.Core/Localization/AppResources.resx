@@ -216,6 +216,9 @@
   <data name="LoginViewModel.PasswordHint" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="LoginViewModel.OrAccount" xml:space="preserve">
+    <value>Or</value>
+  </data>
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
     <value>We think this website is {0}</value>
   </data>
@@ -306,11 +309,17 @@
   <data name="SignUpViewModel.Google" xml:space="preserve">
     <value>SignUp with Google</value>
   </data>
-  <data name="SignUpViewModel.Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
   <data name="SignUpViewModel.SignUpCaption" xml:space="preserve">
     <value>It's easier to sign up now</value>
+  </data>
+  <data name="SignUpViewModel.DialogOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SignUpViewModel.DialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SignUpViewModel.EmailHint" xml:space="preserve">
+    <value>Email or username</value>
   </data>
   <data name="SignUpViewModel.SignUpEmail" xml:space="preserve">
     <value>SignUp with Email</value>
@@ -563,5 +572,11 @@
   </data>
   <data name="NewsCheckerViewModel.Hello" xml:space="preserve">
     <value>Hello</value>
+  </data>
+  <data name="SignUpViewModel.DialogTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SignUpViewModel.Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

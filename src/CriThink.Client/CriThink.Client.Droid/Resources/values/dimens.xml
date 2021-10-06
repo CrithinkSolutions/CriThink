@@ -2,6 +2,7 @@
 
   <!-- Margins -->
   <dimen name="margin_huge">128dp</dimen>
+  <dimen name="margin_half_huge">64dp</dimen>
   <dimen name="margin_veryBig">48dp</dimen>
   <dimen name="margin_big">32dp</dimen>
   <dimen name="margin_large">28dp</dimen>
@@ -16,6 +17,9 @@
   <dimen name="padding_card">12dp</dimen>
   <dimen name="padding_tag_x">12dp</dimen>
   <dimen name="padding_tag_y">3dp</dimen>
+  <dimen name="padding_top_alert">18dp</dimen>
+  <dimen name="padding_x_alert">18dp</dimen>
+  <dimen name="padding_bottom_alert">24dp</dimen>
 
   <!-- FontSize -->
   <dimen name="textSize_huge">64sp</dimen>
@@ -27,11 +31,12 @@
   <dimen name="textSize_subheader">16sp</dimen>
   <dimen name="textSize_littleBig">14sp</dimen>
   <dimen name="textSize_small">12sp</dimen>
+  <dimen name="textSize_button">16dp</dimen>
 
   <!-- Buttons -->
   <dimen name="btn_elevation">20dp</dimen>
   <dimen name="btn_radius">25dp</dimen>
-
+  <dimen name="btn_min_width">100dp</dimen>
   <!-- Image View -->
   <dimen name="imgSize_publisherSmall">30dp</dimen>
   <dimen name="imgSize_loader">56dp</dimen>
@@ -43,6 +48,7 @@
   <dimen name="imgSize_medium">48dp</dimen>
   <dimen name="imgSize_debunkingCollection">100dp</dimen>
   <dimen name="imgSize_bigLogo">100dp</dimen>
+  <dimen name="imgSize_halfBigLogo">50dp</dimen>
   <dimen name="imgSize_veryBigLogo">160dp</dimen>
   <dimen name="img_corners_radius">25dp</dimen>
   <dimen name="imgSize_userInfoIcons">20dp</dimen>
@@ -50,6 +56,7 @@
   <!-- Edit Text -->
   <dimen name="edittext_padding">13dp</dimen>
   <dimen name="edittext_corners_radius">25dp</dimen>
+
 
   <!-- Bottom Sheet -->
   <dimen name="bottomsheet_corners_radius">25dp</dimen>

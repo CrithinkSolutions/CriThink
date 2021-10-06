@@ -2,11 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/root">
-    
+    android:id="@+id/root"
+    android:background="@color/welcomeBackground"
+    android:fitsSystemWindows="true">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,8 +21,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_page"
-            android:paddingRight="@dimen/padding_page"
             android:id="@+id/viewInnerLayout">
 
             <include
@@ -32,21 +32,15 @@
                 android:id="@+id/appBarLayout"
                 layout="@layout/toolbar"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guidelineAllHorizontal"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.25" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtTitle"
-                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+                tools:text="Title"
+                app:layout_goneMarginTop="@dimen/margin_medium"
+                android:textColor="@android:color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:textStyle="bold"
                 android:textSize="@dimen/textSize_title"
                 android:gravity="center" />
@@ -55,13 +49,189 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtCaption"
+                tools:text="Caption"
+                android:textSize="@dimen/textSize_subheader"   
+                android:textColor="@android:color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTitle"
-                android:textSize="@dimen/textSize_subheader"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/round_background"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_big"
+                android:id="@+id/layoutCredentials"
+                android:focusableInTouchMode="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCaption"
+                app:layout_constraintBottom_toBottomOf="parent">
 
+
+                <!-- Email -->
+                <TextView
+                    android:id="@+id/tv_header_emailOrUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_big"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    tools:text="Email"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtInput_emailOrUsername"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_emailOrUsername"
+                    style="@style/OutlinedRoundedBox"
+                    app:hintAnimationEnabled="false"
+                    app:expandedHintEnabled="false"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end">
+                    <CriThink.BindableEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/editText_textColor"
+                        android:id="@+id/txtEdit_emailOrUsername"
+                        android:inputType="textEmailAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Password -->
+                <TextView
+                    android:id="@+id/tv_header_password"
+                    app:layout_constraintTop_toBottomOf="@id/txtInput_emailOrUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Password"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtInput_password"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_password"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="@dimen/margin_mini"
+                    style="@style/OutlinedRoundedBox">
+                    <CriThink.BindableEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtEdit_password"
+                        android:textColor="@color/editText_textColor"
+                        android:inputType="textPassword"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Forgot password -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintTop_toBottomOf="@id/txtInput_password"
+                android:id="@+id/btnForgotPassword"
+                android:layout_marginTop="@dimen/margin_extraSmall"
+                android:background="@null"
+                tools:text="Password"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:gravity="right"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/textSize_small"/>
+                
+               <!-- Btn login -->
+              <androidx.appcompat.widget.AppCompatButton
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  style="?android:attr/borderlessButtonStyle"
+                  android:id="@id/btnLogin"
+                  android:background="@drawable/orange_bg_button_radius"
+                  app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+                  app:layout_constraintRight_toRightOf="@id/guideline_end"
+                  app:layout_constraintTop_toBottomOf="@id/btnForgotPassword"
+                  android:layout_marginTop="@dimen/margin_littleBig"
+                  android:textSize="@dimen/textSize_button"
+                  android:textColor="@android:color/white"
+                  tools:text="Log In"
+                  android:textAllCaps="false"/>
+
+                <View
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_width="@dimen/line_width"
+                    android:layout_height="1dp"
+                    app:layout_constraintRight_toLeftOf="@id/txtOrAccount"
+                    android:background="@color/borderColor"
+                    app:layout_constraintBottom_toBottomOf="@id/txtOrAccount"
+                    app:layout_constraintTop_toTopOf="@id/txtOrAccount"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtOrAccount"
+                    tools:text="or"
+                    android:textSize="@dimen/textSize_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="@dimen/margin_littleBig"
+                    app:layout_constraintRight_toRightOf="parent"  
+                    app:layout_constraintTop_toBottomOf="@id/btnLogin"/>
+            
+                <View
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_width="@dimen/line_width"
+                    android:layout_height="1dp"  
+                    app:layout_constraintLeft_toRightOf="@id/txtOrAccount"
+                    android:background="@color/borderColor"
+                    app:layout_constraintBottom_toBottomOf="@id/txtOrAccount"
+                    app:layout_constraintTop_toTopOf="@id/txtOrAccount"/>
+
+                
+                <!-- Facebook -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnFb"
+                    tools:text="Registrati con Facebook"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+                    app:layout_constraintRight_toRightOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/txtOrAccount"
+                    android:layout_marginTop="@dimen/margin_littleBig"
+                    android:textColor="@color/textColor"
+                    android:drawableLeft="@drawable/btn_fb"
+                    style="@style/FlatWhiteRoundCornerButton"
+                    android:textAllCaps="false"
+                    android:elevation="0dp" />
+            
+                <!-- Google -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnGoogle"
+                    tools:text="Registrati con Google"
+                    android:textColor="@color/textColor"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+                    app:layout_constraintRight_toRightOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/btnFb"
+                    style="@style/FlatWhiteRoundCornerButton"
+                    android:textAllCaps="false"
+                    android:drawableLeft="@drawable/btn_google"/>
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/margin_large"/> 
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/margin_large"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <LoaderView
                 android:layout_width="@dimen/imgSize_loader"
                 android:layout_height="@dimen/imgSize_loader"
@@ -71,117 +241,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
             
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layoutCredentials"
-                android:focusableInTouchMode="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_big"
-                app:layout_constraintTop_toBottomOf="@id/guidelineAllHorizontal"
-                app:layout_constraintBottom_toTopOf="@id/btnFb">
-                
-                <!-- Email -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtInput_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/txtInput_password"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <CriThink.BindableEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtEdit_emailOrUsername"
-                        android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                
-                <!-- Password -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtInput_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginBottom="@dimen/margin_mini"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <CriThink.BindableEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtEdit_password"
-                        android:inputType="textPassword"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guidelineHorizontal"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.5"/>
-                
-                <!-- Forgot password -->
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
-                    android:id="@+id/btnForgotPassword"
-                    android:background="@null"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:gravity="right"
-                    android:textSize="@dimen/textSize_small"/>
-                
-                <!-- Btn login -->
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnLogin"
-                    android:background="@android:color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnForgotPassword"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:backgroundTint="@color/colorBlue"
-                    android:radius="@dimen/btn_radius"
-                    android:textColor="@android:color/white"
-                    android:elevation="@dimen/btn_elevation"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Facebook -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnFb"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/btnGoogle"
-                android:layout_marginBottom="@dimen/margin_littleBig"
-                android:textColor="@android:color/black"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/btn_fb"
-                android:elevation="@dimen/btn_elevation"
-                android:layout_marginTop="@dimen/margin_huge" />
-        
-            <!-- Google -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnGoogle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:textColor="@android:color/black"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/btn_google"
-                android:elevation="@dimen/btn_elevation"
-                android:layout_marginBottom="@dimen/margin_big" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
