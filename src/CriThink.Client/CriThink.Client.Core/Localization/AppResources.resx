@@ -318,7 +318,7 @@
   <data name="SignUpViewModel.DialogCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-    <data name="SignUpViewModel.EmailHint" xml:space="preserve">
+  <data name="SignUpViewModel.EmailHint" xml:space="preserve">
     <value>Email or username</value>
   </data>
   <data name="SignUpViewModel.SignUpEmail" xml:space="preserve">
@@ -574,6 +574,9 @@
     <value>Hello</value>
   </data>
   <data name="SignUpViewModel.DialogTitle" xml:space="preserve">
-      <value></value>
+    <value />
+  </data>
+  <data name="SignUpViewModel.Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>
