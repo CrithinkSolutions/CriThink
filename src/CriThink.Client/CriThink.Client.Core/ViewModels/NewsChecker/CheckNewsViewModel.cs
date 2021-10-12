@@ -58,6 +58,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private IMvxCommand _clearTextCommand;
         public IMvxCommand ClearTextCommand => _clearTextCommand ??= new MvxCommand(DoClearTextCommand);
 
+
+        private IMvxAsyncCommand<RecentNewsChecksModel> _deleteHistoryRecentNewsItemCommand;
+        public IMvxAsyncCommand<RecentNewsChecksModel> DeleteHistoryRecentNewsItemCommand => _deleteHistoryRecentNewsItemCommand ??=
+            new MvxAsyncCommand<RecentNewsChecksModel>(DeleteHistoryRecentNews);
+
+
         #endregion
 
         public override async Task Initialize()
@@ -92,9 +98,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private void DoClearTextCommand() => NewsUri = string.Empty;
 
+        private Task DeleteHistoryRecentNews(RecentNewsChecksModel recentNewsChecksModel)
+        {
+            return Task.FromResult(false);
+        }
+
         private async Task UpdateLatestNewsChecksAsync()
         {
-            var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
+            var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync(DeleteHistoryRecentNewsItemCommand).ConfigureAwait(false);
             if (modelCollection != null && modelCollection.Any())
             {
                 RecentNewsChecksCollection.Clear();

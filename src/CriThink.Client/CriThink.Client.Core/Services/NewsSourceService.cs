@@ -11,6 +11,7 @@ using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints.DTOs.Notification;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
@@ -39,12 +40,12 @@ namespace CriThink.Client.Core.Services
             _logger = logger;
         }
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
+        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand)
         {
             var entities = await _sqlRepo.GetLatestNewsChecks().ConfigureAwait(false);
 
             var models = entities.Select(e =>
-                new RecentNewsChecksModel
+                new RecentNewsChecksModel(deleteHistoryRecentNewsItemCommand)
                 {
                     Id = e.Id,
                     Classification = e.Classification,
@@ -109,7 +110,7 @@ namespace CriThink.Client.Core.Services
 
     public interface INewsSourceService
     {
-        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync();
+        Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand);
 
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
     }

@@ -6,6 +6,7 @@ using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
+using MvvmCross.Commands;
 using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
@@ -32,13 +33,13 @@ namespace CriThink.Client.Core.Services
             _token = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ?? throw new ArgumentNullException(nameof(messenger));
         }
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync()
+        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand)
         {
             return await _memoryCache.GetOrCreateAsync(RecentNewsSourceCacheKey, async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
-                return await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
+                return await _newsSourceService.GetLatestNewsChecksAsync(deleteHistoryRecentNewsItemCommand).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 

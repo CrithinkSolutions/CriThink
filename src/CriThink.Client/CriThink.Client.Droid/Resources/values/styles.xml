@@ -72,7 +72,7 @@
 
   <style name="ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded" parent="">
     <item name="cornerFamily">rounded</item>
-    <item name="cornerSize">32dp</item>
+    <item name="cornerSize">25dp</item>
   </style>
 
   <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
