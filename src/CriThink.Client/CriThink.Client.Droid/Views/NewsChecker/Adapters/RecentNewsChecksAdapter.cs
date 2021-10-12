@@ -7,6 +7,7 @@ using CriThink.Client.Core.Models.NewsChecker;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 
 // ReSharper disable once CheckNamespace
@@ -36,20 +37,21 @@ namespace CriThink.Client.Droid.Views.NewsChecker
     {
         private readonly AppCompatTextView _txtLink;
         private readonly MvxCachedImageView _imgWebsite;
+        private readonly AppCompatImageButton _btnHistoryDelete;
 
         public RecentNewsCheckesViewHolder(View itemView, IMvxAndroidBindingContext context)
             : base(itemView, context)
         {
             _txtLink = itemView.FindViewById<AppCompatTextView>(Resource.Id.txtLink);
             _imgWebsite = itemView.FindViewById<MvxCachedImageView>(Resource.Id.imgWebsite);
-
+            _btnHistoryDelete = itemView.FindViewById<AppCompatImageButton>(Resource.Id.btnHistoryDelete);
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<RecentNewsCheckesViewHolder, RecentNewsChecksModel>();
 
                 set.Bind(_txtLink).To(vm => vm.NewsLink);
                 set.Bind(_imgWebsite).For(v => v.ImagePath).To(vm => vm.NewsImageLink);
-
+                set.Bind(_btnHistoryDelete).For(v => v.BindClick()).To(vm => vm.DeleteHistoryRecentNewsItemCommand);
                 set.Apply();
             });
         }
