@@ -124,7 +124,7 @@
     <value>Ultime ricerche</value>
   </data>
   <data name="CheckNewsViewModel.Title" xml:space="preserve">
-    <value>Check news</value>
+    <value>Ricerca</value>
   </data>
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
     <value>Cerca qui</value>
