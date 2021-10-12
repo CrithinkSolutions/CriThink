@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 
@@ -50,6 +51,10 @@ namespace CriThink.Client.Core.Models.NewsChecker
         private IMvxAsyncCommand<RecentNewsChecksModel> _deleteHistoryRecentNewsItemCommand;
         public IMvxAsyncCommand<RecentNewsChecksModel> DeleteHistoryRecentNewsItemCommand => _deleteHistoryRecentNewsItemCommand;
 
+        public Task DeleteHistoryRecentNewsItem()
+        {
+            return DeleteHistoryRecentNewsItemCommand.ExecuteAsync(this);
+        }
 
     }
 }
