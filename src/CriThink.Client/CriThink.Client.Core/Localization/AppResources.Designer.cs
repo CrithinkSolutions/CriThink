@@ -185,6 +185,12 @@ namespace CriThink.Client.Core.Localization {
             }
         }
         
+        internal static string CheckNewsViewModel_Title {
+            get {
+                return ResourceManager.GetString("CheckNewsViewModel.Title", resourceCulture);
+            }
+        }
+        
         internal static string CheckNewsViewModel_RecentSearch {
             get {
                 return ResourceManager.GetString("CheckNewsViewModel.RecentSearch", resourceCulture);

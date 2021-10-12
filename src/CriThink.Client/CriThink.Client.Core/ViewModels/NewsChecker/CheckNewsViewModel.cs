@@ -95,6 +95,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private async Task UpdateLatestNewsChecksAsync()
         {
             var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync().ConfigureAwait(false);
+            modelCollection.Add(new RecentNewsChecksModel() { Id = 1, Classification = "IDK", NewsLink = "https://google.it", SearchDateTime = DateTime.Now });
             if (modelCollection != null && modelCollection.Any())
             {
                 RecentNewsChecksCollection.Clear();

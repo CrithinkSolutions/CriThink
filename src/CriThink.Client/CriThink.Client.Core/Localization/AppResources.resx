@@ -186,6 +186,9 @@
   <data name="CheckNewsViewModel.NewsLinkHint" xml:space="preserve">
     <value>Search here</value>
   </data>
+  <data name="CheckNewsViewModel.Title" xml:space="preserve">
+    <value>Check news</value>
+  </data>
   <data name="CheckNewsViewModel.RecentSearch" xml:space="preserve">
     <value>Recent search</value>
   </data>

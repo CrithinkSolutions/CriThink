@@ -13,7 +13,8 @@
   <dimen name="margin_mini">6dp</dimen>
 
   <!-- Padding -->
-  <dimen name="padding_page">16dp</dimen>
+  <dimen name="padding_page">18dp</dimen>
+  <dimen name="padding_mini">9dp</dimen>
   <dimen name="padding_card">12dp</dimen>
   <dimen name="padding_tag_x">12dp</dimen>
   <dimen name="padding_tag_y">3dp</dimen>
@@ -38,6 +39,7 @@
   <dimen name="btn_radius">25dp</dimen>
   <dimen name="btn_min_width">100dp</dimen>
   <!-- Image View -->
+  <dimen name="imgSize_icon">16dp</dimen>
   <dimen name="imgSize_publisherSmall">30dp</dimen>
   <dimen name="imgSize_loader">56dp</dimen>
   <dimen name="imgSize_mini">20dp</dimen>
