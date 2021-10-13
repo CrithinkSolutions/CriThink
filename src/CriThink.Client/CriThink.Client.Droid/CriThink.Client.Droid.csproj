@@ -117,6 +117,8 @@
     <Compile Include="Extensions\ShimmerExtensions.cs" />
     <Compile Include="Constants\FFImageConstants.cs" />
     <Compile Include="Views\NewsChecker\Activities\CheckNewsView.cs" />
+    <Compile Include="Views\NewsChecker\Dialogs\QuestionAboutNewsView.cs" />
+    <Compile Include="Views\NewsChecker\Activities\WebviewNewsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\53513-confetti.json" />

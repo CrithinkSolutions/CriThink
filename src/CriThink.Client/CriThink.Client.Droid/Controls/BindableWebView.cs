@@ -36,8 +36,10 @@ namespace CriThink.Client.Droid.Controls
             }
         }
 
+
+
         protected override void OnAttachedToWindow()
-        {
+         {
             base.OnAttachedToWindow();
             VerticalScrollBarEnabled = true;
             ScrollBarStyle = ScrollbarStyles.OutsideOverlay;
