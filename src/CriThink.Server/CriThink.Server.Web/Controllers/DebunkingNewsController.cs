@@ -116,10 +116,16 @@ namespace CriThink.Server.Web.Controllers
             var hasLanguage = Request.Headers.TryGetValue("Accept-Language", out var languageValues);
             if (hasLanguage && languageValues.Any())
             {
-                languageFilter = _localizationOptions.SupportedCultures
-                    .Select(sc => sc.TwoLetterISOLanguageName)
+                var commonLanguages = _localizationOptions.SupportedCultures
+                    .Select(sc => sc.TwoLetterISOLanguageName.ToLowerInvariant())
                     .Intersect(languageValues)
-                    .Aggregate((i, j) => $"{i},{j}");
+                    .ToList();
+
+                if (commonLanguages.Any())
+                {
+                    languageFilter = commonLanguages
+                            .Aggregate((i, j) => $"{i},{j}");
+                }
             }
 
             var allDebunkingNews = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
