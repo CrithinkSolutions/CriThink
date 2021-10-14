@@ -252,7 +252,7 @@ namespace CriThink.Server.Domain.Entities
                 Id.ToString(),
                 ProfileConstants.ProfileFolder);
 
-            Profile.UpdateUserAvatar(uri.AbsoluteUri);
+            Profile.UpdateUserAvatar(uri.AbsolutePath);
         }
 
         public async Task UpdateUserProfileAvatarAsync(
@@ -272,7 +272,7 @@ namespace CriThink.Server.Domain.Entities
                 Id.ToString(),
                 ProfileConstants.ProfileFolder);
 
-            Profile.UpdateUserAvatar(uri.AbsoluteUri);
+            Profile.UpdateUserAvatar(uri.AbsolutePath);
         }
 
         public async Task DeleteUserUserProfileAvatarAsync(

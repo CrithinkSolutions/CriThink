@@ -22,6 +22,12 @@ namespace CriThink.Server.Application.Automapper
             string destMember,
             ResolutionContext context)
         {
+            if (_fileService.Hostname.EndsWith("/") &&
+                sourceMember.StartsWith("/"))
+            {
+                sourceMember = sourceMember.Substring(1);
+            }
+
             return $"{_fileService.Hostname}{sourceMember}";
         }
     }
