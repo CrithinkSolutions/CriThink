@@ -7,6 +7,7 @@ using CriThink.Server.Domain.DomainServices;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -47,6 +48,8 @@ namespace CriThink.Server.Application.CommandHandlers
                 request.Email);
 
             await CreateUserAsync(user, request.Password);
+
+            await _userRepository.AddUserToRoleAsync(user, RoleNames.FreeUser);
 
             await AddClaimsToUserAsync(user);
 

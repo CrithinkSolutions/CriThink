@@ -12,6 +12,7 @@ using CriThink.Server.Domain.Interfaces;
 using CriThink.Server.Domain.Models.DTOs;
 using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -90,6 +91,8 @@ namespace CriThink.Server.Application.CommandHandlers
             }
 
             user.ConfirmEmail();
+
+            await UserRepository.AddUserToRoleAsync(user, RoleNames.FreeUser);
 
             await AddClaimsToUserAsync(user);
 

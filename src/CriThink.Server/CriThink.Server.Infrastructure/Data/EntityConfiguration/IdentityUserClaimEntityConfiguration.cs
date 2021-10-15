@@ -12,7 +12,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
         private const string ServiceId = "f62fc754-e296-4aca-0a3f-08d88b1daff7";
         private const string ServiceUsername = "service";
         private const string ServiceEmail = "service@crithink.com";
-        private const string ServiceRole = "Admin";
+        private const string ServiceRole = RoleNames.Admin;
 
         public void Configure(EntityTypeBuilder<IdentityUserClaim<Guid>> builder)
         {
