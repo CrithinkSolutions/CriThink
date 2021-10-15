@@ -59,7 +59,7 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw ex;
             }
 
-            var refreshToken = _jwtManager.GenerateToken();
+            var refreshToken = _jwtManager.GenerateRefreshToken();
             var lifetimeFromNow = _jwtManager.GetDefaultRefreshTokenLifetime();
             user.AddRefreshToken(refreshToken, _httpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
 
