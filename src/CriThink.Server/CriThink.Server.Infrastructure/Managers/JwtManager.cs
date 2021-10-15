@@ -30,7 +30,7 @@ namespace CriThink.Server.Infrastructure.Managers
             _logger = logger;
         }
 
-        public string GenerateToken()
+        public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using var rng = RandomNumberGenerator.Create();

@@ -61,7 +61,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             user.RemoveRefreshToken(oldRefreshToken);
 
-            var refreshToken = JwtManager.GenerateToken();
+            var refreshToken = JwtManager.GenerateRefreshToken();
 
             var lifetimeFromNow = JwtManager.GetDefaultRefreshTokenLifetime();
             user.AddRefreshToken(refreshToken, HttpContext?.Connection.RemoteIpAddress?.ToString(), lifetimeFromNow);
