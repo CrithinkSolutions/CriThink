@@ -89,6 +89,8 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw ex;
             }
 
+            user.ConfirmEmail();
+
             await AddClaimsToUserAsync(user);
 
             if (userAccessInfo.ProfileAvatarBytes != null)
