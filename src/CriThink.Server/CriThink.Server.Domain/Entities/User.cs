@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Constants;
 using CriThink.Server.Domain.DomainServices;
 using Microsoft.AspNetCore.Http;
@@ -285,6 +284,11 @@ namespace CriThink.Server.Domain.Entities
                 ProfileConstants.AvatarFileName,
                 Id.ToString(),
                 ProfileConstants.ProfileFolder);
+        }
+
+        public void ConfirmEmail()
+        {
+            EmailConfirmed = true;
         }
     }
 }
