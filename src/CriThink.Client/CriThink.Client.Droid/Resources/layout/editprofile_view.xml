@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/scrollViewer"
         android:fillViewport="true"
-        android:overScrollMode="always">
+        android:overScrollMode="always"> 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

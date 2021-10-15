@@ -19,7 +19,13 @@ namespace CriThink.Client.Droid.Controls
 
         public BindableWebView(Context context, IAttributeSet attrs)
             : base(context, attrs)
-        { }
+        {
+        }
+
+        public void UsePreventExternalWebViewClient()
+        {
+            SetWebViewClient(new PreventExternalWebView());
+        }
 
         private Uri _uri;
         public Uri Uri
@@ -43,6 +49,14 @@ namespace CriThink.Client.Droid.Controls
             base.OnAttachedToWindow();
             VerticalScrollBarEnabled = true;
             ScrollBarStyle = ScrollbarStyles.OutsideOverlay;
+        }
+
+        class PreventExternalWebView : WebViewClient
+        {
+            public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
+            {
+                return false;
+            }
         }
     }
 }

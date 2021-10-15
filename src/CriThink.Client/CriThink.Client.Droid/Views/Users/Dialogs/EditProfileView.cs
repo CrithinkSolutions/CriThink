@@ -124,61 +124,10 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnSave).For(v => v.Text).ToLocalizationId("SaveProfile");
 
             set.Apply();
-            /*
-            DisplayMetrics displayMetrics = Context.Resources.DisplayMetrics;
-            int height = displayMetrics.HeightPixels;
-
-            var behavior = (Dialog as BottomSheetDialog).Behavior;
-            behavior.HalfExpandedRatio = 0.3f;
-            behavior.State = BottomSheetBehavior.StateHalfExpanded;
-            behavior.PeekHeight = 100;
-            behavior.GestureInsetBottomIgnored = false;
-            behavior.FitToContents = false;
-            behavior.ExpandedOffset = 0;
-            behavior.Hideable = false;
-            behavior.SkipCollapsed = false;
-            behavior.AddBottomSheetCallback(new BottomSheetToolbarToggleCallback(this));
-            */
+            
             return view;
         }
     }
-    public class BottomSheetToolbarToggleCallback : BottomSheetBehavior.BottomSheetCallback
-    {
-        public BottomSheetToolbarToggleCallback(BottomSheetDialogFragment bottomSheetDialogFragment)
-        {
-            this._bottomSheetDialogFragment = bottomSheetDialogFragment ?? throw new System.ArgumentNullException(nameof(bottomSheetDialogFragment));
-        }
-        public override void OnSlide(View bottomSheet, float slideOffset)
-        {
-        }
-        public override void OnStateChanged(View bottomSheet, int newState)
-        {
-            switch (newState)
-            {
-                case BottomSheetBehavior.StateCollapsed:
-                    ShowToolbar(bottomSheet, ViewStates.Gone);
-                    break;
-
-                case BottomSheetBehavior.StateHalfExpanded:
-                    ShowToolbar(bottomSheet, ViewStates.Gone);
-                    break;
-                case BottomSheetBehavior.StateExpanded:
-                    ShowToolbar(bottomSheet, ViewStates.Visible);
-                    break;
-                case BottomSheetBehavior.StateHidden:
-                    _bottomSheetDialogFragment.Dismiss();
-                    break;
-            }
-        }
-        private void ShowToolbar(View bottomSheet, ViewStates viewState)
-        {
-            var toolbar = bottomSheet.FindViewById<Toolbar>(Resource.Id.toolbar);
-            if (toolbar != null)
-            {
-                toolbar.Visibility = viewState;
-            }
-        }
-        private readonly BottomSheetDialogFragment _bottomSheetDialogFragment;
-    }
+    
 
 }

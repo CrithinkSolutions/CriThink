@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<item
+    android:left="20dp"
+    android:right="20dp">
+
+    <bitmap
+        android:src="@drawable/ic_radio_check"
+        android:gravity="center" />
+
+</item>

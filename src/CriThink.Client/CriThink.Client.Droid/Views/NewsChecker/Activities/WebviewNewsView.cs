@@ -27,7 +27,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var webViewNews = FindViewById<BindableWebView>(Resource.Id.webViewNews);
-            webViewNews.SetWebViewClient(new PreventExternalWebView());
+            webViewNews.UsePreventExternalWebViewClient();
             SetSupportActionBar(toolbar);
             using (var set = CreateBindingSet())
             {
@@ -41,12 +41,5 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             return false;
         }
 
-        class PreventExternalWebView : WebViewClient
-        {
-            public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
-            {
-                return false;
-            }
-        }
     }
 }
