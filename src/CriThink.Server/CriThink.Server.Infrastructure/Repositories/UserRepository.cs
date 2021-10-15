@@ -51,7 +51,7 @@ namespace CriThink.Server.Infrastructure.Identity
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Email, user.Email),
                 new (ClaimTypes.Name, user.UserName),
-                new (ClaimTypes.Role, "FreeUser"),
+                new (ClaimTypes.Role, RoleNames.FreeUser),
             };
 
             return _userManager.AddClaimsAsync(user, claims);
@@ -64,7 +64,7 @@ namespace CriThink.Server.Infrastructure.Identity
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Email, user.Email),
                 new (ClaimTypes.Name, user.UserName),
-                new (ClaimTypes.Role, "Admin"),
+                new (ClaimTypes.Role, RoleNames.Admin),
             };
 
             return _userManager.AddClaimsAsync(user, claims);
