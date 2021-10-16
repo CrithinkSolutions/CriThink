@@ -9,6 +9,7 @@ using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.Notification;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -55,6 +56,31 @@ namespace CriThink.Client.Core.Services
                 }).ToList();
 
             return models;
+        }
+
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(string language, CancellationToken cancellationToken)
+        {
+
+            if (string.IsNullOrWhiteSpace(language))
+                throw new ArgumentNullException(nameof(language));
+            try
+            {
+                var response = await _newsSourceApi.GetNewsSourceQuestionsAsync(language, cancellationToken)
+                                    .ConfigureAwait(false);
+                if (response?.Questions == null)
+                    throw new Exception();
+
+                return response.Questions;
+            }
+            catch(TokensExpiredException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error retrieve questions for news");
+                throw;
+            }
         }
 
         public async Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken)
@@ -111,6 +137,8 @@ namespace CriThink.Client.Core.Services
     public interface INewsSourceService
     {
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand);
+
+        Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(string language, CancellationToken cancellationToken);
 
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
     }

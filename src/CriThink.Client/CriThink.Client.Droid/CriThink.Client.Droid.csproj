@@ -117,10 +117,10 @@
     <Compile Include="Extensions\ShimmerExtensions.cs" />
     <Compile Include="Constants\FFImageConstants.cs" />
     <Compile Include="Views\NewsChecker\Activities\CheckNewsView.cs" />
-    <Compile Include="Views\NewsChecker\Dialogs\QuestionAboutNewsView.cs" />
     <Compile Include="Views\NewsChecker\Activities\WebviewNewsView.cs" />
     <Compile Include="Views\NewsChecker\Adapters\QuestionNewsAdapter.cs" />
     <Compile Include="Constants\BottomSheetConstants.cs" />
+    <Compile Include="Views\NewsChecker\Dialogs\QuestionNewsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\53513-confetti.json" />
@@ -589,6 +589,30 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\newsquestion_dialog_view.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_paste.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_paste.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_paste.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_paste.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_paste.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_button_paste.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

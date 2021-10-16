@@ -28,19 +28,36 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textSize="@dimen/textSize_contentTitle"
                 android:text="Questions"/>
             <View
                 android:id="@+id/viewSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_mini"
                 android:background="@color/borderColor"
                 app:layout_constraintTop_toBottomOf="@id/tv_question"/>
             <MvvmCross.DroidX.RecyclerView.MvxRecyclerView
                 android:id="@+id/recyclerQuestions"
+                app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"/>
+            <Button
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                android:text="test"
+                app:layout_constraintTop_toBottomOf="@id/recyclerQuestions"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -3,6 +3,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
+using AndroidX.RecyclerView.Widget;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
@@ -21,6 +22,14 @@ namespace CriThink.Client.Droid.Views.NewsChecker.Adapters
         protected QuestionNewsAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         { }
+
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var itemBindingContext = new MvxAndroidBindingContext(parent.Context, BindingContext.LayoutInflaterHolder);
+            var view = InflateViewForHolder(parent, Resource.Layout.cell_newsquestion, itemBindingContext);
+
+            return new QuestionNewsViewHolder(view, itemBindingContext);
+        }
     }
 
     public class QuestionNewsViewHolder : MvxRecyclerViewHolder

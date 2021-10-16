@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using MvvmCross.Commands;
@@ -15,6 +17,7 @@ namespace CriThink.Client.Core.Services
     {
         private const string NewsSourceCacheKey = "news_source";
         private const string RecentNewsSourceCacheKey = "recent_news_source";
+        private const string QuestionsNewsSourceCacheKey = "question_news_source_{0}";
 
         private readonly IMemoryCache _memoryCache;
         private readonly NewsSourceService _newsSourceService;
@@ -45,6 +48,17 @@ namespace CriThink.Client.Core.Services
 
         public Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
             _newsSourceService.RegisterForNotificationAsync(newsLink, cancellationToken);
+
+
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(string language, CancellationToken cancellationToken)
+        {
+            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey.FormatMe(language), async entry =>
+            {
+                entry.SlidingExpiration = CacheDuration;
+                entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
+                return await _newsSourceService.GetQuestionsNewsAsync(language, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+        }
 
         private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
         {
