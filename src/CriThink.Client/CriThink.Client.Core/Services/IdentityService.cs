@@ -85,7 +85,7 @@ namespace CriThink.Client.Core.Services
             catch (Exception ex)
             {
                 _logger?.LogCritical(ex, "Error occurred during the social login");
-                return null;
+                throw;
             }
 
             try
@@ -98,6 +98,7 @@ namespace CriThink.Client.Core.Services
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error occurred when saving social login data");
+                throw;
             }
 
             return loginResponse;
