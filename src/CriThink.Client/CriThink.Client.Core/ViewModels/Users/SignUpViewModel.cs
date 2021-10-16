@@ -6,9 +6,7 @@ using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
-using MvvmCross;
 using MvvmCross.Commands;
-using MvvmCross.Localization;
 using MvvmCross.Navigation;
 
 namespace CriThink.Client.Core.ViewModels.Users
@@ -17,23 +15,17 @@ namespace CriThink.Client.Core.ViewModels.Users
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public SignUpViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<BaseSocialLoginViewModel> logger)
-            : base(identityService, userDialogs, navigationService, logger)
+        public SignUpViewModel(
+            IMvxNavigationService navigationService,
+            IIdentityService identityService,
+            IUserDialogs userDialogs,
+            ILogger<BaseSocialLoginViewModel> logger)
+            : base(
+                  identityService,
+                  userDialogs,
+                  navigationService,
+                  logger)
         {
-            var a = Mvx.IoCProvider.CanResolve<IMvxTextProvider>();
-            
-            if (a)
-            {
-                try
-                {
-                    var provider = Mvx.IoCProvider.Resolve<IMvxTextProvider>();
-                }
-                catch (Exception)
-                {
-
-                }
-            }
-
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
 
@@ -54,16 +46,6 @@ namespace CriThink.Client.Core.ViewModels.Users
         {
             base.Prepare();
             Logger?.LogInformation("User navigates to sign up");
-
-            try
-            {
-                var c = Mvx.IoCProvider.TryResolve(out IMvxTextProvider cachedTextProvider);
-                var message = LocalizedTextSource.GetText("RestoreAccountMessage");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
         }
 
         private async Task DoNavigateToLoginCommand()
