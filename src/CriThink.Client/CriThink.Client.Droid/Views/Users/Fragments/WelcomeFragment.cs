@@ -5,6 +5,7 @@ using AndroidX.AppCompat.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using FFImageLoading;
+using FFImageLoading.Cross;
 using FFImageLoading.Svg.Platform;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
@@ -27,7 +28,7 @@ namespace CriThink.Client.Droid.Views.Users
 
             var view = this.BindingInflate(Resource.Layout.welcomeimage_view, null);
 
-            var image = view.FindViewById<AppCompatImageView>(Resource.Id.img);
+            var image = view.FindViewById<MvxCachedImageView>(Resource.Id.img);
 
             ImageService.Instance
                 .LoadCompiledResource(ImageName)

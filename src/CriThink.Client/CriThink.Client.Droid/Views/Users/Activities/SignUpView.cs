@@ -1,6 +1,6 @@
 ﻿using System;
-using Android.Content; 
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
@@ -73,7 +73,6 @@ namespace CriThink.Client.Droid.Views.Users
 
         private void BtnRestore_Click(object sender, EventArgs e) => _alertDialog?.Show();
 
-
         public override void OnBackPressed()
         {
             Minimise();
@@ -113,6 +112,6 @@ namespace CriThink.Client.Droid.Views.Users
                 await ViewModel.RestoreAccountCommand.ExecuteAsync(inputText.Text);
             };
             return alertDialog;
-        }    
+        }
     }
-} 
+}
