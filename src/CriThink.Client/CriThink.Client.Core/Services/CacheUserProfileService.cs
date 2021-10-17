@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using Microsoft.Extensions.Caching.Memory;
+using MvvmCross.Plugin.Messenger;
 using Refit;
 
 namespace CriThink.Client.Core.Services
@@ -13,13 +15,23 @@ namespace CriThink.Client.Core.Services
         private readonly IMemoryCache _memoryCache;
         private readonly UserProfileService _userProfileService;
         private const string UserProfileKey = "user_profile";
+        private readonly MvxSubscriptionToken _token;
 
         private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-        public CacheUserProfileService(IMemoryCache memoryCache, UserProfileService userProfileService)
+        public CacheUserProfileService(
+            IMemoryCache memoryCache,
+            UserProfileService userProfileService,
+            IMvxMessenger messenger)
         {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
+            _memoryCache = memoryCache ??
+                throw new ArgumentNullException(nameof(memoryCache));
+
+            _userProfileService = userProfileService ??
+                throw new ArgumentNullException(nameof(userProfileService));
+
+            _token = messenger?.Subscribe<LogoutPerformedMessage>(OnLogoutPerformed) ??
+                throw new ArgumentNullException(nameof(messenger));
         }
 
         public async Task<User> GetUserProfileAsync(CancellationToken cancellationToken = default)
@@ -46,6 +58,11 @@ namespace CriThink.Client.Core.Services
         private void ClearUserInfoFromCache()
         {
             _memoryCache.Remove(UserProfileKey);
+        }
+
+        private void OnLogoutPerformed(LogoutPerformedMessage message)
+        {
+            ClearUserInfoFromCache();
         }
     }
 }

@@ -22,6 +22,9 @@ namespace CriThink.Server.Application.Automapper
             string destMember,
             ResolutionContext context)
         {
+            if (string.IsNullOrWhiteSpace(sourceMember))
+                return null;
+
             if (_fileService.Hostname.EndsWith("/") &&
                 sourceMember.StartsWith("/"))
             {

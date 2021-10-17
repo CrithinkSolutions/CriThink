@@ -41,6 +41,14 @@ namespace CriThink.Client.Droid
             }
         }
 
+        protected override void RegisterDefaultSetupDependencies(IMvxIoCProvider iocProvider)
+        {
+            var nameMappingStrategy = CreateViewToViewModelNaming();
+            Mvx.IoCProvider.RegisterSingleton(nameMappingStrategy);
+
+            base.RegisterDefaultSetupDependencies(iocProvider);
+        }
+
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             base.FillTargetFactories(registry);
