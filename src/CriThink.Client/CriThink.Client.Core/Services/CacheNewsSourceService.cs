@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
@@ -19,6 +20,7 @@ namespace CriThink.Client.Core.Services
         private const string RecentNewsSourceCacheKey = "recent_news_source";
         private const string QuestionsNewsSourceCacheKey = "question_news_source_{0}";
 
+        private readonly IGeolocationService _geoService;
         private readonly IMemoryCache _memoryCache;
         private readonly NewsSourceService _newsSourceService;
         private readonly MvxSubscriptionToken _token;
@@ -28,8 +30,13 @@ namespace CriThink.Client.Core.Services
         private CancellationTokenSource _resetCacheToken;
         private bool _isDisposed;
 
-        public CacheNewsSourceService(IMemoryCache memoryCache, NewsSourceService newsSourceService, IMvxMessenger messenger)
+        public CacheNewsSourceService(
+            IMemoryCache memoryCache,
+            IGeolocationService geoService,
+            NewsSourceService newsSourceService,
+            IMvxMessenger messenger)
         {
+            _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
             _resetCacheToken = new CancellationTokenSource();
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
@@ -50,13 +57,14 @@ namespace CriThink.Client.Core.Services
             _newsSourceService.RegisterForNotificationAsync(newsLink, cancellationToken);
 
 
-        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(string language, CancellationToken cancellationToken)
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken)
         {
-            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey.FormatMe(language), async entry =>
+            var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
+            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey.FormatMe(currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE)), async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
-                return await _newsSourceService.GetQuestionsNewsAsync(language, cancellationToken).ConfigureAwait(false);
+                return await _newsSourceService.GetQuestionsNewsAsync(cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 
@@ -93,6 +101,9 @@ namespace CriThink.Client.Core.Services
 
             _isDisposed = true;
         }
+
+        public Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
+            => _newsSourceService.PostAnswersToArticleQuestionsAsync(newsLink, questions, cancellationToken);
 
         #endregion
     }

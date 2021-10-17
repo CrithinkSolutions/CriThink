@@ -81,7 +81,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
 
             await _navigationService
-                .Navigate<WebviewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
+                .Navigate<WebViewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
@@ -90,7 +90,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
         {
             await _navigationService
-                .Navigate<WebviewNewsViewModel, string>(model.NewsLink, cancellationToken: cancellationToken)
+                .Navigate<WebViewNewsViewModel, string>(model.NewsLink, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);

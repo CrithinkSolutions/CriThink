@@ -68,6 +68,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
         }
 
+        public override bool OnSupportNavigateUp()
+        {
+            Finish();
+            return false;
+        }
+
         internal class EditTextIconClickListener : Java.Lang.Object, IOnClickListener
         {
             private PositionClickItem _positionClickItem;

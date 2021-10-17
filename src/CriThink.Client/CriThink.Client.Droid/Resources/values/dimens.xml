@@ -38,7 +38,7 @@
   <!-- Buttons -->
   <dimen name="btn_elevation">20dp</dimen>
   <dimen name="btn_radius">25dp</dimen>
-  <dimen name="btn_min_width">100dp</dimen>
+  <dimen name="btn_min_width">150dp</dimen>
   <!-- Image View -->
   <dimen name="imgSize_icon">16dp</dimen>
   <dimen name="imgSize_publisherSmall">30dp</dimen>
@@ -80,4 +80,6 @@
   <dimen name="line_width">40dp</dimen>
 
   <dimen name="radio_height">30dp</dimen>
+
+  <dimen name="footer">50dp</dimen>
 </resources>

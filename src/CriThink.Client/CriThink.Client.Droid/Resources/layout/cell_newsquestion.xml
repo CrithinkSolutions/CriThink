@@ -10,7 +10,7 @@
         android:id="@+id/tv_question"
         tools:text="What really makes you angry?"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize_littleBig"
+        android:textSize="@dimen/textSize_subheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_mini"
@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:layout_height="@dimen/radio_height"
             android:layout_margin="@dimen/margin_mini"
-            android:text="1"
+            tools:text="1"
             style="@style/RadioQuestion"/>
         <RadioButton
             android:id="@+id/radioVote2"
@@ -37,7 +37,7 @@
             android:layout_height="@dimen/radio_height"
             android:layout_margin="@dimen/margin_mini"
             style="@style/RadioQuestion"
-            android:text="2"/>
+            tools:text="2"/>
         <RadioButton
             android:id="@+id/radioVote3"
             android:layout_width="0dp"
@@ -45,7 +45,7 @@
             android:layout_height="@dimen/radio_height"
             android:layout_margin="@dimen/margin_mini"
             style="@style/RadioQuestion"
-            android:text="3"/>
+            tools:text="3"/>
         <RadioButton
             android:id="@+id/radioVote4"
             style="@style/RadioQuestion"
@@ -53,13 +53,13 @@
             android:layout_weight="1"
             android:layout_height="@dimen/radio_height"
             android:layout_margin="@dimen/margin_mini"
-            android:text="4"/>
+            tools:text="4"/>
         <RadioButton
             android:id="@+id/radioVote5"
             style="@style/RadioQuestion"
             android:layout_width="0dp"
             android:layout_weight="1" android:layout_height="@dimen/radio_height"
             android:layout_margin="@dimen/margin_mini"
-            android:text="5"/>
+            tools:text="5"/>
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

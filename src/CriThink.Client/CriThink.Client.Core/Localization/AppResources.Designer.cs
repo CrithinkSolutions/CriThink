@@ -976,5 +976,47 @@ namespace CriThink.Client.Core.Localization {
                 return ResourceManager.GetString("SignUpViewModel.Login", resourceCulture);
             }
         }
+        
+        internal static string WebViewNewsViewModel_Questions {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.Questions", resourceCulture);
+            }
+        }
+        
+        internal static string WebViewNewsViewModel_Next {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.Next", resourceCulture);
+            }
+        }
+        
+        internal static string NewsSourceGetQuestionViewModel_One {
+            get {
+                return ResourceManager.GetString("NewsSourceGetQuestionViewModel.One", resourceCulture);
+            }
+        }
+        
+        internal static string NewsSourceGetQuestionViewModel_Two {
+            get {
+                return ResourceManager.GetString("NewsSourceGetQuestionViewModel.Two", resourceCulture);
+            }
+        }
+        
+        internal static string NewsSourceGetQuestionViewModel_Three {
+            get {
+                return ResourceManager.GetString("NewsSourceGetQuestionViewModel.Three", resourceCulture);
+            }
+        }
+        
+        internal static string NewsSourceGetQuestionViewModel_Four {
+            get {
+                return ResourceManager.GetString("NewsSourceGetQuestionViewModel.Four", resourceCulture);
+            }
+        }
+        
+        internal static string NewsSourceGetQuestionViewModel_Five {
+            get {
+                return ResourceManager.GetString("NewsSourceGetQuestionViewModel.Five", resourceCulture);
+            }
+        }
     }
 }
