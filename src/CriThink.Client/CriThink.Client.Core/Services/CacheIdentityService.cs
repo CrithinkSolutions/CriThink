@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using Microsoft.Extensions.Caching.Memory;
+using MvvmCross.Plugin.Messenger;
 using Refit;
 
 namespace CriThink.Client.Core.Services
@@ -14,13 +16,23 @@ namespace CriThink.Client.Core.Services
 
         private readonly IdentityService _identityService;
         private readonly IMemoryCache _memoryCache;
+        private readonly IMvxMessenger _messenger;
 
         private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-        public CacheIdentityService(IMemoryCache memoryCache, IdentityService identityService)
+        public CacheIdentityService(
+            IMemoryCache memoryCache,
+            IdentityService identityService,
+            IMvxMessenger messenger)
         {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _memoryCache = memoryCache ??
+                throw new ArgumentNullException(nameof(memoryCache));
+
+            _identityService = identityService ??
+                throw new ArgumentNullException(nameof(identityService));
+
+            _messenger = messenger ??
+                throw new ArgumentNullException(nameof(messenger));
         }
 
         public async Task<UserAccess> GetLoggedUserAccessAsync()
@@ -108,6 +120,9 @@ namespace CriThink.Client.Core.Services
         private void ClearUserInfoFromCache()
         {
             _memoryCache.Remove(UserTokenCacheKey);
+
+            var message = new LogoutPerformedMessage(this);
+            _messenger.Publish(message);
         }
     }
 }
