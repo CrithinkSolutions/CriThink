@@ -3,8 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
 using CriThink.Server.Application.Commands;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Providers.EmailSender.Exceptions;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -15,11 +17,13 @@ namespace CriThink.Server.Application.CommandHandlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailSenderService _emailSender;
+        private readonly IEmailSendingFailureRepository _emailSendingFailureRepository;
         private readonly ILogger<RestoreUserCommandHandler> _logger;
 
         public RestoreUserCommandHandler(
             IUserRepository userRepository,
             IEmailSenderService emailSender,
+            IEmailSendingFailureRepository emailSendingFailureRepository,
             ILogger<RestoreUserCommandHandler> logger)
         {
             _userRepository = userRepository ??
@@ -27,6 +31,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             _emailSender = emailSender ??
                 throw new ArgumentNullException(nameof(emailSender));
+
+            _emailSendingFailureRepository = emailSendingFailureRepository ??
+                throw new ArgumentNullException(nameof(emailSendingFailureRepository));
 
             _logger = logger;
         }
@@ -47,15 +54,38 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var encodedCode = Base64Helper.ToBase64(token);
 
-            await _emailSender.SendPasswordResetEmailAsync(
-                user.Email,
-                user.Id.ToString(),
-                encodedCode,
-                user.UserName);
+            await SendEmailAsync(user, encodedCode, cancellationToken);
 
             _logger?.LogInformation("RestoreUser: done");
 
             return Unit.Value;
+        }
+
+        private async Task SendEmailAsync(
+            User user,
+            string encodedCode,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _emailSender.SendPasswordResetEmailAsync(
+                user.Email,
+                user.Id.ToString(),
+                encodedCode,
+                user.UserName);
+            }
+            catch (CriThinkEmailSendingFailureException ex)
+            {
+                var failure = EmailSendingFailure.Create(
+                    ex.FromAddress,
+                    ex.Recipients,
+                    ex.HtmlBody,
+                    ex.Subject,
+                    ex.Message);
+
+                await _emailSendingFailureRepository.AddFailureAsync(failure, cancellationToken);
+                await _emailSendingFailureRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            }
         }
     }
 }

@@ -508,6 +508,7 @@ namespace CriThink.Server.Web
         {
             services.AddHostedService<RefreshTokenCleanerBackgroundService>();
             services.AddHostedService<UserPendingDeletionCleanerBackgroundService>();
+            services.AddHostedService<EmailFailedCleanerBackgroundService>();
 
             services.Configure<HostOptions>(
                 opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));

@@ -8,6 +8,7 @@ using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Providers.EmailSender.Exceptions;
 using CriThink.Server.Providers.EmailSender.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -19,12 +20,14 @@ namespace CriThink.Server.Application.CommandHandlers
         private readonly IUserRepository _userRepository;
         private readonly IFileService _fileService;
         private readonly IEmailSenderService _emailSender;
+        private readonly IEmailSendingFailureRepository _emailSendingFailureRepository;
         private readonly ILogger<CreateUserCommandHandler> _logger;
 
         public CreateUserCommandHandler(
             IUserRepository userRepository,
             IFileService fileService,
             IEmailSenderService emailSender,
+            IEmailSendingFailureRepository emailSendingFailureRepository,
             ILogger<CreateUserCommandHandler> logger)
         {
             _userRepository = userRepository ??
@@ -35,6 +38,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             _emailSender = emailSender ??
                 throw new ArgumentNullException(nameof(emailSender));
+
+            _emailSendingFailureRepository = emailSendingFailureRepository ??
+                throw new ArgumentNullException(nameof(emailSendingFailureRepository));
 
             _logger = logger;
         }
@@ -72,11 +78,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var confirmationCode = await _userRepository.GetEmailConfirmationTokenAsync(user);
 
-            await _emailSender.SendAccountConfirmationEmailAsync(
-                user.Email,
-                user.Id.ToString(),
-                confirmationCode,
-                user.UserName);
+            await SendEmailAsync(user, confirmationCode, cancellationToken);
 
             _logger?.LogInformation($"{nameof(CreateUserCommandHandler)}: done");
 
@@ -106,6 +108,33 @@ namespace CriThink.Server.Application.CommandHandlers
                 var ex = new CriThinkIdentityOperationException(claimsResult);
                 _logger?.LogError(ex, "Error adding user to role", user);
                 throw ex;
+            }
+        }
+
+        private async Task SendEmailAsync(
+            User user,
+            string confirmationCode,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _emailSender.SendAccountConfirmationEmailAsync(
+                    user.Email,
+                    user.Id.ToString(),
+                    confirmationCode,
+                    user.UserName);
+            }
+            catch (CriThinkEmailSendingFailureException ex)
+            {
+                var failure = EmailSendingFailure.Create(
+                    ex.FromAddress,
+                    ex.Recipients,
+                    ex.HtmlBody,
+                    ex.Subject,
+                    ex.Message);
+
+                await _emailSendingFailureRepository.AddFailureAsync(failure, cancellationToken);
+                await _emailSendingFailureRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }
         }
     }
