@@ -12,6 +12,7 @@ using CriThink.Server.Domain.Interfaces;
 using CriThink.Server.Domain.Models.DTOs;
 using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -54,17 +55,17 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var provider = request.SocialProvider.ToString().ToUpperInvariant();
 
-            var currentUser = await UserRepository.FindUserByLoginAsync(provider, userAccessInfo.UserId);
-            if (currentUser is null)
+            var user = await UserRepository.FindUserByLoginAsync(provider, userAccessInfo.UserId);
+            if (user is null)
             {
-                currentUser = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider);
+                user = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider);
             }
 
-            var refreshToken = JwtManager.GenerateToken();
+            var refreshToken = JwtManager.GenerateRefreshToken();
 
-            await AddRefreshTokenToUserAsync(refreshToken, currentUser);
+            await AddRefreshTokenToUserAsync(refreshToken, user);
 
-            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(currentUser).ConfigureAwait(false);
+            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
 
             return new UserLoginResponse
             {
@@ -89,6 +90,12 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw ex;
             }
 
+            user.ConfirmEmail();
+
+            await UserRepository.AddUserToRoleAsync(user, RoleNames.FreeUser);
+
+            await AddClaimsToUserAsync(user);
+
             if (userAccessInfo.ProfileAvatarBytes != null)
             {
                 try
@@ -107,14 +114,6 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
 
-            var userCreated = await UserRepository.CreateUserAsync(user).ConfigureAwait(false);
-            if (!userCreated.Succeeded)
-            {
-                var ex = new CriThinkIdentityOperationException(userCreated);
-                _logger?.LogError(ex, "Error creating user.", providerName, user);
-                throw ex;
-            }
-
             var loginAssociated = await UserRepository.AddUserLoginAsync(user, userLoginInfo)
                 .ConfigureAwait(false);
 
@@ -128,6 +127,17 @@ namespace CriThink.Server.Application.CommandHandlers
             await UserRepository.SignInAsync(user, false).ConfigureAwait(false);
 
             return await UserRepository.FindUserByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
+        }
+
+        private async Task AddClaimsToUserAsync(User user)
+        {
+            var claimsResult = await UserRepository.AddClaimsToUserAsync(user);
+            if (!claimsResult.Succeeded)
+            {
+                var ex = new CriThinkIdentityOperationException(claimsResult);
+                _logger?.LogError(ex, "Error adding user to role", user);
+                throw ex;
+            }
         }
     }
 }

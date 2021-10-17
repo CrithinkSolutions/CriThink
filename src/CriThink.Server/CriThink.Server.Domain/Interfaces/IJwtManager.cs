@@ -19,7 +19,7 @@ namespace CriThink.Server.Domain.Interfaces
         /// Generate a random string to be used as refresh token by a specific user
         /// </summary>
         /// <returns>A random string</returns>
-        string GenerateToken();
+        string GenerateRefreshToken();
 
         /// <summary>
         /// Get claims principal from a JWT token. Token is

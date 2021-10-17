@@ -128,19 +128,17 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
 
+            var user = await _userProfileService.GetUserProfileAsync().ConfigureAwait(true);
+            if (user is not null)
+            {
+                Username = user.Username;
+                AvatarImagePath = user.AvatarPath;
+            }
+
             if (_isInitialized)
                 return;
 
-#pragma warning disable 4014
-            GetDebunkingNewsAsync();
-#pragma warning restore 4014
-
-            var user = await _userProfileService.GetUserProfileAsync().ConfigureAwait(true);
-            if (user is null)
-                return;
-
-            Username = user.Username;
-            AvatarImagePath = user.AvatarPath;
+            await GetDebunkingNewsAsync();
 
             _isInitialized = true;
         }

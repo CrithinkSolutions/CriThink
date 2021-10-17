@@ -70,6 +70,9 @@ namespace CriThink.Client.Droid.Views.Users
             _imgArrow.Visibility = e.Position == _adapter.Count - 1 ?
                 ViewStates.Gone :
                 ViewStates.Visible;
+
+            if (e.Position == _adapter.Count - 1)
+                ViewModel.WelcomeLoginSignInViewModel.NavigateToSignInViewCommand.Execute();
         }
     }
 }

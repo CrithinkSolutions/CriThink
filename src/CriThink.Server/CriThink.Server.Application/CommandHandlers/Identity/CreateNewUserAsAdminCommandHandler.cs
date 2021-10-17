@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -38,7 +39,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await _userRepository.ConfirmUserEmailAsync(user, confirmationCode);
 
-            await _userRepository.AddUserToRoleAsync(user, "Admin");
+            await _userRepository.AddUserToRoleAsync(user, RoleNames.Admin);
 
             await _userRepository.AddClaimsToAdminUserAsync(user);
 

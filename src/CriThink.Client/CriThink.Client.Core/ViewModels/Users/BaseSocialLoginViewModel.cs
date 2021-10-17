@@ -55,7 +55,14 @@ namespace CriThink.Client.Core.ViewModels.Users
                 Logger?.LogCritical(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token), loginProvider);
 
                 var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
-                await ShowErrorMessageAsync(ex, string.Format(CultureInfo.CurrentUICulture, localizedErrorText, loginProvider)).ConfigureAwait(true);
+
+                await ShowErrorMessageAsync(
+                    ex,
+                    string.Format(
+                        CultureInfo.CurrentUICulture,
+                        localizedErrorText,
+                        loginProvider))
+                    .ConfigureAwait(true);
             }
             finally
             {

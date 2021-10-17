@@ -16,7 +16,6 @@ namespace CriThink.Client.Core.Services
 {
     public class CacheNewsSourceService : INewsSourceService, IDisposable
     {
-        private const string NewsSourceCacheKey = "news_source";
         private const string RecentNewsSourceCacheKey = "recent_news_source";
         private const string QuestionsNewsSourceCacheKey = "question_news_source_{0}";
 

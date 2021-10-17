@@ -44,7 +44,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await ProcessPasswordVerificationResultAsync(user, verificationResult);
 
-            var refreshToken = JwtManager.GenerateToken();
+            var refreshToken = JwtManager.GenerateRefreshToken();
 
             await AddRefreshTokenToUserAsync(refreshToken, user);
 

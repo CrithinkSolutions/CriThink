@@ -360,6 +360,9 @@
   <data name="LoginViewModel.SocialLoginErrorMessage" xml:space="preserve">
     <value>An error occurred when logging in with {0}</value>
   </data>
+  <data name="SignUpViewModel.SocialLoginErrorMessage" xml:space="preserve">
+    <value>An error occurrent while signing up with {0}</value>
+  </data>
   <data name="SignUpViewModel.LoginErrorMessage" xml:space="preserve">
     <value>An error occurred with {0}</value>
   </data>
