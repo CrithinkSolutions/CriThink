@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using CriThink.Server.Providers.EmailSender.Exceptions;
 using CriThink.Server.Providers.EmailSender.Providers;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.RazorViews.Services;
@@ -9,6 +10,7 @@ using CriThink.Server.RazorViews.Views.Emails.AccountDeletion;
 using CriThink.Server.RazorViews.Views.Emails.AlertNotification;
 using CriThink.Server.RazorViews.Views.Emails.ConfirmAccount;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CriThink.Server.Providers.EmailSender.Services
@@ -19,13 +21,28 @@ namespace CriThink.Server.Providers.EmailSender.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EmailSettings _emailSettings;
         private readonly IEmailSenderProvider _emailSenderProvider;
+        private readonly ILogger<EmailSenderService> _logger;
 
-        public EmailSenderService(IRazorViewToStringRenderer razorViewToStringRenderer, IHttpContextAccessor httpContextAccessor, IOptionsSnapshot<EmailSettings> emailSettings, IEmailSenderProvider emailSenderProvider)
+        public EmailSenderService(
+            IRazorViewToStringRenderer razorViewToStringRenderer,
+            IHttpContextAccessor httpContextAccessor,
+            IOptionsSnapshot<EmailSettings> emailSettings,
+            IEmailSenderProvider emailSenderProvider,
+            ILogger<EmailSenderService> logger)
         {
-            _razorViewToStringRenderer = razorViewToStringRenderer ?? throw new ArgumentNullException(nameof(razorViewToStringRenderer));
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _emailSettings = emailSettings?.Value ?? throw new ArgumentNullException(nameof(emailSettings));
-            _emailSenderProvider = emailSenderProvider ?? throw new ArgumentNullException(nameof(emailSenderProvider));
+            _razorViewToStringRenderer = razorViewToStringRenderer ??
+                throw new ArgumentNullException(nameof(razorViewToStringRenderer));
+
+            _httpContextAccessor = httpContextAccessor ??
+                throw new ArgumentNullException(nameof(httpContextAccessor));
+
+            _emailSettings = emailSettings?.Value ??
+                throw new ArgumentNullException(nameof(emailSettings));
+
+            _emailSenderProvider = emailSenderProvider ??
+                throw new ArgumentNullException(nameof(emailSenderProvider));
+
+            _logger = logger;
         }
 
         public async Task SendAccountConfirmationEmailAsync(string recipient, string userId, string encodedCode, string userName)
@@ -94,11 +111,29 @@ namespace CriThink.Server.Providers.EmailSender.Services
             await Execute(new[] { recipient }, subject, htmlBody);
         }
 
-        private Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)
+        private async Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)
         {
             var fromAddress = _emailSettings.FromAddress;
 
-            return _emailSenderProvider.Send(fromAddress, recipients, subject, htmlBody);
+            try
+            {
+                await _emailSenderProvider.Send(
+                    fromAddress,
+                    recipients,
+                    subject,
+                    htmlBody);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogCritical(ex, "Error sending an email", subject);
+
+                throw new CriThinkEmailSendingFailureException(
+                    ex,
+                    fromAddress,
+                    recipients,
+                    subject,
+                    htmlBody);
+            }
         }
     }
 }

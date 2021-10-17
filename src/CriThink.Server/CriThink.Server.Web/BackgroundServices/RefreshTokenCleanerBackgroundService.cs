@@ -17,7 +17,7 @@ namespace CriThink.Server.Web.BackgroundServices
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             var interval = ReadFromConfiguration<TimeSpan>("BackgroundServices:RefreshTokenCleaner");
-            await ScheduleActivityAsync(interval, (o) => RemoveExpiredRefreshTokens(), cancellationToken);
+            await ScheduleActivityAsync(interval, async (o) => await RemoveExpiredRefreshTokens(), cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace CriThink.Server.Web.BackgroundServices
             return Task.CompletedTask;
         }
 
-        private async void RemoveExpiredRefreshTokens()
+        private async Task RemoveExpiredRefreshTokens()
         {
             using var scope = ServiceScopeFactory.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

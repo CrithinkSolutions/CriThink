@@ -44,6 +44,7 @@ namespace CriThink.Server.Infrastructure
             serviceCollection.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             serviceCollection.AddScoped<INewsSourceAnswersRepository, NewsSourceAnswersRepository>();
             serviceCollection.AddScoped<IDebunkingNewsTriggerLogRepository, DebunkingNewsTriggerLogRepository>();
+            serviceCollection.AddScoped<IEmailSendingFailureRepository, EmailSendingFailureRepository>();
         }
 
         private static void SetupHttpClient(IServiceCollection serviceCollection)

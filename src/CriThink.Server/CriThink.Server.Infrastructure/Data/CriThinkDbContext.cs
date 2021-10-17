@@ -55,6 +55,8 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UnknownNewsSourceNotification> UnknownNewsSourceNotifications { get; set; }
 
+        public DbSet<EmailSendingFailure> EmailSendingFailures { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
