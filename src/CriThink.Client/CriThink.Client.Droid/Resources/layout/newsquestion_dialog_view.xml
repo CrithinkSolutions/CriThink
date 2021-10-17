@@ -1,27 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/bottomSheetLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/bottom_sheet_behavior" 
+    app:layout_behavior="@string/bottom_sheet_behavior"
     android:focusableInTouchMode="true"
+    
+    app:behavior_peekHeight="80dp"
+    android:background="@drawable/round_white_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/scrollViewer"
+        android:id="@+id/mainScrollView"
         android:fillViewport="true"
         android:overScrollMode="always"
-        android:paddingStart="@dimen/padding_page"
-        android:paddingEnd="@dimen/padding_page"
-        android:paddingTop="@dimen/padding_page"
         android:paddingBottom="@dimen/padding_page">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            
+        <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/bottomSheetHeader"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_question"
                 android:layout_width="match_parent"
@@ -31,33 +39,56 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textSize="@dimen/textSize_contentTitle"
+                android:layout_margin="@dimen/margin_medium"
                 android:text="Questions"/>
+			<ImageView
+                    android:id="@+id/img_arrow_up"
+				android:layout_width="@dimen/imgSize_icon"
+				android:layout_height="@dimen/imgSize_icon"
+				android:src="@drawable/ic_arrow_up"
+				android:layout_margin="@dimen/margin_medium"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <View
                 android:id="@+id/viewSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_mini"
+                android:layout_margin="@dimen/margin_medium"
                 android:background="@color/borderColor"
-                app:layout_constraintTop_toBottomOf="@id/tv_question"/>
+                app:layout_constraintTop_toBottomOf="@id/bottomSheetHeader"/>
             <MvvmCross.DroidX.RecyclerView.MvxRecyclerView
                 android:id="@+id/recyclerQuestions"
+                android:padding="@dimen/margin_medium"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintTop_toBottomOf="@id/viewSeparator"
                 app:layout_constraintStart_toStartOf="parent"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnNext"
+                android:paddingStart="@dimen/padding_page"
+                android:paddingEnd="@dimen/padding_page"
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
             <Button
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="test"
+                android:layout_margin="@dimen/margin_medium"
                 app:layout_constraintTop_toBottomOf="@id/recyclerQuestions"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="@dimen/margin_medium"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

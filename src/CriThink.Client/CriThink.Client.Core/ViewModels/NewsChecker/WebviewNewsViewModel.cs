@@ -6,11 +6,14 @@ using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
     public class WebviewNewsViewModel : BaseViewModel<string>
     {
+        public MvxObservableCollection<NewsSourceGetQuestionResponse> Questions { get; private set; }
+
         private readonly IMvxNavigationService _navigationService;
         private readonly ILogger<NewsCheckerResultViewModel> _logger;
         private readonly INewsSourceService _newsSourceService;
@@ -25,19 +28,21 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _logger = logger;
             _newsSourceService = newsSourceService;
+
+            Questions = new MvxObservableCollection<NewsSourceGetQuestionResponse>();
         }
 
         public async override Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
-            await GetQuestionsAsync().ConfigureAwait(false);
+           await GetQuestionsAsync().ConfigureAwait(false);
         }
 
         private async Task GetQuestionsAsync()
         {
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(45));
             var questions = await _newsSourceService.GetQuestionsNewsAsync("en", _cancellationTokenSource.Token);
-            await _navigationService.Navigate<QuestionNewsViewModel, IList<NewsSourceGetQuestionResponse>>(questions);
+            Questions.AddRange(questions);
         }
 
         public override void Prepare(string parameter)
