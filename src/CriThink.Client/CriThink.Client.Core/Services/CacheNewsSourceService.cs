@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
-using CriThink.Common.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using MvvmCross.Commands;
@@ -56,10 +54,9 @@ namespace CriThink.Client.Core.Services
             _newsSourceService.RegisterForNotificationAsync(newsLink, cancellationToken);
 
 
-        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken)
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default)
         {
-            var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
-            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey.FormatMe(currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE)), async entry =>
+            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey, async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));

@@ -63,20 +63,20 @@ namespace CriThink.Client.Core.Services
             return models;
         }
 
-        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken)
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default)
         {
-
             try
             {
                 var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
-                var response = await _newsSourceApi.GetNewsSourceQuestionsAsync(currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE), cancellationToken)
-                                    .ConfigureAwait(false);
-                if (response?.Questions == null)
-                    throw new Exception();
+
+                var response = await _newsSourceApi.GetNewsSourceQuestionsAsync(
+                    currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE),
+                    cancellationToken)
+                    .ConfigureAwait(false);
 
                 return response.Questions;
             }
-            catch(TokensExpiredException)
+            catch (TokensExpiredException)
             {
                 throw;
             }
@@ -173,7 +173,7 @@ namespace CriThink.Client.Core.Services
     {
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand);
 
-        Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken);
+        Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default);
 
         Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken);
 
