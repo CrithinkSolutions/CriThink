@@ -122,7 +122,14 @@ namespace CriThink.Server.Application.CommandHandlers
                 searchResponse.Category == NewsSourceAuthenticity.FakeNews ||
                 searchResponse.Category == NewsSourceAuthenticity.Suspicious)
             {
-                relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsLink);
+                try
+                {
+                    relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsLink);
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Error getting related debunking news", newsLink);
+                }
             }
 
             var newsSourceCategoryDescription = await _newsSourceCategoriesRepository.GetDescriptionByCategoryNameAsync(searchResponse.Category);
@@ -250,7 +257,16 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             var newsUri = new Uri(newsLink);
 
-            var validatedNewsLink = newsLink.Replace(newsUri.Query, "");
+            string validatedNewsLink;
+            if (string.IsNullOrWhiteSpace(newsUri.Query))
+            {
+                validatedNewsLink = newsLink;
+            }
+            else
+            {
+                validatedNewsLink = newsLink.Replace(newsUri.Query, "");
+            }
+
             var domain = GetDomainFromNewsLink(newsLink);
 
             return (validatedNewsLink, domain);
