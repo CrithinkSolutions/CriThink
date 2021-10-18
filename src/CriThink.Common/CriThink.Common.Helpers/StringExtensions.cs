@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
+using System.Linq;
 namespace CriThink.Common.Helpers
 {
     public static class StringExtensions
@@ -28,6 +28,11 @@ namespace CriThink.Common.Helpers
         public static bool IsUrl(this string value)
         {
             return Uri.IsWellFormedUriString(value, UriKind.Absolute);
+        }
+
+        public static string Coalesce(this string value, params string[] args)
+        {
+            return value ?? args.First(x => x != null); 
         }
 
         public static string RemoveWhitespaces(this string source) =>

@@ -10,6 +10,7 @@ namespace CriThink.Client.Core.Api
     {
         [Get("/" + EndpointConstants.NewsSourceAllQuestions)]
         Task<NewsSourceGetAllQuestionsResponse> GetNewsSourceQuestionsAsync(
+            [Header("Accept-Language")]string language,
             CancellationToken cancellationToken = default);
 
         [Post("/" + EndpointConstants.NewsSourcePostAnswerToQuestions)]

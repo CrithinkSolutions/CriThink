@@ -585,4 +585,25 @@
   <data name="SignUpViewModel.Login" xml:space="preserve">
     <value>Login</value>
   </data>
+   <data name="WebViewNewsViewModel.Questions" xml:space="preserve">
+    <value>Questions</value>
+  </data>
+   <data name="WebViewNewsViewModel.Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+   <data name="NewsSourceGetQuestionViewModel.One" xml:space="preserve">
+    <value>1</value>
+  </data>
+   <data name="NewsSourceGetQuestionViewModel.Two" xml:space="preserve">
+    <value>2</value>
+  </data>
+   <data name="NewsSourceGetQuestionViewModel.Three" xml:space="preserve">
+    <value>3</value>
+  </data>
+   <data name="NewsSourceGetQuestionViewModel.Four" xml:space="preserve">
+    <value>4</value>
+  </data>
+   <data name="NewsSourceGetQuestionViewModel.Five" xml:space="preserve">
+    <value>5</value>
+  </data>
 </root>

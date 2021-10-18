@@ -1,14 +1,22 @@
-﻿using Android.OS;
+﻿using Android.App;
+using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
+using AndroidX.CoordinatorLayout.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
+using Google.Android.Material.BottomSheet;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.Material;
 using MvvmCross.Platforms.Android.Binding;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.Platforms.Android.Views.Fragments;
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Users
@@ -116,8 +124,10 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnSave).For(v => v.Text).ToLocalizationId("SaveProfile");
 
             set.Apply();
-
+            
             return view;
         }
     }
+    
+
 }

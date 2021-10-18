@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -12,6 +13,7 @@ using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Controls;
 using Google.Android.Material.BottomSheet;
 using Google.Android.Material.TextField;
+using Java.Interop;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.Material;
 using MvvmCross.DroidX.RecyclerView;
@@ -27,12 +29,9 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 {
     [MvxActivityPresentation]
     [Activity]
-    public class CheckNewsView : MvxActivity<CheckNewsViewModel>, IOnClickListener
+    public class CheckNewsView : MvxActivity<CheckNewsViewModel>
     {
-        public async void OnClick(View v)
-        {
-           await ViewModel.SubmitUriCommand.ExecuteAsync();
-        }
+
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,7 +43,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtInputSearch = FindViewById<TextInputLayout>(Resource.Id.txtInput_search);
             var txtEditSearch = FindViewById<BindableEditText>(Resource.Id.txtEdit_search);
-            txtInputSearch.SetEndIconOnClickListener(this);
+            txtInputSearch.SetEndIconOnClickListener(new EditTextIconClickListener(this, ViewModel, PositionClickItem.End));
+            txtInputSearch.SetStartIconOnClickListener(new EditTextIconClickListener(this, ViewModel, PositionClickItem.Start));
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
@@ -68,5 +68,51 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
         }
 
+        public override bool OnSupportNavigateUp()
+        {
+            Finish();
+            return false;
+        }
+
+        internal class EditTextIconClickListener : Java.Lang.Object, IOnClickListener
+        {
+            private PositionClickItem _positionClickItem;
+            private CheckNewsViewModel _checkNewsViewModel;
+            private Context _context;
+            
+            public async void OnClick(View v)
+            {
+                switch(_positionClickItem)
+                {
+                    case PositionClickItem.Start:
+                        var clipboardManager = _context.GetSystemService(Context.ClipboardService) as ClipboardManager;
+                        var text = clipboardManager.PrimaryClip?.GetItemAt(0)?.Text?.ToString();
+                        _checkNewsViewModel.NewsUri = text;
+                        break;
+                    case PositionClickItem.End:
+                        await _checkNewsViewModel.SubmitUriCommand.ExecuteAsync();
+                        break;
+                }
+            }
+
+            internal EditTextIconClickListener(
+                Context context,
+                CheckNewsViewModel checkNewsViewModel,
+                PositionClickItem positionClickItem
+                )
+            {
+                _positionClickItem = positionClickItem;
+                _checkNewsViewModel = checkNewsViewModel;
+                _context = context;
+            }
+
+
+        }
+
+    }
+    enum PositionClickItem
+    {
+        Start,
+        End
     }
 }

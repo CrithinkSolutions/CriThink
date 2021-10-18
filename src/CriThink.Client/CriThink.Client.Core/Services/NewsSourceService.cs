@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.Entities;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Repositories;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.Notification;
+using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Plugin.Messenger;
@@ -23,6 +26,7 @@ namespace CriThink.Client.Core.Services
         private readonly IUserProfileService _userProfileService;
         private readonly ISQLiteRepository _sqlRepo;
         private readonly IMvxMessenger _messenger;
+        private readonly IGeolocationService _geoService;
         private readonly ILogger<NewsSourceService> _logger;
 
         public NewsSourceService(
@@ -30,6 +34,7 @@ namespace CriThink.Client.Core.Services
             INotificationApi notificationApi,
             IUserProfileService userProfileService,
             ISQLiteRepository sqlRepo,
+            IGeolocationService geoService,
             IMvxMessenger messenger, ILogger<NewsSourceService> logger)
         {
             _newsSourceApi = newsSourceApi ?? throw new ArgumentNullException(nameof(newsSourceApi));
@@ -37,6 +42,7 @@ namespace CriThink.Client.Core.Services
             _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
             _sqlRepo = sqlRepo ?? throw new ArgumentNullException(nameof(sqlRepo));
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
+            _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
             _logger = logger;
         }
 
@@ -55,6 +61,61 @@ namespace CriThink.Client.Core.Services
                 }).ToList();
 
             return models;
+        }
+
+        public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
+
+                var response = await _newsSourceApi.GetNewsSourceQuestionsAsync(
+                    currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE),
+                    cancellationToken)
+                    .ConfigureAwait(false);
+
+                return response.Questions;
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error retrieve questions for news");
+                throw;
+            }
+        }
+
+        public async Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
+
+            if (questions == null)
+                throw new ArgumentNullException(nameof(questions));
+
+            var request = new NewsSourcePostAllAnswersRequest
+            {
+                NewsLink = newsLink,
+                Questions = questions
+            };
+            try
+            {
+                var response = await _newsSourceApi.PostAnswersToArticleQuestionsAsync(request, cancellationToken)
+                            .ConfigureAwait(false);
+                return response;
+
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error registering for notification", newsLink);
+                throw;
+            }
         }
 
         public async Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken)
@@ -111,6 +172,10 @@ namespace CriThink.Client.Core.Services
     public interface INewsSourceService
     {
         Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand);
+
+        Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default);
+
+        Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken);
 
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
     }
