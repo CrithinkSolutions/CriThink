@@ -604,10 +604,10 @@
     <value>Ok</value>
   </data>
   <data name="NewsCheckerResultViewModel.ResponseTitle" xml:space="preserve">
-    <value>Pensiamo che questo sia</value>
+    <value>Pensiamo che questo sito sia</value>
   </data>
   <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
-    <value>Il tuo voto</value>
+    <value>CriThink ed il tuo voto</value>
   </data>
   <data name="NewsCheckerResultViewModel.CommunityVote" xml:space="preserve">
     <value>Il voto della community</value>

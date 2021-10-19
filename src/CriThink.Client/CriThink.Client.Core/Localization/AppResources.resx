@@ -625,7 +625,7 @@
     <value>We think this website is</value>
   </data>
   <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
-    <value>User Vote</value>
+    <value>CriThink and Your Rating</value>
   </data>
   <data name="NewsCheckerResultViewModel.CommunityVote" xml:space="preserve">
     <value>Community Vote</value>
