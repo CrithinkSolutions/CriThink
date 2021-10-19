@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -35,7 +36,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoQuestionNewsSubmitCommand(CancellationToken cancellationToken)
         {
-            await _navigationService.Navigate<NewsCheckerResultViewModel, string>(string.Empty, cancellationToken: cancellationToken)
+            var vm = new NewsCheckerResultModel()
+            {
+                NewsLink = string.Empty,
+            };
+
+            await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(vm, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
         }

@@ -1,18 +1,17 @@
-﻿using System;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
+﻿using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.Models.NewsChecker
 {
     public class NewsCheckerResultModel : MvxNotifyPropertyChanged
     {
-
         private string _newsLink;
         public string NewsLink
         {
             get => _newsLink;
             set => SetProperty(ref _newsLink, value);
         }
+
         private bool _isUnknownResult;
         public bool IsUnknownResult
         {

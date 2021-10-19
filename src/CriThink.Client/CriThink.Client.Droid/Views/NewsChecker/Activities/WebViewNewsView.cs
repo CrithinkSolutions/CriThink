@@ -79,10 +79,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                 set.Bind(btnNext).For(v => v.BindClick()).To(vm => vm.SubmitNewsQuestionsCommand);
                 set.Bind(tvQuestion).ToLocalizationId("Questions");
             }
-            
+
         }
 
-       private bool _initialized; 
+        private bool _initialized;
 
         private void ViewTreeObserver_GlobalLayout(object sender, EventArgs e)
         {
@@ -101,7 +101,6 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                 var layoutParams = _mainScrollView.LayoutParameters;
                 layoutParams.Height = _materialCardView.Height - _bottomSheetHeader.Height;
                 _mainScrollView.LayoutParameters = layoutParams;
-
 
                 _sheetBehavior.State = BottomSheetBehavior.StateCollapsed;
                 _sheetBehavior.HalfExpandedRatio = (float) _materialCardView.Height / (float) height;

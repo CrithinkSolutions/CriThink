@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
@@ -92,20 +93,26 @@ namespace CriThink.Client.Core.Services
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
 
-            if (questions == null)
+            if (questions is null)
                 throw new ArgumentNullException(nameof(questions));
+
+            var currentArea = await _geoService.GetCurrentCountryCodeAsync().ConfigureAwait(false);
 
             var request = new NewsSourcePostAllAnswersRequest
             {
                 NewsLink = newsLink,
                 Questions = questions
             };
+
             try
             {
-                var response = await _newsSourceApi.PostAnswersToArticleQuestionsAsync(request, cancellationToken)
-                            .ConfigureAwait(false);
-                return response;
+                var response = await _newsSourceApi.PostAnswersToArticleQuestionsAsync(
+                    currentArea.Coalesce(GeoConstant.DEFAULT_LANGUAGE),
+                    request,
+                    cancellationToken)
+                    .ConfigureAwait(false);
 
+                return response;
             }
             catch (TokensExpiredException)
             {
@@ -118,7 +125,9 @@ namespace CriThink.Client.Core.Services
             }
         }
 
-        public async Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken)
+        public async Task RegisterForNotificationAsync(
+            string newsLink,
+            CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(newsLink))
                 throw new ArgumentNullException(nameof(newsLink));
@@ -202,7 +211,8 @@ namespace CriThink.Client.Core.Services
 
         Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken);
 
-        Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
-        Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
+        Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
+
+        Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
     }
 }

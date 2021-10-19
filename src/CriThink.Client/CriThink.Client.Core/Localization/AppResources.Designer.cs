@@ -1575,6 +1575,60 @@ namespace CriThink.Client.Core.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredConfirmation {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t give your opinion twice!.
+        /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredMessage {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We already have your opinion on this website, and it can&apos;t be changed.
+        /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredTitle {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorConfirmation {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We faced a problem while getting your opinion. But don&apos;t worry, we will recover quickly!.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorMessage {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorTitle {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
         internal static string WebViewNewsViewModel_MissingVoteConfirm {
             get {
                 return ResourceManager.GetString("WebViewNewsViewModel.MissingVoteConfirm", resourceCulture);

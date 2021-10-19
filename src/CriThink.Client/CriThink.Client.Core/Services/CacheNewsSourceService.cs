@@ -53,7 +53,6 @@ namespace CriThink.Client.Core.Services
         public Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
             _newsSourceService.RegisterForNotificationAsync(newsLink, cancellationToken);
 
-
         public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default)
         {
             return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey, async entry =>
@@ -63,6 +62,12 @@ namespace CriThink.Client.Core.Services
                 return await _newsSourceService.GetQuestionsNewsAsync(cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
+
+        public Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
+            => _newsSourceService.PostAnswersToArticleQuestionsAsync(newsLink, questions, cancellationToken);
+
+        public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
+            _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
 
         private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
         {
@@ -74,14 +79,6 @@ namespace CriThink.Client.Core.Services
 
             _resetCacheToken = new CancellationTokenSource();
         }
-
-
-        public Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
-            => _newsSourceService.PostAnswersToArticleQuestionsAsync(newsLink, questions, cancellationToken);
-
-        public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
-            _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
-
 
         #region IDisposable
 

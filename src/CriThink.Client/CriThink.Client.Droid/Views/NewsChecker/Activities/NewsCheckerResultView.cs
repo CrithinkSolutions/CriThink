@@ -1,19 +1,14 @@
 ﻿using System.ComponentModel;
 using Android.App;
 using Android.OS;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels.NewsChecker;
-using CriThink.Client.Droid.Controls;
 using CriThink.Client.Droid.Views.DebunkingNews;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
-using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -35,12 +30,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         private AppCompatTextView _tvCommunityVoteRating;
         private AppCompatTextView _tvUserVoteRating;
 
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.newscheckerresult_view);
-
 
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
@@ -53,7 +46,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var tvResponse = FindViewById<AppCompatTextView>(Resource.Id.tvResponse);
             var tvDescription = FindViewById<AppCompatTextView>(Resource.Id.tvDescription);
             var tvNotification = FindViewById<AppCompatTextView>(Resource.Id.tvNotification);
-            var switchNotification= FindViewById<SwitchCompat>(Resource.Id.switchNotificationTitle);
+            var switchNotification = FindViewById<SwitchCompat>(Resource.Id.switchNotification);
             var tvUserVote = FindViewById<AppCompatTextView>(Resource.Id.tvUserVote);
             _tvUserVoteRating = FindViewById<AppCompatTextView>(Resource.Id.tvUvRating);
             var imgUvVote1 = FindViewById<AppCompatImageView>(Resource.Id.img_uv_vote_1);
@@ -90,7 +83,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-          
+
             var layoutManager = new LinearLayoutManager(this);
             recyclerRelatedDNews.SetLayoutManager(layoutManager);
             recyclerRelatedDNews.SetItemAnimator(null);
@@ -111,11 +104,11 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(tvResponseTitle).To(vm => vm.ClassificationTitle);
             set.Bind(tvUserVote).ToLocalizationId("UserVote");
             set.Bind(tvCommunityVote).ToLocalizationId("CommunityVote");
-            set.Bind(boxCommunityVote).For(v => v.BindVisible()).To(vm => !vm.NewsCheckerResultModel.IsUnknownResult);
-            set.Bind(txtRelatedDNews).For(v => v.BindVisible()).To(vm => !vm.NewsCheckerResultModel.IsUnknownResult);
-            set.Bind(recyclerRelatedDNews).For(v => v.BindVisible()).To(vm => !vm.NewsCheckerResultModel.IsUnknownResult);
-            set.Bind(tvNotification).For(v => v.BindVisible()).To(vm => vm.NewsCheckerResultModel.IsUnknownResult);
-            set.Bind(switchNotification).For(v => v.BindVisible()).To(vm => vm.NewsCheckerResultModel.IsUnknownResult);
+            set.Bind(boxCommunityVote).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxInvertedVisibilityValueConverter>();
+            set.Bind(txtRelatedDNews).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxInvertedVisibilityValueConverter>();
+            set.Bind(recyclerRelatedDNews).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxInvertedVisibilityValueConverter>();
+            set.Bind(tvNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult);
+            set.Bind(switchNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult);
             set.Bind(tvNotification).ToLocalizationId("NotificationTitle");
             set.Bind(switchNotification).For(v => v.Checked).To(vm => vm.IsSubscribed).TwoWay();
             set.Bind(txtTitle).ToLocalizationId("Title");
@@ -136,7 +129,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                 var newsSourcePostAnswersResponse = ViewModel.NewsCheckerResultModel.NewsSourcePostAnswersResponse;
                 _tvUserVoteRating.Text = $"{newsSourcePostAnswersResponse.UserRate}/5";
                 _tvCommunityVoteRating.Text = $"{newsSourcePostAnswersResponse.CommunityRate}/5";
-                for (int i=0;i<VOTE;i++)
+                for (int i = 0; i < VOTE; i++)
                 {
                     SetImageVote(_imgUvVotes[i], newsSourcePostAnswersResponse.UserRate < i);
                     SetImageVote(_imgCvVotes[i], newsSourcePostAnswersResponse.CommunityRate < i);

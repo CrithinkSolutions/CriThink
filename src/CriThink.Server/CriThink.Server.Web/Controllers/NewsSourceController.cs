@@ -8,6 +8,7 @@ using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
 using CriThink.Server.Domain.Entities;
+using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -130,7 +131,7 @@ namespace CriThink.Server.Web.Controllers
 
                 return Ok(new ApiOkResponse(response));
             }
-            catch (InvalidOperationException)
+            catch (CriThinkAlreadyAnsweredException)
             {
                 return Conflict();
             }

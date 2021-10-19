@@ -61,14 +61,13 @@ namespace CriThink.Client.Core.Api
             if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
             {
                 await HandleTokensRenewalAsync(identityService, request, cancellationToken);
-            }
+                responseMessage = await TryMakeRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
-            responseMessage = await TryMakeRequestAsync(request, cancellationToken).ConfigureAwait(false);
-
-            // Our refresh token has been removed from DB. User needs to re enter credentials
-            if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                throw new TokensExpiredException();
+                // Our refresh token has been removed from DB. User needs to re enter credentials
+                if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new TokensExpiredException();
+                }
             }
 
             return responseMessage;
