@@ -6,13 +6,13 @@ namespace CriThink.Client.Core.Models.NewsChecker
 {
     public class NewsCheckerResultModel : MvxNotifyPropertyChanged
     {
-
         private string _newsLink;
         public string NewsLink
         {
             get => _newsLink;
             set => SetProperty(ref _newsLink, value);
         }
+
         private bool _isUnknownResult;
         public bool IsUnknownResult
         {
@@ -27,18 +27,17 @@ namespace CriThink.Client.Core.Models.NewsChecker
             set => SetProperty(ref _newsSourcePostAnswersResponse, value);
         }
 
-        public static NewsCheckerResultModel IsErrorResultModel(string newsLink) =>
-            new NewsCheckerResultModel
-            {
-                NewsLink = newsLink,
-                IsUnknownResult = true
-            };
-
         public static NewsCheckerResultModel Create(string newsLink, NewsSourcePostAnswersResponse newsSourcePostAnswersResponse)
-            => new NewsCheckerResultModel
+        {
+            if (newsSourcePostAnswersResponse is null)
+                throw new ArgumentNullException(nameof(newsSourcePostAnswersResponse));
+
+            return new NewsCheckerResultModel
             {
                 NewsLink = newsLink,
-                NewsSourcePostAnswersResponse = newsSourcePostAnswersResponse
+                NewsSourcePostAnswersResponse = newsSourcePostAnswersResponse,
+                IsUnknownResult = newsSourcePostAnswersResponse.Classification == NewsSourceAuthenticityDto.Unknown,
             };
+        }
     }
 }

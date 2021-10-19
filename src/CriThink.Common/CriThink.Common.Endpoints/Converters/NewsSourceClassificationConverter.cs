@@ -27,6 +27,7 @@ namespace CriThink.Common.Endpoints.Converters
                 "Satirical" => NewsSourceAuthenticityDto.Satirical,
                 "Suspicious" => NewsSourceAuthenticityDto.Suspicious,
                 "Social Media" => NewsSourceAuthenticityDto.SocialMedia,
+                "Unknown" => NewsSourceAuthenticityDto.Unknown,
                 _ => throw new Exception(),
             };
         }

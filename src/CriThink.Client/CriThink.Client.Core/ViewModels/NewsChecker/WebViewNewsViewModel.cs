@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using Refit;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
@@ -85,7 +85,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             try
             {
-
                 var questions = new List<NewsSourcePostAnswerRequest>(Questions.Count);
 
                 foreach (var question in Questions)
@@ -112,33 +111,45 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     .ConfigureAwait(false);
 
                 var newsCheckerResultModel = NewsCheckerResultModel.Create(
-                    Uri.AbsoluteUri,
-                    response);
+                Uri.AbsoluteUri,
+                response);
 
                 await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
                     newsCheckerResultModel,
                     cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
+
             }
-            catch (HttpRequestException)
+            catch (ApiException ex)
+                when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                var newsCheckerResultModel = NewsCheckerResultModel.IsErrorResultModel(Uri.AbsoluteUri);
+                var message = LocalizedTextSource.GetText("AlreadyAnsweredMessage");
+                var title = LocalizedTextSource.GetText("AlreadyAnsweredTitle");
+                var confirmation = LocalizedTextSource.GetText("AlreadyAnsweredConfirmation");
 
-                await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
-                    newsCheckerResultModel,
-                    cancellationToken: cancellationToken)
-                    .ConfigureAwait(true);
+                await ShowFormatMessageAsync(
+                    message,
+                    title,
+                    confirmation,
+                    cancellationToken);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw;
+
+                var message = LocalizedTextSource.GetText("GenericErrorMessage");
+                var title = LocalizedTextSource.GetText("GenericErrorTitle");
+                var confirmation = LocalizedTextSource.GetText("GenericErrorConfirmation");
+
+                await ShowFormatMessageAsync(
+                    message,
+                    title,
+                    confirmation,
+                    cancellationToken);
+
             }
         }
 
-        private Task ShowFormatMessageAsync(string message, string title, string ok, CancellationToken cancellationToken)
-        {
-            return _userDialogs.AlertAsync(message, title: title, okText: ok, cancelToken: cancellationToken);
-        }
+        private Task ShowFormatMessageAsync(string message, string title, string ok, CancellationToken cancellationToken) => _userDialogs.AlertAsync(message, title: title, okText: ok, cancelToken: cancellationToken);
     }
 }

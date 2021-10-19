@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Models.Identity;
+using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Core.ViewModels.SpotFakeNews;
@@ -103,8 +104,13 @@ namespace CriThink.Client.Core.ViewModels
                 return;
             }
 
+            var vm = new NewsCheckerResultModel()
+            {
+                NewsLink = input,
+            };
+
             await _navigationService
-                .Navigate<NewsCheckerResultViewModel, string>(input, cancellationToken: cancellationToken)
+                .Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(vm, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
         }
 

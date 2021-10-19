@@ -801,45 +801,27 @@ namespace CriThink.Client.Core.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Community Vote.
         /// </summary>
-        internal static string NewsCheckerResultView_CommunityVote {
+        internal static string NewsCheckerResultViewModel_CommunityVote {
             get {
-                return ResourceManager.GetString("NewsCheckerResultView.CommunityVote", resourceCulture);
+                return ResourceManager.GetString("NewsCheckerResultViewModel.CommunityVote", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We Think This Website Is.
+        ///   Looks up a localized string similar to Conspiracist.
         /// </summary>
-        internal static string NewsCheckerResultView_ResponseTitle {
+        internal static string NewsCheckerResultViewModel_Conspiracist {
             get {
-                return ResourceManager.GetString("NewsCheckerResultView.ResponseTitle", resourceCulture);
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Conspiracist", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to News Check.
+        ///   Looks up a localized string similar to Fake News.
         /// </summary>
-        internal static string NewsCheckerResultView_Title {
+        internal static string NewsCheckerResultViewModel_FakeNews {
             get {
-                return ResourceManager.GetString("NewsCheckerResultView.Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User Vote.
-        /// </summary>
-        internal static string NewsCheckerResultView_UserVote {
-            get {
-                return ResourceManager.GetString("NewsCheckerResultView.UserVote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to We think this website is {0}.
-        /// </summary>
-        internal static string NewsCheckerResultViewModel_ClassificationHeader {
-            get {
-                return ResourceManager.GetString("NewsCheckerResultViewModel.ClassificationHeader", resourceCulture);
+                return ResourceManager.GetString("NewsCheckerResultViewModel.FakeNews", resourceCulture);
             }
         }
         
@@ -862,11 +844,56 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check News.
+        ///   Looks up a localized string similar to Reliable.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_Reliable {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Reliable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We think this website is.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_ResponseTitle {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.ResponseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Satirical.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_Satirical {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Satirical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspicious.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_Suspicious {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Suspicious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News Check.
         /// </summary>
         internal static string NewsCheckerResultViewModel_Title {
             get {
                 return ResourceManager.GetString("NewsCheckerResultViewModel.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_Unknown {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Unknown", resourceCulture);
             }
         }
         
@@ -894,6 +921,15 @@ namespace CriThink.Client.Core.Localization {
         internal static string NewsCheckerResultViewModel_UnknownDescription {
             get {
                 return ResourceManager.GetString("NewsCheckerResultViewModel.UnknownDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Vote.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_UserVote {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.UserVote", resourceCulture);
             }
         }
         
@@ -1569,6 +1605,60 @@ namespace CriThink.Client.Core.Localization {
         internal static string SpotFakeNewsHomeViewModel_HDescription {
             get {
                 return ResourceManager.GetString("SpotFakeNewsHomeViewModel.HDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredConfirmation {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t give your opinion twice!.
+        /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredMessage {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We already have your opinion on this website, and it can&apos;t be changed.
+        /// </summary>
+        internal static string WebViewNewsViewModel_AlreadyAnsweredTitle {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.AlreadyAnsweredTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorConfirmation {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We faced a problem while getting your opinion. But don&apos;t worry, we will recover quickly!.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorMessage {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred.
+        /// </summary>
+        internal static string WebViewNewsViewModel_GenericErrorTitle {
+            get {
+                return ResourceManager.GetString("WebViewNewsViewModel.GenericErrorTitle", resourceCulture);
             }
         }
         

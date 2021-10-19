@@ -5,6 +5,7 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:layout_marginTop="@dimen/cardview_marginTopList"
+  android:layout_marginBottom="@dimen/cardview_marginBottomList"
   android:layout_marginStart="@dimen/cardview_marginSidesList"
   android:layout_marginEnd="@dimen/cardview_marginSidesList"
   android:background="@android:color/white"

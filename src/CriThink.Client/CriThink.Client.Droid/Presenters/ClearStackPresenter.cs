@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Android.Content;
 using CriThink.Client.Core.Constants;
 using MvvmCross.Platforms.Android.Presenters;
@@ -27,5 +28,27 @@ namespace CriThink.Client.Droid.Presenters
 
             return intent;
         }
+    }
+
+    public class GoHomeStackPresenter : MvxAndroidViewPresenter
+    {
+        public GoHomeStackPresenter(IEnumerable<Assembly> androidViewAssemblies)
+            : base(androidViewAssemblies)
+        { }
+
+        public override Task<bool> ChangePresentation(MvxPresentationHint hint)
+        {
+            if (hint is MyFunkyPresentationHint)
+            {
+
+            }
+
+            return base.ChangePresentation(hint);
+        }
+    }
+
+    public class MyFunkyPresentationHint : MvxPresentationHint
+    {
+        public int DegreeOfFunkiness { get; set; }
     }
 }

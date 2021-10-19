@@ -156,7 +156,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (userOldAnswers?.Any() == true)
             {
                 _logger?.LogWarning("This user already gave a rate for this news", userId, newsLink);
-                throw new InvalidOperationException("This user has already gave a rate for this news");
+                throw new CriThinkAlreadyAnsweredException();
             }
         }
 

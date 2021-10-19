@@ -312,9 +312,6 @@
   <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
     <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
-  <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
-    <value>Pensiamo che questo sito sia {0}</value>
-  </data>
   <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
     <value>Purtroppo non conosciamo ancora la fonte di questo sito</value>
   </data>
@@ -322,7 +319,7 @@
     <value>Fonte sconosciuta</value>
   </data>
   <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
-    <value>Check News</value>
+    <value>Risultato</value>
   </data>
   <data name="NewsCheckerResultViewModel.NotificationTitle" xml:space="preserve">
     <value>Ricevi una email quando avremo classificato questo sito</value>
@@ -606,17 +603,14 @@
   <data name="CheckNewsViewModel.MalformedUrlConfirm" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="NewsCheckerResultView.ResponseTitle" xml:space="preserve">
-    <value>We Think This Website Is</value>
+  <data name="NewsCheckerResultViewModel.ResponseTitle" xml:space="preserve">
+    <value>Pensiamo che questo sia</value>
   </data>
-  <data name="NewsCheckerResultView.UserVote" xml:space="preserve">
+  <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
     <value>Il tuo voto</value>
   </data>
-  <data name="NewsCheckerResultView.CommunityVote" xml:space="preserve">
-    <value>Il voto della communitye</value>
-  </data>
-  <data name="NewsCheckerResultView.Title" xml:space="preserve">
-    <value>Risultato</value>
+  <data name="NewsCheckerResultViewModel.CommunityVote" xml:space="preserve">
+    <value>Il voto della community</value>
   </data>
   <data name="WebViewNewsViewModel.MissingVoteConfirm" xml:space="preserve">
     <value>Ok</value>
@@ -626,5 +620,41 @@
   </data>
   <data name="WebViewNewsViewModel.MissingVoteTitle" xml:space="preserve">
     <value>Dovresti dare un'opinione a tutte le domande!</value>
+  </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredConfirmation" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredMessage" xml:space="preserve">
+    <value>Non puoi darci la tua opinione due volte!</value>
+  </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredTitle" xml:space="preserve">
+    <value>Abbiamo già una vostra opinione su questo sito, e purtroppo non può essere cambiata</value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorConfirmation" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorMessage" xml:space="preserve">
+    <value>Abbiamo riscontrato un problema mentre registravamo la tua opinione, ma recupereremo presto! </value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorTitle" xml:space="preserve">
+    <value>Si è verificato un errore</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Conspiracist" xml:space="preserve">
+    <value>Cospirazionista</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.FakeNews" xml:space="preserve">
+    <value>Notizie False</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Reliable" xml:space="preserve">
+    <value>Affidabile</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Satirical" xml:space="preserve">
+    <value>Satirico</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Suspicious" xml:space="preserve">
+    <value>Sospetto</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Unknown" xml:space="preserve">
+    <value>Sconosciuto</value>
   </data>
 </root>

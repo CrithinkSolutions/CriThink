@@ -12,10 +12,12 @@ namespace CriThink.Client.Core.Handlers
     public class CriThinkApiHandler : HttpClientHandler
     {
         private static readonly HashSet<HttpStatusCode>
-            DisableRetryPolicyStatusCodes = new HashSet<HttpStatusCode>
+            DisableRetryPolicyStatusCodes = new()
             {
                 HttpStatusCode.BadRequest,
-                HttpStatusCode.Unauthorized
+                HttpStatusCode.Unauthorized,
+                HttpStatusCode.Conflict,
+                HttpStatusCode.NotFound,
             };
 
         public CriThinkApiHandler()
