@@ -115,9 +115,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     response);
 
                 await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
-                    newsCheckerResultModel,
-                    cancellationToken: cancellationToken)
+                    newsCheckerResultModel)
                     .ConfigureAwait(true);
+   
             }
             catch (ApiException ex)
                 when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -155,6 +155,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     title,
                     confirmation,
                     cancellationToken);
+                
             }
         }
 

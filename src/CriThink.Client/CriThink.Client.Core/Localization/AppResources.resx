@@ -223,7 +223,7 @@
     <value>Or</value>
   </data>
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
-    <value>We think this website is {0}</value>
+    <value>We think this website is </value>
   </data>
   <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
     <value>Check News</value>

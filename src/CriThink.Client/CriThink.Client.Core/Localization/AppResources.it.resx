@@ -313,7 +313,7 @@
     <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
-    <value>Pensiamo che questo sito sia {0}</value>
+    <value>Pensiamo che questo sito sia </value>
   </data>
   <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
     <value>Purtroppo non conosciamo ancora la fonte di questo sito</value>
