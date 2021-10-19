@@ -124,14 +124,23 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task SetNewsSourceAsync()
         {
-            if (NewsCheckerResultModel.IsUnknownResult)
+            try
             {
-                await HandleUnknownResultAsync(NewsCheckerResultModel.NewsLink).ConfigureAwait(true);
+
+                if (NewsCheckerResultModel.IsUnknownResult)
+                {
+                    await HandleUnknownResultAsync(NewsCheckerResultModel.NewsLink).ConfigureAwait(true);
+                }
+                else
+                {
+                    SetSearchResult(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
+                    SetRelatedDebunkingNews(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                SetSearchResult(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
-                SetRelatedDebunkingNews(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
+                _logger.LogError(ex, ex.Message);
+
             }
         }
 

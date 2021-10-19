@@ -81,7 +81,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             }
 
         }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            _sheetBehavior.State = BottomSheetBehavior.StateCollapsed;
 
+        }
         private bool _initialized;
 
         private void ViewTreeObserver_GlobalLayout(object sender, EventArgs e)
