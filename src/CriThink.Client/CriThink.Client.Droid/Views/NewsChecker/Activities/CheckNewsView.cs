@@ -43,6 +43,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtInputSearch = FindViewById<TextInputLayout>(Resource.Id.txtInput_search);
             var txtEditSearch = FindViewById<BindableEditText>(Resource.Id.txtEdit_search);
+
             txtInputSearch.SetEndIconOnClickListener(new EditTextIconClickListener(this, ViewModel, PositionClickItem.End));
             txtInputSearch.SetStartIconOnClickListener(new EditTextIconClickListener(this, ViewModel, PositionClickItem.Start));
             SetSupportActionBar(toolbar);

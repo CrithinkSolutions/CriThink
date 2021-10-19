@@ -100,18 +100,16 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
         {
-            await _navigationService
-                .Navigate<WebViewNewsViewModel, string>(model.NewsLink, cancellationToken: cancellationToken)
-                .ConfigureAwait(true);
-
+            NewsUri = model.NewsLink;
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
         private void DoClearTextCommand() => NewsUri = string.Empty;
 
-        private Task DeleteHistoryRecentNews(RecentNewsChecksModel recentNewsChecksModel)
+        private async Task DeleteHistoryRecentNews(RecentNewsChecksModel recentNewsChecksModel)
         {
-            return Task.FromResult(false);
+            await _newsSourceService.DeleteLatestNewsCheckAsync(recentNewsChecksModel);
+            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
         private async Task UpdateLatestNewsChecksAsync()

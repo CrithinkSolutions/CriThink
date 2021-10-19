@@ -121,6 +121,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
             await SetNewsSourceAsync().ConfigureAwait(true);
+            await AddRecentNews(NewsCheckerResultModel).ConfigureAwait(false);
         }
 
         public async Task NavigateToHomeAsync()
@@ -172,6 +173,20 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             };
         }
 
+        private async Task AddRecentNews(NewsCheckerResultModel model)
+        {
+            if (model.IsUnknownResult)
+                return;
+
+            var recentNewsCheckModel = new RecentNewsChecksModel
+            {
+                Classification = model.NewsSourcePostAnswersResponse.Classification.ToString(),
+                NewsLink = model.NewsLink,
+                SearchDateTime = DateTime.UtcNow
+            };
+            await _newsSourceService.AddLatestNewsCheckAsync(recentNewsCheckModel);
+        }
+
         private void SetRelatedDebunkingNews(NewsSourcePostAnswersResponse response)
         {
             if (!response.RelatedDebunkingNews.Any())
@@ -190,8 +205,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             ClassificationTitle = LocalizedTextSource.GetText("UnknownClassificatioHeader");
             Classification = LocalizedTextSource.GetText("UnknownClassification");
             Description = LocalizedTextSource.GetText("UnknownDescription");
+            ResultImage = "result_unknown_source.svg";
         }
-
         private async Task UpdateSubscriptionAsync()
         {
             try
@@ -206,8 +221,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     await _newsSourceService.RegisterForNotificationAsync(
                         NewsCheckerResultModel.NewsLink);
                 }
-
-                InvokeOnMainThread(() => IsSubscribed = !IsSubscribed);
             }
             catch (Exception ex)
             {
