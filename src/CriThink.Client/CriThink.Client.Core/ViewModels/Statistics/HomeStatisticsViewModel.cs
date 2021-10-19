@@ -21,35 +21,32 @@ namespace CriThink.Client.Core.ViewModels.Statistics
         #region Properties
 
         private long _platformUsers;
-        public string PlatformUsers
+        public long PlatformUsers
         {
-            get => $"{_platformUsers:000,000}";
+            get => _platformUsers;
             set
             {
-                if (long.TryParse(value, out var strValue))
-                    SetProperty(ref _platformUsers, strValue);
+                SetProperty(ref _platformUsers, value);
             }
         }
 
         private long _platformSearches;
-        public string PlatformSearches
+        public long PlatformSearches
         {
-            get => $"{_platformSearches:000,000}";
+            get => _platformSearches;
             set
             {
-                if (long.TryParse(value, out var strValue))
-                    SetProperty(ref _platformSearches, strValue);
+                SetProperty(ref _platformSearches, value);
             }
         }
 
         private long _userSearches;
-        public string UserSearches
+        public long UserSearches
         {
-            get => $"{_userSearches:000,000}";
+            get => _userSearches;
             set
             {
-                if (long.TryParse(value, out var strValue))
-                    SetProperty(ref _userSearches, strValue);
+                SetProperty(ref _userSearches, value);
             }
         }
 
