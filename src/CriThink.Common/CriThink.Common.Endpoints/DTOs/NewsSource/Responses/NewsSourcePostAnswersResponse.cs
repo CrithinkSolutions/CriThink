@@ -16,6 +16,9 @@ namespace CriThink.Common.Endpoints.DTOs.NewsSource
         [JsonConverter(typeof(NewsSourceClassificationConverter))]
         public NewsSourceAuthenticityDto Classification { get; set; }
 
+        [JsonPropertyName("localizedClassification")]
+        public string LocalizedClassification { get; set; }
+
         [JsonPropertyName("description")]
         public string Description { get; set; }
 

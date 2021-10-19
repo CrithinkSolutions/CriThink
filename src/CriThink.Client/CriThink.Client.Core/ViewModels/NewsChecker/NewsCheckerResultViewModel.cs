@@ -142,7 +142,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             ClassificationTitle = LocalizedTextSource.GetText("ResponseTitle");
 
             Description = response.Description;
-            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.Classification.ToString());
+            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.LocalizedClassification);
 
             ResultImage = response.Classification switch
             {
