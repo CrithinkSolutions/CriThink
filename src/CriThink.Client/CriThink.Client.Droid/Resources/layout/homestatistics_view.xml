@@ -22,8 +22,8 @@
             android:fillViewport="true"
             android:overScrollMode="always"
             android:layout_width="match_parent"
-            android:paddingStart="@dimen/padding_card"
-            android:paddingEnd="@dimen/padding_card"
+            android:paddingStart="@dimen/padding_page"
+            android:paddingEnd="@dimen/padding_page"
             android:layout_marginTop="@dimen/margin_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,10 +78,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="@dimen/margin_littleBig"
+                android:layout_marginTop="@dimen/margin_small"
                 android:id="@+id/viewContent">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_active_crithinker"
+                    android:background="@drawable/round_white_background"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +113,7 @@
                             android:id="@+id/txtActiveUsers"
                             android:textSize="@dimen/textSize_title"
                             android:textColor="@color/darkTextColor"
-                            android:text="000150"
+                            tools:text="000150"
                             android:gravity="center"
                             android:layout_marginTop="@dimen/margin_mini"/>
                     </LinearLayout>
@@ -118,7 +121,7 @@
                         android:layout_width="@dimen/imgSize_bigLogo"
                         android:layout_height="@dimen/imgSize_bigLogo"
                         android:src="@drawable/active_crithinker"
-                        android:layout_margin="@dimen/margin_large"
+                        android:layout_margin="@dimen/margin_littleBig"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -128,6 +131,9 @@
                     android:id="@+id/layout_total_searchers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/round_white_background"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_active_crithinker">
@@ -154,7 +160,7 @@
                             android:id="@+id/txtTotalSearches"
                             android:textSize="@dimen/textSize_title"
                             android:textColor="@color/darkTextColor"
-                            android:text="000150"
+                            tools:text="000150"
                             android:gravity="center"
                             android:layout_marginTop="@dimen/margin_mini"/>
                     </LinearLayout>
@@ -162,7 +168,7 @@
                         android:layout_width="@dimen/imgSize_bigLogo"
                         android:layout_height="@dimen/imgSize_bigLogo"
                         android:src="@drawable/total_searches"
-                        android:layout_margin="@dimen/margin_large"
+                        android:layout_margin="@dimen/margin_littleBig"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -171,6 +177,9 @@
                     android:id="@+id/layout_your_searchers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/round_white_background"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_total_searchers">
@@ -198,7 +207,7 @@
                             android:id="@+id/txtUserSearches"
                             android:textSize="@dimen/textSize_title"
                             android:textColor="@color/darkTextColor"
-                            android:text="000150"
+                            tools:text="000150"
                             android:gravity="center"
                             android:layout_marginTop="@dimen/margin_mini"/>
                     </LinearLayout>
@@ -206,7 +215,7 @@
                         android:layout_width="@dimen/imgSize_bigLogo"
                         android:layout_height="@dimen/imgSize_bigLogo"
                         android:src="@drawable/your_searches"
-                        android:layout_margin="@dimen/margin_large"
+                        android:layout_margin="@dimen/margin_littleBig"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
