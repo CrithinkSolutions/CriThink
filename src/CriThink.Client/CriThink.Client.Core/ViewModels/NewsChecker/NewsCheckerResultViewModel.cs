@@ -119,37 +119,30 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
-
             await SetNewsSourceAsync().ConfigureAwait(true);
         }
 
         private async Task SetNewsSourceAsync()
         {
-            try
+            if (NewsCheckerResultModel.IsUnknownResult)
             {
-                if (NewsCheckerResultModel.IsUnknownResult)
-                {
-                    await HandleUnknownResultAsync(NewsCheckerResultModel.NewsLink).ConfigureAwait(true);
-                }
-                else
-                {
-                    SetSearchResult(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
-                    SetRelatedDebunkingNews(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
-                }
+                await HandleUnknownResultAsync(NewsCheckerResultModel.NewsLink).ConfigureAwait(true);
             }
-            catch (Exception)
+            else
             {
-
+                SetSearchResult(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
+                SetRelatedDebunkingNews(NewsCheckerResultModel.NewsSourcePostAnswersResponse);
             }
-            
         }
 
         private void SetSearchResult(NewsSourcePostAnswersResponse response)
         {
-            ClassificationTitle = LocalizedTextSource.GetText("ClassificationHeader");
+            var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
+
+            ClassificationTitle = LocalizedTextSource.GetText("ResponseTitle");
 
             Description = response.Description;
-            Classification = string.Format(CultureInfo.CurrentCulture,response.Classification.ToString());
+            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.LocalizedClassification);
 
             ResultImage = response.Classification switch
             {
