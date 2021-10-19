@@ -645,4 +645,22 @@
   <data name="WebViewNewsViewModel.MissingVoteTitle" xml:space="preserve">
     <value>You should give your opinion on all questions!</value>
   </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredConfirmation" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredMessage" xml:space="preserve">
+    <value>You can't give your opinion twice!</value>
+  </data>
+  <data name="WebViewNewsViewModel.AlreadyAnsweredTitle" xml:space="preserve">
+    <value>We already have your opinion on this website, and it can't be changed</value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorConfirmation" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorMessage" xml:space="preserve">
+    <value>We faced a problem while getting your opinion. But don't worry, we will recover quickly!</value>
+  </data>
+  <data name="WebViewNewsViewModel.GenericErrorTitle" xml:space="preserve">
+    <value>An error occurred</value>
+  </data>
 </root>
