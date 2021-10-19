@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Messenger;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using MvvmCross.Commands;
@@ -55,7 +57,8 @@ namespace CriThink.Client.Core.Services
 
         public async Task<IList<NewsSourceGetQuestionResponse>> GetQuestionsNewsAsync(CancellationToken cancellationToken = default)
         {
-            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey, async entry =>
+            var countryCode = await _geoService.GetCurrentCountryCodeAsync();
+            return await _memoryCache.GetOrCreateAsync(QuestionsNewsSourceCacheKey.FormatMe(countryCode.Coalesce(GeoConstant.DEFAULT_LANGUAGE)), async entry =>
             {
                 entry.SlidingExpiration = CacheDuration;
                 entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
@@ -68,6 +71,12 @@ namespace CriThink.Client.Core.Services
 
         public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
             _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
+
+        public Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck) =>
+            _newsSourceService.AddLatestNewsCheckAsync(newsCheck);
+
+        public Task DeleteLatestNewsCheckAsync(RecentNewsChecksModel newsCheck) =>
+            _newsSourceService.DeleteLatestNewsCheckAsync(newsCheck);
 
         private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
         {

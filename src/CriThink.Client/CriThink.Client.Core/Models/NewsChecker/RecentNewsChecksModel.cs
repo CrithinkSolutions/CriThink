@@ -12,6 +12,10 @@ namespace CriThink.Client.Core.Models.NewsChecker
             _deleteHistoryRecentNewsItemCommand = deleteHistoryRecentNewsItemCommand;
         }
 
+        public RecentNewsChecksModel()
+        {
+        }
+
         private int _id;
         public int Id
         {

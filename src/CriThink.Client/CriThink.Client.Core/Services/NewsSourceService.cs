@@ -178,7 +178,7 @@ namespace CriThink.Client.Core.Services
         }
 
         // TODO: use again
-        private async Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck)
+        public async Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck)
         {
             if (newsCheck == null)
                 throw new ArgumentNullException(nameof(newsCheck));
@@ -201,6 +201,14 @@ namespace CriThink.Client.Core.Services
             var message = new ClearRecentNewsSourceCacheMessage(this);
             _messenger.Publish(message);
         }
+
+        public async Task DeleteLatestNewsCheckAsync(RecentNewsChecksModel newsCheck)
+        {
+            if (newsCheck == null)
+                throw new ArgumentNullException(nameof(newsCheck));
+
+            await _sqlRepo.RemoveLatestNewsCheck(newsCheck.NewsLink);
+        }
     }
 
     public interface INewsSourceService
@@ -214,5 +222,9 @@ namespace CriThink.Client.Core.Services
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
 
         Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
+
+        Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck);
+
+        Task DeleteLatestNewsCheckAsync(RecentNewsChecksModel newsCheck);
     }
 }

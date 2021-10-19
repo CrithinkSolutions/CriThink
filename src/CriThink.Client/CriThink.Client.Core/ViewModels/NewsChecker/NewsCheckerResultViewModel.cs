@@ -121,6 +121,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             await base.Initialize().ConfigureAwait(false);
             await SetNewsSourceAsync().ConfigureAwait(true);
+            await AddRecentNews(NewsCheckerResultModel).ConfigureAwait(false);
         }
 
         public async Task NavigateToHomeAsync()
@@ -170,6 +171,20 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 NewsSourceAuthenticityDto.Suspicious => "result_suspicious.svg",
                 _ => throw new NotImplementedException($"{response.Classification} not handled")
             };
+        }
+
+        private async Task AddRecentNews(NewsCheckerResultModel model)
+        {
+            if (model.IsUnknownResult)
+                return;
+
+            var recentNewsCheckModel = new RecentNewsChecksModel
+            {
+                Classification = model.NewsSourcePostAnswersResponse.Classification.ToString(),
+                NewsLink = model.NewsLink,
+                SearchDateTime = DateTime.UtcNow
+            };
+            await _newsSourceService.AddLatestNewsCheckAsync(recentNewsCheckModel);
         }
 
         private void SetRelatedDebunkingNews(NewsSourcePostAnswersResponse response)

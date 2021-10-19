@@ -67,6 +67,27 @@ namespace CriThink.Client.Core.Repositories
         {
             return new SQLiteAsyncConnection(_databasePath);
         }
+
+        public async ValueTask RemoveLatestNewsCheck(string link)
+        {
+            if (link == null)
+                throw new ArgumentNullException(nameof(link));
+
+            try
+            {
+                var db = OpenSqLiteConnection();
+                await db.CreateTableAsync<LatestNewsCheck>().ConfigureAwait(false);
+
+                var command = $@"delete from {nameof(LatestNewsCheck)}
+                                 where {nameof(LatestNewsCheck.NewsLink)} = {link} ;";
+
+                await db.ExecuteAsync(command).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error remove recent news to DB", link);
+            }
+        }
     }
 
     public interface ISQLiteRepository
@@ -74,5 +95,7 @@ namespace CriThink.Client.Core.Repositories
         ValueTask<IEnumerable<LatestNewsCheck>> GetLatestNewsChecks();
 
         ValueTask AddLatestNewsCheck(LatestNewsCheck latesNewsCheck);
+
+        ValueTask RemoveLatestNewsCheck(string link);
     }
 }
