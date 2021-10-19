@@ -22,6 +22,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private readonly IMvxNavigationService _navigationService;
         private readonly ILogger<NewsCheckerResultViewModel> _logger;
 
+        private bool _isUnknown;
+
         public NewsCheckerResultViewModel(
             INewsSourceService newsSourceService,
             ILogger<NewsCheckerResultViewModel> logger,
@@ -86,7 +88,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             set
             {
                 SetProperty(ref _isSubscribed, value);
-                Task.Run(async () => await UpdateSubscriptionAsync());
+
+                if (_isUnknown)
+                    Task.Run(async () => await UpdateSubscriptionAsync());
             }
         }
 
@@ -100,7 +104,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private IMvxCommand<NewsSourceRelatedDebunkingNewsResponse> _debunkingNewsSelectedCommand;
         public IMvxCommand<NewsSourceRelatedDebunkingNewsResponse> DebunkingNewsSelectedCommand =>
             _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<NewsSourceRelatedDebunkingNewsResponse>(DoDebunkingNewsSelectedCommand);
-
 
         #endregion
 
@@ -206,19 +209,22 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             Classification = LocalizedTextSource.GetText("UnknownClassification");
             Description = LocalizedTextSource.GetText("UnknownDescription");
             ResultImage = "result_unknown_source.svg";
+
+            _isUnknown = true;
         }
+
         private async Task UpdateSubscriptionAsync()
         {
             try
             {
                 if (IsSubscribed)
                 {
-                    await _newsSourceService.UnregisterForNotificationAsync(
+                    await _newsSourceService.RegisterForNotificationAsync(
                         NewsCheckerResultModel.NewsLink);
                 }
                 else
                 {
-                    await _newsSourceService.RegisterForNotificationAsync(
+                    await _newsSourceService.UnregisterForNotificationAsync(
                         NewsCheckerResultModel.NewsLink);
                 }
             }
