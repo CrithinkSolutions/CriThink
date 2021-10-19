@@ -1061,12 +1061,6 @@ namespace CriThink.Client.Core.Localization {
             }
         }
         
-        internal static string NewsCheckerResultViewModel_ResponseTitle {
-            get {
-                return ResourceManager.GetString("NewsCheckerResultViewModel.ResponseTitle", resourceCulture);
-            }
-        }
-        
         internal static string NewsCheckerResultViewModel_UserVote {
             get {
                 return ResourceManager.GetString("NewsCheckerResultViewModel.UserVote", resourceCulture);

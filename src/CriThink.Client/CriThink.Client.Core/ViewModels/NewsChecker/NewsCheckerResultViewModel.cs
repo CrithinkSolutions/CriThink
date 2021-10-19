@@ -146,12 +146,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private void SetSearchResult(NewsSourcePostAnswersResponse response)
         {
-            var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
 
-            ClassificationTitle = LocalizedTextSource.GetText("ResponseTitle");
+            ClassificationTitle = LocalizedTextSource.GetText("ClassificationHeader");
 
             Description = response.Description;
-            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.LocalizedClassification);
+            Classification = response.LocalizedClassification;
 
             ResultImage = response.Classification switch
             {

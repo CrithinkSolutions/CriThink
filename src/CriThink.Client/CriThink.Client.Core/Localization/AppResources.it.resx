@@ -606,9 +606,6 @@
   <data name="CheckNewsViewModel.MalformedUrlConfirm" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="NewsCheckerResultViewModel.ResponseTitle" xml:space="preserve">
-    <value>We Think This Website Is</value>
-  </data>
   <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
     <value>Il tuo voto</value>
   </data>
