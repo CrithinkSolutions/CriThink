@@ -225,11 +225,20 @@
   <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
     <value>We think this website is {0}</value>
   </data>
+  <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
+    <value>Check News</value>
+  </data>
   <data name="NewsCheckerResultViewModel.RelatedDNews" xml:space="preserve">
     <value>You may also like..</value>
   </data>
   <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
-    <value>Unfortunately we didn't know this website yet.</value>
+    <value>We Do Not Know The Type Of Source</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.UnknownClassification" xml:space="preserve">
+    <value>Unknown Source</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.NotificationTitle" xml:space="preserve">
+    <value>Get notified when we classify this website</value>
   </data>
   <data name="NewsCheckerResultViewModel.UnknownDescription" xml:space="preserve">
     <value>We are going to investigate this website and we will send you back an email with the result as soon as possible! Thank you!</value>
@@ -585,25 +594,55 @@
   <data name="SignUpViewModel.Login" xml:space="preserve">
     <value>Login</value>
   </data>
-   <data name="WebViewNewsViewModel.Questions" xml:space="preserve">
+  <data name="WebViewNewsViewModel.Questions" xml:space="preserve">
     <value>Questions</value>
   </data>
-   <data name="WebViewNewsViewModel.Next" xml:space="preserve">
+  <data name="WebViewNewsViewModel.Next" xml:space="preserve">
     <value>Next</value>
   </data>
-   <data name="NewsSourceGetQuestionViewModel.One" xml:space="preserve">
+  <data name="NewsSourceGetQuestionViewModel.One" xml:space="preserve">
     <value>1</value>
   </data>
-   <data name="NewsSourceGetQuestionViewModel.Two" xml:space="preserve">
+  <data name="NewsSourceGetQuestionViewModel.Two" xml:space="preserve">
     <value>2</value>
   </data>
-   <data name="NewsSourceGetQuestionViewModel.Three" xml:space="preserve">
+  <data name="NewsSourceGetQuestionViewModel.Three" xml:space="preserve">
     <value>3</value>
   </data>
-   <data name="NewsSourceGetQuestionViewModel.Four" xml:space="preserve">
+  <data name="NewsSourceGetQuestionViewModel.Four" xml:space="preserve">
     <value>4</value>
   </data>
-   <data name="NewsSourceGetQuestionViewModel.Five" xml:space="preserve">
+  <data name="NewsSourceGetQuestionViewModel.Five" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="CheckNewsViewModel.MalformedUrlTitle" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="CheckNewsViewModel.MalformedUrlMessage" xml:space="preserve">
+    <value>Please enter a valid web address</value>
+  </data>
+  <data name="CheckNewsViewModel.MalformedUrlConfirm" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="NewsCheckerResultView.ResponseTitle" xml:space="preserve">
+    <value>We Think This Website Is</value>
+  </data>
+  <data name="NewsCheckerResultView.UserVote" xml:space="preserve">
+    <value>User Vote</value>
+  </data>
+  <data name="NewsCheckerResultView.CommunityVote" xml:space="preserve">
+    <value>Community Vote</value>
+  </data>
+  <data name="NewsCheckerResultView.Title" xml:space="preserve">
+    <value>News Check</value>
+  </data>
+  <data name="WebViewNewsViewModel.MissingVoteConfirm" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="WebViewNewsViewModel.MissingVoteMessage" xml:space="preserve">
+    <value>You haven't given an answer to all of our questions. Please, try again!</value>
+  </data>
+  <data name="WebViewNewsViewModel.MissingVoteTitle" xml:space="preserve">
+    <value>You should give your opinion on all questions!</value>
   </data>
 </root>
