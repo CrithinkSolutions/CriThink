@@ -222,11 +222,8 @@
   <data name="LoginViewModel.OrAccount" xml:space="preserve">
     <value>Or</value>
   </data>
-  <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
-    <value>We think this website is </value>
-  </data>
   <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
-    <value>Check News</value>
+    <value>News Check</value>
   </data>
   <data name="NewsCheckerResultViewModel.RelatedDNews" xml:space="preserve">
     <value>You may also like..</value>
@@ -625,16 +622,13 @@
     <value>Ok</value>
   </data>
   <data name="NewsCheckerResultViewModel.ResponseTitle" xml:space="preserve">
-    <value>We Think This Website Is</value>
+    <value>We think this website is</value>
   </data>
   <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
     <value>User Vote</value>
   </data>
   <data name="NewsCheckerResultViewModel.CommunityVote" xml:space="preserve">
     <value>Community Vote</value>
-  </data>
-  <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
-    <value>News Check</value>
   </data>
   <data name="WebViewNewsViewModel.MissingVoteConfirm" xml:space="preserve">
     <value>Ok</value>
@@ -662,5 +656,23 @@
   </data>
   <data name="WebViewNewsViewModel.GenericErrorTitle" xml:space="preserve">
     <value>An error occurred</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Conspiracist" xml:space="preserve">
+    <value>Conspiracist</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.FakeNews" xml:space="preserve">
+    <value>Fake News</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Reliable" xml:space="preserve">
+    <value>Reliable</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Satirical" xml:space="preserve">
+    <value>Satirical</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Suspicious" xml:space="preserve">
+    <value>Suspicious</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
 </root>

@@ -111,23 +111,14 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     .ConfigureAwait(false);
 
                 var newsCheckerResultModel = NewsCheckerResultModel.Create(
-                    Uri.AbsoluteUri,
-                    response);
-
-                await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
-                    newsCheckerResultModel)
-                    .ConfigureAwait(true);
-   
-            }
-            catch (ApiException ex)
-                when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                var newsCheckerResultModel = NewsCheckerResultModel.IsErrorResultModel(Uri.AbsoluteUri);
+                Uri.AbsoluteUri,
+                response);
 
                 await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
                     newsCheckerResultModel,
                     cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
+
             }
             catch (ApiException ex)
                 when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
@@ -155,7 +146,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     title,
                     confirmation,
                     cancellationToken);
-                
+
             }
         }
 

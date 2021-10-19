@@ -153,19 +153,4 @@
   <data name="NewsSourceSuspicious" xml:space="preserve">
     <value>Queste fonti potrebbero pubblicare un mix di notizie false e notizie vere che sono riportate in modo da influenzare I lettori verso particolari argomenti. Per questo, le informazioni provenienti da queste fonti dovrebbero essere ricontrollate prima di essere condivise.</value>
   </data>
-  <data name="Reliable" xml:space="preserve">
-    <value>Affidabile</value>
-  </data>
-  <data name="Satirical" xml:space="preserve">
-    <value>Satirico</value>
-  </data>
-  <data name="SocialMedia" xml:space="preserve">
-    <value>Social MEdia</value>
-  </data>
-  <data name="Suspicious" xml:space="preserve">
-    <value>Sospetto</value>
-  </data>
-  <data name="Unknown" xml:space="preserve">
-    <value>Sconosciuto</value>
-  </data>
 </root>

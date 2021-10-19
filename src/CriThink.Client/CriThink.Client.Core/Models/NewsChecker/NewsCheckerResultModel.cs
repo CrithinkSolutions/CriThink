@@ -1,4 +1,5 @@
-﻿using CriThink.Common.Endpoints.DTOs.NewsSource;
+﻿using System;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.Models.NewsChecker
@@ -26,18 +27,17 @@ namespace CriThink.Client.Core.Models.NewsChecker
             set => SetProperty(ref _newsSourcePostAnswersResponse, value);
         }
 
-        public static NewsCheckerResultModel IsErrorResultModel(string newsLink) =>
-            new NewsCheckerResultModel
-            {
-                NewsLink = newsLink,
-                IsUnknownResult = true
-            };
-
         public static NewsCheckerResultModel Create(string newsLink, NewsSourcePostAnswersResponse newsSourcePostAnswersResponse)
-            => new NewsCheckerResultModel
+        {
+            if (newsSourcePostAnswersResponse is null)
+                throw new ArgumentNullException(nameof(newsSourcePostAnswersResponse));
+
+            return new NewsCheckerResultModel
             {
                 NewsLink = newsLink,
-                NewsSourcePostAnswersResponse = newsSourcePostAnswersResponse
+                NewsSourcePostAnswersResponse = newsSourcePostAnswersResponse,
+                IsUnknownResult = newsSourcePostAnswersResponse.Classification == NewsSourceAuthenticityDto.Unknown,
             };
+        }
     }
 }

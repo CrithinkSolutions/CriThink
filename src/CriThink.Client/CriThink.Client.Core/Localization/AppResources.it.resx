@@ -312,9 +312,6 @@
   <data name="AboutViewModel.LogoutErrorMessage" xml:space="preserve">
     <value>Mi spiace, ma non puoi eseguire ora il logout</value>
   </data>
-  <data name="NewsCheckerResultViewModel.ClassificationHeader" xml:space="preserve">
-    <value>Pensiamo che questo sito sia </value>
-  </data>
   <data name="NewsCheckerResultViewModel.UnknownClassificationHeader" xml:space="preserve">
     <value>Purtroppo non conosciamo ancora la fonte di questo sito</value>
   </data>
@@ -322,7 +319,7 @@
     <value>Fonte sconosciuta</value>
   </data>
   <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
-    <value>Check News</value>
+    <value>Risultato</value>
   </data>
   <data name="NewsCheckerResultViewModel.NotificationTitle" xml:space="preserve">
     <value>Ricevi una email quando avremo classificato questo sito</value>
@@ -607,16 +604,13 @@
     <value>Ok</value>
   </data>
   <data name="NewsCheckerResultViewModel.ResponseTitle" xml:space="preserve">
-    <value>We Think This Website Is</value>
+    <value>Pensiamo che questo sia</value>
   </data>
   <data name="NewsCheckerResultViewModel.UserVote" xml:space="preserve">
     <value>Il tuo voto</value>
   </data>
   <data name="NewsCheckerResultViewModel.CommunityVote" xml:space="preserve">
-    <value>Il voto della communitye</value>
-  </data>
-  <data name="NewsCheckerResultViewModel.Title" xml:space="preserve">
-    <value>Risultato</value>
+    <value>Il voto della community</value>
   </data>
   <data name="WebViewNewsViewModel.MissingVoteConfirm" xml:space="preserve">
     <value>Ok</value>
@@ -644,5 +638,23 @@
   </data>
   <data name="WebViewNewsViewModel.GenericErrorTitle" xml:space="preserve">
     <value>Si è verificato un errore</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Conspiracist" xml:space="preserve">
+    <value>Cospirazionista</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.FakeNews" xml:space="preserve">
+    <value>Notizie False</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Reliable" xml:space="preserve">
+    <value>Affidabile</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Satirical" xml:space="preserve">
+    <value>Satirico</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Suspicious" xml:space="preserve">
+    <value>Sospetto</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.Unknown" xml:space="preserve">
+    <value>Sconosciuto</value>
   </data>
 </root>

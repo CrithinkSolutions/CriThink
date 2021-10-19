@@ -244,7 +244,6 @@ namespace CriThink.Server.Application.CommandHandlers
                 UserRate = userRate,
                 CommunityRate = communityRate,
                 Classification = _mapper.Map<NewsSourceAuthenticity, NewsSourceAuthenticityDto>(authenticity),
-                LocalizedClassification = _stringLocalizer[authenticity.ToString()],
                 RelatedDebunkingNews = relatedDebunkingNews,
             };
 

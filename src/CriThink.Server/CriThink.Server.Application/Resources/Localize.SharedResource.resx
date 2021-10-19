@@ -153,19 +153,4 @@
   <data name="NewsSourceSuspicious" xml:space="preserve">
     <value>These sources may publish a mix of non-factual and factual information which is misrepresented and/or reported with bias (e.g. political leaning bias). Therefore, information coming from these sources should be double-checked considering reliable sources of news.</value>
   </data>
-  <data name="Reliable" xml:space="preserve">
-    <value>Reliable</value>
-  </data>
-  <data name="Satirical" xml:space="preserve">
-    <value>Satirical</value>
-  </data>
-  <data name="SocialMedia" xml:space="preserve">
-    <value>Social Media</value>
-  </data>
-  <data name="Suspicious" xml:space="preserve">
-    <value>Suspicious</value>
-  </data>
-  <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
 </root>

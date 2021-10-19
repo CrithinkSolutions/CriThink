@@ -36,11 +36,13 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         private ConstraintLayout _bottomSheetLayout;
         private MaterialCardView _materialCardView;
         private NestedScrollView _mainScrollView;
+        private BottomSheetBehavior _sheetBehavior;
+
+        private bool _initialized;
+
         public WebViewNewsView()
         {
         }
-
-        private BottomSheetBehavior _sheetBehavior;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -81,17 +83,15 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             }
 
         }
+
         protected override void OnPause()
         {
             base.OnPause();
             _sheetBehavior.State = BottomSheetBehavior.StateCollapsed;
-
         }
-        private bool _initialized;
 
         private void ViewTreeObserver_GlobalLayout(object sender, EventArgs e)
         {
-
             if (_bottomSheetHeader.Height > 0
                 && _materialCardView.Height > 0
                 && !_initialized)
@@ -117,12 +117,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                 _sheetBehavior.AddBottomSheetCallback(new BottomSheetToolbarToggleCallback());
             }
         }
+
         public override bool OnSupportNavigateUp()
         {
             Finish();
             return false;
         }
-
     }
 
     public class BottomSheetToolbarToggleCallback : BottomSheetBehavior.BottomSheetCallback
@@ -130,6 +130,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         public BottomSheetToolbarToggleCallback()
         {
         }
+
         public override void OnSlide(View bottomSheet, float slideOffset)
         {
         }
@@ -146,6 +147,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                     break;
             }
         }
+
         private void ShowImageArrowUp(View bottomSheet, bool isVisible)
         {
             var imageView = bottomSheet.FindViewById<ImageView>(Resource.Id.img_arrow_up);
@@ -155,5 +157,4 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             }
         }
     }
-
 }

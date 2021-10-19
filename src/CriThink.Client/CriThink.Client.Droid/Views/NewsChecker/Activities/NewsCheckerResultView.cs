@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
+using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Content;
@@ -12,7 +14,6 @@ using CriThink.Client.Droid.Views.DebunkingNews;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
-using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -87,7 +88,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom); 
+            SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
             Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
 
             var layoutManager = new LinearLayoutManager(this);
@@ -124,6 +125,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             Finish();
             return false;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            Task.Run(() => ViewModel.NavigateToHomeAsync());
+            return true;
         }
 
         private void SetVote_WeakSubscribe(object sender, PropertyChangedEventArgs e)

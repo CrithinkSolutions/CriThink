@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.DebunkingNews;
@@ -85,7 +86,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             set
             {
                 SetProperty(ref _isSubscribed, value);
-                Task.Run(async () => await NotificationSubscribedAsync());
+                Task.Run(async () => await UpdateSubscriptionAsync());
             }
         }
 
@@ -122,11 +123,20 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             await SetNewsSourceAsync().ConfigureAwait(true);
         }
 
+        public async Task NavigateToHomeAsync()
+        {
+            await _navigationService.Navigate<HomeViewModel>(
+                new MvxBundle(new Dictionary<string, string>
+                    {
+                        {MvxBundleConstaints.ClearBackStack, ""}
+                    }))
+                .ConfigureAwait(true);
+        }
+
         private async Task SetNewsSourceAsync()
         {
             try
             {
-
                 if (NewsCheckerResultModel.IsUnknownResult)
                 {
                     await HandleUnknownResultAsync(NewsCheckerResultModel.NewsLink).ConfigureAwait(true);
@@ -140,18 +150,15 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
             }
         }
 
         private void SetSearchResult(NewsSourcePostAnswersResponse response)
         {
-            var localizedClassificationText = LocalizedTextSource.GetText("ClassificationHeader");
-
             ClassificationTitle = LocalizedTextSource.GetText("ResponseTitle");
 
             Description = response.Description;
-            Classification = string.Format(CultureInfo.CurrentCulture, localizedClassificationText, response.LocalizedClassification);
+            Classification = LocalizedTextSource.GetText(response.Classification.ToString());
 
             ResultImage = response.Classification switch
             {
@@ -161,7 +168,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 NewsSourceAuthenticityDto.Satirical => "result_satirical.svg",
                 NewsSourceAuthenticityDto.SocialMedia => "result_socialmedia.svg",
                 NewsSourceAuthenticityDto.Suspicious => "result_suspicious.svg",
-                _ => "result_suspicious.svg"
+                _ => throw new NotImplementedException($"{response.Classification} not handled")
             };
         }
 
@@ -185,7 +192,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             Description = LocalizedTextSource.GetText("UnknownDescription");
         }
 
-        private async Task NotificationSubscribedAsync()
+        private async Task UpdateSubscriptionAsync()
         {
             try
             {
