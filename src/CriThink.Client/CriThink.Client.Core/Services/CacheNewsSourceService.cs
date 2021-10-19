@@ -75,6 +75,14 @@ namespace CriThink.Client.Core.Services
             _resetCacheToken = new CancellationTokenSource();
         }
 
+
+        public Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
+            => _newsSourceService.PostAnswersToArticleQuestionsAsync(newsLink, questions, cancellationToken);
+
+        public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
+            _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
+
+
         #region IDisposable
 
         public void Dispose()
@@ -97,9 +105,6 @@ namespace CriThink.Client.Core.Services
 
             _isDisposed = true;
         }
-
-        public Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken)
-            => _newsSourceService.PostAnswersToArticleQuestionsAsync(newsLink, questions, cancellationToken);
 
         #endregion
     }

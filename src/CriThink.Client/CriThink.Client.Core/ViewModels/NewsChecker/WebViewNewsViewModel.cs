@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
+using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
@@ -15,15 +19,21 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
     {
         private readonly ILogger<NewsCheckerResultViewModel> _logger;
         private readonly INewsSourceService _newsSourceService;
-        private CancellationTokenSource _cancellationTokenSource;
+        private readonly IUserDialogs _userDialogs;
+        private readonly IMvxNavigationService _navigationService;
 
         public WebViewNewsViewModel(
             ILogger<NewsCheckerResultViewModel> logger,
-            INewsSourceService newsSourceService)
+            INewsSourceService newsSourceService,
+            IMvxNavigationService navigationService,
+            IUserDialogs userDialogs)
         {
             _newsSourceService = newsSourceService ??
                 throw new ArgumentNullException(nameof(newsSourceService));
-
+            _userDialogs = userDialogs ??
+                throw new ArgumentNullException(nameof(userDialogs));
+            _navigationService = navigationService ??
+                throw new ArgumentNullException(nameof(navigationService));
             _logger = logger;
 
             Questions = new MvxObservableCollection<NewsSourceGetQuestionViewModel>();
@@ -75,13 +85,49 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         {
             try
             {
+
                 var questions = new List<NewsSourcePostAnswerRequest>(Questions.Count);
+
                 foreach (var question in Questions)
                 {
+                    if (question.SelectedVote == 0)
+                    {
+                        var title = LocalizedTextSource.GetText("MissingVoteTitle");
+                        var message = LocalizedTextSource.GetText("MissingVoteMessage");
+                        var ok = LocalizedTextSource.GetText("MissingVoteConfirm");
+                        await ShowFormatMessageAsync(message, title, ok, cancellationToken);
+
+                        return;
+                    }
+
                     questions.Add(question.CreateNewsSourcePostAnswerRequest());
                 }
-                var response = await _newsSourceService.PostAnswersToArticleQuestionsAsync(Uri.AbsoluteUri, questions, cancellationToken)
-                                .ConfigureAwait(false);
+
+                using var progress = _userDialogs.Loading(maskType: MaskType.Clear, title: string.Empty);
+
+                var response = await _newsSourceService.PostAnswersToArticleQuestionsAsync(
+                   Uri.AbsoluteUri,
+                    questions,
+                    cancellationToken)
+                    .ConfigureAwait(false);
+
+                var newsCheckerResultModel = NewsCheckerResultModel.Create(
+                    Uri.AbsoluteUri,
+                    response);
+
+                await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
+                    newsCheckerResultModel,
+                    cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
+            }
+            catch (HttpRequestException)
+            {
+                var newsCheckerResultModel = NewsCheckerResultModel.IsErrorResultModel(Uri.AbsoluteUri);
+
+                await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
+                    newsCheckerResultModel,
+                    cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -90,10 +136,9 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        public override void ViewDestroy(bool viewFinishing = true)
+        private Task ShowFormatMessageAsync(string message, string title, string ok, CancellationToken cancellationToken)
         {
-            base.ViewDestroy(viewFinishing);
-            _cancellationTokenSource?.Dispose();
+            return _userDialogs.AlertAsync(message, title: title, okText: ok, cancelToken: cancellationToken);
         }
     }
 }

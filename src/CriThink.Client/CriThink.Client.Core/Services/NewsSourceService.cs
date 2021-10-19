@@ -113,7 +113,7 @@ namespace CriThink.Client.Core.Services
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error registering for notification", newsLink);
+                _logger?.LogError(ex, ex.Message, newsLink);
                 throw;
             }
         }
@@ -131,6 +131,31 @@ namespace CriThink.Client.Core.Services
             try
             {
                 await _notificationApi.RequestNotificationForUnknownSourceAsync(request, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error registering for notification", newsLink);
+            }
+        }
+
+        public async Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(newsLink))
+                throw new ArgumentNullException(nameof(newsLink));
+
+            var request = new NewsSourceCancelNotificationForUnknownDomainRequest
+            {
+                NewsSource = newsLink,
+            };
+
+            try
+            {
+                await _notificationApi.CancelNotificationForUnknownSourceAsync(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (TokensExpiredException)
@@ -178,5 +203,6 @@ namespace CriThink.Client.Core.Services
         Task<NewsSourcePostAnswersResponse> PostAnswersToArticleQuestionsAsync(string newsLink, IList<NewsSourcePostAnswerRequest> questions, CancellationToken cancellationToken);
 
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
+        Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken);
     }
 }

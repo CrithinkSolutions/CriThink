@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Client.Core.Services;
+using CriThink.Common.Helpers;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -80,6 +81,16 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 return;
             }
 
+            if (!NewsUri.IsUrl())
+            {
+                var title = LocalizedTextSource.GetText("MalformedUrlTitle");
+                var message = LocalizedTextSource.GetText("MalformedUrlMessage");
+                var ok = LocalizedTextSource.GetText("MalformedUrlConfirm");
+                await ShowFormatMessageAsync(message, title, ok, cancellationToken);
+
+                return;
+            }
+
             await _navigationService
                 .Navigate<WebViewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
@@ -119,6 +130,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             var ok = LocalizedTextSource.GetText("FormatErrorOk");
 
             return _userDialogs.AlertAsync(message, okText: ok, cancelToken: cancellationToken);
+        }
+
+        private Task ShowFormatMessageAsync(string message, string title, string ok, CancellationToken cancellationToken)
+        {
+            return _userDialogs.AlertAsync(message, title: title, okText: ok, cancelToken: cancellationToken);
         }
     }
 }

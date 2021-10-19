@@ -22,7 +22,7 @@
   <dimen name="padding_top_alert">18dp</dimen>
   <dimen name="padding_x_alert">18dp</dimen>
   <dimen name="padding_bottom_alert">24dp</dimen>
-
+  <dimen name="padding_vote">10dp</dimen>
   <!-- FontSize -->
   <dimen name="textSize_huge">64sp</dimen>
   <dimen name="textSize_title">32sp</dimen>
@@ -55,6 +55,7 @@
   <dimen name="imgSize_veryBigLogo">160dp</dimen>
   <dimen name="img_corners_radius">25dp</dimen>
   <dimen name="imgSize_userInfoIcons">20dp</dimen>
+  <dimen name="imgSize_vote">40dp</dimen>
   
   <!-- Edit Text -->
   <dimen name="edittext_padding">13dp</dimen>
