@@ -115,8 +115,8 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(tvCommunityVote).ToLocalizationId("CommunityVote");
             set.Bind(boxCommunityVote).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxInvertedVisibilityValueConverter>();
             set.Bind(viewFooter).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxInvertedVisibilityValueConverter>();
-            set.Bind(tvNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxVisibilityValueConverter>(); 
-            set.Bind(switchNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxVisibilityValueConverter>(); 
+            set.Bind(tvNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(switchNotification).For(v => v.Visibility).To(vm => vm.NewsCheckerResultModel.IsUnknownResult).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(tvNotification).ToLocalizationId("NotificationTitle");
             set.Bind(switchNotification).For(v => v.Checked).To(vm => vm.IsSubscribed).TwoWay();
             set.Bind(txtTitle).ToLocalizationId("Title");
@@ -133,6 +133,11 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             Task.Run(() => ViewModel.NavigateToHomeAsync());
             return true;
+        }
+
+        public override void OnBackPressed()
+        {
+            Task.Run(() => ViewModel.NavigateToHomeAsync());
         }
 
         private void SetVote_WeakSubscribe(object sender, PropertyChangedEventArgs e)
