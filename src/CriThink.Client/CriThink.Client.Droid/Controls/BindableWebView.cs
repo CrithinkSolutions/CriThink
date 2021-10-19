@@ -49,6 +49,7 @@ namespace CriThink.Client.Droid.Controls
             base.OnAttachedToWindow();
             VerticalScrollBarEnabled = true;
             ScrollBarStyle = ScrollbarStyles.OutsideOverlay;
+            Settings.JavaScriptEnabled = true;
         }
 
         class PreventExternalWebView : WebViewClient

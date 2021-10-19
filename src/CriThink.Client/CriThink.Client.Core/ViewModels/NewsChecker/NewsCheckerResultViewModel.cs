@@ -190,8 +190,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             ClassificationTitle = LocalizedTextSource.GetText("UnknownClassificatioHeader");
             Classification = LocalizedTextSource.GetText("UnknownClassification");
             Description = LocalizedTextSource.GetText("UnknownDescription");
+            ResultImage = "result_unknown_source.svg";
         }
-
         private async Task UpdateSubscriptionAsync()
         {
             try
@@ -206,8 +206,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                     await _newsSourceService.RegisterForNotificationAsync(
                         NewsCheckerResultModel.NewsLink);
                 }
-
-                InvokeOnMainThread(() => IsSubscribed = !IsSubscribed);
             }
             catch (Exception ex)
             {
