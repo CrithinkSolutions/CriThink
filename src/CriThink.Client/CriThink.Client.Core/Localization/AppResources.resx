@@ -675,4 +675,16 @@
   <data name="NewsCheckerResultViewModel.Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="NewsCheckerResultViewModel.Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareDownloadApp" xml:space="preserve">
+    <value>Download the CriThink app https://www.crithinksolutions.com/</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareText" xml:space="preserve">
+    <value>CriThink score for this news is {0}/5</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareTextUnknown" xml:space="preserve">
+    <value>This news is unknown for CriThink. Help us to investigate it!</value>
+  </data>
 </root>

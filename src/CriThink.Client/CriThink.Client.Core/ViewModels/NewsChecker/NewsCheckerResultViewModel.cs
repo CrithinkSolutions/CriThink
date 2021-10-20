@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
@@ -104,6 +105,10 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         private IMvxCommand<NewsSourceRelatedDebunkingNewsResponse> _debunkingNewsSelectedCommand;
         public IMvxCommand<NewsSourceRelatedDebunkingNewsResponse> DebunkingNewsSelectedCommand =>
             _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<NewsSourceRelatedDebunkingNewsResponse>(DoDebunkingNewsSelectedCommand);
+
+        private IMvxAsyncCommand _shareCommand;
+        public IMvxAsyncCommand ShareCommand =>
+            _shareCommand ??= new MvxAsyncCommand(DoShareCommand);
 
         #endregion
 
@@ -253,6 +258,26 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 response,
                 cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
+        }
+
+        private async Task DoShareCommand(CancellationToken cancellationToken)
+        {
+            const string title = "CriThink";
+            var text = NewsCheckerResultModel.IsUnknownResult ?
+                LocalizedTextSource.GetText("ShareTextUnknown") :
+                string.Format(LocalizedTextSource.GetText("ShareText"), NewsCheckerResultModel.NewsSourcePostAnswersResponse.UserRate);
+
+            var downloadText = LocalizedTextSource.GetText("ShareDownloadApp");
+
+            var shareTextRequest = new ShareTextRequest
+            {
+                Title = title,
+                Subject = "CriThink Score",
+                Text = $"{text} \n\n {downloadText}\n\n",
+                Uri = NewsCheckerResultModel.NewsLink,
+            };
+
+            await Share.RequestAsync(shareTextRequest);
         }
     }
 }
