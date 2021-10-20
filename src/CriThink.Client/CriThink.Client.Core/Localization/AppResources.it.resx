@@ -657,4 +657,16 @@
   <data name="NewsCheckerResultViewModel.Unknown" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
+  <data name="NewsCheckerResultViewModel.Share" xml:space="preserve">
+    <value>Condividi</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareDownloadApp" xml:space="preserve">
+    <value>Scarica l'app CriThink https://www.crithinksolutions.com/</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareText" xml:space="preserve">
+    <value>Il punteggio di CriThink per questa news è {0}/5</value>
+  </data>
+  <data name="NewsCheckerResultViewModel.ShareTextUnknown" xml:space="preserve">
+    <value>Questa news è sconosciuta a CriThink: aiutaci ad investigare!</value>
+  </data>
 </root>

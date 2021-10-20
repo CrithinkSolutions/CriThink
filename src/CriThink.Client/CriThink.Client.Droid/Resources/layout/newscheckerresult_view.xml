@@ -87,7 +87,7 @@
                         android:paddingStart="@dimen/padding_page"
                         android:paddingEnd="@dimen/padding_page"
                         android:paddingBottom="@dimen/padding_page"
-                        android:layout_marginTop="@dimen/margin_big"
+                        android:layout_marginTop="@dimen/margin_medium"
                         app:layout_constraintTop_toBottomOf="@id/imgHeader">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvResponseTitle"
@@ -123,10 +123,27 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
                             android:id="@+id/tvDescription"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnShare"
+                            tools:text="Share"
+                            android:textColor="@color/accent"
+                            android:paddingLeft="@dimen/padding_mini"
+                            android:paddingRight="@dimen/padding_mini"
+                            android:paddingTop="@dimen/padding_mini"
+                            android:paddingBottom="@dimen/padding_mini"
+                            android:background="@drawable/bg_tag"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+                            android:layout_marginHorizontal="@dimen/margin_littleBig"
+                            android:layout_marginTop="@dimen/margin_littleBig"
+                            android:textSize="@dimen/textSize_small" />
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/box_user_vote"
                             android:layout_marginTop="@dimen/margin_littleBig"
-                            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+                            app:layout_constraintTop_toBottomOf="@id/btnShare"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:layout_width="match_parent"

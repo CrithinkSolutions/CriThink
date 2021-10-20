@@ -871,6 +871,42 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Share.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_Share {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.Share", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download the CriThink app https://www.crithinksolutions.com/.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_ShareDownloadApp {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.ShareDownloadApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CriThink score for this news is {0}/5.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_ShareText {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.ShareText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This news is unknown for CriThink. Help us to investigate it!.
+        /// </summary>
+        internal static string NewsCheckerResultViewModel_ShareTextUnknown {
+            get {
+                return ResourceManager.GetString("NewsCheckerResultViewModel.ShareTextUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suspicious.
         /// </summary>
         internal static string NewsCheckerResultViewModel_Suspicious {

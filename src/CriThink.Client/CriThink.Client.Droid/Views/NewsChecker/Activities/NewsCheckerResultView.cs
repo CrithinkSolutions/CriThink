@@ -53,6 +53,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             var tvNotification = FindViewById<AppCompatTextView>(Resource.Id.tvNotification);
             var switchNotification = FindViewById<SwitchCompat>(Resource.Id.switchNotification);
             var tvUserVote = FindViewById<AppCompatTextView>(Resource.Id.tvUserVote);
+            var btnShare = FindViewById<AppCompatButton>(Resource.Id.btnShare);
             var viewFooter = FindViewById<View>(Resource.Id.viewFooter);
             _tvUserVoteRating = FindViewById<AppCompatTextView>(Resource.Id.tvUvRating);
             var imgUvVote1 = FindViewById<AppCompatImageView>(Resource.Id.img_uv_vote_1);
@@ -120,6 +121,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(tvNotification).ToLocalizationId("NotificationTitle");
             set.Bind(switchNotification).For(v => v.Checked).To(vm => vm.IsSubscribed).TwoWay();
             set.Bind(txtTitle).ToLocalizationId("Title");
+
+            set.Bind(btnShare).For(v => v.Text).ToLocalizationId("Share");
+            set.Bind(btnShare).To(vm => vm.ShareCommand);
+
             set.Apply();
         }
 
