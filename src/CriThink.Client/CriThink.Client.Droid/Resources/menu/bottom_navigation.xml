@@ -14,13 +14,13 @@
     android:titleCondensed="focus"
     app:showAsAction="always"
     android:title="@string/menu_statistics"/>
-  <item
+  <!--<item
     android:id="@+id/page_3"
     android:enabled="true"
     android:icon="@drawable/ic_menu_spotfakenews"
     android:titleCondensed="spot_fakenews"
     app:showAsAction="always"
-    android:title="@string/menu_spotfakenews"/>
+    android:title="@string/menu_spotfakenews"/>-->
   <item
       android:id="@+id/page_4"
       android:enabled="true"
