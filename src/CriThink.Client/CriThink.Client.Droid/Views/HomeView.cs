@@ -36,7 +36,7 @@ namespace CriThink.Client.Droid.Views
             SetContentView(Resource.Layout.home_view);
             var bottomView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
 
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.gradientHeaderStart)));
 
             if (bundle == null)
                 FacebookSdk.FullyInitialize();

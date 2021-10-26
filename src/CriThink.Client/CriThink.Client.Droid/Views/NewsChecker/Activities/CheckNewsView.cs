@@ -51,7 +51,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.gradientHeaderStart)));
 
             var layoutManager = new LinearLayoutManager(this);
             recyclerRecentSearch.SetLayoutManager(layoutManager);

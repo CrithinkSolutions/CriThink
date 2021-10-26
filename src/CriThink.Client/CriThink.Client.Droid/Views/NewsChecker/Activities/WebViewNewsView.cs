@@ -71,7 +71,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.gradientHeaderStart)));
             using (var set = CreateBindingSet())
             {
                 set.Bind(_webViewNews).For(v => v.Uri).To(vm => vm.Uri);

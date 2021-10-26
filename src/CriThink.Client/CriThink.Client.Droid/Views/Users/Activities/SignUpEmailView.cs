@@ -44,7 +44,7 @@ namespace CriThink.Client.Droid.Views.Users
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.gradientHeaderStart)));
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var email = FindViewById<TextInputEditText>(Resource.Id.txtInput_email);
