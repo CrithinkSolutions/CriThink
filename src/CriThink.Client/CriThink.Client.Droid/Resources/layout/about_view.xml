@@ -1,40 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/accent"
     android:fitsSystemWindows="true">
-
+    
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
+        android:fitsSystemWindows="true"
+        android:layout_marginTop="@dimen/margin_half_huge"
         android:overScrollMode="always"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
-        android:measureAllChildren="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="@drawable/round_background"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:focusableInTouchMode="true"
+            android:layout_gravity="fill_vertical"
             android:layout_marginTop="@dimen/margin_medium"
             android:id="@+id/root">
 
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/appBar"
+             <androidx.appcompat.widget.AppCompatTextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                android:textAlignment="center"
+                 android:id="@+id/txtUsername"
+                 tools:text="Krusty"
+                android:layout_marginTop="@dimen/margin_large"
+                android:textSize="@dimen/textSize_caption"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                layout="@layout/profile_toolbar"/>
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"/>
+
+             <androidx.appcompat.widget.AppCompatButton
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/btnViewProfile"
+                 tools:text="Show Profile"
+                 android:textColor="@color/welcomeBackground"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/txtUsername"
+                 android:background="@null"
+                 android:minWidth="0dp"
+                 android:minHeight="0dp"
+                 android:textAllCaps="false" />
 
             <mvvmcross.droidx.recyclerview.MvxRecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="insideInset"
                 android:overScrollMode="never"
@@ -43,34 +68,23 @@
                 android:id="@+id/recyclerOptions"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_small"
-                app:layout_constraintTop_toBottomOf="@id/appBar"
-                app:layout_constraintBottom_toTopOf="@id/txtMadeWithLove"
+                app:layout_constraintTop_toBottomOf="@id/btnViewProfile"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtMadeWithLove"
-                android:gravity="center"
-                tools:text="Made with ❤️"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/txtMadeWithLoveTwo"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtMadeWithLoveTwo"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:gravity="center"
-                tools:text="in Italy and United Kingdom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <FFImageLoading.Cross.MvxSvgCachedImageView
+        android:layout_width="@dimen/imgSize_extralarge"
+        android:layout_height="@dimen/imgSize_extralarge"
+        android:id="@+id/imgProfile"
+        tools:src="@tools:sample/avatars"
+        android:layout_marginTop="@dimen/margin_big"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

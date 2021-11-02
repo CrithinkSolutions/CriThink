@@ -508,10 +508,10 @@
     <value>Danger Zone!</value>
   </data>
   <data name="ProfileViewModel.CloseAccount" xml:space="preserve">
-    <value>Chiudi Account :(</value>
+    <value>Chiudi Account</value>
   </data>
   <data name="ProfileViewModel.DeleteConfirmationMessage" xml:space="preserve">
-    <value>Sei sicuro di voler cancellare il tuo account? :(</value>
+    <value>Sei sicuro di voler cancellare il tuo account?</value>
   </data>
   <data name="ProfileViewModel.DeleteConfirmationTitle" xml:space="preserve">
     <value>Sei sicuro?</value>
