@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Endpoints.DTOs.UserProfile;
 using CriThink.Server.Application.Administration.ViewModels;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
@@ -103,6 +104,40 @@ namespace CriThink.Server.Application.Queries
             _logger?.LogInformation($"{nameof(GetUserByIdAsync)}: done");
 
             return userDto;
+        }
+
+        public async Task<UserProfileGetResponse> GetUserProfileByUserIdAsync(Guid userId)
+        {
+            _logger?.LogInformation(nameof(GetUserProfileByUserIdAsync));
+
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
+            var response = _mapper.Map<UserProfile, UserProfileGetResponse>(user.Profile);
+
+            _logger?.LogInformation($"{nameof(GetUserProfileByUserIdAsync)}: done", userId);
+
+            return response;
+        }
+
+        public async Task<UserProfileGetAllRecentSearchResponse> GetUserRecentSearchesAsync(Guid userId)
+        {
+            _logger?.LogInformation(nameof(GetUserRecentSearchesAsync));
+
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
+            var userLastSearches = user.Searches
+                .OrderByDescending(s => s.Timestamp)
+                .Take(10)
+                .ToList();
+
+            var response = _mapper.Map<IList<UserSearch>, IList<UserProfileGetRecentSearchResponse>>(userLastSearches);
+
+            _logger?.LogInformation($"{nameof(GetUserRecentSearchesAsync)}: done", userId);
+
+            return new UserProfileGetAllRecentSearchResponse
+            {
+                RecentSearches = response
+            };
         }
     }
 }
