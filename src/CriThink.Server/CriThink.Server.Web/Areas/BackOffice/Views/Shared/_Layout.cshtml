@@ -112,10 +112,12 @@
             if ($('#darkModeSwitch').prop('checked')) {
                 $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '@darkModeEnv'));
                 document.cookie = 'isDarkMode=true;expires=' + CookieDate.toUTCString() + ';';
+                $('.navbar').toggleClass('navbar-light navbar-dark')
             }
             else {
                 $("LINK[href*='@darkModeEnv']").remove();
                 document.cookie = 'isDarkMode=false;expires=';
+                $('.navbar').toggleClass('navbar-dark navbar-light')
             }
         });
 
