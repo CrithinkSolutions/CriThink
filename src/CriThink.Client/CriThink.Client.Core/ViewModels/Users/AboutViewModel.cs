@@ -50,22 +50,11 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             MenuCollection = new MvxObservableCollection<BaseMenuItem>
             {
-                new HeaderModel(LocalizedTextSource.GetText("AccountSettings")),
-                new MenuModel(LocalizedTextSource.GetText("PersonalInfo")),
-                new MenuModel(LocalizedTextSource.GetText("Notifications")),
-
-                new HeaderModel(LocalizedTextSource.GetText("Referrals")),
-                new MenuModel(LocalizedTextSource.GetText("InviteFriends")),
-                new HeaderModel(LocalizedTextSource.GetText("Support")),
-                new MenuModel(LocalizedTextSource.GetText("HowWorks")),
-                new MenuModel(LocalizedTextSource.GetText("GetHelp")),
-                new MenuModel(LocalizedTextSource.GetText("GiveFeedback")),
-
-                new HeaderModel(LocalizedTextSource.GetText("Legal")),
-                new MenuModel(LocalizedTextSource.GetText("ToS")),
-                new MenuModel(LocalizedTextSource.GetText("PrivacySettings")),
-
-                new ActionModel(LocalizedTextSource.GetText("Logout"), new MvxAsyncCommand(DoLogoutCommand))
+                new MenuModel(LocalizedTextSource.GetText("Notifications"), "ic_notification_settings"),
+                new MenuModel(LocalizedTextSource.GetText("GiveFeedback"), "ic_give_us_feedback"),
+                new MenuModel(LocalizedTextSource.GetText("ToS"), "ic_terms_of_service"),
+                new MenuModel(LocalizedTextSource.GetText("HowWorks"), "ic_how_crithink_works"),
+                new AccentMenuModel(LocalizedTextSource.GetText("Logout"), "ic_logout"),
             };
 
             TabId = "profile";
@@ -166,7 +155,9 @@ namespace CriThink.Client.Core.ViewModels.Users
                 return;
 
             var version = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Version"), VersionTracking.CurrentVersion);
-            MenuCollection.Add(new VersionModel(version));
+
+            MenuCollection.Add(new MenuModel(version, "ic_version"));
+            MenuCollection.Add(new FooterModel());
         }
     }
 }

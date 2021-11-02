@@ -3,10 +3,12 @@ using Android.Runtime;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Users;
+using CriThink.Client.Droid.Views.Users.Adapters;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
@@ -32,36 +34,24 @@ namespace CriThink.Client.Droid.Views.Users
             var imgProfile = view.FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);
             var btnViewProfile = view.FindViewById<AppCompatButton>(Resource.Id.btnViewProfile);
             var recyclerOptions = view.FindViewById<MvxRecyclerView>(Resource.Id.recyclerOptions);
-            var txtMadeWithLove = view.FindViewById<AppCompatTextView>(Resource.Id.txtMadeWithLove);
-            var txtMadeWithLoveTwo = view.FindViewById<AppCompatTextView>(Resource.Id.txtMadeWithLoveTwo);
-
             var layoutManager = new LinearLayoutManager(Activity) { AutoMeasureEnabled = true };
+            var adapter = new MenuItemAdapter((IMvxAndroidBindingContext) BindingContext);
             recyclerOptions.SetLayoutManager(layoutManager);
             recyclerOptions.HasFixedSize = true;
+            recyclerOptions.Adapter = adapter;
 
             recyclerOptions.ItemTemplateSelector = new MenuItemSelector();
 
-            var txtMadeWith = "Made with";
-            var hearth = " ❤️ ";
-            var last = "in Italy and United Kingdom";
-
-            SpannableStringBuilder builderFirstRow = new SpannableStringBuilder();
-            SpannableString spannableMadeWith = new SpannableString(txtMadeWith);
-            builderFirstRow.Append(spannableMadeWith);
-
-            SpannableString str2 = new SpannableString(hearth);
-            str2.SetSpan(new ForegroundColorSpan(Android.Graphics.Color.Red), 0, str2.Length(), 0);
-            builderFirstRow.Append(str2);
-
-            txtMadeWithLove.SetText(builderFirstRow, BufferType.Spannable);
-            txtMadeWithLoveTwo.SetText(last, BufferType.Normal);
+            var viewProfile = ViewModel.LocalizedTextSource.GetText("ViewProfile");
+            var viewProfileSpannable = new SpannableString(viewProfile);
+            viewProfileSpannable.SetSpan(new UnderlineSpan(), 0, viewProfile.Length, 0);
+            btnViewProfile.SetText(viewProfileSpannable, TextView.BufferType.Spannable);
 
             var set = CreateBindingSet();
 
             set.Bind(txtUsername).To(vm => vm.Username);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
             set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
-            set.Bind(btnViewProfile).For(v => v.Text).ToLocalizationId("ViewProfile");
             set.Bind(btnViewProfile).To(vm => vm.NavigateToProfileCommand);
             set.Bind(recyclerOptions).For(v => v.ItemsSource).To(vm => vm.MenuCollection);
 

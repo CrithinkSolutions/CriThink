@@ -11,6 +11,11 @@ namespace CriThink.Client.Core.Models.Menu
             Text = text;
         }
 
+        public MenuModel(string text, string iconPath)
+        {
+            Text = text;
+            IconPath = iconPath;
+        }
         private string _iconPath;
         public string IconPath
         {
