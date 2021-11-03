@@ -1,6 +1,7 @@
 ﻿using System;
 using Acr.UserDialogs;
 using Android.App;
+using Android.Graphics.Drawables;
 using Android.Runtime;
 #if (APPCENTER)
 using Microsoft.AppCenter;
@@ -30,6 +31,14 @@ namespace CriThink.Client.Droid
 #endif
             UserDialogs.Init(this);
             base.OnCreate();
+        }
+
+        public static void SetGradientStatusBar(Activity activity)
+        {
+            Drawable background = activity.Resources.GetDrawable(Resource.Drawable.gradient_background, null);
+            activity.Window.AddFlags(Android.Views.WindowManagerFlags.DrawsSystemBarBackgrounds);
+            activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+            activity.Window.SetBackgroundDrawable(background);
         }
     }
 }

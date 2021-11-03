@@ -22,6 +22,7 @@ namespace CriThink.Client.Droid.Views.Users
             SetContentView(Resource.Layout.forgotpassword_view);
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            MainApplication.SetGradientStatusBar(this);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);

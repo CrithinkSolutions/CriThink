@@ -48,6 +48,8 @@
   <dimen name="imgSize_extraSmall">24dp</dimen>
   <dimen name="imgSize_small">36dp</dimen>
   <dimen name="imgSize_large">60dp</dimen>
+  <dimen name="imgSize_extralarge">72dp</dimen>
+  <dimen name="margin_ProfileContent">52dp</dimen>
   <dimen name="imgSize_medium">48dp</dimen>
   <dimen name="imgSize_debunkingCollection">100dp</dimen>
   <dimen name="imgSize_bigLogo">100dp</dimen>

@@ -48,7 +48,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.newschecker_webview_view);
-
+            MainApplication.SetGradientStatusBar(this);
             _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             _webViewNews = FindViewById<BindableWebView>(Resource.Id.webViewNews);
             _materialCardView = FindViewById<MaterialCardView>(Resource.Id.cardWebView);
@@ -71,7 +71,6 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
             using (var set = CreateBindingSet())
             {
                 set.Bind(_webViewNews).For(v => v.Uri).To(vm => vm.Uri);

@@ -41,8 +41,7 @@ namespace CriThink.Client.Core.Services
             _tokenLogoutMessage = messenger?.Subscribe<LogoutPerformedMessage>(OnLogoutPerformed) ??
                 throw new ArgumentNullException(nameof(messenger));
 
-            messenger.WeakSubscribe("", OnClearRecentNewsSourceCache);
-            _tokenClearSearchesMessage = messenger?.WeakSubscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ??
+            _tokenClearSearchesMessage = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache, reference: MvxReference.Weak) ??
                 throw new ArgumentNullException(nameof(messenger));
 
             _resetCacheToken = new CancellationTokenSource();

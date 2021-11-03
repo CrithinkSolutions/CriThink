@@ -38,13 +38,13 @@ namespace CriThink.Client.Droid.Views.Users
             
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signupemail_view);
+            MainApplication.SetGradientStatusBar(this);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var email = FindViewById<TextInputEditText>(Resource.Id.txtInput_email);

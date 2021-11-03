@@ -34,9 +34,9 @@ namespace CriThink.Client.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.home_view);
+            MainApplication.SetGradientStatusBar(this);
             var bottomView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
 
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
 
             if (bundle == null)
                 FacebookSdk.FullyInitialize();
@@ -118,5 +118,6 @@ namespace CriThink.Client.Droid.Views
                     new CircleTransformation(selected ? SelectedBorderSize : 0, Resources.GetString(Resource.Color.menuTint))
                 };
         }
+
     }
 }

@@ -30,6 +30,11 @@
   <color name="borderColor">#f0f0f0</color>
 
   <color name="borderTextInput">#dcdcdc</color>
+  <color name="gradientHeaderStart">#f19a38</color>
+  <color name="gradientHeaderEnd">#f8aa5b</color>
+
   <color name="textColor">#4a4a4a</color>   
-  <color name="darkTextColor">#222</color>   
+  <color name="darkTextColor">#222</color>
+  <color name="danger">#c0392b</color>
+
 </resources>
