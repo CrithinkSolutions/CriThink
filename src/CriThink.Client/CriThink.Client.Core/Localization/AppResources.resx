@@ -520,10 +520,10 @@
     <value>Danger Zone!</value>
   </data>
   <data name="ProfileViewModel.CloseAccount" xml:space="preserve">
-    <value>Close Account :(</value>
+    <value>Close Account</value>
   </data>
   <data name="ProfileViewModel.DeleteConfirmationMessage" xml:space="preserve">
-    <value>Are you sure you want to delete your account? :(</value>
+    <value>Are you sure you want to delete your account?</value>
   </data>
   <data name="ProfileViewModel.DeleteConfirmationTitle" xml:space="preserve">
     <value>You sure?</value>

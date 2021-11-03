@@ -1,10 +1,12 @@
 ﻿using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
+using AndroidX.Core.Content;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
@@ -22,24 +24,19 @@ namespace CriThink.Client.Droid.Views.Users
     [Activity(Label = "CriThink.LoginView")]
     public class ProfileView : MvxActivity<ProfileViewModel>
     {
-        private AppCompatTextView _txtTitle;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.profile_view);
             MainApplication.SetGradientStatusBar(this);
-
-            BuildTitleText();
-
+            var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtHello = FindViewById<AppCompatTextView>(Resource.Id.txtHello);
             var imgProfile = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var txtRegistrationDate = FindViewById<AppCompatTextView>(Resource.Id.txtRegistrationDate);
             var txtAbout = FindViewById<AppCompatTextView>(Resource.Id.txtAbout);
             var txtAboutTitle = FindViewById<AppCompatTextView>(Resource.Id.txtAboutTitle);
-            var txtBadgesTitle = FindViewById<AppCompatTextView>(Resource.Id.txtBadgesTitle);
-            var txtDangerZoneTitle = FindViewById<AppCompatTextView>(Resource.Id.txtDangerZoneTitle);
             var txtCloseAccount = FindViewById<AppCompatButton>(Resource.Id.txtCloseAccount);
             var imgTelegram = FindViewById<MvxCachedImageView>(Resource.Id.imgTelegram);
             var imgSkype = FindViewById<MvxCachedImageView>(Resource.Id.imgSkype);
@@ -51,11 +48,9 @@ namespace CriThink.Client.Droid.Views.Users
             var imgBlog = FindViewById<MvxCachedImageView>(Resource.Id.imgBlog);
 
             var layoutName = FindViewById<ConstraintLayout>(Resource.Id.layoutName);
-            var layoutGender = FindViewById<ConstraintLayout>(Resource.Id.layoutGender);
             var layoutCountry = FindViewById<ConstraintLayout>(Resource.Id.layoutCountry);
             var layoutDoB = FindViewById<ConstraintLayout>(Resource.Id.layoutDoB);
             var txtName = FindViewById<AppCompatTextView>(Resource.Id.txtName);
-            var txtGender = FindViewById<AppCompatTextView>(Resource.Id.txtGender);
             var txtCountry = FindViewById<AppCompatTextView>(Resource.Id.txtCountry);
             var txtDoB = FindViewById<AppCompatTextView>(Resource.Id.txtDoB);
 
@@ -64,8 +59,7 @@ namespace CriThink.Client.Droid.Views.Users
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            SupportActionBar.SetCustomView(_txtTitle, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MatchParent));
-
+         
             var set = CreateBindingSet();
 
             set.Bind(txtHello).To(vm => vm.HeaderText);
@@ -75,7 +69,6 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtAbout).To(vm => vm.UserProfileViewModel.Description);
 
             set.Bind(txtName).To(vm => vm.UserFullNameFormat);
-            set.Bind(txtGender).To(vm => vm.UserGenderFormat);
             set.Bind(txtCountry).To(vm => vm.UserCountryFormat);
             set.Bind(txtDoB).To(vm => vm.UserDoBFormat);
 
@@ -100,14 +93,11 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(imgBlog).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Blog).WithConversion<MvxVisibilityValueConverter>();
 
             set.Bind(layoutName).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.FullName).WithConversion<MvxVisibilityValueConverter>();
-            set.Bind(layoutGender).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.GenderViewModel.Gender).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(layoutCountry).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.Country).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(layoutDoB).For(v => v.Visibility).To(vm => vm.UserProfileViewModel.DoBViewModel.DateTime).WithConversion<MvxVisibilityValueConverter>();
 
             set.Bind(txtAboutTitle).ToLocalizationId("AboutTitle");
-            set.Bind(_txtTitle).ToLocalizationId("MyProfile");
-            set.Bind(txtBadgesTitle).ToLocalizationId("MyBadges");
-            set.Bind(txtDangerZoneTitle).ToLocalizationId("DangerZone");
+            set.Bind(txtTitle).ToLocalizationId("MyProfile");
             set.Bind(txtCloseAccount).For(v => v.Text).ToLocalizationId("CloseAccount");
 
             set.Apply();
@@ -131,14 +121,6 @@ namespace CriThink.Client.Droid.Views.Users
         {
             Finish();
             return false;
-        }
-
-        private void BuildTitleText()
-        {
-            _txtTitle = new AppCompatTextView(this);
-            _txtTitle.SetTextSize(ComplexUnitType.Sp, 14);
-            _txtTitle.Gravity = GravityFlags.Center;
-            _txtTitle.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
         }
     }
 }
