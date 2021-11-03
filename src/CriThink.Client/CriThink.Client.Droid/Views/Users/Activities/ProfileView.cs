@@ -28,6 +28,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.profile_view);
+            MainApplication.SetGradientStatusBar(this);
 
             BuildTitleText();
 

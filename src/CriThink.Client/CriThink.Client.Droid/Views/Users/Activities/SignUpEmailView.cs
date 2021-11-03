@@ -38,6 +38,7 @@ namespace CriThink.Client.Droid.Views.Users
             
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signupemail_view);
+            MainApplication.SetGradientStatusBar(this);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);

@@ -33,7 +33,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.resetpassword_view);
-
+            MainApplication.SetGradientStatusBar(this);
             if (ViewModel == null)
             {
                 try

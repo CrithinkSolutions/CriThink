@@ -24,6 +24,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.debunkingnewsdetails_view);
+            MainApplication.SetGradientStatusBar(this);
 
             BuildTitleText();
 

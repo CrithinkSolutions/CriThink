@@ -39,7 +39,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.newscheckerresult_view);
-
+            MainApplication.SetGradientStatusBar(this);
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var imgHeader = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgHeader);

@@ -37,6 +37,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.checknews_view);
+            MainApplication.SetGradientStatusBar(this);
             var txtRecentSearch = FindViewById<AppCompatTextView>(Resource.Id.txtRecentSearch);
             var recyclerRecentSearch = FindViewById<MvxRecyclerView>(Resource.Id.recyclerRecentSearch);
             var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);

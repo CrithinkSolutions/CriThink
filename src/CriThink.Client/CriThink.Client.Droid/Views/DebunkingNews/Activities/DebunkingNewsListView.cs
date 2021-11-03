@@ -32,6 +32,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.debunkingnewslist_view);
+            MainApplication.SetGradientStatusBar(this);
 
             var loader = FindViewById<LoaderView>(Resource.Id.loader);
             var listDebunkingNews = FindViewById<MvxRecyclerView>(Resource.Id.recyclerDebunkingNews);
