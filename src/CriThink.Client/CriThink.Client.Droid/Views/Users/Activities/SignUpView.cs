@@ -30,6 +30,7 @@ namespace CriThink.Client.Droid.Views.Users
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.signup_view);
+            MainApplication.SetGradientStatusBar(this);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)

@@ -973,6 +973,10 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\gradient_background.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable-hdpi\ic_give_us_feedback.png">
       <SubType></SubType>
       <Generator></Generator>

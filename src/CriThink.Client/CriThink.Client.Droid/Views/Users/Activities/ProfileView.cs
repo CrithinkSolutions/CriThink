@@ -29,8 +29,7 @@ namespace CriThink.Client.Droid.Views.Users
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.profile_view);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
-
+            MainApplication.SetGradientStatusBar(this);
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtHello = FindViewById<AppCompatTextView>(Resource.Id.txtHello);
             var imgProfile = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgProfile);

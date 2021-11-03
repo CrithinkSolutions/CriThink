@@ -39,7 +39,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.newscheckerresult_view);
-
+            MainApplication.SetGradientStatusBar(this);
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var imgHeader = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgHeader);
@@ -91,7 +91,6 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
 
             var layoutManager = new LinearLayoutManager(this);
             recyclerRelatedDNews.SetLayoutManager(layoutManager);

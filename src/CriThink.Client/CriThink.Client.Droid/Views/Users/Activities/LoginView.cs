@@ -30,11 +30,11 @@ namespace CriThink.Client.Droid.Views.Users
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
+            MainApplication.SetGradientStatusBar(this);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.accent)));
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<AppCompatButton>(Resource.Id.btnForgotPassword);
             var emailOrUsername = FindViewById<BindableEditText>(Resource.Id.txtEdit_emailOrUsername);
