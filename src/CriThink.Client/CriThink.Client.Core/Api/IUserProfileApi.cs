@@ -17,5 +17,8 @@ namespace CriThink.Client.Core.Api
         [Multipart]
         [Patch("/" + EndpointConstants.UserProfileUploadAvatar)]
         Task UpdateUserProfileAvatarAsync([AliasAs("formFile")] StreamPart streamPart, CancellationToken cancellationToken = default);
+
+        [Get("/" + EndpointConstants.UserProfileRecentSearches)]
+        Task<UserProfileGetAllRecentSearchResponse> GetUserRecentSearchesAsync(CancellationToken cancellationToken = default);
     }
 }

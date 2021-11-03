@@ -3,53 +3,41 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Constants;
-using CriThink.Client.Core.Messenger;
-using CriThink.Client.Core.Models.NewsChecker;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
-using MvvmCross.Commands;
-using MvvmCross.Plugin.Messenger;
 
 namespace CriThink.Client.Core.Services
 {
     public class CacheNewsSourceService : INewsSourceService, IDisposable
     {
-        private const string RecentNewsSourceCacheKey = "recent_news_source";
         private const string QuestionsNewsSourceCacheKey = "question_news_source_{0}";
 
         private readonly IGeolocationService _geoService;
         private readonly IMemoryCache _memoryCache;
         private readonly NewsSourceService _newsSourceService;
-        private readonly MvxSubscriptionToken _token;
+        private readonly CancellationTokenSource _resetCacheToken;
 
         private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(15);
 
-        private CancellationTokenSource _resetCacheToken;
         private bool _isDisposed;
 
         public CacheNewsSourceService(
             IMemoryCache memoryCache,
             IGeolocationService geoService,
-            NewsSourceService newsSourceService,
-            IMvxMessenger messenger)
+            NewsSourceService newsSourceService)
         {
-            _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
-            _resetCacheToken = new CancellationTokenSource();
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
-            _token = messenger?.Subscribe<ClearRecentNewsSourceCacheMessage>(OnClearRecentNewsSourceCache) ?? throw new ArgumentNullException(nameof(messenger));
-        }
+            _geoService = geoService ??
+                throw new ArgumentNullException(nameof(geoService));
 
-        public async Task<IList<RecentNewsChecksModel>> GetLatestNewsChecksAsync(IMvxAsyncCommand<RecentNewsChecksModel> deleteHistoryRecentNewsItemCommand)
-        {
-            return await _memoryCache.GetOrCreateAsync(RecentNewsSourceCacheKey, async entry =>
-            {
-                entry.SlidingExpiration = CacheDuration;
-                entry.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
-                return await _newsSourceService.GetLatestNewsChecksAsync(deleteHistoryRecentNewsItemCommand).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            _memoryCache = memoryCache ??
+                throw new ArgumentNullException(nameof(memoryCache));
+
+            _newsSourceService = newsSourceService ??
+                throw new ArgumentNullException(nameof(newsSourceService));
+
+            _resetCacheToken = new CancellationTokenSource();
         }
 
         public Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
@@ -72,23 +60,6 @@ namespace CriThink.Client.Core.Services
         public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
             _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
 
-        public Task AddLatestNewsCheckAsync(RecentNewsChecksModel newsCheck) =>
-            _newsSourceService.AddLatestNewsCheckAsync(newsCheck);
-
-        public Task DeleteLatestNewsCheckAsync(RecentNewsChecksModel newsCheck) =>
-            _newsSourceService.DeleteLatestNewsCheckAsync(newsCheck);
-
-        private void OnClearRecentNewsSourceCache(ClearRecentNewsSourceCacheMessage message)
-        {
-            if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
-            {
-                _resetCacheToken.Cancel();
-                _resetCacheToken.Dispose();
-            }
-
-            _resetCacheToken = new CancellationTokenSource();
-        }
-
         #region IDisposable
 
         public void Dispose()
@@ -105,7 +76,6 @@ namespace CriThink.Client.Core.Services
             if (disposing)
             {
                 _memoryCache?.Dispose();
-                _token?.Dispose();
                 _resetCacheToken?.Dispose();
             }
 

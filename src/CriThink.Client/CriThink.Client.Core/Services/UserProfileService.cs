@@ -14,9 +14,13 @@ namespace CriThink.Client.Core.Services
         private readonly IUserProfileApi _userProfileApi;
         private readonly ILogger<UserProfileService> _logger;
 
-        public UserProfileService(IUserProfileApi userProfileApi, ILogger<UserProfileService> logger)
+        public UserProfileService(
+            IUserProfileApi userProfileApi,
+            ILogger<UserProfileService> logger)
         {
-            _userProfileApi = userProfileApi ?? throw new ArgumentNullException(nameof(userProfileApi));
+            _userProfileApi = userProfileApi ??
+                throw new ArgumentNullException(nameof(userProfileApi));
+
             _logger = logger;
         }
 
@@ -65,6 +69,20 @@ namespace CriThink.Client.Core.Services
             {
                 _logger?.LogError(ex, "Error updating user avatar");
                 throw;
+            }
+        }
+
+        public async Task<UserProfileGetAllRecentSearchResponse> GetUserRecentSearchesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var response = await _userProfileApi.GetUserRecentSearchesAsync(cancellationToken);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error getting latest searches");
+                return new UserProfileGetAllRecentSearchResponse();
             }
         }
     }

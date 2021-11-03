@@ -30,5 +30,12 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task UpdateUserProfileAvatarAsync(StreamPart streamPart, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get recent news
+        /// </summary>
+        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
+        /// <returns></returns>
+        Task<UserProfileGetAllRecentSearchResponse> GetUserRecentSearchesAsync(CancellationToken cancellationToken = default);
     }
 }
