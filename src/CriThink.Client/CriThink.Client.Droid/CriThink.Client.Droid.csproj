@@ -974,8 +974,8 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\gradient_background.xml">
-          <SubType></SubType>
-           <Generator></Generator>
+      <SubType></SubType>
+      <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable-hdpi\ic_give_us_feedback.png">
       <SubType></SubType>
@@ -1334,7 +1334,7 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\ic_btn_edit.xml">
-        <SubType></SubType>
+      <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
   </ItemGroup>
