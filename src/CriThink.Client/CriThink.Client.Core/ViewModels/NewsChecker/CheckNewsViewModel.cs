@@ -16,14 +16,22 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
     public class CheckNewsViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-        private readonly INewsSourceService _newsSourceService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IUserDialogs _userDialogs;
 
-        public CheckNewsViewModel(IMvxNavigationService navigationService, INewsSourceService newsSourceService, IUserDialogs userDialogs)
+        public CheckNewsViewModel(
+            IMvxNavigationService navigationService,
+            IUserProfileService userProfileService,
+            IUserDialogs userDialogs)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-            _newsSourceService = newsSourceService ?? throw new ArgumentNullException(nameof(newsSourceService));
-            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            _navigationService = navigationService ??
+                throw new ArgumentNullException(nameof(navigationService));
+
+            _userProfileService = userProfileService ??
+                throw new ArgumentNullException(nameof(userProfileService));
+
+            _userDialogs = userDialogs ??
+                throw new ArgumentNullException(nameof(userDialogs));
 
             RecentNewsChecksCollection = new MvxObservableCollection<RecentNewsChecksModel>();
         }
@@ -52,18 +60,11 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             !string.IsNullOrWhiteSpace(NewsUri));
 
         private IMvxAsyncCommand<RecentNewsChecksModel> _repeatSearchCommand;
-
         public IMvxAsyncCommand<RecentNewsChecksModel> RepeatSearchCommand => _repeatSearchCommand ??=
             new MvxAsyncCommand<RecentNewsChecksModel>(DoRepeatSearchCommand);
 
         private IMvxCommand _clearTextCommand;
         public IMvxCommand ClearTextCommand => _clearTextCommand ??= new MvxCommand(DoClearTextCommand);
-
-
-        private IMvxAsyncCommand<RecentNewsChecksModel> _deleteHistoryRecentNewsItemCommand;
-        public IMvxAsyncCommand<RecentNewsChecksModel> DeleteHistoryRecentNewsItemCommand => _deleteHistoryRecentNewsItemCommand ??=
-            new MvxAsyncCommand<RecentNewsChecksModel>(DeleteHistoryRecentNews);
-
 
         #endregion
 
@@ -95,7 +96,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 .Navigate<WebViewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
 
-            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
+            //await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
@@ -106,19 +107,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private void DoClearTextCommand() => NewsUri = string.Empty;
 
-        private async Task DeleteHistoryRecentNews(RecentNewsChecksModel recentNewsChecksModel)
-        {
-            await _newsSourceService.DeleteLatestNewsCheckAsync(recentNewsChecksModel);
-            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
-        }
-
         private async Task UpdateLatestNewsChecksAsync()
         {
-            var modelCollection = await _newsSourceService.GetLatestNewsChecksAsync(DeleteHistoryRecentNewsItemCommand).ConfigureAwait(false);
-            if (modelCollection != null && modelCollection.Any())
+            var modelCollection = await _userProfileService.GetUserRecentSearchesAsync().ConfigureAwait(false);
+            if (modelCollection?.RecentSearches?.Any() == true)
             {
                 RecentNewsChecksCollection.Clear();
-                RecentNewsChecksCollection.AddRange(modelCollection);
+                RecentNewsChecksCollection.AddRange(modelCollection.RecentSearches.Select(rs => new RecentNewsChecksModel(rs.Id, rs.NewsLink)));
             }
         }
 

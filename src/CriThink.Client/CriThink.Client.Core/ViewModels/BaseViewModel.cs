@@ -47,7 +47,7 @@ namespace CriThink.Client.Core.ViewModels
         public abstract void Prepare(TParameter parameter);
     }
 
-    public abstract class MvxBaseViewModel<TParameter, TResult> : BaseViewModel, IMvxViewModel<TParameter, TResult>
+    public abstract class BaseViewModel<TParameter, TResult> : BaseViewModel, IMvxViewModel<TParameter, TResult>
     {
         public abstract void Prepare(TParameter parameter);
     }

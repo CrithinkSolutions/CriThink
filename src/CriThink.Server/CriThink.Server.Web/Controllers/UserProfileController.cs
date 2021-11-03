@@ -31,17 +31,17 @@ namespace CriThink.Server.Web.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public class UserProfileController : ControllerBase
     {
-        private readonly IUserProfileQueries _userProfileQueries;
+        private readonly IIdentityQueries _identityQueries;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
         public UserProfileController(
-            IUserProfileQueries userProfileQueries,
+            IIdentityQueries identityQueries,
             IMediator mediator,
             IMapper mapper)
         {
-            _userProfileQueries = userProfileQueries ??
-                throw new ArgumentNullException(nameof(userProfileQueries));
+            _identityQueries = identityQueries ??
+                throw new ArgumentNullException(nameof(identityQueries));
 
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
@@ -159,8 +159,33 @@ namespace CriThink.Server.Web.Controllers
         {
             var userId = User.GetId();
 
-            var response = await _userProfileQueries.GetUserProfileByUserIdAsync(userId);
+            var response = await _identityQueries.GetUserProfileByUserIdAsync(userId);
             return Ok(new ApiOkResponse(response));
+        }
+
+        /// <summary>
+        /// Get user latest 10 searches
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     GET: /api/user-profile/recent-searches
+        /// </remarks>
+        /// <response code="200">Returns full user details</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="500">If the server can't process the request</response>
+        /// <response code="503">If the server is not ready to handle the request</response>
+        [ProducesResponseType(typeof(UserProfileGetAllRecentSearchResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [Route(EndpointConstants.UserProfileRecentSearches)]
+        [HttpGet]
+        public async Task<IActionResult> GetUserRecentSearchesAsync()
+        {
+            var userId = User.GetId();
+
+            var dto = await _identityQueries.GetUserRecentSearchesAsync(userId);
+            return Ok(dto);
         }
     }
 }

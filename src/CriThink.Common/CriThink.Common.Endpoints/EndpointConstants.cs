@@ -100,6 +100,7 @@
         public const string UserProfileBase = "user-profile";
 
         public const string UserProfileUploadAvatar = "upload-avatar";
+        public const string UserProfileRecentSearches = "recent-searches";
 
         #endregion
 

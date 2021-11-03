@@ -113,7 +113,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 var newsCheckerResultModel = NewsCheckerResultModel.Create(
                 Uri.AbsoluteUri,
                 response);
-                                                                    
+
                 await _navigationService.Navigate<NewsCheckerResultViewModel, NewsCheckerResultModel>(
                     newsCheckerResultModel,
                     cancellationToken: cancellationToken)

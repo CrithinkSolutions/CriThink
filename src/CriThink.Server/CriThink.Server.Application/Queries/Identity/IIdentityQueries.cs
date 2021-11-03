@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Endpoints.DTOs.UserProfile;
 using CriThink.Server.Application.Administration.ViewModels;
 
 namespace CriThink.Server.Application.Queries
@@ -35,5 +36,19 @@ namespace CriThink.Server.Application.Queries
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<UserGetDetailsViewModel> GetUserByIdAsync(Guid userId);
+
+        /// <summary>
+        /// Get user profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<UserProfileGetResponse> GetUserProfileByUserIdAsync(Guid userId);
+
+        /// <summary>
+        /// Get user recent searches
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<UserProfileGetAllRecentSearchResponse> GetUserRecentSearchesAsync(Guid userId);
     }
 }

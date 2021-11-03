@@ -42,7 +42,6 @@ namespace CriThink.Client.Core
             Mvx.IoCProvider.RegisterSingleton<IMvxTextProvider>(new MvxResxTextProvider(AppResources.ResourceManager));
 
             // Repo
-            Mvx.IoCProvider.RegisterType<ISQLiteRepository, SQLiteRepository>();
             Mvx.IoCProvider.RegisterType<SecureSettingsRepository>();
             Mvx.IoCProvider.RegisterType<ISettingsRepository, SettingsRepository>();
             Mvx.IoCProvider.RegisterType<IIdentityRepository, IdentityRepository>();

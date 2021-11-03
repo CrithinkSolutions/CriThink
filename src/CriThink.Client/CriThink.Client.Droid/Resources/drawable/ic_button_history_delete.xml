@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?> 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" > 
-  <item 
-      android:drawable="@drawable/ic_history_delete" 
-      android:width="@dimen/imgSize_icon" 
-      android:height="@dimen/imgSize_icon"/> 
-</layer-list > 
