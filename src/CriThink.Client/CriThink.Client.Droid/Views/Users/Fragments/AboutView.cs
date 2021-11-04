@@ -12,6 +12,7 @@ using CriThink.Client.Droid.Views.Users.Adapters;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -50,6 +51,7 @@ namespace CriThink.Client.Droid.Views.Users
             var set = CreateBindingSet();
 
             set.Bind(txtUsername).To(vm => vm.Username);
+            set.Bind(txtUsername).For(v => v.BindClick()).To(vm => vm.NavigateToProfileCommand);
             set.Bind(imgProfile).For(v => v.Transformations).To(vm => vm.ProfileImageTransformations);
             set.Bind(imgProfile).For(v => v.ImagePath).To(vm => vm.AvatarImagePath);
             set.Bind(btnViewProfile).To(vm => vm.NavigateToProfileCommand);

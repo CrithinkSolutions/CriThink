@@ -4,18 +4,21 @@ namespace CriThink.Client.Core.Models.Menu
 {
     public class MenuModel : BaseMenuItem
     {
-        public MenuModel() { }
-
-        public MenuModel(string text)
-        {
-            Text = text;
-        }
-
         public MenuModel(string text, string iconPath)
         {
             Text = text;
             IconPath = iconPath;
         }
+
+        public MenuModel(
+            string text,
+            string iconPath,
+            IMvxAsyncCommand command)
+            : this(text, iconPath)
+        {
+            Command = command;
+        }
+
         private string _iconPath;
         public string IconPath
         {

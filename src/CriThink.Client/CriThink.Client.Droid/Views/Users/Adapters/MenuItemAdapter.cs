@@ -1,11 +1,9 @@
 ﻿using System;
-using Android.Graphics;
 using Android.Runtime;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Core.Content;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.Models.Menu;
 using MvvmCross.Binding.BindingContext;
@@ -62,8 +60,8 @@ namespace CriThink.Client.Droid.Views.Users.Adapters
     public class MenuItemViewHolder : MvxRecyclerViewHolder
     {
         private readonly AppCompatImageView _imgMenu;
-        private readonly AppCompatTextView _txtMenu;    
-          
+        private readonly AppCompatTextView _txtMenu;
+
         public MenuItemViewHolder(View itemView, IMvxAndroidBindingContext context)
             : base(itemView, context)
         {
@@ -71,12 +69,13 @@ namespace CriThink.Client.Droid.Views.Users.Adapters
             _txtMenu = itemView.FindViewById<AppCompatTextView>(Resource.Id.txtMenu);
             this.DelayBind(() =>
             {
-                using (var set = this.CreateBindingSet<MenuItemViewHolder, MenuModel>())
-                {
-                    set.Bind(_txtMenu).For(v => v.Text).To(m => m.Text);
-                    set.Bind(_imgMenu).For(v => v.BindDrawableName()).To(m => m.IconPath);
-                }
+                using var set = this.CreateBindingSet<MenuItemViewHolder, MenuModel>();
 
+                set.Bind(_txtMenu).For(v => v.Text).To(m => m.Text);
+                set.Bind(_imgMenu).For(v => v.BindDrawableName()).To(m => m.IconPath);
+
+                set.Bind(_txtMenu).For(v => v.BindClick()).To(m => m.Command);
+                set.Bind(_imgMenu).For(v => v.BindClick()).To(m => m.Command);
             });
         }
     }
@@ -91,18 +90,19 @@ namespace CriThink.Client.Droid.Views.Users.Adapters
         {
             _imgMenu = itemView.FindViewById<AppCompatImageView>(Resource.Id.imgMenu);
             _txtMenu = itemView.FindViewById<AppCompatTextView>(Resource.Id.txtMenu);
+
             this.DelayBind(() =>
             {
-                using (var set = this.CreateBindingSet<AccentMenuItemViewHolder, AccentMenuModel>())
-                {
-                    set.Bind(_txtMenu).For(v => v.Text).To(m => m.Text);
-                    set.Bind(_imgMenu).For(v => v.BindDrawableName()).To(m => m.IconPath);
-                }
+                using var set = this.CreateBindingSet<AccentMenuItemViewHolder, AccentMenuModel>();
 
+                set.Bind(_txtMenu).For(v => v.Text).To(m => m.Text);
+                set.Bind(_imgMenu).For(v => v.BindDrawableName()).To(m => m.IconPath);
+
+                set.Bind(_txtMenu).For(v => v.BindClick()).To(m => m.Command);
+                set.Bind(_imgMenu).For(v => v.BindClick()).To(m => m.Command);
             });
         }
     }
-
 
     public class FooterItemViewHolder : MvxRecyclerViewHolder
     {
