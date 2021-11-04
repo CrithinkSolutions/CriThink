@@ -70,6 +70,31 @@
                 android:inputType="textUri"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animEmpty"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            app:lottie_fileName="66934-tumbleweed-rolling.json"
+            app:lottie_loop="false"
+            app:lottie_autoPlay="true"
+            app:lottie_speed="0.8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtInput_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_cacheComposition="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNoSearches"
+            android:textSize="@dimen/textSize_caption"
+            android:layout_marginTop="@dimen/margin_medium"
+            tools:text="No recent searches"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/animEmpty"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginTop="@dimen/margin_veryBig"
             android:layout_width="match_parent"

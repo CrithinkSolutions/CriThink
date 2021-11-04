@@ -64,7 +64,7 @@
                     android:id="@+id/txtError"
                     android:textSize="@dimen/textSize_subheader"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="Oops! We're trying to fix the issue"
+                    tools:text="Oops! We're trying to fix the issue"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/animError"/>

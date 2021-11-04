@@ -51,6 +51,10 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
+        public bool IsFirstSearch => !IsLoading && !RecentNewsChecksCollection.Any();
+
+        public bool RecentSearchesIsNotEmpty => !IsLoading && RecentNewsChecksCollection.Any();
+
         #endregion
 
         #region Commands
@@ -95,8 +99,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             await _navigationService
                 .Navigate<WebViewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
                 .ConfigureAwait(true);
-
-            //await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
@@ -109,11 +111,23 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task UpdateLatestNewsChecksAsync()
         {
-            var modelCollection = await _userProfileService.GetUserRecentSearchesAsync().ConfigureAwait(false);
-            if (modelCollection?.RecentSearches?.Any() == true)
+            IsLoading = true;
+
+            try
             {
-                RecentNewsChecksCollection.Clear();
-                RecentNewsChecksCollection.AddRange(modelCollection.RecentSearches.Select(rs => new RecentNewsChecksModel(rs.Id, rs.NewsLink)));
+                var modelCollection = await _userProfileService.GetUserRecentSearchesAsync().ConfigureAwait(false);
+                if (modelCollection?.RecentSearches?.Any() == true)
+                {
+                    RecentNewsChecksCollection.Clear();
+                    RecentNewsChecksCollection.AddRange(modelCollection.RecentSearches.Select(rs => new RecentNewsChecksModel(rs.Id, rs.NewsLink)));
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+
+                await RaisePropertyChanged(nameof(IsFirstSearch));
+                await RaisePropertyChanged(nameof(RecentSearchesIsNotEmpty));
             }
         }
 
