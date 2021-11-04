@@ -16,7 +16,6 @@ namespace CriThink.Server.Domain.Entities
     public class User : IdentityUser<Guid>, IAggregateRoot
     {
         private readonly List<RefreshToken> _refreshTokens = new();
-        private readonly List<NewsSourcePostAnswer> _articleAnswers = new();
         private readonly List<UserSearch> _searches = new();
 
         /// <summary>
@@ -44,8 +43,6 @@ namespace CriThink.Server.Domain.Entities
         #region Relationships
 
         public virtual UserProfile Profile { get; private set; }
-
-        public virtual IReadOnlyCollection<NewsSourcePostAnswer> ArticleAnswers => _articleAnswers;
 
         public virtual IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
 
@@ -173,9 +170,23 @@ namespace CriThink.Server.Domain.Entities
                 authenticity));
         }
 
-        public void AddAnswer(NewsSourcePostAnswer answer)
+        public void AddSearch(
+            IList<NewsSourcePostQuestion> questions,
+            IList<(Guid Id, decimal Rate)> answers,
+            string newsLink,
+            NewsSourceAuthenticity authenticity)
         {
-            _articleAnswers.Add(answer);
+            var search = UserSearch.Create(
+                Id,
+                newsLink,
+                authenticity);
+
+            search.CalculateUserRate(
+                authenticity,
+                questions,
+                answers);
+
+            _searches.Add(search);
         }
 
         /// <summary>
