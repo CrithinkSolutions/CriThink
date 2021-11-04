@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CriThink.Server.Domain.Entities.DebunkingNewsLanguage">
+    <Position X="0.75" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAgAAQAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\DebunkingNewsLanguage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Publishers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CriThink.Server.Domain.Entities.DebunkingNewsPublisher">
+    <Position X="4.25" Y="4" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAgAAAAAAAAAgQAAgIQQkAACAAAQAAAAAQ=</HashCode>
+      <FileName>Entities\DebunkingNewsPublisher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CriThink.Server.Domain.Entities.DebunkingNewsCountry">
+    <Position X="8" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAgAAQAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\DebunkingNewsCountry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Publishers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CriThink.Server.Domain.Entities.DebunkingNewsTriggerLog" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="1.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAACMAAAAAAAAEAAAAAAAAAAAAAAAAAAQAAAAABA=</HashCode>
+      <FileName>Entities\DebunkingNewsTriggerLog.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CriThink.Server.Domain.Entities.DebunkingNews">
+    <Position X="4.25" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EgAAAAAIAAAAAEBACAAAAAACAQAABEAAAAACVAAAgAI=</HashCode>
+      <FileName>Entities\DebunkingNews.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Publisher" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="CriThink.Server.Domain.Entities.DebunkingNewsTriggerLogStatus">
+    <Position X="11.5" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAEAAAAAAA=</HashCode>
+      <FileName>Entities\DebunkingNewsTriggerLogStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
