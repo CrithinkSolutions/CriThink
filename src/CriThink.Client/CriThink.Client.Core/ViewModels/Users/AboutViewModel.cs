@@ -54,7 +54,7 @@ namespace CriThink.Client.Core.ViewModels.Users
                 new MenuModel(LocalizedTextSource.GetText("GiveFeedback"), "ic_give_us_feedback"),
                 new MenuModel(LocalizedTextSource.GetText("ToS"), "ic_terms_of_service"),
                 new MenuModel(LocalizedTextSource.GetText("HowWorks"), "ic_how_crithink_works"),
-                new AccentMenuModel(LocalizedTextSource.GetText("Logout"), "ic_logout"),
+                new AccentMenuModel(LocalizedTextSource.GetText("Logout"), "ic_logout", LogoutCommand),
             };
 
             TabId = "profile";
@@ -86,6 +86,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _navigateToProfileCommand;
         public IMvxAsyncCommand NavigateToProfileCommand => _navigateToProfileCommand ??= new MvxAsyncCommand(DoNavigateToProfile);
+
+        private IMvxAsyncCommand _logoutCommand;
+        public IMvxAsyncCommand LogoutCommand => _logoutCommand ??= new MvxAsyncCommand(DoLogoutCommand);
 
         #endregion
 
