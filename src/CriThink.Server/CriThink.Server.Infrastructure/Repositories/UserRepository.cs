@@ -275,5 +275,21 @@ namespace CriThink.Server.Infrastructure.Identity
 
             return user;
         }
+
+        public async Task<IList<decimal>> GetSearchesRateByNewsLinkAsync(
+            Guid userId,
+            string newsLink)
+        {
+            var rates = await _dbContext
+                .UserSearches
+                .Where(u => u.NewsLink == newsLink &&
+                            u.Rate != null &&
+                            u.UserId != userId)
+                .AsNoTracking()
+                .Select(u => u.Rate.Value)
+                .ToListAsync();
+
+            return rates;
+        }
     }
 }

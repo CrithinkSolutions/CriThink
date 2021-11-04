@@ -19,6 +19,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.Property(us => us.NewsLink)
                 .IsRequired();
 
+            builder.Property(aa => aa.Rate);
+
             builder.Property(us => us.Timestamp)
                 .IsRequired();
 

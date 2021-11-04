@@ -22,7 +22,6 @@ namespace CriThink.Server.Application.CommandHandlers
     internal class CreateAnswersToNewsSourceQuestionsCommandHandler : IRequestHandler<CreateAnswersToNewsSourceQuestionsCommand, NewsSourcePostAnswersResponse>
     {
         private readonly IUserRepository _userRepository;
-        private readonly INewsSourceAnswersRepository _newsSourceAnswersRepository;
         private readonly INewsSourceQuestionRepository _newsSourceQuestionRepository;
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly IDebunkingNewsRepository _debunkingNewsRepository;
@@ -36,7 +35,6 @@ namespace CriThink.Server.Application.CommandHandlers
 
         public CreateAnswersToNewsSourceQuestionsCommandHandler(
             IUserRepository userRepository,
-            INewsSourceAnswersRepository newsSourceAnswersRepository,
             INewsSourceQuestionRepository newsSourceQuestionRepository,
             INewsSourceRepository newsSourceRepository,
             IDebunkingNewsRepository debunkingNewsRepository,
@@ -50,9 +48,6 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             _userRepository = userRepository ??
                 throw new ArgumentNullException(nameof(userRepository));
-
-            _newsSourceAnswersRepository = newsSourceAnswersRepository ??
-                throw new ArgumentNullException(nameof(newsSourceAnswersRepository));
 
             _newsSourceQuestionRepository = newsSourceQuestionRepository ??
                 throw new ArgumentNullException(nameof(newsSourceQuestionRepository));
@@ -99,7 +94,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (user is null)
                 throw new CriThinkNotFoundException("User not found", userId);
 
-            await ThrowExceptionIfUserHasAlreadyAnswersAsync(userId, newsLink);
+            ThrowExceptionIfSearchIsDuplicated(user, newsLink);
 
             var searchResponse = await _newsSourceRepository.SearchNewsSourceAsync(domain);
             if (searchResponse is null)
@@ -107,16 +102,6 @@ namespace CriThink.Server.Application.CommandHandlers
                 await HandleUnknownDomainAsync(user, newsLink, cancellationToken);
                 return PrepareResponse();
             }
-
-            user.AddSearch(newsLink, searchResponse.Category);
-
-            var (userRate, communityRate) = await CalculateNewsRatesAsync(
-                user,
-                newsLink,
-                searchResponse,
-                request.Questions);
-
-            await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             if (searchResponse.Category == NewsSourceAuthenticity.Conspiracist ||
                 searchResponse.Category == NewsSourceAuthenticity.FakeNews ||
@@ -132,12 +117,30 @@ namespace CriThink.Server.Application.CommandHandlers
                 }
             }
 
+            var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
+            var answers = request.Questions.Select(q => (q.QuestionId, q.Rate)).ToList();
+
+            user.AddSearch(
+                questionList,
+                answers,
+                newsLink,
+                searchResponse.Category);
+
+            var userCalculatedRate = user.Searches.Last().Rate;
+
+            var newsLinkRates = await _userRepository.GetSearchesRateByNewsLinkAsync(user.Id, newsLink);
+            var communityRate = newsLinkRates.Any() ?
+                newsLinkRates.Average() :
+                userCalculatedRate;
+
+            await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
             var newsSourceCategoryDescription = await _newsSourceCategoriesRepository.GetDescriptionByCategoryNameAsync(searchResponse.Category);
 
             var response = PrepareResponse(
                 relatedDebunkingNews,
                 newsSourceCategoryDescription,
-                userRate,
+                userCalculatedRate,
                 communityRate,
                 searchResponse.Category);
 
@@ -146,16 +149,14 @@ namespace CriThink.Server.Application.CommandHandlers
             return response;
         }
 
-        private async Task ThrowExceptionIfUserHasAlreadyAnswersAsync(
-            Guid userId, string newsLink)
+        private void ThrowExceptionIfSearchIsDuplicated(
+            User user,
+            string newsLink)
         {
-            var userOldAnswers = await _newsSourceAnswersRepository.GetNewsSourceAnswersByUserId(
-                userId,
-                newsLink);
-
-            if (userOldAnswers?.Any() == true)
+            var hasAlreadySearched = user.Searches.Any(x => x.NewsLink == newsLink);
+            if (hasAlreadySearched)
             {
-                _logger?.LogWarning("This user already gave a rate for this news", userId, newsLink);
+                _logger?.LogWarning("This user already gave a rate for this news", user.Id, newsLink);
                 throw new CriThinkAlreadyAnsweredException();
             }
         }
@@ -207,29 +208,6 @@ namespace CriThink.Server.Application.CommandHandlers
             }
 
             return null;
-        }
-
-        private async Task<(decimal userRate, decimal communityRate)> CalculateNewsRatesAsync(
-            User user,
-            string newsLink,
-            NewsSource searchResponse,
-            IList<NewsSourcePostAnswerRequest> answers)
-        {
-            var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
-            var otherUserAnswers = await _newsSourceAnswersRepository.GetNewsSourceAnswersByNewsLinkAsync(newsLink);
-
-            var answer = NewsSourcePostAnswer.Create(newsLink, user);
-            answer.CalculateUserRate(searchResponse.Category, questionList, answers.Select(q => (q.QuestionId, q.Rate)).ToList());
-
-            var communityRate = otherUserAnswers.Any() ?
-                otherUserAnswers.Average(oua => oua.Rate) :
-                answer.Rate;
-
-            await _newsSourceAnswersRepository.AddAsync(answer);
-
-            user.AddAnswer(answer);
-
-            return (answer.Rate, communityRate);
         }
 
         private NewsSourcePostAnswersResponse PrepareResponse(

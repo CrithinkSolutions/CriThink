@@ -226,5 +226,16 @@ namespace CriThink.Server.Domain.Repositories
         /// </summary>
         /// <returns></returns>
         Task<IList<User>> DeleteUserScheduledDeletionAsync();
+
+        /// <summary>
+        /// Get community rate for the given news link excluding
+        /// the given user
+        /// </summary>
+        /// <param name="userId">User to exclude</param>
+        /// <param name="newsLink">News link</param>
+        /// <returns></returns>
+        Task<IList<decimal>> GetSearchesRateByNewsLinkAsync(
+            Guid userId,
+            string newsLink);
     }
 }

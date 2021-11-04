@@ -1,16 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="CriThink.Server.Domain.Entities.NewsSourcePostAnswer" BaseTypeListCollapsed="true">
-    <Position X="2" Y="0.5" Width="2.25" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>QAABAAAAAAAAAAAAAAAAAAgAAAAAAEAQAAAAAAAAAAI=</HashCode>
-      <FileName>Entities\NewsSourcePostAnswer.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="CriThink.Server.Domain.Entities.UserRole">
     <Position X="12.25" Y="0.5" Width="1.5" />
     <Compartments>
@@ -37,7 +26,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAAAAACAggAAAAAAEAAAAAAAAAAAAI=</HashCode>
+      <HashCode>QAABAAAAAAAAAAAAAAACAggAAAAAAEAQAAAAAAAAAAI=</HashCode>
       <FileName>Entities\UserSearch.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -55,7 +44,6 @@
       <Property Name="Profile" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="ArticleAnswers" />
       <Property Name="RefreshTokens" />
       <Property Name="Searches" />
     </ShowAsCollectionAssociation>
