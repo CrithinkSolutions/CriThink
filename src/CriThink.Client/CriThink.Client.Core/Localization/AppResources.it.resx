@@ -669,4 +669,7 @@
   <data name="NewsCheckerResultViewModel.ShareTextUnknown" xml:space="preserve">
     <value>Questa news è sconosciuta a CriThink: aiutaci ad investigare!</value>
   </data>
+  <data name="CheckNewsViewModel.NoSearches" xml:space="preserve">
+    <value>Non ci sono ricerche recenti</value>
+  </data>
 </root>
