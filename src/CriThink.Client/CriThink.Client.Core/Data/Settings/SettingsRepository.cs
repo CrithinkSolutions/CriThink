@@ -16,11 +16,12 @@ namespace CriThink.Client.Core.Data.Settings
             _logger = logger;
         }
 
-        public Task SavePreferenceAsync(string key, string value, bool isSensitive)
+        public async Task SavePreferenceAsync(string key, string value, bool isSensitive)
         {
             if (isSensitive)
             {
-                return _secureSettingsRepository.SavePreferenceAsync(key, value);
+                await _secureSettingsRepository.SavePreferenceAsync(key, value);
+                return;
             }
 
             try
@@ -32,8 +33,19 @@ namespace CriThink.Client.Core.Data.Settings
                 _logger?.LogError(ex, "Error saving a preference", key);
                 throw;
             }
+        }
 
-            return Task.CompletedTask;
+        public void SavePreference(string key, int value)
+        {
+            try
+            {
+                Preferences.Set(key, value);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error saving a preference", key);
+                throw;
+            }
         }
 
         public Task<string> GetPreferenceAsync(string key, string defaultValue, bool isSensitive)
@@ -47,6 +59,20 @@ namespace CriThink.Client.Core.Data.Settings
             {
                 var value = Preferences.Get(key, defaultValue);
                 return Task.FromResult(value);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error reading preference", key, defaultValue);
+                throw;
+            }
+        }
+
+        public int GetPreference(string key, int defaultValue)
+        {
+            try
+            {
+                var value = Preferences.Get(key, defaultValue);
+                return value;
             }
             catch (Exception ex)
             {

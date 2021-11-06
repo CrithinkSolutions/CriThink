@@ -32,6 +32,7 @@
     </PackageReference>
     <PackageReference Include="MvvmCross.Plugin.Messenger" Version="8.0.2" />
     <PackageReference Include="MvvmCross.Plugin.ResxLocalization" Version="8.0.2" />
+    <PackageReference Include="Plugin.StoreReview" Version="3.1.0" />
     <PackageReference Include="Plugin.UserDialogs" Version="1.0.0" />
     <PackageReference Include="Refit.HttpClientFactory" Version="6.0.38" />
     <PackageReference Include="Serilog" Version="2.10.0" />

@@ -17,11 +17,15 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserProfileService _userProfileService;
+        private readonly IPlatformService _platformService;
+        private readonly IApplicationService _applicationService;
         private readonly IUserDialogs _userDialogs;
 
         public CheckNewsViewModel(
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
+            IPlatformService platformService,
+            IApplicationService applicationService,
             IUserDialogs userDialogs)
         {
             _navigationService = navigationService ??
@@ -29,6 +33,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             _userProfileService = userProfileService ??
                 throw new ArgumentNullException(nameof(userProfileService));
+
+            _platformService = platformService ??
+                throw new ArgumentNullException(nameof(platformService));
+
+            _applicationService = applicationService ??
+                throw new ArgumentNullException(nameof(applicationService));
 
             _userDialogs = userDialogs ??
                 throw new ArgumentNullException(nameof(userDialogs));
@@ -75,7 +85,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         public override async Task Initialize()
         {
             await base.Initialize().ConfigureAwait(false);
-            await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
+
+            await Task.WhenAll(AskForReviewAsync(), UpdateLatestNewsChecksAsync());
         }
 
         private async Task DoSubmitUriCommand(CancellationToken cancellationToken)
@@ -108,6 +119,12 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
         }
 
         private void DoClearTextCommand() => NewsUri = string.Empty;
+
+        private async Task AskForReviewAsync()
+        {
+            if (await _applicationService.ShouldAskForStoreReviewAsync())
+                await _applicationService.AskForStoreReviewAsync();
+        }
 
         private async Task UpdateLatestNewsChecksAsync()
         {

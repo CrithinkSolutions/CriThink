@@ -69,13 +69,15 @@ namespace CriThink.Client.Core
                 _logger?.LogCritical(ex, "Error initializing app start", hint);
                 throw;
             }
+            finally
+            {
+                _applicationService.IncrementAppStartCounter();
+            }
         }
 
         private async Task PerformFirstNavigationAsync()
         {
             _logger?.LogInformation("First app navigation");
-
-            await _applicationService.SetFirstAppStartAsync().ConfigureAwait(false);
             await NavigationService.Navigate<WelcomeViewModel>().ConfigureAwait(true);
         }
 
