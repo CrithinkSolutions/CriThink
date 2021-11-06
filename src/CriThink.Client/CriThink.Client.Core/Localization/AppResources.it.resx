@@ -426,6 +426,9 @@
   <data name="ProfileViewModel.MyNameIs" xml:space="preserve">
     <value>Mi chiamo</value>
   </data>
+  <data name="EditProfileViewModel.EditProfile" xml:space="preserve">
+    <value>Modifica Profilo</value>
+  </data>
   <data name="EditProfileViewModel.Blog" xml:space="preserve">
     <value>L'URL del tuo blog</value>
   </data>
