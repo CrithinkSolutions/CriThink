@@ -107,7 +107,6 @@
     <Compile Include="Views\Users\Activities\ResetPasswordView.cs" />
     <Compile Include="Views\Users\Activities\SignUpEmailView.cs" />
     <Compile Include="Views\Users\Activities\SignUpView.cs" />
-    <Compile Include="Views\Users\Dialogs\EditProfileView.cs" />
     <Compile Include="Views\Users\ItemSelectors\MenuItemSelector.cs" />
     <Compile Include="Views\Users\Fragments\AboutView.cs" />
     <Compile Include="Views\Users\Fragments\WelcomeFragment.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="Constants\BottomSheetConstants.cs" />
     <Compile Include="Views\NewsChecker\Dialogs\QuestionNewsView.cs" />
     <Compile Include="Views\Users\Adapters\MenuItemAdapter.cs" />
+    <Compile Include="Views\Users\Activities\EditProfileView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\66934-tumbleweed-rolling.json" />
@@ -1645,6 +1645,38 @@
       <Generator>
       </Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_facebook.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_instagram.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_telegram.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_twitter.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_skype.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_snapchat.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_youtube.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\ic_profile_blog.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -2407,6 +2439,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Users\Dialogs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
