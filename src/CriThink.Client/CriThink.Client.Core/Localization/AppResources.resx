@@ -439,7 +439,7 @@
     <value>My name is</value>
   </data>
   <data name="EditProfileViewModel.EditProfile" xml:space="preserve">
-    <value>Edit Profilo</value>
+    <value>Edit Profile</value>
   </data>
   <data name="EditProfileViewModel.Blog" xml:space="preserve">
     <value>Your blog URL</value>
