@@ -21,6 +21,7 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class AboutViewModel : BaseBottomViewViewModel
     {
         private readonly IIdentityService _identityService;
+        private readonly IApplicationService _applicationService;
         private readonly IUserProfileService _userProfileService;
         private readonly IPlatformDetails _platformDetails;
         private readonly IUserDialogs _userDialogs;
@@ -31,16 +32,28 @@ namespace CriThink.Client.Core.ViewModels.Users
         public AboutViewModel(
             ILogger<AboutViewModel> logger,
             IIdentityService identityService,
+            IApplicationService applicationService,
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
             IPlatformDetails platformDetails,
             IUserDialogs userDialogs)
             : base(logger, navigationService)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _userProfileService = userProfileService ?? throw new ArgumentNullException(nameof(userProfileService));
-            _platformDetails = platformDetails ?? throw new ArgumentNullException(nameof(platformDetails));
-            _userDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
+            _identityService = identityService ??
+                throw new ArgumentNullException(nameof(identityService));
+
+            _applicationService = applicationService ??
+                throw new ArgumentNullException(nameof(applicationService));
+
+            _userProfileService = userProfileService ??
+                throw new ArgumentNullException(nameof(userProfileService));
+
+            _platformDetails = platformDetails ??
+                throw new ArgumentNullException(nameof(platformDetails));
+
+            _userDialogs = userDialogs ??
+                throw new ArgumentNullException(nameof(userDialogs));
+
             _logger = logger;
 
             ProfileImageTransformations = new List<ITransformation>
@@ -50,11 +63,27 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             MenuCollection = new MvxObservableCollection<BaseMenuItem>
             {
-                new MenuModel(LocalizedTextSource.GetText("Notifications"), "ic_notification_settings"),
-                new MenuModel(LocalizedTextSource.GetText("GiveFeedback"), "ic_give_us_feedback"),
-                new MenuModel(LocalizedTextSource.GetText("ToS"), "ic_terms_of_service"),
-                new MenuModel(LocalizedTextSource.GetText("HowWorks"), "ic_how_crithink_works"),
-                new AccentMenuModel(LocalizedTextSource.GetText("Logout"), "ic_logout", LogoutCommand),
+                new MenuModel(
+                    LocalizedTextSource.GetText("Notifications"),
+                    "ic_notification_settings"),
+
+                new MenuModel(
+                    LocalizedTextSource.GetText("GiveFeedback"),
+                    "ic_give_us_feedback",
+                    GiveFeedbackCommand),
+
+                new MenuModel(
+                    LocalizedTextSource.GetText("ToS"),
+                    "ic_terms_of_service"),
+
+                new MenuModel(
+                    LocalizedTextSource.GetText("HowWorks"),
+                    "ic_how_crithink_works"),
+
+                new AccentMenuModel(
+                    LocalizedTextSource.GetText("Logout"),
+                    "ic_logout",
+                    LogoutCommand),
             };
 
             TabId = "profile";
@@ -86,6 +115,9 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private IMvxAsyncCommand _navigateToProfileCommand;
         public IMvxAsyncCommand NavigateToProfileCommand => _navigateToProfileCommand ??= new MvxAsyncCommand(DoNavigateToProfile);
+
+        private IMvxAsyncCommand _giveFeedbackCommand;
+        public IMvxAsyncCommand GiveFeedbackCommand => _giveFeedbackCommand ??= new MvxAsyncCommand(DoFeedbackCommand);
 
         private IMvxAsyncCommand _logoutCommand;
         public IMvxAsyncCommand LogoutCommand => _logoutCommand ??= new MvxAsyncCommand(DoLogoutCommand);
@@ -121,6 +153,11 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToProfile(CancellationToken cancellationToken)
         {
             await NavigationService.Navigate<ProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task DoFeedbackCommand(CancellationToken cancellationToken)
+        {
+            await _applicationService.AskForStoreReviewAsync();
         }
 
         private async Task DoLogoutCommand(CancellationToken cancellationToken)
