@@ -30,13 +30,14 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             var webView = FindViewById<BindableWebView>(Resource.Id.webView);
-
+            var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+            layoutParams.SetMargins(0, (int) Resources.GetDimension(Resource.Dimension.margin_medium), 0, 0);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            SupportActionBar.SetCustomView(_txtTitle, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MatchParent));
+            SupportActionBar.SetCustomView(_txtTitle, new ActionBar.LayoutParams(layoutParams));
 
             var set = CreateBindingSet();
 
@@ -56,8 +57,9 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
         {
             _txtTitle = new AppCompatTextView(this);
             _txtTitle.SetTextSize(ComplexUnitType.Sp, 14);
-            _txtTitle.Gravity = GravityFlags.Center;
-            _txtTitle.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+            _txtTitle.Gravity = GravityFlags.Left;
+            _txtTitle.SetTextColor(Android.Graphics.Color.White);
+            _txtTitle.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent); 
         }
     }
 }
