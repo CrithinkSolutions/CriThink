@@ -8,62 +8,81 @@
     android:nestedScrollingEnabled="true"
     android:background="@drawable/gradient_background"
     android:fitsSystemWindows="true">
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll"
-        android:fillViewport="true"
-        android:overScrollMode="always"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:id="@+id/root">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
             android:focusableInTouchMode="true"
-            android:id="@+id/root">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            android:paddingTop="@dimen/margin_big"
+            android:paddingBottom="@dimen/margin_medium"
+            android:id="@+id/contentHeader">
+            <LinearLayout
+                android:id="@+id/linearHeader"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:paddingTop="@dimen/margin_big"
-                android:paddingBottom="@dimen/margin_medium"
-                android:id="@+id/contentHeader">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtName"
-                    android:gravity="start"
-                    tools:text="Hello Krusty"
-                    style="@style/HeaderWhiteText"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtWelcome"
-                    tools:text="Good Morning"
-                    style="@style/SubheaderWhiteText"
-                    android:layout_marginTop="@dimen/margin_mini"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtName"/>
-                <ffimageloading.cross.MvxSvgCachedImageView
-                    android:layout_width="@dimen/imgSize_medium"
-                    android:layout_height="@dimen/imgSize_medium"
-                    android:id="@+id/imgLogo"
-                    tools:src="@tools:sample/avatars"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/margin_medium">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtName"
+                android:gravity="start"
+                tools:text="Hello Krusty"
+                style="@style/HeaderWhiteText"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtWelcome"
+                tools:text="Good Morning"
+                style="@style/SubheaderWhiteText"/>
+            </LinearLayout>
+            <ffimageloading.cross.MvxSvgCachedImageView
+                android:layout_width="@dimen/imgSize_medium"
+                android:layout_height="@dimen/imgSize_medium"
+                android:id="@+id/imgLogo"
+                tools:src="@tools:sample/avatars"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintTop_toTopOf="@id/linearHeader"
+                app:layout_constraintBottom_toBottomOf="@id/linearHeader"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2"/>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:background="@drawable/round_background"
+            android:fillViewport="true"
+            android:overScrollMode="always"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/contentHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingTop="@dimen/margin_micro">
+        
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contentHeader"
-                android:background="@drawable/round_background">
+                app:layout_constraintTop_toBottomOf="@id/guideline">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -154,9 +173,7 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         layout="@layout/newschecker_shimmer_view"/>
                 </ScrollView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-  </androidx.core.widget.NestedScrollView>
-  
 </androidx.constraintlayout.widget.ConstraintLayout>

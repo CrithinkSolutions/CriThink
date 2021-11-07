@@ -26,7 +26,7 @@ namespace CriThink.Server.Infrastructure.Repositories
         {
             const string query = "SELECT\n" +
                                  "count(*) as count\n" +
-                                 "FROM news_source_post_answers";
+                                 "FROM user_searches";
 
             await using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync(cancellationToken);
