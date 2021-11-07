@@ -63,7 +63,7 @@
     <MandroidI18n />
     <AndroidSupportedAbis />
     <AndroidDexTool>d8</AndroidDexTool>
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
   </PropertyGroup>
