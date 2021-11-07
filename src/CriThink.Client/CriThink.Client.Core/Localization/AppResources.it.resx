@@ -342,6 +342,12 @@
   <data name="DebunkingNewsListViewModel.Title" xml:space="preserve">
     <value>Debunking News</value>
   </data>
+    <data name="DebunkingNewsListViewModel.Language" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+   <data name="DebunkingNewsListViewModel.Country" xml:space="preserve">
+    <value>Nazione</value>
+  </data>
   <data name="SpotFakeNewsHomeViewModel.ADescription" xml:space="preserve">
     <value>ccuracy: il testo dell'articolo è accurato? A volte gli errori grammaticali possono significare che le informazioni non sono accurate.</value>
   </data>
