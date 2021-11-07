@@ -515,6 +515,18 @@ namespace CriThink.Client.Core.Localization {
             }
         }
         
+        internal static string DebunkingNewsListViewModel_Language {
+            get {
+                return ResourceManager.GetString("DebunkingNewsListViewModel.Language", resourceCulture);
+            }
+        }
+        
+        internal static string DebunkingNewsListViewModel_Country {
+            get {
+                return ResourceManager.GetString("DebunkingNewsListViewModel.Country", resourceCulture);
+            }
+        }
+        
         internal static string SpotFakeNewsHomeViewModel_ADescription {
             get {
                 return ResourceManager.GetString("SpotFakeNewsHomeViewModel.ADescription", resourceCulture);

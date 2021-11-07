@@ -1,12 +1,10 @@
 ﻿using System;
 using Android.Animation;
-using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
-using AndroidX.Core.Content;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Core.ViewModels.Statistics;
 using MvvmCross.Binding.BindingContext;
@@ -17,7 +15,6 @@ using MvvmCross.Platforms.Android.Views.Fragments;
 using MvvmCross.Plugin.Visibility;
 using MvvmCross.WeakSubscription;
 using static Android.Animation.ValueAnimator;
-using static AndroidHUD.Resource;
 
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.Statistics
@@ -29,6 +26,7 @@ namespace CriThink.Client.Droid.Views.Statistics
         private AppCompatTextView _txtActiveUsers;
         private AppCompatTextView _txtTotalSearches;
         private AppCompatTextView _txtUserSearches;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -44,7 +42,6 @@ namespace CriThink.Client.Droid.Views.Statistics
             var viewContent = view.FindViewById<ConstraintLayout>(Resource.Id.viewContent);
             var viewError = view.FindViewById<ConstraintLayout>(Resource.Id.viewError);
             var txtError = view.FindViewById<AppCompatTextView>(Resource.Id.txtError);
-
 
             ViewModel.WeakSubscribe(() => ViewModel.PlatformUsers, (sender, e) => CountAnimation(_txtActiveUsers, ViewModel.PlatformUsers));
             ViewModel.WeakSubscribe(() => ViewModel.PlatformSearches, (sender, e) => CountAnimation(_txtTotalSearches, ViewModel.PlatformSearches));
@@ -62,10 +59,9 @@ namespace CriThink.Client.Droid.Views.Statistics
 
             set.Apply();
 
-
-
             return view;
         }
+
         public override void OnStart()
         {
             base.OnStart();
@@ -73,15 +69,17 @@ namespace CriThink.Client.Droid.Views.Statistics
             CountAnimation(_txtTotalSearches, ViewModel.PlatformSearches);
             CountAnimation(_txtUserSearches, ViewModel.UserSearches);
         }
+
         void CountAnimation(AppCompatTextView textView, long value)
         {
             var animator = new ValueAnimator();
-            animator.SetObjectValues(0, (int)value); 
+            animator.SetObjectValues(0, (int) value);
             animator.AddUpdateListener(new CountAnimatorUpdateListener(textView));
             animator.SetDuration(Math.Min(5000, Math.Max(value / 100, 1000)));
             animator.Start();
         }
     }
+
     public class CountAnimatorUpdateListener : Java.Lang.Object, IAnimatorUpdateListener
     {
         private readonly AppCompatTextView _textView;
@@ -92,8 +90,7 @@ namespace CriThink.Client.Droid.Views.Statistics
 
         public void OnAnimationUpdate(ValueAnimator animation)
         {
-            _textView.Text = $"{(int)animation.AnimatedValue:000,000}";
+            _textView.Text = $"{(int) animation.AnimatedValue:000,000}";
         }
     }
-
 }

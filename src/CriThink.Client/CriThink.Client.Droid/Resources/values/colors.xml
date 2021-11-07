@@ -28,6 +28,7 @@
   <color name="backgroundRadio">#FDEEDA</color>
 
   <color name="borderColor">#f0f0f0</color>
+  <color name="borderUnselectedColor">#CECECE</color>
 
   <color name="borderTextInput">#dcdcdc</color>
   <color name="gradientHeaderStart">#f19a38</color>
