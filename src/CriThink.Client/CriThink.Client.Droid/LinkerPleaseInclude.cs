@@ -4,8 +4,10 @@ using System.Windows.Input;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using MvvmCross;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
@@ -125,6 +127,25 @@ namespace CriThink.Client.Droid
             Console.ForegroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.DarkGray;
+        }
+
+        public void Include(IMvxRecyclerViewHolder viewHolder)
+        {
+            void OnItemViewClick(object sender, EventArgs e) { }
+            void OnItemViewLongClick(object sender, EventArgs e) { }
+
+            viewHolder.Click -= OnItemViewClick;
+            viewHolder.LongClick -= OnItemViewLongClick;
+            viewHolder.Click += OnItemViewClick;
+            viewHolder.LongClick += OnItemViewLongClick;
+        }
+
+        public void Include(RecyclerView.ViewHolder vh, MvxRecyclerView list)
+        {
+            vh.ItemView.Click += (sender, args) => { };
+            vh.ItemView.LongClick += (sender, args) => { };
+            list.ItemsSource = null;
+            list.Click += (sender, args) => { };
         }
     }
 }
