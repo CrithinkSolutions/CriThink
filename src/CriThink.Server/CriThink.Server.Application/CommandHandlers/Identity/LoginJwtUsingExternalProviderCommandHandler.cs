@@ -86,7 +86,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (!userCreationResult.Succeeded)
             {
                 var ex = new CriThinkIdentityOperationException(userCreationResult, "CreateNewUser");
-                _logger?.LogError(ex, "Error creating a new user", user, userCreationResult.Errors);
+                _logger?.LogError(ex, "Error creating a new user {user} {Errors}", user, userCreationResult.Errors);
                 throw ex;
             }
 
@@ -120,7 +120,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (!loginAssociated.Succeeded)
             {
                 var ex = new CriThinkIdentityOperationException(loginAssociated);
-                _logger?.LogError(ex, "Error associating external provider to user.", providerName, user);
+                _logger?.LogError(ex, "Error associating external provider to user {providerName} {user}", providerName, user);
                 throw ex;
             }
 

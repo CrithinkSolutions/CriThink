@@ -95,7 +95,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (!userCreationResult.Succeeded)
             {
                 var ex = new CriThinkIdentityOperationException(userCreationResult, "CreateNewUser");
-                _logger?.LogError(ex, "Error creating a new user", user, userCreationResult.Errors);
+                _logger?.LogError(ex, "Error creating a new user {user} {Errors}", user, userCreationResult.Errors);
                 throw ex;
             }
         }

@@ -435,7 +435,7 @@ namespace CriThink.Server.Web
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                     options.JsonSerializerOptions.Converters.Add(new NewsSourceClassificationConverter());
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });

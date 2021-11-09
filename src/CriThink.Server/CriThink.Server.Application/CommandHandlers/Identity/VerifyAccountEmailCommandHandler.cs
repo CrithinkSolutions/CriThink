@@ -55,7 +55,7 @@ namespace CriThink.Server.Application.CommandHandlers
             if (!result.Succeeded)
             {
                 var ex = new CriThinkIdentityOperationException(result);
-                _logger?.LogError(ex, "Error verifying user email", user, confirmationCode);
+                _logger?.LogError(ex, "Error verifying user email {user} {confirmationCode}", user, confirmationCode);
                 throw ex;
             }
 
