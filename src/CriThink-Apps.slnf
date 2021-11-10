@@ -1,0 +1,12 @@
+{
+  "solution": {
+    "path": "CriThink.sln",
+    "projects": [
+      "CriThink.Client\\CriThink.Client.Core\\CriThink.Client.Core.csproj",
+      "CriThink.Client\\CriThink.Client.Droid\\CriThink.Client.Droid.csproj",
+      "CriThink.Client\\CriThink.Client.iOS\\CriThink.Client.iOS.csproj",
+      "CriThink.Common\\CriThink.Common.Endpoints\\CriThink.Common.Endpoints.csproj",
+      "CriThink.Common\\CriThink.Common.Helpers\\CriThink.Common.Helpers.csproj"
+    ]
+  }
+}
