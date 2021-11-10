@@ -1,0 +1,20 @@
+{
+  "solution": {
+    "path": "CriThink.sln",
+    "projects": [
+      "CriThink.Client\\CriThink.Client.Core\\CriThink.Client.Core.csproj",
+      "CriThink.Client\\CriThink.Client.iOS\\CriThink.Client.iOS.csproj",
+      "CriThink.Common\\CriThink.Common.Endpoints\\CriThink.Common.Endpoints.csproj",
+      "CriThink.Common\\CriThink.Common.Helpers\\CriThink.Common.Helpers.csproj",
+      "CriThink.Server\\CriThink.Server.Application\\CriThink.Server.Application.csproj",
+      "CriThink.Server\\CriThink.Server.Domain\\CriThink.Server.Domain.csproj",
+      "CriThink.Server\\CriThink.Server.Infrastructure\\CriThink.Server.Infrastructure.csproj",
+      "CriThink.Server\\CriThink.Server.Providers\\CriThink.Server.Providers.Common\\CriThink.Server.Providers.Common.csproj",
+      "CriThink.Server\\CriThink.Server.Providers\\CriThink.Server.Providers.DebunkingNewsFetcher\\CriThink.Server.Providers.DebunkingNewsFetcher.csproj",
+      "CriThink.Server\\CriThink.Server.Providers\\CriThink.Server.Providers.EmailSender\\CriThink.Server.Providers.EmailSender.csproj",
+      "CriThink.Server\\CriThink.Server.Providers\\CriThink.Server.Providers.NewsAnalyzer\\CriThink.Server.Providers.NewsAnalyzer.csproj",
+      "CriThink.Server\\CriThink.Server.RazorViews\\CriThink.Server.RazorViews.csproj",
+      "CriThink.Server\\CriThink.Server.Web\\CriThink.Server.Web.csproj"
+    ]
+  }
+}
