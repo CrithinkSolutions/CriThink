@@ -41,7 +41,12 @@ namespace CriThink.Server.Application.CommandHandlers
             if (!result.Succeeded)
             {
                 var ex = new CriThinkIdentityOperationException(result);
-                _logger?.LogError(ex, "Error resetting user password {user} {token}", user, token);
+
+                _logger?.LogError(
+                    ex,
+                    "Error resetting user password {0} {1}",
+                    user.Id,
+                    token);
             }
 
             return Unit.Value;

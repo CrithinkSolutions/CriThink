@@ -156,7 +156,11 @@ namespace CriThink.Server.Application.CommandHandlers
             var hasAlreadySearched = user.Searches.Any(x => x.NewsLink == newsLink);
             if (hasAlreadySearched)
             {
-                _logger?.LogWarning("This user already gave a rate for this news {Id} {newsLink}", user.Id, newsLink);
+                _logger?.LogWarning(
+                    "This user already gave a rate for this news: user {0} for {1}",
+                    user.Id,
+                    newsLink);
+
                 throw new CriThinkAlreadyAnsweredException();
             }
         }
