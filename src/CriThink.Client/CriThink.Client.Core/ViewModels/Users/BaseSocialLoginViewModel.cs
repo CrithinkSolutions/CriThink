@@ -52,7 +52,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
             catch (Exception ex)
             {
-                Logger?.LogCritical(ex, "Error while loggin using social login", string.IsNullOrWhiteSpace(token), loginProvider);
+                Logger?.LogCritical(ex, "Error while loggin using social login. Token is null: {0}, {1}", string.IsNullOrWhiteSpace(token), loginProvider);
 
                 var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
 

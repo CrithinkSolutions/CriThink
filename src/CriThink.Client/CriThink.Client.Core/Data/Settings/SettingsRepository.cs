@@ -62,7 +62,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error reading preference", key, defaultValue);
+                _logger?.LogError(ex, "Error reading preference: {0} - {1}", key, defaultValue);
                 throw;
             }
         }
@@ -76,7 +76,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error reading preference", key, defaultValue);
+                _logger?.LogError(ex, "Error reading preference: {0} - {1}", key, defaultValue);
                 throw;
             }
         }
