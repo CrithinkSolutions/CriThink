@@ -1,15 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-// ReSharper disable once CheckNamespace
-namespace CriThink.Server.Domain.Models.DTOs.Facebook
+namespace CriThink.Server.Infrastructure.SocialProviders
 {
-    public class FacebookTokenResponse
-    {
-        [JsonPropertyName("data")]
-        public DebugTokenData Data { get; set; }
-    }
-
-    public class DebugTokenData
+    internal class FacebookDebugTokenData
     {
         [JsonPropertyName("type")]
         public string Type { get; set; }

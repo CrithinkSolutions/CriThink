@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CriThink.Server.Domain.Models.DTOs;
-using CriThink.Server.Domain.Models.LoginProviders;
+using CriThink.Server.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
-    public class AppleProvider : IExternalLoginProvider
+    internal class AppleProvider : IExternalLoginProvider
     {
         private readonly IConfiguration _configuration;
 

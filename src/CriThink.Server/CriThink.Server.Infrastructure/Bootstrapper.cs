@@ -1,11 +1,14 @@
 ﻿using System;
+using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Domain.Interfaces;
 using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Delegates;
 using CriThink.Server.Infrastructure.Identity;
 using CriThink.Server.Infrastructure.Managers;
 using CriThink.Server.Infrastructure.Repositories;
+using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.EmailSender;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +29,22 @@ namespace CriThink.Server.Infrastructure
 
             // Providers
             serviceCollection.AddEmailSenderProvider();
+
+            // Services
+            serviceCollection.AddTransient<FacebookProvider>();
+            serviceCollection.AddTransient<GoogleProvider>();
+            serviceCollection.AddTransient<AppleProvider>();
+
+            serviceCollection.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
+            {
+                return externalProvider switch
+                {
+                    ExternalLoginProvider.Facebook => serviceProvider.GetService<FacebookProvider>(),
+                    ExternalLoginProvider.Google => serviceProvider.GetService<GoogleProvider>(),
+                    ExternalLoginProvider.Apple => serviceProvider.GetService<AppleProvider>(),
+                    _ => throw new NotSupportedException()
+                };
+            });
 
             // Managers
             serviceCollection.AddTransient<IJwtManager, JwtManager>();
