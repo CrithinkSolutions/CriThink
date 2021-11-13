@@ -2,16 +2,14 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
-using CriThink.Server.Domain.Models.DTOs;
-using CriThink.Server.Domain.Models.DTOs.Facebook;
-using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Infrastructure.Api;
+using CriThink.Server.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
-    public class FacebookProvider : IExternalLoginProvider
+    internal class FacebookProvider : IExternalLoginProvider
     {
         private readonly IConfiguration _configuration;
         private readonly IFacebookApi _facebookApi;

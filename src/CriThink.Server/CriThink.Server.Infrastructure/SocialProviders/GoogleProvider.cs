@@ -2,16 +2,14 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
-using CriThink.Server.Domain.Models.DTOs;
-using CriThink.Server.Domain.Models.DTOs.Google;
-using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Infrastructure.Api;
+using CriThink.Server.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
-    public class GoogleProvider : IExternalLoginProvider
+    internal class GoogleProvider : IExternalLoginProvider
     {
         private readonly IConfiguration _configuration;
         private readonly IGoogleApi _googleApi;

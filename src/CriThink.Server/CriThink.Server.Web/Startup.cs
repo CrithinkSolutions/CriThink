@@ -8,13 +8,10 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.Converters;
-using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application;
-using CriThink.Server.Domain.Delegates;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure;
 using CriThink.Server.Infrastructure.Data;
-using CriThink.Server.Infrastructure.SocialProviders;
 using CriThink.Server.Providers.DebunkingNewsFetcher.Settings;
 using CriThink.Server.Providers.EmailSender.Settings;
 using CriThink.Server.Web.ActionFilters;
@@ -112,8 +109,6 @@ namespace CriThink.Server.Web
             SetupLocalization(services);
 
             SetupControllers(services);
-
-            SetupExternalLoginProviders(services);
 
             SetupHealthChecks(services);
 
@@ -544,23 +539,5 @@ namespace CriThink.Server.Web
             Predicate = (check) => check.Tags.Contains(tag),
             AllowCachingResponses = false,
         };
-
-        private static void SetupExternalLoginProviders(IServiceCollection services)
-        {
-            services.AddTransient<FacebookProvider>();
-            services.AddTransient<GoogleProvider>();
-            services.AddTransient<AppleProvider>();
-
-            services.AddTransient<ExternalLoginProviderResolver>(serviceProvider => externalProvider =>
-            {
-                return externalProvider switch
-                {
-                    ExternalLoginProvider.Facebook => serviceProvider.GetService<FacebookProvider>(),
-                    ExternalLoginProvider.Google => serviceProvider.GetService<GoogleProvider>(),
-                    ExternalLoginProvider.Apple => serviceProvider.GetService<AppleProvider>(),
-                    _ => throw new NotSupportedException()
-                };
-            });
-        }
     }
 }

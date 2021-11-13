@@ -1,4 +1,4 @@
-﻿namespace CriThink.Server.Domain.Models.DTOs
+﻿namespace CriThink.Server.Infrastructure.SocialProviders
 {
     public class ExternalProviderUserInfo
     {
