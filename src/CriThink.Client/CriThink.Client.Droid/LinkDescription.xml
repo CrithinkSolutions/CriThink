@@ -1,7 +1,0 @@
-<linker>
-    <assembly fullname="Xamarin.GooglePlayServices.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <type fullname="Android.Gms.Auth.Api.SignIn.GoogleSignInOptions">
-            <field name="DEFAULT_SIGN_IN"/>
-        </type>
-    </assembly>
-</linker>
