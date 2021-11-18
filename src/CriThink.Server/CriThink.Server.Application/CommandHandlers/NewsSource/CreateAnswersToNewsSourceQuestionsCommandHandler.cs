@@ -12,6 +12,7 @@ using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Services;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -30,6 +31,7 @@ namespace CriThink.Server.Application.CommandHandlers
         private readonly IMapper _mapper;
         private readonly INewsScraperService _scraperService;
         private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly IFaviconService _faviconService;
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly ILogger<CreateAnswersToNewsSourceQuestionsCommandHandler> _logger;
 
@@ -43,6 +45,7 @@ namespace CriThink.Server.Application.CommandHandlers
             IMapper mapper,
             INewsScraperService scraperService,
             ITextAnalyticsService textAnalyticsService,
+            IFaviconService faviconService,
             IStringLocalizer<SharedResource> stringLocalizer,
             ILogger<CreateAnswersToNewsSourceQuestionsCommandHandler> logger)
         {
@@ -72,6 +75,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             _textAnalyticsService = textAnalyticsService ??
                 throw new ArgumentNullException(nameof(textAnalyticsService));
+
+            _faviconService = faviconService ??
+                throw new ArgumentNullException(nameof(faviconService));
 
             _stringLocalizer = stringLocalizer ??
                 throw new ArgumentNullException(nameof(stringLocalizer));
@@ -103,13 +109,17 @@ namespace CriThink.Server.Application.CommandHandlers
                 return PrepareResponse();
             }
 
+            var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(new Uri(newsLink, UriKind.Absolute));
+            var newsKeywords = await GetNewsKeywordsAsync(newsLink, scrapeAnalysis);
+            var favicon = _faviconService.GetFaviconFromWebsite(domain);
+
             if (searchResponse.Category == NewsSourceAuthenticity.Conspiracist ||
                 searchResponse.Category == NewsSourceAuthenticity.FakeNews ||
                 searchResponse.Category == NewsSourceAuthenticity.Suspicious)
             {
                 try
                 {
-                    relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsLink);
+                    relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsKeywords);
                 }
                 catch (Exception ex)
                 {
@@ -121,11 +131,11 @@ namespace CriThink.Server.Application.CommandHandlers
             var answers = request.Questions.Select(q => (q.QuestionId, q.Rate)).ToList();
 
             var searchedNews = SearchedNews.Create(
-                newsLink,
-                "",
-                "",
-                Array.Empty<string>(),
-                searchResponse.Category);
+                link: newsLink,
+                title: scrapeAnalysis.Title,
+                favicon: favicon,
+                keywords: newsKeywords,
+                authenticity: searchResponse.Category);
 
             searchedNews.CalculateUserRate(
                 searchResponse.Category,
@@ -191,25 +201,23 @@ namespace CriThink.Server.Application.CommandHandlers
         }
 
         private async Task<IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>> GetRelatedDebunkingNewsCollectionAsync(
-            string newsLink)
+            IEnumerable<string> newsKeywords)
         {
-            var newsKeywords = await GetNewsKeywordsAsync(newsLink);
-            if (newsKeywords is null)
-                return null;
-
             var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(newsKeywords);
 
             var dto = _mapper.Map<IList<GetAllDebunkingNewsByKeywordsQueryResult>, IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>>(dNewsByKeywordsQuery);
             return dto;
         }
 
-        private async Task<IReadOnlyList<string>> GetNewsKeywordsAsync(string newsLink)
+        private async Task<IReadOnlyList<string>> GetNewsKeywordsAsync(
+            string newsLink,
+            NewsScraperProviderResponse scrapeAnalysis)
         {
+            if (scrapeAnalysis is null)
+                return null;
+
             try
             {
-                var uri = new Uri(newsLink, UriKind.Absolute);
-                var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(uri);
-
                 var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(
                     scrapeAnalysis.NewsBody,
                     scrapeAnalysis.Language);
