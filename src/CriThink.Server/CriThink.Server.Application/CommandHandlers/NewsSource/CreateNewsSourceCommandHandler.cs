@@ -47,7 +47,12 @@ namespace CriThink.Server.Application.CommandHandlers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error adding a news source", request.NewsLink, request.NewsSourceClassification);
+                _logger.LogError(
+                    ex,
+                    "Error adding a news source {0} {1}",
+                    request.NewsLink,
+                    request.NewsSourceClassification);
+
                 throw;
             }
         }

@@ -11,28 +11,21 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             builder.ToTable("user_searches");
 
             builder.Ignore(us => us.DomainEvents);
+            builder.Ignore(us => us.SearchText);
 
             builder.HasKey(us => us.Id);
             builder.Property(us => us.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(us => us.NewsLink)
-                .IsRequired();
-
-            builder.Property(aa => aa.Rate);
-
             builder.Property(us => us.Timestamp)
                 .IsRequired();
 
-            builder.Property(us => us.Authenticity)
-                .IsRequired()
-                .HasConversion(
-                    enumValue => enumValue.ToString(),
-                    stringValue => EntityEnumConverter.GetEnumValue<NewsSourceAuthenticity>(stringValue));
+            builder.Property(us => us.SearchedText);
 
             builder
                 .HasOne(user => user.User)
                 .WithMany(s => s.Searches)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

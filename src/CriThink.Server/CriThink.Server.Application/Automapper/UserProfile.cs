@@ -17,7 +17,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest =>
-                    dest.NewsLink, opt => opt.MapFrom(src => src.NewsLink));
+                    dest.SearchedText, opt => opt.MapFrom(src => src.SearchText));
 
             CreateMap<User, UserGetViewModel>()
                 .ForMember(dest =>

@@ -24,7 +24,11 @@ namespace CriThink.Server.Web.ActionFilters
                 string.IsNullOrWhiteSpace(headerValue))
             {
                 context.Result = Get401StatusCode();
-                logger?.LogCritical("Can't CrossService header values", configuration, headerKey, headerValue);
+
+                logger?.LogCritical(
+                   "Can't CrossService header values: {headerKey} {headerValue}",
+                   headerKey, headerValue);
+
                 return;
             }
 

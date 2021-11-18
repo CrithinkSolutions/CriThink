@@ -35,7 +35,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var userId = request.UserId;
 
-            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, false, cancellationToken);
             if (user is null)
                 throw new CriThinkNotFoundException("The user doesn't exists", $"User id: '{userId}'");
 

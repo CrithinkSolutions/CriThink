@@ -51,6 +51,8 @@ namespace CriThink.Server.Infrastructure.Data
 
         public DbSet<UserSearch> UserSearches { get; set; }
 
+        public DbSet<SearchedNews> SearchedNews { get; set; }
+
         public DbSet<UnknownNewsSourceNotification> UnknownNewsSourceNotifications { get; set; }
 
         public DbSet<EmailSendingFailure> EmailSendingFailures { get; set; }

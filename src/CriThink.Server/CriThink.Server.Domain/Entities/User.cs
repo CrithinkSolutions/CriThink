@@ -161,32 +161,9 @@ namespace CriThink.Server.Domain.Entities
         }
 
         public void AddSearch(
-            string newsLink,
-            NewsSourceAuthenticity authenticity)
+            UserSearch userSearch)
         {
-            _searches.Add(UserSearch.Create(
-                Id,
-                newsLink,
-                authenticity));
-        }
-
-        public void AddSearch(
-            IList<NewsSourcePostQuestion> questions,
-            IList<(Guid Id, decimal Rate)> answers,
-            string newsLink,
-            NewsSourceAuthenticity authenticity)
-        {
-            var search = UserSearch.Create(
-                Id,
-                newsLink,
-                authenticity);
-
-            search.CalculateUserRate(
-                authenticity,
-                questions,
-                answers);
-
-            _searches.Add(search);
+            _searches.Add(userSearch);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace CriThink.Common.Endpoints.DTOs.UserProfile
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
 
-        [JsonPropertyName("newsLink")]
-        public string NewsLink { get; set; }
+        [JsonPropertyName("searchedText")]
+        public string SearchedText { get; set; }
     }
 }

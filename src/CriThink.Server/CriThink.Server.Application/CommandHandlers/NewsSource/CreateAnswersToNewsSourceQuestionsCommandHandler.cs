@@ -90,7 +90,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var userId = request.UserId;
             var (newsLink, domain) = GetDataFromNewsLink(request.NewsLink);
 
-            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, true, cancellationToken);
             if (user is null)
                 throw new CriThinkNotFoundException("User not found", userId);
 
@@ -120,18 +120,27 @@ namespace CriThink.Server.Application.CommandHandlers
             var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
             var answers = request.Questions.Select(q => (q.QuestionId, q.Rate)).ToList();
 
-            user.AddSearch(
-                questionList,
-                answers,
+            var searchedNews = SearchedNews.Create(
                 newsLink,
+                "",
+                "",
+                Array.Empty<string>(),
                 searchResponse.Category);
 
-            var userCalculatedRate = user.Searches.Last().Rate;
+            searchedNews.CalculateUserRate(
+                searchResponse.Category,
+                questionList,
+                answers.Select(q => (q.QuestionId, q.Rate)).ToList());
 
             var newsLinkRates = await _userRepository.GetSearchesRateByNewsLinkAsync(user.Id, newsLink);
             var communityRate = newsLinkRates.Any() ?
                 newsLinkRates.Average() :
-                userCalculatedRate;
+                searchedNews.Rate;
+
+            var userSearch = UserSearch.CreateNewsSearch(userId, searchedNews);
+            user.AddSearch(userSearch);
+
+            await _userRepository.UpdateUserAsync(user);
 
             await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
@@ -140,7 +149,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var response = PrepareResponse(
                 relatedDebunkingNews,
                 newsSourceCategoryDescription,
-                userCalculatedRate,
+                searchedNews.Rate,
                 communityRate,
                 searchResponse.Category);
 
@@ -153,10 +162,14 @@ namespace CriThink.Server.Application.CommandHandlers
             User user,
             string newsLink)
         {
-            var hasAlreadySearched = user.Searches.Any(x => x.NewsLink == newsLink);
+            var hasAlreadySearched = user.Searches.Any(x => x.SearchedNews.Link == newsLink);
             if (hasAlreadySearched)
             {
-                _logger?.LogWarning("This user already gave a rate for this news", user.Id, newsLink);
+                _logger?.LogWarning(
+                    "This user already gave a rate for this news: user {0} for {1}",
+                    user.Id,
+                    newsLink);
+
                 throw new CriThinkAlreadyAnsweredException();
             }
         }
@@ -166,7 +179,12 @@ namespace CriThink.Server.Application.CommandHandlers
             string newsLink,
             CancellationToken cancellationToken)
         {
-            user.AddSearch(newsLink, NewsSourceAuthenticity.Unknown);
+            var searchedNews = SearchedNews.CreateUnknown(newsLink);
+            var search = UserSearch.CreateNewsSearch(user.Id, searchedNews);
+            user.AddSearch(search);
+
+            await _userRepository.UpdateUserAsync(user);
+
             await _unknownNewsSourcesRepository.AddUnknownNewsSourceAsync(newsLink);
 
             await _unknownNewsSourcesRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
