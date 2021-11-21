@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Server.Domain.Models.DTOs;
+using CriThink.Server.Infrastructure.SocialProviders;
 
-namespace CriThink.Server.Domain.Models.LoginProviders
+namespace CriThink.Server.Infrastructure.Services
 {
     public interface IExternalLoginProvider
     {

@@ -35,7 +35,7 @@ namespace CriThink.Client.Core.Data.Settings
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error getting setting from secure storage", key, defaultValue);
+                _logger?.LogError(ex, "Error getting setting from secure storage: {0} - {1}", key, defaultValue);
                 throw;
             }
         }

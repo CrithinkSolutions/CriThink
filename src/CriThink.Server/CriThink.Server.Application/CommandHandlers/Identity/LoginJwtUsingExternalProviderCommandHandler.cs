@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
 using CriThink.Server.Application.Commands;
-using CriThink.Server.Domain.Delegates;
 using CriThink.Server.Domain.DomainServices;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.Interfaces;
-using CriThink.Server.Domain.Models.DTOs;
-using CriThink.Server.Domain.Models.LoginProviders;
 using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Data;
+using CriThink.Server.Infrastructure.Delegates;
+using CriThink.Server.Infrastructure.Services;
+using CriThink.Server.Infrastructure.SocialProviders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -129,11 +129,11 @@ namespace CriThink.Server.Application.CommandHandlers
                 var ex = new CriThinkIdentityOperationException(loginAssociated);
 
                 _logger?.LogError(
-                   ex,
-                   "Error associating external provider to user {0}, {1} {2}",
-                   providerName,
-                   user.Id,
-                   user.Email);
+                    ex,
+                    "Error associating external provider to user {0}, {1} {2}",
+                    providerName,
+                    user.Id,
+                    user.Email);
 
                 throw ex;
             }

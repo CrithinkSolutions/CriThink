@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using CriThink.Server.Domain.Models.DTOs.Facebook;
+using CriThink.Server.Infrastructure.SocialProviders;
 using Refit;
 
 namespace CriThink.Server.Infrastructure.Api
 {
-    public interface IFacebookApi
+    internal interface IFacebookApi
     {
         [Get("/debug_token?input_token={userToken}&access_token={accessToken}")]
         Task<FacebookTokenResponse> ValidateTokenAsync(string userToken, string accessToken);

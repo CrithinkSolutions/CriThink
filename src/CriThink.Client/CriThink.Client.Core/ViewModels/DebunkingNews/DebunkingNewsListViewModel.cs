@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Constants;
@@ -7,6 +9,7 @@ using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.DebunkingNews;
+using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -20,6 +23,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private readonly IMvxNavigationService _navigationService;
         private readonly IDebunkingNewsService _debunkingNewsService;
+        private readonly IGeolocationService _geoService;
         private readonly ILogger<DebunkingNewsListViewModel> _logger;
 
         private bool _isInitialized;
@@ -30,10 +34,12 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         public DebunkingNewsListViewModel(
             ILogger<DebunkingNewsListViewModel> logger,
             IMvxNavigationService navigationService,
-            IDebunkingNewsService debunkingNewsService)
+            IDebunkingNewsService debunkingNewsService,
+            IGeolocationService geoService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _debunkingNewsService = debunkingNewsService ?? throw new ArgumentNullException(nameof(debunkingNewsService));
+            _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
             _logger = logger;
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
@@ -46,6 +52,21 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         public MvxNotifyTask FetchDebunkingNewsTask { get; private set; }
 
+        private bool _filterByCountry;
+        public bool FilterByCountry
+        {
+
+            get => _filterByCountry;
+            set => SetProperty(ref _filterByCountry, value);
+        }
+
+        private bool _filterByLanguage;
+        public bool FilterByLanguage
+        {
+            get => _filterByLanguage;
+            set => SetProperty(ref _filterByLanguage, value);   
+        }
+
         #endregion
 
         #region Commands
@@ -57,6 +78,14 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private IMvxCommand<DebunkingNewsGetResponse> _debunkingNewsSelectedCommand;
         public IMvxCommand<DebunkingNewsGetResponse> DebunkingNewsSelectedCommand =>
             _debunkingNewsSelectedCommand ??= new MvxAsyncCommand<DebunkingNewsGetResponse>(DoDebunkingNewsSelectedCommand);
+
+        private IMvxCommand _filterByLanguageCommand;
+        public IMvxCommand FIlterByLanguageCommand =>
+            _filterByLanguageCommand ??= new MvxAsyncCommand(DoFilterByLanguageCommand);
+
+        private IMvxCommand _filterByCountryCommand;
+        public IMvxCommand FIlterByCountryCommand =>
+            _filterByCountryCommand ??= new MvxAsyncCommand(DoFilterByCountryCommand);
 
         #endregion
 
@@ -87,7 +116,11 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             if (!_hasMorePages)
                 return;
 
-            IsLoading = true;
+            if (_pageIndex == 0)
+            {
+                Feed.Clear();
+                IsLoading = true;
+            }
 
             try
             {
@@ -99,12 +132,36 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                     PageIndex = _pageIndex,
                 };
 
+                string language = null;
+
+                if (FilterByCountry || FilterByLanguage)
+                {
+                    var countryCode = await _geoService.GetCurrentCountryCodeAsync();
+                    language = countryCode.Coalesce(GeoConstant.DEFAULT_LANGUAGE);
+
+                }
+
                 var debunkinNewsCollection = await _debunkingNewsService
-                    .GetDebunkingNewsAsync(request, _cancellationTokenSource.Token)
+                    .GetDebunkingNewsAsync(request, _cancellationTokenSource.Token, language)
                     .ConfigureAwait(false);
 
-                if (debunkinNewsCollection.DebunkingNewsCollection != null)
-                    Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                    if (debunkinNewsCollection.DebunkingNewsCollection != null)
+                    {
+                        if (FilterByCountry || FilterByLanguage)
+                        {
+                            var cultureInfo = new CultureInfo(language);
+                            var regionInfo = new RegionInfo(language);
+                            var feed = debunkinNewsCollection.DebunkingNewsCollection
+                                        .Where(x => (!FilterByLanguage || x.PublisherLanguage == cultureInfo.EnglishName)
+                                        && (!FilterByCountry || x.PublisherCountry == regionInfo.EnglishName));
+                            Feed.AddRange(feed);
+                        }
+                        else
+                        {
+                            Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
+                        }
+
+                    }
 
                 _hasMorePages = debunkinNewsCollection.HasNextPage;
 
@@ -124,6 +181,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             }
         }
 
+
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
             _logger?.LogInformation("User opens debunking news", selectedResponse.NewsLink);
@@ -136,6 +194,21 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         {
             FetchDebunkingNewsTask = MvxNotifyTask.Create(GetDebunkingNewsAsync);
             RaisePropertyChanged(() => FetchDebunkingNewsTask);
+        }
+
+        private Task DoFilterByLanguageCommand()
+        {
+            FilterByLanguage = !FilterByLanguage;
+            _pageIndex = 0;
+            return GetDebunkingNewsAsync();
+        }
+
+        private Task DoFilterByCountryCommand()
+        {
+            FilterByCountry = !FilterByCountry;
+            _pageIndex = 0;
+            return GetDebunkingNewsAsync();
+
         }
     }
 }

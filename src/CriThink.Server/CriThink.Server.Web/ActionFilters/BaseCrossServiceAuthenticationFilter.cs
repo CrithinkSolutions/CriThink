@@ -26,8 +26,8 @@ namespace CriThink.Server.Web.ActionFilters
                 context.Result = Get401StatusCode();
 
                 logger?.LogCritical(
-                   "Can't CrossService header values: {headerKey} {headerValue}",
-                   headerKey, headerValue);
+                    "Can't CrossService header values: {headerKey} {headerValue}",
+                    headerKey, headerValue);
 
                 return;
             }

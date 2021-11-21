@@ -2,16 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/bottom_sheet_behavior" 
+    xmlns:tools="http://schemas.android.com/tools"
     android:focusableInTouchMode="true"
+    android:background="@drawable/gradient_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtTitle"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toTopOf="@id/appBarLayout"
+        android:textStyle="bold"
+        tools:text="Title"
+        android:textSize="@dimen/textSize_header"
+        android:gravity="center" />
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/appBarLayout"
+        layout="@layout/toolbar"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:background="@drawable/round_background"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/margin_ProfileContent"
         android:id="@+id/scrollViewer"
         android:fillViewport="true"
         android:overScrollMode="always"> 
@@ -23,6 +48,7 @@
             android:paddingRight="@dimen/padding_page"
             android:layout_marginBottom="@dimen/margin_medium"
             android:id="@+id/viewInnerLayout"
+            android:paddingBottom="@dimen/padding_page"
             android:scrollbars="vertical">
 
                 <FFImageLoading.Cross.MvxCachedImageView
@@ -34,104 +60,115 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <FFImageLoading.Cross.MvxSvgCachedImageView
-                    android:layout_width="@dimen/imgSize_bigLogo"
-                    android:layout_height="@dimen/imgSize_bigLogo"
-                    android:id="@+id/imgAvatar"
-                    android:layout_marginTop="@dimen/margin_big"
-                    app:layout_constraintTop_toBottomOf="@id/bottomSheetGrapple"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
-                <FFImageLoading.Cross.MvxCachedImageView
-                    android:layout_width="@dimen/imgSize_publisherSmall"
-                    android:layout_height="@dimen/imgSize_publisherSmall"
-                    android:id="@+id/imgEditAvatar"
-                    android:src="@drawable/ic_edit"
-                    android:background="@drawable/ic_btnborder"
-                    android:tint="@color/welcomeBackground"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_huge"
-                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
-                    app:layout_constraintEnd_toEndOf="@id/imgAvatar"
-                    app:layout_constraintBottom_toBottomOf="@id/imgAvatar"/>
             
                 <!-- Bio -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    tools:text="Bio"
                     android:id="@+id/txtBioTitle"
                     android:textSize="@dimen/textSize_subheader"
-                    app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+                    app:layout_constraintTop_toBottomOf="@id/bottomSheetGrapple"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="@dimen/margin_veryBig"/>
 
                 <!-- Given Name -->
+                <TextView
+                     android:id="@+id/tv_header_givenName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtBioTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Name"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditGivenName"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtBioTitle"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_givenName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputGivenName"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textPersonName"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>              
 
                 <!-- Family Name -->
+                <TextView
+                    android:id="@+id/tv_header_familyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditGivenName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Surname"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditFamilyName"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditGivenName"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_familyName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputFamilyName"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textPersonName"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>          
 
-                <!-- Description -->
+
+                <!-- Bio -->
+                <TextView
+                    android:id="@+id/tv_header_bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditFamilyName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Bio"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtEditDescription"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditFamilyName"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    android:id="@+id/txtEditBio"
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_bio"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/txtInputDescription"
-                        android:inputType="textShortMessage"/>
+                        android:id="@+id/txtInputBio"
+                        android:textColor="@color/editText_textColor"
+                        android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- DoB -->
+                <TextView
+                    android:id="@+id/tv_header_dob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditBio"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Date of Birth"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditDoB"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditDescription"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_dob"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -139,47 +176,64 @@
                         android:clickable="true"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="@null"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Gender -->
+                <TextView
+                    android:id="@+id/tv_header_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditDoB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Gender"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditGender"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditDoB"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_gender"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/txtInputGender"
                         android:clickable="true"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:editable="false"
-                        android:inputType="@null"
-                        android:id="@+id/txtInputGender"/>
+                        android:textColor="@color/editText_textColor"
+                        android:inputType="@null"/>
                 </com.google.android.material.textfield.TextInputLayout>
--->
+
                 <!-- Country -->
+                <TextView
+                    android:id="@+id/tv_header_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditGender"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Country"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditCountry"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditGender"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_country"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/txtInputCountry"/>
+                        android:id="@+id/txtInputCountry"
+                        android:textColor="@color/editText_textColor"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
+               
                 <!-- Social -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -191,147 +245,230 @@
                     android:layout_marginTop="@dimen/margin_veryBig"/>
 
                 <!-- Telegram -->
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_telegram"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_telegram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtSocialTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Telegram"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditTelegram"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtSocialTitle"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_telegram"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputTelegram"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Skype -->
+                        
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_skype"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_skype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditTelegram"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Skype"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditSkype"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditTelegram"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_skype"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputSkype"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Twitter -->
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_twitter"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditSkype"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Twitter"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditTwitter"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditSkype"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_twitter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputTwitter"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Instagram -->
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_instagram"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_instagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditTwitter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Instagram"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditInstagram"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditTwitter"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_instagram"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputInstagram"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+
                 <!-- Facebook -->
+                        
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_facebook"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditInstagram"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Facebook"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditFacebook"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditInstagram"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_facebook"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputFacebook"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Snapchat -->
+                <!-- Snapchat -->               
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_snapchat"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_snapchat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditFacebook"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Snapchat"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditSnapchat"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditFacebook"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_snapchat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputSnapchat"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- YouTube -->
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_youtube"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_youtube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditSnapchat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="YouTube"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditYouTube"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditSnapchat"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_youtube"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputYouTube"
+                        android:textColor="@color/editText_textColor"
                         android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Blog -->
+                <TextView
+                    android:drawableStart="@drawable/ic_profile_blog"
+                    android:drawablePadding="@dimen/margin_mini"
+                    android:id="@+id/tv_header_blog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtEditYouTube"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:text="Blog"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtEditBlog"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/txtEditYouTube"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    
+                    style="@style/OutlinedRoundedBox"
+                    app:layout_constraintTop_toBottomOf="@id/tv_header_blog"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_mini">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtInputBlog"
-                        android:inputType="textUri"/>
+                        android:textColor="@color/editText_textColor"
+                        android:inputType="textNoSuggestions"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Save -->
@@ -339,18 +476,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnSave"
-                    android:background="@android:color/white"
+                    tools:text="Salva"
+                    android:textAllCaps="false"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtEditBlog"
                     android:layout_marginTop="@dimen/margin_littleBig"
-                    android:backgroundTint="@color/colorBlue"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/orange_bg_button_radius"
                     android:radius="@dimen/btn_radius"
-                    android:textColor="@android:color/white"
-                    android:elevation="@dimen/btn_elevation"/>
+                    android:textColor="@android:color/white"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         
     </androidx.core.widget.NestedScrollView>
+    <FFImageLoading.Cross.MvxSvgCachedImageView
+        android:layout_width="@dimen/imgSize_extralarge"
+        android:layout_height="@dimen/imgSize_extralarge"
+        android:id="@+id/imgAvatar"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <FFImageLoading.Cross.MvxCachedImageView
+        android:layout_width="@dimen/imgSize_publisherSmall"
+        android:layout_height="@dimen/imgSize_publisherSmall"
+        android:id="@+id/imgEditAvatar"
+        android:src="@drawable/ic_edit"
+        android:background="@drawable/ic_btnborder"
+        android:tint="@color/welcomeBackground"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_huge"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintEnd_toEndOf="@id/imgAvatar"
+        app:layout_constraintBottom_toBottomOf="@id/imgAvatar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

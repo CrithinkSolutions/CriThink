@@ -85,119 +85,113 @@
                 android:textColor="@color/accent"
                 android:layout_marginEnd="@dimen/margin_medium"/>
 
-            <!-- Telegram -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgTelegram"
-                app:layout_constraintEnd_toStartOf="@id/imgSkype"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_telegram"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Skype -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgSkype"
-                app:layout_constraintEnd_toStartOf="@id/imgFacebook"
-                app:layout_constraintStart_toEndOf="@id/imgTelegram"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_skype"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Facebook -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgFacebook"
-                app:layout_constraintEnd_toStartOf="@id/imgInstagram"
-                app:layout_constraintStart_toEndOf="@id/imgSkype"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_facebook"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Download from https://en.instagram-brand.com/assets/icons not working now-->
-            <!-- Instagram -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgInstagram"
-                app:layout_constraintEnd_toStartOf="@id/imgTwitter"
-                app:layout_constraintStart_toEndOf="@id/imgFacebook"
+            <LinearLayout
+                android:id="@+id/layoutSocial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_littleBig"
+                android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/txtRegistrationDate"
-                android:layout_marginTop="@dimen/margin_big"
-                android:layout_marginBottom="@dimen/margin_big"
-                android:src="@drawable/ic_social_instagram"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-                
-            <!-- Twitter -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgTwitter"
-                app:layout_constraintStart_toEndOf="@id/imgInstagram"
-                app:layout_constraintEnd_toStartOf="@id/imgSnapchat"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_twitter"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Snapchat -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgSnapchat"
-                app:layout_constraintStart_toEndOf="@id/imgTwitter"
-                app:layout_constraintEnd_toStartOf="@id/imgYoutube"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_snapchat"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Youtube -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgYoutube"
-                app:layout_constraintStart_toEndOf="@id/imgSnapchat"
-                app:layout_constraintEnd_toStartOf="@id/imgBlog"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_social_youtube"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <!-- Blog -->
-            <FFImageLoading.Cross.MvxCachedImageView
-                android:layout_width="@dimen/imgSize_profileSocial"
-                android:layout_height="@dimen/imgSize_profileSocial"
-                android:id="@+id/imgBlog"
-                app:layout_constraintStart_toEndOf="@id/imgYoutube"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/imgInstagram"
-                android:src="@drawable/ic_blog_logo"
-                android:scaleType="fitCenter"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:background="?android:attr/selectableItemBackground"/>
+                android:gravity="center">
+                <!-- Telegram -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgTelegram"
+                    android:src="@drawable/ic_social_telegram"
+                    android:scaleType="fitCenter"
+                    android:layout_margin="@dimen/margin_mini"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Skype -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgSkype"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_social_skype"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Facebook -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgFacebook"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_social_facebook"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Instagram -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgInstagram"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_big"
+                    android:src="@drawable/ic_social_instagram"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+                
+                <!-- Twitter -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgTwitter"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_social_twitter"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Snapchat -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgSnapchat"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_social_snapchat"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Youtube -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgYoutube"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_social_youtube"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <!-- Blog -->
+                <FFImageLoading.Cross.MvxCachedImageView
+                    android:layout_width="@dimen/imgSize_profileSocial"
+                    android:layout_height="@dimen/imgSize_profileSocial"
+                    android:id="@+id/imgBlog"
+                    android:layout_margin="@dimen/margin_mini"
+                    android:src="@drawable/ic_blog_logo"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:background="?android:attr/selectableItemBackground"/>
+            </LinearLayout>
                 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutAbout"
                 android:padding="@dimen/padding_card"
                 android:background="@drawable/bg_radius"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/imgInstagram"
+                app:layout_constraintTop_toBottomOf="@id/layoutSocial"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_big"

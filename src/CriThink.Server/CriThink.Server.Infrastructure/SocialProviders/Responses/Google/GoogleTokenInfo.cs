@@ -2,10 +2,9 @@
 using System.Text.Json.Serialization;
 using CriThink.Common.Endpoints.Converters;
 
-// ReSharper disable once CheckNamespace
-namespace CriThink.Server.Domain.Models.DTOs.Google
+namespace CriThink.Server.Infrastructure.SocialProviders
 {
-    public class GoogleTokenInfo
+    internal class GoogleTokenInfo
     {
         [JsonPropertyName("aud")]
         public string ApplicationId { get; set; }
