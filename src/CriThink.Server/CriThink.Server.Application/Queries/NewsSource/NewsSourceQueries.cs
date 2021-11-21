@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
@@ -9,7 +10,12 @@ using CriThink.Server.Application.Validators;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace CriThink.Server.Application.Queries
 {
@@ -21,6 +27,7 @@ namespace CriThink.Server.Application.Queries
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly ILogger<NewsSourceQueries> _logger;
         private readonly INewsSourceCategoriesRepository _newsSourceCategoriesRepository;
+        private readonly CriThinkDbContext _dbContext;
 
         public NewsSourceQueries(
             IMapper mapper,
@@ -28,6 +35,7 @@ namespace CriThink.Server.Application.Queries
             IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             INewsSourceRepository newsSourceRepository,
             INewsSourceCategoriesRepository newsSourceCategoriesRepository,
+            CriThinkDbContext dbContext,
             ILogger<NewsSourceQueries> logger)
         {
             _mapper = mapper ??
@@ -44,6 +52,9 @@ namespace CriThink.Server.Application.Queries
 
             _newsSourceCategoriesRepository = newsSourceCategoriesRepository ??
                 throw new ArgumentNullException(nameof(newsSourceCategoriesRepository));
+
+            _dbContext = dbContext ??
+                throw new ArgumentNullException(nameof(dbContext));
 
             _logger = logger;
         }
@@ -135,6 +146,51 @@ namespace CriThink.Server.Application.Queries
             _logger?.LogInformation($"{nameof(GetAllUnknownNewsSourcesAsync)}: done");
 
             return response;
+        }
+
+        public async Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(string text)
+        {
+            var keywords = text.Split(null);
+
+            const string query = "SELECT DISTINCT ON (sn.link) sn.link, sn.id, sn.title, sn.fav_icon, sn.authenticity\n" +
+                                 "FROM (\n" +
+                                 "    SELECT *\n" +
+                                 "    FROM searched_news sn\n" +
+                                 "    ORDER BY dnews_get_related_news(sn.keywords, ARRAY['ven']) DESC\n" +
+                                 "    ) as sn\n" +
+                                 "LIMIT 5;";
+
+            await using var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString());
+            await connection.OpenAsync();
+
+            await using var command = new NpgsqlCommand(query, connection);
+
+            var keywordsPar = new NpgsqlParameter<string[]>("keywords", NpgsqlDbType.Array | NpgsqlDbType.Char)
+            {
+                Value = keywords.ToArray()
+            };
+
+            command.Parameters.Add(keywordsPar);
+
+            var reader = await command.ExecuteReaderAsync();
+
+            var result = new List<NewsSourceSearchByTextResponse>();
+
+            while (await reader.ReadAsync())
+            {
+                var response = new NewsSourceSearchByTextResponse
+                {
+                    Id = long.Parse(reader["id"].ToString()),
+                    Title = reader["title"].ToString(),
+                    Link = reader["link"].ToString(),
+                    FavIcon = reader["fav_icon"].ToString(),
+                    Authenticity = reader["authenticity"].ToString(),
+                };
+
+                result.Add(response);
+            }
+
+            return result;
         }
 
         private static string ValidateNewsLink(string newsLink)

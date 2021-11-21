@@ -125,6 +125,12 @@
 
         #endregion
 
+        #region Search
+
+        public const string SearchBase = "search";
+
+        #endregion
+
         #region MVC
 
         public const string MvcAdd = "add";

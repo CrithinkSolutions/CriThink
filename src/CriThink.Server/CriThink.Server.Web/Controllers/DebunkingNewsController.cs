@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
@@ -7,6 +6,7 @@ using CriThink.Common.Endpoints.DTOs.DebunkingNews;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Exceptions;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using MediatR;
@@ -111,22 +111,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
         {
-            string languageFilter = null;
-
-            var hasLanguage = Request.Headers.TryGetValue("Accept-Language", out var languageValues);
-            if (hasLanguage && languageValues.Any())
-            {
-                var commonLanguages = _localizationOptions.SupportedCultures
-                    .Select(sc => sc.TwoLetterISOLanguageName.ToLowerInvariant())
-                    .Intersect(languageValues)
-                    .ToList();
-
-                if (commonLanguages.Any())
-                {
-                    languageFilter = commonLanguages
-                            .Aggregate((i, j) => $"{i},{j}");
-                }
-            }
+            string languageFilter = Request.GetLanguageFromRequest(_localizationOptions);
 
             var allDebunkingNews = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
                 request.PageSize,
