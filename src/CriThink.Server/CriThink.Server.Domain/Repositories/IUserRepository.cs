@@ -51,9 +51,13 @@ namespace CriThink.Server.Domain.Repositories
         /// Get user by id
         /// </summary>
         /// <param name="id">User id</param>
+        /// <param name="includeSearches">(Optional) Include <see cref="UserSearch"/> in query. Default is false</param>
         /// <param name="cancellationToken">(Optional) cancellation token</param>
         /// <returns></returns>
-        Task<User> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<User> GetUserByIdAsync(
+            Guid id,
+            bool includeSearches = false,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find a user through the username or the email

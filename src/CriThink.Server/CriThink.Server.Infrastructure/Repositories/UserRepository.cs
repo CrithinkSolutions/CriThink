@@ -78,14 +78,20 @@ namespace CriThink.Server.Infrastructure.Identity
             return Base64Helper.ToBase64(code);
         }
 
-        public async Task<User> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<User> GetUserByIdAsync(
+            Guid id,
+            bool includeSearches = false,
+            CancellationToken cancellationToken = default)
         {
             if (id == Guid.Empty)
                 throw new ArgumentNullException(nameof(id));
 
-            IQueryable<User> query = _userManager
+            IQueryable<User> query = _dbContext
                 .Users
                 .Include(u => u.RefreshTokens);
+
+            if (includeSearches)
+                query = query.Include(u => u.Searches).ThenInclude(s => s.SearchedNews);
 
             return await query
                 .SingleOrDefaultAsync(u => u.Id.Equals(id), cancellationToken);
@@ -165,7 +171,7 @@ namespace CriThink.Server.Infrastructure.Identity
         }
 
         public Task<IdentityResult> UpdateUserAsync(User user)
-        {
+        {   
             return _userManager.UpdateAsync(user);
         }
 
@@ -282,11 +288,11 @@ namespace CriThink.Server.Infrastructure.Identity
         {
             var rates = await _dbContext
                 .UserSearches
-                .Where(u => u.NewsLink == newsLink &&
-                            u.Rate != null &&
-                            u.UserId != userId)
                 .AsNoTracking()
-                .Select(u => u.Rate.Value)
+                .Where(u => u.SearchedNews.Link == newsLink &&
+                            u.SearchedNews.Rate != null &&
+                            u.UserId != userId)
+                .Select(u => u.SearchedNews.Rate.Value)
                 .ToListAsync();
 
             return rates;

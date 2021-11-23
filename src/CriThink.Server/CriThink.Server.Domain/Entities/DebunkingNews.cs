@@ -10,7 +10,7 @@ namespace CriThink.Server.Domain.Entities
     public class DebunkingNews : Entity<Guid>, IAggregateRoot
     {
         /// <summary>
-        /// EF reserver constructor
+        /// EF reserved constructor
         /// </summary>
         [ExcludeFromCodeCoverage]
         protected DebunkingNews()

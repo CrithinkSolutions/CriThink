@@ -12,6 +12,7 @@ using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Providers.NewsAnalyzer;
 using CriThink.Server.Providers.NewsAnalyzer.Services;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -30,6 +31,7 @@ namespace CriThink.Server.Application.CommandHandlers
         private readonly IMapper _mapper;
         private readonly INewsScraperService _scraperService;
         private readonly ITextAnalyticsService _textAnalyticsService;
+        private readonly IFaviconService _faviconService;
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly ILogger<CreateAnswersToNewsSourceQuestionsCommandHandler> _logger;
 
@@ -43,6 +45,7 @@ namespace CriThink.Server.Application.CommandHandlers
             IMapper mapper,
             INewsScraperService scraperService,
             ITextAnalyticsService textAnalyticsService,
+            IFaviconService faviconService,
             IStringLocalizer<SharedResource> stringLocalizer,
             ILogger<CreateAnswersToNewsSourceQuestionsCommandHandler> logger)
         {
@@ -73,6 +76,9 @@ namespace CriThink.Server.Application.CommandHandlers
             _textAnalyticsService = textAnalyticsService ??
                 throw new ArgumentNullException(nameof(textAnalyticsService));
 
+            _faviconService = faviconService ??
+                throw new ArgumentNullException(nameof(faviconService));
+
             _stringLocalizer = stringLocalizer ??
                 throw new ArgumentNullException(nameof(stringLocalizer));
 
@@ -90,7 +96,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var userId = request.UserId;
             var (newsLink, domain) = GetDataFromNewsLink(request.NewsLink);
 
-            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, true, cancellationToken);
             if (user is null)
                 throw new CriThinkNotFoundException("User not found", userId);
 
@@ -103,13 +109,17 @@ namespace CriThink.Server.Application.CommandHandlers
                 return PrepareResponse();
             }
 
+            var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(new Uri(newsLink, UriKind.Absolute));
+            var newsKeywords = await GetNewsKeywordsAsync(newsLink, scrapeAnalysis);
+            var favicon = _faviconService.GetFaviconFromWebsite(domain);
+
             if (searchResponse.Category == NewsSourceAuthenticity.Conspiracist ||
                 searchResponse.Category == NewsSourceAuthenticity.FakeNews ||
                 searchResponse.Category == NewsSourceAuthenticity.Suspicious)
             {
                 try
                 {
-                    relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsLink);
+                    relatedDebunkingNews = await GetRelatedDebunkingNewsCollectionAsync(newsKeywords);
                 }
                 catch (Exception ex)
                 {
@@ -120,18 +130,27 @@ namespace CriThink.Server.Application.CommandHandlers
             var questionList = await _newsSourceQuestionRepository.GetQuestionsByCategoryAsync(QuestionCategory.General);
             var answers = request.Questions.Select(q => (q.QuestionId, q.Rate)).ToList();
 
-            user.AddSearch(
-                questionList,
-                answers,
-                newsLink,
-                searchResponse.Category);
+            var searchedNews = SearchedNews.Create(
+                link: newsLink,
+                title: scrapeAnalysis.Title,
+                favicon: favicon,
+                keywords: newsKeywords,
+                authenticity: searchResponse.Category);
 
-            var userCalculatedRate = user.Searches.Last().Rate;
+            searchedNews.CalculateUserRate(
+                searchResponse.Category,
+                questionList,
+                answers.Select(q => (q.QuestionId, q.Rate)).ToList());
 
             var newsLinkRates = await _userRepository.GetSearchesRateByNewsLinkAsync(user.Id, newsLink);
             var communityRate = newsLinkRates.Any() ?
                 newsLinkRates.Average() :
-                userCalculatedRate;
+                searchedNews.Rate;
+
+            var userSearch = UserSearch.CreateNewsSearch(userId, searchedNews);
+            user.AddSearch(userSearch);
+
+            await _userRepository.UpdateUserAsync(user);
 
             await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
@@ -140,7 +159,7 @@ namespace CriThink.Server.Application.CommandHandlers
             var response = PrepareResponse(
                 relatedDebunkingNews,
                 newsSourceCategoryDescription,
-                userCalculatedRate,
+                searchedNews.Rate,
                 communityRate,
                 searchResponse.Category);
 
@@ -153,7 +172,7 @@ namespace CriThink.Server.Application.CommandHandlers
             User user,
             string newsLink)
         {
-            var hasAlreadySearched = user.Searches.Any(x => x.NewsLink == newsLink);
+            var hasAlreadySearched = user.Searches.Any(x => x.SearchedNews.Link == newsLink);
             if (hasAlreadySearched)
             {
                 _logger?.LogWarning(
@@ -170,32 +189,35 @@ namespace CriThink.Server.Application.CommandHandlers
             string newsLink,
             CancellationToken cancellationToken)
         {
-            user.AddSearch(newsLink, NewsSourceAuthenticity.Unknown);
+            var searchedNews = SearchedNews.CreateUnknown(newsLink);
+            var search = UserSearch.CreateNewsSearch(user.Id, searchedNews);
+            user.AddSearch(search);
+
+            await _userRepository.UpdateUserAsync(user);
+
             await _unknownNewsSourcesRepository.AddUnknownNewsSourceAsync(newsLink);
 
             await _unknownNewsSourcesRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
 
         private async Task<IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>> GetRelatedDebunkingNewsCollectionAsync(
-            string newsLink)
+            IEnumerable<string> newsKeywords)
         {
-            var newsKeywords = await GetNewsKeywordsAsync(newsLink);
-            if (newsKeywords is null)
-                return null;
-
             var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(newsKeywords);
 
             var dto = _mapper.Map<IList<GetAllDebunkingNewsByKeywordsQueryResult>, IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>>(dNewsByKeywordsQuery);
             return dto;
         }
 
-        private async Task<IReadOnlyList<string>> GetNewsKeywordsAsync(string newsLink)
+        private async Task<IReadOnlyList<string>> GetNewsKeywordsAsync(
+            string newsLink,
+            NewsScraperProviderResponse scrapeAnalysis)
         {
+            if (scrapeAnalysis is null)
+                return null;
+
             try
             {
-                var uri = new Uri(newsLink, UriKind.Absolute);
-                var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(uri);
-
                 var keywords = await _textAnalyticsService.GetKeywordsFromTextAsync(
                     scrapeAnalysis.NewsBody,
                     scrapeAnalysis.Language);

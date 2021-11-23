@@ -28,6 +28,7 @@ namespace CriThink.Server.Providers.NewsAnalyzer
             serviceCollection.AddTransient<LanguageAnalyzer>();
             serviceCollection.AddTransient<NewsAnalyzerBuilder>();
             serviceCollection.AddTransient<INewsAnalyzerProvider, NewsAnalyzerProvider>();
+            serviceCollection.AddTransient<IFaviconService, FaviconService>();
 
             serviceCollection.AddScoped(sp =>
             {

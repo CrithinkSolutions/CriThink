@@ -47,5 +47,12 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageIndex">Page index</param>
         /// <returns></returns>
         Task<UnknownNewsSourceGetAllViewModel> GetAllUnknownNewsSourcesAsync(int pageSize, int pageIndex);
+
+        /// <summary>
+        /// Get news sources searched by other users by keyword
+        /// </summary>
+        /// <param name="query">Keyword</param>
+        /// <returns></returns>
+        Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(string text);
     }
 }

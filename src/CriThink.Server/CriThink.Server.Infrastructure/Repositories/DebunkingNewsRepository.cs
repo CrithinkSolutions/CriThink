@@ -170,19 +170,4 @@ namespace CriThink.Server.Infrastructure.Repositories
             return result;
         }
     }
-
-    public static class NpgsqlParameterExtensions
-    {
-        public static NpgsqlParameter Create<T>(string key, T value)
-        {
-            if (value is { })
-            {
-                return new NpgsqlParameter<T>(key, value);
-            }
-            else
-            {
-                return new NpgsqlParameter(key, DBNull.Value);
-            }
-        }
-    }
 }

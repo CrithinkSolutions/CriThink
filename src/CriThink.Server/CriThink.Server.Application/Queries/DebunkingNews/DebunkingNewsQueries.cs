@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.DebunkingNews;
+using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Domain.Repositories;
@@ -63,6 +65,17 @@ namespace CriThink.Server.Application.Queries
             var dto = _mapper.Map<DebunkingNews, DebunkingNewsGetDetailsResponse>(debunkingNews);
 
             _logger?.LogInformation($"{nameof(GetDebunkingNewsByIdAsync)}: done");
+
+            return dto;
+        }
+
+        public async Task<IEnumerable<NewsSourceRelatedDebunkingNewsResponse>> SearchByTextAsync(
+            string query)
+        {
+            var keywords = query.Split(null);
+
+            var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(keywords);
+            var dto = _mapper.Map<IList<GetAllDebunkingNewsByKeywordsQueryResult>, IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>>(dNewsByKeywordsQuery);
 
             return dto;
         }
