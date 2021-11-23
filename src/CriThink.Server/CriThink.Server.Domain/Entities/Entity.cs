@@ -9,7 +9,7 @@ namespace CriThink.Server.Domain.Entities
     public abstract class Entity<TKey> : DomainEventsBasedObject
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual TKey Id { get; protected set; }
     }
 }
