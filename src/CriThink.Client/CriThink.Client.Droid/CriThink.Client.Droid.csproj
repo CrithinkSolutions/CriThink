@@ -99,6 +99,7 @@
     <Compile Include="Views\DebunkingNews\Activities\DebunkingNewsDetailsView.cs" />
     <Compile Include="Views\DebunkingNews\Activities\DebunkingNewsListView.cs" />
     <Compile Include="Views\DebunkingNews\Adapters\DebunkingNewsAdapter.cs" />
+    <Compile Include="Views\NewsChecker\ItemSelectors\RecentSearchSelector.cs" />
     <Compile Include="Views\Statistics\Fragments\HomeStatisticsView.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Views\NewsChecker\Activities\NewsCheckerResultView.cs" />
@@ -2474,6 +2475,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Users\Dialogs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cell_recentsearches_feed.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

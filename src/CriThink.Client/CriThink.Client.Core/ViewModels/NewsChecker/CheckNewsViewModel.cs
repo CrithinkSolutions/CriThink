@@ -114,7 +114,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
         {
-            NewsUri = model.NewsLink;
+            NewsUri = model.SearchedText;
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
@@ -136,7 +136,17 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 if (modelCollection?.RecentSearches?.Any() == true)
                 {
                     RecentNewsChecksCollection.Clear();
-                    RecentNewsChecksCollection.AddRange(modelCollection.RecentSearches.Select(rs => new RecentNewsChecksModel(rs.Id, rs.NewsLink)));
+
+                    var recentNews = modelCollection.RecentSearches
+                        .Select(rs => new RecentNewsChecksModel(
+                            rs.Id,
+                            rs.SearchedText,
+                            rs.Title,
+                            rs.Favicon,
+                            rs.Timestamp.DateTime))
+                        .ToList();
+
+                    RecentNewsChecksCollection.AddRange(recentNews);
                 }
             }
             finally

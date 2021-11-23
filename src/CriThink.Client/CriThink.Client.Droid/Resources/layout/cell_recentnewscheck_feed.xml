@@ -24,8 +24,8 @@
   <com.google.android.material.textview.MaterialTextView
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:id="@+id/txtLink"
-    tools:text="https://www.gazzetta.it/Calcio/Champions-League/19-10-2021/inter-sheriff-diretta-champions-risultato-live-4201905734611.shtml"
+    android:id="@+id/txtTitle"
+    tools:text="Inter-Sheriff 3-1: gol di Dzeko, Thill, Vidal e De Vrij | Risultato finale"
     android:textColor="@color/textColor"
     android:textSize="@dimen/textSize_contentSubtitle"
     app:layout_constraintStart_toEndOf="@id/imgWebsite"
@@ -33,6 +33,33 @@
     app:layout_constraintTop_toTopOf="parent"
     android:singleLine="true"
     app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginLeft="@dimen/margin_medium"
+    android:layout_marginRight="@dimen/margin_medium"/>
+
+  <com.google.android.material.textview.MaterialTextView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/txtLink"
+    tools:text="https://www.gazzetta.it/Calcio/Champions-League/19-10-2021/inter-sheriff-diretta-champions-risultato-live-4201905734611.shtml"
+    android:textColor="@color/textColor"
+    android:textSize="@dimen/textSize_small"
+    app:layout_constraintStart_toEndOf="@id/imgWebsite"
+    app:layout_constraintEnd_toStartOf="@id/txtTimeStamp"
+    app:layout_constraintTop_toBottomOf="@id/txtTitle"
+    android:singleLine="true"
+    android:layout_marginLeft="@dimen/margin_medium"
+    android:layout_marginRight="@dimen/margin_medium"/>
+
+  <com.google.android.material.textview.MaterialTextView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/txtTimeStamp"
+    tools:text="24/11/2021"
+    android:textColor="@color/textColor"
+    android:textSize="@dimen/textSize_small"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/txtTitle"
+    android:singleLine="true"
     android:layout_marginLeft="@dimen/margin_medium"
     android:layout_marginRight="@dimen/margin_medium"/>
 
