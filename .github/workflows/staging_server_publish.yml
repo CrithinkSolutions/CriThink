@@ -8,19 +8,23 @@ env:
 
 on:
   push:
-    paths: src/CriThink.Server/**
-    branches: [ develop ]
+    # paths:
+    #   - src/CriThink.Server/**
+    branches: [ feature/832-docker ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+    # - uses: actions/checkout@v2
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: 6.0.x
+
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Read secrets from AWS Secrets Manager
       uses: abhilash1in/aws-secrets-manager-action@v1.0.1
@@ -42,27 +46,68 @@ jobs:
         to-port: '5432'
         protocol: 'tcp'
         description: 'GitHub'
-    
-    - name: dotnet Clean
-      run: dotnet clean ${{env.PROJECT_WEB}}
-      
-    - name: dotnet Restore dependencies
-      run: dotnet restore ${{env.PROJECT_WEB}}
 
-    - name: dotnet Build
-      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
-
-    - name: dotnet Publish
-      run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
-        
-    - name: Build deployment package
-      run: cd staging_crithink_server && zip -r staging-server-deploy-package.zip * && cd .
-      
-    - name: Copy deployment package
-      uses: canastro/copy-file-action@master
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        source: "staging_crithink_server/staging-server-deploy-package.zip"
-        target: "staging-server-deploy-package.zip"
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: crithink_staging
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: crithink_staging_task
+        container-name: crithink-image
+        image: ${{ steps.build-image.outputs.image }}
+        environment-variables: |
+          IS_APP_ENABLED="true"
+          ASPNETCORE_ENVIRONMENT='${{ env.ASPNETCORE_ENVIRONMENT }}'
+          AWS_ARN_SECRET='${{ env.AWS_ARN_SECRET }}'
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }} # missing
+        cluster: ${{ env.ECS_CLUSTER }} # missing crithink-staging
+        wait-for-service-stability: true
+
+    # - name: dotnet Clean
+    #   run: dotnet clean ${{env.PROJECT_WEB}}
+      
+    # - name: dotnet Restore dependencies
+    #   run: dotnet restore ${{env.PROJECT_WEB}}
+
+    # - name: dotnet Build
+    #   run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
+
+    # - name: dotnet Publish
+    #   run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o staging_crithink_server --self-contained false -r linux-x64
+        
+    # - name: Build deployment package
+    #   run: cd staging_crithink_server && zip -r staging-server-deploy-package.zip * && cd .
+      
+    # - name: Copy deployment package
+    #   uses: canastro/copy-file-action@master
+    #   with:
+    #     source: "staging_crithink_server/staging-server-deploy-package.zip"
+    #     target: "staging-server-deploy-package.zip"
     
     - name: Get timestamp
       uses: gerred/actions/current-time@master
@@ -77,19 +122,19 @@ jobs:
         replace-with: '-'
         flags: 'g'
 
-    - name: Deploy to AWS Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v10
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
-        application_name: CriThink
-        environment_name: Staging
-        version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: staging-server-deploy-package.zip
+    # - name: Deploy to AWS Beanstalk
+    #   uses: einaregilsson/beanstalk-deploy@v10
+    #   with:
+    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     region: ${{ secrets.AWS_REGION }}
+    #     application_name: CriThink
+    #     environment_name: Staging
+    #     version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
+    #     deployment_package: staging-server-deploy-package.zip
 
     - name: Deployed successfully!
-      run: echo Staging App deployed to ELB
+      run: echo Staging App deployed!
     
     - name: Installing EF tools
       run: |
