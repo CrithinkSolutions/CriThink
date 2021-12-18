@@ -1,14 +1,16 @@
-#Dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 COPY ./src ./src/
 
 RUN dotnet publish \
     --configuration Release \
     -o /app/publish \
+    --self-contained false \
+    -r linux-x64 \
     src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build-env /app/publish .
+COPY --from=0 /app/publish .
+EXPOSE 80
 ENTRYPOINT ["dotnet", "CriThink.Server.Web.dll"]
