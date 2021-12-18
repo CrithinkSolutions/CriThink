@@ -21,10 +21,5 @@
         /// App runtime name
         /// </summary>
         string Runtime { get; }
-        
-        /// <summary>
-        /// Current hosting platform
-        /// </summary>
-        string Platform { get; }
     }
 }

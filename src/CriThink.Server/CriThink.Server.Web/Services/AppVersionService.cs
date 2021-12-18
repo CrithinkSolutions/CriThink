@@ -37,7 +37,5 @@ namespace CriThink.Server.Web.Services
         public string CurrentEnvironment => _environment.EnvironmentName;
 
         public string Runtime => RuntimeInformation.FrameworkDescription;
-
-        public string Platform => $"{RuntimeInformation.OSDescription} {RuntimeInformation.OSArchitecture}";
     }
 }

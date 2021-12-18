@@ -4,9 +4,9 @@ COPY ./src ./src/
 
 RUN dotnet publish \
     --configuration Release \
-    -o /app/publish \
     --self-contained false \
     --runtime linux-x64 \
+    --output /app/publish \
     src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0

@@ -4,23 +4,22 @@ env:
   PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
   ASPNETCORE_ENVIRONMENT: Staging
+  ZIP_PACKAGE: staging-server-deploy-package.zip
+  AWS_SECRETS: staging/CriThink/Server
   AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
+  AWS_ENVIRONMENT: staging-eb
 
 on:
   push:
-    # paths:
-    #   - src/CriThink.Server/**
-    branches: [ feature/832-docker ]
+    paths:
+      - src/CriThink.Server/**
+    branches: [ develop ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Checkout
-      uses: actions/checkout@v2
-
     - uses: actions/checkout@v2
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
@@ -38,7 +37,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-        secrets: staging/CriThink/Server
+        secrets: ${{env.AWS_SECRETS}}
         parse-json: true
 
     - name: Add AWS security group exception
@@ -53,12 +52,12 @@ jobs:
         protocol: 'tcp'
         description: 'GitHub'
 
-    - name: Configure AWS credentials
+    - name: AWS Login
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-central-1
+        aws-region: ${{secrets.AWS_REGION}}
     
     - name: Get timestamp
       uses: gerred/actions/current-time@master
@@ -74,7 +73,7 @@ jobs:
         flags: 'g'
 
     - name: Zip deployment package
-      run: zip -r staging-server-deploy-package.zip .dockerignore Dockerfile src
+      run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
 
     - name: Deploy to AWS Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
@@ -83,9 +82,9 @@ jobs:
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: ${{ secrets.AWS_REGION }}
         application_name: CriThink
-        environment_name: stg-docker-env
+        environment_name: ${{env.AWS_ENVIRONMENT}}
         version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: staging-server-deploy-package.zip
+        deployment_package: ${{env.ZIP_PACKAGE}}
 
     - name: Deployed successfully!
       run: echo Staging App deployed!
