@@ -16,5 +16,15 @@
         /// Get the name of the current environment
         /// </summary>
         string CurrentEnvironment { get; }
+
+        /// <summary>
+        /// App runtime name
+        /// </summary>
+        string Runtime { get; }
+        
+        /// <summary>
+        /// Current hosting platform
+        /// </summary>
+        string Platform { get; }
     }
 }
