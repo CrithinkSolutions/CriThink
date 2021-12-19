@@ -4,11 +4,15 @@ env:
   PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
   ASPNETCORE_ENVIRONMENT: Production
+  ZIP_PACKAGE: main-server-deploy-package.zip
+  AWS_SECRETS: production/CriThink/Server
   AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:production/CriThink/Server-wsbR3x
+  AWS_ENVIRONMENT: production-eb
 
 on:
   push:
-    paths: src/CriThink.Server/**
+    paths:
+      - src/CriThink.Server/**
     branches: [ main ]
 
 jobs:
@@ -17,10 +21,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
+    - name: Installing EF tools
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
 
     - name: Read secrets from AWS Secrets Manager
       uses: abhilash1in/aws-secrets-manager-action@v1.0.1
@@ -28,7 +37,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-        secrets: production/CriThink/Server
+        secrets: ${{env.AWS_SECRETS}}
         parse-json: true
 
     - name: Add AWS security group exception
@@ -47,28 +56,14 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: dotnet Clean
-      run: dotnet clean ${{env.PROJECT_WEB}}
-      
-    - name: dotnet Restore dependencies
-      run: dotnet restore ${{env.PROJECT_WEB}}
 
-    - name: dotnet Build
-      run: dotnet build ${{env.PROJECT_WEB}} -c Release --no-restore
-
-    - name: dotnet Publish
-      run: dotnet publish ${{env.PROJECT_WEB}} -c Release -o main_crithink_server --self-contained false -r linux-x64
-        
-    - name: Build deployment package
-      run: cd main_crithink_server && zip -r main-server-deploy-package.zip * && cd .
-      
-    - name: Copy deployment package
-      uses: canastro/copy-file-action@master
+    - name: AWS Login
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        source: "main_crithink_server/main-server-deploy-package.zip"
-        target: "main-server-deploy-package.zip"
-    
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{secrets.AWS_REGION}}
+
     - name: Get timestamp
       uses: gerred/actions/current-time@master
       id: current-time
@@ -82,6 +77,9 @@ jobs:
         replace-with: '-'
         flags: 'g'
 
+    - name: Zip deployment package
+      run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
+
     - name: Deploy to AWS Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
       with:
@@ -89,17 +87,12 @@ jobs:
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: ${{ secrets.AWS_REGION }}
         application_name: CriThink
-        environment_name: Production
+        environment_name: ${{env.AWS_ENVIRONMENT}}
         version_label: "production-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: main-server-deploy-package.zip
+        deployment_package: ${{env.ZIP_PACKAGE}}
 
     - name: Deployed successfully!
       run: echo Production App deployed to ELB
-
-    - name: Installing EF tools
-      run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
 
     - name: Running EF migrations
       run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.PRODUCTION_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'

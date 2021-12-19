@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Hosting;
 
 namespace CriThink.Server.Web.Services
@@ -34,5 +35,7 @@ namespace CriThink.Server.Web.Services
         }
 
         public string CurrentEnvironment => _environment.EnvironmentName;
+
+        public string Runtime => RuntimeInformation.FrameworkDescription;
     }
 }

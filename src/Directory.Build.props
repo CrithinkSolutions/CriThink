@@ -1,5 +1,9 @@
 <Project>
-  <PropertyGroup>   
+  <PropertyGroup>
+   <Company>CriThink Solutions</Company>
+   <Authors>CriThink Dev Team</Authors>
+   <Copyright>© Copyright CriThink Solutions</Copyright>
+   <NeutralLanguage>en</NeutralLanguage>
    <EnableNETAnalyzer>True</EnableNETAnalyzer>
    <AnalysisLevel>latest</AnalysisLevel> 
    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
@@ -7,5 +11,4 @@
    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 </Project>
