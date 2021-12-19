@@ -7,10 +7,16 @@ namespace CriThink.Client.Core.Models.NewsChecker
     {
         public RecentNewsChecksModel(
             Guid id,
-            string newsLink)
+            string searchedText,
+            string title,
+            string favIcon,
+            DateTime timeStamp)
         {
             Id = id;
-            NewsLink = newsLink;
+            SearchedText = searchedText;
+            Title = title;
+            FavIcon = favIcon ?? "res:ic_blog_logo";
+            TimeStamp = timeStamp;
         }
 
         private Guid _id;
@@ -21,10 +27,31 @@ namespace CriThink.Client.Core.Models.NewsChecker
         }
 
         private string _newsLink;
-        public string NewsLink
+        public string SearchedText
         {
             get => _newsLink;
             set => SetProperty(ref _newsLink, value);
+        }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+
+        private string _favIcon;
+        public string FavIcon
+        {
+            get => _favIcon;
+            set => SetProperty(ref _favIcon, value);
+        }
+
+        private DateTime _timeStamp;
+        public DateTime TimeStamp
+        {
+            get => _timeStamp;
+            set => SetProperty(ref _timeStamp, value);
         }
     }
 }

@@ -7,6 +7,7 @@ using AndroidX.RecyclerView.Widget;
 using Com.Airbnb.Lottie;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Controls;
+using CriThink.Client.Droid.Views.Users;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
@@ -46,10 +47,12 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
 
-            var layoutManager = new LinearLayoutManager(this);
+            var layoutManager = new LinearLayoutManager(this) { AutoMeasureEnabled = true };
             recyclerRecentSearch.SetLayoutManager(layoutManager);
             recyclerRecentSearch.SetItemAnimator(null);
             recyclerRecentSearch.Adapter = new RecentNewsChecksAdapter(BindingContext as IMvxAndroidBindingContext);
+
+            recyclerRecentSearch.ItemTemplateSelector = new RecentSearchSelector();
 
             var set = CreateBindingSet();
 
