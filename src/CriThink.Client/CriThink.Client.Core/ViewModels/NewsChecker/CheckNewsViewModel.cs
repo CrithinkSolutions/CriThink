@@ -10,21 +10,18 @@ using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
-#pragma warning disable CA1056 // URI-like properties should not be strings
 namespace CriThink.Client.Core.ViewModels.NewsChecker
 {
     public class CheckNewsViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserProfileService _userProfileService;
-        private readonly IPlatformService _platformService;
         private readonly IApplicationService _applicationService;
         private readonly IUserDialogs _userDialogs;
 
         public CheckNewsViewModel(
             IMvxNavigationService navigationService,
             IUserProfileService userProfileService,
-            IPlatformService platformService,
             IApplicationService applicationService,
             IUserDialogs userDialogs)
         {
@@ -33,9 +30,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
             _userProfileService = userProfileService ??
                 throw new ArgumentNullException(nameof(userProfileService));
-
-            _platformService = platformService ??
-                throw new ArgumentNullException(nameof(platformService));
 
             _applicationService = applicationService ??
                 throw new ArgumentNullException(nameof(applicationService));
@@ -50,13 +44,13 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         public MvxObservableCollection<RecentNewsChecksModel> RecentNewsChecksCollection { get; }
 
-        private string _newsUri;
-        public string NewsUri
+        private string _searchText;
+        public string SearchText
         {
-            get => _newsUri;
+            get => _searchText;
             set
             {
-                SetProperty(ref _newsUri, value);
+                SetProperty(ref _searchText, value);
                 RaisePropertyChanged(() => SubmitUriCommand);
             }
         }
@@ -71,7 +65,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private IMvxAsyncCommand _submitUriCommand;
         public IMvxAsyncCommand SubmitUriCommand => _submitUriCommand ??= new MvxAsyncCommand(DoSubmitUriCommand, () =>
-            !string.IsNullOrWhiteSpace(NewsUri));
+            !string.IsNullOrWhiteSpace(SearchText));
 
         private IMvxAsyncCommand<RecentNewsChecksModel> _repeatSearchCommand;
         public IMvxAsyncCommand<RecentNewsChecksModel> RepeatSearchCommand => _repeatSearchCommand ??=
@@ -91,34 +85,33 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
 
         private async Task DoSubmitUriCommand(CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(NewsUri))
+            if (string.IsNullOrWhiteSpace(SearchText))
             {
                 await ShowFormatMessageErrorAsync(cancellationToken).ConfigureAwait(true);
                 return;
             }
 
-            if (!NewsUri.IsUrl())
+            if (SearchText.IsUrl())
             {
-                var title = LocalizedTextSource.GetText("MalformedUrlTitle");
-                var message = LocalizedTextSource.GetText("MalformedUrlMessage");
-                var ok = LocalizedTextSource.GetText("MalformedUrlConfirm");
-                await ShowFormatMessageAsync(message, title, ok, cancellationToken);
-
-                return;
+                await _navigationService
+                    .Navigate<WebViewNewsViewModel, string>(SearchText, cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
             }
-
-            await _navigationService
-                .Navigate<WebViewNewsViewModel, string>(NewsUri, cancellationToken: cancellationToken)
-                .ConfigureAwait(true);
+            else
+            {
+                await _navigationService
+                    .Navigate<SearchTextResultViewModel, string>(SearchText, cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
+            }
         }
 
         private async Task DoRepeatSearchCommand(RecentNewsChecksModel model, CancellationToken cancellationToken)
         {
-            NewsUri = model.SearchedText;
+            SearchText = model.SearchedText;
             await UpdateLatestNewsChecksAsync().ConfigureAwait(false);
         }
 
-        private void DoClearTextCommand() => NewsUri = string.Empty;
+        private void DoClearTextCommand() => SearchText = string.Empty;
 
         private async Task AskForReviewAsync()
         {
@@ -164,11 +157,6 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             var ok = LocalizedTextSource.GetText("FormatErrorOk");
 
             return _userDialogs.AlertAsync(message, okText: ok, cancelToken: cancellationToken);
-        }
-
-        private Task ShowFormatMessageAsync(string message, string title, string ok, CancellationToken cancellationToken)
-        {
-            return _userDialogs.AlertAsync(message, title: title, okText: ok, cancelToken: cancellationToken);
         }
     }
 }

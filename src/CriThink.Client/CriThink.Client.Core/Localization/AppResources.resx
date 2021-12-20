@@ -354,7 +354,7 @@
   <data name="DebunkingNewsListViewModel.Language" xml:space="preserve">
     <value>Language</value>
   </data>
-   <data name="DebunkingNewsListViewModel.Country" xml:space="preserve">
+  <data name="DebunkingNewsListViewModel.Country" xml:space="preserve">
     <value>Country</value>
   </data>
   <data name="SpotFakeNewsHomeViewModel.ADescription" xml:space="preserve">
@@ -698,5 +698,14 @@
   </data>
   <data name="CheckNewsViewModel.NoSearches" xml:space="preserve">
     <value>No recent searches</value>
+  </data>
+  <data name="SearchTextResultViewModel.Title" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="SearchTextResultViewModel.Community" xml:space="preserve">
+    <value>Community</value>
+  </data>
+  <data name="SearchTextResultViewModel.DebunkingNews" xml:space="preserve">
+    <value>Debunking News</value>
   </data>
 </root>

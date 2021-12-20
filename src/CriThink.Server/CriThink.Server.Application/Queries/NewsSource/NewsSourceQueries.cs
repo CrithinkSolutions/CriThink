@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
@@ -11,7 +10,6 @@ using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.QueryResults;
 using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Npgsql;
@@ -27,6 +25,7 @@ namespace CriThink.Server.Application.Queries
         private readonly INewsSourceRepository _newsSourceRepository;
         private readonly ILogger<NewsSourceQueries> _logger;
         private readonly INewsSourceCategoriesRepository _newsSourceCategoriesRepository;
+        private readonly IUserRepository _userRepository;
         private readonly CriThinkDbContext _dbContext;
 
         public NewsSourceQueries(
@@ -35,6 +34,7 @@ namespace CriThink.Server.Application.Queries
             IUnknownNewsSourceRepository unknownNewsSourcesRepository,
             INewsSourceRepository newsSourceRepository,
             INewsSourceCategoriesRepository newsSourceCategoriesRepository,
+            IUserRepository userRepository,
             CriThinkDbContext dbContext,
             ILogger<NewsSourceQueries> logger)
         {
@@ -52,6 +52,9 @@ namespace CriThink.Server.Application.Queries
 
             _newsSourceCategoriesRepository = newsSourceCategoriesRepository ??
                 throw new ArgumentNullException(nameof(newsSourceCategoriesRepository));
+
+            _userRepository = userRepository ??
+                throw new ArgumentNullException(nameof(userRepository));
 
             _dbContext = dbContext ??
                 throw new ArgumentNullException(nameof(dbContext));
@@ -148,17 +151,22 @@ namespace CriThink.Server.Application.Queries
             return response;
         }
 
-        public async Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(string text)
+        public async Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(
+            Guid userId,
+            string text)
         {
             var keywords = text.Split(null);
 
-            const string query = "SELECT DISTINCT ON (sn.link) sn.link, sn.id, sn.title, sn.fav_icon, sn.authenticity\n" +
-                                 "FROM (\n" +
-                                 "    SELECT *\n" +
-                                 "    FROM searched_news sn\n" +
-                                 "    ORDER BY dnews_get_related_news(sn.keywords, ARRAY['ven']) DESC\n" +
-                                 "    ) as sn\n" +
-                                 "LIMIT 5;";
+            var query = "SELECT DISTINCT ON (sn.link) sn.link, sn.id, sn.title, sn.fav_icon, us.timestamp\n" +
+                        "FROM (\n" +
+                        "    SELECT *\n" +
+                        "    FROM searched_news sn\n" +
+                        "    ORDER BY dnews_get_related_news(sn.keywords, :keywords) DESC\n" +
+                        "    ) as sn\n" +
+                        "JOIN user_searches us ON sn.id = us.searched_news_id\n" +
+                        $"WHERE us.user_id <> '{userId}'\n" +
+                        "ORDER BY sn.link, us.timestamp DESC\n" +
+                        "LIMIT 5;";
 
             await using var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString());
             await connection.OpenAsync();
@@ -180,14 +188,20 @@ namespace CriThink.Server.Application.Queries
             {
                 var response = new NewsSourceSearchByTextResponse
                 {
-                    Id = long.Parse(reader["id"].ToString()),
+                    Id = reader["id"].ToString(),
                     Title = reader["title"].ToString(),
-                    Link = reader["link"].ToString(),
+                    NewsLink = reader["link"].ToString(),
                     FavIcon = reader["fav_icon"].ToString(),
-                    Authenticity = reader["authenticity"].ToString(),
+                    PublishingDate = reader["timestamp"].ToString(),
                 };
 
                 result.Add(response);
+            }
+
+            foreach (var dto in result)
+            {
+                var newsLinkRates = await _userRepository.GetSearchesRateByNewsLinkAsync(userId, dto.NewsLink);
+                dto.Rate = newsLinkRates.Average();
             }
 
             return result;

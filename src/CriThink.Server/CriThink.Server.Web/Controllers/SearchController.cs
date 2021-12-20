@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.Search;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -57,8 +58,10 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchByTextAsync([FromQuery] string query)
         {
+            var userId = User.GetId();
+
             var debunkingNewsResults = await _debunkingNewsQueries.SearchByTextAsync(query);
-            var newsSourcesResults = await _newsSourceQueries.SearchInUserSearchesByTextAsync(query);
+            var newsSourcesResults = await _newsSourceQueries.SearchInUserSearchesByTextAsync(userId, query);
 
             var response = new SearchByTextResponse(debunkingNewsResults, newsSourcesResults);
             return Ok(response);

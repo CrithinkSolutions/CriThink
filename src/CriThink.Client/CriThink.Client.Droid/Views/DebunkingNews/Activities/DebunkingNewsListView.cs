@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
-using Android.Util;
-using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.Content;
@@ -21,7 +18,6 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.Plugin.Visibility;
 using MvvmCross.WeakSubscription;
-using ActionBar = AndroidX.AppCompat.App.ActionBar;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
@@ -31,7 +27,6 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
     [Activity]
     public class DebunkingNewsListView : MvxActivity<DebunkingNewsListViewModel>
     {
-
         private ShimmerFrameLayout _layoutShimmer;
         private AppCompatTextView _txtTitle;
         private AppCompatButton _btnFilterCountry;
@@ -53,8 +48,6 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
             _btnFilterCountry = FindViewById<AppCompatButton>(Resource.Id.btnFilterCountry);
             _btnFilterLanguage = FindViewById<AppCompatButton>(Resource.Id.btnFilterLanguage);
             _scrollView = FindViewById<ScrollView>(Resource.Id.scrollview_shimmer);
-
-
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             _txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);

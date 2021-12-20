@@ -2,12 +2,10 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
-using AndroidX.Core.Content;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Views.DebunkingNews;
