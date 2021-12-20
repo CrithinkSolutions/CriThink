@@ -8,6 +8,7 @@ using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Messenger;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
 using CriThink.Common.Endpoints.DTOs.Notification;
+using CriThink.Common.Endpoints.DTOs.Search;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Plugin.Messenger;
@@ -18,6 +19,7 @@ namespace CriThink.Client.Core.Services
     {
         private readonly INewsSourceApi _newsSourceApi;
         private readonly INotificationApi _notificationApi;
+        private readonly ISearchApi _searchApi;
         private readonly IMvxMessenger _messenger;
         private readonly IGeolocationService _geoService;
         private readonly ILogger<NewsSourceService> _logger;
@@ -25,6 +27,7 @@ namespace CriThink.Client.Core.Services
         public NewsSourceService(
             INewsSourceApi newsSourceApi,
             INotificationApi notificationApi,
+            ISearchApi searchApi,
             IGeolocationService geoService,
             IMvxMessenger messenger,
             ILogger<NewsSourceService> logger)
@@ -33,7 +36,10 @@ namespace CriThink.Client.Core.Services
                 throw new ArgumentNullException(nameof(newsSourceApi));
 
             _notificationApi = notificationApi ??
-                throw new ArgumentNullException(nameof(notificationApi)); ;
+                throw new ArgumentNullException(nameof(notificationApi));
+            
+            _searchApi = searchApi ??
+                throw new ArgumentNullException(nameof(searchApi));
 
             _geoService = geoService ??
                 throw new ArgumentNullException(nameof(geoService));
@@ -163,6 +169,29 @@ namespace CriThink.Client.Core.Services
                 _logger?.LogError(ex, "Error registering for notification", newsLink);
             }
         }
+
+        public async Task<SearchByTextResponse> SearchByTextAsync(
+            string searchText,
+            CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+                throw new ArgumentNullException(nameof(searchText));
+
+            try
+            {
+                var result = await _searchApi.SearchAsync(searchText, cancellationToken);
+                return result;
+            }
+            catch (TokensExpiredException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error searching for text", searchText);
+                return null;
+            }
+        }
     }
 
     public interface INewsSourceService
@@ -174,5 +203,9 @@ namespace CriThink.Client.Core.Services
         Task RegisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
 
         Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken = default);
+
+        Task<SearchByTextResponse> SearchByTextAsync(
+            string searchText,
+            CancellationToken cancellationToken = default);
     }
 }

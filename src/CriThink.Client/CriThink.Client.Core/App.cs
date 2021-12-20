@@ -110,6 +110,7 @@ namespace CriThink.Client.Core
             var notificationApiUri = configurationRoot["NotificationApiUri"];
             var serviceApiUri = configurationRoot["ServiceApiUri"];
             var statisticsApiUri = configurationRoot["StatisticsApiUri"];
+            var searchApiUri = configurationRoot["SearchApiUri"];
 
             serviceCollection.AddTransient<CriThinkApiHandler>();
             serviceCollection.AddTransient<AuthHeaderHandler>();
@@ -172,6 +173,14 @@ namespace CriThink.Client.Core
                 .ConfigureHttpClient(httpClient =>
                 {
                     httpClient.BaseAddress = new Uri(baseApiUri + statisticsApiUri);
+                })
+                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
+                .AddHttpMessageHandler<AuthHeaderHandler>();
+
+            serviceCollection.AddRefitClient<ISearchApi>()
+                .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri(baseApiUri + searchApiUri);
                 })
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
                 .AddHttpMessageHandler<AuthHeaderHandler>();

@@ -60,7 +60,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
             set.Bind(txtInputSearch).For(v => v.PlaceholderText).ToLocalizationId("NewsLinkHint");
             set.Bind(txtTitle).ToLocalizationId("Title");
             set.Bind(txtNoSearches).ToLocalizationId("NoSearches");
-            set.Bind(txtEditSearch).To(vm => vm.NewsUri);
+            set.Bind(txtEditSearch).To(vm => vm.SearchText);
             set.Bind(txtEditSearch).For(v => v.KeyCommand).To(vm => vm.SubmitUriCommand);
             set.Bind(recyclerRecentSearch).For(v => v.ItemsSource).To(vm => vm.RecentNewsChecksCollection);
             set.Bind(recyclerRecentSearch).For(v => v.ItemClick).To(vm => vm.RepeatSearchCommand);
@@ -93,7 +93,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                     case PositionClickItem.Start:
                         var clipboardManager = _context.GetSystemService(Context.ClipboardService) as ClipboardManager;
                         var text = clipboardManager.PrimaryClip?.GetItemAt(0)?.Text?.ToString();
-                        _checkNewsViewModel.NewsUri = text;
+                        _checkNewsViewModel.SearchText = text;
                         break;
                     case PositionClickItem.End:
                         await _checkNewsViewModel.SubmitUriCommand.ExecuteAsync();

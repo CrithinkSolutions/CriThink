@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Constants;
 using CriThink.Common.Endpoints.DTOs.NewsSource;
+using CriThink.Common.Endpoints.DTOs.Search;
 using CriThink.Common.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
@@ -59,6 +60,11 @@ namespace CriThink.Client.Core.Services
 
         public Task UnregisterForNotificationAsync(string newsLink, CancellationToken cancellationToken) =>
             _newsSourceService.UnregisterForNotificationAsync(newsLink, cancellationToken);
+
+        public Task<SearchByTextResponse> SearchByTextAsync(
+           string searchText,
+           CancellationToken cancellationToken = default)
+            => _newsSourceService.SearchByTextAsync(searchText, cancellationToken);
 
         #region IDisposable
 

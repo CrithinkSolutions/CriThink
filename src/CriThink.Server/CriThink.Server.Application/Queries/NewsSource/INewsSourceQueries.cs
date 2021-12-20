@@ -51,8 +51,11 @@ namespace CriThink.Server.Application.Queries
         /// <summary>
         /// Get news sources searched by other users by keyword
         /// </summary>
-        /// <param name="query">Keyword</param>
+        /// <param name="userId">Current user id</param>
+        /// <param name="text">Keyword</param>
         /// <returns></returns>
-        Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(string text);
+        Task<IEnumerable<NewsSourceSearchByTextResponse>> SearchInUserSearchesByTextAsync(
+            Guid userId,
+            string text);
     }
 }
