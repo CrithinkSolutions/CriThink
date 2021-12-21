@@ -267,8 +267,8 @@
   <data name="AboutViewModel.InviteFriends" xml:space="preserve">
     <value>Invita amici</value>
   </data>
-  <data name="AboutViewModel.Legal" xml:space="preserve">
-    <value>Legale</value>
+  <data name="AboutViewModel.License" xml:space="preserve">
+    <value>Licenze</value>
   </data>
   <data name="AboutViewModel.Logout" xml:space="preserve">
     <value>Esci</value>

@@ -106,11 +106,11 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Legal.
+        ///   Looks up a localized string similar to License.
         /// </summary>
-        internal static string AboutViewModel_Legal {
+        internal static string AboutViewModel_License {
             get {
-                return ResourceManager.GetString("AboutViewModel.Legal", resourceCulture);
+                return ResourceManager.GetString("AboutViewModel.License", resourceCulture);
             }
         }
         

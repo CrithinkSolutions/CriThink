@@ -8,6 +8,7 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Models.Menu;
 using CriThink.Client.Core.Platform;
 using CriThink.Client.Core.Services;
+using CriThink.Client.Core.ViewModels.Common;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using Microsoft.Extensions.Logging;
@@ -73,12 +74,19 @@ namespace CriThink.Client.Core.ViewModels.Users
                     GiveFeedbackCommand),
 
                 new MenuModel(
+                    LocalizedTextSource.GetText("License"),
+                    "ic_license",
+                    NavigateToLicenseCommand),
+
+                new MenuModel(
                     LocalizedTextSource.GetText("ToS"),
-                    "ic_terms_of_service"),
+                    "ic_terms_of_service",
+                    NavigateToToSCommand),
 
                 new MenuModel(
                     LocalizedTextSource.GetText("HowWorks"),
-                    "ic_how_crithink_works"),
+                    "ic_how_crithink_works",
+                    NavigateToHowCriThinkWorksCommand),
 
                 new AccentMenuModel(
                     LocalizedTextSource.GetText("Logout"),
@@ -119,6 +127,15 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand _giveFeedbackCommand;
         public IMvxAsyncCommand GiveFeedbackCommand => _giveFeedbackCommand ??= new MvxAsyncCommand(DoFeedbackCommand);
 
+        private IMvxAsyncCommand _navigateToToSCommand;
+        public IMvxAsyncCommand NavigateToToSCommand => _navigateToToSCommand ??= new MvxAsyncCommand(DoNavigateToToSCommand);
+
+        private IMvxAsyncCommand _navigateToHowCriThinkWorksCommand;
+        public IMvxAsyncCommand NavigateToHowCriThinkWorksCommand => _navigateToHowCriThinkWorksCommand ??= new MvxAsyncCommand(DoNavigateToHowCriThinkWorksCommand);
+
+        private IMvxAsyncCommand _navigateToLicenseCommand;
+        public IMvxAsyncCommand NavigateToLicenseCommand => _navigateToLicenseCommand ??= new MvxAsyncCommand(DoNavigateToLicenseCommand);
+
         private IMvxAsyncCommand _logoutCommand;
         public IMvxAsyncCommand LogoutCommand => _logoutCommand ??= new MvxAsyncCommand(DoLogoutCommand);
 
@@ -152,12 +169,36 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         private async Task DoNavigateToProfile(CancellationToken cancellationToken)
         {
-            await NavigationService.Navigate<ProfileViewModel>(cancellationToken: cancellationToken).ConfigureAwait(false);
+            await NavigationService.Navigate<ProfileViewModel>(cancellationToken: cancellationToken);
         }
 
         private async Task DoFeedbackCommand(CancellationToken cancellationToken)
         {
             await _applicationService.AskForStoreReviewAsync();
+        }
+
+        private async Task DoNavigateToToSCommand(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("ToS");
+            var viewData = new CriThinkHtmlViewData(title, new Uri("https://crithink.it/termsofservice/", UriKind.Absolute));
+
+            await NavigationService.Navigate<CriThinkHtmlViewModel, CriThinkHtmlViewData>(viewData, cancellationToken: cancellationToken);
+        }
+
+        private async Task DoNavigateToHowCriThinkWorksCommand(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("HowWorks");
+            var viewData = new CriThinkHtmlViewData(title, new Uri("https://crithink.it/howcrithinkworks/", UriKind.Absolute));
+
+            await NavigationService.Navigate<CriThinkHtmlViewModel, CriThinkHtmlViewData>(viewData, cancellationToken: cancellationToken);
+        }
+
+        private async Task DoNavigateToLicenseCommand(CancellationToken cancellationToken)
+        {
+            var title = LocalizedTextSource.GetText("License");
+            var viewData = new CriThinkHtmlViewData(title, new Uri("https://crithink.it/license/", UriKind.Absolute));
+
+            await NavigationService.Navigate<CriThinkHtmlViewModel, CriThinkHtmlViewData>(viewData, cancellationToken: cancellationToken);
         }
 
         private async Task DoLogoutCommand(CancellationToken cancellationToken)

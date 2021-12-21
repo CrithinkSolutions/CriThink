@@ -96,6 +96,7 @@
     <Compile Include="Singletons\GoogleSingleton.cs" />
     <Compile Include="SocialLogins\FacebookCallback.cs" />
     <Compile Include="SplashScreen.cs" />
+    <Compile Include="Views\Common\Activities\CriThinkHtmlView.cs" />
     <Compile Include="Views\DebunkingNews\Activities\DebunkingNewsDetailsView.cs" />
     <Compile Include="Views\DebunkingNews\Activities\DebunkingNewsListView.cs" />
     <Compile Include="Views\DebunkingNews\Adapters\DebunkingNewsAdapter.cs" />
@@ -2513,6 +2514,26 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_verified_badge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\crithinkhtmlweb_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_license.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_license.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_license.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_license.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_license.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
