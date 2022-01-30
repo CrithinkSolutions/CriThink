@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
+using Android.Gms.Ads;
 using Android.OS;
 using Android.Runtime;
 using Android.Text;
@@ -83,6 +84,10 @@ namespace CriThink.Client.Droid.Views.NewsChecker
 
             set.Apply();
 
+            var mAdView = view.FindViewById<AdView>(Resource.Id.adView1);
+            AdRequest adRequest = new AdRequest.Builder().Build();
+            mAdView.LoadAd(adRequest);
+
             return view;
         }
 
@@ -90,6 +95,5 @@ namespace CriThink.Client.Droid.Views.NewsChecker
         {
             Activity.RunOnUiThread(() => _layoutShimmer?.StartShimmerAnimation(ViewModel.IsLoading));
         }
-
     }
 }

@@ -17,6 +17,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using AndroidX.Core.Content;
 using Android.Graphics;
+using Plugin.InAppBilling;
 
 namespace CriThink.Client.Droid.Views
 {
@@ -57,7 +58,7 @@ namespace CriThink.Client.Droid.Views
                 var text = Intent.GetStringExtra(Intent.ExtraText);
                 ViewModel.NavigateToNewsCheckResultViewModel.Execute(text);
             }
-            Task.Run(async ()=> await SetBottomViewProfileIcon());
+            Task.Run(async () => await SetBottomViewProfileIcon());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

@@ -1,6 +1,7 @@
 ﻿using System;
 using Acr.UserDialogs;
 using Android.App;
+using Android.Gms.Ads;
 using Android.Graphics.Drawables;
 using Android.Runtime;
 #if (APPCENTER)
@@ -30,6 +31,12 @@ namespace CriThink.Client.Droid
             AppCenter.Start(AppCenterApiKey, typeof(Analytics), typeof(Crashes));
 #endif
             UserDialogs.Init(this);
+            MobileAds.Initialize(this);
+
+            // linker
+            var context = Xamarin.Essentials.Platform.AppContext;
+            var activity = Xamarin.Essentials.Platform.CurrentActivity;
+
             base.OnCreate();
         }
 
