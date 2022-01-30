@@ -9,7 +9,8 @@ namespace CriThink.Client.Droid
         MainLauncher = true
         , NoHistory = true
         , Theme = "@style/SplashTheme"
-        , ScreenOrientation = ScreenOrientation.Portrait)]
+        , ScreenOrientation = ScreenOrientation.Portrait
+        , Exported = true)]
     public class SplashScreen : MvxSplashScreenActivity
     {
         public SplashScreen()

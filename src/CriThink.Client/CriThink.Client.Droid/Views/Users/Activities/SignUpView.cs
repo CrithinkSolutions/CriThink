@@ -18,7 +18,7 @@ using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.SignUpView")]
+    [Activity(Label = "CriThink.SignUpView", Exported = false)]
     public class SignUpView : BaseSocialLoginActivity<SignUpViewModel>
     {
         private AppCompatButton _btnFb;

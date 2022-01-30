@@ -17,7 +17,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.LoginView")]
+    [Activity(Label = "CriThink.LoginView", Exported = false)]
     public class LoginView : BaseSocialLoginActivity<LoginViewModel>
     {
         private AppCompatButton _btnFb;

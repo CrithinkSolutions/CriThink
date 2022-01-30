@@ -24,7 +24,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.NewsChecker
 {
     [MvxActivityPresentation]
-    [Activity]
+    [Activity(Exported = false)]
     public class SearchTextResultView : MvxActivity<SearchTextResultViewModel>
     {
         private ShimmerFrameLayout _layoutShimmer;

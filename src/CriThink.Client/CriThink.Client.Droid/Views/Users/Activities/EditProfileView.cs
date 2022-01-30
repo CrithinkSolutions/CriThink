@@ -23,7 +23,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.EditProfileView")]
+    [Activity(Label = "CriThink.EditProfileView", Exported = false)]
     public class EditProfileView : MvxActivity<EditProfileViewModel>
     {
 

@@ -24,7 +24,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.DebunkingNews
 {
     [MvxActivityPresentation]
-    [Activity]
+    [Activity(Exported = false)]
     public class DebunkingNewsListView : MvxActivity<DebunkingNewsListViewModel>
     {
         private ShimmerFrameLayout _layoutShimmer;
@@ -56,7 +56,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            
+
             var layoutManager = new LinearLayoutManager(this);
             listDebunkingNews.SetLayoutManager(layoutManager);
             listDebunkingNews.SetItemAnimator(null);

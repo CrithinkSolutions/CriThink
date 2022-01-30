@@ -26,7 +26,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.NewsChecker
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.WebviewNewsView")]
+    [Activity(Label = "CriThink.WebviewNewsView", Exported = false)]
     public class WebViewNewsView : MvxActivity<WebViewNewsViewModel>
     {
         private Toolbar _toolbar;

@@ -15,7 +15,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.Common
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.CriThinkHtmlViewModel")]
+    [Activity(Label = "CriThink.CriThinkHtmlViewModel", Exported = false)]
     public class CriThinkHtmlView : MvxActivity<CriThinkHtmlViewModel>
     {
         private AppCompatTextView _txtTitle;

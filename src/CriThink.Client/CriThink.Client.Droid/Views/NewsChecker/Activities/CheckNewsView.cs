@@ -22,7 +22,7 @@ using static Android.Views.View;
 namespace CriThink.Client.Droid.Views.NewsChecker
 {
     [MvxActivityPresentation]
-    [Activity]
+    [Activity(Exported = false)]
     public class CheckNewsView : MvxActivity<CheckNewsViewModel>
     {
         protected override void OnCreate(Bundle bundle)

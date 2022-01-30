@@ -18,7 +18,7 @@ using MvvmCross.ViewModels;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.WelcomeView")]
+    [Activity(Label = "CriThink.WelcomeView", Exported = false)]
     public class WelcomeView : MvxActivity<WelcomeViewModel>
     {
         private MvxCachedImageView _imgArrow;

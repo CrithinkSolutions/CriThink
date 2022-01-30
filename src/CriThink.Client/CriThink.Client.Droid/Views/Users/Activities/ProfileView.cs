@@ -21,7 +21,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.LoginView")]
+    [Activity(Label = "CriThink.LoginView", Exported = false)]
     public class ProfileView : MvxActivity<ProfileViewModel>
     {
 
@@ -59,7 +59,7 @@ namespace CriThink.Client.Droid.Views.Users
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-         
+
             var set = CreateBindingSet();
 
             set.Bind(txtHello).To(vm => vm.HeaderText);

@@ -13,7 +13,7 @@ using MvvmCross.Platforms.Android.Views;
 namespace CriThink.Client.Droid.Views.Users
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.ForgotPasswordView")]
+    [Activity(Label = "CriThink.ForgotPasswordView", Exported = false)]
     public class ForgotPasswordView : MvxActivity<ForgotPasswordViewModel>
     {
         protected override void OnCreate(Bundle bundle)

@@ -15,7 +15,7 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace CriThink.Client.Droid.Views.DebunkingNews
 {
     [MvxActivityPresentation]
-    [Activity(Label = "CriThink.DebunkingNewsDetailsView")]
+    [Activity(Label = "CriThink.DebunkingNewsDetailsView", Exported = false)]
     public class DebunkingNewsDetailsView : MvxActivity<DebunkingNewsDetailsViewModel>
     {
         private AppCompatTextView _txtTitle;
@@ -59,7 +59,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
             _txtTitle.SetTextSize(ComplexUnitType.Sp, 14);
             _txtTitle.Gravity = GravityFlags.Left;
             _txtTitle.SetTextColor(Android.Graphics.Color.White);
-            _txtTitle.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent); 
+            _txtTitle.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
         }
     }
 }
