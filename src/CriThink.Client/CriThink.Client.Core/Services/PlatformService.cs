@@ -5,6 +5,7 @@ using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Statistics;
 using CriThink.Client.Core.Platform;
 using Microsoft.Extensions.Logging;
+using Plugin.InAppBilling;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
@@ -114,6 +115,32 @@ namespace CriThink.Client.Core.Services
                 throw;
             }
         }
+
+        public async Task<bool> PurchaseSubscriptionAsync()
+        {
+            if (!CrossInAppBilling.IsSupported)
+                return false;
+
+            var billing = CrossInAppBilling.Current;
+
+            try
+            {
+                var connected = await billing.ConnectAsync();
+                if (!connected)
+                    return false;
+
+                //make additional billing calls
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                await billing.DisconnectAsync();
+            }
+        }
     }
 
     public interface IPlatformService
@@ -131,5 +158,7 @@ namespace CriThink.Client.Core.Services
         void OpenSkype(string profileName);
 
         Task<StatisticsDetailModel> GetPlatformDataUsageAsync(CancellationToken cancellationToken);
+
+        Task<bool> PurchaseSubscriptionAsync();
     }
 }
