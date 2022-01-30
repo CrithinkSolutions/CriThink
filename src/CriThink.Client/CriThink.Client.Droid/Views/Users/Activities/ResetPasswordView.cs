@@ -26,7 +26,7 @@ namespace CriThink.Client.Droid.Views.Users
         DataPathPrefix = "/" + DeepLinkConstants.SchemaPrefixResetPassword,
         AutoVerify = false)]
     [MvxActivityPresentation]
-    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true)]
+    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true, Exported = true)]
     public class ResetPasswordView : MvxActivity<ResetPasswordViewModel>
     {
         protected override void OnCreate(Bundle bundle)

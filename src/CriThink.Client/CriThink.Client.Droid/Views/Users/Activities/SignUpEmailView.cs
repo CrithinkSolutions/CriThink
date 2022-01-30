@@ -25,17 +25,17 @@ namespace CriThink.Client.Droid.Views.Users
     [IntentFilter(
         actions: new[] { Android.Content.Intent.ActionView },
         Categories = new[] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable },
-        DataSchemes = new[] { DeepLinkConstants.SchemaHTTP, DeepLinkConstants.SchemaHTTPS },    
+        DataSchemes = new[] { DeepLinkConstants.SchemaHTTP, DeepLinkConstants.SchemaHTTPS },
         DataHost = DeepLinkConstants.SchemaHost,
         DataPathPrefix = "/" + DeepLinkConstants.SchemaPrefixEmailConfirmation,
         AutoVerify = false)]
     [MvxActivityPresentation]
-    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true)]
+    [Activity(LaunchMode = LaunchMode.SingleTop, ClearTaskOnLaunch = true, Exported = true)]
     public class SignUpEmailView : MvxActivity<SignUpEmailViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {
-            
+
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.signupemail_view);
             MainApplication.SetGradientStatusBar(this);

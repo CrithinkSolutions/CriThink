@@ -26,7 +26,7 @@ namespace CriThink.Client.Droid.Views
         Categories = new[] { Intent.CategoryDefault },
         DataMimeType = "text/plain")]
     [MvxActivityPresentation]
-    [Activity]
+    [Activity(Exported = true)]
     public class HomeView : MvxActivity<HomeViewModel>
     {
         public BottomNavigationView BottomNavigationView => FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
