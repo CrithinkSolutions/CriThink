@@ -13,6 +13,7 @@ namespace CriThink.Client.Core.Services
     public class CacheIdentityService : IIdentityService
     {
         private const string UserTokenCacheKey = "current_user_token";
+        private const string UsernameAvailabilityCacheKey = "username_availability";
 
         private readonly IdentityService _identityService;
         private readonly IMemoryCache _memoryCache;
@@ -115,6 +116,15 @@ namespace CriThink.Client.Core.Services
         {
             await _identityService.RestoreDeletedAccountAsync(request, cancellationToken);
             ClearUserInfoFromCache();
+        }
+
+        public async Task<bool> CheckForUsernameAvailabilityAsync(string username, CancellationToken cancellationToken = default)
+        {
+            return await _memoryCache.GetOrCreateAsync($"{UsernameAvailabilityCacheKey}_{username}", async entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromMinutes(1);
+                return await _identityService.CheckForUsernameAvailabilityAsync(username, cancellationToken);
+            }).ConfigureAwait(false);
         }
 
         private void ClearUserInfoFromCache()

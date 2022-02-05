@@ -1,11 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Core.Content;
-using AndroidX.Core.Graphics;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Constants;
 using CriThink.Client.Droid.Controls;
@@ -17,6 +14,7 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
+using MvvmCross.Plugin.Visibility;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
@@ -25,7 +23,7 @@ namespace CriThink.Client.Droid.Views.Users
     [IntentFilter(
         actions: new[] { Android.Content.Intent.ActionView },
         Categories = new[] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable },
-        DataSchemes = new[] { DeepLinkConstants.SchemaHTTP, DeepLinkConstants.SchemaHTTPS },    
+        DataSchemes = new[] { DeepLinkConstants.SchemaHTTP, DeepLinkConstants.SchemaHTTPS },
         DataHost = DeepLinkConstants.SchemaHost,
         DataPathPrefix = "/" + DeepLinkConstants.SchemaPrefixEmailConfirmation,
         AutoVerify = false)]
@@ -35,30 +33,34 @@ namespace CriThink.Client.Droid.Views.Users
     {
         protected override void OnCreate(Bundle bundle)
         {
-            
             base.OnCreate(bundle);
+
             SetContentView(Resource.Layout.signupemail_view);
             MainApplication.SetGradientStatusBar(this);
+
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
+
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
             var txtCaption = FindViewById<AppCompatTextView>(Resource.Id.txtCaption);
             var email = FindViewById<TextInputEditText>(Resource.Id.txtInput_email);
-            var username = FindViewById<TextInputEditText>(Resource.Id.txtInput_username);
+            var inputUsername = FindViewById<TextInputEditText>(Resource.Id.txtInput_username);
+            var txtUsernameAvailable = FindViewById<AppCompatTextView>(Resource.Id.txtUsernameAvailable);
+            var txtUsernameUnavailable = FindViewById<AppCompatTextView>(Resource.Id.txtUsernameUnavailable);
             var password = FindViewById<TextInputEditText>(Resource.Id.txtInput_password);
             var repeatPassword = FindViewById<TextInputEditText>(Resource.Id.txtInput_repeatPassword);
             var btnSignUp = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
             var loader = FindViewById<LoaderView>(Resource.Id.loader);
             var txtEditEmail = FindViewById<TextInputLayout>(Resource.Id.txtEditEmail);
-            var tvHeaderEmail = FindViewById<TextView>(Resource.Id.tv_header_email);
+            var tvHeaderEmail = FindViewById<AppCompatTextView>(Resource.Id.tv_header_email);
             var txtEditUsername = FindViewById<TextInputLayout>(Resource.Id.txtEditUsername);
-            var tvHeaderUsername = FindViewById<TextView>(Resource.Id.tv_header_username);
+            var tvHeaderUsername = FindViewById<AppCompatTextView>(Resource.Id.tv_header_username);
             var txtEditPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditPassword);
-            var tvHeaderPassord = FindViewById<TextView>(Resource.Id.tv_header_password);
+            var tvHeaderPassord = FindViewById<AppCompatTextView>(Resource.Id.tv_header_password);
             var txtEditRepeatPassword = FindViewById<TextInputLayout>(Resource.Id.txtEditRepeatPassword);
             var tvHeaderRepeatPassword = FindViewById<TextView>(Resource.Id.tv_header_repeat_password);
             var imgAvatar = FindViewById<MvxSvgCachedImageView>(Resource.Id.imgAvatar);
@@ -73,7 +75,16 @@ namespace CriThink.Client.Droid.Views.Users
             var set = CreateBindingSet();
 
             set.Bind(email).To(vm => vm.Email);
-            set.Bind(username).To(vm => vm.Username);
+
+            set.Bind(inputUsername).To(vm => vm.Username);
+
+            set.Bind(txtUsernameAvailable).To(vm => vm.UsernameAvailableText);
+            set.Bind(txtUsernameUnavailable).To(vm => vm.UsernameUnvailableText);
+
+            set.Bind(txtUsernameAvailable).For(v => v.Visibility).To(vm => vm.IsUsernameAvailable).WithConversion<MvxVisibilityValueConverter>();
+
+            set.Bind(txtUsernameUnavailable).For(v => v.Visibility).To(vm => vm.IsUsernameUnavailable).WithConversion<MvxVisibilityValueConverter>();
+
             set.Bind(password).To(vm => vm.Password);
             set.Bind(repeatPassword).To(vm => vm.RepeatPassword);
             set.Bind(btnSignUp).For(v => v.BindClick()).To(vm => vm.SignUpCommand);

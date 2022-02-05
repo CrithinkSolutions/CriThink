@@ -18,7 +18,11 @@ namespace CriThink.Client.Core.Services
         private readonly IIdentityRepository _identityRepository;
         private readonly ILogger<IdentityService> _logger;
 
-        public IdentityService(IIdentityApi identityApi, IAuthorizedIdentityApi authorizedIdentityApi, IIdentityRepository identityRepository, ILogger<IdentityService> logger)
+        public IdentityService(
+            IIdentityApi identityApi,
+            IAuthorizedIdentityApi authorizedIdentityApi,
+            IIdentityRepository identityRepository,
+            ILogger<IdentityService> logger)
         {
             _identityApi = identityApi ?? throw new ArgumentNullException(nameof(identityApi));
             _authorizedIdentityApi = authorizedIdentityApi;
@@ -256,6 +260,28 @@ namespace CriThink.Client.Core.Services
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "An error occurred when restoring a deleted account");
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckForUsernameAvailabilityAsync(string username, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return false;
+
+            var request = new UsernameAvailabilityRequest
+            {
+                Username = username,
+            };
+
+            try
+            {
+                var result = await _identityApi.GetUsernameAvailabilityAsync(request, cancellationToken);
+                return result.IsAvailable;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "An error occurred when checking for username availability");
                 throw;
             }
         }
