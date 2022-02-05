@@ -33,9 +33,6 @@ namespace CriThink.Client.Core.Api
         [Patch("/" + EndpointConstants.IdentityRestoreUser)]
         Task RestoreUserAsync([Body] RestoreUserRequest request, CancellationToken cancellationToken = default);
 
-        //[Get("/" + EndpointConstants.IdentityUsernameAvailability)]
-        //Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync([AliasAs("username")] string request, CancellationToken cancellationToken = default);
-
         [Get("/" + EndpointConstants.IdentityUsernameAvailability)]
         Task<UsernameAvailabilityResponse> GetUsernameAvailabilityAsync([Query] UsernameAvailabilityRequest request, CancellationToken cancellationToken = default);
     }
