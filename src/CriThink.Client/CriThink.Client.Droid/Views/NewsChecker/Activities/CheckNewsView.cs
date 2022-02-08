@@ -7,11 +7,9 @@ using AndroidX.RecyclerView.Widget;
 using Com.Airbnb.Lottie;
 using CriThink.Client.Core.ViewModels.NewsChecker;
 using CriThink.Client.Droid.Controls;
-using CriThink.Client.Droid.Views.Users;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
-using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
@@ -111,11 +109,9 @@ namespace CriThink.Client.Droid.Views.NewsChecker
                 _checkNewsViewModel = checkNewsViewModel;
                 _context = context;
             }
-
-
         }
-
     }
+
     enum PositionClickItem
     {
         Start,

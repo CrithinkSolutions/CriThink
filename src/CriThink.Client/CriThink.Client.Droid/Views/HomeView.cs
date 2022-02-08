@@ -1,23 +1,20 @@
-﻿using Android.App;
+﻿using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics.Drawables;
 using Android.OS;
 using CriThink.Client.Core.ViewModels;
 using CriThink.Client.Droid.Bindings;
+using CriThink.Common.Helpers;
 using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Work;
 using Google.Android.Material.BottomNavigation;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using Xamarin.Facebook;
 using static CriThink.Client.Droid.Constants.FFImageConstants;
-using CriThink.Common.Helpers;
-using System.Threading.Tasks;
-using FFImageLoading.Transformations;
-using FFImageLoading.Work;
-using AndroidX.Core.Content;
-using Android.Graphics;
-using Plugin.InAppBilling;
 
 namespace CriThink.Client.Droid.Views
 {
@@ -37,7 +34,6 @@ namespace CriThink.Client.Droid.Views
             SetContentView(Resource.Layout.home_view);
             MainApplication.SetGradientStatusBar(this);
             var bottomView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
-
 
             if (bundle == null)
                 FacebookSdk.FullyInitialize();

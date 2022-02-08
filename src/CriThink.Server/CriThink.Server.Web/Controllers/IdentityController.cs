@@ -382,10 +382,7 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST: /api/identity/username-availability
-        ///     {
-        ///         "username": "username",
-        ///     }
+        ///     GET: /api/identity/username-availability?username=username
         /// 
         /// </remarks>
         /// <param name="dto">The username to search</param>
@@ -399,8 +396,8 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [HttpPost]
-        public async Task<IActionResult> GetUsernameAvailabilityAsync([FromBody] UsernameAvailabilityRequest dto)
+        [HttpGet]
+        public async Task<IActionResult> GetUsernameAvailabilityAsync([FromQuery] UsernameAvailabilityRequest dto)
         {
             var response = await _identityQueries.AnyUserByUsernameAsync(dto.Username);
             return Ok(new ApiOkResponse(response));

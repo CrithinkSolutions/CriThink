@@ -122,7 +122,7 @@ namespace CriThink.Server.Infrastructure.Identity
             }
 
             return await query
-                .SingleOrDefaultAsync(whereClause, cancellationToken);
+                .FirstOrDefaultAsync(whereClause, cancellationToken);
         }
 
         public Task<IdentityResult> ConfirmUserEmailAsync(User user, string encodedConfirmationCode)
@@ -171,7 +171,7 @@ namespace CriThink.Server.Infrastructure.Identity
         }
 
         public Task<IdentityResult> UpdateUserAsync(User user)
-        {   
+        {
             return _userManager.UpdateAsync(user);
         }
 

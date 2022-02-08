@@ -708,4 +708,10 @@
   <data name="SearchTextResultViewModel.DebunkingNews" xml:space="preserve">
     <value>Debunking News</value>
   </data>
+  <data name="SignUpEmailViewModel.UsernameAvailable" xml:space="preserve">
+    <value>The username '{0}' is available!</value>
+  </data>
+  <data name="SignUpEmailViewModel.UsernameUnavailable" xml:space="preserve">
+    <value>The username '{0}' has already been taken</value>
+  </data>
 </root>
