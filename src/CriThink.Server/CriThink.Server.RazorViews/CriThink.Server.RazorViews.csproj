@@ -6,6 +6,8 @@
     <AssemblyName>CriThink.Server.RazorViews</AssemblyName>
     <RootNamespace>CriThink.Server.RazorViews</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
