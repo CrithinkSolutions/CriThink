@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>CriThink.Server.Infrastructure</AssemblyName>
     <RootNamespace>CriThink.Server.Infrastructure</RootNamespace>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

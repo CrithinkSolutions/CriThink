@@ -7,6 +7,8 @@
     <UserSecretsId>4dcbda00-d3c7-453e-ab47-2e10d2395573</UserSecretsId>
     <RootNamespace>CriThink.Server.Web</RootNamespace>
     <AssemblyName>CriThink.Server.Web</AssemblyName>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,10 +34,10 @@
     <ProjectReference Include="..\CriThink.Server.Providers\CriThink.Server.Providers.NewsAnalyzer\CriThink.Server.Providers.NewsAnalyzer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>	
-    <None Update="Procfile" Condition="'$(Configuration)' == 'Release'">	
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>	
-    </None>	
+  <ItemGroup>
+    <None Update="Procfile" Condition="'$(Configuration)' == 'Release'">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

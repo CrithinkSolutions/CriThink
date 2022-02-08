@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>CriThink.Server.Providers.NewsAnalyzer</AssemblyName>
     <RootNamespace>CriThink.Server.Providers.NewsAnalyzer</RootNamespace>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
