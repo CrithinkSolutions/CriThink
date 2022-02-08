@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 using CriThink.Client.Core.ViewModels.NewsChecker;
-using CriThink.Common.Endpoints.DTOs.NewsSource;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-    
+
 namespace CriThink.Client.Droid.Views.NewsChecker.Adapters
 {
     public class QuestionNewsAdapter : MvxRecyclerAdapter
@@ -53,7 +51,7 @@ namespace CriThink.Client.Droid.Views.NewsChecker.Adapters
             _radioVote4 = itemView.FindViewById<RadioButton>(Resource.Id.radioVote4);
             _radioVote5 = itemView.FindViewById<RadioButton>(Resource.Id.radioVote5);
             this.DelayBind(() =>
-            {   
+            {
                 using (var set = this.CreateBindingSet<QuestionNewsViewHolder, NewsSourceGetQuestionViewModel>())
                 {
                     set.Bind(_tvQuestion).To(v => v.Question);
@@ -69,8 +67,6 @@ namespace CriThink.Client.Droid.Views.NewsChecker.Adapters
                     set.Bind(_radioVote5).For(v => v.Checked).To(vm => vm.Response[4]).TwoWay();
                 }
             });
-
-
         }
     }
 }

@@ -9,7 +9,6 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 
-
 // ReSharper disable once CheckNamespace
 namespace CriThink.Client.Droid.Views.NewsChecker
 {

@@ -89,5 +89,13 @@ namespace CriThink.Client.Core.Services
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns></returns>
         Task RestoreDeletedAccountAsync(RestoreUserRequest request, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Check if the given username is available or not
+        /// </summary>
+        /// <param name="username">Username to check</param>
+        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
+        /// <returns>True if the username is available, false if not</returns>
+        Task<bool> CheckForUsernameAvailabilityAsync(string username, CancellationToken cancellationToken = default);
     }
 }

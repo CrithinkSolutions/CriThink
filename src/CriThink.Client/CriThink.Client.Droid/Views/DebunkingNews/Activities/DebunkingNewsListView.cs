@@ -56,7 +56,7 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-            
+
             var layoutManager = new LinearLayoutManager(this);
             listDebunkingNews.SetLayoutManager(layoutManager);
             listDebunkingNews.SetItemAnimator(null);
@@ -71,7 +71,6 @@ namespace CriThink.Client.Droid.Views.DebunkingNews
 
             _layoutShimmer = FindViewById<ShimmerFrameLayout>(Resource.Id.shimmer_layout);
             _layoutShimmer.StartShimmerAnimation(ViewModel.IsLoading);
-
 
             var set = CreateBindingSet();
 

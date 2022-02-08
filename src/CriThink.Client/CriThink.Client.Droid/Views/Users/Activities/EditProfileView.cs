@@ -1,22 +1,14 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
-using AndroidX.CoordinatorLayout.Widget;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
-using Google.Android.Material.BottomSheet;
 using Google.Android.Material.TextField;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.DroidX.Material;
 using MvvmCross.Platforms.Android.Binding;
-using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
-using MvvmCross.Platforms.Android.Views.Fragments;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
@@ -52,8 +44,6 @@ namespace CriThink.Client.Droid.Views.Users
             var txtEditSnapchat = FindViewById<TextInputLayout>(Resource.Id.txtEditSnapchat);
             var txtEditYouTube = FindViewById<TextInputLayout>(Resource.Id.txtEditYouTube);
             var txtEditBlog = FindViewById<TextInputLayout>(Resource.Id.txtEditBlog);
-
-
 
             var tvHeaderGivenName = FindViewById<TextView>(Resource.Id.tv_header_givenName);
             var tvHeaderFamilyName = FindViewById<TextView>(Resource.Id.tv_header_familyName);
@@ -93,7 +83,6 @@ namespace CriThink.Client.Droid.Views.Users
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-
 
             var set = CreateBindingSet();
 
