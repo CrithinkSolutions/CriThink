@@ -2480,9 +2480,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Users\Dialogs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\layout\cell_recentsearches_feed.xml">
       <SubType>Designer</SubType>
