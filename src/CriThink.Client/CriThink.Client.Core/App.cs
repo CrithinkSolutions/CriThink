@@ -4,7 +4,6 @@ using System.Reflection;
 using Acr.UserDialogs;
 using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Data.Settings;
-using CriThink.Client.Core.Handlers;
 using CriThink.Client.Core.Localization;
 using CriThink.Client.Core.Repositories;
 using CriThink.Client.Core.Services;

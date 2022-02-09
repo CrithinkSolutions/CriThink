@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Security.Authentication;
@@ -7,19 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 
-namespace CriThink.Client.Core.Handlers
+namespace CriThink.Client.Core.Api
 {
     public class CriThinkApiHandler : HttpClientHandler
     {
-        private static readonly HashSet<HttpStatusCode>
-            DisableRetryPolicyStatusCodes = new()
-            {
-                HttpStatusCode.BadRequest,
-                HttpStatusCode.Unauthorized,
-                HttpStatusCode.Conflict,
-                HttpStatusCode.NotFound,
-            };
-
         public CriThinkApiHandler()
         {
             SslProtocols = SslProtocols.Tls12;
@@ -31,10 +21,10 @@ namespace CriThink.Client.Core.Handlers
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
             Policy.Handle<HttpRequestException>()
-                .OrResult<HttpResponseMessage>(x => !x.IsSuccessStatusCode && !DisableRetryPolicyStatusCodes.Contains(x.StatusCode))
+                .OrResult<HttpResponseMessage>(x => !x.IsSuccessStatusCode && ((int) x.StatusCode < 400 || (int) x.StatusCode >= 500))
                 .WaitAndRetryAsync(new[]
                 {
-                    TimeSpan.FromSeconds(Math.Pow(2, 3))
+                    TimeSpan.FromMilliseconds(100 * Math.Pow(2, 3))
                 })
                 .ExecuteAsync(() =>
                 {
