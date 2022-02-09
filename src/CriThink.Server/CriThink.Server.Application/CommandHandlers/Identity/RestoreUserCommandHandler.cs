@@ -50,11 +50,9 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await _userRepository.UpdateUserAsync(user);
 
-            var token = await _userRepository.GenerateUserPasswordResetTokenAsync(user);
+            var encodedToken = await _userRepository.GenerateUserPasswordResetTokenAsync(user);
 
-            var encodedCode = Base64Helper.ToBase64(token);
-
-            await SendEmailAsync(user, encodedCode, cancellationToken);
+            await SendEmailAsync(user, encodedToken, cancellationToken);
 
             _logger?.LogInformation("RestoreUser: done");
 
@@ -69,10 +67,10 @@ namespace CriThink.Server.Application.CommandHandlers
             try
             {
                 await _emailSender.SendPasswordResetEmailAsync(
-                user.Email,
-                user.Id.ToString(),
-                encodedCode,
-                user.UserName);
+                    user.Email,
+                    user.Id.ToString(),
+                    encodedCode,
+                    user.UserName);
             }
             catch (CriThinkEmailSendingFailureException ex)
             {
