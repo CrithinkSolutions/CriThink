@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CriThink.Common.Endpoints;
@@ -216,6 +217,27 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
             await _mediator.Send(command);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [Route(EndpointConstants.NewsSourceExportCsv)] //news-source/export-csv
+        [HttpGet]
+        public IActionResult ExportCsv()
+        {
+            try
+            {
+                var sources = _newsSourceQueries.GetAllNewsSources(int.MaxValue - 1, 0, NewsSourceAuthenticityFilter.All);
+
+                var lines = sources.Select(_ => $"{_.NewsLink},{_.SourceAuthencity}");
+
+                var fileContent = "link,authenticity\n";
+                fileContent += string.Join('\n', lines);
+
+                return File(Encoding.UTF8.GetBytes(fileContent), "text/csv", fileDownloadName: "export.csv");
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
