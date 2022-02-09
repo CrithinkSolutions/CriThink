@@ -38,18 +38,23 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var result = await _userRepository.ResetUserPasswordAsync(user, token, newPassword).ConfigureAwait(false);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                var ex = new CriThinkIdentityOperationException(result);
+                user.EmailConfirmed = true;
+                await _userRepository.UpdateUserAsync(user);
 
-                _logger?.LogError(
-                    ex,
-                    "Error resetting user password {0} {1}",
-                    user.Id,
-                    token);
+                return Unit.Value;
             }
 
-            return Unit.Value;
+            var ex = new CriThinkIdentityOperationException(result);
+
+            _logger?.LogError(
+                ex,
+                "Error resetting user password {0} {1}",
+                user.Id,
+                token);
+
+            throw ex;
         }
     }
 }

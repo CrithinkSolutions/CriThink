@@ -38,7 +38,7 @@ namespace CriThink.Server.Application.CommandHandlers
                 throw new CriThinkNotFoundException("Invalid credentials");
 
             if (user.IsDeleted || !user.EmailConfirmed)
-                throw new InvalidOperationException("The user is not enabled");
+                throw new CriThinkInvalidOperationException("The user is not enabled");
 
             var verificationResult = UserRepository.VerifyUserPassword(user, request.Password);
 
