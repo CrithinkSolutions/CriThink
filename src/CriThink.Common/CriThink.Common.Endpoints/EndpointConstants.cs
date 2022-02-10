@@ -67,6 +67,7 @@
         public const string NewsSourceAddBatch = "add/batch";
         public const string NewsSourceAllQuestions = "question/all";
         public const string NewsSourcePostAnswerToQuestions = "question";
+        public const string NewsSourceExportCsv = "export-csv";
 
         #endregion
 
