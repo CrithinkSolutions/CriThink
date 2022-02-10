@@ -1,10 +1,8 @@
 ﻿using System;
 using Android.App;
-using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Core.Content;
 using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Client.Droid.Controls;
 using Google.Android.Material.TextField;
@@ -47,7 +45,6 @@ namespace CriThink.Client.Droid.Views.Users
             var tvHeaderEmailOrUsername = FindViewById<TextView>(Resource.Id.tv_header_emailOrUsername);
             var tvHeaderPassword = FindViewById<TextView>(Resource.Id.tv_header_password);
             var txtOrSocial = FindViewById<AppCompatTextView>(Resource.Id.txtOrAccount);
-
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
             if (_btnFb != null)

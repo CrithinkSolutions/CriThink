@@ -33,7 +33,6 @@
                 android:id="@+id/appBarLayout"
                 layout="@layout/toolbar"/>
 
-            
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,13 +83,22 @@
                         android:paddingStart="@dimen/margin_large"
                         android:paddingEnd="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large">
-                        
+
+                        <LoaderView
+                            android:layout_width="@dimen/imgSize_loader"
+                            android:layout_height="@dimen/imgSize_loader"
+                            android:id="@+id/loader"
+                            android:layout_marginTop="@dimen/margin_small"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+
                         <!-- Email -->
                         <TextView
                             android:id="@+id/tv_header_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_big"
+                            android:layout_marginTop="@dimen/margin_half_huge"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Email"/>
                         <com.google.android.material.textfield.TextInputLayout
@@ -110,15 +118,15 @@
                                 android:id="@+id/txtInput_email"
                                 android:inputType="textEmailAddress"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        
+
                         <!-- Username -->
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_header_username"
                             app:layout_constraintTop_toBottomOf="@id/txtEditEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginTop="@dimen/margin_littleBig"
                             tools:text="Username"/>
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -136,14 +144,34 @@
                                 android:textColor="@color/editText_textColor"
                                 android:inputType="textEmailAddress"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        
-                        <!-- Password -->
-                        <TextView
-                            android:id="@+id/tv_header_password"
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtUsernameAvailable"
                             app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="@dimen/margin_extraSmall"
+                            tools:text="Username Test is available!"
+                            android:textColor="@android:color/holo_green_light"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtUsernameUnavailable"
+                            app:layout_constraintTop_toBottomOf="@id/txtEditUsername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="@dimen/margin_extraSmall"
+                            tools:text="Username Test is unavailable!"
+                            android:textColor="@android:color/holo_red_light"/>
+
+                        <!-- Password -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_header_password"
+                            app:layout_constraintTop_toBottomOf="@id/txtUsernameUnavailable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_littleBig"
                             tools:text="Password"/>
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -162,14 +190,14 @@
                                 android:textColor="@color/editText_textColor"
                                 android:inputType="textPassword"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        
+
                         <!-- Repeat Password -->
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_header_repeat_password"
                             app:layout_constraintTop_toBottomOf="@id/txtEditPassword"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginTop="@dimen/margin_littleBig"
                             tools:text="Password"/>
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -195,7 +223,6 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/btnSignUp"
                             tools:text="Join us!"
-                    
                             android:textAllCaps="false"
                             android:textSize="@dimen/textSize_button"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -208,16 +235,16 @@
                             android:radius="@dimen/btn_radius"
                             android:textColor="@android:color/white"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                  </androidx.core.widget.NestedScrollView>
+                </androidx.core.widget.NestedScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtCaption">
-                 <FFImageLoading.Cross.MvxSvgCachedImageView
+                <FFImageLoading.Cross.MvxSvgCachedImageView
                     android:layout_width="@dimen/imgSize_bigLogo"
                     android:layout_height="@dimen/imgSize_bigLogo"
                     android:id="@id/imgAvatar"
@@ -240,14 +267,6 @@
                     app:layout_constraintEnd_toEndOf="@id/imgAvatar"
                     app:layout_constraintBottom_toBottomOf="@id/imgAvatar"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <LoaderView
-                android:layout_width="@dimen/imgSize_loader"
-                android:layout_height="@dimen/imgSize_loader"
-                android:id="@+id/loader"
-                app:layout_constraintTop_toBottomOf="@id/txtCaption"
-                app:layout_constraintBottom_toTopOf="@id/layoutCredentials"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

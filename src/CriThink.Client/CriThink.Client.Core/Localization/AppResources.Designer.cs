@@ -1465,11 +1465,29 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The username &apos;{0}&apos; is available!.
+        /// </summary>
+        internal static string SignUpEmailViewModel_UsernameAvailable {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.UsernameAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         internal static string SignUpEmailViewModel_UsernameHint {
             get {
                 return ResourceManager.GetString("SignUpEmailViewModel.UsernameHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The username &apos;{0}&apos; has already been taken.
+        /// </summary>
+        internal static string SignUpEmailViewModel_UsernameUnavailable {
+            get {
+                return ResourceManager.GetString("SignUpEmailViewModel.UsernameUnavailable", resourceCulture);
             }
         }
         
