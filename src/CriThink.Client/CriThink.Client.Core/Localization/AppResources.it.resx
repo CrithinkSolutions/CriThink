@@ -690,4 +690,10 @@
   <data name="SearchTextResultViewModel.DebunkingNews" xml:space="preserve">
     <value>Debunking News</value>
   </data>
+  <data name="SignUpEmailViewModel.UsernameAvailable" xml:space="preserve">
+    <value>Lo username '{0}' è disponibile!</value>
+  </data>
+  <data name="SignUpEmailViewModel.UsernameUnavailable" xml:space="preserve">
+    <value>Lo username '{0}' non è disponibile</value>
+  </data>
 </root>

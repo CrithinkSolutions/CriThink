@@ -16,12 +16,13 @@ using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 using Refit;
 using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.ViewModels.Users
 {
-    public class SignUpEmailViewModel : BaseViewModel
+    public class SignUpEmailViewModel : BaseViewModel, IDisposable
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IIdentityService _identityService;
@@ -29,8 +30,15 @@ namespace CriThink.Client.Core.ViewModels.Users
         private readonly ILogger<SignUpEmailViewModel> _logger;
 
         private StreamPart _streamPart;
+        private bool _isUsernameAvailable;
+        private bool _isUsernameChecked;
+        private CancellationTokenSource _usernameCancellationToken;
 
-        public SignUpEmailViewModel(IMvxNavigationService navigationService, IIdentityService identityService, IUserDialogs userDialogs, ILogger<SignUpEmailViewModel> logger)
+        public SignUpEmailViewModel(
+            IMvxNavigationService navigationService,
+            IIdentityService identityService,
+            IUserDialogs userDialogs,
+            ILogger<SignUpEmailViewModel> logger)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
@@ -41,11 +49,66 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 new CircleTransformation()
             };
+
+            UsernameAvailabilityCommand = new MvxCommand(() =>
+                UsernameAvailabilityTaskNotifier = MvxNotifyTask.Create(() =>
+                    CheckForUsernameAvailabilityAsync(),
+                    ex => OnUsernameAvailabilityException(ex)));
+        }
+
+        private void OnUsernameAvailabilityException(Exception _)
+        {
+            _isUsernameAvailable = false;
+            _isUsernameChecked = false;
+            IsLoading = false;
+        }
+
+        private async Task CheckForUsernameAvailabilityAsync()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_username) ||
+                    _username.Length <= 2)
+                {
+                    _isUsernameChecked = false;
+                    return;
+                }
+
+                IsLoading = true;
+
+                if (_usernameCancellationToken is not null)
+                    _usernameCancellationToken.Cancel();
+
+                _usernameCancellationToken = new CancellationTokenSource();
+                _usernameCancellationToken.Token.ThrowIfCancellationRequested();
+
+                await Task.Delay(300);
+
+                _isUsernameAvailable = await _identityService.CheckForUsernameAvailabilityAsync(
+                    _username,
+                    _usernameCancellationToken.Token);
+
+                _isUsernameChecked = true;
+            }
+            finally
+            {
+                await RaisePropertyChanged(nameof(UsernameAvailableText));
+                await RaisePropertyChanged(nameof(UsernameUnvailableText));
+                await RaisePropertyChanged(nameof(IsUsernameUnavailable));
+                await RaisePropertyChanged(nameof(IsUsernameAvailable));
+                IsLoading = false;
+            }
         }
 
         #region Properties
 
         public List<ITransformation> AvatarImageTransformations { get; }
+
+        public string UsernameAvailableText =>
+            string.Format(LocalizedTextSource.GetText("UsernameAvailable"), Username);
+
+        public string UsernameUnvailableText =>
+            string.Format(LocalizedTextSource.GetText("UsernameUnavailable"), Username);
 
         private string _email;
         public string Email
@@ -66,8 +129,13 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 SetProperty(ref _username, value);
                 RaisePropertyChanged(() => SignUpCommand);
+                UsernameAvailabilityCommand.Execute(null);
             }
         }
+
+        public bool IsUsernameAvailable => _isUsernameAvailable && _isUsernameChecked;
+
+        public bool IsUsernameUnavailable => !_isUsernameAvailable && _isUsernameChecked;
 
         private string _password;
         public string Password
@@ -102,15 +170,27 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         #region Commands
 
+        public IMvxCommand UsernameAvailabilityCommand { get; private set; }
+
+        private MvxNotifyTask _myTaskNotifier;
+        public MvxNotifyTask UsernameAvailabilityTaskNotifier
+        {
+            get => _myTaskNotifier;
+            private set => SetProperty(ref _myTaskNotifier, value);
+        }
+
         private IMvxAsyncCommand _signUpCommand;
         public IMvxAsyncCommand SignUpCommand => _signUpCommand ??= new MvxAsyncCommand(DoSignUpCommand, () =>
             !IsLoading &&
+            _isUsernameAvailable &&
             !string.IsNullOrWhiteSpace(Email) && EmailHelper.IsEmail(Email) &&
             !string.IsNullOrWhiteSpace(Username) &&
             !string.IsNullOrWhiteSpace(Password) &&
             string.Equals(Password, RepeatPassword, StringComparison.CurrentCulture));
 
         private IMvxAsyncCommand _pickUpImageCommand;
+        private bool _disposedValue;
+
         public IMvxAsyncCommand PickUpImageCommand => _pickUpImageCommand ??= new MvxAsyncCommand(DoPickUpImageCommand);
 
         #endregion
@@ -251,6 +331,25 @@ namespace CriThink.Client.Core.ViewModels.Users
             return _userDialogs.AlertAsync(
                 message,
                 okText: "Ok");
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _usernameCancellationToken?.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
