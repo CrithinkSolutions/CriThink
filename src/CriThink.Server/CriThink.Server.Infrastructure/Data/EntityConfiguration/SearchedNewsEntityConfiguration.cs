@@ -6,6 +6,8 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 {
     internal class SearchedNewsEntityConfiguration : IEntityTypeConfiguration<SearchedNews>
     {
+        internal static string SequenceName = $"sequence_{nameof(SearchedNews).ToLowerInvariant()}";
+
         public void Configure(EntityTypeBuilder<SearchedNews> builder)
         {
             builder.ToTable("searched_news");
@@ -14,7 +16,7 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
 
             builder.HasKey(up => up.Id);
             builder.Property(up => up.Id)
-                .UseHiLo($"sequence_{nameof(SearchedNews).ToLowerInvariant()}");
+                .UseHiLo(SequenceName);
 
             builder.Property(up => up.Link)
                 .IsRequired();

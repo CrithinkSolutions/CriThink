@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Repositories;
+using CriThink.Server.Infrastructure.Data.EntityConfiguration;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -62,6 +63,15 @@ namespace CriThink.Server.Infrastructure.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfigurationsFromAssembly(Assembly.Load("CriThink.Server.Infrastructure"));
+
+            builder
+                .HasSequence<long>(SearchedNewsEntityConfiguration.SequenceName)
+                .StartsAt(1)
+                .IncrementsBy(1);
+
+            builder.Entity<SearchedNews>()
+                .Property(o => o.Id)
+                .HasDefaultValueSql($"nextval('\"{SearchedNewsEntityConfiguration.SequenceName}\"')");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
