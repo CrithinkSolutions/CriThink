@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Server.Application.Commands;
@@ -12,6 +14,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 {
@@ -25,12 +28,19 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
     public class DebunkingNewsController : Controller
     {
         private readonly IDebunkingNewsQueries _debunkingNewsQueries;
+        private readonly IDebunkingNewsPublisherQueries _debunkingNewsPublisherQueries;
         private readonly IMediator _mediator;
 
-        public DebunkingNewsController(IDebunkingNewsQueries debunkingNewsQueries, IMediator mediator)
+        public DebunkingNewsController(
+            IDebunkingNewsQueries debunkingNewsQueries,
+            IDebunkingNewsPublisherQueries debunkingNewsPublisherQueries,
+            IMediator mediator)
         {
             _debunkingNewsQueries = debunkingNewsQueries ??
                 throw new ArgumentNullException(nameof(debunkingNewsQueries));
+
+            _debunkingNewsPublisherQueries = debunkingNewsPublisherQueries ??
+                throw new ArgumentNullException(nameof(debunkingNewsPublisherQueries));
 
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
@@ -56,9 +66,24 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route(EndpointConstants.DebunkingNewsAddNews)]
-        public ActionResult AddNewsView()
+        public async Task<ActionResult> AddNewsView()
         {
-            return View("AddNewsView", new AddNewsViewModel());
+            var publishers = await _debunkingNewsPublisherQueries.GetAllDebunkingNewsPublishersAsync();
+
+            IEnumerable<SelectListItem> categories = publishers
+                .Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Name,
+                    Selected = false
+                }).ToList();
+
+            var viewModel = new AddNewsViewModel
+            {
+                Publishers = categories
+            };
+
+            return View("AddNewsView", viewModel);
         }
 
         /// <summary>
@@ -80,13 +105,16 @@ namespace CriThink.Server.Web.Areas.BackOffice.Controllers
 
             try
             {
+                var sel = viewModel.Publishers.Single(x => x.Selected);
+                var publisherId = Guid.Parse(sel.Value);
+
                 var command = new CreateDebunkingNewsCommand(
                     viewModel.Caption,
                     viewModel.Link,
                     viewModel.Keywords,
                     viewModel.Title,
                     viewModel.ImageLink,
-                    Guid.Empty); // TODO
+                    publisherId);
 
                 await _mediator.Send(command);
 

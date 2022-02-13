@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews
 {
@@ -23,5 +25,10 @@ namespace CriThink.Server.Web.Areas.BackOffice.ViewModels.DebunkingNews
         public IReadOnlyCollection<string> Keywords { get; set; }
 
         public string Message { get; set; }
+
+        [Required]
+        public Guid PublisherId { get; set; }
+
+        public IEnumerable<SelectListItem> Publishers { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.ExtensionMethods.DbSets;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.Queries
@@ -45,6 +47,15 @@ namespace CriThink.Server.Application.Queries
                 .GetPublisherByIdAsync(id, cancellationToken);
 
             return debunkingNewsPublisher;
+        }
+
+        public async Task<IList<DebunkingNewsPublisher>> GetAllDebunkingNewsPublishersAsync(
+            CancellationToken cancellationToken = default)
+        {
+            var debunkingNewsPublishers = await _dbContext.DebunkingNewsPublishers
+                .ToListAsync(cancellationToken);
+
+            return debunkingNewsPublishers;
         }
     }
 }

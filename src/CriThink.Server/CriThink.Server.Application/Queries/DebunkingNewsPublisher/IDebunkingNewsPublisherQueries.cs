@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Server.Domain.Entities;
@@ -13,6 +14,9 @@ namespace CriThink.Server.Application.Queries
 
         Task<DebunkingNewsPublisher> GetDebunkingNewsPublisherByIdAsync(
             Guid id,
+            CancellationToken cancellationToken = default);
+
+        Task<IList<DebunkingNewsPublisher>> GetAllDebunkingNewsPublishersAsync(
             CancellationToken cancellationToken = default);
     }
 }
