@@ -68,9 +68,11 @@ namespace CriThink.Server.Infrastructure.Repositories
                 "image_link = EXCLUDED.image_link,\n" +
                 "keywords = EXCLUDED.keywords;";
 
+            DateTimeOffset utcTime = debunkingNews.PublishingDate?.UtcDateTime ?? DateTimeOffset.MinValue;
+
             var id = new NpgsqlParameter("id", Guid.NewGuid());
             var title = new NpgsqlParameter("title", debunkingNews.Title);
-            var publishingDate = new NpgsqlParameter("publishing_date", debunkingNews.PublishingDate);
+            var publishingDate = new NpgsqlParameter("publishing_date", utcTime);
             var link = new NpgsqlParameter("link", debunkingNews.Link);
             var newsCaption = new NpgsqlParameter("news_caption", (object) debunkingNews.NewsCaption ?? DBNull.Value);
             var publisherId = new NpgsqlParameter("publisher_id", debunkingNews.Publisher.Id);
