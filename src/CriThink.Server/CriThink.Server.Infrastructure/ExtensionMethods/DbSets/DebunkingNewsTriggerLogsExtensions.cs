@@ -19,9 +19,9 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="projection">Projection applied to Select query</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
-        internal static Task<DateTime> GetMostRecentSuccessfullDateAsync(
+        internal static Task<DateTimeOffset> GetMostRecentSuccessfullDateAsync(
             this DbSet<DebunkingNewsTriggerLog> dbSet,
-            Expression<Func<DebunkingNewsTriggerLog, DateTime>> projection,
+            Expression<Func<DebunkingNewsTriggerLog, DateTimeOffset>> projection,
             CancellationToken cancellationToken = default)
         {
             return dbSet

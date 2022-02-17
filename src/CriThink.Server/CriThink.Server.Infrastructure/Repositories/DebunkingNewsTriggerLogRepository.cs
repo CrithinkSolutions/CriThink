@@ -53,7 +53,7 @@ namespace CriThink.Server.Infrastructure.Repositories
                 DebunkingNewsTriggerLogsProjection.GetTimeStamp,
                 cancellationToken);
 
-            return latestEntry;
+            return latestEntry.UtcDateTime;
         }
     }
 }
