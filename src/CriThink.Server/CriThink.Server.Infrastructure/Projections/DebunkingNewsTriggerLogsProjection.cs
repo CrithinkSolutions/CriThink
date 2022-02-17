@@ -10,8 +10,8 @@ namespace CriThink.Server.Infrastructure.Projections
         /// <summary>
         /// Get a single item timestamp property
         /// </summary>
-        public static Expression<Func<DebunkingNewsTriggerLog, DateTime>> GetTimeStamp =>
-            log => log.TimeStamp.UtcDateTime;
+        public static Expression<Func<DebunkingNewsTriggerLog, DateTimeOffset>> GetTimeStamp =>
+            log => log.TimeStamp;
 
         /// <summary>
         /// Get a single item getting all properties
