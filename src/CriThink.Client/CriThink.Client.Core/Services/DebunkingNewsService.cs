@@ -14,7 +14,10 @@ namespace CriThink.Client.Core.Services
         private readonly IGeolocationService _geoService;
         private readonly ILogger<DebunkingNewsService> _logger;
 
-        public DebunkingNewsService(IDebunkingNewsApi debunkingNewsApi, IGeolocationService geoService, ILogger<DebunkingNewsService> logger)
+        public DebunkingNewsService(
+            IDebunkingNewsApi debunkingNewsApi,
+            IGeolocationService geoService,
+            ILogger<DebunkingNewsService> logger)
         {
             _debunkingNewsApi = debunkingNewsApi ?? throw new ArgumentNullException(nameof(debunkingNewsApi));
             _geoService = geoService ?? throw new ArgumentNullException(nameof(geoService));
@@ -49,7 +52,8 @@ namespace CriThink.Client.Core.Services
             try
             {
                 DebunkingNewsGetAllResponse debunkingNewsCollection = await _debunkingNewsApi
-                    .GetAllDebunkingNewsAsync(request,
+                    .GetAllDebunkingNewsAsync(
+                        request,
                         language,
                         cancellationToken)
                     .ConfigureAwait(false);

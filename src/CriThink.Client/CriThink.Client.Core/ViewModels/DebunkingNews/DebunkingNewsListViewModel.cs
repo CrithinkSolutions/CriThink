@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Constants;
-using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
-using CriThink.Client.Core.ViewModels.Users;
 using CriThink.Common.Endpoints.DTOs.DebunkingNews;
-using CriThink.Common.Helpers;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -43,6 +37,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             _logger = logger;
 
             Feed = new MvxObservableCollection<DebunkingNewsGetResponse>();
+            CountryFilters = new MvxObservableCollection<DebunkingNewsFilterViewModel>();
             _hasMorePages = true;
         }
 
@@ -50,12 +45,13 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         public MvxObservableCollection<DebunkingNewsGetResponse> Feed { get; }
 
+        public MvxObservableCollection<DebunkingNewsFilterViewModel> CountryFilters { get; }
+
         public MvxNotifyTask FetchDebunkingNewsTask { get; private set; }
 
         private bool _filterByCountry;
         public bool FilterByCountry
         {
-
             get => _filterByCountry;
             set => SetProperty(ref _filterByCountry, value);
         }
@@ -64,7 +60,14 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         public bool FilterByLanguage
         {
             get => _filterByLanguage;
-            set => SetProperty(ref _filterByLanguage, value);   
+            set => SetProperty(ref _filterByLanguage, value);
+        }
+
+        private DebunkingNewsFilterViewModel _selectedCountryFilter;
+        public DebunkingNewsFilterViewModel SelectedCountryFilter
+        {
+            get => _selectedCountryFilter;
+            set => SetProperty(ref _selectedCountryFilter, value);
         }
 
         #endregion
@@ -73,7 +76,6 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
 
         private IMvxCommand _fetchDebunkingNewsCommand;
         public IMvxCommand FetchDebunkingNewsCommand => _fetchDebunkingNewsCommand ??= new MvxCommand(DoFetchDebunkingNewsCommand);
-
 
         private IMvxCommand<DebunkingNewsGetResponse> _debunkingNewsSelectedCommand;
         public IMvxCommand<DebunkingNewsGetResponse> DebunkingNewsSelectedCommand =>
@@ -86,6 +88,10 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         private IMvxCommand _filterByCountryCommand;
         public IMvxCommand FIlterByCountryCommand =>
             _filterByCountryCommand ??= new MvxAsyncCommand(DoFilterByCountryCommand);
+
+        private IMvxCommand _handleCountryFilterSelectedCommand;
+        public IMvxCommand HandleCountryFilterSelectedCommand =>
+            _handleCountryFilterSelectedCommand ??= new MvxCommand<DebunkingNewsFilterViewModel>(DoHandleCountryFilterSelectedCommand);
 
         #endregion
 
@@ -106,9 +112,25 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
             if (_isInitialized)
                 return;
 
-            await GetDebunkingNewsAsync().ConfigureAwait(false);
+            var languageCode = await _geoService.GetCurrentCountryCodeAsync();
+            if (!string.IsNullOrWhiteSpace(languageCode))
+            {
+                CountryFilters.Add(new DebunkingNewsFilterViewModel
+                {
+                    Code = languageCode
+                });
+
+                SelectedCountryFilter = CountryFilters.ElementAt(0);
+            }
+
+            //await GetDebunkingNewsAsync().ConfigureAwait(false);
 
             _isInitialized = true;
+        }
+
+        private void DoHandleCountryFilterSelectedCommand(DebunkingNewsFilterViewModel item)
+        {
+
         }
 
         private async Task GetDebunkingNewsAsync()
@@ -130,57 +152,38 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                 {
                     PageSize = PageSize,
                     PageIndex = _pageIndex,
+                    CountryCode = SelectedCountryFilter?.Code,
                 };
 
-                string language = null;
-
-                if (FilterByCountry || FilterByLanguage)
-                {
-                    var countryCode = await _geoService.GetCurrentCountryCodeAsync();
-                    language = countryCode.Coalesce(GeoConstant.DEFAULT_LANGUAGE);
-
-                }
-
                 var debunkinNewsCollection = await _debunkingNewsService
-                    .GetDebunkingNewsAsync(request, _cancellationTokenSource.Token, language)
+                    .GetDebunkingNewsAsync(request, _cancellationTokenSource.Token, null)
                     .ConfigureAwait(false);
 
-                    if (debunkinNewsCollection.DebunkingNewsCollection != null)
-                    {
-                        if (FilterByCountry || FilterByLanguage)
-                        {
-                            var cultureInfo = new CultureInfo(language);
-                            var regionInfo = new RegionInfo(language);
-                            var feed = debunkinNewsCollection.DebunkingNewsCollection
-                                        .Where(x => (!FilterByLanguage || x.PublisherLanguage == cultureInfo.EnglishName)
-                                        && (!FilterByCountry || x.PublisherCountry == regionInfo.EnglishName));
-                            Feed.AddRange(feed);
-                        }
-                        else
-                        {
-                            Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
-                        }
+                if (debunkinNewsCollection.DebunkingNewsCollection != null)
+                {
+                    CountryFilters.Clear();
+                    Feed.AddRange(debunkinNewsCollection.DebunkingNewsCollection);
 
-                    }
+                    var countries = Feed.Select(
+                        f => new DebunkingNewsFilterViewModel
+                        {
+                            Code = f.PublisherCountryCode,
+                            Title = f.PublisherCountry,
+                        })
+                        .Distinct();
+
+                    CountryFilters.AddRange(countries);
+                }
 
                 _hasMorePages = debunkinNewsCollection.HasNextPage;
 
                 _pageIndex++;
-            }
-            catch (TokensExpiredException)
-            {
-                await _navigationService.Navigate<SignUpViewModel>(
-                    new MvxBundle(new Dictionary<string, string>
-                    {
-                        {MvxBundleConstaints.ClearBackStack, ""}
-                    })).ConfigureAwait(true);
             }
             finally
             {
                 IsLoading = false;
             }
         }
-
 
         private async Task DoDebunkingNewsSelectedCommand(DebunkingNewsGetResponse selectedResponse, CancellationToken cancellationToken)
         {
@@ -200,6 +203,7 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         {
             FilterByLanguage = !FilterByLanguage;
             _pageIndex = 0;
+
             return GetDebunkingNewsAsync();
         }
 
@@ -207,8 +211,8 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
         {
             FilterByCountry = !FilterByCountry;
             _pageIndex = 0;
-            return GetDebunkingNewsAsync();
 
+            return GetDebunkingNewsAsync();
         }
     }
 }
