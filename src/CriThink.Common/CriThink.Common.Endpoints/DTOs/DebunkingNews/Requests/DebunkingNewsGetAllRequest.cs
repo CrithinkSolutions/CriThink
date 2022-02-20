@@ -15,6 +15,9 @@ namespace CriThink.Common.Endpoints.DTOs.DebunkingNews
         [JsonPropertyName("pageIndex")]
         public int PageIndex { get; set; }
 
+        [JsonPropertyName("countryCode")]
+        public string CountryCode { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (PageSize < 1)

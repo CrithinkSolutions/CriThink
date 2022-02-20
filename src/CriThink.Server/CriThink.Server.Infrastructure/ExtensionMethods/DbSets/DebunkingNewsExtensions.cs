@@ -19,7 +19,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="projection">Projection applied to Select query</param>
-        /// <param name="languageFilter">(Optional) Language filters</param>
+        /// <param name="languageFilter">Language filters</param>
+        /// <param name="countryFilter">Country filters</param>
         /// <param name="cancellationToken">(Optional) Cancellation token</param>
         /// <returns>Awaitable task</returns>
         internal static Task<List<GetAllDebunkingNewsQueryResult>> GetAllDebunkingNewsAsync(
@@ -27,7 +28,8 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
             int pageSize,
             int pageIndex,
             Expression<Func<DebunkingNews, GetAllDebunkingNewsQueryResult>> projection,
-            string languageFilter = null,
+            string languageFilter,
+            string countryFilter,
             CancellationToken cancellationToken = default)
         {
             var query = dbSet
@@ -38,9 +40,18 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods.DbSets
                 .Split(',')
                 .ToList();
 
+            IList<string> countryCodes = countryFilter?
+                .Split(",")
+                .ToList();
+
             if (languageCodes?.Any() == true)
             {
                 query = query.Where(dn => languageCodes.Contains(dn.Publisher.Language.Code));
+            }
+
+            if (countryCodes?.Any() == true)
+            {
+                query = query.Where(dn => countryCodes.Contains(dn.Publisher.Country.Code));
             }
 
             return query.Skip(pageSize * pageIndex)

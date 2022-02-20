@@ -16,17 +16,17 @@ namespace CriThink.Server.Infrastructure.Data.EntityConfiguration
             var countryItaly = DebunkingNewsCountry.CreateSeed(
                 Guid.Parse("575003e3-991c-4ac5-9ce4-3399553f64a7"),
                 "Italy",
-                "it");
+                EntityConstants.CountryCodeIt);
 
             var countryUsa = DebunkingNewsCountry.CreateSeed(
                 Guid.Parse("3bd76fc5-5463-4194-b4f9-df111f7c294f"),
                 "United States of America",
-                "us");
+                EntityConstants.CountryCodeUs);
 
             var countryUk = DebunkingNewsCountry.CreateSeed(
                 Guid.Parse("812361b1-d1c3-4315-b601-4e060364a1d6"),
                 "United Kingdom",
-                "uk");
+                EntityConstants.CountryCodeUk);
 
             builder.HasKey(dnc => dnc.Id);
             builder.Property(dnc => dnc.Id)

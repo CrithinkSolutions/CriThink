@@ -35,14 +35,16 @@ namespace CriThink.Server.Application.Queries
         public async Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(
             int pageSize,
             int pageIndex,
-            string languageFilter = null)
+            string languageFilter = null,
+            string countryFilter = null)
         {
             _logger?.LogInformation(nameof(GetAllDebunkingNewsAsync));
 
             var debunkingNewsCollection = await _debunkingNewsRepository.GetAllDebunkingNewsAsync(
                 pageSize,
                 pageIndex,
-                languageFilter);
+                languageFilter,
+                countryFilter);
 
             var dtos = debunkingNewsCollection
                 .Take(pageSize)

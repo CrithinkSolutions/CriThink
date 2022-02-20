@@ -12,7 +12,11 @@ namespace CriThink.Server.Domain.QueryResults
 
         public string PublisherLanguage { get; set; }
 
+        public string PublisherLanguageCode { get; set; }
+
         public string PublisherCountry { get; set; }
+
+        public string PublisherCountryCode { get; set; }
 
         public string NewsLink { get; set; }
 

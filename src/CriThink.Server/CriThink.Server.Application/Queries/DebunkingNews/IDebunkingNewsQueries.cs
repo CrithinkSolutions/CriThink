@@ -14,11 +14,13 @@ namespace CriThink.Server.Application.Queries
         /// <param name="pageSize">Page size</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="languageFilter">(Optional) Language filter (iso name)</param>
+        /// <param name="countryFilter">(Optional) Country filter (iso name)</param>
         /// <returns></returns>
         Task<DebunkingNewsGetAllResponse> GetAllDebunkingNewsAsync(
             int pageSize,
             int pageIndex,
-            string languageFilter = null);
+            string languageFilter = null,
+            string countryFilter = null);
 
         /// <summary>
         /// Get the specified debunking news

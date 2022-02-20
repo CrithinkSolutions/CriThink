@@ -22,7 +22,11 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest =>
                     dest.PublisherCountry, opt => opt.MapFrom(src => src.PublisherCountry))
                 .ForMember(dest =>
+                    dest.PublisherCountryCode, opt => opt.MapFrom(src => src.PublisherCountryCode))
+                .ForMember(dest =>
                     dest.PublisherLanguage, opt => opt.MapFrom(src => src.PublisherLanguage))
+                .ForMember(dest =>
+                    dest.PublisherLanguageCode, opt => opt.MapFrom(src => src.PublisherCountryCode))
                 .ForMember(dest =>
                     dest.NewsLink, opt => opt.MapFrom(src => src.NewsLink))
                 .ForMember(dest =>

@@ -12,7 +12,8 @@ namespace CriThink.Server.Domain.Repositories
         Task<IList<GetAllDebunkingNewsQueryResult>> GetAllDebunkingNewsAsync(
             int pageSize,
             int pageIndex,
-            string languageFilter = null);
+            string languageFilter,
+            string countryFilter);
 
         Task<DebunkingNews> GetDebunkingNewsByIdAsync(
             Guid id,

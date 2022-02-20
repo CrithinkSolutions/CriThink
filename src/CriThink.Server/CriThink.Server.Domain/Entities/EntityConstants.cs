@@ -9,6 +9,14 @@
 
         #endregion
 
+        #region Countries
+
+        public const string CountryCodeIt = "it";
+        public const string CountryCodeUk = "uk";
+        public const string CountryCodeUs = "us";
+
+        #endregion
+
         #region OpenOnline
 
         public const string OpenOnline = "Open";

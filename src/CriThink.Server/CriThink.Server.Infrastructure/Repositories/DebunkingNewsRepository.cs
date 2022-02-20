@@ -30,13 +30,15 @@ namespace CriThink.Server.Infrastructure.Repositories
         public async Task<IList<GetAllDebunkingNewsQueryResult>> GetAllDebunkingNewsAsync(
             int pageSize,
             int pageIndex,
-            string languageFilter = null)
+            string languageFilter,
+            string countryFilter)
         {
             var debunkingNewsCollection = await _dbContext.DebunkingNews.GetAllDebunkingNewsAsync(
                 pageSize,
                 pageIndex,
                 DebunkingNewsProjection.GetAll,
-                languageFilter);
+                languageFilter,
+                countryFilter);
 
             return debunkingNewsCollection;
         }

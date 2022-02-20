@@ -93,10 +93,10 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET: /api/debunking-news/all?{pageSize}{pageIndex}
+        ///     GET: /api/debunking-news/all?{pageSize}{pageIndex}{countryCode}
         /// 
         /// </remarks>
-        /// <param name="request">Page index and number of debunking news per page</param>
+        /// <param name="request">Page index and number of debunking news per page; country code</param>
         /// <response code="200">Returns the list of debunking news</response>
         /// <response code="400">If the request query string is invalid</response>
         /// <response code="401">If the user is not authorized</response>
@@ -112,11 +112,13 @@ namespace CriThink.Server.Web.Controllers
         public async Task<IActionResult> GetAllDebunkingNewsAsync([FromQuery] DebunkingNewsGetAllRequest request)
         {
             string languageFilter = Request.GetLanguageFromRequest(_localizationOptions);
+            var countryFilter = request.CountryCode;
 
             var allDebunkingNews = await _debunkingNewsQueries.GetAllDebunkingNewsAsync(
                 request.PageSize,
                 request.PageIndex,
-                languageFilter);
+                languageFilter,
+                countryFilter);
 
             return Ok(new ApiOkResponse(allDebunkingNews));
         }

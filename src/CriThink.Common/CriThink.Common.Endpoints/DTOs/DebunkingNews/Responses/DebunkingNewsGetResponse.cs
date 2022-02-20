@@ -17,8 +17,14 @@ namespace CriThink.Common.Endpoints.DTOs.DebunkingNews
         [JsonPropertyName("publisherLanguage")]
         public string PublisherLanguage { get; set; }
 
+        [JsonPropertyName("publisherLanguageCode")]
+        public string PublisherLanguageCode { get; set; }
+
         [JsonPropertyName("publisherCountry")]
         public string PublisherCountry { get; set; }
+
+        [JsonPropertyName("publisherCountryCode")]
+        public string PublisherCountryCode { get; set; }
 
         [JsonPropertyName("newsLink")]
         public string NewsLink { get; set; }
