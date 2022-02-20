@@ -34,8 +34,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.DebunkingNewsFetcher", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.DebunkingNewsFetcher\CriThink.Server.Providers.DebunkingNewsFetcher.csproj", "{00FA7783-F385-497B-BB6E-82C283E9046C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Demo", "CriThink.Server\CriThink.Server.Demo\CriThink.Server.Demo.csproj", "{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Client.Core", "CriThink.Client\CriThink.Client.Core\CriThink.Client.Core.csproj", "{6334B064-DD22-4F85-AA05-7AB088145757}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Client.Droid", "CriThink.Client\CriThink.Client.Droid\CriThink.Client.Droid.csproj", "{CE8A0A87-9504-41E0-8AF7-051CDF555348}"
@@ -44,7 +42,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Client.iOS", "CriT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Providers.Common", "CriThink.Server\CriThink.Server.Providers\CriThink.Server.Providers.Common\CriThink.Server.Providers.Common.csproj", "{B554CB92-1C69-45BF-8CBA-061EB19AA817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriThink.Server.Application", "CriThink.Server\CriThink.Server.Application\CriThink.Server.Application.csproj", "{061700A1-5550-487F-B0A0-F67324FD60F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriThink.Server.Application", "CriThink.Server\CriThink.Server.Application\CriThink.Server.Application.csproj", "{061700A1-5550-487F-B0A0-F67324FD60F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,18 +162,6 @@ Global
 		{00FA7783-F385-497B-BB6E-82C283E9046C}.Release|iPhone.Build.0 = Release|Any CPU
 		{00FA7783-F385-497B-BB6E-82C283E9046C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{00FA7783-F385-497B-BB6E-82C283E9046C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|iPhone.Build.0 = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{6334B064-DD22-4F85-AA05-7AB088145757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6334B064-DD22-4F85-AA05-7AB088145757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6334B064-DD22-4F85-AA05-7AB088145757}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -255,7 +241,6 @@ Global
 		{AE0C7AA2-D54F-4DC8-835A-32413C31F124} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 		{B245DA8A-5411-4973-A7C0-51D7CFD61981} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
 		{00FA7783-F385-497B-BB6E-82C283E9046C} = {846AD08F-D8C2-46BB-A9A9-F895D090C97E}
-		{9B7731F4-5405-4CEA-B4ED-9F49B585DD79} = {A6CCE6CD-6ADE-4F6A-991E-3150DC8E7216}
 		{6334B064-DD22-4F85-AA05-7AB088145757} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
 		{CE8A0A87-9504-41E0-8AF7-051CDF555348} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
 		{C6331FAC-C417-4B08-95DA-E41F7A301611} = {D69534B1-BEA8-4FCC-9833-6E69E98D6D3F}
