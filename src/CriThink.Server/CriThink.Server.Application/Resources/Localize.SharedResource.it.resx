@@ -133,7 +133,7 @@
     <value>Notizie False</value>
   </data>
   <data name="HQuestion" xml:space="preserve">
-    <value>Headlines: non contengono tutte le informazioni. Hai letto l'intero articolo?</value>
+    <value>Headlines: i titoli non contengono l'intera storia dell'articolo. Hai letto l'articolo per intero? Il titolo rispecchia il contenuto dell'articolo?</value>
   </data>
   <data name="NewsSourceConspiracist" xml:space="preserve">
     <value>Queste fonti potrebbero pubblicare informazioni non verificabili e non supportate da evidenze scientifiche. Anzi, queste fonti di solito diffondono teorie cospirazioniste che attribuiscono la responsabilitá di eventi o situazioni a complotti messi in atto da sinistri gruppi politici molto potenti. Queste fonti potrebbero essere non affidabili, per questo, un ulteriore controllo della notizia é necessario.</value>
