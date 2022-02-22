@@ -133,7 +133,7 @@
     <value>Fake News</value>
   </data>
   <data name="HQuestion" xml:space="preserve">
-    <value>Headlines do not contain the full story. Have you read the entire article?</value>
+    <value>Headlines: do not contain the full story. Have you read the entire article? Is the headline congruent with the text of the article?</value>
   </data>
   <data name="NewsSourceConspiracist" xml:space="preserve">
     <value>Sources in the Conspiracy category may publish unverifiable information that is not always supported by evidence. Actually, they usually publish Conspiracy theories consisting in explanations for an event or situation that invoke a conspiracy by sinister and powerful groups, often political in motivation. These sources may be untrustworthy for credible/verifiable information, therefore fact checking and further investigation is recommended.</value>
