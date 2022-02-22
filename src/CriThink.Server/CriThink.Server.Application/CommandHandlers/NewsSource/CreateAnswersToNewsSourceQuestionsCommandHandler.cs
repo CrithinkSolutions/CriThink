@@ -109,8 +109,20 @@ namespace CriThink.Server.Application.CommandHandlers
                 return PrepareResponse();
             }
 
-            var scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(new Uri(newsLink, UriKind.Absolute));
-            var newsKeywords = await GetNewsKeywordsAsync(newsLink, scrapeAnalysis);
+            NewsScraperProviderResponse scrapeAnalysis;
+            IReadOnlyList<string> newsKeywords;
+
+            try
+            {
+                scrapeAnalysis = await _scraperService.ScrapeNewsWebPage(new Uri(newsLink, UriKind.Absolute));
+                newsKeywords = await GetNewsKeywordsAsync(newsLink, scrapeAnalysis);
+            }
+            catch (InvalidOperationException)
+            {
+                scrapeAnalysis = null;
+                newsKeywords = null;
+            }
+
             var favicon = _faviconService.GetFaviconFromWebsite(domain);
 
             if (searchResponse.Category == NewsSourceAuthenticity.Conspiracist ||
@@ -132,7 +144,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
             var searchedNews = SearchedNews.Create(
                 link: newsLink,
-                title: scrapeAnalysis.Title,
+                title: scrapeAnalysis?.Title,
                 favicon: favicon,
                 keywords: newsKeywords,
                 authenticity: searchResponse.Category);
@@ -172,7 +184,9 @@ namespace CriThink.Server.Application.CommandHandlers
             User user,
             string newsLink)
         {
-            var hasAlreadySearched = user.Searches.Any(x => x.SearchedNews.Link == newsLink);
+            var hasAlreadySearched = user.Searches
+                .Any(x => x.SearchedNews != null && x.SearchedNews.Link == newsLink);
+
             if (hasAlreadySearched)
             {
                 _logger?.LogWarning(
@@ -203,9 +217,13 @@ namespace CriThink.Server.Application.CommandHandlers
         private async Task<IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>> GetRelatedDebunkingNewsCollectionAsync(
             IEnumerable<string> newsKeywords)
         {
+            if (newsKeywords is null)
+                return Array.Empty<NewsSourceRelatedDebunkingNewsResponse>();
+
             var dNewsByKeywordsQuery = await _debunkingNewsRepository.GetAllDebunkingNewsByKeywordsAsync(newsKeywords);
 
             var dto = _mapper.Map<IList<GetAllDebunkingNewsByKeywordsQueryResult>, IReadOnlyCollection<NewsSourceRelatedDebunkingNewsResponse>>(dNewsByKeywordsQuery);
+
             return dto;
         }
 

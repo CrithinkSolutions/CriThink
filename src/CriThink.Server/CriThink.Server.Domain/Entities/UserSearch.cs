@@ -25,6 +25,7 @@ namespace CriThink.Server.Domain.Entities
         {
             UserId = userId;
             SearchedText = searchedText;
+            Timestamp = DateTimeOffset.UtcNow;
         }
 
         public string SearchText => SearchedNews?.Link ?? SearchedText;
