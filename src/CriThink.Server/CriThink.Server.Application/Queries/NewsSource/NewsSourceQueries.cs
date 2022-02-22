@@ -201,7 +201,8 @@ namespace CriThink.Server.Application.Queries
             foreach (var dto in result)
             {
                 var newsLinkRates = await _userRepository.GetSearchesRateByNewsLinkAsync(userId, dto.NewsLink);
-                dto.Rate = newsLinkRates.Average();
+                if (newsLinkRates?.Any() == true)
+                    dto.Rate = newsLinkRates.Average();
             }
 
             return result;
