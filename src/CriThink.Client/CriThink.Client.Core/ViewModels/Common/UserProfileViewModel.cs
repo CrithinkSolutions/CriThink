@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
@@ -150,7 +151,7 @@ namespace CriThink.Client.Core.ViewModels.Common
 
             Username = userProfile.Username;
             RegisteredOn = userProfile.RegisteredOn.ToString("Y");
-            AvatarImagePath = userProfile.AvatarPath;
+            AvatarImagePath = userProfile.AvatarPath + $"?ticks={DateTime.UtcNow.Ticks}";
             FamilyName = userProfile.FamilyName;
             GivenName = userProfile.GivenName;
             Description = userProfile.Description;

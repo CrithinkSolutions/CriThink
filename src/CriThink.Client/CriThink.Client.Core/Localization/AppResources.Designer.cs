@@ -421,6 +421,15 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while changing your avatar. Please, make sure it is smaller than 3mb.
+        /// </summary>
+        internal static string EditProfileViewModel_ErrorImage {
+            get {
+                return ResourceManager.GetString("EditProfileViewModel.ErrorImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Facebook.
         /// </summary>
         internal static string EditProfileViewModel_Facebook {

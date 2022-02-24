@@ -714,4 +714,7 @@
   <data name="SignUpEmailViewModel.UsernameUnavailable" xml:space="preserve">
     <value>The username '{0}' has already been taken</value>
   </data>
+  <data name="EditProfileViewModel.ErrorImage" xml:space="preserve">
+    <value>An error occurred while changing your avatar. Please, make sure it is smaller than 3mb</value>
+  </data>
 </root>

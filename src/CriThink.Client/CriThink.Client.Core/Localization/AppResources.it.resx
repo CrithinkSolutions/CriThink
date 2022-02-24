@@ -696,4 +696,7 @@
   <data name="SignUpEmailViewModel.UsernameUnavailable" xml:space="preserve">
     <value>Lo username '{0}' non è disponibile</value>
   </data>
+  <data name="EditProfileViewModel.ErrorImage" xml:space="preserve">
+    <value>Si è verificato un errore aggiornando l'avatar. Assicurati che la dimensione dell'immagine sia inferiore a 3mb</value>
+  </data>
 </root>
