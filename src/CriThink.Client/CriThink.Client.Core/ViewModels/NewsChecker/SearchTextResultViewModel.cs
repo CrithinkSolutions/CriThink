@@ -145,7 +145,7 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
                 var results = await _newsSourceService.SearchByTextAsync(_searchText);
                 if (results is not null)
                 {
-                    SetDebunkingNews(results);
+                    SetRelatedNews(results);
                 }
             }
             finally
@@ -186,11 +186,8 @@ namespace CriThink.Client.Core.ViewModels.NewsChecker
             }
         }
 
-        private void SetDebunkingNews(SearchByTextResponse response)
+        private void SetRelatedNews(SearchByTextResponse response)
         {
-            if (!response.DebunkingNews.Any())
-                return;
-
             _feed.AddRange(response.DebunkingNews);
             _feed.AddRange(response.NewsSources);
 

@@ -1767,6 +1767,9 @@
     <PackageReference Include="MvvmCross.DroidX.SwipeRefreshLayout">
       <Version>8.0.2</Version>
     </PackageReference>
+    <PackageReference Include="MvvmCross.Plugin.PictureChooser">
+      <Version>8.0.2</Version>
+    </PackageReference>
     <PackageReference Include="MvvmCross.Plugin.ResxLocalization">
       <Version>8.0.2</Version>
     </PackageReference>

@@ -123,7 +123,7 @@ namespace CriThink.Server.Web.Controllers
         [HttpPatch]
         public async Task<IActionResult> UploadAvatarAsync(
             [FileSize(5 * 1024, 3 * 1024 * 1024)]
-            [AllowedExtensions(new [] { ".jpg", ".jpeg" })]
+            [AllowedExtensions(new [] { ".jpg", ".jpeg", ".png" })]
             [Required]
             IFormFile formFile)
         {

@@ -9,6 +9,8 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Common;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using FFImageLoading;
+using FFImageLoading.Cache;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using Microsoft.Extensions.Logging;
@@ -139,8 +141,18 @@ namespace CriThink.Client.Core.ViewModels.Users
         private async Task DoNavigateToEditCommand(CancellationToken cancellationToken)
         {
             var viewModelResult = await _navigationService.Navigate<EditProfileViewModel, EditProfileViewModelResult>(cancellationToken: cancellationToken);
+
+            await ImageService.Instance.InvalidateCacheEntryAsync(UserProfileViewModel.AvatarImagePath, CacheType.All, true);
+
             if (viewModelResult?.HasBeenEdited == true)
+            {
                 await GetUserProfileAsync();
+            }
+            else
+            {
+                // workaround to update image - cache above doesn't work
+                UserProfileViewModel.AvatarImagePath = UserProfileViewModel.AvatarImagePath + $"?ticks={DateTime.UtcNow.Ticks}";
+            }
         }
 
         private void DoOpenTelegramCommand()
@@ -279,8 +291,16 @@ namespace CriThink.Client.Core.ViewModels.Users
             if (userProfile != null)
             {
                 UserProfileViewModel.MapFromEntity(userProfile);
-                HeaderText = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("Hello"), UserProfileViewModel.Username);
-                RegisteredOn = string.Format(CultureInfo.CurrentCulture, LocalizedTextSource.GetText("RegisteredOn"), _userProfileViewModel.RegisteredOn);
+
+                HeaderText = string.Format(
+                    CultureInfo.CurrentCulture,
+                    LocalizedTextSource.GetText("Hello"),
+                    UserProfileViewModel.Username);
+
+                RegisteredOn = string.Format(
+                    CultureInfo.CurrentCulture,
+                    LocalizedTextSource.GetText("RegisteredOn"),
+                    _userProfileViewModel.RegisteredOn);
 
                 await RaiseAllPropertiesChanged();
             }
