@@ -1150,6 +1150,24 @@ namespace CriThink.Client.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Born on.
+        /// </summary>
+        internal static string ProfileViewModel_BornOnFemale {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.BornOnFemale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Born on.
+        /// </summary>
+        internal static string ProfileViewModel_BornOnMale {
+            get {
+                return ResourceManager.GetString("ProfileViewModel.BornOnMale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close Account.
         /// </summary>
         internal static string ProfileViewModel_CloseAccount {

@@ -9,6 +9,7 @@ using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Client.Core.ViewModels.Common;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Endpoints.DTOs.UserProfile;
 using FFImageLoading;
 using FFImageLoading.Cache;
 using FFImageLoading.Transformations;
@@ -61,7 +62,21 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         public string UserCountryFormat => $"{LocalizedTextSource.GetText("ILiveIn")} {UserProfileViewModel.Country}";
 
-        public string UserDoBFormat => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}";
+        public string UserDoBFormat
+        {
+            get
+            {
+                if (UserProfileViewModel?.GenderViewModel?.Gender is null)
+                    return $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}";
+
+                return UserProfileViewModel.GenderViewModel.Gender switch
+                {
+                    GenderDto.Male => $"{LocalizedTextSource.GetText("BornOnMale")} {UserProfileViewModel.DoBViewModel}",
+                    GenderDto.Female => $"{LocalizedTextSource.GetText("BornOnFemale")} {UserProfileViewModel.DoBViewModel}",
+                    _ => $"{LocalizedTextSource.GetText("IBornOn")} {UserProfileViewModel.DoBViewModel}",
+                };
+            }
+        }
 
         private string _headerText;
         public string HeaderText
@@ -301,6 +316,8 @@ namespace CriThink.Client.Core.ViewModels.Users
                     CultureInfo.CurrentCulture,
                     LocalizedTextSource.GetText("RegisteredOn"),
                     _userProfileViewModel.RegisteredOn);
+
+
 
                 await RaiseAllPropertiesChanged();
             }
