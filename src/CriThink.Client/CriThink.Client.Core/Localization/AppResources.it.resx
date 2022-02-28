@@ -699,4 +699,10 @@
   <data name="EditProfileViewModel.ErrorImage" xml:space="preserve">
     <value>Si è verificato un errore aggiornando l'avatar. Assicurati che la dimensione dell'immagine sia inferiore a 3mb</value>
   </data>
+  <data name="ProfileViewModel.BornOnFemale" xml:space="preserve">
+    <value>Nata il</value>
+  </data>
+  <data name="ProfileViewModel.BornOnMale" xml:space="preserve">
+    <value>Nato il</value>
+  </data>
 </root>

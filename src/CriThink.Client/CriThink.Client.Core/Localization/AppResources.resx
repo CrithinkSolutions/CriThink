@@ -717,4 +717,10 @@
   <data name="EditProfileViewModel.ErrorImage" xml:space="preserve">
     <value>An error occurred while changing your avatar. Please, make sure it is smaller than 3mb</value>
   </data>
+  <data name="ProfileViewModel.BornOnFemale" xml:space="preserve">
+    <value>Born on</value>
+  </data>
+  <data name="ProfileViewModel.BornOnMale" xml:space="preserve">
+    <value>Born on</value>
+  </data>
 </root>
