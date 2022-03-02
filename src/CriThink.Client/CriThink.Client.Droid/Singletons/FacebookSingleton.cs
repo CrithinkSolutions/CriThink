@@ -15,7 +15,14 @@ namespace CriThink.Client.Droid.Singletons
 
         public static void Login(Activity activity, FacebookCallback<LoginResult> callbacks)
         {
-            LoginManager.Instance.LogInWithReadPermissions(activity, new[] { "email", "public_profile" });
+            LoginManager.Instance.LogInWithReadPermissions(activity, new[]
+            {
+                "email",
+                "public_profile",
+                "user_gender",
+                "user_birthday",
+                "user_location"
+            });
 
             LoginManager.Instance.RegisterCallback(LoginCallbackManager, callbacks);
         }

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using CriThink.Common.Helpers;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,23 @@ namespace CriThink.Server.Infrastructure.SocialProviders
                 Email = userInfoDetail.Email,
                 Username = userInfoDetail.Name?.RemoveWhitespaces(),
             };
+
+            if (DateTime.TryParse(userInfoDetail.Birthday, out var birthday))
+            {
+                userInfo.Birthday = birthday;
+            }
+
+            if (Enum.TryParse<Gender>(userInfoDetail.Gender, ignoreCase: true, out var gender))
+            {
+                userInfo.Gender = gender;
+            }
+
+            if (!string.IsNullOrWhiteSpace(userInfoDetail.Location?.Name))
+            {
+                var separatorIndex = userInfoDetail.Location?.Name.LastIndexOf(",");
+                if (separatorIndex.HasValue)
+                    userInfo.Country = userInfoDetail.Location?.Name.Substring(separatorIndex.Value + 2);
+            }
 
             if (!string.IsNullOrWhiteSpace(userInfoDetail.Picture?.Data?.Url))
             {
