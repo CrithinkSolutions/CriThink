@@ -65,7 +65,15 @@ namespace CriThink.Server.Application.CommandHandlers
 
             await AddRefreshTokenToUserAsync(refreshToken, user);
 
-            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(user).ConfigureAwait(false);
+            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(user);
+
+            user.UpdateCountry(userAccessInfo.Country);
+
+            user.UpdateDateOfBirth(userAccessInfo.Birthday);
+
+            user.UpdateGender(userAccessInfo.Gender);
+
+            await UserRepository.UpdateUserAsync(user);
 
             return new UserLoginResponse
             {

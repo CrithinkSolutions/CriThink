@@ -21,5 +21,20 @@ namespace CriThink.Server.Infrastructure.SocialProviders
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("gender")]
+        public string Gender { get; set; }
+
+        [JsonPropertyName("birthday")]
+        public string Birthday { get; set; }
+
+        [JsonPropertyName("location")]
+        public FacebookLocation Location { get; set; }
+    }
+
+    internal class FacebookLocation
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
     }
 }
