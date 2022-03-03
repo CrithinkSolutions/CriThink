@@ -161,13 +161,6 @@ namespace CriThink.Client.Core
                 .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>()
                 .AddHttpMessageHandler<AuthHeaderHandler>();
 
-            serviceCollection.AddRefitClient<IServiceApi>()
-                .ConfigureHttpClient(httpClient =>
-                {
-                    httpClient.BaseAddress = new Uri(baseApiUri + serviceApiUri);
-                })
-                .ConfigurePrimaryHttpMessageHandler<CriThinkApiHandler>();
-
             serviceCollection.AddRefitClient<IStatisticsApi>()
                 .ConfigureHttpClient(httpClient =>
                 {
