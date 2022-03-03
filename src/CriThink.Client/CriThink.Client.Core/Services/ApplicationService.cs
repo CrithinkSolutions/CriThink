@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Data.Settings;
 using CriThink.Client.Core.Messenger;
 using Microsoft.Extensions.Logging;
@@ -18,21 +17,16 @@ namespace CriThink.Client.Core.Services
         private const string HasAppReviewKey = "has_app_review";
 
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IServiceApi _serviceApi;
         private readonly IMvxMessenger _messenger;
         private readonly ILogger<ApplicationService> _logger;
 
         public ApplicationService(
             ISettingsRepository settingsRepository,
-            IServiceApi serviceApi,
             IMvxMessenger messenger,
             ILogger<ApplicationService> logger)
         {
             _settingsRepository = settingsRepository ??
                 throw new ArgumentNullException(nameof(settingsRepository));
-
-            _serviceApi = serviceApi ??
-                throw new ArgumentNullException(nameof(serviceApi));
 
             _messenger = messenger ??
                 throw new ArgumentNullException(nameof(messenger));
@@ -50,20 +44,6 @@ namespace CriThink.Client.Core.Services
         {
             var count = GetApplicationStartCounter();
             _settingsRepository.SavePreference(ApplicationStartCounterKey, ++count);
-        }
-
-        public async Task<bool> CanAppStartAsync()
-        {
-            try
-            {
-                await _serviceApi.IsAppEnabledAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogCritical(ex, "Error getting the app enabled flag");
-                return false;
-            }
         }
 
         public async Task AskForStoreReviewAsync()
@@ -140,8 +120,6 @@ namespace CriThink.Client.Core.Services
         void IncrementAppStartCounter();
 
         Task<bool> ShouldAskForStoreReviewAsync();
-
-        Task<bool> CanAppStartAsync();
 
         Task AskForStoreReviewAsync();
 
