@@ -18,3 +18,6 @@ find DeepLinkConstants.cs -type f -exec sed -i '' -e 's/crithinkdemo.com/'"$SCHE
 cd ../Properties/
 find AndroidManifest.xml -type f -exec sed -i '' -e 's/CriThink Dev/'"$APP_NAME"'/' {} \;
 find AndroidManifest.xml -type f -exec sed -i '' -e 's/com.crithink.client.dev/'"$PACKAGE_NAME"'/' {} \;
+
+cd ../Resources/values
+sed -i 's/804449043690413/'"$FACEBOOK_APP_ID"'/' strings.xml
