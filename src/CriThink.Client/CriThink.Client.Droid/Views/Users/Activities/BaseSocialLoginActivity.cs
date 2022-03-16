@@ -52,6 +52,7 @@ namespace CriThink.Client.Droid.Views.Users
         public void LoginUsingFacebook()
         {
             _externalLoginProvider = ExternalLoginProvider.Facebook;
+            FacebookSingleton.Logout();
 
             var loginCallback = new FacebookCallback<LoginResult>
             {
