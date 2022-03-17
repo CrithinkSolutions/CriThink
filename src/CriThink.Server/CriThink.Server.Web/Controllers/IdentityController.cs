@@ -418,12 +418,12 @@ namespace CriThink.Server.Web.Controllers
                 //Request.Host = new HostString("localhost", 5001);
                 //Request.Scheme = "https";
 
-                //var properties = new AuthenticationProperties
-                //{
-                //    RedirectUri = Url.Action("Test", "Identity")
-                //};
+                var properties = new AuthenticationProperties
+                {
+                    RedirectUri = Url.Action("Test", "Identity")
+                };
 
-                await Request.HttpContext.ChallengeAsync(scheme/*, properties*/);
+                await Request.HttpContext.ChallengeAsync(scheme);
             }
             else
             {
