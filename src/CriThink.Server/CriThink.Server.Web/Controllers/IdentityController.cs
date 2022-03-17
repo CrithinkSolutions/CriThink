@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Mime;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
@@ -9,10 +13,12 @@ using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -30,14 +36,19 @@ namespace CriThink.Server.Web.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IIdentityQueries _identityQueries;
+        private readonly ILogger<IdentityController> _logger;
 
-        public IdentityController(IMediator mediator, IIdentityQueries identityQueries)
+        public IdentityController(
+            IMediator mediator,
+            IIdentityQueries identityQueries,
+            ILogger<IdentityController> logger)
         {
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
 
             _identityQueries = identityQueries ??
                 throw new ArgumentNullException(nameof(identityQueries));
+            _logger = logger;
         }
 
         /// <summary>
@@ -374,6 +385,151 @@ namespace CriThink.Server.Web.Controllers
             var response = await _mediator.Send(command);
 
             return Ok(new ApiOkResponse(response));
+        }
+
+        [AllowAnonymous]
+        [Route(EndpointConstants.IdentityExternalLogin + "/{scheme}")]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
+        [HttpGet]
+        public async Task SocialLogin([FromRoute] string scheme)
+        {
+            const string Callback = "xamarinapp";
+            var auth = await Request.HttpContext.AuthenticateAsync(scheme);
+
+            _logger?.LogWarning(
+                "Auth done with result {succeed} with scheme {scheme}",
+                auth.Succeeded,
+                scheme);
+
+            if (!auth.Succeeded
+                || auth?.Principal == null
+                || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
+                || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token")))
+            {
+                _logger?.LogWarning(
+                    "Auth failed, challenging. Host: {host}; Scheme: {scheme}",
+                    Request.Host,
+                    Request.Scheme);
+
+                // Not authenticated, challenge
+                //Request.Host = new HostString("localhost", 5001);
+                //Request.Scheme = "https";
+
+                //var properties = new AuthenticationProperties
+                //{
+                //    RedirectUri = Url.Action("Test", "Identity")
+                //};
+
+                await Request.HttpContext.ChallengeAsync(scheme/*, properties*/);
+            }
+            else
+            {
+                _logger?.LogWarning("Auth succeeded");
+
+                var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
+
+                var email = string.Empty;
+                email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+                var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+                var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                string picture = string.Empty;
+
+                _logger?.LogWarning(
+                            "Claims got: {email}; {givenName}; {surname}; {name}",
+                    email,
+                    givenName,
+                    surName,
+                    nameIdentifier);
+
+                var command = new LoginJwtUserCommand("andrea.grillo@outlook.com", null, "king2Pac!");
+
+                var response = await _mediator.Send(command);
+
+                _logger?.LogWarning("Login done");
+
+                var qs = new Dictionary<string, string>
+                {
+                    { "access_token", response.JwtToken.Token },
+                    { "refresh_token",  response.RefreshToken },
+                    { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
+                    { "email", "test@email.it" },
+                    { "firstName", "andrea" },
+                    { "picture", null },
+                    { "secondName", "grillo" },
+                };
+
+                var url = Callback + "://#" + string.Join(
+                        "&",
+                        qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                        .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+
+                _logger?.LogWarning("Callback: {url}", url);
+
+                // Redirect to final url
+                Request.HttpContext.Response.Redirect(url);
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("signin-google")]
+        [HttpGet]
+        public async Task Test()
+        {
+            _logger?.LogWarning("alternative method");
+            const string Callback = "xamarinapp";
+
+            var auth = await Request.HttpContext.AuthenticateAsync("Google");
+
+            _logger?.LogWarning(
+                "Auth done with result {succeed}",
+                auth.Succeeded);
+
+            var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
+
+            var email = string.Empty;
+            email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+            var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+            var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string picture = string.Empty;
+
+            _logger?.LogWarning(
+                "Claims got: {email}; {givenName}; {surname}; {name}",
+                email,
+                givenName,
+                surName,
+                nameIdentifier);
+
+            var command = new LoginJwtUserCommand("andrea.grillo@outlook.com", null, "king2Pac!");
+
+            var response = await _mediator.Send(command);
+
+            _logger?.LogWarning("Login done");
+
+            var qs = new Dictionary<string, string>
+                {
+                    { "access_token", response.JwtToken.Token },
+                    { "refresh_token",  response.RefreshToken },
+                    { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
+                    { "email", "test@email.it" },
+                    { "firstName", "andrea" },
+                    { "picture", null },
+                    { "secondName", "grillo" },
+                };
+
+            var url = Callback + "://#" + string.Join(
+                    "&",
+                    qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                    .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+
+            _logger?.LogWarning("Callback: {url}", url);
+
+            // Redirect to final url
+            Request.HttpContext.Response.Redirect(url);
         }
 
         /// <summary>

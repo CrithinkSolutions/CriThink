@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -48,7 +49,7 @@ using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Westwind.AspNetCore.LiveReload;
+//using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
 namespace CriThink.Server.Web
@@ -129,7 +130,7 @@ namespace CriThink.Server.Web
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseLiveReload(); // LiveReload
+                //app.UseLiveReload(); // LiveReload
 
                 app.UseSwagger(); // Swagger
                 app.UseSwaggerUI(options =>
@@ -181,6 +182,10 @@ namespace CriThink.Server.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapControllerRoute(
+                //    name: "test",
+                //    pattern: "{action=Index}/{id?}");
 
                 MapHealthChecks(endpoints);
             });
@@ -238,26 +243,35 @@ namespace CriThink.Server.Web
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.UTF8.GetBytes(key);
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.LoginPath = "/backoffice/account/";
-                    options.LogoutPath = "/backoffice/account/logout";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
-                    options.SlidingExpiration = true;
+                    //options.LoginPath = "/backoffice/account/";
+                    //options.LogoutPath = "/backoffice/account/logout";
+                    //options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    //options.SlidingExpiration = true;
 
-                    options.Events = new CookieAuthenticationEvents
+                    options.Events.OnRedirectToLogin = options.Events.OnRedirectToAccessDenied = context =>
                     {
-                        OnRedirectToLogin = (context) =>
-                        {
-                            context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
-                            return Task.CompletedTask;
-                        },
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
                     };
+                    //options.Events = new CookieAuthenticationEvents
+                    //{
+                    //    OnRedirectToLogin = (context) =>
+                    //    {
+                    //        context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
+                    //        return Task.CompletedTask;
+                    //    },
+                    //};
                 })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
@@ -275,6 +289,21 @@ namespace CriThink.Server.Web
                         RequireExpirationTime = true,
                         ClockSkew = TimeSpan.Zero,
                     };
+                })
+                .AddGoogle(google =>
+                {
+                    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    google.ClientId = Configuration["Authentication:Google:ClientId"];
+                    //google.Scope.Add("profile");
+                    //google.Events.OnCreatingTicket = (context) =>
+                    //{
+                    //    var picture = context.User.GetProperty("picture").GetString();
+
+                    //    context.Identity.AddClaim(new Claim("picture", picture));
+
+                    //    return Task.CompletedTask;
+                    //};
+                    google.SaveTokens = true;
                 });
 
             // JWT + MVC
@@ -453,7 +482,7 @@ namespace CriThink.Server.Web
             if (_environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation(); // Razor
-                services.AddLiveReload(); // LiveReload
+                //services.AddLiveReload(); // LiveReload
             }
         }
 
