@@ -9,6 +9,7 @@ using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -36,11 +38,13 @@ namespace CriThink.Server.Web.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IIdentityQueries _identityQueries;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<IdentityController> _logger;
 
         public IdentityController(
             IMediator mediator,
             IIdentityQueries identityQueries,
+            SignInManager<User> signInManager,
             ILogger<IdentityController> logger)
         {
             _mediator = mediator ??
@@ -48,6 +52,7 @@ namespace CriThink.Server.Web.Controllers
 
             _identityQueries = identityQueries ??
                 throw new ArgumentNullException(nameof(identityQueries));
+            _signInManager = signInManager;
             _logger = logger;
         }
 
@@ -404,6 +409,8 @@ namespace CriThink.Server.Web.Controllers
                 auth.Succeeded,
                 scheme);
 
+            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+
             if (!auth.Succeeded
                 || auth?.Principal == null
                 || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
@@ -418,14 +425,22 @@ namespace CriThink.Server.Web.Controllers
                 //Request.Host = new HostString("localhost", 5001);
                 //Request.Scheme = "https";
 
-                var properties = new AuthenticationProperties
-                {
-                    RedirectUri = Url.Action(
-                        "SocialLogin",
-                        "Identity",
-                        new { scheme = scheme },
-                        "https")
-                };
+                //var properties = new AuthenticationProperties
+                //{
+                //    //RedirectUri = Url.Action(
+                //    //    "SocialLogin",
+                //    //    "Identity",
+                //    //    new { scheme = scheme },
+                //    //    "https")
+                //};
+
+                var redirectUrl = Url.Action(
+                    "SocialLogin",
+                    "Identity",
+                    new { scheme = scheme },
+                    "https");
+
+                var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
 
                 var e = properties.RedirectUri;
 

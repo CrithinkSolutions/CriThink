@@ -247,31 +247,23 @@ namespace CriThink.Server.Web
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    //options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    //options.LoginPath = "/backoffice/account/";
-                    //options.LogoutPath = "/backoffice/account/logout";
-                    //options.ExpireTimeSpan = TimeSpan.FromHours(2);
-                    //options.SlidingExpiration = true;
+                    options.LoginPath = "/backoffice/account/";
+                    options.LogoutPath = "/backoffice/account/logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
 
-                    options.Events.OnRedirectToLogin = options.Events.OnRedirectToAccessDenied = context =>
+                    options.Events = new CookieAuthenticationEvents
                     {
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return Task.CompletedTask;
+                        OnRedirectToLogin = (context) =>
+                        {
+                            context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
+                            return Task.CompletedTask;
+                        },
                     };
-                    //options.Events = new CookieAuthenticationEvents
-                    //{
-                    //    OnRedirectToLogin = (context) =>
-                    //    {
-                    //        context.Response.Redirect("/backOffice/account" + context.Request.QueryString);
-                    //        return Task.CompletedTask;
-                    //    },
-                    //};
                 })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
@@ -294,6 +286,7 @@ namespace CriThink.Server.Web
                 {
                     google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                     google.ClientId = Configuration["Authentication:Google:ClientId"];
+                    //google.CallbackPath = new PathString("/api/identity/external-login/Google");
                     //google.Scope.Add("profile");
                     //google.Events.OnCreatingTicket = (context) =>
                     //{
