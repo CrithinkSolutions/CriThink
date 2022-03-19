@@ -416,12 +416,19 @@ namespace CriThink.Server.Web.Controllers
 
                 // Not authenticated, challenge
                 //Request.Host = new HostString("localhost", 5001);
-                Request.Scheme = "https";
+                //Request.Scheme = "https";
 
                 var properties = new AuthenticationProperties
                 {
-                    RedirectUri = Url.Action("Test", "Identity")
+                    RedirectUri = Url.Action(
+                        "SocialLogin",
+                        "Identity",
+                        new { scheme = scheme },
+                        "https",
+                        "crithinkdemo.com")
                 };
+
+                var e = properties.RedirectUri;
 
                 await Request.HttpContext.ChallengeAsync(scheme, properties);
             }
@@ -439,7 +446,7 @@ namespace CriThink.Server.Web.Controllers
                 string picture = string.Empty;
 
                 _logger?.LogWarning(
-                            "Claims got: {email}; {givenName}; {surname}; {name}",
+                                    "Claims got: {email}; {givenName}; {surname}; {name}",
                     email,
                     givenName,
                     surName,
