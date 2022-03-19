@@ -423,7 +423,7 @@ namespace CriThink.Server.Web.Controllers
                     RedirectUri = Url.Action("Test", "Identity")
                 };
 
-                await Request.HttpContext.ChallengeAsync(scheme);
+                await Request.HttpContext.ChallengeAsync(scheme, properties);
             }
             else
             {
