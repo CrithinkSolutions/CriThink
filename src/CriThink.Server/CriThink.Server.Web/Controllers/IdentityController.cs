@@ -416,7 +416,7 @@ namespace CriThink.Server.Web.Controllers
 
                 // Not authenticated, challenge
                 //Request.Host = new HostString("localhost", 5001);
-                //Request.Scheme = "https";
+                Request.Scheme = "https";
 
                 var properties = new AuthenticationProperties
                 {
