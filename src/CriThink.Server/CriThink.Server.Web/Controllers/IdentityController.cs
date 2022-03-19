@@ -423,28 +423,18 @@ namespace CriThink.Server.Web.Controllers
 
                 // Not authenticated, challenge
                 //Request.Host = new HostString("localhost", 5001);
-                //Request.Scheme = "https";
-
-                //var properties = new AuthenticationProperties
-                //{
-                //    //RedirectUri = Url.Action(
-                //    //    "SocialLogin",
-                //    //    "Identity",
-                //    //    new { scheme = scheme },
-                //    //    "https")
-                //};
+                Request.Scheme = "https";
 
                 var redirectUrl = Url.Action(
                     "SocialLogin",
                     "Identity",
                     new { scheme = scheme },
-                    "https");
+                    "https",
+                    "crithinkdemo.com");
 
                 var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
 
-                var e = properties.RedirectUri;
-
-                _logger.LogWarning("Redirect URL {url}", e);
+                _logger.LogWarning("Redirect URL {url}", properties.RedirectUri);
 
                 await Request.HttpContext.ChallengeAsync(scheme, properties);
             }

@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,12 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             SetupKestrelOptions(services);
 
             SetupPostgreSqlConnection(services);
@@ -121,6 +128,14 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next(context);
+            });
+
+            app.UseForwardedHeaders();
+
 #pragma warning disable CA1062 // Validate arguments of public methods
             var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(opt);
@@ -248,6 +263,7 @@ namespace CriThink.Server.Web
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    //options.DefaultChallengeScheme = Googleauth
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
@@ -288,6 +304,7 @@ namespace CriThink.Server.Web
                     google.ClientId = Configuration["Authentication:Google:ClientId"];
                     //google.CallbackPath = new PathString("/api/identity/external-login/Google");
                     //google.Scope.Add("profile");
+
                     //google.Events.OnCreatingTicket = (context) =>
                     //{
                     //    var picture = context.User.GetProperty("picture").GetString();
