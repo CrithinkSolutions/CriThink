@@ -292,7 +292,6 @@ namespace CriThink.Server.Web
                 })
                 .AddGoogle(google =>
                 {
-                    //google.CallbackPath = "/api/identity/external-login/google";
                     google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                     google.ClientId = Configuration["Authentication:Google:ClientId"];
                     //google.Scope.Add("profile");
