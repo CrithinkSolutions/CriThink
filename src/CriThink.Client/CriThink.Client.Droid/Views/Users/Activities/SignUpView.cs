@@ -37,8 +37,8 @@ namespace CriThink.Client.Droid.Views.Users
                 _btnFb.Click += BtnFacebook_Click;
 
             _btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
-            if (_btnGoogle != null)
-                _btnGoogle.Click += BtnGoogle_Click;
+            //if (_btnGoogle != null)
+            //    _btnGoogle.Click += BtnGoogle_Click;
 
             var btnSignUpEmail = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
@@ -59,6 +59,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
             set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
             set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
+            set.Bind(_btnGoogle).To(vm => vm.DoGoogleLoginCommand);
             set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(alreadyAccount).ToLocalizationId("AlreadyAccount");
             set.Bind(txtOrAccount).ToLocalizationId("OrAccount");

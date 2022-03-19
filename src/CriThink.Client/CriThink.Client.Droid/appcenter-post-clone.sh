@@ -21,4 +21,3 @@ find AndroidManifest.xml -type f -exec sed -i '' -e 's/com.crithink.client.dev/'
 
 cd ../Resources/values
 find strings.xml -type f -exec sed -i '' -e 's/804449043690413/'"$FACEBOOK_APP_ID"'/' {} \;
-find strings.xml -type f -exec sed -i '' -e 's/1064440290860-5cdu2g1cnf4dbjj1afiikdiirkmb9ak4.apps.googleusercontent.com/'"$GOOGLE_APP_ID"'/' {} \;
