@@ -425,10 +425,12 @@ namespace CriThink.Server.Web.Controllers
                         "Identity",
                         new { scheme = scheme },
                         "https",
-                        "crithinkdemo.com")
+                        HttpContext.Request.Host.ToString())
                 };
 
                 var e = properties.RedirectUri;
+
+                _logger.LogWarning("Redirect URL {url}", e);
 
                 await Request.HttpContext.ChallengeAsync(scheme, properties);
             }
