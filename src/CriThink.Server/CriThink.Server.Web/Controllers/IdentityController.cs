@@ -401,69 +401,71 @@ namespace CriThink.Server.Web.Controllers
         [HttpGet]
         public async Task SocialLogin([FromRoute] string scheme)
         {
-            const string Callback = "xamarinapp";
-            var auth = await Request.HttpContext.AuthenticateAsync(scheme);
-
-            _logger?.LogWarning(
-                "Auth done with result {succeed} with scheme {scheme}",
-                auth.Succeeded,
-                scheme);
-
-            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
-
-            if (!auth.Succeeded
-                || auth?.Principal == null
-                || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
-                || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token")))
+            try
             {
-                _logger?.LogWarning(
-                    "Auth failed, challenging. Host: {host}; Scheme: {scheme}",
-                    Request.Host,
-                    Request.Scheme);
-
-                // Not authenticated, challenge
-                //Request.Host = new HostString("localhost", 5001);
-
-                var redirectUrl = Url.Action(
-                    action: "SocialLogin",
-                    controller: "Identity",
-                    values: new { scheme = scheme },
-                    protocol: "https",
-                    host: HttpContext.Request.Host.Value);
-
-                var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-
-                _logger.LogWarning("Redirect URL {url}", properties.RedirectUri);
-
-                await Request.HttpContext.ChallengeAsync(scheme, properties);
-            }
-            else
-            {
-                _logger?.LogWarning("Auth succeeded");
-
-                var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
-
-                var email = string.Empty;
-                email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
-                var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
-                var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                string picture = string.Empty;
+                const string Callback = "xamarinapp";
+                var auth = await Request.HttpContext.AuthenticateAsync(scheme);
 
                 _logger?.LogWarning(
-                                    "Claims got: {email}; {givenName}; {surname}; {name}",
-                    email,
-                    givenName,
-                    surName,
-                    nameIdentifier);
+                    "Auth done with result {succeed} with scheme {scheme}",
+                    auth.Succeeded,
+                    scheme);
 
-                var command = new LoginJwtUserCommand("andrea.grillo@outlook.com", null, "king2Pac!");
+                ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
 
-                var response = await _mediator.Send(command);
+                if (!auth.Succeeded
+                    || auth?.Principal == null
+                    || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
+                    || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token")))
+                {
+                    _logger?.LogWarning(
+                        "Auth failed, challenging. Host: {host}; Scheme: {scheme}",
+                        Request.Host,
+                        Request.Scheme);
 
-                _logger?.LogWarning("Login done");
+                    // Not authenticated, challenge
+                    //Request.Host = new HostString("localhost", 5001);
 
-                var qs = new Dictionary<string, string>
+                    var redirectUrl = Url.Action(
+                        action: "SocialLogin",
+                        controller: "Identity",
+                        values: new { scheme = scheme },
+                        protocol: "https",
+                        host: HttpContext.Request.Host.Value);
+
+                    var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+
+                    _logger.LogWarning("Redirect URL {url}", properties.RedirectUri);
+
+                    await Request.HttpContext.ChallengeAsync(scheme, properties);
+                }
+                else
+                {
+                    _logger?.LogWarning("Auth succeeded");
+
+                    var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
+
+                    var email = string.Empty;
+                    email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                    var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+                    var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+                    var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                    string picture = string.Empty;
+
+                    _logger?.LogWarning(
+                                        "Claims got: {email}; {givenName}; {surname}; {name}",
+                        email,
+                        givenName,
+                        surName,
+                        nameIdentifier);
+
+                    var command = new LoginJwtUserCommand("andrea.grillo@outlook.com", null, "king2Pac!");
+
+                    var response = await _mediator.Send(command);
+
+                    _logger?.LogWarning("Login done");
+
+                    var qs = new Dictionary<string, string>
                 {
                     { "access_token", response.JwtToken.Token },
                     { "refresh_token",  response.RefreshToken },
@@ -474,15 +476,23 @@ namespace CriThink.Server.Web.Controllers
                     { "secondName", "grillo" },
                 };
 
-                var url = Callback + "://#" + string.Join(
-                        "&",
-                        qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
-                        .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+                    var url = Callback + "://#" + string.Join(
+                            "&",
+                            qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                            .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
 
-                _logger?.LogWarning("Callback: {url}", url);
+                    _logger?.LogWarning("Callback: {url}", url);
 
-                // Redirect to final url
-                Request.HttpContext.Response.Redirect(url);
+                    // Redirect to final url
+                    Request.HttpContext.Response.Redirect(url);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is not null)
+                    await Response.WriteAsync(ex.InnerException.Message);
+                else
+                    await Response.WriteAsync(ex.Message);
             }
         }
 
