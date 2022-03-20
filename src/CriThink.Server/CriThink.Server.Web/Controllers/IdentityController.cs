@@ -383,8 +383,6 @@ namespace CriThink.Server.Web.Controllers
 
             if (response.Succeed)
             {
-                const string Callback = "xamarinapp";
-
                 var qs = new Dictionary<string, string>
                 {
                     { "access_token", response.JwtToken.Token },
@@ -392,7 +390,7 @@ namespace CriThink.Server.Web.Controllers
                     { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
                 };
 
-                var url = Callback + "://#" + string.Join(
+                var url = EndpointConstants.AppSchema + "#" + string.Join(
                     separator: "&",
                     values: qs
                         .Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")

@@ -17,6 +17,9 @@ namespace CriThink.Server.Infrastructure.ExtensionMethods
         public static string GetEmail(this IPrincipal user) =>
             GetClaimValue(user, ClaimTypes.Email);
 
+        public static string GetFullName(this IPrincipal user) =>
+            $"{GetGivenName(user)}_{GetFamilyName(user)}";
+
         public static string GetGivenName(this IPrincipal user) =>
             GetClaimValue(user, ClaimTypes.GivenName);
 

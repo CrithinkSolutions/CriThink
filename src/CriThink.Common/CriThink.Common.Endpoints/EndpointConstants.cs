@@ -4,6 +4,8 @@
     {
         public const string ApiBase = "api/";
         public const string Mobile = "mobile/";
+        public const string SchemaName = "crithinkapp";
+        public const string AppSchema = SchemaName + "://";
 
         #region Versioning
 

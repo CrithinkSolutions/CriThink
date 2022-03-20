@@ -89,8 +89,8 @@ namespace CriThink.Server.Application.CommandHandlers
             ExternalLoginProvider socialProvider)
         {
             var user = User.Create(
-                loginInfo.Principal.GetGivenName(),
-                loginInfo.Principal.GetEmail());
+                username: loginInfo.Principal.GetFullName(),
+                email: loginInfo.Principal.GetEmail());
 
             var userCreationResult = await UserRepository.CreateUserAsync(user);
             if (!userCreationResult.Succeeded)

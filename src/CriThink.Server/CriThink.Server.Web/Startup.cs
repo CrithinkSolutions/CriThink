@@ -49,7 +49,7 @@ using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-//using Westwind.AspNetCore.LiveReload;
+using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
 namespace CriThink.Server.Web
@@ -75,12 +75,6 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<ForwardedHeadersOptions>(options =>
-            //{
-            //    options.ForwardedHeaders =
-            //        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            //});
-
             SetupKestrelOptions(services);
 
             SetupPostgreSqlConnection(services);
@@ -127,13 +121,12 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Social login needs this when running in cloud
             app.Use((context, next) =>
             {
                 context.Request.Scheme = "https";
                 return next(context);
             });
-
-            //app.UseForwardedHeaders();
 
 #pragma warning disable CA1062 // Validate arguments of public methods
             var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
@@ -144,7 +137,7 @@ namespace CriThink.Server.Web
             {
                 app.UseDeveloperExceptionPage();
 
-                //app.UseLiveReload(); // LiveReload
+                app.UseLiveReload(); // LiveReload
 
                 app.UseSwagger(); // Swagger
                 app.UseSwaggerUI(options =>
@@ -171,11 +164,6 @@ namespace CriThink.Server.Web
             });
 
             app.UseRouting();
-
-            //app.UseCookiePolicy(new CookiePolicyOptions
-            //{
-            //    MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax
-            //});
 
             app.UseCors(AllowSpecificOrigins);
 
@@ -262,7 +250,6 @@ namespace CriThink.Server.Web
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
@@ -487,7 +474,7 @@ namespace CriThink.Server.Web
             if (_environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation(); // Razor
-                //services.AddLiveReload(); // LiveReload
+                services.AddLiveReload(); // LiveReload
             }
         }
 
