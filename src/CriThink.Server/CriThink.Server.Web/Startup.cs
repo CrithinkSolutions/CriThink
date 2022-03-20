@@ -128,13 +128,13 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.Use((context, next) =>
-            //{
-            //    context.Request.Scheme = "https";
-            //    return next(context);
-            //});
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next(context);
+            });
 
-            app.UseForwardedHeaders();
+            //app.UseForwardedHeaders();
 
 #pragma warning disable CA1062 // Validate arguments of public methods
             var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
