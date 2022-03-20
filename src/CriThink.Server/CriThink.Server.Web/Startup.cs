@@ -128,11 +128,11 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.Use((context, next) =>
-            {
-                context.Request.Scheme = "https";
-                return next(context);
-            });
+            //app.Use((context, next) =>
+            //{
+            //    context.Request.Scheme = "https";
+            //    return next(context);
+            //});
 
             app.UseForwardedHeaders();
 
@@ -202,10 +202,6 @@ namespace CriThink.Server.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                //endpoints.MapControllerRoute(
-                //    name: "test",
-                //    pattern: "{action=Index}/{id?}");
 
                 MapHealthChecks(endpoints);
             });
