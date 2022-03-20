@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace CriThink.Server.Application.CommandHandlers
 {
-    internal abstract class BaseUserCommandHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    internal abstract class BaseUserCommandHandler<TRequest, TResponse>
+        : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         protected BaseUserCommandHandler(
             IUserRepository userRepository,

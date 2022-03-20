@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
@@ -362,36 +361,14 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST: /api/identity/external-login
-        ///     {
-        ///         "socialProvider": "socialProvider",
-        ///         "userToken": "userToken",
-        ///     }
+        ///     GET: /api/identity/external-login/{scheme}
         /// 
         /// </remarks>
-        /// <param name="dto">Social provider and its token</param>
+        /// <param name="scheme">Social provider</param>
         /// <response code="200">Returns the user info with the JWT token</response>
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
-        [AllowAnonymous]
-        [Route(EndpointConstants.IdentityExternalLogin)]
-        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [HttpPost]
-        public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
-        {
-            var command = new LoginJwtUsingExternalProviderCommand(
-                dto.SocialProvider,
-                dto.UserToken);
-
-            var response = await _mediator.Send(command);
-
-            return Ok(new ApiOkResponse(response));
-        }
-
         [AllowAnonymous]
         [Route(EndpointConstants.IdentityExternalLogin + "/{scheme}")]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
@@ -399,101 +376,44 @@ namespace CriThink.Server.Web.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
         [HttpGet]
-        public async Task SocialLogin([FromRoute] string scheme)
+        public async Task SocialLogin([FromRoute] ExternalLoginProvider scheme)
         {
-            try
+            var command = new LoginJwtUsingExternalProviderCommand(scheme, null);
+            UserLoginResponse response = await _mediator.Send(command);
+
+            if (response.Succeed)
             {
                 const string Callback = "xamarinapp";
-                var auth = await Request.HttpContext.AuthenticateAsync(scheme);
 
-                _logger?.LogWarning(
-                    "Auth done with result {succeed} with scheme {scheme}",
-                    auth.Succeeded,
-                    scheme);
-
-                ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
-
-                if (!auth.Succeeded
-                    || auth?.Principal == null
-                    || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
-                    || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token")))
-                {
-                    _logger?.LogWarning(
-                        "Auth failed, challenging. Host: {host}; Scheme: {scheme}",
-                        Request.Host,
-                        Request.Scheme);
-
-                    // Not authenticated, challenge
-                    //Request.Host = new HostString("localhost", 5001);
-
-                    var redirectUrl = Url.Action(
-                        action: "SocialLogin",
-                        controller: "Identity",
-                        values: new { scheme = scheme },
-                        protocol: "https",
-                        host: HttpContext.Request.Host.Value);
-
-                    var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-
-                    _logger.LogWarning("Redirect URL {url}", properties.RedirectUri);
-
-                    await Request.HttpContext.ChallengeAsync(scheme, properties);
-                }
-                else
-                {
-                    _logger?.LogWarning("Auth succeeded");
-
-                    var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
-
-                    var email = string.Empty;
-                    email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                    var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
-                    var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
-                    var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                    string picture = string.Empty;
-
-                    _logger?.LogWarning(
-                                        "Claims got: {email}; {givenName}; {surname}; {name}",
-                        email,
-                        givenName,
-                        surName,
-                        nameIdentifier);
-
-                    var command = new LoginJwtUserCommand("andrea.grillo@outlook.com", null, "king2Pac!");
-
-                    var response = await _mediator.Send(command);
-
-                    _logger?.LogWarning("Login done");
-
-                    var qs = new Dictionary<string, string>
+                var qs = new Dictionary<string, string>
                 {
                     { "access_token", response.JwtToken.Token },
                     { "refresh_token",  response.RefreshToken },
                     { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
-                    { "email", "test@email.it" },
-                    { "firstName", "andrea" },
-                    { "picture", null },
-                    { "secondName", "grillo" },
                 };
 
-                    var url = Callback + "://#" + string.Join(
-                            "&",
-                            qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
-                            .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+                var url = Callback + "://#" + string.Join(
+                    separator: "&",
+                    values: qs
+                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                        .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
 
-                    _logger?.LogWarning("Callback: {url}", url);
+                Request.HttpContext.Response.Redirect(url);
+                return;
+            }
 
-                    // Redirect to final url
-                    Request.HttpContext.Response.Redirect(url);
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException is not null)
-                    await Response.WriteAsync(ex.InnerException.Message);
-                else
-                    await Response.WriteAsync(ex.Message);
-            }
+            var redirectUrl = Url.Action(
+                    action: "SocialLogin",
+                    controller: "Identity",
+                    values: new { scheme = scheme },
+                    protocol: "https",
+                    host: HttpContext.Request.Host.Value);
+
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(
+                provider: ExternalLoginProvider.Google.ToString(),
+                redirectUrl);
+
+            await Request.HttpContext.ChallengeAsync(scheme.ToString(), properties);
         }
 
         /// <summary>

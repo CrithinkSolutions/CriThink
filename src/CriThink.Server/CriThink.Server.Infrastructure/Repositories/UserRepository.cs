@@ -51,6 +51,8 @@ namespace CriThink.Server.Infrastructure.Identity
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Email, user.Email),
                 new (ClaimTypes.Name, user.UserName),
+                new (ClaimTypes.GivenName, user.Profile.GivenName),
+                new (ClaimTypes.Surname, user.Profile.FamilyName),
                 new (ClaimTypes.Role, RoleNames.FreeUser),
             };
 
@@ -237,6 +239,11 @@ namespace CriThink.Server.Infrastructure.Identity
         public Task<User> FindUserByLoginAsync(string provider, string userId)
         {
             return _userManager.FindByLoginAsync(provider, userId);
+        }
+
+        public Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        {
+            return _signInManager.GetExternalLoginInfoAsync();
         }
 
         public Task<IdentityResult> AddUserLoginAsync(User user, UserLoginInfo userLoginInfo)

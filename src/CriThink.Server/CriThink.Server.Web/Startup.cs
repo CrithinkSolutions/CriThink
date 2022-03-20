@@ -22,8 +22,8 @@ using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -263,12 +263,11 @@ namespace CriThink.Server.Web
             var key = Configuration["Jwt-SecretKey"];
             var keyBytes = Encoding.UTF8.GetBytes(key);
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                    //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
@@ -307,17 +306,7 @@ namespace CriThink.Server.Web
                 {
                     google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                     google.ClientId = Configuration["Authentication:Google:ClientId"];
-                    //google.CallbackPath = new PathString("/api/identity/external-login/Google");
-                    //google.Scope.Add("profile");
-
-                    //google.Events.OnCreatingTicket = (context) =>
-                    //{
-                    //    var picture = context.User.GetProperty("picture").GetString();
-
-                    //    context.Identity.AddClaim(new Claim("picture", picture));
-
-                    //    return Task.CompletedTask;
-                    //};
+                    google.ClaimActions.MapJsonKey("avatar", "picture");
                     google.SaveTokens = true;
                 });
 

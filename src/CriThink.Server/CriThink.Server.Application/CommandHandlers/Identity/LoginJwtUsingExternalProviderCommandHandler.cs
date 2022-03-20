@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.Helpers;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Domain.DomainServices;
 using CriThink.Server.Domain.Entities;
@@ -11,15 +12,17 @@ using CriThink.Server.Domain.Interfaces;
 using CriThink.Server.Domain.Repositories;
 using CriThink.Server.Infrastructure.Data;
 using CriThink.Server.Infrastructure.Delegates;
+using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Infrastructure.Services;
-using CriThink.Server.Infrastructure.SocialProviders;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Application.CommandHandlers
 {
-    internal class LoginJwtUsingExternalProviderCommandHandler : BaseUserCommandHandler<LoginJwtUsingExternalProviderCommand, UserLoginResponse>
+    internal class LoginJwtUsingExternalProviderCommandHandler
+        : BaseUserCommandHandler<LoginJwtUsingExternalProviderCommand, UserLoginResponse>
     {
         private readonly ExternalLoginProviderResolver _externalLoginProviderResolver;
         private readonly IFileService _fileService;
@@ -47,33 +50,32 @@ namespace CriThink.Server.Application.CommandHandlers
             LoginJwtUsingExternalProviderCommand request,
             CancellationToken cancellationToken)
         {
-            IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(request.SocialProvider);
+            var auth = await HttpContext.AuthenticateAsync(request.SocialProvider.ToString());
 
-            var decodedToken = Base64Helper.FromBase64(request.UserToken);
-
-            var userAccessInfo = await socialLoginProvider.GetUserAccessInfo(decodedToken);
-
-            var provider = request.SocialProvider.ToString().ToUpperInvariant();
-
-            var user = await UserRepository.FindUserByLoginAsync(provider, userAccessInfo.UserId);
-            if (user is null)
+            if (!auth.Succeeded
+                    || auth?.Principal == null
+                    || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
+                    || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token")))
             {
-                user = await CreateExternalProviderLoginUserAsync(userAccessInfo, provider);
+                return new UserLoginResponse();
+            }
+
+            ExternalLoginInfo info = await UserRepository.GetExternalLoginInfoAsync();
+            var userEmail = info.Principal.GetEmail();
+
+            var crithinkUser = await UserRepository.FindUserAsync(userEmail, cancellationToken);
+            if (crithinkUser is null)
+            {
+                crithinkUser = await CreateExternalProviderLoginUserAsync(info, request.SocialProvider);
             }
 
             var refreshToken = JwtManager.GenerateRefreshToken();
 
-            await AddRefreshTokenToUserAsync(refreshToken, user);
+            await AddRefreshTokenToUserAsync(refreshToken, crithinkUser);
 
-            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(user);
+            var jwtToken = await JwtManager.GenerateUserJwtTokenAsync(crithinkUser);
 
-            user.UpdateCountry(userAccessInfo.Country);
-
-            user.UpdateDateOfBirth(userAccessInfo.Birthday);
-
-            user.UpdateGender(userAccessInfo.Gender);
-
-            await UserRepository.UpdateUserAsync(user);
+            await UserRepository.UpdateUserAsync(crithinkUser);
 
             return new UserLoginResponse
             {
@@ -83,12 +85,12 @@ namespace CriThink.Server.Application.CommandHandlers
         }
 
         private async Task<User> CreateExternalProviderLoginUserAsync(
-            ExternalProviderUserInfo userAccessInfo,
-            string providerName)
+            ExternalLoginInfo loginInfo,
+            ExternalLoginProvider socialProvider)
         {
             var user = User.Create(
-                userAccessInfo.Username,
-                userAccessInfo.Email);
+                loginInfo.Principal.GetGivenName(),
+                loginInfo.Principal.GetEmail());
 
             var userCreationResult = await UserRepository.CreateUserAsync(user);
             if (!userCreationResult.Succeeded)
@@ -106,49 +108,37 @@ namespace CriThink.Server.Application.CommandHandlers
             }
 
             user.ConfirmEmail();
+            user.UpdateGivenName(loginInfo.Principal.GetGivenName());
+            user.UpdateFamilyName(loginInfo.Principal.GetFamilyName());
+
+            try
+            {
+                IExternalLoginProvider socialLoginProvider = _externalLoginProviderResolver(socialProvider);
+                var userAccessInfo = await socialLoginProvider.GetUserAccessInfoAsync(loginInfo);
+
+                user.UpdateCountry(userAccessInfo.Country);
+                user.UpdateDateOfBirth(userAccessInfo.Birthday);
+                user.UpdateGender(userAccessInfo.Gender);
+
+                await user.UpdateUserProfileAvatarAsync(
+                    fileService: _fileService,
+                    bytes: userAccessInfo.ProfileAvatarBytes);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogWarning(
+                    ex,
+                    "Can't get external user info with schema {schema}",
+                    socialProvider);
+            }
+
+            await UserRepository.UpdateUserAsync(user);
 
             await UserRepository.AddUserToRoleAsync(user, RoleNames.FreeUser);
 
             await AddClaimsToUserAsync(user);
 
-            if (userAccessInfo.ProfileAvatarBytes != null)
-            {
-                try
-                {
-                    await user.UpdateUserProfileAvatarAsync(
-                        _fileService,
-                        userAccessInfo.ProfileAvatarBytes);
-                }
-                catch (Exception ex)
-                {
-                    _logger?.LogError(ex, "Error updating a new social user", user);
-                    await user.DeleteUserUserProfileAvatarAsync(_fileService);
-                    throw;
-                }
-            }
-
-            var userLoginInfo = new UserLoginInfo(providerName, userAccessInfo.UserId, providerName);
-
-            var loginAssociated = await UserRepository.AddUserLoginAsync(user, userLoginInfo)
-                .ConfigureAwait(false);
-
-            if (!loginAssociated.Succeeded)
-            {
-                var ex = new CriThinkIdentityOperationException(loginAssociated);
-
-                _logger?.LogError(
-                    ex,
-                    "Error associating external provider to user {0}, {1} {2}",
-                    providerName,
-                    user.Id,
-                    user.Email);
-
-                throw ex;
-            }
-
-            await UserRepository.SignInAsync(user, false).ConfigureAwait(false);
-
-            return await UserRepository.FindUserByLoginAsync(providerName, userAccessInfo.UserId).ConfigureAwait(false);
+            return user;
         }
 
         private async Task AddClaimsToUserAsync(User user)

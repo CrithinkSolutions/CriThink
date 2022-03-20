@@ -196,6 +196,8 @@ namespace CriThink.Server.Domain.Repositories
         /// <returns>A <see cref="User"/></returns>
         Task<User> FindUserByLoginAsync(string provider, string userId);
 
+        Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
+
         /// <summary>
         /// Link a user to a specific external login
         /// </summary>

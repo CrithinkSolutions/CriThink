@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CriThink.Server.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
@@ -14,7 +15,8 @@ namespace CriThink.Server.Infrastructure.SocialProviders
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public Task<ExternalProviderUserInfo> GetUserAccessInfo(string userToken)
+        public Task<ExternalProviderUserInfo> GetUserAccessInfoAsync(
+            ExternalLoginInfo loginInfo)
         {
             throw new NotImplementedException();
         }

@@ -8,5 +8,8 @@ namespace CriThink.Server.Infrastructure.Api
     {
         [Get("/tokeninfo?id_token={token}")]
         Task<GoogleTokenInfo> GetUserDetailsAsync(string token);
+
+        [Get("/people/me?personFields=birthdays,genders")]
+        Task<GoogleGetMeResponse> GetMeAsync([Authorize] string token);
     }
 }

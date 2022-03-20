@@ -10,5 +10,10 @@ namespace CriThink.Common.Endpoints.DTOs.IdentityProvider
 
         [JsonPropertyName("refreshToken")]
         public string RefreshToken { get; set; }
+
+        [JsonIgnore]
+        public bool Succeed =>
+            !string.IsNullOrWhiteSpace(RefreshToken) &&
+            JwtToken is not null;
     }
 }
