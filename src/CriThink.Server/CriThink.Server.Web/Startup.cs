@@ -30,7 +30,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,11 +75,11 @@ namespace CriThink.Server.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
+            //services.Configure<ForwardedHeadersOptions>(options =>
+            //{
+            //    options.ForwardedHeaders =
+            //        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            //});
 
             SetupKestrelOptions(services);
 
@@ -173,10 +172,10 @@ namespace CriThink.Server.Web
 
             app.UseRouting();
 
-            app.UseCookiePolicy(new CookiePolicyOptions
-            {
-                MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax
-            });
+            //app.UseCookiePolicy(new CookiePolicyOptions
+            //{
+            //    MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax
+            //});
 
             app.UseCors(AllowSpecificOrigins);
 
@@ -304,6 +303,11 @@ namespace CriThink.Server.Web
                     google.ClientId = Configuration["Authentication:Google:ClientId"];
                     google.ClaimActions.MapJsonKey("avatar", "picture");
                     google.SaveTokens = true;
+                })
+                .AddFacebook(facebook =>
+                {
+                    facebook.ClientSecret = Configuration["Authentication:Facebook:ClientSecret"];
+                    facebook.ClientId = Configuration["Authentication:Facebook:ClientId"];
                 });
 
             // JWT + MVC
