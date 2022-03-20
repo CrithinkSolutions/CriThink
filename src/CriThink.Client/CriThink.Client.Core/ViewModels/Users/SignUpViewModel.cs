@@ -42,8 +42,11 @@ namespace CriThink.Client.Core.ViewModels.Users
         private IMvxAsyncCommand<string> _restoreAccountCommand;
         public IMvxAsyncCommand<string> RestoreAccountCommand => _restoreAccountCommand ??= new MvxAsyncCommand<string>(DoRestoreAccountCommand);
 
-        private IMvxAsyncCommand _doGoogleLoginCommand;
-        public IMvxAsyncCommand DoGoogleLoginCommand => _doGoogleLoginCommand ??= new MvxAsyncCommand(DoGoogleLoginAsync);
+        private IMvxAsyncCommand _googleLoginCommand;
+        public IMvxAsyncCommand GoogleLoginCommand => _googleLoginCommand ??= new MvxAsyncCommand(DoGoogleLoginCommand);
+
+        private IMvxAsyncCommand _facebookLoginCommand;
+        public IMvxAsyncCommand FacebookLoginCommand => _facebookLoginCommand ??= new MvxAsyncCommand(DoFacebookLoginCommand);
 
         #endregion
 
@@ -96,9 +99,14 @@ namespace CriThink.Client.Core.ViewModels.Users
             }
         }
 
-        private async Task DoGoogleLoginAsync()
+        private async Task DoGoogleLoginCommand()
         {
             await DoSocialLoginAsync(ExternalLoginProvider.Google);
+        }
+
+        private async Task DoFacebookLoginCommand()
+        {
+            await DoSocialLoginAsync(ExternalLoginProvider.Facebook);
         }
 
         private async Task DoSocialLoginAsync(ExternalLoginProvider loginProvider)

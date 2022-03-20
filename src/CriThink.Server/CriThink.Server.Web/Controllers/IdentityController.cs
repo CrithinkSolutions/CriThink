@@ -364,7 +364,7 @@ namespace CriThink.Server.Web.Controllers
         ///     GET: /api/identity/external-login/{scheme}
         /// 
         /// </remarks>
-        /// <param name="scheme">Social provider</param>
+        /// <param name="scheme">Social provider. Valid values are 'Facebook' and 'Google'</param>
         /// <response code="200">Returns the user info with the JWT token</response>
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
@@ -410,7 +410,7 @@ namespace CriThink.Server.Web.Controllers
                     host: HttpContext.Request.Host.Value);
 
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(
-                provider: ExternalLoginProvider.Google.ToString(),
+                provider: scheme.ToString(),
                 redirectUrl);
 
             await Request.HttpContext.ChallengeAsync(scheme.ToString(), properties);

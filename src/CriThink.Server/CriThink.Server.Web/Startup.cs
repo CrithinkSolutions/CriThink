@@ -308,6 +308,7 @@ namespace CriThink.Server.Web
                 {
                     facebook.ClientSecret = Configuration["Authentication:Facebook:ClientSecret"];
                     facebook.ClientId = Configuration["Authentication:Facebook:ClientId"];
+                    facebook.SaveTokens = true;
                 });
 
             // JWT + MVC

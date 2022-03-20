@@ -8,27 +8,27 @@ using CriThink.Server.Infrastructure.Api;
 using CriThink.Server.Infrastructure.Exceptions;
 using CriThink.Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
     internal class FacebookProvider : IExternalLoginProvider
     {
-        private readonly IConfiguration _configuration;
         private readonly IFacebookApi _facebookApi;
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<FacebookProvider> _logger;
 
         public FacebookProvider(
-            IConfiguration configuration,
             IFacebookApi facebookApi,
             IHttpClientFactory clientFactory,
             ILogger<FacebookProvider> logger)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _facebookApi = facebookApi ?? throw new ArgumentNullException(nameof(facebookApi));
-            _clientFactory = clientFactory;
+            _facebookApi = facebookApi ??
+                throw new ArgumentNullException(nameof(facebookApi));
+
+            _clientFactory = clientFactory ??
+                throw new ArgumentNullException(nameof(clientFactory));
+
             _logger = logger;
         }
 
@@ -38,19 +38,13 @@ namespace CriThink.Server.Infrastructure.SocialProviders
             if (loginInfo is null)
                 throw new ArgumentNullException(nameof(loginInfo));
 
-            var accessToken = _configuration["FacebookApiKey"];
-
-            var userToken = loginInfo.AuthenticationTokens?.FirstOrDefault()?.Value;
-            if (string.IsNullOrWhiteSpace(userToken))
+            var accessToken = loginInfo.AuthenticationTokens?.FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(accessToken))
                 throw new CriThinkInvalidSocialTokenException();
 
-            FacebookTokenResponse debugTokenResponse = await _facebookApi.ValidateTokenAsync(userToken, accessToken)
-                .ConfigureAwait(false);
-
-            if (!debugTokenResponse.Data.IsValid)
-                throw new InvalidOperationException("The given token is wrong or expired");
-
-            FacebookUserInfoDetail userInfoDetail = await _facebookApi.GetUserDetailsAsync(debugTokenResponse.Data.UserId, userToken);
+            FacebookUserInfoDetail userInfoDetail = await _facebookApi.GetUserDetailsAsync(
+                userId: loginInfo.ProviderKey,
+                accessToken: accessToken);
 
             var userInfo = new ExternalProviderUserInfo
             {

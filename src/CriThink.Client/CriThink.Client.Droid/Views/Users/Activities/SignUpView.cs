@@ -33,8 +33,8 @@ namespace CriThink.Client.Droid.Views.Users
             MainApplication.SetGradientStatusBar(this);
 
             _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
-            if (_btnFb != null)
-                _btnFb.Click += BtnFacebook_Click;
+            //if (_btnFb != null)
+            //    _btnFb.Click += BtnFacebook_Click;
 
             _btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
             //if (_btnGoogle != null)
@@ -59,7 +59,8 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
             set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
             set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
-            set.Bind(_btnGoogle).To(vm => vm.DoGoogleLoginCommand);
+            set.Bind(_btnGoogle).To(vm => vm.GoogleLoginCommand);
+            set.Bind(_btnFb).To(vm => vm.FacebookLoginCommand);
             set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(alreadyAccount).ToLocalizationId("AlreadyAccount");
             set.Bind(txtOrAccount).ToLocalizationId("OrAccount");

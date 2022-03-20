@@ -8,27 +8,21 @@ using CriThink.Server.Infrastructure.Exceptions;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Infrastructure.SocialProviders
 {
     internal class GoogleProvider : IExternalLoginProvider
     {
-        private readonly IConfiguration _configuration;
         private readonly IGoogleApi _googleApi;
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GoogleProvider> _logger;
 
         public GoogleProvider(
-            IConfiguration configuration,
             IGoogleApi googleApi,
             IHttpClientFactory clientFactory,
             ILogger<GoogleProvider> logger)
         {
-            _configuration = configuration ??
-                throw new ArgumentNullException(nameof(configuration));
-
             _googleApi = googleApi ??
                 throw new ArgumentNullException(nameof(googleApi));
 
