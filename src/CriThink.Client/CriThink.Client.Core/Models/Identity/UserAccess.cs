@@ -28,6 +28,23 @@ namespace CriThink.Client.Core.Models.Identity
             RefreshToken = response.RefreshToken;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="jwtResponse">Access token</param>
+        /// <param name="refreshToken">Refresh token</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public UserAccess(
+           JwtTokenResponse jwtResponse,
+           string refreshToken)
+        {
+            if (jwtResponse is null)
+                throw new ArgumentNullException(nameof(jwtResponse));
+
+            JwtToken = jwtResponse;
+            RefreshToken = refreshToken;
+        }
+
         [JsonInclude]
         public JwtTokenResponse JwtToken { get; internal set; }
 

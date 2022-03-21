@@ -25,10 +25,8 @@ namespace CriThink.Client.Core.Services
         /// <summary>
         /// Performs login or sign in using an external social provider
         /// </summary>
-        /// <param name="request">User and social provider data</param>
-        /// <param name="cancellationToken">(Optional) Cancellation token to cancel the operation</param>
-        /// <returns>Login response data</returns>
-        Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default);
+        /// <param name="loginProvider">Login provider name</param>
+        Task PerformSocialLoginSignInAsync(ExternalLoginProvider loginProvider);
 
         /// <summary>
         /// Exchange access and refresh tokens for a new pair. New values are

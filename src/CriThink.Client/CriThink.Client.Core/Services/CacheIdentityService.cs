@@ -52,11 +52,12 @@ namespace CriThink.Client.Core.Services
             return response;
         }
 
-        public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
+        public async Task PerformSocialLoginSignInAsync(ExternalLoginProvider loginProvider)
         {
-            var response = await _identityService.PerformSocialLoginSignInAsync(request, cancellationToken).ConfigureAwait(false);
+            await _identityService.PerformSocialLoginSignInAsync(loginProvider)
+                .ConfigureAwait(false);
+
             ClearUserInfoFromCache();
-            return response;
         }
 
         public async Task<UserRefreshTokenResponse> ExchangeTokensAsync(CancellationToken cancellationToken = default)

@@ -13,7 +13,7 @@ on:
   push:
     paths:
       - src/CriThink.Server/**
-    branches: [ feature/google-login-auth ]
+    branches: [ develop ]
 
 jobs:
   build:

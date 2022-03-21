@@ -6,8 +6,9 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Constants;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
-using CriThink.Common.Helpers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -16,13 +17,25 @@ namespace CriThink.Client.Core.ViewModels.Users
     public class BaseSocialLoginViewModel : BaseViewModel
     {
         protected readonly IUserDialogs UserDialogs;
+        private readonly IConfiguration _configuration;
         private readonly IMvxNavigationService _navigationService;
 
-        public BaseSocialLoginViewModel(IIdentityService identityService, IUserDialogs userDialogs, IMvxNavigationService navigationService, ILogger<BaseSocialLoginViewModel> logger)
+        public BaseSocialLoginViewModel(
+            IIdentityService identityService,
+            IUserDialogs userDialogs,
+            IConfiguration configuration,
+            IMvxNavigationService navigationService,
+            ILogger<BaseSocialLoginViewModel> logger)
         {
-            IdentityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            UserDialogs = userDialogs ?? throw new ArgumentNullException(nameof(userDialogs));
-            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            IdentityService = identityService ??
+                throw new ArgumentNullException(nameof(identityService));
+
+            UserDialogs = userDialogs ??
+                throw new ArgumentNullException(nameof(userDialogs));
+            _configuration = configuration;
+            _navigationService = navigationService ??
+                throw new ArgumentNullException(nameof(navigationService));
+
             Logger = logger;
         }
 
@@ -30,19 +43,30 @@ namespace CriThink.Client.Core.ViewModels.Users
 
         protected ILogger<BaseSocialLoginViewModel> Logger { get; }
 
-        public async Task PerformLoginSignInAsync(string token, ExternalLoginProvider loginProvider)
+        private IMvxAsyncCommand _googleLoginCommand;
+        public IMvxAsyncCommand GoogleLoginCommand => _googleLoginCommand ??= new MvxAsyncCommand(DoGoogleLoginCommand);
+
+        private IMvxAsyncCommand _facebookLoginCommand;
+        public IMvxAsyncCommand FacebookLoginCommand => _facebookLoginCommand ??= new MvxAsyncCommand(DoFacebookLoginCommand);
+
+        private async Task DoGoogleLoginCommand()
+        {
+            await DoSocialLoginAsync(ExternalLoginProvider.Google);
+        }
+
+        private async Task DoFacebookLoginCommand()
+        {
+            await DoSocialLoginAsync(ExternalLoginProvider.Facebook);
+        }
+
+        private async Task DoSocialLoginAsync(ExternalLoginProvider loginProvider)
         {
             IsLoading = true;
 
             try
             {
-                var request = new ExternalLoginProviderRequest
-                {
-                    SocialProvider = loginProvider,
-                    UserToken = Base64Helper.ToBase64(token),
-                };
-
-                await IdentityService.PerformSocialLoginSignInAsync(request).ConfigureAwait(false);
+                await IdentityService.PerformSocialLoginSignInAsync(loginProvider)
+                    .ConfigureAwait(false);
 
                 await _navigationService.Navigate<HomeViewModel>(
                     new MvxBundle(new Dictionary<string, string>
@@ -50,9 +74,14 @@ namespace CriThink.Client.Core.ViewModels.Users
                         {MvxBundleConstaints.ClearBackStack, ""}
                     })).ConfigureAwait(true);
             }
+            catch (TaskCanceledException)
+            { }
             catch (Exception ex)
             {
-                Logger?.LogCritical(ex, "Error while loggin using social login. Token is null: {0}, {1}", string.IsNullOrWhiteSpace(token), loginProvider);
+                Logger?.LogCritical(
+                    ex,
+                    "Error while loggin using social login. Provider: {provider}",
+                    loginProvider);
 
                 var localizedErrorText = LocalizedTextSource.GetText("SocialLoginErrorMessage");
 

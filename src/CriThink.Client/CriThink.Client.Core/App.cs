@@ -36,6 +36,7 @@ namespace CriThink.Client.Core
         private static void InitializeInternalServices()
         {
             Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
+            //Mvx.IoCProvider.RegisterType<IConfiguration>();
 
             // Resx
             Mvx.IoCProvider.RegisterSingleton<IMvxTextProvider>(new MvxResxTextProvider(AppResources.ResourceManager));
@@ -78,6 +79,8 @@ namespace CriThink.Client.Core
             IConfigurationRoot configurationRoot = configBuilder.Build();
             IServiceCollection serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
+
             ConfigureServices(serviceCollection, configurationRoot);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             MapServiceCollectionToMvx(serviceProvider, serviceCollection);
@@ -93,7 +96,6 @@ namespace CriThink.Client.Core
             }
 
             var baseApiUri = configurationRoot["BaseApiUri"];
-            logger?.LogInformation($"Starting app with uri: {baseApiUri}");
 
             if (string.IsNullOrWhiteSpace(baseApiUri))
             {

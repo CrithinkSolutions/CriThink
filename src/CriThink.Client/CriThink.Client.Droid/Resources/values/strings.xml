@@ -2,13 +2,6 @@
 
   <string name="action_settings">Settings</string>
 
-  <!-- Google -->
-  <string name="google_signin">1064440290860-58nb9a9tbimmocjr6mkc4i3ah4cakp3f.apps.googleusercontent.com</string>
-
-  <!-- Facebook -->
-  <string name="facebook_app_id">804449043690413</string>
-  <string name="fb_login_protocol_scheme">fb804449043690413</string>
-
   <!-- Home View -->
   <string name="menu_newschecker">Check</string>
   <string name="menu_debunkingnews">Debunk</string>
