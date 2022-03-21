@@ -66,8 +66,8 @@ namespace CriThink.Server.Infrastructure
 
         private static void SetupHttpClient(IServiceCollection serviceCollection)
         {
-            SetupExternalProvider<IFacebookApi>(serviceCollection, "FacebookApiUrl");
-            SetupExternalProvider<IGoogleApi>(serviceCollection, "GoogleApiUrl");
+            SetupExternalProvider<IFacebookApi>(serviceCollection, "SocialSettings:Facebook:Graph");
+            SetupExternalProvider<IGoogleApi>(serviceCollection, "SocialSettings:Google:People");
         }
 
         private static void SetupExternalProvider<T>(IServiceCollection serviceCollection, string configKey)

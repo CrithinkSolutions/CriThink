@@ -1,18 +1,25 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Server.Application.Commands;
 using CriThink.Server.Application.Queries;
+using CriThink.Server.Domain.Entities;
 using CriThink.Server.Infrastructure.ExtensionMethods;
 using CriThink.Server.Web.ActionFilters;
 using CriThink.Server.Web.Models.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -30,14 +37,22 @@ namespace CriThink.Server.Web.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IIdentityQueries _identityQueries;
+        private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<IdentityController> _logger;
 
-        public IdentityController(IMediator mediator, IIdentityQueries identityQueries)
+        public IdentityController(
+            IMediator mediator,
+            IIdentityQueries identityQueries,
+            SignInManager<User> signInManager,
+            ILogger<IdentityController> logger)
         {
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
 
             _identityQueries = identityQueries ??
                 throw new ArgumentNullException(nameof(identityQueries));
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
         /// <summary>
@@ -346,34 +361,57 @@ namespace CriThink.Server.Web.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST: /api/identity/external-login
-        ///     {
-        ///         "socialProvider": "socialProvider",
-        ///         "userToken": "userToken",
-        ///     }
+        ///     GET: /api/identity/external-login/{scheme}
         /// 
         /// </remarks>
-        /// <param name="dto">Social provider and its token</param>
+        /// <param name="scheme">Social provider. Valid values are 'Facebook' and 'Google'</param>
         /// <response code="200">Returns the user info with the JWT token</response>
         /// <response code="400">If the request body is invalid</response>
         /// <response code="500">If the server can't process the request</response>
         /// <response code="503">If the server is not ready to handle the request</response>
         [AllowAnonymous]
-        [Route(EndpointConstants.IdentityExternalLogin)]
+        [Route(EndpointConstants.IdentityExternalLogin + "/{scheme}")]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiBadRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status503ServiceUnavailable)]
-        [HttpPost]
-        public async Task<IActionResult> ExternalProviderLogin([FromBody] ExternalLoginProviderRequest dto)
+        [HttpGet]
+        public async Task SocialLogin([FromRoute] ExternalLoginProvider scheme)
         {
-            var command = new LoginJwtUsingExternalProviderCommand(
-                dto.SocialProvider,
-                dto.UserToken);
+            var command = new LoginJwtUsingExternalProviderCommand(scheme, null);
+            UserLoginResponse response = await _mediator.Send(command);
 
-            var response = await _mediator.Send(command);
+            if (response.Succeed)
+            {
+                var qs = new Dictionary<string, string>
+                {
+                    { "access_token", response.JwtToken.Token },
+                    { "refresh_token",  response.RefreshToken },
+                    { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
+                };
 
-            return Ok(new ApiOkResponse(response));
+                var url = EndpointConstants.AppSchema + "#" + string.Join(
+                    separator: "&",
+                    values: qs
+                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                        .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+
+                Request.HttpContext.Response.Redirect(url);
+                return;
+            }
+
+            var redirectUrl = Url.Action(
+                    action: "SocialLogin",
+                    controller: "Identity",
+                    values: new { scheme = scheme },
+                    protocol: "https",
+                    host: HttpContext.Request.Host.Value);
+
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(
+                provider: scheme.ToString(),
+                redirectUrl);
+
+            await Request.HttpContext.ChallengeAsync(scheme.ToString(), properties);
         }
 
         /// <summary>

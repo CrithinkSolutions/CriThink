@@ -21,8 +21,6 @@ namespace CriThink.Client.Droid.Views.Users
     [Activity(Label = "CriThink.SignUpView")]
     public class SignUpView : BaseSocialLoginActivity<SignUpViewModel>
     {
-        private AppCompatButton _btnFb;
-        private AppCompatButton _btnGoogle;
         private AlertDialog _alertDialog;
 
         protected override void OnCreate(Bundle bundle)
@@ -32,14 +30,8 @@ namespace CriThink.Client.Droid.Views.Users
             SetContentView(Resource.Layout.signup_view);
             MainApplication.SetGradientStatusBar(this);
 
-            _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
-            if (_btnFb != null)
-                _btnFb.Click += BtnFacebook_Click;
-
-            _btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
-            if (_btnGoogle != null)
-                _btnGoogle.Click += BtnGoogle_Click;
-
+            var btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
+            var btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
             var btnSignUpEmail = FindViewById<AppCompatButton>(Resource.Id.btnSignUp);
             var btnLogin = FindViewById<AppCompatButton>(Resource.Id.btnLogin);
             var txtTitle = FindViewById<AppCompatTextView>(Resource.Id.txtTitle);
@@ -58,8 +50,10 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(btnSignUpEmail).For(v => v.Text).ToLocalizationId("SignUpEmail");
             set.Bind(btnLogin).To(vm => vm.NavigateToLoginCommand);
             set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
-            set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
-            set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
+            set.Bind(btnGoogle).For(v => v.Text).ToLocalizationId("Google");
+            set.Bind(btnGoogle).To(vm => vm.GoogleLoginCommand);
+            set.Bind(btnFb).To(vm => vm.FacebookLoginCommand);
+            set.Bind(btnFb).For(v => v.Text).ToLocalizationId("Facebook");
             set.Bind(alreadyAccount).ToLocalizationId("AlreadyAccount");
             set.Bind(txtOrAccount).ToLocalizationId("OrAccount");
             set.Bind(btnRestore).For(v => v.Text).ToLocalizationId("RestoreAccount");
@@ -67,10 +61,6 @@ namespace CriThink.Client.Droid.Views.Users
             _alertDialog = BuildCustomDialog(set);
             set.Apply();
         }
-
-        private void BtnGoogle_Click(object sender, EventArgs e) => LoginUsingGoogle();
-
-        private void BtnFacebook_Click(object sender, EventArgs e) => LoginUsingFacebook();
 
         private void BtnRestore_Click(object sender, EventArgs e) => _alertDialog?.Show();
 

@@ -5,28 +5,42 @@ using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Repositories;
+using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Refit;
+using Xamarin.Essentials;
 
 namespace CriThink.Client.Core.Services
 {
     public class IdentityService : IIdentityService
     {
         private readonly IIdentityApi _identityApi;
+        private readonly IConfiguration _configuration;
         private readonly IAuthorizedIdentityApi _authorizedIdentityApi;
         private readonly IIdentityRepository _identityRepository;
         private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(
             IIdentityApi identityApi,
+            IConfiguration configuration,
             IAuthorizedIdentityApi authorizedIdentityApi,
             IIdentityRepository identityRepository,
             ILogger<IdentityService> logger)
         {
-            _identityApi = identityApi ?? throw new ArgumentNullException(nameof(identityApi));
-            _authorizedIdentityApi = authorizedIdentityApi;
-            _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
+            _identityApi = identityApi ??
+                throw new ArgumentNullException(nameof(identityApi));
+
+            _configuration = configuration ??
+                throw new ArgumentNullException(nameof(configuration));
+
+            _authorizedIdentityApi = authorizedIdentityApi ??
+                throw new ArgumentNullException(nameof(authorizedIdentityApi));
+
+            _identityRepository = identityRepository ??
+                throw new ArgumentNullException(nameof(identityRepository));
+
             _logger = logger;
         }
 
@@ -75,16 +89,28 @@ namespace CriThink.Client.Core.Services
             return loginResponse;
         }
 
-        public async Task<UserLoginResponse> PerformSocialLoginSignInAsync(ExternalLoginProviderRequest request, CancellationToken cancellationToken = default)
+        public async Task PerformSocialLoginSignInAsync(
+            ExternalLoginProvider loginProvider)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            string refreshToken;
+            string accessToken;
+            DateTime tokenExpirationTime;
 
-            UserLoginResponse loginResponse;
             try
             {
-                loginResponse = await _identityApi.SocialLoginAsync(request, cancellationToken)
-                    .ConfigureAwait(false);
+                var endpoint = _configuration["BaseApiUri"];
+                var authUrl = new Uri($"{endpoint}identity/external-login/{loginProvider}");
+                var callbackUrl = new Uri(EndpointConstants.AppSchema);
+
+                WebAuthenticatorResult result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl)
+                    .ConfigureAwait(true);
+
+                var customProperties = result.Properties;
+
+                refreshToken = customProperties["refresh_token"];
+                accessToken = customProperties["access_token"];
+                var accessExpiresInTicks = customProperties["jwt_token_expires"];
+                tokenExpirationTime = new DateTime(long.Parse(accessExpiresInTicks));
             }
             catch (Exception ex)
             {
@@ -94,9 +120,15 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                var user = new UserAccess(loginResponse);
+                var jwtToken = new JwtTokenResponse
+                {
+                    Token = accessToken,
+                    ExpirationDate = tokenExpirationTime
+                };
 
-                await _identityRepository.SetUserAccessAsync(user)
+                var userAccess = new UserAccess(jwtToken, refreshToken);
+
+                await _identityRepository.SetUserAccessAsync(userAccess)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -104,8 +136,6 @@ namespace CriThink.Client.Core.Services
                 _logger?.LogError(ex, "Error occurred when saving social login data");
                 throw;
             }
-
-            return loginResponse;
         }
 
         public async Task<UserRefreshTokenResponse> ExchangeTokensAsync(CancellationToken cancellationToken = default)

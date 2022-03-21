@@ -1,5 +1,4 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.Widget;
@@ -18,9 +17,6 @@ namespace CriThink.Client.Droid.Views.Users
     [Activity(Label = "CriThink.LoginView")]
     public class LoginView : BaseSocialLoginActivity<LoginViewModel>
     {
-        private AppCompatButton _btnFb;
-        private AppCompatButton _btnGoogle;
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -45,14 +41,8 @@ namespace CriThink.Client.Droid.Views.Users
             var tvHeaderEmailOrUsername = FindViewById<TextView>(Resource.Id.tv_header_emailOrUsername);
             var tvHeaderPassword = FindViewById<TextView>(Resource.Id.tv_header_password);
             var txtOrSocial = FindViewById<AppCompatTextView>(Resource.Id.txtOrAccount);
-
-            _btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
-            if (_btnFb != null)
-                _btnFb.Click += BtnFacebook_Click;
-
-            _btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
-            if (_btnGoogle != null)
-                _btnGoogle.Click += BtnGoogle_Click;
+            var btnFb = FindViewById<AppCompatButton>(Resource.Id.btnFb);
+            var btnGoogle = FindViewById<AppCompatButton>(Resource.Id.btnGoogle);
 
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
 
@@ -63,8 +53,10 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtOrSocial).ToLocalizationId("OrAccount");
             set.Bind(tvHeaderPassword).For(v => v.Text).ToLocalizationId("PasswordHint");
             set.Bind(tvHeaderEmailOrUsername).For(v => v.Text).ToLocalizationId("EmailHint");
-            set.Bind(_btnFb).For(v => v.Text).ToLocalizationId("Facebook");
-            set.Bind(_btnGoogle).For(v => v.Text).ToLocalizationId("Google");
+            set.Bind(btnFb).To(vm => vm.FacebookLoginCommand);
+            set.Bind(btnFb).For(v => v.Text).ToLocalizationId("Facebook");
+            set.Bind(btnGoogle).To(vm => vm.GoogleLoginCommand);
+            set.Bind(btnGoogle).For(v => v.Text).ToLocalizationId("Google");
             set.Bind(btnLogin).For(v => v.Text).ToLocalizationId("Login");
             set.Bind(btnLogin).To(vm => vm.LoginCommand);
             set.Bind(btnForgotPassword).For(v => v.Text).ToLocalizationId("ForgotPassword");
@@ -83,9 +75,5 @@ namespace CriThink.Client.Droid.Views.Users
             Finish();
             return false;
         }
-
-        private void BtnGoogle_Click(object sender, EventArgs e) => LoginUsingGoogle();
-
-        private void BtnFacebook_Click(object sender, EventArgs e) => LoginUsingFacebook();
     }
 }

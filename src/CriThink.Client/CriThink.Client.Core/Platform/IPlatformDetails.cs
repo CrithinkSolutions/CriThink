@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace CriThink.Client.Core.Platform
+﻿namespace CriThink.Client.Core.Platform
 {
     /// <summary>
     /// Information about the current platform
@@ -36,22 +34,5 @@ namespace CriThink.Client.Core.Platform
         /// </summary>
         /// <param name="profileName">Profile name</param>
         void OpenSkypeProfile(string profileName);
-
-        /// <summary>
-        /// Perform logout from social
-        /// </summary>
-        Task LogoutSocialLoginAsync();
-
-        /// <summary>
-        /// Silently refresh Google token login
-        /// </summary>
-        /// <returns>The token</returns>
-        Task<string> RefreshGoogleTokenAsync();
-
-        /// <summary>
-        /// Silently refresh the Facebook token login
-        /// </summary>
-        /// <returns>The token</returns>
-        string RefreshFacebookToken();
     }
 }

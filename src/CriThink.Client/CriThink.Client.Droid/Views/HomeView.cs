@@ -13,7 +13,6 @@ using FFImageLoading.Work;
 using Google.Android.Material.BottomNavigation;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
-using Xamarin.Facebook;
 using static CriThink.Client.Droid.Constants.FFImageConstants;
 
 namespace CriThink.Client.Droid.Views
@@ -34,10 +33,6 @@ namespace CriThink.Client.Droid.Views
             SetContentView(Resource.Layout.home_view);
             MainApplication.SetGradientStatusBar(this);
             var bottomView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
-
-
-            if (bundle == null)
-                FacebookSdk.FullyInitialize();
 
             var set = CreateBindingSet();
 
@@ -67,6 +62,20 @@ namespace CriThink.Client.Droid.Views
         public override void OnBackPressed()
         {
             Minimise();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            Xamarin.Essentials.Platform.OnResume(this);
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            Xamarin.Essentials.Platform.OnNewIntent(intent);
         }
 
         private void Minimise()

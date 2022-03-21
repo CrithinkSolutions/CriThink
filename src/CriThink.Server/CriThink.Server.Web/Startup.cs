@@ -22,6 +22,7 @@ using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -120,6 +121,13 @@ namespace CriThink.Server.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Social login needs this when running in cloud
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next(context);
+            });
+
 #pragma warning disable CA1062 // Validate arguments of public methods
             var opt = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(opt);
@@ -275,6 +283,19 @@ namespace CriThink.Server.Web
                         RequireExpirationTime = true,
                         ClockSkew = TimeSpan.Zero,
                     };
+                })
+                .AddGoogle(google =>
+                {
+                    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    google.ClientId = Configuration["Authentication:Google:ClientId"];
+                    google.ClaimActions.MapJsonKey("avatar", "picture");
+                    google.SaveTokens = true;
+                })
+                .AddFacebook(facebook =>
+                {
+                    facebook.ClientSecret = Configuration["Authentication:Facebook:ClientSecret"];
+                    facebook.ClientId = Configuration["Authentication:Facebook:ClientId"];
+                    facebook.SaveTokens = true;
                 });
 
             // JWT + MVC

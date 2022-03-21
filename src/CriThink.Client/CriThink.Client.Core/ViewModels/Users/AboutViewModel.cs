@@ -212,7 +212,6 @@ namespace CriThink.Client.Core.ViewModels.Users
 
             try
             {
-                await _platformDetails.LogoutSocialLoginAsync().ConfigureAwait(false);
                 _identityService.PerformLogout();
 
                 await NavigationService.Navigate<SignUpViewModel>(

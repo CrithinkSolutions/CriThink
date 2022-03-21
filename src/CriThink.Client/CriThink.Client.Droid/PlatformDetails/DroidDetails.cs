@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Android.Content;
+﻿using Android.Content;
 using CriThink.Client.Core.Platform;
-using CriThink.Client.Droid.Singletons;
 
 namespace CriThink.Client.Droid.PlatformDetails
 {
@@ -57,18 +55,6 @@ namespace CriThink.Client.Droid.PlatformDetails
             }
             LaunchIntent(skypeUri);
         }
-
-        public async Task LogoutSocialLoginAsync()
-        {
-            await GoogleSingleton.LogoutAsync();
-            FacebookSingleton.Logout();
-        }
-
-        public Task<string> RefreshGoogleTokenAsync() =>
-            GoogleSingleton.RefreshTokenAsync();
-
-        public string RefreshFacebookToken() =>
-            FacebookSingleton.RefreshFacebookToken();
 
         private static Intent GetIntentOfTheGivenPackage(string package) =>
             Android.App.Application.Context.PackageManager?.GetLaunchIntentForPackage(package);

@@ -5,6 +5,7 @@ using Acr.UserDialogs;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -18,15 +19,18 @@ namespace CriThink.Client.Core.ViewModels.Users
         public SignUpViewModel(
             IMvxNavigationService navigationService,
             IIdentityService identityService,
+            IConfiguration configuration,
             IUserDialogs userDialogs,
             ILogger<BaseSocialLoginViewModel> logger)
             : base(
                   identityService,
                   userDialogs,
+                  configuration,
                   navigationService,
                   logger)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            _navigationService = navigationService ??
+                throw new ArgumentNullException(nameof(navigationService));
         }
 
         #region Commands
