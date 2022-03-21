@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
@@ -380,7 +383,18 @@ namespace CriThink.Server.Web.Controllers
 
             if (response.Succeed)
             {
-                var url = EndpointConstants.AppSchema + "#";
+                var qs = new Dictionary<string, string>
+                {
+                    { "access_token", response.JwtToken.Token },
+                    { "refresh_token",  response.RefreshToken },
+                    { "jwt_token_expires", response.JwtToken.ExpirationDate.Ticks.ToString() },
+                };
+
+                var url = EndpointConstants.AppSchema + "#" + string.Join(
+                    separator: "&",
+                    values: qs
+                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                        .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
 
                 Request.HttpContext.Response.Redirect(url);
                 return;
