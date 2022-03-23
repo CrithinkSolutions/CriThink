@@ -1,12 +1,8 @@
 ﻿using Android.App;
-using Android.Graphics;
 using Android.OS;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using AndroidX.ConstraintLayout.Widget;
-using AndroidX.Core.Content;
 using CriThink.Client.Core.ViewModels.Users;
 using FFImageLoading.Cross;
 using MvvmCross.Binding.BindingContext;
@@ -14,7 +10,6 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.Plugin.Visibility;
-using ActionBar = AndroidX.AppCompat.App.ActionBar;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 // ReSharper disable once CheckNamespace
@@ -53,13 +48,14 @@ namespace CriThink.Client.Droid.Views.Users
             var txtName = FindViewById<AppCompatTextView>(Resource.Id.txtName);
             var txtCountry = FindViewById<AppCompatTextView>(Resource.Id.txtCountry);
             var txtDoB = FindViewById<AppCompatTextView>(Resource.Id.txtDoB);
+            var txtGender = FindViewById<AppCompatTextView>(Resource.Id.txtGender);
 
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayOptions((int) ActionBarDisplayOptions.ShowCustom, (int) ActionBarDisplayOptions.ShowCustom);
-         
+
             var set = CreateBindingSet();
 
             set.Bind(txtHello).To(vm => vm.HeaderText);
@@ -71,6 +67,7 @@ namespace CriThink.Client.Droid.Views.Users
             set.Bind(txtName).To(vm => vm.UserFullNameFormat);
             set.Bind(txtCountry).To(vm => vm.UserCountryFormat);
             set.Bind(txtDoB).To(vm => vm.UserDoBFormat);
+            set.Bind(txtGender).To(vm => vm.UserGenderFormat);
 
             set.Bind(imgTelegram).For(v => v.BindClick()).To(vm => vm.OpenTelegramCommand);
             set.Bind(imgSkype).For(v => v.BindClick()).To(vm => vm.OpenSkypeCommand);
