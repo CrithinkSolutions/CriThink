@@ -140,7 +140,7 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintVertical_chainStyle="packed"
                     android:background="?android:attr/selectableItemBackground"/>
-                
+
                 <!-- Twitter -->
                 <FFImageLoading.Cross.MvxCachedImageView
                     android:layout_width="@dimen/imgSize_profileSocial"
@@ -185,7 +185,7 @@
                     app:layout_constraintVertical_chainStyle="packed"
                     android:background="?android:attr/selectableItemBackground"/>
             </LinearLayout>
-                
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutAbout"
                 android:padding="@dimen/padding_card"
@@ -196,29 +196,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_big"
                 android:layout_height="0dp">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtAboutTitle"
-                android:layout_marginTop="@dimen/margin_big"
-                android:textSize="@dimen/textSize_subheader"
-                app:layout_constraintTop_toBottomOf="@id/imgInstagram"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:gravity="left"
-                tools:text="About me"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtAboutTitle"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:textSize="@dimen/textSize_subheader"
+                    app:layout_constraintTop_toBottomOf="@id/imgInstagram"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:gravity="left"
+                    tools:text="About me"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:id="@+id/txtAbout"
-                tools:text="About me"
-                android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintTop_toBottomOf="@id/txtAboutTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-                
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:id="@+id/txtAbout"
+                    tools:text="About me"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@id/txtAboutTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -326,6 +326,37 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Gender -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layoutDoB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:id="@+id/layoutGender">
+
+                    <FFImageLoading.Cross.MvxCachedImageView
+                        android:layout_height="@dimen/imgSize_medium"
+                        android:layout_width="@dimen/imgSize_medium"
+                        android:background="@drawable/circle_background"
+                        android:padding="@dimen/margin_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/ic_gender"
+                        android:id="@+id/imgGender"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/imgGender"
+                        app:layout_constraintTop_toTopOf="@id/imgGender"
+                        app:layout_constraintBottom_toBottomOf="@id/imgGender"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:id="@+id/txtGender"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
             <View
                 android:layout_width="match_parent"
@@ -336,7 +367,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_big"
                 />
-           
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
@@ -356,7 +387,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-    
+
     <FFImageLoading.Cross.MvxSvgCachedImageView
         android:layout_width="@dimen/imgSize_extralarge"
         android:layout_height="@dimen/imgSize_extralarge"
