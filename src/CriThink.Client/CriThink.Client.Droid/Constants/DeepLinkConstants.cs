@@ -8,7 +8,7 @@ namespace CriThink.Client.Droid.Constants
 
         public const string SchemaHTTPS = "https";
 
-        public const string SchemaHost = "crithinkdemo.com";
+        public const string SchemaHost = "crithinkapp.com";
 
         public const string SchemaPrefixResetPassword = EndpointConstants.ApiBase + EndpointConstants.IdentityBase + EndpointConstants.IdentityResetPassword;
 

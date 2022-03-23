@@ -16,7 +16,7 @@ namespace CriThink.Client.Droid
     public class MainApplication : MvxAndroidApplication<Setup, Core.App>
     {
 #if (APPCENTER)
-        private const string AppCenterApiKey = "<APPCENTER_API_KEY>";
+        private const string AppCenterApiKey = "5f990a44-05fd-4290-af55-ade86005b3ab";
 # endif
 
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)

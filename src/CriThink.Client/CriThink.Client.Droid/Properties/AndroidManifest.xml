@@ -1,29 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="0.68" package="com.crithink.client.dev" android:installLocation="auto">
-  <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="30" android:fullBackupContent="@xml/appcenter_backup_rule" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-  <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-feature android:name="android.hardware.location" android:required="false" />
-  <uses-feature android:name="android.hardware.location.gps" android:required="false" />
-  <uses-feature android:name="android.hardware.location.network" android:required="false" />
-  <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="CriThink Dev" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme">
-  </application>
-  <queries>
-    <intent>
-      <action android:name="android.support.customtabs.action.CustomTabsService" />
-    </intent>
-    <intent>
-      <action android:name="android.intent.action.VIEW" />
-      <data android:scheme="http" />
-    </intent>
-    <intent>
-      <action android:name="android.intent.action.VIEW" />
-      <data android:scheme="https" />
-    </intent>
-  </queries>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="0.68" package="com.crithink.client" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="31" android:fullBackupContent="@xml/appcenter_backup_rule" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-feature android:name="android.hardware.location" android:required="false" />
+	<uses-feature android:name="android.hardware.location.gps" android:required="false" />
+	<uses-feature android:name="android.hardware.location.network" android:required="false" />
+	<application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="CriThink" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme"></application>
+	<queries>
+		<intent>
+			<action android:name="android.support.customtabs.action.CustomTabsService" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="http" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="https" />
+		</intent>
+	</queries>
 </manifest>
