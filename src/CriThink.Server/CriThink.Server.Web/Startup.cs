@@ -295,6 +295,8 @@ namespace CriThink.Server.Web
                 {
                     facebook.ClientSecret = Configuration["Authentication:Facebook:ClientSecret"];
                     facebook.ClientId = Configuration["Authentication:Facebook:ClientId"];
+                    facebook.Scope.Add("user_gender");
+                    facebook.Scope.Add("user_birthday");
                     facebook.SaveTokens = true;
                 });
 
