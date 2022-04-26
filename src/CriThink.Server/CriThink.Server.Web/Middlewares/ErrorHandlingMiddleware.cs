@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CriThink.Common.Endpoints;
+using CriThink.Server.Application.Localize;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Web.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Npgsql;
@@ -20,16 +21,22 @@ namespace CriThink.Server.Web.Middlewares
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="next">The request processing</param>
+        /// <param name="stringLocalizer">Localizer</param>
         /// <param name="logger">Logger instance</param>
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+        public ErrorHandlingMiddleware(
+            RequestDelegate next,
+            IStringLocalizer<SharedResource> stringLocalizer,
+            ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
+            _stringLocalizer = stringLocalizer;
             _logger = logger;
         }
 
@@ -87,7 +94,9 @@ namespace CriThink.Server.Web.Middlewares
                 apiResponse = ManageGenericExceptions(context, ex);
             }
 
-            var result = JsonSerializer.Serialize(apiResponse);
+            var result = apiResponse is ApiBadRequestResponse badRequest ?
+                JsonSerializer.Serialize(badRequest) :
+                JsonSerializer.Serialize(apiResponse);
 
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(result);
@@ -127,7 +136,8 @@ namespace CriThink.Server.Web.Middlewares
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             return new ApiBadRequestResponse(
                 exception.Resource,
-                exception.IdentityResult.Errors.Select(e => e.Description));
+                exception.IdentityResult.Errors,
+                _stringLocalizer);
         }
 
         private ApiResponse ManageInfrastructureException(

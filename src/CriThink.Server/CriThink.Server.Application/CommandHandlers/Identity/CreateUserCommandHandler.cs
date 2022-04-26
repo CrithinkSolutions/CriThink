@@ -98,7 +98,7 @@ namespace CriThink.Server.Application.CommandHandlers
 
                 _logger?.LogError(
                     ex,
-                    "Error creating a new user: {0}, {1}, {2}",
+                    "Error creating a new user: {id}, {email}, {errors}",
                     user.Id,
                     user.Email,
                     userCreationResult.Errors);

@@ -3,7 +3,7 @@
 namespace CriThink.Server.Application.Localize
 {
     [ExcludeFromCodeCoverage]
-    internal class SharedResource
+    public class SharedResource
     {
         public SharedResource() { }
     }

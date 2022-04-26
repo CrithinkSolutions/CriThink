@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CriThink.Server.Web.Controllers
 {
@@ -38,21 +37,20 @@ namespace CriThink.Server.Web.Controllers
         private readonly IMediator _mediator;
         private readonly IIdentityQueries _identityQueries;
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<IdentityController> _logger;
 
         public IdentityController(
             IMediator mediator,
             IIdentityQueries identityQueries,
-            SignInManager<User> signInManager,
-            ILogger<IdentityController> logger)
+            SignInManager<User> signInManager)
         {
             _mediator = mediator ??
                 throw new ArgumentNullException(nameof(mediator));
 
             _identityQueries = identityQueries ??
                 throw new ArgumentNullException(nameof(identityQueries));
-            _signInManager = signInManager;
-            _logger = logger;
+
+            _signInManager = signInManager ??
+                throw new ArgumentNullException(nameof(signInManager));
         }
 
         /// <summary>
