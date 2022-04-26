@@ -3,10 +3,13 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CriThink.Client.Core.Api;
+using CriThink.Client.Core.Constants;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Models.Identity;
 using CriThink.Client.Core.Repositories;
 using CriThink.Common.Endpoints;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
+using CriThink.Common.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Refit;
@@ -20,6 +23,7 @@ namespace CriThink.Client.Core.Services
         private readonly IConfiguration _configuration;
         private readonly IAuthorizedIdentityApi _authorizedIdentityApi;
         private readonly IIdentityRepository _identityRepository;
+        private readonly IGeolocationService _geoService;
         private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(
@@ -27,6 +31,7 @@ namespace CriThink.Client.Core.Services
             IConfiguration configuration,
             IAuthorizedIdentityApi authorizedIdentityApi,
             IIdentityRepository identityRepository,
+            IGeolocationService geoService,
             ILogger<IdentityService> logger)
         {
             _identityApi = identityApi ??
@@ -40,6 +45,9 @@ namespace CriThink.Client.Core.Services
 
             _identityRepository = identityRepository ??
                 throw new ArgumentNullException(nameof(identityRepository));
+
+            _geoService = geoService ??
+                throw new ArgumentNullException(nameof(geoService));
 
             _logger = logger;
         }
@@ -210,14 +218,24 @@ namespace CriThink.Client.Core.Services
 
             try
             {
-                UserSignUpResponse response = await _identityApi.SignUpAsync(request.Username, request.Email, request.Password, streamPart, cancellationToken)
+                var language = await _geoService.GetCurrentCountryCodeAsync();
+                if (string.IsNullOrWhiteSpace(language))
+                    language = GeoConstant.DEFAULT_LANGUAGE;
+
+                UserSignUpResponse response = await _identityApi.SignUpAsync(
+                    request.Username,
+                    request.Email,
+                    request.Password,
+                    streamPart,
+                    language,
+                    cancellationToken)
                     .ConfigureAwait(false);
 
                 return response;
             }
-            catch (HttpRequestException)
+            catch (ApiException ex) when (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                throw;
+                throw new CriThinkSignUpException(ex.Content);
             }
             catch (Exception ex)
             {

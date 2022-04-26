@@ -22,7 +22,13 @@ namespace CriThink.Client.Core.Api
 
         [Multipart]
         [Post("/" + EndpointConstants.IdentitySignUp)]
-        Task<UserSignUpResponse> SignUpAsync(string username, string email, string password, [AliasAs("formFile")] StreamPart streamPart, CancellationToken cancellationToken = default);
+        Task<UserSignUpResponse> SignUpAsync(
+            string username,
+            string email,
+            string password,
+            [AliasAs("formFile")] StreamPart streamPart,
+            [Header("Accept-Language")] string languages,
+            CancellationToken cancellationToken = default);
 
         [Post("/" + EndpointConstants.Mobile + EndpointConstants.IdentityConfirmEmail)]
         Task<VerifyUserEmailResponse> ConfirmEmailAsync([Body] EmailConfirmationRequest request, CancellationToken cancellationToken = default);
