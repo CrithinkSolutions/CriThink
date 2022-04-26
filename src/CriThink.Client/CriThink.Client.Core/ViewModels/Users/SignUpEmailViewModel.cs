@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using CriThink.Client.Core.Exceptions;
 using CriThink.Client.Core.Services;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Helpers;
@@ -229,6 +231,7 @@ namespace CriThink.Client.Core.ViewModels.Users
             {
                 var userInfo = await _identityService.PerformSignUpAsync(request, _streamPart, cancellationToken)
                     .ConfigureAwait(false);
+
                 if (userInfo is null)
                 {
                     var localizedText = LocalizedTextSource.GetText("ErrorMessage");
@@ -243,13 +246,10 @@ namespace CriThink.Client.Core.ViewModels.Users
                         .ConfigureAwait(true);
                 }
             }
-            catch (HttpRequestException ex)
+            catch (CriThinkSignUpException ex)
             {
-                await ShowMessageAsync(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error during the user sign up");
+                var errors = ex.GetErrorList();
+                await ShowMessageAsync(errors);
             }
             finally
             {

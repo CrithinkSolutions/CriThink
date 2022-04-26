@@ -138,7 +138,6 @@ namespace CriThink.Client.Core.ViewModels.DebunkingNews
                 {
                     var countryCode = await _geoService.GetCurrentCountryCodeAsync();
                     language = countryCode.Coalesce(GeoConstant.DEFAULT_LANGUAGE);
-
                 }
 
                 var debunkinNewsCollection = await _debunkingNewsService
