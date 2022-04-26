@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
 
 namespace CriThink.Server.Web.Models.DTOs
 {
@@ -41,12 +43,16 @@ namespace CriThink.Server.Web.Models.DTOs
         /// </summary>
         /// <param name="resource">Name of the resource that failed the validation</param>
         /// <param name="messages">List of messages to display</param>
-        public ApiBadRequestResponse(string resource, IEnumerable<string> messages)
+        /// <param name="stringLocalizer">Localizer</param>
+        public ApiBadRequestResponse(
+            string resource,
+            IEnumerable<IdentityError> messages,
+            IStringLocalizer<Application.Localize.SharedResource> stringLocalizer)
             : base(StatusCodes.Status400BadRequest)
         {
             Errors = new Dictionary<string, ReadOnlyCollection<string>>
             {
-                {resource, messages.ToList().AsReadOnly()}
+                {resource, messages.Select(x => stringLocalizer[x.Code].Value).ToList().AsReadOnly()}
             };
         }
 

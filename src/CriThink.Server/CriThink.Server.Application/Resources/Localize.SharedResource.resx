@@ -153,4 +153,19 @@
   <data name="NewsSourceSuspicious" xml:space="preserve">
     <value>These sources may publish a mix of non-factual and factual information which is misrepresented and/or reported with bias (e.g. political leaning bias). Therefore, information coming from these sources should be double-checked considering reliable sources of news.</value>
   </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>Password requires at least a digit</value>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Password requires at least a lower letter</value>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Password requires at least a non alphanumeric character</value>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Password requires at least a capital letter</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Password is too short. Please add at least 8 characters</value>
+  </data>
 </root>

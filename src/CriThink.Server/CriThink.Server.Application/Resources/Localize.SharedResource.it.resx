@@ -153,4 +153,19 @@
   <data name="NewsSourceSuspicious" xml:space="preserve">
     <value>Queste fonti potrebbero pubblicare un mix di notizie false e notizie vere che sono riportate in modo da influenzare I lettori verso particolari argomenti. Per questo, le informazioni provenienti da queste fonti dovrebbero essere ricontrollate prima di essere condivise.</value>
   </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>La password richiede almeno un numero</value>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>La password richiede almeno una lettera minuscola</value>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>La password richiede almeno un carattere non alfanumerico</value>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>La password richiede almeno una lettera maiuscola</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>La password è troppo corta. Inserisci almeno 8 caratteri</value>
+  </data>
 </root>
