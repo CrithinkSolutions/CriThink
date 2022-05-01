@@ -392,3 +392,7 @@ yarn-error.log*
 
 # Uploads
 **/wwwroot/uploads
+
+# Terraform
+.terraform
+*.tfstate.backup

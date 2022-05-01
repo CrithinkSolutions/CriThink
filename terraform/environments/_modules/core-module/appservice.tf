@@ -1,0 +1,46 @@
+# TODO: remove as soon as possible
+locals {
+  plan_region = "West Europe"
+}
+
+resource "azurerm_service_plan" "plan" {
+  name                = var.appsrvpln_name
+  resource_group_name = var.rg_name
+  location            = local.plan_region
+  os_type             = "Linux"
+  sku_name            = "B1"
+
+  tags = {
+    application_name = var.tag_appname
+    environment      = var.tag_environment
+  }
+}
+
+resource "azurerm_linux_web_app" "appsrv" {
+  depends_on = [
+    azurerm_service_plan.plan
+  ]
+
+  name                = var.appsrv_name
+  resource_group_name = var.rg_name
+  location            = local.plan_region
+  service_plan_id     = azurerm_service_plan.plan.id
+
+  app_settings = {
+    "DOCKER_REGISTRY_SERVER_URL"          = var.acr_url
+    "DOCKER_REGISTRY_SERVER_USERNAME"     = var.acr_user_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD"     = "@Microsoft.KeyVault(SecretUri=https://${azurerm_key_vault.keyvault.name}.vault.azure.net/secrets/${var.keyvault_ref_acr_user_password}/)"
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+  }
+
+  site_config {}
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = {
+    application_name = var.tag_appname
+    environment      = var.tag_environment
+  }
+}
