@@ -1,3 +1,4 @@
-output "ai_instrumentation_key" {
-  value = azurerm_application_insights.ai_appsrv.instrumentation_key
+output "ai_connection_string" {
+  value = azurerm_application_insights.ai_appsrv.connection_string
+  sensitive = true
 }

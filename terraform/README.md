@@ -25,3 +25,8 @@
 - SQL (database) -> {environment}db{suffix}
 - Lock -> {blockedResourceName}-{level}
 - ACR -> crithinkacr{suffix}
+- SendGrid -> {environment}sendgrid{suffix}
+
+### Tags
+application_name: CriThink
+environment: Global/Staging/Production

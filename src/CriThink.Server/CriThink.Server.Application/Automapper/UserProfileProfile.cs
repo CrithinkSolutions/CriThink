@@ -89,7 +89,7 @@ namespace CriThink.Server.Application.Automapper
                 .ForMember(dest => dest.DateOfBirth, opt =>
                     opt.MapFrom(src => src.DateOfBirth))
                 .ForMember(dest => dest.AvatarPath, opt =>
-                    opt.MapFrom<HostnameResolver, string>(src => src.AvatarPath))
+                    opt.Ignore())
                 .ForMember(dest => dest.Username, opt =>
                     opt.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.Email, opt =>

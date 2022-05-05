@@ -108,9 +108,9 @@ namespace CriThink.Server.Infrastructure.Managers
             _configuration["Jwt-Issuer"];
 
         private TimeSpan GetJwtExpiration() =>
-            _configuration.GetValue<TimeSpan>("Jwt-ExpirationFromNow");
+            _configuration.GetValue<TimeSpan>("Jwt:ExpirationFromNow");
 
         private TimeSpan GetRefreshExpiration() =>
-            _configuration.GetValue<TimeSpan>("Refresh-ExpirationFromNow");
+            _configuration.GetValue<TimeSpan>("RefreshToken:ExpirationFromNow");
     }
 }

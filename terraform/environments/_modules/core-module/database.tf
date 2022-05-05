@@ -1,4 +1,4 @@
-resource "azurerm_postgresql_server" "pg-server" {
+resource "azurerm_postgresql_server" "pg_server" {
   name                         = var.db_server_name
   resource_group_name          = var.rg_name
   location                     = var.rg_location
@@ -16,10 +16,10 @@ resource "azurerm_postgresql_server" "pg-server" {
   }
 }
 
-resource "azurerm_postgresql_database" "pg-database" {
+resource "azurerm_postgresql_database" "pg_database" {
   name                = var.db_name
   resource_group_name = var.rg_name
   charset             = "UTF8"
   collation           = "English_United States.1252"
-  server_name         = azurerm_postgresql_server.pg-server.name
+  server_name         = azurerm_postgresql_server.pg_server.name
 }

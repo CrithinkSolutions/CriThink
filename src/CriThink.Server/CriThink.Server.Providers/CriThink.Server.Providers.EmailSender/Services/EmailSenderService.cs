@@ -57,7 +57,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             // TODO: Use nameof() for path composition
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccountEmail.cshtml", confirmAccountModel);
 
-            await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
+            await ExecuteAsync(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
         }
 
         public async Task SendPasswordResetEmailAsync(string recipient, string userId, string encodedCode, string userName)
@@ -72,7 +72,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
             // TODO: custom email for this scope
             var htmlBody = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Emails/ForgotPassword/ForgotPasswordEmail.cshtml", confirmAccountModel);
 
-            await Execute(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
+            await ExecuteAsync(new[] { recipient }, subject, htmlBody).ConfigureAwait(false);
         }
 
         public async Task SendUnknownDomainAlertEmailAsync(string unknownDomainUrl, string resquetedByEmail)
@@ -84,7 +84,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             const string subject = "[ALERT] - New unknown domain received";
 
-            await Execute(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
+            await ExecuteAsync(new[] { _emailSettings.AdminEmailAddress }, subject, htmlBody);
         }
 
         public async Task SendIdentifiedNewsSourceEmailAsync(string recipient, string identifiedDomainUrl, string classification)
@@ -96,7 +96,7 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             var subject = $"[{classification}] - We identified the domain";
 
-            await Execute(new[] { recipient }, subject, htmlBody);
+            await ExecuteAsync(new[] { recipient }, subject, htmlBody);
         }
 
         public async Task SendAccountDeletionConfirmationEmailAsync(string recipient, string username)
@@ -108,16 +108,16 @@ namespace CriThink.Server.Providers.EmailSender.Services
 
             var subject = $"We have permanently deleted your account";
 
-            await Execute(new[] { recipient }, subject, htmlBody);
+            await ExecuteAsync(new[] { recipient }, subject, htmlBody);
         }
 
-        private async Task Execute(IEnumerable<string> recipients, string subject, string htmlBody)
+        private async Task ExecuteAsync(IEnumerable<string> recipients, string subject, string htmlBody)
         {
             var fromAddress = _emailSettings.FromAddress;
 
             try
             {
-                await _emailSenderProvider.Send(
+                await _emailSenderProvider.SendAsync(
                     fromAddress,
                     recipients,
                     subject,

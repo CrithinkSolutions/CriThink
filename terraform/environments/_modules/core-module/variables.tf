@@ -84,13 +84,73 @@ variable "db_admin_password" {
 
 # Redis
 variable "redis_name" {
-  type = string
+  type        = string
   description = "Redis cache DNS name"
+}
+
+# Storage
+variable "internal_stg_name" {
+  type        = string
+  description = "Internal storage account name"
+}
+
+# DNS Zone
+variable "app_domain" {
+  type        = string
+  description = "AppService domain"
 }
 
 # Secrets
 variable "acr_user_password" {
   type        = string
   description = "Password of the account able to pull images from ACR"
+  sensitive   = true
+}
+
+variable "jwt_secret_key" {
+  type        = string
+  description = "Password of the account able to pull images from ACR"
+  sensitive   = true
+}
+
+variable "cross_service_scraper_value" {
+  type        = string
+  description = "CrossService Scraper value"
+  sensitive   = true
+}
+
+variable "cross_service_dnews_value" {
+  type        = string
+  description = "CrossService Debunking News value"
+  sensitive   = true
+}
+
+variable "authentication_google_client_secret" {
+  type        = string
+  description = "Google authentication client secret"
+  sensitive   = true
+}
+
+variable "authentication_google_client_id" {
+  type        = string
+  description = "Google authentication client id"
+  sensitive   = true
+}
+
+variable "authentication_facebook_client_secret" {
+  type        = string
+  description = "Facebook authentication client secret"
+  sensitive   = true
+}
+
+variable "authentication_facebook_client_id" {
+  type        = string
+  description = "Facebook authentication client id"
+  sensitive   = true
+}
+
+variable "sendgrid_api_key" {
+  type        = string
+  description = "SendGrid API key"
   sensitive   = true
 }

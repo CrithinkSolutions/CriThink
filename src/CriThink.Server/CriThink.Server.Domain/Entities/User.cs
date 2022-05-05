@@ -235,9 +235,8 @@ namespace CriThink.Server.Domain.Entities
             var uri = await fileService.SaveFileAsync(
                 formFile,
                 true,
-                ProfileConstants.AvatarFileName,
-                Id.ToString(),
-                ProfileConstants.ProfileFolder);
+                Id,
+                ProfileConstants.AvatarFileName);
 
             Profile.UpdateUserAvatar(uri.AbsolutePath);
         }
@@ -255,9 +254,8 @@ namespace CriThink.Server.Domain.Entities
             var uri = await fileService.SaveFileAsync(
                 bytes,
                 true,
-                ProfileConstants.AvatarFileName,
-                Id.ToString(),
-                ProfileConstants.ProfileFolder);
+                Id,
+                ProfileConstants.AvatarFileName);
 
             Profile.UpdateUserAvatar(uri.AbsolutePath);
         }
@@ -269,9 +267,8 @@ namespace CriThink.Server.Domain.Entities
                 throw new ArgumentNullException(nameof(fileService));
 
             await fileService.DeleteFileAsync(
-                ProfileConstants.AvatarFileName,
-                Id.ToString(),
-                ProfileConstants.ProfileFolder);
+                Id,
+                ProfileConstants.AvatarFileName);
         }
 
         public void ConfirmEmail()

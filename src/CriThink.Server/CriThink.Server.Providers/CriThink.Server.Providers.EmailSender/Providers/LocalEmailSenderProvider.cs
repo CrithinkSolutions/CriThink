@@ -7,7 +7,7 @@ namespace CriThink.Server.Providers.EmailSender.Providers
 {
     public class LocalEmailSenderProvider : IEmailSenderProvider
     {
-        public async Task Send(string fromAddress, IEnumerable<string> recipients, string subject, string htmlBody)
+        public async Task SendAsync(string fromAddress, IEnumerable<string> recipients, string subject, string htmlBody)
         {
             var smtpClient = new SmtpClient
             {

@@ -25,3 +25,8 @@ variable "cognitive_account_name" {
   type        = string
   description = "Cognitive account name"
 }
+
+variable "keyvault_id" {
+  type        = string
+  description = "KeyVault resource id"
+}

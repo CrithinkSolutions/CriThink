@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using CriThink.Server.Domain.Constants;
 using CriThink.Server.Domain.DomainServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,54 +14,50 @@ namespace CriThink.Server.Application.DomainServices
 
         public FileService(IWebHostEnvironment environment, IHttpContextAccessor httpContext)
         {
-            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
-            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+            _environment = environment ??
+                throw new ArgumentNullException(nameof(environment));
+
+            _httpContext = httpContext ??
+                throw new ArgumentNullException(nameof(httpContext));
         }
 
-        public string Hostname => GetHostname();
-
-        public async Task<Uri> SaveFileAsync(IFormFile formFile, bool replaceIfExist, string fileName, params string[] paths)
+        public async Task<Uri> SaveFileAsync(
+            IFormFile formFile,
+            bool replaceIfExist,
+            Guid userId,
+            string fileName)
         {
             if (formFile is null || formFile.Length == 0)
                 throw new ArgumentNullException(nameof(formFile));
 
-            if (paths is null || !paths.Any())
-                throw new ArgumentNullException(nameof(paths));
-
-            var fullRelativePath = BuildFullRelativePath(paths);
-
-            await using var fileStream = OpenStream(replaceIfExist, fileName, fullRelativePath);
+            await using var fileStream = OpenStream(replaceIfExist, userId, fileName);
 
             await formFile.CopyToAsync(fileStream);
 
-            return GetResourceUri(fullRelativePath, fileName);
+            return GetResourceUri(userId, fileName);
         }
 
-        public async Task<Uri> SaveFileAsync(byte[] bytes, bool replaceIfExist, string fileName, params string[] paths)
+        public async Task<Uri> SaveFileAsync(
+            byte[] bytes,
+            bool replaceIfExist,
+            Guid userId,
+            string fileName)
         {
             if (bytes is null || bytes.Length == 0)
                 throw new ArgumentNullException(nameof(bytes));
 
-            if (paths is null || !paths.Any())
-                throw new ArgumentNullException(nameof(paths));
-
-            var fullRelativePath = BuildFullRelativePath(paths);
-
-            await using var fileStream = OpenStream(replaceIfExist, fileName, fullRelativePath);
+            await using var fileStream = OpenStream(replaceIfExist, userId, fileName);
 
             await using var ms = new MemoryStream(bytes);
             ms.WriteTo(fileStream);
 
-            return GetResourceUri(fullRelativePath, fileName);
+            return GetResourceUri(userId, fileName);
         }
 
-        public Task DeleteFileAsync(string fileName, params string[] paths)
+        public Task DeleteFileAsync(Guid userId, string fileName)
         {
-            if (paths is null || !paths.Any())
-                throw new ArgumentNullException(nameof(paths));
-
-            var fullPath = BuildFullRelativePath(paths);
-            var pathWithRootFolder = PrependRootFolder(fullPath);
+            var relativePath = BuildRelativePath(userId, fileName);
+            var pathWithRootFolder = PrependRootFolder(relativePath);
             var pathWithFileName = Path.Combine(pathWithRootFolder, fileName);
 
             if (File.Exists(pathWithFileName))
@@ -72,16 +66,25 @@ namespace CriThink.Server.Application.DomainServices
             return Task.CompletedTask;
         }
 
-        private Stream OpenStream(bool replaceIfExist, string fileName, string fullRelativePath)
+        public Uri GetAccessibleBlobUri(Guid userId, string fileName)
         {
-            var destinationFolder = PrependRootFolder(fullRelativePath);
+            var uri = GetResourceUri(userId, fileName);
+            return uri;
+        }
+
+        private Stream OpenStream(bool replaceIfExist, Guid userId, string fileName)
+        {
+            var destinationFolder = PrependRootFolder(userId.ToString());
 
             EnsurePathExists(destinationFolder);
 
             var pathWithFile = Path.Combine(destinationFolder, fileName);
 
-            var fileStream = InitializeStream(replaceIfExist, pathWithFile);
-            return fileStream;
+            var fileMode = replaceIfExist ?
+                FileMode.Create :
+                FileMode.CreateNew;
+
+            return new FileStream(pathWithFile, fileMode);
         }
 
         private void EnsurePathExists(string fullPath)
@@ -94,20 +97,11 @@ namespace CriThink.Server.Application.DomainServices
         private string PrependRootFolder(string fullPath) =>
             Path.Combine(_environment.WebRootPath, fullPath);
 
-        private static Stream InitializeStream(bool replaceIfExist, string pathWithFile)
-        {
-            var fileMode = replaceIfExist ?
-                FileMode.Create :
-                FileMode.CreateNew;
+        private static string BuildRelativePath(Guid userId, string fileName) =>
+            Path.Combine(userId.ToString(), fileName);
 
-            return new FileStream(pathWithFile, fileMode);
-        }
-
-        private static string BuildFullRelativePath(string[] paths) =>
-            Path.Combine(AssetsConstants.RootFolder, Path.Combine(paths));
-
-        private Uri GetResourceUri(string pathWithFile, string fileName) =>
-            new($"{GetHostname()}{pathWithFile}{fileName}");
+        private Uri GetResourceUri(Guid userId, string fileName) =>
+            new($"{GetHostname()}{userId}/{fileName}");
 
         private string GetHostname() =>
             $"{_httpContext?.HttpContext?.Request.Scheme}://{_httpContext?.HttpContext?.Request.Host}/";

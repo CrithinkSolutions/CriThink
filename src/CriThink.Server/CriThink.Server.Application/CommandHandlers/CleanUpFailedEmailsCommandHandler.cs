@@ -37,7 +37,7 @@ namespace CriThink.Server.Application.CommandHandlers
             {
                 try
                 {
-                    await _emailSenderProvider.Send(
+                    await _emailSenderProvider.SendAsync(
                         failedEmail.FromAddress,
                         failedEmail.Recipients,
                         failedEmail.Subject,

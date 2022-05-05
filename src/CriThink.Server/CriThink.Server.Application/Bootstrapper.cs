@@ -35,7 +35,7 @@ namespace CriThink.Server.Application
             serviceCollection.AddScoped<INewsSourceQueries, NewsSourceQueries>();
             serviceCollection.AddScoped<IUnknownNewsSourceQueries, UnknownNewsSourceQueries>();
 
-            serviceCollection.AddScoped<IFileService>(sp =>
+            serviceCollection.AddSingleton<IFileService>(sp =>
             {
                 var environment = sp.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
@@ -43,9 +43,13 @@ namespace CriThink.Server.Application
                         sp.GetRequiredService<IWebHostEnvironment>(),
                         sp.GetRequiredService<IHttpContextAccessor>());
 
-                return new S3Service(
+                return new BlobStorageService(
                     sp.GetRequiredService<IConfiguration>(),
-                    sp.GetService<ILogger<S3Service>>());
+                    sp.GetService<ILogger<BlobStorageService>>());
+
+                //return new S3Service(
+                //    sp.GetRequiredService<IConfiguration>(),
+                //    sp.GetService<ILogger<S3Service>>());
             });
         }
     }

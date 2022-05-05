@@ -25,3 +25,9 @@ variable "ai_name" {
   type        = string
   description = "AI resource name"
 }
+
+# Secrets
+variable "keyvault_id" {
+  type        = string
+  description = "KeyVault resource id"
+}

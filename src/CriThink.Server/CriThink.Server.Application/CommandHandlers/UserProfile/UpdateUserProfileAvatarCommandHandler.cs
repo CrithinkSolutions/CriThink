@@ -34,7 +34,7 @@ namespace CriThink.Server.Application.CommandHandlers
         {
             _logger?.LogInformation(nameof(UpdateUserProfileAvatarCommandHandler));
 
-            var user = await _userRepository.GetUserByIdAsync(request.UserId);
+            var user = await _userRepository.GetUserByIdAsync(request.UserId, false, cancellationToken);
             if (user is null)
                 throw new CriThinkNotFoundException("User not found", request.UserId);
 
