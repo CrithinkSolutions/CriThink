@@ -18,18 +18,11 @@ on:
     branches: [ feature/iac-azure ] # TODO: change back to main
 
 jobs:
-  # checkout:
-  #   runs-on: ubuntu-latest
-  #   environment: production
-  #   steps:
-
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
   crithink_deploy:
-    # runs-on: ubuntu-latest
-    # environment: production
     uses: ./.github/workflows/crithink_deploy.yml
+    name: Running CriThink Deploy script
+    with:
+      environment: production
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK

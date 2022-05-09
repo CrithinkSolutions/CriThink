@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: test
+        run: echo "Env is ${{env.environment}}"
+
       - uses: dorny/paths-filter@v2
         id: filter
         with:
