@@ -22,8 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/workflows/crithink_deploy
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: CriThink Deploy
+        uses: ./.github/workflows/crithink_deploy.yml
 
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
