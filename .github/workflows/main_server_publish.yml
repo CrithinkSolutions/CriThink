@@ -23,6 +23,7 @@ jobs:
     name: Running CriThink Deploy script
     with:
       environment: production
+      tf_version: 3.4.0
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK

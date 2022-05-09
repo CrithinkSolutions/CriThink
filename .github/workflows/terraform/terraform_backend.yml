@@ -1,7 +1,18 @@
-name: terraform_backend
+name: crithink_deploy
 
 on:
   workflow_call:
+    inputs:
+
+      environment:
+        required: true
+        type: string
+        description: 'Environment to deploy. Possible values are staging and production'
+        
+      tf_version:
+        required: true
+        type: string
+        description: 'Terraform version'
 
 jobs:
   backend_deploy:
@@ -15,7 +26,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 3.4.0
+          terraform_version: ${{ env.tf_version }}
 
       - name: Terraform Format
         id: fmt

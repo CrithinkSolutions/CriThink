@@ -3,10 +3,16 @@ name: crithink_deploy
 on:
   workflow_call:
     inputs:
+
       environment:
         required: true
         type: string
         description: 'Environment to deploy. Possible values are staging and production'
+
+      tf_version:
+        required: true
+        type: string
+        description: 'Terraform version'
 
 jobs:
   path_filters:
@@ -22,7 +28,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: test
-        run: echo "Env is ${{env.environment}}"
+        run: echo "Env is ${{ inputs.environment }}"
 
       - uses: dorny/paths-filter@v2
         id: filter
@@ -47,13 +53,14 @@ jobs:
         if: steps.filter.outputs.backend == 'true'
         run: echo "Preparing to deploy CriThink backend"
 
-  # terraform_backend:
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ env.environment }}
-  #   needs: path-filters
-  #   if: needs.path_filters.outputs.terraformBackendPath == 'true'
-  #   steps:
-  #     - uses: ./.github/workflows/terraform_backend
+  terraform_backend:
+    uses: ./.github/workflows/terraform/terraform_backend.yml
+    needs: path-filters
+    if: needs.path_filters.outputs.terraformBackendPath == 'true'
+    name: Running Terraform Backend
+    with:
+      environment: ${{ inputs.environment }}
+      tf_version: ${{ inputs.tf_version }}
 
   # terraform_environments:
   #   runs-on: ubuntu-latest
