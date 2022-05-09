@@ -13,111 +13,96 @@ on:
   push:
     paths:
       - src/CriThink.Server/**
-    branches: [ main ]
+      - terraform/**
+      - .github/workflows/**
+    branches: [ feature/iac-azure ] # TODO: change back to main
 
 jobs:
-  build:
+  crithink_deploy:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - uses: ./.github/workflows/crithink_deploy
 
-    - name: Installing EF tools
-      run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
+    #    - uses: actions/checkout@v2
+    #   - name: Setup .NET SDK
+    #     uses: actions/setup-dotnet@v1
+    #     with:
+    #       dotnet-version: 6.0.x
 
-    - name: Read secrets from AWS Secrets Manager
-      uses: abhilash1in/aws-secrets-manager-action@v1.0.1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        secrets: ${{env.AWS_SECRETS}}
-        parse-json: true
+    # - name: Installing EF tools
+    #   run: |
+    #     dotnet tool install --global dotnet-ef
+    #     dotnet tool restore
 
-    - name: Add AWS security group exception
-      uses: sohelamin/aws-security-group-add-ip-action@master
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-security-group-id: ${{ secrets.AWS_PRODUCTION_SECURITY_GROUP_ID }}
-        port: '5432'
-        to-port: '5432'
-        protocol: 'tcp'
-        description: 'GitHub'
+   
     
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: AWS Login
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{secrets.AWS_REGION}}
+    # - name: AWS Login
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: ${{secrets.AWS_REGION}}
 
-    - name: Get timestamp
-      uses: gerred/actions/current-time@master
-      id: current-time
+    # - name: Get timestamp
+    #   uses: gerred/actions/current-time@master
+    #   id: current-time
     
-    - name: Run string replace
-      uses: frabert/replace-string-action@master
-      id: format-time
-      with:
-        pattern: '[:\.]+'
-        string: "${{ steps.current-time.outputs.time }}"
-        replace-with: '-'
-        flags: 'g'
+    # - name: Run string replace
+    #   uses: frabert/replace-string-action@master
+    #   id: format-time
+    #   with:
+    #     pattern: '[:\.]+'
+    #     string: "${{ steps.current-time.outputs.time }}"
+    #     replace-with: '-'
+    #     flags: 'g'
 
-    - name: Zip deployment package
-      run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
+    # - name: Zip deployment package
+    #   run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
 
-    - name: Deploy to AWS Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v10
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
-        application_name: CriThink
-        environment_name: ${{env.AWS_ENVIRONMENT}}
-        version_label: "production-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: ${{env.ZIP_PACKAGE}}
+    # - name: Deploy to AWS Beanstalk
+    #   uses: einaregilsson/beanstalk-deploy@v10
+    #   with:
+    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     region: ${{ secrets.AWS_REGION }}
+    #     application_name: CriThink
+    #     environment_name: ${{env.AWS_ENVIRONMENT}}
+    #     version_label: "production-app-web-${{ steps.format-time.outputs.replaced }}"
+    #     deployment_package: ${{env.ZIP_PACKAGE}}
 
-    - name: Deployed successfully!
-      run: echo Production App deployed to ELB
+    # - name: Deployed successfully!
+    #   run: echo Production App deployed to ELB
 
-    - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.PRODUCTION_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'
+    # - name: Running EF migrations
+    #   run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.PRODUCTION_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'
 
-    - name: Database Updated
-      run: echo Database successfully updated
+    # - name: Database Updated
+    #   run: echo Database successfully updated
     
-    - name: Run ARM deploy
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./azure/crithink-deploy.json
-        parameters:
-          environment=${{ env.ASPNETCORE_ENVIRONMENT }}
-          storageAccountName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_STORAGEACCOUNTNAME }}
-          endpoint=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_ENDPOINT }}
-          cognitiveServiceName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_COGNITIVESERVICENAME }}
-          logicAppName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_LOGICAPPNAME }}
-          triggerRecurrenceHours=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_TRIGGERRECURRENCEHOURS }}
-          X-CriThink-Cross-Service=${{ env.PRODUCTION_CRITHINK_SERVER_CROSSSERVICE_DNEWS_VALUE }}
-          emailRecipient=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_EMAILRECIPIENT }}
-          connections_outlook_externalid=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_CONNECTIONSOUTLOOKEXTERNALID }}
-          publicVnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETNAME }}
-          publicVnetSubnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETSUBNETNAME }}
+    # - name: Run ARM deploy
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ secrets.AZURE_RG }}
+    #     template: ./azure/crithink-deploy.json
+    #     parameters:
+    #       environment=${{ env.ASPNETCORE_ENVIRONMENT }}
+    #       storageAccountName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_STORAGEACCOUNTNAME }}
+    #       endpoint=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_ENDPOINT }}
+    #       cognitiveServiceName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_COGNITIVESERVICENAME }}
+    #       logicAppName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_LOGICAPPNAME }}
+    #       triggerRecurrenceHours=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_TRIGGERRECURRENCEHOURS }}
+    #       X-CriThink-Cross-Service=${{ env.PRODUCTION_CRITHINK_SERVER_CROSSSERVICE_DNEWS_VALUE }}
+    #       emailRecipient=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_EMAILRECIPIENT }}
+    #       connections_outlook_externalid=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_CONNECTIONSOUTLOOKEXTERNALID }}
+    #       publicVnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETNAME }}
+    #       publicVnetSubnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETSUBNETNAME }}
     
-    - name: ARM Successfully deployed
-      run: echo ARM templates successfully deployed
+    # - name: ARM Successfully deployed
+    #   run: echo ARM templates successfully deployed

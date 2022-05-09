@@ -38,9 +38,10 @@ module "core_module" {
   keyvault_name                  = var.keyvault_name
   appsrvpln_name                 = var.appsrvpln_name
   appsrv_name                    = var.appsrv_name
-  acr_url                        = var.acr_url
+  acr_name                       = var.acr_name
   acr_user_username              = var.acr_user_username
   acr_user_password              = var.acr_user_password
+  acr_id                         = var.acr_id
   keyvault_ref_acr_user_password = var.keyvault_ref_acr_user_password
   objectid_app                   = var.objectid_app
   db_server_name                 = var.db_server_name

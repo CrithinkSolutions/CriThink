@@ -37,9 +37,9 @@ variable "appsrv_name" {
   description = "App Service name"
 }
 
-variable "acr_url" {
+variable "acr_name" {
   type        = string
-  description = "ACR URL to pull images from"
+  description = "ACR name"
 }
 
 variable "acr_user_username" {
@@ -98,6 +98,12 @@ variable "internal_stg_name" {
 variable "app_domain" {
   type        = string
   description = "AppService domain"
+}
+
+# Roles
+variable "acr_id" {
+  type = string
+  description = "ACR resource id"
 }
 
 # Secrets

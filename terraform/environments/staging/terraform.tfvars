@@ -1,6 +1,6 @@
 # TO BE REMOVED
 
-acr_url                               = "acr"
+acr_name                              = "crithinkacr01"
 acr_user_password                     = "king2Pac!"
 acr_user_username                     = "boss"
 db_admin_password                     = "king2Pac!"
@@ -25,3 +25,4 @@ authentication_google_client_id       = "1064440290860-58nb9a9tbimmocjr6mkc4i3ah
 authentication_facebook_client_secret = "97d6403203028d136ec85bd7349207f3"
 authentication_facebook_client_id     = "804449043690413"
 sendgrid_api_key                      = "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"
+acr_id                                = "/subscriptions/b14c1d28-daf7-49c1-bed3-5f96af4d79ca/resourceGroups/crithink-global/providers/Microsoft.ContainerRegistry/registries/crithinkacr01"

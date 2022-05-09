@@ -4,7 +4,7 @@ locals {
   application_name = "CriThink"
 }
 
-variable "acr_url" {
+variable "acr_name" {
   type        = string
   description = "ACR URL to pull images from"
 }
@@ -18,6 +18,11 @@ variable "acr_user_password" {
   type        = string
   description = "Password of the account able to pull images from ACR"
   sensitive   = true
+}
+
+variable "acr_id" {
+  type        = string
+  description = "ACR resource id"
 }
 
 variable "keyvault_ref_acr_user_password" {
