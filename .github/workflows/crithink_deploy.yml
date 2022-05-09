@@ -2,11 +2,11 @@ name: crithink_deploy
 
 on:
   workflow_call:
-    # inputs:
-    #   environment:
-    #     required: true
-    #     type: string
-    #     description: 'Environment to deploy. Possible values are staging and production'
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Environment to deploy. Possible values are staging and production'
 
 jobs:
   path_filters:
