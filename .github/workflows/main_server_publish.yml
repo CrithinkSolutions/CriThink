@@ -24,8 +24,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: CriThink Deploy
-        uses: ./.github/workflows/crithink_deploy.yml
+      - uses: ./.github/workflows/crithink_deploy
 
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
