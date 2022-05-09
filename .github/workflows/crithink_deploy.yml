@@ -54,7 +54,7 @@ jobs:
         run: echo "Preparing to deploy CriThink backend"
 
   terraform_backend:
-    uses: ./.github/workflows/terraform/terraform_backend.yml
+    uses: ./.github/workflows/terraform_backend.yml
     needs: path-filters
     if: needs.path_filters.outputs.terraformBackendPath == 'true'
     name: Running Terraform Backend
