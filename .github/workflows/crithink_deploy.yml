@@ -15,65 +15,10 @@ on:
         description: 'Terraform version'
 
 jobs:
-  path_filters:
+  deploy:
     runs-on: ubuntu-latest
-    outputs:
-      terraformBackendPath: ${{ steps.filter.outputs.teraform.backend }}
-      terraformEnvPath: ${{ steps.filter.outputs.terraform.environments }}
-      backendPath: ${{ steps.filter.outputs.backend }}
 
     steps:
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: test
         run: echo "Env is ${{ inputs.environment }}"
-
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            terraformBackend:
-              - 'terraform/backend/**'
-            terraformEnv:
-              - 'terraform/environments/**'
-            backend:
-              - 'src/CriThink.Server/**'
-
-      - name: Terraform Backend log
-        if: steps.filter.outputs.teraform.backend == 'true'
-        run: echo "Preparing to deploy Terraform backend"
-
-      - name: Terraform Environments
-        if: steps.filter.outputs.teraform.environments == 'true'
-        run: echo "Preparing to deploy Terraform environments"
-
-      - name: CriThink Backend
-        if: steps.filter.outputs.backend == 'true'
-        run: echo "Preparing to deploy CriThink backend"
-
-  terraform_backend:
-    uses: ./.github/workflows/terraform_backend.yml
-    needs: path-filters
-    if: needs.path_filters.outputs.terraformBackendPath == 'true'
-    name: Running Terraform Backend
-    with:
-      environment: ${{ inputs.environment }}
-      tf_version: ${{ inputs.tf_version }}
-
-  # terraform_environments:
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ env.environment }}
-  #   needs: path-filters
-  #   if: needs.path_filters.outputs.terraformEnvPath == 'true'
-  #   steps:
-  #     - uses: ./.github/workflows/terraform_environments
-
-  # backend:
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ env.environment }}
-  #   needs: path-filters
-  #   if: needs.path_filters.outputs.backendPath == 'true'
-  #   steps:
-  #     - uses: ./.github/workflows/backend_deploy

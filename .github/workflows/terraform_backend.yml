@@ -1,4 +1,4 @@
-name: crithink_deploy
+name: terraform_deploy
 
 on:
   workflow_call:
@@ -16,9 +16,11 @@ on:
 
 jobs:
   backend_deploy:
+    runs-on: ubuntu-latest
+
     env:
       TERRAFORM_BACKEND_PATH: './terraform/backend'
-    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2

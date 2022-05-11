@@ -8,6 +8,7 @@ env:
   AWS_SECRETS: production/CriThink/Server
   AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:production/CriThink/Server-wsbR3x
   AWS_ENVIRONMENT: production-eb
+  TF_VERSION: 3.4.0
 
 on:
   push:
@@ -18,12 +19,19 @@ on:
     branches: [ feature/iac-azure ] # TODO: change back to main
 
 jobs:
+
+  terraform_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Deploy Terraform scripts
+    with:
+      environment: ${{ env.ASPNETCORE_ENVIRONMENT }}
+      tf_version: ${{ env.TF_VERSION }}
+
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
     name: Running CriThink Deploy script
     with:
-      environment: production
-      tf_version: 3.4.0
+      environment: ${{ env.ASPNETCORE_ENVIRONMENT }}
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
