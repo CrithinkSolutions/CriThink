@@ -84,9 +84,6 @@ jobs:
 
       - name: AZ login
         shell: bash
-        env:
-          AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
-          AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
         run: |
           az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
 
@@ -135,11 +132,6 @@ jobs:
         shell: bash
         run: |
           az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
-        
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v1
-      #   with:
-      #     terraform_version: ${{ inputs.tf_version }}
 
       - name: Terraform Format
         id: fmt
@@ -161,21 +153,6 @@ jobs:
         working-directory: ${{ env.TERRAFORM_ENV_PATH }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
-
-      - uses: actions/github-script@v6
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
