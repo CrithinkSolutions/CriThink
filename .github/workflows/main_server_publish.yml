@@ -22,16 +22,17 @@ jobs:
 
   terraform_deploy:
     uses: ./.github/workflows/terraform_deploy.yml
-    name: Deploy Terraform scripts
+    name: Terraform Deploy scripts
     with:
-      environment: production
-      tf_version: 3.4.0
+      environment: staging
+      tf_version: 1.1.9
 
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
-    name: Running CriThink Deploy script
+    name: CriThink Deploy script
+    needs: terraform_deploy
     with:
-      environment: production
+      environment: staging
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
