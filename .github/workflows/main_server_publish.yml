@@ -23,6 +23,7 @@ jobs:
   terraform_deploy:
     uses: ./.github/workflows/terraform_deploy.yml
     name: Terraform Deploy scripts
+    secrets: inherit
     with:
       environment: staging
       tf_version: 1.1.9

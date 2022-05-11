@@ -2,17 +2,17 @@ name: terraform_deploy
 
 on:
   workflow_call:
-      inputs:
+    inputs:
 
-        environment:
-          required: true
-          type: string
-          description: 'Environment to deploy. Possible values are staging and production'
-          
-        tf_version:
-          required: true
-          type: string
-          description: 'Terraform version'
+      environment:
+        required: true
+        type: string
+        description: 'Environment to deploy. Possible values are staging and production'
+        
+      tf_version:
+        required: true
+        type: string
+        description: 'Terraform version'
 
 jobs:
   path_filters:
@@ -90,7 +90,6 @@ jobs:
           AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
           AZURE_SERVICE_PRINCIPAL_USERNAME: a439abeb-abb7-40bc-afda-cf17926674b5
         run: |
-          echo "$AZURE_TENANT_ID"
           az login --service-principal -u "$AZURE_SERVICE_PRINCIPAL_USERNAME" --password "$AZURE_SERVICE_PRINCIPAL_PASSWORD" --tenant "$AZURE_TENANT_ID"
         
       # - name: Setup Terraform
