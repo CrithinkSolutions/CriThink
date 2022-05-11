@@ -22,7 +22,6 @@ jobs:
 
   terraform_backend:
     runs-on: ubuntu-latest
-    needs: terraform_preparation
 
     env:
       TERRAFORM_BACKEND_PATH: './terraform/backend'
