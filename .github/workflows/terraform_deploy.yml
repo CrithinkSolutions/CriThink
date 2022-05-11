@@ -66,10 +66,6 @@ jobs:
         with:
           terraform_version: ${{ inputs.tf_version }}
 
-      - name: login test
-        run: |
-          az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant 0052307c-564d-4fdc-9879-5a446cf6c746
-
       # - name: "Az CLI login"
       #   uses: azure/login@v1
       #   with:
@@ -86,6 +82,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: AZ login
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }} --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
@@ -145,8 +145,12 @@ jobs:
       TERRAFORM_ENV_PATH: './terraform/environments/global'
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: AZ login
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }} --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
@@ -206,8 +210,12 @@ jobs:
       TERRAFORM_ENV_PATH: './terraform/environments/${{ inputs.environment}} '
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: AZ login
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }} --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
