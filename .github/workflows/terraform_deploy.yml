@@ -87,8 +87,11 @@ jobs:
         shell: bash
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+          AZURE_SERVICE_PRINCIPAL_USERNAME: ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }}
         run: |
-          az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant $AZURE_TENANT_ID
+          echo "$AZURE_TENANT_ID"
+          az login --service-principal -u "$AZURE_SERVICE_PRINCIPAL_USERNAME" --password "$AZURE_SERVICE_PRINCIPAL_PASSWORD" --tenant "$AZURE_TENANT_ID"
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
