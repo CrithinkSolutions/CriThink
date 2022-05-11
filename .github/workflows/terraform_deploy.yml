@@ -14,6 +14,9 @@ on:
         type: string
         description: 'Terraform version'
 
+env:
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
 jobs:
   path_filters:
     runs-on: ubuntu-latest
@@ -86,11 +89,12 @@ jobs:
       - name: AZ login
         shell: bash
         env:
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-          AZURE_SERVICE_PRINCIPAL_USERNAME: ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }}
+          # AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
+          AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
         run: |
-          az login --service-principal -u 637276ee-55ea-4443-94c6-8f0a9fb58c8c --password king2Pac! --tenant "$AZURE_TENANT_ID"
+          echo "this is a test: $AZURE_TENANT_ID"
+          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
 
       - name: Terraform Format
         id: fmt
