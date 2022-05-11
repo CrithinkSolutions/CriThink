@@ -85,7 +85,7 @@ jobs:
 
       - name: AZ login
         run: |
-          az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant ${{ secrets.AZURE_TENANT_ID }}
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
