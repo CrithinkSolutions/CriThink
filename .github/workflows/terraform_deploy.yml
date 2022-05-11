@@ -19,61 +19,10 @@ env:
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
 
 jobs:
-  path_filters:
-    runs-on: ubuntu-latest
-
-    outputs:
-      terraformPath: ${{ steps.filter.outputs.terraform }}
-      terraformBackendPath: ${{ steps.filter.outputs.terraformBackend }}
-      terraformGlobalPath: ${{ steps.filter.outputs.terraformGlobal }}
-      terraformEnvPath: ${{ steps.filter.outputs.terraformEnv }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            terraform:
-              - 'terraform/**'
-            terraformBackend:
-              - 'terraform/backend/**'
-            terraformGlobal:
-              - 'terraform/environments/global/**'
-              - 'terraform/environments/_modules/**'
-            terraformEnv:
-              - 'terraform/environments/${{ inputs.environment }}/**'
-              - 'terraform/environments/_modules/**'
-      
-      - name: Terraform Backend Enable
-        if: steps.filter.outputs.terraform.backend == 'true'
-        run: echo "Preparing to deploy Terraform backend"
-
-      - name: Terraform Global Enable
-        if: steps.filter.outputs.terraformGlobalPath == 'true'
-        run: echo "Preparing to deploy Terraform Global environment"
-
-      - name: Terraform Environments Enable
-        if: steps.filter.outputs.terraformEnvPath == 'true'
-        run: echo "Preparing to deploy Terraform ${{ inputs.environment }} environment"
-
-  terraform_preparation:
-    runs-on: ubuntu-latest
-    needs: path_filters
-    if: needs.path_filters.outputs.terraformPath == 'true'
-
-    steps:
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: ${{ inputs.tf_version }}
 
   terraform_backend:
     runs-on: ubuntu-latest
     needs: terraform_preparation
-    if: needs.path_filters.outputs.terraformBackendPath == 'true'
 
     env:
       TERRAFORM_BACKEND_PATH: './terraform/backend'
@@ -86,6 +35,11 @@ jobs:
         shell: bash
         run: |
           az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.tf_version }}
 
       - name: Terraform Format
         id: fmt
@@ -118,9 +72,8 @@ jobs:
 
   terraform_global:
     runs-on: ubuntu-latest
-    needs: terraform_preparation
-    if: needs.path_filters.outputs.terraformGlobalPath == 'true'
-    
+    needs: terraform_backend
+
     env:
       TERRAFORM_ENV_PATH: './terraform/environments/global'
 
@@ -164,9 +117,8 @@ jobs:
 
   terraform_environment:
     runs-on: ubuntu-latest
-    needs: terraform_preparation
-    if: needs.path_filters.outputs.terraformEnvPath == 'true'
-    
+    needs: terraform_global
+
     env:
       TERRAFORM_ENV_PATH: './terraform/environments/${{ inputs.environment}} '
 
@@ -178,11 +130,6 @@ jobs:
         shell: bash
         run: |
           az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
-        
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v1
-      #   with:
-      #     terraform_version: ${{ inputs.tf_version }}
 
       - name: Terraform Format
         id: fmt

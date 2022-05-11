@@ -102,7 +102,7 @@ variable "app_domain" {
 
 # Roles
 variable "acr_id" {
-  type = string
+  type        = string
   description = "ACR resource id"
 }
 

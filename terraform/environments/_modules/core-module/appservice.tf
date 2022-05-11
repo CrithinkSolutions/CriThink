@@ -37,7 +37,7 @@ resource "azurerm_linux_web_app" "appsrv" {
     "DOCKER_CUSTOM_IMAGE_NAME"            = "DOCKER|${var.acr_name}/crithink:latest" # TODO
   }
 
-  site_config { }
+  site_config {}
 
   identity {
     type = "SystemAssigned"
