@@ -66,6 +66,10 @@ jobs:
         with:
           terraform_version: ${{ inputs.tf_version }}
 
+      - name: login test
+        run: |
+          az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant 0052307c-564d-4fdc-9879-5a446cf6c746
+
       - name: "Az CLI login"
         uses: azure/login@v1
         with:
@@ -135,7 +139,7 @@ jobs:
   terraform_global:
     runs-on: ubuntu-latest
     needs: terraform_preparation
-    if: needs.path_filters.outputs.terraformGlobal == 'true'
+    if: needs.path_filters.outputs.terraformGlobalPath == 'true'
     
     env:
       TERRAFORM_ENV_PATH: './terraform/environments/global'
