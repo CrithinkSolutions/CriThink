@@ -14,9 +14,6 @@ on:
           type: string
           description: 'Terraform version'
 
-env:
-  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
 jobs:
   path_filters:
     runs-on: ubuntu-latest
@@ -88,8 +85,8 @@ jobs:
 
       - name: AZ login
         shell: bash
-        # env:
-        #   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         run: |
           az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant "$AZURE_TENANT_ID"
         
