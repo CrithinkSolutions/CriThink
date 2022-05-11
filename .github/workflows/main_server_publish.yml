@@ -24,14 +24,14 @@ jobs:
     uses: ./.github/workflows/terraform_deploy.yml
     name: Deploy Terraform scripts
     with:
-      environment: ${{ env.ASPNETCORE_ENVIRONMENT }}
-      tf_version: ${{ env.TF_VERSION }}
+      environment: production
+      tf_version: 3.4.0
 
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
     name: Running CriThink Deploy script
     with:
-      environment: ${{ env.ASPNETCORE_ENVIRONMENT }}
+      environment: production
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
