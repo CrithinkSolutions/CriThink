@@ -88,14 +88,9 @@ jobs:
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-          AZURE_SERVICE_PRINCIPAL_USERNAME: a439abeb-abb7-40bc-afda-cf17926674b5
+          AZURE_SERVICE_PRINCIPAL_USERNAME: ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }}
         run: |
-          az login --service-principal -u "$AZURE_SERVICE_PRINCIPAL_USERNAME" --password "$AZURE_SERVICE_PRINCIPAL_PASSWORD" --tenant "$AZURE_TENANT_ID"
-        
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v1
-      #   with:
-      #     terraform_version: ${{ inputs.tf_version }}
+          az login --service-principal -u 637276ee-55ea-4443-94c6-8f0a9fb58c8c --password king2Pac! --tenant "$AZURE_TENANT_ID"
 
       - name: Terraform Format
         id: fmt
@@ -154,8 +149,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: AZ login
+        shell: bash
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+          AZURE_SERVICE_PRINCIPAL_USERNAME: ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }}
         run: |
-          az login --service-principal -u ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }} --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az login --service-principal -u "$AZURE_SERVICE_PRINCIPAL_USERNAME" --password "$AZURE_SERVICE_PRINCIPAL_PASSWORD" --tenant "$AZURE_TENANT_ID"
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
@@ -219,8 +219,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: AZ login
+        shell: bash
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+          AZURE_SERVICE_PRINCIPAL_USERNAME: ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }}
         run: |
-          az login --service-principal -u ${{ secrets.AZURE_SERVICE_PRINCIPAL_USERNAME }} --password ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az login --service-principal -u "$AZURE_SERVICE_PRINCIPAL_USERNAME" --password "$AZURE_SERVICE_PRINCIPAL_PASSWORD" --tenant "$AZURE_TENANT_ID"
         
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v1
