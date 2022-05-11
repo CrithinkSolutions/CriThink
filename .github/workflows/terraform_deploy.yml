@@ -70,10 +70,10 @@ jobs:
         run: |
           az login --service-principal -u a439abeb-abb7-40bc-afda-cf17926674b5 --password G93dPK_ggkRhR-Am_RYuTWZYxDVopB.w.4 --tenant 0052307c-564d-4fdc-9879-5a446cf6c746
 
-      - name: "Az CLI login"
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_LOGIN }}
+      # - name: "Az CLI login"
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_LOGIN }}
 
   terraform_backend:
     runs-on: ubuntu-latest
