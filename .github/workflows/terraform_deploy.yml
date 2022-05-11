@@ -119,7 +119,7 @@ jobs:
     needs: terraform_global
 
     env:
-      TERRAFORM_ENV_PATH: './terraform/environments/${{ inputs.environment}} '
+      TERRAFORM_ENV_PATH: './terraform/environments/${{ inputs.environment}}'
 
     steps:
       - name: Checkout
