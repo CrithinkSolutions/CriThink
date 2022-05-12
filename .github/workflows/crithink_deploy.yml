@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           docker build -t "$REGISTRY_NAME"/crithink:${{ github.sha }} -f Dockerfile .
-          docker push ${{ "$REGISTRY_NAME" }}.azurecr.io/crithink:${{ github.sha }}
+          docker push "$REGISTRY_NAME".azurecr.io/crithink:${{ github.sha }}
 
       - name: "Push image to web app"
         uses: azure/webapps-deploy@v2
