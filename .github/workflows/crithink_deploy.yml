@@ -9,11 +9,82 @@ on:
         type: string
         description: 'Environment to deploy. Possible values are staging and production'
 
+      registry_name:
+        required: true
+        type: string
+        description: Azure Container Registry resource name
+
+      web_app_name:
+        required: true
+        type: string
+        description: Azure WebApp resource name
+
+env:
+  ASPNETCORE_ENVIRONMENT: ${{ inputs.environment }}
+  PROJECT_WEB: src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj
+  AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
+  AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
+  REGISTRY_NAME: ${{ inputs.registry_name }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: test
-        run: echo "Env is ${{ inputs.environment }}"
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: AZ login
+        shell: bash
+        run: |
+          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
+
+      - name: Azure Container Registry login
+        shell: bash
+        run: |
+          TOKEN=$(az acr login --name "$REGISTRY_NAME" --expose-token --output tsv --query accessToken)
+          docker login "$REGISTRY_NAME".azurecr.io --username 00000000-0000-0000-0000-000000000000 --password $TOKEN
+
+      # - name: Install EF Tool
+      #   run: |
+      #     dotnet new tool-manifest
+      #     dotnet tool install dotnet-ef
+
+      - name: dotnet restore
+        run: dotnet restore ${{ env.PROJECT_WEB }}
+
+      - name: dotnet build
+        run: dotnet build ${{ env.PROJECT_WEB }} -c Release --no-restore
+
+      - name: dotnet publish
+        run: dotnet publish ${{ env.PROJECT_WEB }} -c Release --no-build -o publish
+
+      # - name: "Login into Azure Container Registry"
+      #   uses: azure/docker-login@v1
+      #   with:
+      #     login-server: ${{ inputs.registry_name }}.azurecr.io
+      #     username: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      #     password: ${{ secrets.AZURE_AD_PASSWORD }}
+
+      - name: "Pushing docker image to Azure Container Registry"
+        shell: bash
+        run: |
+          docker build -t "$REGISTRY_NAME"/crithink:${{ github.sha }} -f Dockerfile .
+          docker push ${{ env.REGISTRY_NAME }}/crithink:${{ github.sha }}
+
+      - name: "Push image to web app"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ inputs.web_app_name }}
+          images: "${{ env.REGISTRY_NAME }}/crithink:${{ github.sha }}"
+
+      - name: Azure logout
+        shell: bash
+        run: |
+          az logout

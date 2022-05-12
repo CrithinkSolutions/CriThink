@@ -35,6 +35,8 @@ jobs:
     secrets: inherit
     with:
       environment: staging
+      registry_name: crithinkacr01
+      web_app_name: crithink-demo
     
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
