@@ -72,17 +72,30 @@ jobs:
       #     username: ${{ secrets.AZURE_AD_CLIENT_ID }}
       #     password: ${{ secrets.AZURE_AD_PASSWORD }}
 
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
       - name: "Pushing docker image to Azure Container Registry"
         shell: bash
         run: |
-          docker build -t "$REGISTRY_NAME"/crithink:${{ github.sha }} -f Dockerfile .
-          docker push "$REGISTRY_NAME".azurecr.io/crithink:${{ github.sha }}
+          docker build -t "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }} -f Dockerfile .
+          docker push "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}
 
       - name: "Push image to web app"
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.web_app_name }}
-          images: "${{ env.REGISTRY_NAME }}.azurecr.io/crithink:${{ github.sha }}"
+          images: "${{ env.REGISTRY_NAME }}.azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}"
 
       - name: Azure logout
         shell: bash
