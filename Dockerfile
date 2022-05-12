@@ -1,4 +1,4 @@
-ARG ASPNETCORE_ENVIRONMENT
+ARG environment
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 
@@ -15,4 +15,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=0 /app/publish .
 EXPOSE 80
+ENV ASPNETCORE_ENVIRONMENT=$environment
 ENTRYPOINT ["dotnet", "CriThink.Server.Web.dll"]

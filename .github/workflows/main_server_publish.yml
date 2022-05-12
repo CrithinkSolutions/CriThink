@@ -30,7 +30,7 @@ jobs:
     # needs: terraform_deploy
     secrets: inherit
     with:
-      environment: staging
+      environment: Staging
       registry_name: crithinkacr01
       web_app_name: crithink-demo
     
