@@ -1,3 +1,5 @@
+ARG ASPNETCORE_ENVIRONMENT
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 COPY ./src ./src/

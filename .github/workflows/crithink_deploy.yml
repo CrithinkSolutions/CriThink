@@ -88,7 +88,7 @@ jobs:
       - name: "Pushing docker image to Azure Container Registry"
         shell: bash
         run: |
-          docker build -t "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }} -e ASPNETCORE_ENVIRONMENT=Staging -f Dockerfile .
+          docker build -t "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }} --build-arg ASPNETCORE_ENVIRONMENT=Staging -f Dockerfile .
           docker push "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}
 
       - name: "Push image to web app"
