@@ -97,6 +97,11 @@ jobs:
           app-name: ${{ inputs.web_app_name }}
           images: "${{ env.REGISTRY_NAME }}.azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}"
 
+      - name: Docker logout
+        shell: bash
+        run: |
+          docker logout
+
       - name: Azure logout
         shell: bash
         run: |
