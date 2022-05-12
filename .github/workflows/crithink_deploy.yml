@@ -56,14 +56,14 @@ jobs:
       #     dotnet new tool-manifest
       #     dotnet tool install dotnet-ef
 
-      - name: dotnet restore
-        run: dotnet restore ${{ env.PROJECT_WEB }}
+      # - name: dotnet restore
+      #   run: dotnet restore ${{ env.PROJECT_WEB }}
 
-      - name: dotnet build
-        run: dotnet build ${{ env.PROJECT_WEB }} -c Release --no-restore
+      # - name: dotnet build
+      #   run: dotnet build ${{ env.PROJECT_WEB }} -c Release --no-restore
 
-      - name: dotnet publish
-        run: dotnet publish ${{ env.PROJECT_WEB }} -c Release --no-build -o publish
+      # - name: dotnet publish
+      #   run: dotnet publish ${{ env.PROJECT_WEB }} -c Release --no-build -o publish
 
       # - name: "Login into Azure Container Registry"
       #   uses: azure/docker-login@v1
@@ -76,13 +76,13 @@ jobs:
         shell: bash
         run: |
           docker build -t "$REGISTRY_NAME"/crithink:${{ github.sha }} -f Dockerfile .
-          docker push ${{ env.REGISTRY_NAME }}/crithink:${{ github.sha }}
+          docker push ${{ "$REGISTRY_NAME" }}.azurecr.io/crithink:${{ github.sha }}
 
       - name: "Push image to web app"
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.web_app_name }}
-          images: "${{ env.REGISTRY_NAME }}/crithink:${{ github.sha }}"
+          images: "${{ env.REGISTRY_NAME }}.azurecr.io/crithink:${{ github.sha }}"
 
       - name: Azure logout
         shell: bash

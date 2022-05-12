@@ -4,11 +4,7 @@ env:
   PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
   PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
   ASPNETCORE_ENVIRONMENT: Production
-  ZIP_PACKAGE: main-server-deploy-package.zip
-  AWS_SECRETS: production/CriThink/Server
-  AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:production/CriThink/Server-wsbR3x
-  AWS_ENVIRONMENT: production-eb
-  TF_VERSION: 3.4.0
+  TF_VERSION: 1.1.9
 
 on:
   push:
@@ -20,13 +16,13 @@ on:
 
 jobs:
 
-  terraform_deploy:
-    uses: ./.github/workflows/terraform_deploy.yml
-    name: Terraform Deploy scripts
-    secrets: inherit
-    with:
-      environment: staging
-      tf_version: 1.1.9
+  # terraform_deploy:
+  #   uses: ./.github/workflows/terraform_deploy.yml
+  #   name: Terraform Deploy scripts
+  #   secrets: inherit
+  #   with:
+  #     environment: staging
+  #     tf_version: ${{ env.TF_VERSION }}
 
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
