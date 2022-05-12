@@ -27,7 +27,7 @@ jobs:
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
     name: CriThink Deploy script
-    needs: terraform_deploy
+    # needs: terraform_deploy
     secrets: inherit
     with:
       environment: staging
