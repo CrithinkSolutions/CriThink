@@ -25,10 +25,11 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: terraform_backend_deploy
     steps:
       - name: print
         run: |
-          echo ${{ jobs.terraform_backend_deploy.outputs.terraform_outputs }}
+          echo ${{ terraform_backend_deploy.outputs.terraform_outputs }}
 
   terraform_global_deploy:
     uses: ./.github/workflows/terraform_deploy.yml
