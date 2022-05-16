@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      terraform_deploy_outputs: ${{ steps.step_outputs.outputs.OUTPUT}}
+      terraform_deploy_outputs: ${{ steps.step_outputs.outputs.TERRAFORM_OUTPUT}}
 
     steps:
       - name: Checkout
@@ -78,4 +78,5 @@ jobs:
         id: step_outputs
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
-          echo "terraform output --json" >> $OUTPUT
+          TERRAFORM_OUTPUT=$(terraform output --json)
+          echo $TERRAFORM_OUTPUT
