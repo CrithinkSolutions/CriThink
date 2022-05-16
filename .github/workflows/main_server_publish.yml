@@ -30,34 +30,38 @@ jobs:
       - name: print
         run: |
           echo ${{ needs.terraform_backend_deploy.outputs.terraform_outputs }}
+          echo $TERRAFORM_OUTPUT
 
-  terraform_global_deploy:
-    uses: ./.github/workflows/terraform_deploy.yml
-    name: Terraform Global Deploy
-    needs: terraform_backend_deploy
-    secrets: inherit
-    with:
-      working_dir: './terraform/environments/global'
-      tf_version: 1.1.9
+  # terraform_global_deploy:
+  #   uses: ./.github/workflows/terraform_deploy.yml
+  #   name: Terraform Global Deploy
+  #   needs: terraform_backend_deploy
+  #   secrets: inherit
+  #   with:
+  #     working_dir: './terraform/environments/global'
+  #     tf_version: 1.1.9
 
-  terraform_environment_deploy:
-    uses: ./.github/workflows/terraform_deploy.yml
-    name: Terraform Environment Deploy
-    needs: terraform_global_deploy
-    secrets: inherit
-    with:
-      working_dir: './terraform/environments/staging'
-      tf_version: 1.1.9
+  # terraform_environment_deploy:
+  #   uses: ./.github/workflows/terraform_deploy.yml
+  #   name: Terraform Environment Deploy
+  #   needs: terraform_global_deploy
+  #   secrets: inherit
+  #   with:
+  #     working_dir: './terraform/environments/staging'
+  #     tf_version: 1.1.9
 
-  crithink_deploy:
-    uses: ./.github/workflows/crithink_deploy.yml
-    name: CriThink Deploy script
-    needs: terraform_environment_deploy
-    secrets: inherit
-    with:
-      environment: Staging
-      registry_name: crithinkacr01
-      web_app_name: crithink-demo
+  # crithink_deploy:
+  #   uses: ./.github/workflows/crithink_deploy.yml
+  #   name: CriThink Deploy script
+  #   needs: terraform_environment_deploy
+  #   secrets: inherit
+  #   with:
+  #     environment: Staging
+  #     registry_name: crithinkacr01
+  #     web_app_name: crithink-demo
+
+
+  
 
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
