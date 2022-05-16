@@ -30,7 +30,6 @@ jobs:
       - name: print
         run: |
           echo ${{ needs.terraform_backend_deploy.outputs.terraform_outputs }}
-          echo $TERRAFORM_OUTPUT
 
   # terraform_global_deploy:
   #   uses: ./.github/workflows/terraform_deploy.yml

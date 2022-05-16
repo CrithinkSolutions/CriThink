@@ -21,7 +21,7 @@ env:
   TERRAFORM_PATH: ${{ inputs.working_dir }}
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
-  TERRAFORM_OUTPUT: 'test'
+  TERRAFORM_OUTPUT: ''
 
 jobs:
 
@@ -79,7 +79,5 @@ jobs:
         id: step_outputs
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
-          echo $TERRAFORM_OUTPUT
           TERRAFORM_OUTPUT=$(terraform output --json)
-          echo $TERRAFORM_OUTPUT
-          echo "::set-output name=firstword::"$TERRAFORM_OUTPUT""
+          set-output name=firstword::"$TERRAFORM_OUTPUT"
