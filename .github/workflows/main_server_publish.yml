@@ -21,7 +21,7 @@ jobs:
     secrets: inherit
     with:
       working_dir: './terraform/backend'
-      tf_version: ${{ env.TF_VERSION }}
+      tf_version: 1.1.9
 
   test:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
     secrets: inherit
     with:
       working_dir: './terraform/environments/global'
-      tf_version: ${{ env.TF_VERSION }}
+      tf_version: 1.1.9
 
   terraform_environment_deploy:
     uses: ./.github/workflows/terraform_deploy.yml
@@ -47,7 +47,7 @@ jobs:
     secrets: inherit
     with:
       working_dir: './terraform/environments/staging'
-      tf_version: ${{ env.TF_VERSION }}
+      tf_version: 1.1.9
 
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
