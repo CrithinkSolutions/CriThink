@@ -21,7 +21,7 @@ jobs:
     secrets: inherit
     with:
       working_dir: './terraform/backend'
-      tf_version: 1.1.9
+      tf_version: ${{ env.TF_VERSION }}
 
   test:
     runs-on: ubuntu-latest
@@ -31,23 +31,24 @@ jobs:
         run: |
           echo ${{ needs.terraform_backend_deploy.outputs.terraform_outputs }}
 
-  # terraform_global_deploy:
-  #   uses: ./.github/workflows/terraform_deploy.yml
-  #   name: Terraform Global Deploy
-  #   needs: terraform_backend_deploy
-  #   secrets: inherit
-  #   with:
-  #     working_dir: './terraform/environments/global'
-  #     tf_version: 1.1.9
+  terraform_global_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Terraform Global Deploy
+    needs: terraform_backend_deploy
+    secrets: inherit
+    with:
+      working_dir: './terraform/environments/global'
+      tf_version: 1.1.9
 
-  # terraform_environment_deploy:
-  #   uses: ./.github/workflows/terraform_deploy.yml
-  #   name: Terraform Environment Deploy
-  #   needs: terraform_global_deploy
-  #   secrets: inherit
-  #   with:
-  #     working_dir: './terraform/environments/staging'
-  #     tf_version: 1.1.9
+  terraform_environment_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Terraform Environment Deploy
+    needs: terraform_global_deploy
+    secrets: inherit
+    with:
+      working_dir: './terraform/environments/staging'
+      tf_version: 1.1.9
+      TF_VAR_acr_name: echo "${{fromJson(needs.terraform_backend_deploy.outputs.terraform_outputs).global_acr_name.value}}"
 
   # crithink_deploy:
   #   uses: ./.github/workflows/crithink_deploy.yml
