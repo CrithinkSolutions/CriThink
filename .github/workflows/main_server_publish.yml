@@ -21,7 +21,7 @@ jobs:
     secrets: inherit
     with:
       working_dir: './terraform/backend'
-      tf_version: ${{ env.TF_VERSION }}
+      tf_version: 1.1.9
 
   test:
     runs-on: ubuntu-latest
