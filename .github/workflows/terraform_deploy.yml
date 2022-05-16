@@ -1,30 +1,34 @@
 name: terraform_deploy
-
 on:
   workflow_call:
     inputs:
-
-      environment:
+      working_dir:
         required: true
         type: string
-        description: 'Environment to deploy. Possible values are staging and production'
-        
+        description: 'Terraform working directory'
+
       tf_version:
         required: true
         type: string
         description: 'Terraform version'
 
+    outputs:
+      terraform_outputs:
+        description: 'Terraform outputs as json'
+        value: ${{ jobs.deploy.outputs.terraform_deploy_outputs}}
+
 env:
+  TERRAFORM_PATH: ${{ inputs.working_dir }}
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
 
 jobs:
 
-  terraform_backend:
+  deploy:
     runs-on: ubuntu-latest
 
-    env:
-      TERRAFORM_BACKEND_PATH: './terraform/backend'
+    outputs:
+      terraform_deploy_outputs: ${{ steps.step_outputs.outputs.OUTPUT}}
 
     steps:
       - name: Checkout
@@ -39,25 +43,26 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ inputs.tf_version }}
+          terraform_wrapper: false
 
       - name: Terraform Format
         id: fmt
-        working-directory: ${{ env.TERRAFORM_BACKEND_PATH }}
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform fmt -check
 
       - name: Terraform Init
         id: init
-        working-directory: ${{ env.TERRAFORM_BACKEND_PATH }}
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
 
       - name: Terraform Validate
         id: validate
-        working-directory: ${{ env.TERRAFORM_BACKEND_PATH }}
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        working-directory: ${{ env.TERRAFORM_BACKEND_PATH }}
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
 
@@ -66,95 +71,13 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        working-directory: ${{ env.TERRAFORM_BACKEND_PATH }}
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform apply -auto-approve -input=false
 
-  terraform_global:
-    runs-on: ubuntu-latest
-    needs: terraform_backend
-
-    env:
-      TERRAFORM_ENV_PATH: './terraform/environments/global'
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: AZ login
+      - name: Terraform Outputs
+        id: step_outputs
         shell: bash
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
-          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
-
-      - name: Terraform Format
-        id: fmt
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform fmt -check
-
-      - name: Terraform Init
-        id: init
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform apply -auto-approve -input=false
-
-  terraform_environment:
-    runs-on: ubuntu-latest
-    needs: terraform_global
-
-    env:
-      TERRAFORM_ENV_PATH: './terraform/environments/${{ inputs.environment}}'
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: AZ login
-        shell: bash
-        run: |
-          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
-
-      - name: Terraform Format
-        id: fmt
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform fmt -check
-
-      - name: Terraform Init
-        id: init
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        working-directory: ${{ env.TERRAFORM_ENV_PATH }}
-        run: terraform apply -auto-approve -input=false
+          OUTPUT=terraform output -json 
+          echo $OUTPUT

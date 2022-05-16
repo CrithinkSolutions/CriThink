@@ -1,9 +1,8 @@
 name: main_server_publish
 
 env:
-  PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
-  PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
   ASPNETCORE_ENVIRONMENT: Production
+  TF_ENVIRONMENT: production
   TF_VERSION: 1.1.9
 
 on:
@@ -12,28 +11,53 @@ on:
       - src/CriThink.Server/**
       - terraform/**
       - .github/workflows/**
-    branches: [ feature/iac-azure ] # TODO: change back to main
+    branches: [feature/iac-azure] # TODO: change back to main
 
 jobs:
 
-  # terraform_deploy:
-  #   uses: ./.github/workflows/terraform_deploy.yml
-  #   name: Terraform Deploy scripts
-  #   secrets: inherit
-  #   with:
-  #     environment: staging
-  #     tf_version: ${{ env.TF_VERSION }}
+  terraform_backend_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Terraform Backend Deploy
+    secrets: inherit
+    with:
+      working_dir: './terraform/backend'
+      tf_version: ${{ env.TF_VERSION }}
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print
+        run: |
+          echo ${{ jobs.terraform_backend_deploy.outputs.terraform_outputs }}
+
+  terraform_global_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Terraform Global Deploy
+    needs: terraform_backend_deploy
+    secrets: inherit
+    with:
+      working_dir: './terraform/environments/global'
+      tf_version: ${{ env.TF_VERSION }}
+
+  terraform_environment_deploy:
+    uses: ./.github/workflows/terraform_deploy.yml
+    name: Terraform Environment Deploy
+    needs: terraform_global_deploy
+    secrets: inherit
+    with:
+      working_dir: './terraform/environments/staging'
+      tf_version: ${{ env.TF_VERSION }}
 
   crithink_deploy:
     uses: ./.github/workflows/crithink_deploy.yml
     name: CriThink Deploy script
-    # needs: terraform_deploy
+    needs: terraform_environment_deploy
     secrets: inherit
     with:
       environment: Staging
       registry_name: crithinkacr01
       web_app_name: crithink-demo
-    
+
     #    - uses: actions/checkout@v2
     #   - name: Setup .NET SDK
     #     uses: actions/setup-dotnet@v1
@@ -45,8 +69,6 @@ jobs:
     #     dotnet tool install --global dotnet-ef
     #     dotnet tool restore
 
-   
-    
     # - name: Azure Login
     #   uses: azure/login@v1
     #   with:
@@ -62,7 +84,7 @@ jobs:
     # - name: Get timestamp
     #   uses: gerred/actions/current-time@master
     #   id: current-time
-    
+
     # - name: Run string replace
     #   uses: frabert/replace-string-action@master
     #   id: format-time
@@ -94,7 +116,7 @@ jobs:
 
     # - name: Database Updated
     #   run: echo Database successfully updated
-    
+
     # - name: Run ARM deploy
     #   uses: azure/arm-deploy@v1
     #   with:
@@ -113,6 +135,6 @@ jobs:
     #       connections_outlook_externalid=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_CONNECTIONSOUTLOOKEXTERNALID }}
     #       publicVnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETNAME }}
     #       publicVnetSubnetName=${{ env.PRODUCTION_CRITHINK_SERVER_AZURE_PUBLICVNETSUBNETNAME }}
-    
+
     # - name: ARM Successfully deployed
     #   run: echo ARM templates successfully deployed
