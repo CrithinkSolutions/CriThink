@@ -76,8 +76,7 @@ jobs:
 
       - name: Terraform Outputs
         id: step_outputs
-        shell: bash
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
-          OUTPUT=terraform output -json 
+          $OUTPUT=terraform output -json 
           echo $OUTPUT
