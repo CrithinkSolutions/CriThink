@@ -1,96 +1,49 @@
 name: staging_server_publish
 
 env:
-  PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
-  PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
   ASPNETCORE_ENVIRONMENT: Staging
-  ZIP_PACKAGE: staging-server-deploy-package.zip
-  AWS_SECRETS: staging/CriThink/Server
-  AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
-  AWS_ENVIRONMENT: staging-eb
+  TF_ENVIRONMENT: staging
+  TF_VERSION: 1.1.9
 
 on:
   push:
     paths:
       - src/CriThink.Server/**
-    branches: [ develop ]
+      - terraform/**
+      - .github/workflows/**
+    branches: [feature/iac-azure] # TODO: change back to main
 
 jobs:
-  build:
+
+  terraform_backend_deploy:
+    uses: ./.github/workflows/terraform_backend_deploy.yml
+    name: Terraform Backend Deploy
+    secrets: inherit
+    with:
+      tf_version: 1.1.9
+
+  terraform_global_deploy:
+    uses: ./.github/workflows/terraform_global_deploy.yml
+    name: Terraform Global Deploy
+    needs: terraform_backend_deploy
+    secrets: inherit
+    with:
+      tf_version: 1.1.9
+
+  test:
     runs-on: ubuntu-latest
-
+    needs: terraform_global_deploy
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - name: print
+        run: |
+          echo ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
 
-    - name: Installing EF tools
-      run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
-
-    - name: Read secrets from AWS Secrets Manager
-      uses: abhilash1in/aws-secrets-manager-action@v1.0.1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        secrets: ${{env.AWS_SECRETS}}
-        parse-json: true
-
-    - name: Add AWS security group exception
-      uses: sohelamin/aws-security-group-add-ip-action@master
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-security-group-id: ${{ secrets.AWS_STAGING_SECURITY_GROUP_ID }}
-        port: '5432'
-        to-port: '5432'
-        protocol: 'tcp'
-        description: 'GitHub'
-
-    - name: AWS Login
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{secrets.AWS_REGION}}
-    
-    - name: Get timestamp
-      uses: gerred/actions/current-time@master
-      id: current-time
-    
-    - name: Run string replace
-      uses: frabert/replace-string-action@master
-      id: format-time
-      with:
-        pattern: '[:\.]+'
-        string: "${{ steps.current-time.outputs.time }}"
-        replace-with: '-'
-        flags: 'g'
-
-    - name: Zip deployment package
-      run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
-
-    - name: Deploy to AWS Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v14
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
-        application_name: CriThink
-        environment_name: ${{env.AWS_ENVIRONMENT}}
-        version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: ${{env.ZIP_PACKAGE}}
-
-    - name: Deployed successfully!
-      run: echo Staging App deployed!
-
-    - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'
-
-    - name: Database Updated
-      run: echo Database successfully updated
+  terraform_environment_deploy:
+    uses: ./.github/workflows/terraform_environment_deploy.yml
+    name: Terraform Environment Deploy
+    needs: terraform_global_deploy
+    secrets: inherit
+    with:
+      tf_version: 1.1.9
+      tf_environment: staging
+      acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}

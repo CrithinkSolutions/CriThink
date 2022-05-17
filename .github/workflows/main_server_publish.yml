@@ -11,7 +11,7 @@ on:
       - src/CriThink.Server/**
       - terraform/**
       - .github/workflows/**
-    branches: [feature/iac-azure] # TODO: change back to main
+    branches: [main] # TODO: change back to main
 
 jobs:
 
