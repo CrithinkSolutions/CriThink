@@ -42,11 +42,6 @@ variable "acr_name" {
   description = "ACR name"
 }
 
-variable "acr_user_username" {
-  type        = string
-  description = "Username of the account able to pull images from ACR"
-}
-
 variable "keyvault_ref_acr_user_password" {
   type        = string
   description = "KeyVault reference to the password of the account able to pull images from ACR"
