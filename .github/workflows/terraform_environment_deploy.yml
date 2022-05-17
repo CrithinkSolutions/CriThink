@@ -22,7 +22,6 @@ env:
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
   TERRAFORM_OUTPUT: ""
-  TF_VAR_acr_name: ${{ inputs.acr_name }}
 
 jobs:
   deploy:
@@ -63,9 +62,12 @@ jobs:
 
       - name: Terraform Plan
         id: plan
+        env:
+          TF_VAR_acr_name: ${{ inputs.acr_name }}
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
+
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
