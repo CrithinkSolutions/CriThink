@@ -1,30 +1,30 @@
-name: terraform_deploy
+name: terraform_environment_deploy
 on:
   workflow_call:
     inputs:
-      working_dir:
-        required: true
-        type: string
-        description: 'Terraform working directory'
-
       tf_version:
         required: true
         type: string
-        description: 'Terraform version'
+        description: "Terraform version"
+
+      acr_name:
+        required: true
+        type: string
+        description: "Azure Container Registry resource name"
 
     outputs:
       terraform_outputs:
-        description: 'Terraform outputs as json'
+        description: "Terraform outputs as json"
         value: ${{ jobs.deploy.outputs.terraform_deploy_outputs}}
 
 env:
-  TERRAFORM_PATH: ${{ inputs.working_dir }}
+  TERRAFORM_PATH: './terraform/environments/staging'
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
-  TERRAFORM_OUTPUT: ''
+  TERRAFORM_OUTPUT: ""
+  TF_VAR_acr_name: ${{ inputs.acr_name }}
 
 jobs:
-
   deploy:
     runs-on: ubuntu-latest
 

@@ -1,6 +1,6 @@
 # TO BE REMOVED
 
-acr_name                              = "crithinkacr01"
+# acr_name                              = "crithinkacr01"
 acr_user_password                     = "king2Pac!"
 acr_user_username                     = "boss"
 db_admin_password                     = "king2Pac!"
