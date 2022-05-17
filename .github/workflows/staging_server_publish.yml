@@ -19,7 +19,7 @@ jobs:
     name: Terraform Backend Deploy
     secrets: inherit
     with:
-      tf_version: 1.1.9
+      tf_version: ${{ env.TF_VERSION }}
 
   terraform_global_deploy:
     uses: ./.github/workflows/terraform_global_deploy.yml
@@ -48,8 +48,8 @@ jobs:
       acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
       acr_user_password: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_admin_password.value}}
       acr_id: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_id.value}}
-      db_admin_username: boss
-      db_admin_password: king2Pac!
+      db_admin_username: ${{ secrets.STG_DB_ADMIN_USERNAME }}
+      db_admin_password: ${{ secrets.STG_DB_ADMIN_PASSWORD }}
       db_name: demodb01
       db_server_name: crithink-demosql01
       objectid_app: f88cd778-ec64-4125-b066-94e99ddaa42c
@@ -61,11 +61,11 @@ jobs:
       keyvault_name: crithinkstgkeyvault01
       appsrvpln_name: demoplan01
       appsrv_name: crithink-demo
-      jwt_secret_key: YylZ9OPQiIrLhgMvxWFA
-      cross_service_scraper_value: scraper
-      cross_service_dnews_value: vDEb&x2YMECb9@Qk9
-      authentication_google_client_secret: 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
+      jwt_secret_key: ${{ secrets.STG_JWT_SECRET_KEY }}
+      cross_service_scraper_value: ${{ secrets.STG_CROSS_SERVICE_SCRAPER_VALUE }}
+      cross_service_dnews_value: ${{ secrets.STG_CROSS_SERVICE_DNEWS_VALUE }}
+      authentication_google_client_secret: ${{ secrets.STG_GOOGLE_CLIENT_SECRET }}
       authentication_google_client_id: 1064440290860-58nb9a9tbimmocjr6mkc4i3ah4cakp3f.apps.googleusercontent.com
-      authentication_facebook_client_secret: "97d6403203028d136ec85bd7349207f3"
+      authentication_facebook_client_secret: ${{ secrets.STG_FACEBOOK_CLIENT_SECRET }}
       authentication_facebook_client_id: "804449043690413"
-      sendgrid_api_key: "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"
+      sendgrid_api_key: ${{ secrets.STG_SENDGRID_API_KEY }}

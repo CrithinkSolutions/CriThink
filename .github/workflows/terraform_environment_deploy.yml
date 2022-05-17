@@ -213,7 +213,7 @@ jobs:
           TF_VAR_authentication_facebook_client_secret: ${{ inputs.authentication_facebook_client_secret }}
           TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
           TF_VAR_sendgrid_api_key: ${{ inputs.sendgrid_api_key }}
-        run: terraform plan -no-color -input=false
+        run: terraform plan -input=false
         continue-on-error: true
 
       - name: Terraform Plan Status
