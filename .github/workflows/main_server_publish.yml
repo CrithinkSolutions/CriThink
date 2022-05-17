@@ -44,8 +44,9 @@ jobs:
     needs: terraform_global_deploy
     secrets: inherit
     with:
-      acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
       tf_version: 1.1.9
+      tf_environment: production
+      acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
 
   # crithink_deploy:
   #   uses: ./.github/workflows/crithink_deploy.yml

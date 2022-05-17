@@ -2,6 +2,11 @@ name: terraform_environment_deploy
 on:
   workflow_call:
     inputs:
+      tf_environment:
+        required: true
+        type: string
+        description: "Terraform environment. Possible values are staging and production"
+
       tf_version:
         required: true
         type: string
@@ -18,7 +23,7 @@ on:
         value: ${{ jobs.deploy.outputs.terraform_deploy_outputs}}
 
 env:
-  TERRAFORM_PATH: './terraform/environments/staging'
+  TERRAFORM_PATH: "./terraform/environments/${{ inputs.tf_environment }}"
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
   TERRAFORM_OUTPUT: ""
@@ -31,6 +36,10 @@ jobs:
       terraform_deploy_outputs: ${{ steps.step_outputs.outputs.terraformoutputs}}
 
     steps:
+      - name: Preparing
+        run: |
+          echo 'Preparing deploy of "$TERRAFORM_PATH" environment'
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -62,9 +71,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
+        working-directory: ${{ env.TERRAFORM_PATH }}
         env:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
-        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
 
@@ -74,9 +83,9 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform apply -auto-approve -input=false
         env:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
+        run: terraform apply -auto-approve -input=false
 
       - name: Terraform Outputs
         id: step_outputs
