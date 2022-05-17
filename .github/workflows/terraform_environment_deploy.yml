@@ -17,6 +17,11 @@ on:
         type: string
         description: "Azure Container Registry resource name"
 
+      acr_user_password:
+        required: true
+        type: string
+        description: "Azure Container Registry admin password"
+
       acr_id:
         required: true
         type: string
@@ -77,7 +82,7 @@ on:
         required: true
         type: string
         description: "App domain"
-      
+
       keyvault_name:
         required: true
         type: string
@@ -184,6 +189,8 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         env:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
+          TF_VAR_acr_id: ${{ inputs.acr_id }}
+          TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
           TF_VAR_db_admin_username: ${{ inputs.db_admin_username }}
           TF_VAR_db_admin_password: ${{ inputs.db_admin_password }}
           TF_VAR_db_name: ${{ inputs.db_name }}
@@ -201,6 +208,11 @@ jobs:
           TF_VAR_jwt_secret_key: ${{ inputs.jwt_secret_key }}
           TF_VAR_cross_service_scraper_value: ${{ inputs.cross_service_scraper_value }}
           TF_VAR_cross_service_dnews_value: ${{ inputs.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ inputs.authentication_google_client_secret }}
+          TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
+          TF_VAR_authentication_facebook_client_secret: ${{ inputs.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
+          TF_VAR_sendgrid_api_key: ${{ inputs.sendgrid_api_key }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
 
@@ -212,6 +224,8 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         env:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
+          TF_VAR_acr_id: ${{ inputs.acr_id }}
+          TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
           TF_VAR_db_admin_username: ${{ inputs.db_admin_username }}
           TF_VAR_db_admin_password: ${{ inputs.db_admin_password }}
           TF_VAR_db_name: ${{ inputs.db_name }}
@@ -229,4 +243,9 @@ jobs:
           TF_VAR_jwt_secret_key: ${{ inputs.jwt_secret_key }}
           TF_VAR_cross_service_scraper_value: ${{ inputs.cross_service_scraper_value }}
           TF_VAR_cross_service_dnews_value: ${{ inputs.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ inputs.authentication_google_client_secret }}
+          TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
+          TF_VAR_authentication_facebook_client_secret: ${{ inputs.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
+          TF_VAR_sendgrid_api_key: ${{ inputs.sendgrid_api_key }}
         run: terraform apply -auto-approve -input=false
