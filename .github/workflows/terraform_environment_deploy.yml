@@ -27,16 +27,6 @@ on:
         type: string
         description: "Azure Container Registry resource id"
 
-      db_admin_username:
-        required: true
-        type: string
-        description: "Database admin username"
-
-      db_admin_password:
-        required: true
-        type: string
-        description: "Database admin password"
-
       db_name:
         required: true
         type: string
@@ -98,44 +88,49 @@ on:
         type: string
         description: "App service name"
 
-      jwt_secret_key:
-        required: true
-        type: string
-        description: "JWT secret key"
-
-      cross_service_scraper_value:
-        required: true
-        type: string
-        description: "Cross service scraper value"
-
-      cross_service_dnews_value:
-        required: true
-        type: string
-        description: "Cross service debunking news value"
-
-      authentication_google_client_secret:
-        required: true
-        type: string
-        description: "Google client secret"
-
       authentication_google_client_id:
         required: true
         type: string
         description: "Google client id"
-
-      authentication_facebook_client_secret:
-        required: true
-        type: string
-        description: "Facebook client secret"
 
       authentication_facebook_client_id:
         required: true
         type: string
         description: "Facebook clinet id"
 
+
+
+    secrets:
+      db_admin_username:
+        required: true
+        description: "Database admin username"
+
+      db_admin_password:
+        required: true
+        description: "Database admin password"
+
+      jwt_secret_key:
+        required: true
+        description: "JWT secret key"
+
+      cross_service_scraper_value:
+        required: true
+        description: "Cross service scraper value"
+
+      cross_service_dnews_value:
+        required: true
+        description: "Cross service debunking news value"
+
+      authentication_facebook_client_secret:
+        required: true
+        description: "Facebook client secret"
+
+      authentication_google_client_secret:
+        required: true
+        description: "Google client secret"
+
       sendgrid_api_key:
         required: true
-        type: string
         description: "SendGrid API key"
 
 env:
