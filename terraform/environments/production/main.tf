@@ -4,7 +4,7 @@ terraform {
     resource_group_name  = "crithink-terraform"
     storage_account_name = "crithinkterraformstg01"
     container_name       = "terraform-states"
-    key                  = "production-tfstate.tfstate"
+    key                  = "prod-tfstate.tfstate"
   }
 
   required_providers {
@@ -14,136 +14,91 @@ terraform {
   }
 }
 
-variable "app-objectid" {
-  type = string
-  description = "App registration object id"
-  sensitive = true
+provider "azurerm" {
+  features {}
 }
-
-variable "db_admin_username" {
-  type = string
-  description = "Database sa login username"
-  sensitive = true
-}
-
-variable "db_admin_password" {
-  type = string
-  description = "Database sa login password"
-  sensitive = true
-}
-
-data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "rg" {
   name     = "crithink-prod"
-  location = "West Europe"
-}
+  location = local.region
 
-resource "azurerm_key_vault" "keyvault" {
-  name                        = "prodkeyvault01"
-  resource_group_name         = azurerm_resource_group.rg.name
-  location                    = azurerm_resource_group.rg.location
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-  sku_name                    = "standard"
-}
-
-resource "azurerm_app_service_plan" "plan" {
-  name                = "prodplan01"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  kind                = "Linux"
-  reserved            = true
-
-  sku {
-    tier = "Free"
-    size = "F1"
+  tags = {
+    application_name = local.application_name
+    environment      = local.environment
   }
 }
 
-resource "azurerm_app_service" "appsrv" {
-  name                = "prodappsrv01"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  app_service_plan_id = azurerm_app_service_plan.appservice-plan.id
+module "core_module" {
+  source = "../_modules/core-module"
 
-  app_settings = {
-    "DOCKER_REGISTRY_SERVER_URL"          = var.docker_registry_url
-    "DOCKER_REGISTRY_SERVER_USERNAME"     = var.docker_registry_username
-    "DOCKER_REGISTRY_SERVER_PASSWORD"     = var.docker_registry_password
-    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-  }
+  # Input variables
+  # Resources
+  rg_name                        = azurerm_resource_group.rg.name
+  rg_location                    = azurerm_resource_group.rg.location
+  keyvault_name                  = var.keyvault_name
+  appsrvpln_name                 = var.appsrvpln_name
+  appsrv_name                    = var.appsrv_name
+  acr_name                       = var.acr_name
+  acr_user_password              = var.acr_user_password
+  acr_id                         = var.acr_id
+  keyvault_ref_acr_user_password = var.keyvault_ref_acr_user_password
+  objectid_app                   = var.objectid_app
+  db_server_name                 = var.db_server_name
+  db_name                        = var.db_name
+  db_admin_username              = var.db_admin_username
+  db_admin_password              = var.db_admin_password
+  redis_name                     = var.redis_name
+  internal_stg_name              = var.internal_stg_name
+  app_domain                     = var.app_domain
 
-  identity {
-    type = "SystemAssigned"
-  }
+  # Secrets
+  jwt_secret_key                        = var.jwt_secret_key
+  cross_service_scraper_value           = var.cross_service_scraper_value
+  cross_service_dnews_value             = var.cross_service_dnews_value
+  authentication_google_client_secret   = var.authentication_google_client_secret
+  authentication_google_client_id       = var.authentication_google_client_id
+  authentication_facebook_client_secret = var.authentication_facebook_client_secret
+  authentication_facebook_client_id     = var.authentication_facebook_client_id
+  sendgrid_api_key                      = var.sendgrid_api_key
+
+  # Misc
+  tag_appname     = local.application_name
+  tag_environment = local.environment
 }
 
-resource "azurerm_key_vault_access_policy" "keyvault-appsrv-accesspolicy" {
-  key_vault_id = azurerm_key_vault.keyvault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
+module "cognitive_module" {
+  source = "../_modules/cognitive-module"
 
-  object_id = azurerm_app_service.appsrv.identity.0.principal_id
+  # Input variables
+  # Resources
+  rg_name                = azurerm_resource_group.rg.name
+  rg_location            = azurerm_resource_group.rg.location
+  cognitive_account_name = var.cognitive_account_name
+  keyvault_id            = module.core_module.keyvault_id
 
-  secret_permissions = [
-    "Get",
-    "List",
-  ]
+  # Misc
+  tag_appname     = local.application_name
+  tag_environment = local.environment
 }
 
-resource "azurerm_key_vault_access_policy" "keyvault-sshsapp-accesspolicy" {
-  key_vault_id = azurerm_key_vault.keyvault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
+module "ai_module" {
+  source = "../_modules/ai-module"
 
-  object_id = var.app-objectid
+  # Input variables
+  # Resources
+  rg_name     = azurerm_resource_group.rg.name
+  rg_location = azurerm_resource_group.rg.location
+  ai_name     = var.ai_name
+  keyvault_id = module.core_module.keyvault_id
 
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete",
-    "Recover",
-    "Backup",
-    "Restore",
-    "Purge"
-  ]
-
-  key_permissions = [
-    "Get",
-    "List",
-    "Update",
-    "Delete",
-  ]
-
-  certificate_permissions = [
-    "Create",
-    "Delete",
-    "Deleteissuers",
-    "Get",
-    "Getissuers",
-    "Import",
-    "List",
-    "Listissuers",
-    "Update",
-  ]
+  # Misc
+  tag_appname     = local.application_name
+  tag_environment = local.environment
 }
 
-resource "azurerm_postgresql_server" "pg-server" {
-  name                         = "prodsql01"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
-  administrator_login          = var.db_admin_username
-  administrator_login_password = var.db_admin_password
-  sku_name                     = "B_Gen5_1"
-  version                      = "11"
-  ssl_enforcement_enabled      = true
-  auto_grow_enabled            = false
-  storage_mb                   = 5120
-}
-
-resource "azurerm_postgresql_database" "pg-database" {
-  name                = "proddb01"
-  resource_group_name = azurerm_resource_group.rg.name
-  charset             = "UTF8"
-  collation           = "English_United States.1252"
-  server_name         = azurerm_postgresql_server.pg-server.name
+resource "azurerm_management_lock" "resource_group" {
+  name       = "crithink-prod-rg"
+  scope      = azurerm_resource_group.rg.id
+  lock_level = "CanNotDelete"
+  notes      = "Items can't be deleted in this resource group"
 }

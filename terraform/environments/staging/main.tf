@@ -39,7 +39,6 @@ module "core_module" {
   appsrvpln_name                 = var.appsrvpln_name
   appsrv_name                    = var.appsrv_name
   acr_name                       = var.acr_name
-  acr_user_username              = var.acr_user_username
   acr_user_password              = var.acr_user_password
   acr_id                         = var.acr_id
   keyvault_ref_acr_user_password = var.keyvault_ref_acr_user_password
@@ -61,21 +60,6 @@ module "core_module" {
   authentication_facebook_client_secret = var.authentication_facebook_client_secret
   authentication_facebook_client_id     = var.authentication_facebook_client_id
   sendgrid_api_key                      = var.sendgrid_api_key
-
-  # Misc
-  tag_appname     = local.application_name
-  tag_environment = local.environment
-}
-
-module "cognitive_module" {
-  source = "../_modules/cognitive-module"
-
-  # Input variables
-  # Resources
-  rg_name                = azurerm_resource_group.rg.name
-  rg_location            = azurerm_resource_group.rg.location
-  cognitive_account_name = var.cognitive_account_name
-  keyvault_id            = module.core_module.keyvault_id
 
   # Misc
   tag_appname     = local.application_name

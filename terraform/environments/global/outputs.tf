@@ -11,6 +11,10 @@ output "global_acr_admin_password" {
   sensitive = true
 }
 
+output "global_acr_id" {
+  value = azurerm_container_registry.acr.id
+}
+
 # output "global_acr_login_server" {
 #   value = azurerm_container_registry.acr.login_server
 # }
