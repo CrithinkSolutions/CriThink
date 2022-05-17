@@ -43,11 +43,6 @@ on:
         description: "KeyVault secret name"
         default: "Acr-Password"
 
-      objectid_app:
-        required: true
-        type: string
-        description: "Azure app service identity id"
-
       cognitive_account_name:
         required: true
         type: string
@@ -98,8 +93,6 @@ on:
         type: string
         description: "Facebook clinet id"
 
-
-
     secrets:
       db_admin_username:
         required: true
@@ -112,6 +105,10 @@ on:
       jwt_secret_key:
         required: true
         description: "JWT secret key"
+
+      objectid_app:
+        required: true
+        description: "Azure app service identity id"
 
       cross_service_scraper_value:
         required: true
