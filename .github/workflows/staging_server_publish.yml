@@ -1,8 +1,5 @@
 name: staging_server_publish
 
-env:
-  ASPNETCORE_ENVIRONMENT: Staging
-
 on:
   push:
     paths:
@@ -62,3 +59,13 @@ jobs:
       sendgrid_api_key: ${{ secrets.STG_SENDGRID_API_KEY }}
       azure_owner_username: ${{ secrets.AZURE_OWNER_USERNAME }}
       azure_owner_password: ${{ secrets.AZURE_OWNER_PASSWORD }}
+
+  crithink_deploy:
+    uses: ./.github/workflows/crithink_deploy.yml
+    name: CriThink Deploy script
+    needs: terraform_environment_deploy
+    secrets: inherit
+    with:
+      aspnet_environment: Staging
+      registry_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
+      web_app_name: crithink-demo

@@ -82,9 +82,10 @@ module "ai_module" {
   tag_environment = local.environment
 }
 
-resource "azurerm_management_lock" "resource_group" {
-  name       = "crithink-stg-rg"
-  scope      = azurerm_resource_group.rg.id
-  lock_level = "CanNotDelete"
-  notes      = "Items can't be deleted in this resource group"
-}
+# TODO: enable
+# resource "azurerm_management_lock" "resource_group" {
+#   name       = "crithink-stg-rg"
+#   scope      = azurerm_resource_group.rg.id
+#   lock_level = "CanNotDelete"
+#   notes      = "Items can't be deleted in this resource group"
+# }

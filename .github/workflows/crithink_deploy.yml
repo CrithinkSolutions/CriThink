@@ -3,17 +3,16 @@ name: crithink_deploy
 on:
   workflow_call:
     inputs:
-
       net_sdk_version:
         type: string
         required: false
-        description: '.NET SDK version'
+        description: ".NET SDK version"
         default: 6.0.x
 
-      environment:
+      aspnet_environment:
         required: true
         type: string
-        description: 'Environment to deploy. Possible values are staging and production'
+        description: "Environment to deploy. Possible values are staging and production"
 
       registry_name:
         required: true
@@ -26,18 +25,17 @@ on:
         description: Azure WebApp resource name
 
 env:
-  ASPNETCORE_ENVIRONMENT: ${{ inputs.environment }}
+  ASPNETCORE_ENVIRONMENT: ${{ inputs.aspnet_environment }}
   PROJECT_WEB: src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj
   AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
   AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
-  REGISTRY_NAME: ${{ inputs.registry_name }}  
+  REGISTRY_NAME: ${{ inputs.registry_name }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v2
 
@@ -81,8 +79,8 @@ jobs:
         with:
           pattern: '[:\.]+'
           string: "${{ steps.current-time.outputs.time }}"
-          replace-with: '-'
-          flags: 'g'
+          replace-with: "-"
+          flags: "g"
 
       - name: "Pushing docker image to Azure Container Registry"
         shell: bash

@@ -59,9 +59,8 @@ resource "azurerm_key_vault_secret" "cs_pgsql" {
     azurerm_key_vault_access_policy.keyvault-appsrv-accesspolicy
   ]
 
-  name = "ConnectionStrings--CriThinkDbPgSqlConnection"
-  // Host=crithink-demosql01.postgres.database.azure.com;Port=5432;Username=boss@crithink-demosql01;Password=king2Pac!;Database=demodb01
-  value        = "Host=${azurerm_postgresql_server.pg_server.name}.postgres.database.azure.com;Port=5432;Username=${azurerm_postgresql_server.pg_server.administrator_login}@${azurerm_postgresql_server.pg_server.name};Password=${azurerm_postgresql_server.pg_server.administrator_login_password};Database=${azurerm_postgresql_database.pg_database.name}"
+  name         = "ConnectionStrings--CriThinkDbPgSqlConnection"
+  value        = "Host=${azurerm_postgresql_server.pg_server.name}.postgres.database.azure.com;Port=5432;Username=${azurerm_postgresql_server.pg_server.administrator_login}@${azurerm_postgresql_server.pg_server.name};Password=${azurerm_postgresql_server.pg_server.administrator_login_password};Database=${azurerm_postgresql_database.pg_database.name};SslMode=Require"
   key_vault_id = azurerm_key_vault.keyvault.id
 }
 
