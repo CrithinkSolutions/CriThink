@@ -140,8 +140,8 @@ on:
 
 env:
   TERRAFORM_PATH: "./terraform/environments/${{ inputs.tf_environment }}"
-  AZURE_OWNER_USERNAME: ${{ inputs.azure_owner_username }}
-  AZURE_OWNER_PASSWORD: ${{ inputs.azure_owner_password }}
+  AZURE_OWNER_USERNAME: ${{ secrets.azure_owner_username }}
+  AZURE_OWNER_PASSWORD: ${{ secrets.azure_owner_password }}
 
 jobs:
   deploy:
@@ -157,6 +157,10 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: test
+        run: |
+          echo "$AZURE_OWNER_USERNAME" "$AZURE_OWNER_PASSWORD"
 
       - name: AZ login
         shell: bash
@@ -191,12 +195,12 @@ jobs:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
           TF_VAR_acr_id: ${{ inputs.acr_id }}
           TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
-          TF_VAR_db_admin_username: ${{ inputs.db_admin_username }}
-          TF_VAR_db_admin_password: ${{ inputs.db_admin_password }}
+          TF_VAR_db_admin_username: ${{ secrets.db_admin_username }}
+          TF_VAR_db_admin_password: ${{ secrets.db_admin_password }}
           TF_VAR_db_name: ${{ inputs.db_name }}
           TF_VAR_db_server_name: ${{ inputs.db_server_name }}
           TF_VAR_keyvault_ref_acr_user_password: ${{ inputs.keyvault_ref_acr_user_password }}
-          TF_VAR_objectid_app: ${{ inputs.objectid_app }}
+          TF_VAR_objectid_app: ${{ secrets.objectid_app }}
           TF_VAR_cognitive_account_name: ${{ inputs.cognitive_account_name }}
           TF_VAR_redis_name: ${{ inputs.redis_name }}
           TF_VAR_ai_name: ${{ inputs.ai_name }}
@@ -205,14 +209,14 @@ jobs:
           TF_VAR_keyvault_name: ${{ inputs.keyvault_name }}
           TF_VAR_appsrvpln_name: ${{ inputs.appsrvpln_name }}
           TF_VAR_appsrv_name: ${{ inputs.appsrv_name }}
-          TF_VAR_jwt_secret_key: ${{ inputs.jwt_secret_key }}
-          TF_VAR_cross_service_scraper_value: ${{ inputs.cross_service_scraper_value }}
-          TF_VAR_cross_service_dnews_value: ${{ inputs.cross_service_dnews_value }}
-          TF_VAR_authentication_google_client_secret: ${{ inputs.authentication_google_client_secret }}
+          TF_VAR_jwt_secret_key: ${{ secrets.jwt_secret_key }}
+          TF_VAR_cross_service_scraper_value: ${{ secrets.cross_service_scraper_value }}
+          TF_VAR_cross_service_dnews_value: ${{ secrets.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ secrets.authentication_google_client_secret }}
           TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
-          TF_VAR_authentication_facebook_client_secret: ${{ inputs.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
           TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
-          TF_VAR_sendgrid_api_key: ${{ inputs.sendgrid_api_key }}
+          TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
         run: terraform plan -input=false
         continue-on-error: true
 
@@ -226,12 +230,12 @@ jobs:
           TF_VAR_acr_name: ${{ inputs.acr_name }}
           TF_VAR_acr_id: ${{ inputs.acr_id }}
           TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
-          TF_VAR_db_admin_username: ${{ inputs.db_admin_username }}
-          TF_VAR_db_admin_password: ${{ inputs.db_admin_password }}
+          TF_VAR_db_admin_username: ${{ secrets.db_admin_username }}
+          TF_VAR_db_admin_password: ${{ secrets.db_admin_password }}
           TF_VAR_db_name: ${{ inputs.db_name }}
           TF_VAR_db_server_name: ${{ inputs.db_server_name }}
           TF_VAR_keyvault_ref_acr_user_password: ${{ inputs.keyvault_ref_acr_user_password }}
-          TF_VAR_objectid_app: ${{ inputs.objectid_app }}
+          TF_VAR_objectid_app: ${{ secrets.objectid_app }}
           TF_VAR_cognitive_account_name: ${{ inputs.cognitive_account_name }}
           TF_VAR_redis_name: ${{ inputs.redis_name }}
           TF_VAR_ai_name: ${{ inputs.ai_name }}
@@ -240,12 +244,12 @@ jobs:
           TF_VAR_keyvault_name: ${{ inputs.keyvault_name }}
           TF_VAR_appsrvpln_name: ${{ inputs.appsrvpln_name }}
           TF_VAR_appsrv_name: ${{ inputs.appsrv_name }}
-          TF_VAR_jwt_secret_key: ${{ inputs.jwt_secret_key }}
-          TF_VAR_cross_service_scraper_value: ${{ inputs.cross_service_scraper_value }}
-          TF_VAR_cross_service_dnews_value: ${{ inputs.cross_service_dnews_value }}
-          TF_VAR_authentication_google_client_secret: ${{ inputs.authentication_google_client_secret }}
+          TF_VAR_jwt_secret_key: ${{ secrets.jwt_secret_key }}
+          TF_VAR_cross_service_scraper_value: ${{ secrets.cross_service_scraper_value }}
+          TF_VAR_cross_service_dnews_value: ${{ secrets.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ secrets.authentication_google_client_secret }}
           TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
-          TF_VAR_authentication_facebook_client_secret: ${{ inputs.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
           TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
-          TF_VAR_sendgrid_api_key: ${{ inputs.sendgrid_api_key }}
+          TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
         run: terraform apply -auto-approve -input=false
