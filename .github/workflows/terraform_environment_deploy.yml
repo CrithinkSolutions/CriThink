@@ -130,10 +130,18 @@ on:
         required: true
         description: "SendGrid API key"
 
+      azure_owner_username:
+        required: true
+        description: "Azure owner username"
+
+      azure_owner_password:
+        required: true
+        description: "Azure owner password"
+
 env:
   TERRAFORM_PATH: "./terraform/environments/${{ inputs.tf_environment }}"
-  AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
-  AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
+  AZURE_OWNER_USERNAME: ${{ inputs.azure_owner_username }}
+  AZURE_OWNER_PASSWORD: ${{ inputs.azure_owner_password }}
 
 jobs:
   deploy:

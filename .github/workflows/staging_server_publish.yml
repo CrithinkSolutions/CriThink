@@ -59,4 +59,5 @@ jobs:
       authentication_google_client_secret: ${{ secrets.STG_GOOGLE_CLIENT_SECRET }}
       authentication_facebook_client_secret: ${{ secrets.STG_FACEBOOK_CLIENT_SECRET }}
       sendgrid_api_key: ${{ secrets.STG_SENDGRID_API_KEY }}
-
+      azure_owner_username: ${{ secrets.AZURE_OWNER_USERNAME }}
+      azure_owner_password: ${{ secrets.AZURE_OWNER_PASSWORD }}
