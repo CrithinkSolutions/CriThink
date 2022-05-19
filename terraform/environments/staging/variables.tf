@@ -140,3 +140,8 @@ variable "sendgrid_api_key" {
   description = "SendGrid API key"
   sensitive   = true
 }
+
+variable "aspnet_environment" {
+  type        = string
+  description = "Asp Net environment value"
+}

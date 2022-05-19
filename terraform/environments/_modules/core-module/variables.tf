@@ -47,6 +47,11 @@ variable "keyvault_ref_acr_user_password" {
   description = "KeyVault reference to the password of the account able to pull images from ACR"
 }
 
+variable "aspnet_environment" {
+  type        = string
+  description = "Asp Net environment value"
+}
+
 # KeyVault Policy
 variable "objectid_app" {
   type        = string

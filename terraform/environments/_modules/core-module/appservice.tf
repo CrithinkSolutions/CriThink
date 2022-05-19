@@ -34,6 +34,7 @@ resource "azurerm_linux_web_app" "appsrv" {
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = "@Microsoft.KeyVault(SecretUri=https://${azurerm_key_vault.keyvault.name}.vault.azure.net/secrets/${var.keyvault_ref_acr_user_password}/)"
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITE_HTTPLOGGING_RETENTION_DAYS"  = 2
+    "ASPNETCORE_ENVIRONMENT"              = var.aspnet_environment
     # "DOCKER_CUSTOM_IMAGE_NAME"            = "DOCKER|${var.acr_name}/crithink:latest" # TODO
   }
 

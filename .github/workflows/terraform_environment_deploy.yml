@@ -93,6 +93,11 @@ on:
         type: string
         description: "Facebook clinet id"
 
+      aspnet_environment:
+        required: true
+        type: string
+        description: "Asp Net environment value"
+
     secrets:
       db_admin_username:
         required: true
@@ -158,10 +163,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: test
-        run: |
-          echo "$AZURE_OWNER_USERNAME" "$AZURE_OWNER_PASSWORD"
-
       - name: AZ login
         shell: bash
         run: |
@@ -217,6 +218,7 @@ jobs:
           TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
           TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
           TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
+          TF_VAR_aspnet_environment: ${{ inputs.aspnet_environment }}
         run: terraform plan -input=false
         continue-on-error: true
 
@@ -252,4 +254,5 @@ jobs:
           TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
           TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
           TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
+          TF_VAR_aspnet_environment: ${{ inputs.aspnet_environment }}
         run: terraform apply -auto-approve -input=false

@@ -34,6 +34,7 @@ jobs:
     with:
       tf_version: 1.1.9
       tf_environment: staging
+      aspnet_environment: Staging
       acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
       acr_user_password: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_admin_password.value}}
       acr_id: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_id.value}}

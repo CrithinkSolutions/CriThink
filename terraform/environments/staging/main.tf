@@ -50,6 +50,7 @@ module "core_module" {
   redis_name                     = var.redis_name
   internal_stg_name              = var.internal_stg_name
   app_domain                     = var.app_domain
+  aspnet_environment             = var.aspnet_environment
 
   # Secrets
   jwt_secret_key                        = var.jwt_secret_key
