@@ -26,6 +26,7 @@
 - Lock -> {blockedResourceName}-{level}
 - ACR -> crithinkacr{suffix}
 - SendGrid -> {environment}sendgrid{suffix}
+- VNet -> {environment}vnet{suffix}
 
 ### Tags
 application_name: CriThink

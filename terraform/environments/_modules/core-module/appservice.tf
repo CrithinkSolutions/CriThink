@@ -5,6 +5,10 @@ locals {
 }
 
 resource "azurerm_service_plan" "plan" {
+  depends_on = [
+    azurerm_virtual_network.vnet
+  ]
+
   name                = var.appsrvpln_name
   resource_group_name = var.rg_name
   location            = local.plan_region
@@ -35,10 +39,11 @@ resource "azurerm_linux_web_app" "appsrv" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITE_HTTPLOGGING_RETENTION_DAYS"  = 2
     "ASPNETCORE_ENVIRONMENT"              = var.aspnet_environment
-    # "DOCKER_CUSTOM_IMAGE_NAME"            = "DOCKER|${var.acr_name}/crithink:latest" # TODO
   }
 
-  site_config {}
+  site_config {
+    vnet_route_all_enabled = true
+  }
 
   identity {
     type = "SystemAssigned"
@@ -49,3 +54,14 @@ resource "azurerm_linux_web_app" "appsrv" {
     environment      = var.tag_environment
   }
 }
+
+
+# resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+#   depends_on = [
+#     azurerm_linux_web_app.appsrv,
+#     azurerm_virtual_network.vnet
+#   ]
+
+#   app_service_id = azurerm_linux_web_app.appsrv.id
+#   subnet_id      = azurerm_virtual_network.vnet.subnet[0].id
+# }
