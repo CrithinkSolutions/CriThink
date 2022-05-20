@@ -67,5 +67,5 @@ jobs:
     secrets: inherit
     with:
       aspnet_environment: Staging
-      registry_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
+      registry_name: ${{needs.terraform_environment_deploy.outputs.job_outputs}}
       web_app_name: crithink-demo
