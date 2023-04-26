@@ -1,0 +1,105 @@
+name: crithink_deploy
+
+on:
+  workflow_call:
+    inputs:
+      net_sdk_version:
+        type: string
+        required: false
+        description: ".NET SDK version"
+        default: 6.0.x
+
+      aspnet_environment:
+        required: true
+        type: string
+        description: "Environment to deploy. Possible values are staging and production"
+
+      registry_name:
+        required: true
+        type: string
+        description: Azure Container Registry resource name
+
+      web_app_name:
+        required: true
+        type: string
+        description: Azure WebApp resource name
+
+env:
+  ASPNETCORE_ENVIRONMENT: ${{ inputs.aspnet_environment }}
+  PROJECT_WEB: src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj
+  AZURE_OWNER_USERNAME: ${{ secrets.AZURE_OWNER_USERNAME }}
+  AZURE_OWNER_PASSWORD: ${{ secrets.AZURE_OWNER_PASSWORD }}
+  REGISTRY_NAME: ${{ inputs.registry_name }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ inputs.net_sdk_version }}
+
+      - name: AZ login
+        shell: bash
+        run: |
+          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
+
+      - name: Azure Container Registry login
+        shell: bash
+        run: |
+          TOKEN=$(az acr login --name "$REGISTRY_NAME" --expose-token --output tsv --query accessToken)
+          docker login "$REGISTRY_NAME".azurecr.io --username 00000000-0000-0000-0000-000000000000 --password $TOKEN
+
+      # - name: Install EF Tool
+      #   run: |
+      #     dotnet new tool-manifest
+      #     dotnet tool install dotnet-ef
+
+      # - name: dotnet restore
+      #   run: dotnet restore ${{ env.PROJECT_WEB }}
+
+      # - name: dotnet build
+      #   run: dotnet build ${{ env.PROJECT_WEB }} -c Release --no-restore
+
+      # - name: dotnet publish
+      #   run: dotnet publish ${{ env.PROJECT_WEB }} -c Release --no-build -o publish
+
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: "-"
+          flags: "g"
+
+      - name: "Pushing docker image to Azure Container Registry"
+        shell: bash
+        run: |
+          docker build -t "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }} --build-arg environment="$ASPNETCORE_ENVIRONMENT" -f Dockerfile .
+          docker push "$REGISTRY_NAME".azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}
+
+      - name: "Push image to web app"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ inputs.web_app_name }}
+          images: "${{ env.REGISTRY_NAME }}.azurecr.io/crithink:${{ steps.format-time.outputs.replaced }}"
+
+      - name: Docker logout
+        shell: bash
+        run: |
+          docker logout
+
+      - name: Azure logout
+        shell: bash
+        run: |
+          az logout

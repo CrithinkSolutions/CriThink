@@ -1,96 +1,71 @@
 name: staging_server_publish
 
-env:
-  PROJECT_WEB: 'src/CriThink.Server/CriThink.Server.Web/CriThink.Server.Web.csproj'
-  PROJECT_INFRASTRUCTURE: 'src/CriThink.Server/CriThink.Server.Infrastructure/CriThink.Server.Infrastructure.csproj'
-  ASPNETCORE_ENVIRONMENT: Staging
-  ZIP_PACKAGE: staging-server-deploy-package.zip
-  AWS_SECRETS: staging/CriThink/Server
-  AWS_ARN_SECRET: arn:aws:secretsmanager:eu-central-1:138772879872:secret:staging/CriThink/Server-7RXWDm
-  AWS_ENVIRONMENT: staging-eb
-
 on:
   push:
     paths:
       - src/CriThink.Server/**
-    branches: [ develop ]
+      - terraform/**
+      - .github/workflows/**
+    branches: [feature/iac-azure] # TODO: change back to main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  terraform_backend_deploy:
+    uses: ./.github/workflows/terraform_backend_deploy.yml
+    name: Terraform Backend Deploy
+    secrets: inherit
+    with:
+      tf_version: 1.1.9
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+  terraform_global_deploy:
+    uses: ./.github/workflows/terraform_global_deploy.yml
+    name: Terraform Global Deploy
+    needs: terraform_backend_deploy
+    secrets: inherit
+    with:
+      tf_version: 1.1.9
 
-    - name: Installing EF tools
-      run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
+  terraform_environment_deploy:
+    uses: ./.github/workflows/terraform_environment_deploy.yml
+    name: Terraform Environment Deploy
+    needs: terraform_global_deploy
+    with:
+      tf_version: 1.1.9
+      tf_environment: staging
+      aspnet_environment: Staging
+      acr_name: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_name.value}}
+      acr_user_password: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_admin_password.value}}
+      acr_id: ${{fromJson(needs.terraform_global_deploy.outputs.terraform_outputs).global_acr_id.value}}
+      db_name: demodb01
+      db_server_name: crithink-demosql01
+      cognitive_account_name: crithinkstgcognitive01
+      redis_name: crithink-demo-redis
+      ai_name: stgai01
+      internal_stg_name: crithinkintstgstg01
+      app_domain: crithinkdemo.com
+      keyvault_name: crithinkstgkeyvault01
+      appsrvpln_name: demoplan01
+      appsrv_name: crithink-demo
+      authentication_google_client_id: 1064440290860-58nb9a9tbimmocjr6mkc4i3ah4cakp3f.apps.googleusercontent.com
+      authentication_facebook_client_id: "804449043690413"
+    secrets:
+      db_admin_username: ${{ secrets.STG_DB_ADMIN_USERNAME }}
+      db_admin_password: ${{ secrets.STG_DB_ADMIN_PASSWORD }}
+      objectid_app: ${{ secrets.STG_OBJECTID_APP }}
+      jwt_secret_key: ${{ secrets.STG_JWT_SECRET_KEY }}
+      cross_service_dnews_value: ${{ secrets.STG_CROSS_SERVICE_DNEWS_VALUE }}
+      cross_service_scraper_value: ${{ secrets.STG_CROSS_SERVICE_SCRAPER_VALUE }}
+      authentication_google_client_secret: ${{ secrets.STG_GOOGLE_CLIENT_SECRET }}
+      authentication_facebook_client_secret: ${{ secrets.STG_FACEBOOK_CLIENT_SECRET }}
+      sendgrid_api_key: ${{ secrets.STG_SENDGRID_API_KEY }}
+      azure_owner_username: ${{ secrets.AZURE_OWNER_USERNAME }}
+      azure_owner_password: ${{ secrets.AZURE_OWNER_PASSWORD }}
 
-    - name: Read secrets from AWS Secrets Manager
-      uses: abhilash1in/aws-secrets-manager-action@v1.0.1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        secrets: ${{env.AWS_SECRETS}}
-        parse-json: true
-
-    - name: Add AWS security group exception
-      uses: sohelamin/aws-security-group-add-ip-action@master
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-security-group-id: ${{ secrets.AWS_STAGING_SECURITY_GROUP_ID }}
-        port: '5432'
-        to-port: '5432'
-        protocol: 'tcp'
-        description: 'GitHub'
-
-    - name: AWS Login
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{secrets.AWS_REGION}}
-    
-    - name: Get timestamp
-      uses: gerred/actions/current-time@master
-      id: current-time
-    
-    - name: Run string replace
-      uses: frabert/replace-string-action@master
-      id: format-time
-      with:
-        pattern: '[:\.]+'
-        string: "${{ steps.current-time.outputs.time }}"
-        replace-with: '-'
-        flags: 'g'
-
-    - name: Zip deployment package
-      run: zip -r ${{env.ZIP_PACKAGE}} .dockerignore Dockerfile src
-
-    - name: Deploy to AWS Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v14
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
-        application_name: CriThink
-        environment_name: ${{env.AWS_ENVIRONMENT}}
-        version_label: "staging-app-web-${{ steps.format-time.outputs.replaced }}"
-        deployment_package: ${{env.ZIP_PACKAGE}}
-
-    - name: Deployed successfully!
-      run: echo Staging App deployed!
-
-    - name: Running EF migrations
-      run: dotnet-ef database update -s ${{env.PROJECT_WEB}} -p ${{env.PROJECT_INFRASTRUCTURE}} --configuration Release --runtime linux-x64 -- '${{env.STAGING_CRITHINK_SERVER_CONNECTIONSTRINGS_CRITHINKDBPGSQLCONNECTION}}'
-
-    - name: Database Updated
-      run: echo Database successfully updated
+  crithink_deploy:
+    uses: ./.github/workflows/crithink_deploy.yml
+    name: CriThink Deploy script
+    needs: terraform_environment_deploy
+    secrets: inherit
+    with:
+      aspnet_environment: Staging
+      registry_name: ${{needs.terraform_environment_deploy.outputs.job_outputs}}
+      web_app_name: crithink-demo

@@ -1,0 +1,265 @@
+name: terraform_environment_deploy
+on:
+  workflow_call:
+    inputs:
+      tf_environment:
+        required: true
+        type: string
+        description: "Terraform environment. Possible values are staging and production"
+
+      tf_version:
+        required: true
+        type: string
+        description: "Terraform version"
+
+      acr_name:
+        required: true
+        type: string
+        description: "Azure Container Registry resource name"
+
+      acr_user_password:
+        required: true
+        type: string
+        description: "Azure Container Registry admin password"
+
+      acr_id:
+        required: true
+        type: string
+        description: "Azure Container Registry resource id"
+
+      db_name:
+        required: true
+        type: string
+        description: "Database name"
+
+      db_server_name:
+        required: true
+        type: string
+        description: "Database server name"
+
+      keyvault_ref_acr_user_password:
+        required: false
+        type: string
+        description: "KeyVault secret name"
+        default: "Acr-Password"
+
+      cognitive_account_name:
+        required: true
+        type: string
+        description: "Azure Cognitive account name"
+
+      redis_name:
+        required: true
+        type: string
+        description: "Redis name"
+
+      ai_name:
+        required: true
+        type: string
+        description: "Application Insights resource name"
+
+      internal_stg_name:
+        required: true
+        type: string
+        description: "Internal storage account name"
+
+      app_domain:
+        required: true
+        type: string
+        description: "App domain"
+
+      keyvault_name:
+        required: true
+        type: string
+        description: "Key vault resource name"
+
+      appsrvpln_name:
+        required: true
+        type: string
+        description: "App service plan name"
+
+      appsrv_name:
+        required: true
+        type: string
+        description: "App service name"
+
+      authentication_google_client_id:
+        required: true
+        type: string
+        description: "Google client id"
+
+      authentication_facebook_client_id:
+        required: true
+        type: string
+        description: "Facebook clinet id"
+
+      aspnet_environment:
+        required: true
+        type: string
+        description: "Asp Net environment value"
+
+    secrets:
+      db_admin_username:
+        required: true
+        description: "Database admin username"
+
+      db_admin_password:
+        required: true
+        description: "Database admin password"
+
+      jwt_secret_key:
+        required: true
+        description: "JWT secret key"
+
+      objectid_app:
+        required: true
+        description: "Azure app service identity id"
+
+      cross_service_scraper_value:
+        required: true
+        description: "Cross service scraper value"
+
+      cross_service_dnews_value:
+        required: true
+        description: "Cross service debunking news value"
+
+      authentication_facebook_client_secret:
+        required: true
+        description: "Facebook client secret"
+
+      authentication_google_client_secret:
+        required: true
+        description: "Google client secret"
+
+      sendgrid_api_key:
+        required: true
+        description: "SendGrid API key"
+
+      azure_owner_username:
+        required: true
+        description: "Azure owner username"
+
+      azure_owner_password:
+        required: true
+        description: "Azure owner password"
+
+env:
+  TERRAFORM_PATH: "./terraform/environments/${{ inputs.tf_environment }}"
+  AZURE_OWNER_USERNAME: ${{ secrets.azure_owner_username }}
+  AZURE_OWNER_PASSWORD: ${{ secrets.azure_owner_password }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    outputs:
+      job_outputs: ${{ steps.step_outputs.outputs.joboutputs}}
+
+    steps:
+      - name: Preparing
+        run: |
+          echo 'Preparing deploy of "$TERRAFORM_PATH" environment'
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: AZ login
+        shell: bash
+        run: |
+          az login -u "$AZURE_OWNER_USERNAME" -p "$AZURE_OWNER_PASSWORD"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+          terraform_wrapper: false
+
+      - name: Terraform Format
+        id: fmt
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        env:
+          TF_VAR_acr_name: ${{ inputs.acr_name }}
+          TF_VAR_acr_id: ${{ inputs.acr_id }}
+          TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
+          TF_VAR_db_admin_username: ${{ secrets.db_admin_username }}
+          TF_VAR_db_admin_password: ${{ secrets.db_admin_password }}
+          TF_VAR_db_name: ${{ inputs.db_name }}
+          TF_VAR_db_server_name: ${{ inputs.db_server_name }}
+          TF_VAR_keyvault_ref_acr_user_password: ${{ inputs.keyvault_ref_acr_user_password }}
+          TF_VAR_objectid_app: ${{ secrets.objectid_app }}
+          TF_VAR_cognitive_account_name: ${{ inputs.cognitive_account_name }}
+          TF_VAR_redis_name: ${{ inputs.redis_name }}
+          TF_VAR_ai_name: ${{ inputs.ai_name }}
+          TF_VAR_internal_stg_name: ${{ inputs.internal_stg_name }}
+          TF_VAR_app_domain: ${{ inputs.app_domain }}
+          TF_VAR_keyvault_name: ${{ inputs.keyvault_name }}
+          TF_VAR_appsrvpln_name: ${{ inputs.appsrvpln_name }}
+          TF_VAR_appsrv_name: ${{ inputs.appsrv_name }}
+          TF_VAR_jwt_secret_key: ${{ secrets.jwt_secret_key }}
+          TF_VAR_cross_service_scraper_value: ${{ secrets.cross_service_scraper_value }}
+          TF_VAR_cross_service_dnews_value: ${{ secrets.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ secrets.authentication_google_client_secret }}
+          TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
+          TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
+          TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
+          TF_VAR_aspnet_environment: ${{ inputs.aspnet_environment }}
+        run: terraform plan -input=false
+        continue-on-error: true
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        env:
+          TF_VAR_acr_name: ${{ inputs.acr_name }}
+          TF_VAR_acr_id: ${{ inputs.acr_id }}
+          TF_VAR_acr_user_password: ${{ inputs.acr_user_password }}
+          TF_VAR_db_admin_username: ${{ secrets.db_admin_username }}
+          TF_VAR_db_admin_password: ${{ secrets.db_admin_password }}
+          TF_VAR_db_name: ${{ inputs.db_name }}
+          TF_VAR_db_server_name: ${{ inputs.db_server_name }}
+          TF_VAR_keyvault_ref_acr_user_password: ${{ inputs.keyvault_ref_acr_user_password }}
+          TF_VAR_objectid_app: ${{ secrets.objectid_app }}
+          TF_VAR_cognitive_account_name: ${{ inputs.cognitive_account_name }}
+          TF_VAR_redis_name: ${{ inputs.redis_name }}
+          TF_VAR_ai_name: ${{ inputs.ai_name }}
+          TF_VAR_internal_stg_name: ${{ inputs.internal_stg_name }}
+          TF_VAR_app_domain: ${{ inputs.app_domain }}
+          TF_VAR_keyvault_name: ${{ inputs.keyvault_name }}
+          TF_VAR_appsrvpln_name: ${{ inputs.appsrvpln_name }}
+          TF_VAR_appsrv_name: ${{ inputs.appsrv_name }}
+          TF_VAR_jwt_secret_key: ${{ secrets.jwt_secret_key }}
+          TF_VAR_cross_service_scraper_value: ${{ secrets.cross_service_scraper_value }}
+          TF_VAR_cross_service_dnews_value: ${{ secrets.cross_service_dnews_value }}
+          TF_VAR_authentication_google_client_secret: ${{ secrets.authentication_google_client_secret }}
+          TF_VAR_authentication_google_client_id: ${{ inputs.authentication_google_client_id }}
+          TF_VAR_authentication_facebook_client_secret: ${{ secrets.authentication_facebook_client_secret }}
+          TF_VAR_authentication_facebook_client_id: ${{ inputs.authentication_facebook_client_id }}
+          TF_VAR_sendgrid_api_key: ${{ secrets.sendgrid_api_key }}
+          TF_VAR_aspnet_environment: ${{ inputs.aspnet_environment }}
+        run: terraform apply -auto-approve -input=false
+
+      - name: Job Outputs
+        id: step_outputs
+        env:
+          ACR_NAME: ${{ inputs.acr_name }}
+        run: |
+          echo "::set-output name=joboutputs::"$ACR_NAME""

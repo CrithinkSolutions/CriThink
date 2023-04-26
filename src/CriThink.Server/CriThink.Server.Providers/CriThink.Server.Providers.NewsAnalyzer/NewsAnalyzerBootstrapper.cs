@@ -34,8 +34,8 @@ namespace CriThink.Server.Providers.NewsAnalyzer
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();
 
-                var azureEndpoint = configuration["Azure-Cognitive-Endpoint"];
-                var azureCredentials = configuration["Azure-Cognitive-KeyCredentials"];
+                var azureEndpoint = configuration["AzureCognitive:Endpoint"];
+                var azureCredentials = configuration["AzureCognitive:KeyCredentials"];
 
                 return new TextAnalyticsClient(
                     new Uri(azureEndpoint),

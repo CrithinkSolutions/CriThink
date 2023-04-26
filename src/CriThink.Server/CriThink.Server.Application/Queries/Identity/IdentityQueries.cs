@@ -6,6 +6,8 @@ using AutoMapper;
 using CriThink.Common.Endpoints.DTOs.IdentityProvider;
 using CriThink.Common.Endpoints.DTOs.UserProfile;
 using CriThink.Server.Application.Administration.ViewModels;
+using CriThink.Server.Domain.Constants;
+using CriThink.Server.Domain.DomainServices;
 using CriThink.Server.Domain.Entities;
 using CriThink.Server.Domain.Exceptions;
 using CriThink.Server.Domain.QueryResults;
@@ -18,12 +20,14 @@ namespace CriThink.Server.Application.Queries
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityQueries> _logger;
 
         public IdentityQueries(
             IUserRepository userRepository,
             IRoleRepository roleRepository,
+            IFileService fileService,
             IMapper mapper,
             ILogger<IdentityQueries> logger)
         {
@@ -32,6 +36,9 @@ namespace CriThink.Server.Application.Queries
 
             _roleRepository = roleRepository ??
                 throw new ArgumentNullException(nameof(roleRepository));
+
+            _fileService = fileService ??
+                throw new ArgumentNullException(nameof(fileService));
 
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
@@ -113,6 +120,10 @@ namespace CriThink.Server.Application.Queries
             var user = await _userRepository.GetUserByIdAsync(userId);
 
             var response = _mapper.Map<UserProfile, UserProfileGetResponse>(user.Profile);
+
+            response.AvatarPath = _fileService
+                .GetAccessibleBlobUri(userId, ProfileConstants.AvatarFileName)
+                .AbsoluteUri;
 
             _logger?.LogInformation($"{nameof(GetUserProfileByUserIdAsync)}: done", userId);
 

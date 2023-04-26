@@ -22,6 +22,8 @@ using CriThink.Server.Web.Services;
 using CriThink.Server.Web.Swagger;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,7 +51,7 @@ using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Westwind.AspNetCore.LiveReload;
+//using Westwind.AspNetCore.LiveReload;
 
 // ReSharper disable UnusedMember.Global
 namespace CriThink.Server.Web
@@ -68,14 +70,11 @@ namespace CriThink.Server.Web
 
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        /// </summary>
-        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             SetupKestrelOptions(services);
+
+            SetupApplicationInsights(services);
 
             SetupPostgreSqlConnection(services);
 
@@ -119,7 +118,7 @@ namespace CriThink.Server.Web
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             // Social login needs this when running in cloud
             app.Use((context, next) =>
@@ -133,11 +132,11 @@ namespace CriThink.Server.Web
             app.UseRequestLocalization(opt);
 #pragma warning restore CA1062 // Validate arguments of public methods
 
-            if (env.IsDevelopment())
+            if (_environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseLiveReload(); // LiveReload
+                //app.UseLiveReload(); // LiveReload
 
                 app.UseSwagger(); // Swagger
                 app.UseSwaggerUI(options =>
@@ -199,11 +198,34 @@ namespace CriThink.Server.Web
             services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
         }
 
+        private void SetupApplicationInsights(IServiceCollection services)
+        {
+            if (!_environment.IsDevelopment())
+            {
+                string connectionString = Configuration.GetConnectionString("ApplicationInsights");
+                if (string.IsNullOrWhiteSpace(connectionString))
+                    return;
+
+                services.AddApplicationInsightsTelemetry(
+                    new ApplicationInsightsServiceOptions
+                    {
+                        ConnectionString = connectionString,
+                        EnableAdaptiveSampling = false,
+                    });
+
+                services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, o) =>
+                {
+                    module.EnableSqlCommandTextInstrumentation = true;
+                });
+            }
+        }
+
         private void SetupPostgreSqlConnection(IServiceCollection services)
         {
             services.AddDbContext<CriThinkDbContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("CriThinkDbPgSqlConnection");
+                var e = Configuration["secret"];
                 options.UseNpgsql(connectionString, npgsqlOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
@@ -241,9 +263,9 @@ namespace CriThink.Server.Web
         private void SetupAuthentication(IServiceCollection services)
         {
             // JWT
-            var audience = Configuration["Jwt-Audience"];
-            var issuer = Configuration["Jwt-Issuer"];
-            var key = Configuration["Jwt-SecretKey"];
+            var audience = Configuration["Jwt:Audience"];
+            var issuer = Configuration["Jwt:Issuer"];
+            var key = Configuration["Jwt:SecretKey"];
             var keyBytes = Encoding.UTF8.GetBytes(key);
 
             services
@@ -476,7 +498,7 @@ namespace CriThink.Server.Web
             if (_environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation(); // Razor
-                services.AddLiveReload(); // LiveReload
+                //services.AddLiveReload(); // LiveReload
             }
         }
 
